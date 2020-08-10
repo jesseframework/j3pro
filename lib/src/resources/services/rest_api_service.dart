@@ -55,8 +55,13 @@ abstract class RestApiService extends ChopperService {
   Future<Response> getNonGlobalBusinessRule();
 
   //Mobile Desktop
-  @Get(path: 'services/app/MobileDesktop/GetAll')
+  @Get(path: '/services/app/MobileDesktop/GetAll')
   Future<Response> getMobileDesktop();
+
+  //Pro End Posint
+  //Sales Order
+  @Post(path: '/services/app/SalesOrder/Create')
+  Future<Response> createSalesOrder(@Body() Map<String, dynamic> body);
 
   //End user Point
 
