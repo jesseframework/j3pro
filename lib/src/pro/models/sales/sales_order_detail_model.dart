@@ -21,7 +21,7 @@ import 'package:j3enterprise/src/resources/shared/extension/multi_user.dart';
 import 'package:j3enterprise/src/resources/shared/extension/must_have_tenant.dart';
 import 'package:moor/moor.dart';
 
-class SalesOrderHeader extends Table implements MustHaveTenant, MultiUser {
+class SalesOrderDetail extends Table implements MustHaveTenant, MultiUser {
   IntColumn get id => integer()();
   TextColumn get orderNumber => text()();
   TextColumn get inventoryCycleNumber => text()();
