@@ -92,6 +92,14 @@ class _$RestApiService extends RestApiService {
   }
 
   @override
+  Future<Response<dynamic>> createSalesOrder(Map<String, dynamic> body) {
+    final $url = '/api/services/app/SalesOrder/Create';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<dynamic>> sampleWithUrlAndQuery(String url, String page) {
     final $url = '/api/$url';
     final $params = <String, dynamic>{'page': page};

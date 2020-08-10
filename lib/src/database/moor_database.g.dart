@@ -9906,6 +9906,3335 @@ class $DesktopTable extends Desktop with TableInfo<$DesktopTable, DesktopData> {
   }
 }
 
+class SalesOrderHeaderData extends DataClass
+    implements Insertable<SalesOrderHeaderData> {
+  final int tenantId;
+  final String uerName;
+  final int userId;
+  final int id;
+  final String orderNumber;
+  final String inventoryCycleNumber;
+  final String daySessionNumber;
+  final int customerId;
+  final String soldTo;
+  final DateTime orderDate;
+  final DateTime deliveryDate;
+  final String orderType;
+  final String orderStatus;
+  final String purchaseOrderNo;
+  final String currency;
+  final double exchangeRate;
+  final int cuponCode;
+  final String billingAddressName;
+  final String shippingAddressName;
+  final String yourInital;
+  final double subTotal;
+  final double taxTotal;
+  final double depositTotal;
+  final double discountTotal;
+  final double shippingTotal;
+  final int itemCount;
+  final double grandtotalTotal;
+  final String discountType;
+  final double discountPercentage;
+  final double discountAmount;
+  SalesOrderHeaderData(
+      {this.tenantId,
+      @required this.uerName,
+      @required this.userId,
+      @required this.id,
+      @required this.orderNumber,
+      @required this.inventoryCycleNumber,
+      @required this.daySessionNumber,
+      @required this.customerId,
+      this.soldTo,
+      @required this.orderDate,
+      @required this.deliveryDate,
+      @required this.orderType,
+      @required this.orderStatus,
+      this.purchaseOrderNo,
+      @required this.currency,
+      @required this.exchangeRate,
+      this.cuponCode,
+      this.billingAddressName,
+      this.shippingAddressName,
+      this.yourInital,
+      @required this.subTotal,
+      @required this.taxTotal,
+      @required this.depositTotal,
+      @required this.discountTotal,
+      @required this.shippingTotal,
+      @required this.itemCount,
+      @required this.grandtotalTotal,
+      @required this.discountType,
+      @required this.discountPercentage,
+      @required this.discountAmount});
+  factory SalesOrderHeaderData.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final doubleType = db.typeSystem.forDartType<double>();
+    return SalesOrderHeaderData(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      uerName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}uer_name']),
+      userId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}user_id']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      orderNumber: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}order_number']),
+      inventoryCycleNumber: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}inventory_cycle_number']),
+      daySessionNumber: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}day_session_number']),
+      customerId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}customer_id']),
+      soldTo:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}sold_to']),
+      orderDate: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}order_date']),
+      deliveryDate: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delivery_date']),
+      orderType: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}order_type']),
+      orderStatus: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}order_status']),
+      purchaseOrderNo: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}purchase_order_no']),
+      currency: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}currency']),
+      exchangeRate: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}exchange_rate']),
+      cuponCode:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}cupon_code']),
+      billingAddressName: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}billing_address_name']),
+      shippingAddressName: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}shipping_address_name']),
+      yourInital: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}your_inital']),
+      subTotal: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}sub_total']),
+      taxTotal: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}tax_total']),
+      depositTotal: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}deposit_total']),
+      discountTotal: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}discount_total']),
+      shippingTotal: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}shipping_total']),
+      itemCount:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}item_count']),
+      grandtotalTotal: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}grandtotal_total']),
+      discountType: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}discount_type']),
+      discountPercentage: doubleType.mapFromDatabaseResponse(
+          data['${effectivePrefix}discount_percentage']),
+      discountAmount: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}discount_amount']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || uerName != null) {
+      map['uer_name'] = Variable<String>(uerName);
+    }
+    if (!nullToAbsent || userId != null) {
+      map['user_id'] = Variable<int>(userId);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || orderNumber != null) {
+      map['order_number'] = Variable<String>(orderNumber);
+    }
+    if (!nullToAbsent || inventoryCycleNumber != null) {
+      map['inventory_cycle_number'] = Variable<String>(inventoryCycleNumber);
+    }
+    if (!nullToAbsent || daySessionNumber != null) {
+      map['day_session_number'] = Variable<String>(daySessionNumber);
+    }
+    if (!nullToAbsent || customerId != null) {
+      map['customer_id'] = Variable<int>(customerId);
+    }
+    if (!nullToAbsent || soldTo != null) {
+      map['sold_to'] = Variable<String>(soldTo);
+    }
+    if (!nullToAbsent || orderDate != null) {
+      map['order_date'] = Variable<DateTime>(orderDate);
+    }
+    if (!nullToAbsent || deliveryDate != null) {
+      map['delivery_date'] = Variable<DateTime>(deliveryDate);
+    }
+    if (!nullToAbsent || orderType != null) {
+      map['order_type'] = Variable<String>(orderType);
+    }
+    if (!nullToAbsent || orderStatus != null) {
+      map['order_status'] = Variable<String>(orderStatus);
+    }
+    if (!nullToAbsent || purchaseOrderNo != null) {
+      map['purchase_order_no'] = Variable<String>(purchaseOrderNo);
+    }
+    if (!nullToAbsent || currency != null) {
+      map['currency'] = Variable<String>(currency);
+    }
+    if (!nullToAbsent || exchangeRate != null) {
+      map['exchange_rate'] = Variable<double>(exchangeRate);
+    }
+    if (!nullToAbsent || cuponCode != null) {
+      map['cupon_code'] = Variable<int>(cuponCode);
+    }
+    if (!nullToAbsent || billingAddressName != null) {
+      map['billing_address_name'] = Variable<String>(billingAddressName);
+    }
+    if (!nullToAbsent || shippingAddressName != null) {
+      map['shipping_address_name'] = Variable<String>(shippingAddressName);
+    }
+    if (!nullToAbsent || yourInital != null) {
+      map['your_inital'] = Variable<String>(yourInital);
+    }
+    if (!nullToAbsent || subTotal != null) {
+      map['sub_total'] = Variable<double>(subTotal);
+    }
+    if (!nullToAbsent || taxTotal != null) {
+      map['tax_total'] = Variable<double>(taxTotal);
+    }
+    if (!nullToAbsent || depositTotal != null) {
+      map['deposit_total'] = Variable<double>(depositTotal);
+    }
+    if (!nullToAbsent || discountTotal != null) {
+      map['discount_total'] = Variable<double>(discountTotal);
+    }
+    if (!nullToAbsent || shippingTotal != null) {
+      map['shipping_total'] = Variable<double>(shippingTotal);
+    }
+    if (!nullToAbsent || itemCount != null) {
+      map['item_count'] = Variable<int>(itemCount);
+    }
+    if (!nullToAbsent || grandtotalTotal != null) {
+      map['grandtotal_total'] = Variable<double>(grandtotalTotal);
+    }
+    if (!nullToAbsent || discountType != null) {
+      map['discount_type'] = Variable<String>(discountType);
+    }
+    if (!nullToAbsent || discountPercentage != null) {
+      map['discount_percentage'] = Variable<double>(discountPercentage);
+    }
+    if (!nullToAbsent || discountAmount != null) {
+      map['discount_amount'] = Variable<double>(discountAmount);
+    }
+    return map;
+  }
+
+  SalesOrderHeaderCompanion toCompanion(bool nullToAbsent) {
+    return SalesOrderHeaderCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      uerName: uerName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(uerName),
+      userId:
+          userId == null && nullToAbsent ? const Value.absent() : Value(userId),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      orderNumber: orderNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(orderNumber),
+      inventoryCycleNumber: inventoryCycleNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(inventoryCycleNumber),
+      daySessionNumber: daySessionNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(daySessionNumber),
+      customerId: customerId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerId),
+      soldTo:
+          soldTo == null && nullToAbsent ? const Value.absent() : Value(soldTo),
+      orderDate: orderDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(orderDate),
+      deliveryDate: deliveryDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deliveryDate),
+      orderType: orderType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(orderType),
+      orderStatus: orderStatus == null && nullToAbsent
+          ? const Value.absent()
+          : Value(orderStatus),
+      purchaseOrderNo: purchaseOrderNo == null && nullToAbsent
+          ? const Value.absent()
+          : Value(purchaseOrderNo),
+      currency: currency == null && nullToAbsent
+          ? const Value.absent()
+          : Value(currency),
+      exchangeRate: exchangeRate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(exchangeRate),
+      cuponCode: cuponCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(cuponCode),
+      billingAddressName: billingAddressName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(billingAddressName),
+      shippingAddressName: shippingAddressName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(shippingAddressName),
+      yourInital: yourInital == null && nullToAbsent
+          ? const Value.absent()
+          : Value(yourInital),
+      subTotal: subTotal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(subTotal),
+      taxTotal: taxTotal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(taxTotal),
+      depositTotal: depositTotal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(depositTotal),
+      discountTotal: discountTotal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(discountTotal),
+      shippingTotal: shippingTotal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(shippingTotal),
+      itemCount: itemCount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(itemCount),
+      grandtotalTotal: grandtotalTotal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(grandtotalTotal),
+      discountType: discountType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(discountType),
+      discountPercentage: discountPercentage == null && nullToAbsent
+          ? const Value.absent()
+          : Value(discountPercentage),
+      discountAmount: discountAmount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(discountAmount),
+    );
+  }
+
+  factory SalesOrderHeaderData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return SalesOrderHeaderData(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      uerName: serializer.fromJson<String>(json['uerName']),
+      userId: serializer.fromJson<int>(json['userId']),
+      id: serializer.fromJson<int>(json['id']),
+      orderNumber: serializer.fromJson<String>(json['orderNumber']),
+      inventoryCycleNumber:
+          serializer.fromJson<String>(json['inventoryCycleNumber']),
+      daySessionNumber: serializer.fromJson<String>(json['daySessionNumber']),
+      customerId: serializer.fromJson<int>(json['customerId']),
+      soldTo: serializer.fromJson<String>(json['soldTo']),
+      orderDate: serializer.fromJson<DateTime>(json['orderDate']),
+      deliveryDate: serializer.fromJson<DateTime>(json['deliveryDate']),
+      orderType: serializer.fromJson<String>(json['orderType']),
+      orderStatus: serializer.fromJson<String>(json['orderStatus']),
+      purchaseOrderNo: serializer.fromJson<String>(json['purchaseOrderNo']),
+      currency: serializer.fromJson<String>(json['currency']),
+      exchangeRate: serializer.fromJson<double>(json['exchangeRate']),
+      cuponCode: serializer.fromJson<int>(json['cuponCode']),
+      billingAddressName:
+          serializer.fromJson<String>(json['billingAddressName']),
+      shippingAddressName:
+          serializer.fromJson<String>(json['shippingAddressName']),
+      yourInital: serializer.fromJson<String>(json['yourInital']),
+      subTotal: serializer.fromJson<double>(json['subTotal']),
+      taxTotal: serializer.fromJson<double>(json['taxTotal']),
+      depositTotal: serializer.fromJson<double>(json['depositTotal']),
+      discountTotal: serializer.fromJson<double>(json['discountTotal']),
+      shippingTotal: serializer.fromJson<double>(json['shippingTotal']),
+      itemCount: serializer.fromJson<int>(json['itemCount']),
+      grandtotalTotal: serializer.fromJson<double>(json['grandtotalTotal']),
+      discountType: serializer.fromJson<String>(json['discountType']),
+      discountPercentage:
+          serializer.fromJson<double>(json['discountPercentage']),
+      discountAmount: serializer.fromJson<double>(json['discountAmount']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'uerName': serializer.toJson<String>(uerName),
+      'userId': serializer.toJson<int>(userId),
+      'id': serializer.toJson<int>(id),
+      'orderNumber': serializer.toJson<String>(orderNumber),
+      'inventoryCycleNumber': serializer.toJson<String>(inventoryCycleNumber),
+      'daySessionNumber': serializer.toJson<String>(daySessionNumber),
+      'customerId': serializer.toJson<int>(customerId),
+      'soldTo': serializer.toJson<String>(soldTo),
+      'orderDate': serializer.toJson<DateTime>(orderDate),
+      'deliveryDate': serializer.toJson<DateTime>(deliveryDate),
+      'orderType': serializer.toJson<String>(orderType),
+      'orderStatus': serializer.toJson<String>(orderStatus),
+      'purchaseOrderNo': serializer.toJson<String>(purchaseOrderNo),
+      'currency': serializer.toJson<String>(currency),
+      'exchangeRate': serializer.toJson<double>(exchangeRate),
+      'cuponCode': serializer.toJson<int>(cuponCode),
+      'billingAddressName': serializer.toJson<String>(billingAddressName),
+      'shippingAddressName': serializer.toJson<String>(shippingAddressName),
+      'yourInital': serializer.toJson<String>(yourInital),
+      'subTotal': serializer.toJson<double>(subTotal),
+      'taxTotal': serializer.toJson<double>(taxTotal),
+      'depositTotal': serializer.toJson<double>(depositTotal),
+      'discountTotal': serializer.toJson<double>(discountTotal),
+      'shippingTotal': serializer.toJson<double>(shippingTotal),
+      'itemCount': serializer.toJson<int>(itemCount),
+      'grandtotalTotal': serializer.toJson<double>(grandtotalTotal),
+      'discountType': serializer.toJson<String>(discountType),
+      'discountPercentage': serializer.toJson<double>(discountPercentage),
+      'discountAmount': serializer.toJson<double>(discountAmount),
+    };
+  }
+
+  SalesOrderHeaderData copyWith(
+          {int tenantId,
+          String uerName,
+          int userId,
+          int id,
+          String orderNumber,
+          String inventoryCycleNumber,
+          String daySessionNumber,
+          int customerId,
+          String soldTo,
+          DateTime orderDate,
+          DateTime deliveryDate,
+          String orderType,
+          String orderStatus,
+          String purchaseOrderNo,
+          String currency,
+          double exchangeRate,
+          int cuponCode,
+          String billingAddressName,
+          String shippingAddressName,
+          String yourInital,
+          double subTotal,
+          double taxTotal,
+          double depositTotal,
+          double discountTotal,
+          double shippingTotal,
+          int itemCount,
+          double grandtotalTotal,
+          String discountType,
+          double discountPercentage,
+          double discountAmount}) =>
+      SalesOrderHeaderData(
+        tenantId: tenantId ?? this.tenantId,
+        uerName: uerName ?? this.uerName,
+        userId: userId ?? this.userId,
+        id: id ?? this.id,
+        orderNumber: orderNumber ?? this.orderNumber,
+        inventoryCycleNumber: inventoryCycleNumber ?? this.inventoryCycleNumber,
+        daySessionNumber: daySessionNumber ?? this.daySessionNumber,
+        customerId: customerId ?? this.customerId,
+        soldTo: soldTo ?? this.soldTo,
+        orderDate: orderDate ?? this.orderDate,
+        deliveryDate: deliveryDate ?? this.deliveryDate,
+        orderType: orderType ?? this.orderType,
+        orderStatus: orderStatus ?? this.orderStatus,
+        purchaseOrderNo: purchaseOrderNo ?? this.purchaseOrderNo,
+        currency: currency ?? this.currency,
+        exchangeRate: exchangeRate ?? this.exchangeRate,
+        cuponCode: cuponCode ?? this.cuponCode,
+        billingAddressName: billingAddressName ?? this.billingAddressName,
+        shippingAddressName: shippingAddressName ?? this.shippingAddressName,
+        yourInital: yourInital ?? this.yourInital,
+        subTotal: subTotal ?? this.subTotal,
+        taxTotal: taxTotal ?? this.taxTotal,
+        depositTotal: depositTotal ?? this.depositTotal,
+        discountTotal: discountTotal ?? this.discountTotal,
+        shippingTotal: shippingTotal ?? this.shippingTotal,
+        itemCount: itemCount ?? this.itemCount,
+        grandtotalTotal: grandtotalTotal ?? this.grandtotalTotal,
+        discountType: discountType ?? this.discountType,
+        discountPercentage: discountPercentage ?? this.discountPercentage,
+        discountAmount: discountAmount ?? this.discountAmount,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('SalesOrderHeaderData(')
+          ..write('tenantId: $tenantId, ')
+          ..write('uerName: $uerName, ')
+          ..write('userId: $userId, ')
+          ..write('id: $id, ')
+          ..write('orderNumber: $orderNumber, ')
+          ..write('inventoryCycleNumber: $inventoryCycleNumber, ')
+          ..write('daySessionNumber: $daySessionNumber, ')
+          ..write('customerId: $customerId, ')
+          ..write('soldTo: $soldTo, ')
+          ..write('orderDate: $orderDate, ')
+          ..write('deliveryDate: $deliveryDate, ')
+          ..write('orderType: $orderType, ')
+          ..write('orderStatus: $orderStatus, ')
+          ..write('purchaseOrderNo: $purchaseOrderNo, ')
+          ..write('currency: $currency, ')
+          ..write('exchangeRate: $exchangeRate, ')
+          ..write('cuponCode: $cuponCode, ')
+          ..write('billingAddressName: $billingAddressName, ')
+          ..write('shippingAddressName: $shippingAddressName, ')
+          ..write('yourInital: $yourInital, ')
+          ..write('subTotal: $subTotal, ')
+          ..write('taxTotal: $taxTotal, ')
+          ..write('depositTotal: $depositTotal, ')
+          ..write('discountTotal: $discountTotal, ')
+          ..write('shippingTotal: $shippingTotal, ')
+          ..write('itemCount: $itemCount, ')
+          ..write('grandtotalTotal: $grandtotalTotal, ')
+          ..write('discountType: $discountType, ')
+          ..write('discountPercentage: $discountPercentage, ')
+          ..write('discountAmount: $discountAmount')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode,
+      $mrjc(
+          uerName.hashCode,
+          $mrjc(
+              userId.hashCode,
+              $mrjc(
+                  id.hashCode,
+                  $mrjc(
+                      orderNumber.hashCode,
+                      $mrjc(
+                          inventoryCycleNumber.hashCode,
+                          $mrjc(
+                              daySessionNumber.hashCode,
+                              $mrjc(
+                                  customerId.hashCode,
+                                  $mrjc(
+                                      soldTo.hashCode,
+                                      $mrjc(
+                                          orderDate.hashCode,
+                                          $mrjc(
+                                              deliveryDate.hashCode,
+                                              $mrjc(
+                                                  orderType.hashCode,
+                                                  $mrjc(
+                                                      orderStatus.hashCode,
+                                                      $mrjc(
+                                                          purchaseOrderNo
+                                                              .hashCode,
+                                                          $mrjc(
+                                                              currency.hashCode,
+                                                              $mrjc(
+                                                                  exchangeRate
+                                                                      .hashCode,
+                                                                  $mrjc(
+                                                                      cuponCode
+                                                                          .hashCode,
+                                                                      $mrjc(
+                                                                          billingAddressName
+                                                                              .hashCode,
+                                                                          $mrjc(
+                                                                              shippingAddressName.hashCode,
+                                                                              $mrjc(yourInital.hashCode, $mrjc(subTotal.hashCode, $mrjc(taxTotal.hashCode, $mrjc(depositTotal.hashCode, $mrjc(discountTotal.hashCode, $mrjc(shippingTotal.hashCode, $mrjc(itemCount.hashCode, $mrjc(grandtotalTotal.hashCode, $mrjc(discountType.hashCode, $mrjc(discountPercentage.hashCode, discountAmount.hashCode))))))))))))))))))))))))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is SalesOrderHeaderData &&
+          other.tenantId == this.tenantId &&
+          other.uerName == this.uerName &&
+          other.userId == this.userId &&
+          other.id == this.id &&
+          other.orderNumber == this.orderNumber &&
+          other.inventoryCycleNumber == this.inventoryCycleNumber &&
+          other.daySessionNumber == this.daySessionNumber &&
+          other.customerId == this.customerId &&
+          other.soldTo == this.soldTo &&
+          other.orderDate == this.orderDate &&
+          other.deliveryDate == this.deliveryDate &&
+          other.orderType == this.orderType &&
+          other.orderStatus == this.orderStatus &&
+          other.purchaseOrderNo == this.purchaseOrderNo &&
+          other.currency == this.currency &&
+          other.exchangeRate == this.exchangeRate &&
+          other.cuponCode == this.cuponCode &&
+          other.billingAddressName == this.billingAddressName &&
+          other.shippingAddressName == this.shippingAddressName &&
+          other.yourInital == this.yourInital &&
+          other.subTotal == this.subTotal &&
+          other.taxTotal == this.taxTotal &&
+          other.depositTotal == this.depositTotal &&
+          other.discountTotal == this.discountTotal &&
+          other.shippingTotal == this.shippingTotal &&
+          other.itemCount == this.itemCount &&
+          other.grandtotalTotal == this.grandtotalTotal &&
+          other.discountType == this.discountType &&
+          other.discountPercentage == this.discountPercentage &&
+          other.discountAmount == this.discountAmount);
+}
+
+class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
+  final Value<int> tenantId;
+  final Value<String> uerName;
+  final Value<int> userId;
+  final Value<int> id;
+  final Value<String> orderNumber;
+  final Value<String> inventoryCycleNumber;
+  final Value<String> daySessionNumber;
+  final Value<int> customerId;
+  final Value<String> soldTo;
+  final Value<DateTime> orderDate;
+  final Value<DateTime> deliveryDate;
+  final Value<String> orderType;
+  final Value<String> orderStatus;
+  final Value<String> purchaseOrderNo;
+  final Value<String> currency;
+  final Value<double> exchangeRate;
+  final Value<int> cuponCode;
+  final Value<String> billingAddressName;
+  final Value<String> shippingAddressName;
+  final Value<String> yourInital;
+  final Value<double> subTotal;
+  final Value<double> taxTotal;
+  final Value<double> depositTotal;
+  final Value<double> discountTotal;
+  final Value<double> shippingTotal;
+  final Value<int> itemCount;
+  final Value<double> grandtotalTotal;
+  final Value<String> discountType;
+  final Value<double> discountPercentage;
+  final Value<double> discountAmount;
+  const SalesOrderHeaderCompanion({
+    this.tenantId = const Value.absent(),
+    this.uerName = const Value.absent(),
+    this.userId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.orderNumber = const Value.absent(),
+    this.inventoryCycleNumber = const Value.absent(),
+    this.daySessionNumber = const Value.absent(),
+    this.customerId = const Value.absent(),
+    this.soldTo = const Value.absent(),
+    this.orderDate = const Value.absent(),
+    this.deliveryDate = const Value.absent(),
+    this.orderType = const Value.absent(),
+    this.orderStatus = const Value.absent(),
+    this.purchaseOrderNo = const Value.absent(),
+    this.currency = const Value.absent(),
+    this.exchangeRate = const Value.absent(),
+    this.cuponCode = const Value.absent(),
+    this.billingAddressName = const Value.absent(),
+    this.shippingAddressName = const Value.absent(),
+    this.yourInital = const Value.absent(),
+    this.subTotal = const Value.absent(),
+    this.taxTotal = const Value.absent(),
+    this.depositTotal = const Value.absent(),
+    this.discountTotal = const Value.absent(),
+    this.shippingTotal = const Value.absent(),
+    this.itemCount = const Value.absent(),
+    this.grandtotalTotal = const Value.absent(),
+    this.discountType = const Value.absent(),
+    this.discountPercentage = const Value.absent(),
+    this.discountAmount = const Value.absent(),
+  });
+  SalesOrderHeaderCompanion.insert({
+    this.tenantId = const Value.absent(),
+    @required String uerName,
+    @required int userId,
+    this.id = const Value.absent(),
+    @required String orderNumber,
+    @required String inventoryCycleNumber,
+    @required String daySessionNumber,
+    @required int customerId,
+    this.soldTo = const Value.absent(),
+    @required DateTime orderDate,
+    @required DateTime deliveryDate,
+    @required String orderType,
+    @required String orderStatus,
+    this.purchaseOrderNo = const Value.absent(),
+    @required String currency,
+    @required double exchangeRate,
+    this.cuponCode = const Value.absent(),
+    this.billingAddressName = const Value.absent(),
+    this.shippingAddressName = const Value.absent(),
+    this.yourInital = const Value.absent(),
+    @required double subTotal,
+    @required double taxTotal,
+    @required double depositTotal,
+    @required double discountTotal,
+    @required double shippingTotal,
+    @required int itemCount,
+    @required double grandtotalTotal,
+    @required String discountType,
+    @required double discountPercentage,
+    @required double discountAmount,
+  })  : uerName = Value(uerName),
+        userId = Value(userId),
+        orderNumber = Value(orderNumber),
+        inventoryCycleNumber = Value(inventoryCycleNumber),
+        daySessionNumber = Value(daySessionNumber),
+        customerId = Value(customerId),
+        orderDate = Value(orderDate),
+        deliveryDate = Value(deliveryDate),
+        orderType = Value(orderType),
+        orderStatus = Value(orderStatus),
+        currency = Value(currency),
+        exchangeRate = Value(exchangeRate),
+        subTotal = Value(subTotal),
+        taxTotal = Value(taxTotal),
+        depositTotal = Value(depositTotal),
+        discountTotal = Value(discountTotal),
+        shippingTotal = Value(shippingTotal),
+        itemCount = Value(itemCount),
+        grandtotalTotal = Value(grandtotalTotal),
+        discountType = Value(discountType),
+        discountPercentage = Value(discountPercentage),
+        discountAmount = Value(discountAmount);
+  static Insertable<SalesOrderHeaderData> custom({
+    Expression<int> tenantId,
+    Expression<String> uerName,
+    Expression<int> userId,
+    Expression<int> id,
+    Expression<String> orderNumber,
+    Expression<String> inventoryCycleNumber,
+    Expression<String> daySessionNumber,
+    Expression<int> customerId,
+    Expression<String> soldTo,
+    Expression<DateTime> orderDate,
+    Expression<DateTime> deliveryDate,
+    Expression<String> orderType,
+    Expression<String> orderStatus,
+    Expression<String> purchaseOrderNo,
+    Expression<String> currency,
+    Expression<double> exchangeRate,
+    Expression<int> cuponCode,
+    Expression<String> billingAddressName,
+    Expression<String> shippingAddressName,
+    Expression<String> yourInital,
+    Expression<double> subTotal,
+    Expression<double> taxTotal,
+    Expression<double> depositTotal,
+    Expression<double> discountTotal,
+    Expression<double> shippingTotal,
+    Expression<int> itemCount,
+    Expression<double> grandtotalTotal,
+    Expression<String> discountType,
+    Expression<double> discountPercentage,
+    Expression<double> discountAmount,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (uerName != null) 'uer_name': uerName,
+      if (userId != null) 'user_id': userId,
+      if (id != null) 'id': id,
+      if (orderNumber != null) 'order_number': orderNumber,
+      if (inventoryCycleNumber != null)
+        'inventory_cycle_number': inventoryCycleNumber,
+      if (daySessionNumber != null) 'day_session_number': daySessionNumber,
+      if (customerId != null) 'customer_id': customerId,
+      if (soldTo != null) 'sold_to': soldTo,
+      if (orderDate != null) 'order_date': orderDate,
+      if (deliveryDate != null) 'delivery_date': deliveryDate,
+      if (orderType != null) 'order_type': orderType,
+      if (orderStatus != null) 'order_status': orderStatus,
+      if (purchaseOrderNo != null) 'purchase_order_no': purchaseOrderNo,
+      if (currency != null) 'currency': currency,
+      if (exchangeRate != null) 'exchange_rate': exchangeRate,
+      if (cuponCode != null) 'cupon_code': cuponCode,
+      if (billingAddressName != null)
+        'billing_address_name': billingAddressName,
+      if (shippingAddressName != null)
+        'shipping_address_name': shippingAddressName,
+      if (yourInital != null) 'your_inital': yourInital,
+      if (subTotal != null) 'sub_total': subTotal,
+      if (taxTotal != null) 'tax_total': taxTotal,
+      if (depositTotal != null) 'deposit_total': depositTotal,
+      if (discountTotal != null) 'discount_total': discountTotal,
+      if (shippingTotal != null) 'shipping_total': shippingTotal,
+      if (itemCount != null) 'item_count': itemCount,
+      if (grandtotalTotal != null) 'grandtotal_total': grandtotalTotal,
+      if (discountType != null) 'discount_type': discountType,
+      if (discountPercentage != null) 'discount_percentage': discountPercentage,
+      if (discountAmount != null) 'discount_amount': discountAmount,
+    });
+  }
+
+  SalesOrderHeaderCompanion copyWith(
+      {Value<int> tenantId,
+      Value<String> uerName,
+      Value<int> userId,
+      Value<int> id,
+      Value<String> orderNumber,
+      Value<String> inventoryCycleNumber,
+      Value<String> daySessionNumber,
+      Value<int> customerId,
+      Value<String> soldTo,
+      Value<DateTime> orderDate,
+      Value<DateTime> deliveryDate,
+      Value<String> orderType,
+      Value<String> orderStatus,
+      Value<String> purchaseOrderNo,
+      Value<String> currency,
+      Value<double> exchangeRate,
+      Value<int> cuponCode,
+      Value<String> billingAddressName,
+      Value<String> shippingAddressName,
+      Value<String> yourInital,
+      Value<double> subTotal,
+      Value<double> taxTotal,
+      Value<double> depositTotal,
+      Value<double> discountTotal,
+      Value<double> shippingTotal,
+      Value<int> itemCount,
+      Value<double> grandtotalTotal,
+      Value<String> discountType,
+      Value<double> discountPercentage,
+      Value<double> discountAmount}) {
+    return SalesOrderHeaderCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      uerName: uerName ?? this.uerName,
+      userId: userId ?? this.userId,
+      id: id ?? this.id,
+      orderNumber: orderNumber ?? this.orderNumber,
+      inventoryCycleNumber: inventoryCycleNumber ?? this.inventoryCycleNumber,
+      daySessionNumber: daySessionNumber ?? this.daySessionNumber,
+      customerId: customerId ?? this.customerId,
+      soldTo: soldTo ?? this.soldTo,
+      orderDate: orderDate ?? this.orderDate,
+      deliveryDate: deliveryDate ?? this.deliveryDate,
+      orderType: orderType ?? this.orderType,
+      orderStatus: orderStatus ?? this.orderStatus,
+      purchaseOrderNo: purchaseOrderNo ?? this.purchaseOrderNo,
+      currency: currency ?? this.currency,
+      exchangeRate: exchangeRate ?? this.exchangeRate,
+      cuponCode: cuponCode ?? this.cuponCode,
+      billingAddressName: billingAddressName ?? this.billingAddressName,
+      shippingAddressName: shippingAddressName ?? this.shippingAddressName,
+      yourInital: yourInital ?? this.yourInital,
+      subTotal: subTotal ?? this.subTotal,
+      taxTotal: taxTotal ?? this.taxTotal,
+      depositTotal: depositTotal ?? this.depositTotal,
+      discountTotal: discountTotal ?? this.discountTotal,
+      shippingTotal: shippingTotal ?? this.shippingTotal,
+      itemCount: itemCount ?? this.itemCount,
+      grandtotalTotal: grandtotalTotal ?? this.grandtotalTotal,
+      discountType: discountType ?? this.discountType,
+      discountPercentage: discountPercentage ?? this.discountPercentage,
+      discountAmount: discountAmount ?? this.discountAmount,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (uerName.present) {
+      map['uer_name'] = Variable<String>(uerName.value);
+    }
+    if (userId.present) {
+      map['user_id'] = Variable<int>(userId.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (orderNumber.present) {
+      map['order_number'] = Variable<String>(orderNumber.value);
+    }
+    if (inventoryCycleNumber.present) {
+      map['inventory_cycle_number'] =
+          Variable<String>(inventoryCycleNumber.value);
+    }
+    if (daySessionNumber.present) {
+      map['day_session_number'] = Variable<String>(daySessionNumber.value);
+    }
+    if (customerId.present) {
+      map['customer_id'] = Variable<int>(customerId.value);
+    }
+    if (soldTo.present) {
+      map['sold_to'] = Variable<String>(soldTo.value);
+    }
+    if (orderDate.present) {
+      map['order_date'] = Variable<DateTime>(orderDate.value);
+    }
+    if (deliveryDate.present) {
+      map['delivery_date'] = Variable<DateTime>(deliveryDate.value);
+    }
+    if (orderType.present) {
+      map['order_type'] = Variable<String>(orderType.value);
+    }
+    if (orderStatus.present) {
+      map['order_status'] = Variable<String>(orderStatus.value);
+    }
+    if (purchaseOrderNo.present) {
+      map['purchase_order_no'] = Variable<String>(purchaseOrderNo.value);
+    }
+    if (currency.present) {
+      map['currency'] = Variable<String>(currency.value);
+    }
+    if (exchangeRate.present) {
+      map['exchange_rate'] = Variable<double>(exchangeRate.value);
+    }
+    if (cuponCode.present) {
+      map['cupon_code'] = Variable<int>(cuponCode.value);
+    }
+    if (billingAddressName.present) {
+      map['billing_address_name'] = Variable<String>(billingAddressName.value);
+    }
+    if (shippingAddressName.present) {
+      map['shipping_address_name'] =
+          Variable<String>(shippingAddressName.value);
+    }
+    if (yourInital.present) {
+      map['your_inital'] = Variable<String>(yourInital.value);
+    }
+    if (subTotal.present) {
+      map['sub_total'] = Variable<double>(subTotal.value);
+    }
+    if (taxTotal.present) {
+      map['tax_total'] = Variable<double>(taxTotal.value);
+    }
+    if (depositTotal.present) {
+      map['deposit_total'] = Variable<double>(depositTotal.value);
+    }
+    if (discountTotal.present) {
+      map['discount_total'] = Variable<double>(discountTotal.value);
+    }
+    if (shippingTotal.present) {
+      map['shipping_total'] = Variable<double>(shippingTotal.value);
+    }
+    if (itemCount.present) {
+      map['item_count'] = Variable<int>(itemCount.value);
+    }
+    if (grandtotalTotal.present) {
+      map['grandtotal_total'] = Variable<double>(grandtotalTotal.value);
+    }
+    if (discountType.present) {
+      map['discount_type'] = Variable<String>(discountType.value);
+    }
+    if (discountPercentage.present) {
+      map['discount_percentage'] = Variable<double>(discountPercentage.value);
+    }
+    if (discountAmount.present) {
+      map['discount_amount'] = Variable<double>(discountAmount.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SalesOrderHeaderCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('uerName: $uerName, ')
+          ..write('userId: $userId, ')
+          ..write('id: $id, ')
+          ..write('orderNumber: $orderNumber, ')
+          ..write('inventoryCycleNumber: $inventoryCycleNumber, ')
+          ..write('daySessionNumber: $daySessionNumber, ')
+          ..write('customerId: $customerId, ')
+          ..write('soldTo: $soldTo, ')
+          ..write('orderDate: $orderDate, ')
+          ..write('deliveryDate: $deliveryDate, ')
+          ..write('orderType: $orderType, ')
+          ..write('orderStatus: $orderStatus, ')
+          ..write('purchaseOrderNo: $purchaseOrderNo, ')
+          ..write('currency: $currency, ')
+          ..write('exchangeRate: $exchangeRate, ')
+          ..write('cuponCode: $cuponCode, ')
+          ..write('billingAddressName: $billingAddressName, ')
+          ..write('shippingAddressName: $shippingAddressName, ')
+          ..write('yourInital: $yourInital, ')
+          ..write('subTotal: $subTotal, ')
+          ..write('taxTotal: $taxTotal, ')
+          ..write('depositTotal: $depositTotal, ')
+          ..write('discountTotal: $discountTotal, ')
+          ..write('shippingTotal: $shippingTotal, ')
+          ..write('itemCount: $itemCount, ')
+          ..write('grandtotalTotal: $grandtotalTotal, ')
+          ..write('discountType: $discountType, ')
+          ..write('discountPercentage: $discountPercentage, ')
+          ..write('discountAmount: $discountAmount')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $SalesOrderHeaderTable extends SalesOrderHeader
+    with TableInfo<$SalesOrderHeaderTable, SalesOrderHeaderData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $SalesOrderHeaderTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _uerNameMeta = const VerificationMeta('uerName');
+  GeneratedTextColumn _uerName;
+  @override
+  GeneratedTextColumn get uerName => _uerName ??= _constructUerName();
+  GeneratedTextColumn _constructUerName() {
+    return GeneratedTextColumn(
+      'uer_name',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _userIdMeta = const VerificationMeta('userId');
+  GeneratedIntColumn _userId;
+  @override
+  GeneratedIntColumn get userId => _userId ??= _constructUserId();
+  GeneratedIntColumn _constructUserId() {
+    return GeneratedIntColumn(
+      'user_id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _orderNumberMeta =
+      const VerificationMeta('orderNumber');
+  GeneratedTextColumn _orderNumber;
+  @override
+  GeneratedTextColumn get orderNumber =>
+      _orderNumber ??= _constructOrderNumber();
+  GeneratedTextColumn _constructOrderNumber() {
+    return GeneratedTextColumn(
+      'order_number',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _inventoryCycleNumberMeta =
+      const VerificationMeta('inventoryCycleNumber');
+  GeneratedTextColumn _inventoryCycleNumber;
+  @override
+  GeneratedTextColumn get inventoryCycleNumber =>
+      _inventoryCycleNumber ??= _constructInventoryCycleNumber();
+  GeneratedTextColumn _constructInventoryCycleNumber() {
+    return GeneratedTextColumn(
+      'inventory_cycle_number',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _daySessionNumberMeta =
+      const VerificationMeta('daySessionNumber');
+  GeneratedTextColumn _daySessionNumber;
+  @override
+  GeneratedTextColumn get daySessionNumber =>
+      _daySessionNumber ??= _constructDaySessionNumber();
+  GeneratedTextColumn _constructDaySessionNumber() {
+    return GeneratedTextColumn(
+      'day_session_number',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _customerIdMeta = const VerificationMeta('customerId');
+  GeneratedIntColumn _customerId;
+  @override
+  GeneratedIntColumn get customerId => _customerId ??= _constructCustomerId();
+  GeneratedIntColumn _constructCustomerId() {
+    return GeneratedIntColumn(
+      'customer_id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _soldToMeta = const VerificationMeta('soldTo');
+  GeneratedTextColumn _soldTo;
+  @override
+  GeneratedTextColumn get soldTo => _soldTo ??= _constructSoldTo();
+  GeneratedTextColumn _constructSoldTo() {
+    return GeneratedTextColumn(
+      'sold_to',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _orderDateMeta = const VerificationMeta('orderDate');
+  GeneratedDateTimeColumn _orderDate;
+  @override
+  GeneratedDateTimeColumn get orderDate => _orderDate ??= _constructOrderDate();
+  GeneratedDateTimeColumn _constructOrderDate() {
+    return GeneratedDateTimeColumn(
+      'order_date',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _deliveryDateMeta =
+      const VerificationMeta('deliveryDate');
+  GeneratedDateTimeColumn _deliveryDate;
+  @override
+  GeneratedDateTimeColumn get deliveryDate =>
+      _deliveryDate ??= _constructDeliveryDate();
+  GeneratedDateTimeColumn _constructDeliveryDate() {
+    return GeneratedDateTimeColumn(
+      'delivery_date',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _orderTypeMeta = const VerificationMeta('orderType');
+  GeneratedTextColumn _orderType;
+  @override
+  GeneratedTextColumn get orderType => _orderType ??= _constructOrderType();
+  GeneratedTextColumn _constructOrderType() {
+    return GeneratedTextColumn(
+      'order_type',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _orderStatusMeta =
+      const VerificationMeta('orderStatus');
+  GeneratedTextColumn _orderStatus;
+  @override
+  GeneratedTextColumn get orderStatus =>
+      _orderStatus ??= _constructOrderStatus();
+  GeneratedTextColumn _constructOrderStatus() {
+    return GeneratedTextColumn(
+      'order_status',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _purchaseOrderNoMeta =
+      const VerificationMeta('purchaseOrderNo');
+  GeneratedTextColumn _purchaseOrderNo;
+  @override
+  GeneratedTextColumn get purchaseOrderNo =>
+      _purchaseOrderNo ??= _constructPurchaseOrderNo();
+  GeneratedTextColumn _constructPurchaseOrderNo() {
+    return GeneratedTextColumn(
+      'purchase_order_no',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _currencyMeta = const VerificationMeta('currency');
+  GeneratedTextColumn _currency;
+  @override
+  GeneratedTextColumn get currency => _currency ??= _constructCurrency();
+  GeneratedTextColumn _constructCurrency() {
+    return GeneratedTextColumn(
+      'currency',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _exchangeRateMeta =
+      const VerificationMeta('exchangeRate');
+  GeneratedRealColumn _exchangeRate;
+  @override
+  GeneratedRealColumn get exchangeRate =>
+      _exchangeRate ??= _constructExchangeRate();
+  GeneratedRealColumn _constructExchangeRate() {
+    return GeneratedRealColumn(
+      'exchange_rate',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _cuponCodeMeta = const VerificationMeta('cuponCode');
+  GeneratedIntColumn _cuponCode;
+  @override
+  GeneratedIntColumn get cuponCode => _cuponCode ??= _constructCuponCode();
+  GeneratedIntColumn _constructCuponCode() {
+    return GeneratedIntColumn(
+      'cupon_code',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _billingAddressNameMeta =
+      const VerificationMeta('billingAddressName');
+  GeneratedTextColumn _billingAddressName;
+  @override
+  GeneratedTextColumn get billingAddressName =>
+      _billingAddressName ??= _constructBillingAddressName();
+  GeneratedTextColumn _constructBillingAddressName() {
+    return GeneratedTextColumn(
+      'billing_address_name',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _shippingAddressNameMeta =
+      const VerificationMeta('shippingAddressName');
+  GeneratedTextColumn _shippingAddressName;
+  @override
+  GeneratedTextColumn get shippingAddressName =>
+      _shippingAddressName ??= _constructShippingAddressName();
+  GeneratedTextColumn _constructShippingAddressName() {
+    return GeneratedTextColumn(
+      'shipping_address_name',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _yourInitalMeta = const VerificationMeta('yourInital');
+  GeneratedTextColumn _yourInital;
+  @override
+  GeneratedTextColumn get yourInital => _yourInital ??= _constructYourInital();
+  GeneratedTextColumn _constructYourInital() {
+    return GeneratedTextColumn(
+      'your_inital',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _subTotalMeta = const VerificationMeta('subTotal');
+  GeneratedRealColumn _subTotal;
+  @override
+  GeneratedRealColumn get subTotal => _subTotal ??= _constructSubTotal();
+  GeneratedRealColumn _constructSubTotal() {
+    return GeneratedRealColumn(
+      'sub_total',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _taxTotalMeta = const VerificationMeta('taxTotal');
+  GeneratedRealColumn _taxTotal;
+  @override
+  GeneratedRealColumn get taxTotal => _taxTotal ??= _constructTaxTotal();
+  GeneratedRealColumn _constructTaxTotal() {
+    return GeneratedRealColumn(
+      'tax_total',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _depositTotalMeta =
+      const VerificationMeta('depositTotal');
+  GeneratedRealColumn _depositTotal;
+  @override
+  GeneratedRealColumn get depositTotal =>
+      _depositTotal ??= _constructDepositTotal();
+  GeneratedRealColumn _constructDepositTotal() {
+    return GeneratedRealColumn(
+      'deposit_total',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _discountTotalMeta =
+      const VerificationMeta('discountTotal');
+  GeneratedRealColumn _discountTotal;
+  @override
+  GeneratedRealColumn get discountTotal =>
+      _discountTotal ??= _constructDiscountTotal();
+  GeneratedRealColumn _constructDiscountTotal() {
+    return GeneratedRealColumn(
+      'discount_total',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _shippingTotalMeta =
+      const VerificationMeta('shippingTotal');
+  GeneratedRealColumn _shippingTotal;
+  @override
+  GeneratedRealColumn get shippingTotal =>
+      _shippingTotal ??= _constructShippingTotal();
+  GeneratedRealColumn _constructShippingTotal() {
+    return GeneratedRealColumn(
+      'shipping_total',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _itemCountMeta = const VerificationMeta('itemCount');
+  GeneratedIntColumn _itemCount;
+  @override
+  GeneratedIntColumn get itemCount => _itemCount ??= _constructItemCount();
+  GeneratedIntColumn _constructItemCount() {
+    return GeneratedIntColumn(
+      'item_count',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _grandtotalTotalMeta =
+      const VerificationMeta('grandtotalTotal');
+  GeneratedRealColumn _grandtotalTotal;
+  @override
+  GeneratedRealColumn get grandtotalTotal =>
+      _grandtotalTotal ??= _constructGrandtotalTotal();
+  GeneratedRealColumn _constructGrandtotalTotal() {
+    return GeneratedRealColumn(
+      'grandtotal_total',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _discountTypeMeta =
+      const VerificationMeta('discountType');
+  GeneratedTextColumn _discountType;
+  @override
+  GeneratedTextColumn get discountType =>
+      _discountType ??= _constructDiscountType();
+  GeneratedTextColumn _constructDiscountType() {
+    return GeneratedTextColumn(
+      'discount_type',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _discountPercentageMeta =
+      const VerificationMeta('discountPercentage');
+  GeneratedRealColumn _discountPercentage;
+  @override
+  GeneratedRealColumn get discountPercentage =>
+      _discountPercentage ??= _constructDiscountPercentage();
+  GeneratedRealColumn _constructDiscountPercentage() {
+    return GeneratedRealColumn(
+      'discount_percentage',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _discountAmountMeta =
+      const VerificationMeta('discountAmount');
+  GeneratedRealColumn _discountAmount;
+  @override
+  GeneratedRealColumn get discountAmount =>
+      _discountAmount ??= _constructDiscountAmount();
+  GeneratedRealColumn _constructDiscountAmount() {
+    return GeneratedRealColumn(
+      'discount_amount',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        tenantId,
+        uerName,
+        userId,
+        id,
+        orderNumber,
+        inventoryCycleNumber,
+        daySessionNumber,
+        customerId,
+        soldTo,
+        orderDate,
+        deliveryDate,
+        orderType,
+        orderStatus,
+        purchaseOrderNo,
+        currency,
+        exchangeRate,
+        cuponCode,
+        billingAddressName,
+        shippingAddressName,
+        yourInital,
+        subTotal,
+        taxTotal,
+        depositTotal,
+        discountTotal,
+        shippingTotal,
+        itemCount,
+        grandtotalTotal,
+        discountType,
+        discountPercentage,
+        discountAmount
+      ];
+  @override
+  $SalesOrderHeaderTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'sales_order_header';
+  @override
+  final String actualTableName = 'sales_order_header';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<SalesOrderHeaderData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
+    if (data.containsKey('uer_name')) {
+      context.handle(_uerNameMeta,
+          uerName.isAcceptableOrUnknown(data['uer_name'], _uerNameMeta));
+    } else if (isInserting) {
+      context.missing(_uerNameMeta);
+    }
+    if (data.containsKey('user_id')) {
+      context.handle(_userIdMeta,
+          userId.isAcceptableOrUnknown(data['user_id'], _userIdMeta));
+    } else if (isInserting) {
+      context.missing(_userIdMeta);
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('order_number')) {
+      context.handle(
+          _orderNumberMeta,
+          orderNumber.isAcceptableOrUnknown(
+              data['order_number'], _orderNumberMeta));
+    } else if (isInserting) {
+      context.missing(_orderNumberMeta);
+    }
+    if (data.containsKey('inventory_cycle_number')) {
+      context.handle(
+          _inventoryCycleNumberMeta,
+          inventoryCycleNumber.isAcceptableOrUnknown(
+              data['inventory_cycle_number'], _inventoryCycleNumberMeta));
+    } else if (isInserting) {
+      context.missing(_inventoryCycleNumberMeta);
+    }
+    if (data.containsKey('day_session_number')) {
+      context.handle(
+          _daySessionNumberMeta,
+          daySessionNumber.isAcceptableOrUnknown(
+              data['day_session_number'], _daySessionNumberMeta));
+    } else if (isInserting) {
+      context.missing(_daySessionNumberMeta);
+    }
+    if (data.containsKey('customer_id')) {
+      context.handle(
+          _customerIdMeta,
+          customerId.isAcceptableOrUnknown(
+              data['customer_id'], _customerIdMeta));
+    } else if (isInserting) {
+      context.missing(_customerIdMeta);
+    }
+    if (data.containsKey('sold_to')) {
+      context.handle(_soldToMeta,
+          soldTo.isAcceptableOrUnknown(data['sold_to'], _soldToMeta));
+    }
+    if (data.containsKey('order_date')) {
+      context.handle(_orderDateMeta,
+          orderDate.isAcceptableOrUnknown(data['order_date'], _orderDateMeta));
+    } else if (isInserting) {
+      context.missing(_orderDateMeta);
+    }
+    if (data.containsKey('delivery_date')) {
+      context.handle(
+          _deliveryDateMeta,
+          deliveryDate.isAcceptableOrUnknown(
+              data['delivery_date'], _deliveryDateMeta));
+    } else if (isInserting) {
+      context.missing(_deliveryDateMeta);
+    }
+    if (data.containsKey('order_type')) {
+      context.handle(_orderTypeMeta,
+          orderType.isAcceptableOrUnknown(data['order_type'], _orderTypeMeta));
+    } else if (isInserting) {
+      context.missing(_orderTypeMeta);
+    }
+    if (data.containsKey('order_status')) {
+      context.handle(
+          _orderStatusMeta,
+          orderStatus.isAcceptableOrUnknown(
+              data['order_status'], _orderStatusMeta));
+    } else if (isInserting) {
+      context.missing(_orderStatusMeta);
+    }
+    if (data.containsKey('purchase_order_no')) {
+      context.handle(
+          _purchaseOrderNoMeta,
+          purchaseOrderNo.isAcceptableOrUnknown(
+              data['purchase_order_no'], _purchaseOrderNoMeta));
+    }
+    if (data.containsKey('currency')) {
+      context.handle(_currencyMeta,
+          currency.isAcceptableOrUnknown(data['currency'], _currencyMeta));
+    } else if (isInserting) {
+      context.missing(_currencyMeta);
+    }
+    if (data.containsKey('exchange_rate')) {
+      context.handle(
+          _exchangeRateMeta,
+          exchangeRate.isAcceptableOrUnknown(
+              data['exchange_rate'], _exchangeRateMeta));
+    } else if (isInserting) {
+      context.missing(_exchangeRateMeta);
+    }
+    if (data.containsKey('cupon_code')) {
+      context.handle(_cuponCodeMeta,
+          cuponCode.isAcceptableOrUnknown(data['cupon_code'], _cuponCodeMeta));
+    }
+    if (data.containsKey('billing_address_name')) {
+      context.handle(
+          _billingAddressNameMeta,
+          billingAddressName.isAcceptableOrUnknown(
+              data['billing_address_name'], _billingAddressNameMeta));
+    }
+    if (data.containsKey('shipping_address_name')) {
+      context.handle(
+          _shippingAddressNameMeta,
+          shippingAddressName.isAcceptableOrUnknown(
+              data['shipping_address_name'], _shippingAddressNameMeta));
+    }
+    if (data.containsKey('your_inital')) {
+      context.handle(
+          _yourInitalMeta,
+          yourInital.isAcceptableOrUnknown(
+              data['your_inital'], _yourInitalMeta));
+    }
+    if (data.containsKey('sub_total')) {
+      context.handle(_subTotalMeta,
+          subTotal.isAcceptableOrUnknown(data['sub_total'], _subTotalMeta));
+    } else if (isInserting) {
+      context.missing(_subTotalMeta);
+    }
+    if (data.containsKey('tax_total')) {
+      context.handle(_taxTotalMeta,
+          taxTotal.isAcceptableOrUnknown(data['tax_total'], _taxTotalMeta));
+    } else if (isInserting) {
+      context.missing(_taxTotalMeta);
+    }
+    if (data.containsKey('deposit_total')) {
+      context.handle(
+          _depositTotalMeta,
+          depositTotal.isAcceptableOrUnknown(
+              data['deposit_total'], _depositTotalMeta));
+    } else if (isInserting) {
+      context.missing(_depositTotalMeta);
+    }
+    if (data.containsKey('discount_total')) {
+      context.handle(
+          _discountTotalMeta,
+          discountTotal.isAcceptableOrUnknown(
+              data['discount_total'], _discountTotalMeta));
+    } else if (isInserting) {
+      context.missing(_discountTotalMeta);
+    }
+    if (data.containsKey('shipping_total')) {
+      context.handle(
+          _shippingTotalMeta,
+          shippingTotal.isAcceptableOrUnknown(
+              data['shipping_total'], _shippingTotalMeta));
+    } else if (isInserting) {
+      context.missing(_shippingTotalMeta);
+    }
+    if (data.containsKey('item_count')) {
+      context.handle(_itemCountMeta,
+          itemCount.isAcceptableOrUnknown(data['item_count'], _itemCountMeta));
+    } else if (isInserting) {
+      context.missing(_itemCountMeta);
+    }
+    if (data.containsKey('grandtotal_total')) {
+      context.handle(
+          _grandtotalTotalMeta,
+          grandtotalTotal.isAcceptableOrUnknown(
+              data['grandtotal_total'], _grandtotalTotalMeta));
+    } else if (isInserting) {
+      context.missing(_grandtotalTotalMeta);
+    }
+    if (data.containsKey('discount_type')) {
+      context.handle(
+          _discountTypeMeta,
+          discountType.isAcceptableOrUnknown(
+              data['discount_type'], _discountTypeMeta));
+    } else if (isInserting) {
+      context.missing(_discountTypeMeta);
+    }
+    if (data.containsKey('discount_percentage')) {
+      context.handle(
+          _discountPercentageMeta,
+          discountPercentage.isAcceptableOrUnknown(
+              data['discount_percentage'], _discountPercentageMeta));
+    } else if (isInserting) {
+      context.missing(_discountPercentageMeta);
+    }
+    if (data.containsKey('discount_amount')) {
+      context.handle(
+          _discountAmountMeta,
+          discountAmount.isAcceptableOrUnknown(
+              data['discount_amount'], _discountAmountMeta));
+    } else if (isInserting) {
+      context.missing(_discountAmountMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  SalesOrderHeaderData map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return SalesOrderHeaderData.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $SalesOrderHeaderTable createAlias(String alias) {
+    return $SalesOrderHeaderTable(_db, alias);
+  }
+}
+
+class SalesOrderDetailData extends DataClass
+    implements Insertable<SalesOrderDetailData> {
+  final int tenantId;
+  final String uerName;
+  final int userId;
+  final int id;
+  final String orderNumber;
+  final String inventoryCycleNumber;
+  final String daySessionNumber;
+  final DateTime deliveryDate;
+  final String currency;
+  final double exchangeRate;
+  final int itemId;
+  final String itemCode;
+  final String upcCode;
+  final String description;
+  final String itemGroup;
+  final String category;
+  final String salesUOM;
+  final String stockUOM;
+  final String taxGroup;
+  final String warehouse;
+  final String discountType;
+  final double discountPercentage;
+  final double discountAmount;
+  final double lineDiscountTotal;
+  final double unitPrice;
+  final double costPrice;
+  final double listPrice;
+  final double quantity;
+  final double subTotal;
+  final double taxTotal;
+  final double shippingTotal;
+  final double conversionFactor;
+  SalesOrderDetailData(
+      {this.tenantId,
+      @required this.uerName,
+      @required this.userId,
+      @required this.id,
+      @required this.orderNumber,
+      @required this.inventoryCycleNumber,
+      @required this.daySessionNumber,
+      @required this.deliveryDate,
+      @required this.currency,
+      @required this.exchangeRate,
+      @required this.itemId,
+      @required this.itemCode,
+      @required this.upcCode,
+      @required this.description,
+      @required this.itemGroup,
+      @required this.category,
+      @required this.salesUOM,
+      @required this.stockUOM,
+      @required this.taxGroup,
+      @required this.warehouse,
+      @required this.discountType,
+      @required this.discountPercentage,
+      @required this.discountAmount,
+      @required this.lineDiscountTotal,
+      @required this.unitPrice,
+      @required this.costPrice,
+      @required this.listPrice,
+      @required this.quantity,
+      @required this.subTotal,
+      @required this.taxTotal,
+      @required this.shippingTotal,
+      @required this.conversionFactor});
+  factory SalesOrderDetailData.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final doubleType = db.typeSystem.forDartType<double>();
+    return SalesOrderDetailData(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      uerName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}uer_name']),
+      userId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}user_id']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      orderNumber: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}order_number']),
+      inventoryCycleNumber: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}inventory_cycle_number']),
+      daySessionNumber: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}day_session_number']),
+      deliveryDate: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delivery_date']),
+      currency: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}currency']),
+      exchangeRate: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}exchange_rate']),
+      itemId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
+      itemCode: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}item_code']),
+      upcCode: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}upc_code']),
+      description: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}description']),
+      itemGroup: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}item_group']),
+      category: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}category']),
+      salesUOM: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}sales_u_o_m']),
+      stockUOM: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}stock_u_o_m']),
+      taxGroup: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}tax_group']),
+      warehouse: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}warehouse']),
+      discountType: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}discount_type']),
+      discountPercentage: doubleType.mapFromDatabaseResponse(
+          data['${effectivePrefix}discount_percentage']),
+      discountAmount: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}discount_amount']),
+      lineDiscountTotal: doubleType.mapFromDatabaseResponse(
+          data['${effectivePrefix}line_discount_total']),
+      unitPrice: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}unit_price']),
+      costPrice: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}cost_price']),
+      listPrice: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}list_price']),
+      quantity: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}quantity']),
+      subTotal: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}sub_total']),
+      taxTotal: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}tax_total']),
+      shippingTotal: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}shipping_total']),
+      conversionFactor: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}conversion_factor']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || uerName != null) {
+      map['uer_name'] = Variable<String>(uerName);
+    }
+    if (!nullToAbsent || userId != null) {
+      map['user_id'] = Variable<int>(userId);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || orderNumber != null) {
+      map['order_number'] = Variable<String>(orderNumber);
+    }
+    if (!nullToAbsent || inventoryCycleNumber != null) {
+      map['inventory_cycle_number'] = Variable<String>(inventoryCycleNumber);
+    }
+    if (!nullToAbsent || daySessionNumber != null) {
+      map['day_session_number'] = Variable<String>(daySessionNumber);
+    }
+    if (!nullToAbsent || deliveryDate != null) {
+      map['delivery_date'] = Variable<DateTime>(deliveryDate);
+    }
+    if (!nullToAbsent || currency != null) {
+      map['currency'] = Variable<String>(currency);
+    }
+    if (!nullToAbsent || exchangeRate != null) {
+      map['exchange_rate'] = Variable<double>(exchangeRate);
+    }
+    if (!nullToAbsent || itemId != null) {
+      map['item_id'] = Variable<int>(itemId);
+    }
+    if (!nullToAbsent || itemCode != null) {
+      map['item_code'] = Variable<String>(itemCode);
+    }
+    if (!nullToAbsent || upcCode != null) {
+      map['upc_code'] = Variable<String>(upcCode);
+    }
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    if (!nullToAbsent || itemGroup != null) {
+      map['item_group'] = Variable<String>(itemGroup);
+    }
+    if (!nullToAbsent || category != null) {
+      map['category'] = Variable<String>(category);
+    }
+    if (!nullToAbsent || salesUOM != null) {
+      map['sales_u_o_m'] = Variable<String>(salesUOM);
+    }
+    if (!nullToAbsent || stockUOM != null) {
+      map['stock_u_o_m'] = Variable<String>(stockUOM);
+    }
+    if (!nullToAbsent || taxGroup != null) {
+      map['tax_group'] = Variable<String>(taxGroup);
+    }
+    if (!nullToAbsent || warehouse != null) {
+      map['warehouse'] = Variable<String>(warehouse);
+    }
+    if (!nullToAbsent || discountType != null) {
+      map['discount_type'] = Variable<String>(discountType);
+    }
+    if (!nullToAbsent || discountPercentage != null) {
+      map['discount_percentage'] = Variable<double>(discountPercentage);
+    }
+    if (!nullToAbsent || discountAmount != null) {
+      map['discount_amount'] = Variable<double>(discountAmount);
+    }
+    if (!nullToAbsent || lineDiscountTotal != null) {
+      map['line_discount_total'] = Variable<double>(lineDiscountTotal);
+    }
+    if (!nullToAbsent || unitPrice != null) {
+      map['unit_price'] = Variable<double>(unitPrice);
+    }
+    if (!nullToAbsent || costPrice != null) {
+      map['cost_price'] = Variable<double>(costPrice);
+    }
+    if (!nullToAbsent || listPrice != null) {
+      map['list_price'] = Variable<double>(listPrice);
+    }
+    if (!nullToAbsent || quantity != null) {
+      map['quantity'] = Variable<double>(quantity);
+    }
+    if (!nullToAbsent || subTotal != null) {
+      map['sub_total'] = Variable<double>(subTotal);
+    }
+    if (!nullToAbsent || taxTotal != null) {
+      map['tax_total'] = Variable<double>(taxTotal);
+    }
+    if (!nullToAbsent || shippingTotal != null) {
+      map['shipping_total'] = Variable<double>(shippingTotal);
+    }
+    if (!nullToAbsent || conversionFactor != null) {
+      map['conversion_factor'] = Variable<double>(conversionFactor);
+    }
+    return map;
+  }
+
+  SalesOrderDetailCompanion toCompanion(bool nullToAbsent) {
+    return SalesOrderDetailCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      uerName: uerName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(uerName),
+      userId:
+          userId == null && nullToAbsent ? const Value.absent() : Value(userId),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      orderNumber: orderNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(orderNumber),
+      inventoryCycleNumber: inventoryCycleNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(inventoryCycleNumber),
+      daySessionNumber: daySessionNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(daySessionNumber),
+      deliveryDate: deliveryDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deliveryDate),
+      currency: currency == null && nullToAbsent
+          ? const Value.absent()
+          : Value(currency),
+      exchangeRate: exchangeRate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(exchangeRate),
+      itemId:
+          itemId == null && nullToAbsent ? const Value.absent() : Value(itemId),
+      itemCode: itemCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(itemCode),
+      upcCode: upcCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(upcCode),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      itemGroup: itemGroup == null && nullToAbsent
+          ? const Value.absent()
+          : Value(itemGroup),
+      category: category == null && nullToAbsent
+          ? const Value.absent()
+          : Value(category),
+      salesUOM: salesUOM == null && nullToAbsent
+          ? const Value.absent()
+          : Value(salesUOM),
+      stockUOM: stockUOM == null && nullToAbsent
+          ? const Value.absent()
+          : Value(stockUOM),
+      taxGroup: taxGroup == null && nullToAbsent
+          ? const Value.absent()
+          : Value(taxGroup),
+      warehouse: warehouse == null && nullToAbsent
+          ? const Value.absent()
+          : Value(warehouse),
+      discountType: discountType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(discountType),
+      discountPercentage: discountPercentage == null && nullToAbsent
+          ? const Value.absent()
+          : Value(discountPercentage),
+      discountAmount: discountAmount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(discountAmount),
+      lineDiscountTotal: lineDiscountTotal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lineDiscountTotal),
+      unitPrice: unitPrice == null && nullToAbsent
+          ? const Value.absent()
+          : Value(unitPrice),
+      costPrice: costPrice == null && nullToAbsent
+          ? const Value.absent()
+          : Value(costPrice),
+      listPrice: listPrice == null && nullToAbsent
+          ? const Value.absent()
+          : Value(listPrice),
+      quantity: quantity == null && nullToAbsent
+          ? const Value.absent()
+          : Value(quantity),
+      subTotal: subTotal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(subTotal),
+      taxTotal: taxTotal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(taxTotal),
+      shippingTotal: shippingTotal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(shippingTotal),
+      conversionFactor: conversionFactor == null && nullToAbsent
+          ? const Value.absent()
+          : Value(conversionFactor),
+    );
+  }
+
+  factory SalesOrderDetailData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return SalesOrderDetailData(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      uerName: serializer.fromJson<String>(json['uerName']),
+      userId: serializer.fromJson<int>(json['userId']),
+      id: serializer.fromJson<int>(json['id']),
+      orderNumber: serializer.fromJson<String>(json['orderNumber']),
+      inventoryCycleNumber:
+          serializer.fromJson<String>(json['inventoryCycleNumber']),
+      daySessionNumber: serializer.fromJson<String>(json['daySessionNumber']),
+      deliveryDate: serializer.fromJson<DateTime>(json['deliveryDate']),
+      currency: serializer.fromJson<String>(json['currency']),
+      exchangeRate: serializer.fromJson<double>(json['exchangeRate']),
+      itemId: serializer.fromJson<int>(json['itemId']),
+      itemCode: serializer.fromJson<String>(json['itemCode']),
+      upcCode: serializer.fromJson<String>(json['upcCode']),
+      description: serializer.fromJson<String>(json['description']),
+      itemGroup: serializer.fromJson<String>(json['itemGroup']),
+      category: serializer.fromJson<String>(json['category']),
+      salesUOM: serializer.fromJson<String>(json['salesUOM']),
+      stockUOM: serializer.fromJson<String>(json['stockUOM']),
+      taxGroup: serializer.fromJson<String>(json['taxGroup']),
+      warehouse: serializer.fromJson<String>(json['warehouse']),
+      discountType: serializer.fromJson<String>(json['discountType']),
+      discountPercentage:
+          serializer.fromJson<double>(json['discountPercentage']),
+      discountAmount: serializer.fromJson<double>(json['discountAmount']),
+      lineDiscountTotal: serializer.fromJson<double>(json['lineDiscountTotal']),
+      unitPrice: serializer.fromJson<double>(json['unitPrice']),
+      costPrice: serializer.fromJson<double>(json['costPrice']),
+      listPrice: serializer.fromJson<double>(json['listPrice']),
+      quantity: serializer.fromJson<double>(json['quantity']),
+      subTotal: serializer.fromJson<double>(json['subTotal']),
+      taxTotal: serializer.fromJson<double>(json['taxTotal']),
+      shippingTotal: serializer.fromJson<double>(json['shippingTotal']),
+      conversionFactor: serializer.fromJson<double>(json['conversionFactor']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'uerName': serializer.toJson<String>(uerName),
+      'userId': serializer.toJson<int>(userId),
+      'id': serializer.toJson<int>(id),
+      'orderNumber': serializer.toJson<String>(orderNumber),
+      'inventoryCycleNumber': serializer.toJson<String>(inventoryCycleNumber),
+      'daySessionNumber': serializer.toJson<String>(daySessionNumber),
+      'deliveryDate': serializer.toJson<DateTime>(deliveryDate),
+      'currency': serializer.toJson<String>(currency),
+      'exchangeRate': serializer.toJson<double>(exchangeRate),
+      'itemId': serializer.toJson<int>(itemId),
+      'itemCode': serializer.toJson<String>(itemCode),
+      'upcCode': serializer.toJson<String>(upcCode),
+      'description': serializer.toJson<String>(description),
+      'itemGroup': serializer.toJson<String>(itemGroup),
+      'category': serializer.toJson<String>(category),
+      'salesUOM': serializer.toJson<String>(salesUOM),
+      'stockUOM': serializer.toJson<String>(stockUOM),
+      'taxGroup': serializer.toJson<String>(taxGroup),
+      'warehouse': serializer.toJson<String>(warehouse),
+      'discountType': serializer.toJson<String>(discountType),
+      'discountPercentage': serializer.toJson<double>(discountPercentage),
+      'discountAmount': serializer.toJson<double>(discountAmount),
+      'lineDiscountTotal': serializer.toJson<double>(lineDiscountTotal),
+      'unitPrice': serializer.toJson<double>(unitPrice),
+      'costPrice': serializer.toJson<double>(costPrice),
+      'listPrice': serializer.toJson<double>(listPrice),
+      'quantity': serializer.toJson<double>(quantity),
+      'subTotal': serializer.toJson<double>(subTotal),
+      'taxTotal': serializer.toJson<double>(taxTotal),
+      'shippingTotal': serializer.toJson<double>(shippingTotal),
+      'conversionFactor': serializer.toJson<double>(conversionFactor),
+    };
+  }
+
+  SalesOrderDetailData copyWith(
+          {int tenantId,
+          String uerName,
+          int userId,
+          int id,
+          String orderNumber,
+          String inventoryCycleNumber,
+          String daySessionNumber,
+          DateTime deliveryDate,
+          String currency,
+          double exchangeRate,
+          int itemId,
+          String itemCode,
+          String upcCode,
+          String description,
+          String itemGroup,
+          String category,
+          String salesUOM,
+          String stockUOM,
+          String taxGroup,
+          String warehouse,
+          String discountType,
+          double discountPercentage,
+          double discountAmount,
+          double lineDiscountTotal,
+          double unitPrice,
+          double costPrice,
+          double listPrice,
+          double quantity,
+          double subTotal,
+          double taxTotal,
+          double shippingTotal,
+          double conversionFactor}) =>
+      SalesOrderDetailData(
+        tenantId: tenantId ?? this.tenantId,
+        uerName: uerName ?? this.uerName,
+        userId: userId ?? this.userId,
+        id: id ?? this.id,
+        orderNumber: orderNumber ?? this.orderNumber,
+        inventoryCycleNumber: inventoryCycleNumber ?? this.inventoryCycleNumber,
+        daySessionNumber: daySessionNumber ?? this.daySessionNumber,
+        deliveryDate: deliveryDate ?? this.deliveryDate,
+        currency: currency ?? this.currency,
+        exchangeRate: exchangeRate ?? this.exchangeRate,
+        itemId: itemId ?? this.itemId,
+        itemCode: itemCode ?? this.itemCode,
+        upcCode: upcCode ?? this.upcCode,
+        description: description ?? this.description,
+        itemGroup: itemGroup ?? this.itemGroup,
+        category: category ?? this.category,
+        salesUOM: salesUOM ?? this.salesUOM,
+        stockUOM: stockUOM ?? this.stockUOM,
+        taxGroup: taxGroup ?? this.taxGroup,
+        warehouse: warehouse ?? this.warehouse,
+        discountType: discountType ?? this.discountType,
+        discountPercentage: discountPercentage ?? this.discountPercentage,
+        discountAmount: discountAmount ?? this.discountAmount,
+        lineDiscountTotal: lineDiscountTotal ?? this.lineDiscountTotal,
+        unitPrice: unitPrice ?? this.unitPrice,
+        costPrice: costPrice ?? this.costPrice,
+        listPrice: listPrice ?? this.listPrice,
+        quantity: quantity ?? this.quantity,
+        subTotal: subTotal ?? this.subTotal,
+        taxTotal: taxTotal ?? this.taxTotal,
+        shippingTotal: shippingTotal ?? this.shippingTotal,
+        conversionFactor: conversionFactor ?? this.conversionFactor,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('SalesOrderDetailData(')
+          ..write('tenantId: $tenantId, ')
+          ..write('uerName: $uerName, ')
+          ..write('userId: $userId, ')
+          ..write('id: $id, ')
+          ..write('orderNumber: $orderNumber, ')
+          ..write('inventoryCycleNumber: $inventoryCycleNumber, ')
+          ..write('daySessionNumber: $daySessionNumber, ')
+          ..write('deliveryDate: $deliveryDate, ')
+          ..write('currency: $currency, ')
+          ..write('exchangeRate: $exchangeRate, ')
+          ..write('itemId: $itemId, ')
+          ..write('itemCode: $itemCode, ')
+          ..write('upcCode: $upcCode, ')
+          ..write('description: $description, ')
+          ..write('itemGroup: $itemGroup, ')
+          ..write('category: $category, ')
+          ..write('salesUOM: $salesUOM, ')
+          ..write('stockUOM: $stockUOM, ')
+          ..write('taxGroup: $taxGroup, ')
+          ..write('warehouse: $warehouse, ')
+          ..write('discountType: $discountType, ')
+          ..write('discountPercentage: $discountPercentage, ')
+          ..write('discountAmount: $discountAmount, ')
+          ..write('lineDiscountTotal: $lineDiscountTotal, ')
+          ..write('unitPrice: $unitPrice, ')
+          ..write('costPrice: $costPrice, ')
+          ..write('listPrice: $listPrice, ')
+          ..write('quantity: $quantity, ')
+          ..write('subTotal: $subTotal, ')
+          ..write('taxTotal: $taxTotal, ')
+          ..write('shippingTotal: $shippingTotal, ')
+          ..write('conversionFactor: $conversionFactor')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode,
+      $mrjc(
+          uerName.hashCode,
+          $mrjc(
+              userId.hashCode,
+              $mrjc(
+                  id.hashCode,
+                  $mrjc(
+                      orderNumber.hashCode,
+                      $mrjc(
+                          inventoryCycleNumber.hashCode,
+                          $mrjc(
+                              daySessionNumber.hashCode,
+                              $mrjc(
+                                  deliveryDate.hashCode,
+                                  $mrjc(
+                                      currency.hashCode,
+                                      $mrjc(
+                                          exchangeRate.hashCode,
+                                          $mrjc(
+                                              itemId.hashCode,
+                                              $mrjc(
+                                                  itemCode.hashCode,
+                                                  $mrjc(
+                                                      upcCode.hashCode,
+                                                      $mrjc(
+                                                          description.hashCode,
+                                                          $mrjc(
+                                                              itemGroup
+                                                                  .hashCode,
+                                                              $mrjc(
+                                                                  category
+                                                                      .hashCode,
+                                                                  $mrjc(
+                                                                      salesUOM
+                                                                          .hashCode,
+                                                                      $mrjc(
+                                                                          stockUOM
+                                                                              .hashCode,
+                                                                          $mrjc(
+                                                                              taxGroup.hashCode,
+                                                                              $mrjc(warehouse.hashCode, $mrjc(discountType.hashCode, $mrjc(discountPercentage.hashCode, $mrjc(discountAmount.hashCode, $mrjc(lineDiscountTotal.hashCode, $mrjc(unitPrice.hashCode, $mrjc(costPrice.hashCode, $mrjc(listPrice.hashCode, $mrjc(quantity.hashCode, $mrjc(subTotal.hashCode, $mrjc(taxTotal.hashCode, $mrjc(shippingTotal.hashCode, conversionFactor.hashCode))))))))))))))))))))))))))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is SalesOrderDetailData &&
+          other.tenantId == this.tenantId &&
+          other.uerName == this.uerName &&
+          other.userId == this.userId &&
+          other.id == this.id &&
+          other.orderNumber == this.orderNumber &&
+          other.inventoryCycleNumber == this.inventoryCycleNumber &&
+          other.daySessionNumber == this.daySessionNumber &&
+          other.deliveryDate == this.deliveryDate &&
+          other.currency == this.currency &&
+          other.exchangeRate == this.exchangeRate &&
+          other.itemId == this.itemId &&
+          other.itemCode == this.itemCode &&
+          other.upcCode == this.upcCode &&
+          other.description == this.description &&
+          other.itemGroup == this.itemGroup &&
+          other.category == this.category &&
+          other.salesUOM == this.salesUOM &&
+          other.stockUOM == this.stockUOM &&
+          other.taxGroup == this.taxGroup &&
+          other.warehouse == this.warehouse &&
+          other.discountType == this.discountType &&
+          other.discountPercentage == this.discountPercentage &&
+          other.discountAmount == this.discountAmount &&
+          other.lineDiscountTotal == this.lineDiscountTotal &&
+          other.unitPrice == this.unitPrice &&
+          other.costPrice == this.costPrice &&
+          other.listPrice == this.listPrice &&
+          other.quantity == this.quantity &&
+          other.subTotal == this.subTotal &&
+          other.taxTotal == this.taxTotal &&
+          other.shippingTotal == this.shippingTotal &&
+          other.conversionFactor == this.conversionFactor);
+}
+
+class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
+  final Value<int> tenantId;
+  final Value<String> uerName;
+  final Value<int> userId;
+  final Value<int> id;
+  final Value<String> orderNumber;
+  final Value<String> inventoryCycleNumber;
+  final Value<String> daySessionNumber;
+  final Value<DateTime> deliveryDate;
+  final Value<String> currency;
+  final Value<double> exchangeRate;
+  final Value<int> itemId;
+  final Value<String> itemCode;
+  final Value<String> upcCode;
+  final Value<String> description;
+  final Value<String> itemGroup;
+  final Value<String> category;
+  final Value<String> salesUOM;
+  final Value<String> stockUOM;
+  final Value<String> taxGroup;
+  final Value<String> warehouse;
+  final Value<String> discountType;
+  final Value<double> discountPercentage;
+  final Value<double> discountAmount;
+  final Value<double> lineDiscountTotal;
+  final Value<double> unitPrice;
+  final Value<double> costPrice;
+  final Value<double> listPrice;
+  final Value<double> quantity;
+  final Value<double> subTotal;
+  final Value<double> taxTotal;
+  final Value<double> shippingTotal;
+  final Value<double> conversionFactor;
+  const SalesOrderDetailCompanion({
+    this.tenantId = const Value.absent(),
+    this.uerName = const Value.absent(),
+    this.userId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.orderNumber = const Value.absent(),
+    this.inventoryCycleNumber = const Value.absent(),
+    this.daySessionNumber = const Value.absent(),
+    this.deliveryDate = const Value.absent(),
+    this.currency = const Value.absent(),
+    this.exchangeRate = const Value.absent(),
+    this.itemId = const Value.absent(),
+    this.itemCode = const Value.absent(),
+    this.upcCode = const Value.absent(),
+    this.description = const Value.absent(),
+    this.itemGroup = const Value.absent(),
+    this.category = const Value.absent(),
+    this.salesUOM = const Value.absent(),
+    this.stockUOM = const Value.absent(),
+    this.taxGroup = const Value.absent(),
+    this.warehouse = const Value.absent(),
+    this.discountType = const Value.absent(),
+    this.discountPercentage = const Value.absent(),
+    this.discountAmount = const Value.absent(),
+    this.lineDiscountTotal = const Value.absent(),
+    this.unitPrice = const Value.absent(),
+    this.costPrice = const Value.absent(),
+    this.listPrice = const Value.absent(),
+    this.quantity = const Value.absent(),
+    this.subTotal = const Value.absent(),
+    this.taxTotal = const Value.absent(),
+    this.shippingTotal = const Value.absent(),
+    this.conversionFactor = const Value.absent(),
+  });
+  SalesOrderDetailCompanion.insert({
+    this.tenantId = const Value.absent(),
+    @required String uerName,
+    @required int userId,
+    this.id = const Value.absent(),
+    @required String orderNumber,
+    @required String inventoryCycleNumber,
+    @required String daySessionNumber,
+    @required DateTime deliveryDate,
+    @required String currency,
+    @required double exchangeRate,
+    @required int itemId,
+    @required String itemCode,
+    @required String upcCode,
+    @required String description,
+    @required String itemGroup,
+    @required String category,
+    @required String salesUOM,
+    @required String stockUOM,
+    @required String taxGroup,
+    @required String warehouse,
+    @required String discountType,
+    @required double discountPercentage,
+    @required double discountAmount,
+    @required double lineDiscountTotal,
+    @required double unitPrice,
+    @required double costPrice,
+    @required double listPrice,
+    @required double quantity,
+    @required double subTotal,
+    @required double taxTotal,
+    @required double shippingTotal,
+    @required double conversionFactor,
+  })  : uerName = Value(uerName),
+        userId = Value(userId),
+        orderNumber = Value(orderNumber),
+        inventoryCycleNumber = Value(inventoryCycleNumber),
+        daySessionNumber = Value(daySessionNumber),
+        deliveryDate = Value(deliveryDate),
+        currency = Value(currency),
+        exchangeRate = Value(exchangeRate),
+        itemId = Value(itemId),
+        itemCode = Value(itemCode),
+        upcCode = Value(upcCode),
+        description = Value(description),
+        itemGroup = Value(itemGroup),
+        category = Value(category),
+        salesUOM = Value(salesUOM),
+        stockUOM = Value(stockUOM),
+        taxGroup = Value(taxGroup),
+        warehouse = Value(warehouse),
+        discountType = Value(discountType),
+        discountPercentage = Value(discountPercentage),
+        discountAmount = Value(discountAmount),
+        lineDiscountTotal = Value(lineDiscountTotal),
+        unitPrice = Value(unitPrice),
+        costPrice = Value(costPrice),
+        listPrice = Value(listPrice),
+        quantity = Value(quantity),
+        subTotal = Value(subTotal),
+        taxTotal = Value(taxTotal),
+        shippingTotal = Value(shippingTotal),
+        conversionFactor = Value(conversionFactor);
+  static Insertable<SalesOrderDetailData> custom({
+    Expression<int> tenantId,
+    Expression<String> uerName,
+    Expression<int> userId,
+    Expression<int> id,
+    Expression<String> orderNumber,
+    Expression<String> inventoryCycleNumber,
+    Expression<String> daySessionNumber,
+    Expression<DateTime> deliveryDate,
+    Expression<String> currency,
+    Expression<double> exchangeRate,
+    Expression<int> itemId,
+    Expression<String> itemCode,
+    Expression<String> upcCode,
+    Expression<String> description,
+    Expression<String> itemGroup,
+    Expression<String> category,
+    Expression<String> salesUOM,
+    Expression<String> stockUOM,
+    Expression<String> taxGroup,
+    Expression<String> warehouse,
+    Expression<String> discountType,
+    Expression<double> discountPercentage,
+    Expression<double> discountAmount,
+    Expression<double> lineDiscountTotal,
+    Expression<double> unitPrice,
+    Expression<double> costPrice,
+    Expression<double> listPrice,
+    Expression<double> quantity,
+    Expression<double> subTotal,
+    Expression<double> taxTotal,
+    Expression<double> shippingTotal,
+    Expression<double> conversionFactor,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (uerName != null) 'uer_name': uerName,
+      if (userId != null) 'user_id': userId,
+      if (id != null) 'id': id,
+      if (orderNumber != null) 'order_number': orderNumber,
+      if (inventoryCycleNumber != null)
+        'inventory_cycle_number': inventoryCycleNumber,
+      if (daySessionNumber != null) 'day_session_number': daySessionNumber,
+      if (deliveryDate != null) 'delivery_date': deliveryDate,
+      if (currency != null) 'currency': currency,
+      if (exchangeRate != null) 'exchange_rate': exchangeRate,
+      if (itemId != null) 'item_id': itemId,
+      if (itemCode != null) 'item_code': itemCode,
+      if (upcCode != null) 'upc_code': upcCode,
+      if (description != null) 'description': description,
+      if (itemGroup != null) 'item_group': itemGroup,
+      if (category != null) 'category': category,
+      if (salesUOM != null) 'sales_u_o_m': salesUOM,
+      if (stockUOM != null) 'stock_u_o_m': stockUOM,
+      if (taxGroup != null) 'tax_group': taxGroup,
+      if (warehouse != null) 'warehouse': warehouse,
+      if (discountType != null) 'discount_type': discountType,
+      if (discountPercentage != null) 'discount_percentage': discountPercentage,
+      if (discountAmount != null) 'discount_amount': discountAmount,
+      if (lineDiscountTotal != null) 'line_discount_total': lineDiscountTotal,
+      if (unitPrice != null) 'unit_price': unitPrice,
+      if (costPrice != null) 'cost_price': costPrice,
+      if (listPrice != null) 'list_price': listPrice,
+      if (quantity != null) 'quantity': quantity,
+      if (subTotal != null) 'sub_total': subTotal,
+      if (taxTotal != null) 'tax_total': taxTotal,
+      if (shippingTotal != null) 'shipping_total': shippingTotal,
+      if (conversionFactor != null) 'conversion_factor': conversionFactor,
+    });
+  }
+
+  SalesOrderDetailCompanion copyWith(
+      {Value<int> tenantId,
+      Value<String> uerName,
+      Value<int> userId,
+      Value<int> id,
+      Value<String> orderNumber,
+      Value<String> inventoryCycleNumber,
+      Value<String> daySessionNumber,
+      Value<DateTime> deliveryDate,
+      Value<String> currency,
+      Value<double> exchangeRate,
+      Value<int> itemId,
+      Value<String> itemCode,
+      Value<String> upcCode,
+      Value<String> description,
+      Value<String> itemGroup,
+      Value<String> category,
+      Value<String> salesUOM,
+      Value<String> stockUOM,
+      Value<String> taxGroup,
+      Value<String> warehouse,
+      Value<String> discountType,
+      Value<double> discountPercentage,
+      Value<double> discountAmount,
+      Value<double> lineDiscountTotal,
+      Value<double> unitPrice,
+      Value<double> costPrice,
+      Value<double> listPrice,
+      Value<double> quantity,
+      Value<double> subTotal,
+      Value<double> taxTotal,
+      Value<double> shippingTotal,
+      Value<double> conversionFactor}) {
+    return SalesOrderDetailCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      uerName: uerName ?? this.uerName,
+      userId: userId ?? this.userId,
+      id: id ?? this.id,
+      orderNumber: orderNumber ?? this.orderNumber,
+      inventoryCycleNumber: inventoryCycleNumber ?? this.inventoryCycleNumber,
+      daySessionNumber: daySessionNumber ?? this.daySessionNumber,
+      deliveryDate: deliveryDate ?? this.deliveryDate,
+      currency: currency ?? this.currency,
+      exchangeRate: exchangeRate ?? this.exchangeRate,
+      itemId: itemId ?? this.itemId,
+      itemCode: itemCode ?? this.itemCode,
+      upcCode: upcCode ?? this.upcCode,
+      description: description ?? this.description,
+      itemGroup: itemGroup ?? this.itemGroup,
+      category: category ?? this.category,
+      salesUOM: salesUOM ?? this.salesUOM,
+      stockUOM: stockUOM ?? this.stockUOM,
+      taxGroup: taxGroup ?? this.taxGroup,
+      warehouse: warehouse ?? this.warehouse,
+      discountType: discountType ?? this.discountType,
+      discountPercentage: discountPercentage ?? this.discountPercentage,
+      discountAmount: discountAmount ?? this.discountAmount,
+      lineDiscountTotal: lineDiscountTotal ?? this.lineDiscountTotal,
+      unitPrice: unitPrice ?? this.unitPrice,
+      costPrice: costPrice ?? this.costPrice,
+      listPrice: listPrice ?? this.listPrice,
+      quantity: quantity ?? this.quantity,
+      subTotal: subTotal ?? this.subTotal,
+      taxTotal: taxTotal ?? this.taxTotal,
+      shippingTotal: shippingTotal ?? this.shippingTotal,
+      conversionFactor: conversionFactor ?? this.conversionFactor,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (uerName.present) {
+      map['uer_name'] = Variable<String>(uerName.value);
+    }
+    if (userId.present) {
+      map['user_id'] = Variable<int>(userId.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (orderNumber.present) {
+      map['order_number'] = Variable<String>(orderNumber.value);
+    }
+    if (inventoryCycleNumber.present) {
+      map['inventory_cycle_number'] =
+          Variable<String>(inventoryCycleNumber.value);
+    }
+    if (daySessionNumber.present) {
+      map['day_session_number'] = Variable<String>(daySessionNumber.value);
+    }
+    if (deliveryDate.present) {
+      map['delivery_date'] = Variable<DateTime>(deliveryDate.value);
+    }
+    if (currency.present) {
+      map['currency'] = Variable<String>(currency.value);
+    }
+    if (exchangeRate.present) {
+      map['exchange_rate'] = Variable<double>(exchangeRate.value);
+    }
+    if (itemId.present) {
+      map['item_id'] = Variable<int>(itemId.value);
+    }
+    if (itemCode.present) {
+      map['item_code'] = Variable<String>(itemCode.value);
+    }
+    if (upcCode.present) {
+      map['upc_code'] = Variable<String>(upcCode.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (itemGroup.present) {
+      map['item_group'] = Variable<String>(itemGroup.value);
+    }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
+    }
+    if (salesUOM.present) {
+      map['sales_u_o_m'] = Variable<String>(salesUOM.value);
+    }
+    if (stockUOM.present) {
+      map['stock_u_o_m'] = Variable<String>(stockUOM.value);
+    }
+    if (taxGroup.present) {
+      map['tax_group'] = Variable<String>(taxGroup.value);
+    }
+    if (warehouse.present) {
+      map['warehouse'] = Variable<String>(warehouse.value);
+    }
+    if (discountType.present) {
+      map['discount_type'] = Variable<String>(discountType.value);
+    }
+    if (discountPercentage.present) {
+      map['discount_percentage'] = Variable<double>(discountPercentage.value);
+    }
+    if (discountAmount.present) {
+      map['discount_amount'] = Variable<double>(discountAmount.value);
+    }
+    if (lineDiscountTotal.present) {
+      map['line_discount_total'] = Variable<double>(lineDiscountTotal.value);
+    }
+    if (unitPrice.present) {
+      map['unit_price'] = Variable<double>(unitPrice.value);
+    }
+    if (costPrice.present) {
+      map['cost_price'] = Variable<double>(costPrice.value);
+    }
+    if (listPrice.present) {
+      map['list_price'] = Variable<double>(listPrice.value);
+    }
+    if (quantity.present) {
+      map['quantity'] = Variable<double>(quantity.value);
+    }
+    if (subTotal.present) {
+      map['sub_total'] = Variable<double>(subTotal.value);
+    }
+    if (taxTotal.present) {
+      map['tax_total'] = Variable<double>(taxTotal.value);
+    }
+    if (shippingTotal.present) {
+      map['shipping_total'] = Variable<double>(shippingTotal.value);
+    }
+    if (conversionFactor.present) {
+      map['conversion_factor'] = Variable<double>(conversionFactor.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SalesOrderDetailCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('uerName: $uerName, ')
+          ..write('userId: $userId, ')
+          ..write('id: $id, ')
+          ..write('orderNumber: $orderNumber, ')
+          ..write('inventoryCycleNumber: $inventoryCycleNumber, ')
+          ..write('daySessionNumber: $daySessionNumber, ')
+          ..write('deliveryDate: $deliveryDate, ')
+          ..write('currency: $currency, ')
+          ..write('exchangeRate: $exchangeRate, ')
+          ..write('itemId: $itemId, ')
+          ..write('itemCode: $itemCode, ')
+          ..write('upcCode: $upcCode, ')
+          ..write('description: $description, ')
+          ..write('itemGroup: $itemGroup, ')
+          ..write('category: $category, ')
+          ..write('salesUOM: $salesUOM, ')
+          ..write('stockUOM: $stockUOM, ')
+          ..write('taxGroup: $taxGroup, ')
+          ..write('warehouse: $warehouse, ')
+          ..write('discountType: $discountType, ')
+          ..write('discountPercentage: $discountPercentage, ')
+          ..write('discountAmount: $discountAmount, ')
+          ..write('lineDiscountTotal: $lineDiscountTotal, ')
+          ..write('unitPrice: $unitPrice, ')
+          ..write('costPrice: $costPrice, ')
+          ..write('listPrice: $listPrice, ')
+          ..write('quantity: $quantity, ')
+          ..write('subTotal: $subTotal, ')
+          ..write('taxTotal: $taxTotal, ')
+          ..write('shippingTotal: $shippingTotal, ')
+          ..write('conversionFactor: $conversionFactor')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $SalesOrderDetailTable extends SalesOrderDetail
+    with TableInfo<$SalesOrderDetailTable, SalesOrderDetailData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $SalesOrderDetailTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _uerNameMeta = const VerificationMeta('uerName');
+  GeneratedTextColumn _uerName;
+  @override
+  GeneratedTextColumn get uerName => _uerName ??= _constructUerName();
+  GeneratedTextColumn _constructUerName() {
+    return GeneratedTextColumn(
+      'uer_name',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _userIdMeta = const VerificationMeta('userId');
+  GeneratedIntColumn _userId;
+  @override
+  GeneratedIntColumn get userId => _userId ??= _constructUserId();
+  GeneratedIntColumn _constructUserId() {
+    return GeneratedIntColumn(
+      'user_id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _orderNumberMeta =
+      const VerificationMeta('orderNumber');
+  GeneratedTextColumn _orderNumber;
+  @override
+  GeneratedTextColumn get orderNumber =>
+      _orderNumber ??= _constructOrderNumber();
+  GeneratedTextColumn _constructOrderNumber() {
+    return GeneratedTextColumn(
+      'order_number',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _inventoryCycleNumberMeta =
+      const VerificationMeta('inventoryCycleNumber');
+  GeneratedTextColumn _inventoryCycleNumber;
+  @override
+  GeneratedTextColumn get inventoryCycleNumber =>
+      _inventoryCycleNumber ??= _constructInventoryCycleNumber();
+  GeneratedTextColumn _constructInventoryCycleNumber() {
+    return GeneratedTextColumn(
+      'inventory_cycle_number',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _daySessionNumberMeta =
+      const VerificationMeta('daySessionNumber');
+  GeneratedTextColumn _daySessionNumber;
+  @override
+  GeneratedTextColumn get daySessionNumber =>
+      _daySessionNumber ??= _constructDaySessionNumber();
+  GeneratedTextColumn _constructDaySessionNumber() {
+    return GeneratedTextColumn(
+      'day_session_number',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _deliveryDateMeta =
+      const VerificationMeta('deliveryDate');
+  GeneratedDateTimeColumn _deliveryDate;
+  @override
+  GeneratedDateTimeColumn get deliveryDate =>
+      _deliveryDate ??= _constructDeliveryDate();
+  GeneratedDateTimeColumn _constructDeliveryDate() {
+    return GeneratedDateTimeColumn(
+      'delivery_date',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _currencyMeta = const VerificationMeta('currency');
+  GeneratedTextColumn _currency;
+  @override
+  GeneratedTextColumn get currency => _currency ??= _constructCurrency();
+  GeneratedTextColumn _constructCurrency() {
+    return GeneratedTextColumn(
+      'currency',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _exchangeRateMeta =
+      const VerificationMeta('exchangeRate');
+  GeneratedRealColumn _exchangeRate;
+  @override
+  GeneratedRealColumn get exchangeRate =>
+      _exchangeRate ??= _constructExchangeRate();
+  GeneratedRealColumn _constructExchangeRate() {
+    return GeneratedRealColumn(
+      'exchange_rate',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
+  GeneratedIntColumn _itemId;
+  @override
+  GeneratedIntColumn get itemId => _itemId ??= _constructItemId();
+  GeneratedIntColumn _constructItemId() {
+    return GeneratedIntColumn(
+      'item_id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _itemCodeMeta = const VerificationMeta('itemCode');
+  GeneratedTextColumn _itemCode;
+  @override
+  GeneratedTextColumn get itemCode => _itemCode ??= _constructItemCode();
+  GeneratedTextColumn _constructItemCode() {
+    return GeneratedTextColumn(
+      'item_code',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _upcCodeMeta = const VerificationMeta('upcCode');
+  GeneratedTextColumn _upcCode;
+  @override
+  GeneratedTextColumn get upcCode => _upcCode ??= _constructUpcCode();
+  GeneratedTextColumn _constructUpcCode() {
+    return GeneratedTextColumn(
+      'upc_code',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  GeneratedTextColumn _description;
+  @override
+  GeneratedTextColumn get description =>
+      _description ??= _constructDescription();
+  GeneratedTextColumn _constructDescription() {
+    return GeneratedTextColumn(
+      'description',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _itemGroupMeta = const VerificationMeta('itemGroup');
+  GeneratedTextColumn _itemGroup;
+  @override
+  GeneratedTextColumn get itemGroup => _itemGroup ??= _constructItemGroup();
+  GeneratedTextColumn _constructItemGroup() {
+    return GeneratedTextColumn(
+      'item_group',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _categoryMeta = const VerificationMeta('category');
+  GeneratedTextColumn _category;
+  @override
+  GeneratedTextColumn get category => _category ??= _constructCategory();
+  GeneratedTextColumn _constructCategory() {
+    return GeneratedTextColumn(
+      'category',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _salesUOMMeta = const VerificationMeta('salesUOM');
+  GeneratedTextColumn _salesUOM;
+  @override
+  GeneratedTextColumn get salesUOM => _salesUOM ??= _constructSalesUOM();
+  GeneratedTextColumn _constructSalesUOM() {
+    return GeneratedTextColumn(
+      'sales_u_o_m',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _stockUOMMeta = const VerificationMeta('stockUOM');
+  GeneratedTextColumn _stockUOM;
+  @override
+  GeneratedTextColumn get stockUOM => _stockUOM ??= _constructStockUOM();
+  GeneratedTextColumn _constructStockUOM() {
+    return GeneratedTextColumn(
+      'stock_u_o_m',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _taxGroupMeta = const VerificationMeta('taxGroup');
+  GeneratedTextColumn _taxGroup;
+  @override
+  GeneratedTextColumn get taxGroup => _taxGroup ??= _constructTaxGroup();
+  GeneratedTextColumn _constructTaxGroup() {
+    return GeneratedTextColumn(
+      'tax_group',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _warehouseMeta = const VerificationMeta('warehouse');
+  GeneratedTextColumn _warehouse;
+  @override
+  GeneratedTextColumn get warehouse => _warehouse ??= _constructWarehouse();
+  GeneratedTextColumn _constructWarehouse() {
+    return GeneratedTextColumn(
+      'warehouse',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _discountTypeMeta =
+      const VerificationMeta('discountType');
+  GeneratedTextColumn _discountType;
+  @override
+  GeneratedTextColumn get discountType =>
+      _discountType ??= _constructDiscountType();
+  GeneratedTextColumn _constructDiscountType() {
+    return GeneratedTextColumn(
+      'discount_type',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _discountPercentageMeta =
+      const VerificationMeta('discountPercentage');
+  GeneratedRealColumn _discountPercentage;
+  @override
+  GeneratedRealColumn get discountPercentage =>
+      _discountPercentage ??= _constructDiscountPercentage();
+  GeneratedRealColumn _constructDiscountPercentage() {
+    return GeneratedRealColumn(
+      'discount_percentage',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _discountAmountMeta =
+      const VerificationMeta('discountAmount');
+  GeneratedRealColumn _discountAmount;
+  @override
+  GeneratedRealColumn get discountAmount =>
+      _discountAmount ??= _constructDiscountAmount();
+  GeneratedRealColumn _constructDiscountAmount() {
+    return GeneratedRealColumn(
+      'discount_amount',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _lineDiscountTotalMeta =
+      const VerificationMeta('lineDiscountTotal');
+  GeneratedRealColumn _lineDiscountTotal;
+  @override
+  GeneratedRealColumn get lineDiscountTotal =>
+      _lineDiscountTotal ??= _constructLineDiscountTotal();
+  GeneratedRealColumn _constructLineDiscountTotal() {
+    return GeneratedRealColumn(
+      'line_discount_total',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _unitPriceMeta = const VerificationMeta('unitPrice');
+  GeneratedRealColumn _unitPrice;
+  @override
+  GeneratedRealColumn get unitPrice => _unitPrice ??= _constructUnitPrice();
+  GeneratedRealColumn _constructUnitPrice() {
+    return GeneratedRealColumn(
+      'unit_price',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _costPriceMeta = const VerificationMeta('costPrice');
+  GeneratedRealColumn _costPrice;
+  @override
+  GeneratedRealColumn get costPrice => _costPrice ??= _constructCostPrice();
+  GeneratedRealColumn _constructCostPrice() {
+    return GeneratedRealColumn(
+      'cost_price',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _listPriceMeta = const VerificationMeta('listPrice');
+  GeneratedRealColumn _listPrice;
+  @override
+  GeneratedRealColumn get listPrice => _listPrice ??= _constructListPrice();
+  GeneratedRealColumn _constructListPrice() {
+    return GeneratedRealColumn(
+      'list_price',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _quantityMeta = const VerificationMeta('quantity');
+  GeneratedRealColumn _quantity;
+  @override
+  GeneratedRealColumn get quantity => _quantity ??= _constructQuantity();
+  GeneratedRealColumn _constructQuantity() {
+    return GeneratedRealColumn(
+      'quantity',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _subTotalMeta = const VerificationMeta('subTotal');
+  GeneratedRealColumn _subTotal;
+  @override
+  GeneratedRealColumn get subTotal => _subTotal ??= _constructSubTotal();
+  GeneratedRealColumn _constructSubTotal() {
+    return GeneratedRealColumn(
+      'sub_total',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _taxTotalMeta = const VerificationMeta('taxTotal');
+  GeneratedRealColumn _taxTotal;
+  @override
+  GeneratedRealColumn get taxTotal => _taxTotal ??= _constructTaxTotal();
+  GeneratedRealColumn _constructTaxTotal() {
+    return GeneratedRealColumn(
+      'tax_total',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _shippingTotalMeta =
+      const VerificationMeta('shippingTotal');
+  GeneratedRealColumn _shippingTotal;
+  @override
+  GeneratedRealColumn get shippingTotal =>
+      _shippingTotal ??= _constructShippingTotal();
+  GeneratedRealColumn _constructShippingTotal() {
+    return GeneratedRealColumn(
+      'shipping_total',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _conversionFactorMeta =
+      const VerificationMeta('conversionFactor');
+  GeneratedRealColumn _conversionFactor;
+  @override
+  GeneratedRealColumn get conversionFactor =>
+      _conversionFactor ??= _constructConversionFactor();
+  GeneratedRealColumn _constructConversionFactor() {
+    return GeneratedRealColumn(
+      'conversion_factor',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        tenantId,
+        uerName,
+        userId,
+        id,
+        orderNumber,
+        inventoryCycleNumber,
+        daySessionNumber,
+        deliveryDate,
+        currency,
+        exchangeRate,
+        itemId,
+        itemCode,
+        upcCode,
+        description,
+        itemGroup,
+        category,
+        salesUOM,
+        stockUOM,
+        taxGroup,
+        warehouse,
+        discountType,
+        discountPercentage,
+        discountAmount,
+        lineDiscountTotal,
+        unitPrice,
+        costPrice,
+        listPrice,
+        quantity,
+        subTotal,
+        taxTotal,
+        shippingTotal,
+        conversionFactor
+      ];
+  @override
+  $SalesOrderDetailTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'sales_order_detail';
+  @override
+  final String actualTableName = 'sales_order_detail';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<SalesOrderDetailData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
+    if (data.containsKey('uer_name')) {
+      context.handle(_uerNameMeta,
+          uerName.isAcceptableOrUnknown(data['uer_name'], _uerNameMeta));
+    } else if (isInserting) {
+      context.missing(_uerNameMeta);
+    }
+    if (data.containsKey('user_id')) {
+      context.handle(_userIdMeta,
+          userId.isAcceptableOrUnknown(data['user_id'], _userIdMeta));
+    } else if (isInserting) {
+      context.missing(_userIdMeta);
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('order_number')) {
+      context.handle(
+          _orderNumberMeta,
+          orderNumber.isAcceptableOrUnknown(
+              data['order_number'], _orderNumberMeta));
+    } else if (isInserting) {
+      context.missing(_orderNumberMeta);
+    }
+    if (data.containsKey('inventory_cycle_number')) {
+      context.handle(
+          _inventoryCycleNumberMeta,
+          inventoryCycleNumber.isAcceptableOrUnknown(
+              data['inventory_cycle_number'], _inventoryCycleNumberMeta));
+    } else if (isInserting) {
+      context.missing(_inventoryCycleNumberMeta);
+    }
+    if (data.containsKey('day_session_number')) {
+      context.handle(
+          _daySessionNumberMeta,
+          daySessionNumber.isAcceptableOrUnknown(
+              data['day_session_number'], _daySessionNumberMeta));
+    } else if (isInserting) {
+      context.missing(_daySessionNumberMeta);
+    }
+    if (data.containsKey('delivery_date')) {
+      context.handle(
+          _deliveryDateMeta,
+          deliveryDate.isAcceptableOrUnknown(
+              data['delivery_date'], _deliveryDateMeta));
+    } else if (isInserting) {
+      context.missing(_deliveryDateMeta);
+    }
+    if (data.containsKey('currency')) {
+      context.handle(_currencyMeta,
+          currency.isAcceptableOrUnknown(data['currency'], _currencyMeta));
+    } else if (isInserting) {
+      context.missing(_currencyMeta);
+    }
+    if (data.containsKey('exchange_rate')) {
+      context.handle(
+          _exchangeRateMeta,
+          exchangeRate.isAcceptableOrUnknown(
+              data['exchange_rate'], _exchangeRateMeta));
+    } else if (isInserting) {
+      context.missing(_exchangeRateMeta);
+    }
+    if (data.containsKey('item_id')) {
+      context.handle(_itemIdMeta,
+          itemId.isAcceptableOrUnknown(data['item_id'], _itemIdMeta));
+    } else if (isInserting) {
+      context.missing(_itemIdMeta);
+    }
+    if (data.containsKey('item_code')) {
+      context.handle(_itemCodeMeta,
+          itemCode.isAcceptableOrUnknown(data['item_code'], _itemCodeMeta));
+    } else if (isInserting) {
+      context.missing(_itemCodeMeta);
+    }
+    if (data.containsKey('upc_code')) {
+      context.handle(_upcCodeMeta,
+          upcCode.isAcceptableOrUnknown(data['upc_code'], _upcCodeMeta));
+    } else if (isInserting) {
+      context.missing(_upcCodeMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description'], _descriptionMeta));
+    } else if (isInserting) {
+      context.missing(_descriptionMeta);
+    }
+    if (data.containsKey('item_group')) {
+      context.handle(_itemGroupMeta,
+          itemGroup.isAcceptableOrUnknown(data['item_group'], _itemGroupMeta));
+    } else if (isInserting) {
+      context.missing(_itemGroupMeta);
+    }
+    if (data.containsKey('category')) {
+      context.handle(_categoryMeta,
+          category.isAcceptableOrUnknown(data['category'], _categoryMeta));
+    } else if (isInserting) {
+      context.missing(_categoryMeta);
+    }
+    if (data.containsKey('sales_u_o_m')) {
+      context.handle(_salesUOMMeta,
+          salesUOM.isAcceptableOrUnknown(data['sales_u_o_m'], _salesUOMMeta));
+    } else if (isInserting) {
+      context.missing(_salesUOMMeta);
+    }
+    if (data.containsKey('stock_u_o_m')) {
+      context.handle(_stockUOMMeta,
+          stockUOM.isAcceptableOrUnknown(data['stock_u_o_m'], _stockUOMMeta));
+    } else if (isInserting) {
+      context.missing(_stockUOMMeta);
+    }
+    if (data.containsKey('tax_group')) {
+      context.handle(_taxGroupMeta,
+          taxGroup.isAcceptableOrUnknown(data['tax_group'], _taxGroupMeta));
+    } else if (isInserting) {
+      context.missing(_taxGroupMeta);
+    }
+    if (data.containsKey('warehouse')) {
+      context.handle(_warehouseMeta,
+          warehouse.isAcceptableOrUnknown(data['warehouse'], _warehouseMeta));
+    } else if (isInserting) {
+      context.missing(_warehouseMeta);
+    }
+    if (data.containsKey('discount_type')) {
+      context.handle(
+          _discountTypeMeta,
+          discountType.isAcceptableOrUnknown(
+              data['discount_type'], _discountTypeMeta));
+    } else if (isInserting) {
+      context.missing(_discountTypeMeta);
+    }
+    if (data.containsKey('discount_percentage')) {
+      context.handle(
+          _discountPercentageMeta,
+          discountPercentage.isAcceptableOrUnknown(
+              data['discount_percentage'], _discountPercentageMeta));
+    } else if (isInserting) {
+      context.missing(_discountPercentageMeta);
+    }
+    if (data.containsKey('discount_amount')) {
+      context.handle(
+          _discountAmountMeta,
+          discountAmount.isAcceptableOrUnknown(
+              data['discount_amount'], _discountAmountMeta));
+    } else if (isInserting) {
+      context.missing(_discountAmountMeta);
+    }
+    if (data.containsKey('line_discount_total')) {
+      context.handle(
+          _lineDiscountTotalMeta,
+          lineDiscountTotal.isAcceptableOrUnknown(
+              data['line_discount_total'], _lineDiscountTotalMeta));
+    } else if (isInserting) {
+      context.missing(_lineDiscountTotalMeta);
+    }
+    if (data.containsKey('unit_price')) {
+      context.handle(_unitPriceMeta,
+          unitPrice.isAcceptableOrUnknown(data['unit_price'], _unitPriceMeta));
+    } else if (isInserting) {
+      context.missing(_unitPriceMeta);
+    }
+    if (data.containsKey('cost_price')) {
+      context.handle(_costPriceMeta,
+          costPrice.isAcceptableOrUnknown(data['cost_price'], _costPriceMeta));
+    } else if (isInserting) {
+      context.missing(_costPriceMeta);
+    }
+    if (data.containsKey('list_price')) {
+      context.handle(_listPriceMeta,
+          listPrice.isAcceptableOrUnknown(data['list_price'], _listPriceMeta));
+    } else if (isInserting) {
+      context.missing(_listPriceMeta);
+    }
+    if (data.containsKey('quantity')) {
+      context.handle(_quantityMeta,
+          quantity.isAcceptableOrUnknown(data['quantity'], _quantityMeta));
+    } else if (isInserting) {
+      context.missing(_quantityMeta);
+    }
+    if (data.containsKey('sub_total')) {
+      context.handle(_subTotalMeta,
+          subTotal.isAcceptableOrUnknown(data['sub_total'], _subTotalMeta));
+    } else if (isInserting) {
+      context.missing(_subTotalMeta);
+    }
+    if (data.containsKey('tax_total')) {
+      context.handle(_taxTotalMeta,
+          taxTotal.isAcceptableOrUnknown(data['tax_total'], _taxTotalMeta));
+    } else if (isInserting) {
+      context.missing(_taxTotalMeta);
+    }
+    if (data.containsKey('shipping_total')) {
+      context.handle(
+          _shippingTotalMeta,
+          shippingTotal.isAcceptableOrUnknown(
+              data['shipping_total'], _shippingTotalMeta));
+    } else if (isInserting) {
+      context.missing(_shippingTotalMeta);
+    }
+    if (data.containsKey('conversion_factor')) {
+      context.handle(
+          _conversionFactorMeta,
+          conversionFactor.isAcceptableOrUnknown(
+              data['conversion_factor'], _conversionFactorMeta));
+    } else if (isInserting) {
+      context.missing(_conversionFactorMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  SalesOrderDetailData map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return SalesOrderDetailData.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $SalesOrderDetailTable createAlias(String alias) {
+    return $SalesOrderDetailTable(_db, alias);
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $UsersTable _users;
@@ -9940,6 +13269,12 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       _nonGlobalPreference ??= $NonGlobalPreferenceTable(this);
   $DesktopTable _desktop;
   $DesktopTable get desktop => _desktop ??= $DesktopTable(this);
+  $SalesOrderHeaderTable _salesOrderHeader;
+  $SalesOrderHeaderTable get salesOrderHeader =>
+      _salesOrderHeader ??= $SalesOrderHeaderTable(this);
+  $SalesOrderDetailTable _salesOrderDetail;
+  $SalesOrderDetailTable get salesOrderDetail =>
+      _salesOrderDetail ??= $SalesOrderDetailTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
@@ -9955,6 +13290,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         applicationLogger,
         tenant,
         nonGlobalPreference,
-        desktop
+        desktop,
+        salesOrderHeader,
+        salesOrderDetail
       ];
 }

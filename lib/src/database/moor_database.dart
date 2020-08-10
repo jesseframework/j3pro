@@ -33,6 +33,8 @@ import 'package:j3enterprise/src/models/preference_model.dart';
 
 import 'package:j3enterprise/src/models/tenant_model.dart';
 import 'package:j3enterprise/src/models/user_model.dart';
+import 'package:j3enterprise/src/pro/models/sales/sales_order_detail_model.dart';
+import 'package:j3enterprise/src/pro/models/sales/sales_order_header_model.dart';
 import 'package:j3enterprise/src/resources/shared/utils/date_formating.dart';
 import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
@@ -53,7 +55,9 @@ part 'moor_database.g.dart';
   ApplicationLogger,
   Tenant,
   NonGlobalPreference,
-  Desktop
+  Desktop,
+  SalesOrderHeader,
+  SalesOrderDetail
 ])
 class AppDatabase extends _$AppDatabase {
   static AppDatabase _db = _constructDb();
