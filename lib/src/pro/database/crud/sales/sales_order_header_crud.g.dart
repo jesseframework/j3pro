@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'sales_order_crud.dart';
+part of 'sales_order_header_crud.dart';
 
 // **************************************************************************
 // DaoGenerator
