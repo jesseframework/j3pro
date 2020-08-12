@@ -25,13 +25,13 @@ class NumberGenerator {
     userSharedData = new UserSharedData();
   }
 
-  String _format(Date d) {
-    _log.finest("checking for julian date");
+  // String _format(Date d) {
+  //   _log.finest("checking for julian date");
 
-    final f = d.formatter;
+  //   final f = d.formatter;
 
-    return '${f.wN} ${f.d} ${f.mN} ${f.yy}';
-  }
+  //   return '${f.wN} ${f.d} ${f.mN} ${f.yy}';
+  // }
 
   Future<String> getSerialNumber(
       String typeOfNumber, int nextIncrementNumber, int endingLength) async {
@@ -48,7 +48,10 @@ class NumberGenerator {
 
       if (getSeries[0].includeJulianDate == true) {
         _log.finest("set julian date code");
-        setJulianDate = _format(Jalali.now());
+        Jalali j = Jalali(
+            DateTime.now().year, DateTime.now().month, DateTime.now().day);
+
+        setJulianDate = j.julianDayNumber.toString();
       }
 
       if (getSeries[0].includeUserID == true) {
@@ -65,7 +68,8 @@ class NumberGenerator {
 
       if (getSeries[0].usedAutoNumber == true) {
         _log.finest("get last document number form datbase");
-        setNextIncrement = nextIncrementNumber.toString();
+        setNextIncrement =
+            nextIncrementNumber.toString().padLeft(getSeries[0].endingLength);
       } else {
         _log.finest("generate randon number");
         setNextIncrement = randomString(
@@ -74,7 +78,7 @@ class NumberGenerator {
           includeLowercase: false,
           includeUppercase: false,
           exclusions: {'0', '1'},
-        );
+        ).padLeft(endingLength);
       }
 
       if (getSeries[0].endingLength > 0) {
@@ -97,7 +101,7 @@ class NumberGenerator {
         includeLowercase: false,
         includeUppercase: false,
         exclusions: {'0', '1'},
-      );
+      ).padLeft(endingLength);
       seriesNumber =
           '$setNumberPrefix $setUserId $setTenantId $setJulianDate $setNextIncrement';
     }
