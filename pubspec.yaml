@@ -57,6 +57,8 @@ dependencies:
   get_it: ^4.0.2
   built_collection: ^4.1.0
   overlay_support: ^1.0.4
+  shamsi_date: ^0.8.1
+  random_string_one: ^1.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
