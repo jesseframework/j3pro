@@ -2,25 +2,16 @@ import 'package:j3enterprise/src/resources/shared/extension/full_audited.dart';
 import 'package:j3enterprise/src/resources/shared/extension/must_have_tenant.dart';
 import 'package:moor/moor.dart';
 
-class Items extends Table implements MustHaveTenant, FullAudited {
+class PriceList extends Table implements MustHaveTenant, FullAudited {
   IntColumn get id => integer()();
+  TextColumn get priceListName => text()();
+  TextColumn get currency => text().nullable()();
   IntColumn get tenantId => integer().nullable()();
-
-  TextColumn get description => text().nullable()();
-  TextColumn get itemCode => text().nullable()();
-  TextColumn get itemName => text().nullable()();
-  TextColumn get itemGroup => text().nullable()();
-  TextColumn get taxGroup => text().nullable()();
-  TextColumn get uom => text().nullable()();
-  TextColumn get trackInventory => text().nullable()();
-  TextColumn get category => text().nullable()();
-  BoolColumn get isProductBundleParent =>
+  BoolColumn get isActive => boolean().withDefault(Constant(false))();
+  BoolColumn get isBuying => boolean().withDefault(Constant(false))();
+  BoolColumn get isSelling => boolean().withDefault(Constant(false))();
+  BoolColumn get isPriceNotUOMDependency =>
       boolean().withDefault(Constant(false))();
-  BoolColumn get isQuickMenue => boolean().withDefault(Constant(false))();
-  BoolColumn get isRetired => boolean().withDefault(Constant(false))();
-  DateTimeColumn get retiredDate => dateTime().nullable()();
-  BoolColumn get hasVariant => boolean().withDefault(Constant(false))();
-  TextColumn get defaultWarehouse => text().nullable()();
 
   IntColumn get createUserId => integer().nullable()();
   DateTimeColumn get creationTime => dateTime().nullable()();
