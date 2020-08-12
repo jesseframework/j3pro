@@ -17,9 +17,9 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/models/application_logger_model.dart';
 import 'package:j3enterprise/src/models/background_job_schedule_model.dart';
 import 'package:j3enterprise/src/models/background_jobs_logs_model.dart';
@@ -30,11 +30,11 @@ import 'package:j3enterprise/src/models/mobile_device_model.dart';
 import 'package:j3enterprise/src/models/non_global_business_rule.dart';
 import 'package:j3enterprise/src/models/non_global_preference_setting.dart';
 import 'package:j3enterprise/src/models/preference_model.dart';
-
 import 'package:j3enterprise/src/models/tenant_model.dart';
 import 'package:j3enterprise/src/models/user_model.dart';
 import 'package:j3enterprise/src/pro/models/sales/sales_order/sales_order_detail_model.dart';
 import 'package:j3enterprise/src/pro/models/sales/sales_order/sales_order_header_model.dart';
+import 'package:j3enterprise/src/pro/models/series_number/series_number_model.dart';
 import 'package:j3enterprise/src/resources/shared/utils/date_formating.dart';
 import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
@@ -57,7 +57,8 @@ part 'moor_database.g.dart';
   NonGlobalPreference,
   Desktop,
   SalesOrderHeader,
-  SalesOrderDetail
+  SalesOrderDetail,
+  SeriesNumberGenerator
 ])
 class AppDatabase extends _$AppDatabase {
   static AppDatabase _db = _constructDb();
@@ -72,20 +73,21 @@ class AppDatabase extends _$AppDatabase {
   int get schemaVersion => 3;
 
   @override
-  MigrationStrategy get migration => MigrationStrategy(
-          // Runs if the database has already been opened on the device with a lower version
+  MigrationStrategy get migration =>
+      MigrationStrategy(
+        // Runs if the database has already been opened on the device with a lower version
           onUpgrade: (doMigration, from, to) async {
-        if (from == 2) {
-          //await migrator.addColumn(tasks, tasks.tagName);
-          //await doMigration.createTable(ApplicationLogger);
-        }
+            if (from == 2) {
+              //await migrator.addColumn(tasks, tasks.tagName);
+              //await doMigration.createTable(ApplicationLogger);
+            }
 
-        // ignore: unnecessary_statements
-        (db, details) async {
-          await db.customStatement(
-              'PRAGMA foreign_keys = ON ' + 'PRAGMA journal_mode=WAL');
-        };
-      }, beforeOpen: (details) async {
+            // ignore: unnecessary_statements
+                (db, details) async {
+              await db.customStatement(
+                  'PRAGMA foreign_keys = ON ' + 'PRAGMA journal_mode=WAL');
+            };
+          }, beforeOpen: (details) async {
         if (details.wasCreated) {
           String systemDate = await formatDate(DateTime.now().toString());
           await into(backgroundJobSchedule).insert(BackgroundJobScheduleData(
@@ -112,6 +114,27 @@ class AppDatabase extends _$AppDatabase {
               enableJob: true,
               lastRun: DateTime.tryParse(systemDate),
               jobStatus: "Never Run"));
+
+          await into(seriesNumberGenerator).insert(SeriesNumberGeneratorData(
+              id: 1,
+              includeJulianDate: false,
+              includePrefix: false,
+              includeUserID: false,
+              includetenantId: false,
+              usedAutoNumber: false,
+              numberPrefix: "SO",
+              endingLength: 8,
+              typeOfNumber: "Sales Order"));
+          await into(seriesNumberGenerator).insert(SeriesNumberGeneratorData(
+              id: 2,
+              includeJulianDate: false,
+              includePrefix: false,
+              includeUserID: false,
+              includetenantId: false,
+              usedAutoNumber: false,
+              numberPrefix: "INV",
+              endingLength: 8,
+              typeOfNumber: "Invoice"));
         }
       });
 
