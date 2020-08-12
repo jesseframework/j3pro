@@ -32,6 +32,18 @@ import 'package:j3enterprise/src/models/non_global_preference_setting.dart';
 import 'package:j3enterprise/src/models/preference_model.dart';
 import 'package:j3enterprise/src/models/tenant_model.dart';
 import 'package:j3enterprise/src/models/user_model.dart';
+import 'package:j3enterprise/src/pro/models/customer/address_model.dart';
+import 'package:j3enterprise/src/pro/models/customer/contact_model.dart';
+import 'package:j3enterprise/src/pro/models/customer/customer_master_model.dart';
+import 'package:j3enterprise/src/pro/models/items/category_model.dart';
+import 'package:j3enterprise/src/pro/models/items/item_group_model.dart';
+import 'package:j3enterprise/src/pro/models/items/item_master_model.dart';
+import 'package:j3enterprise/src/pro/models/items/item_prices_model.dart';
+import 'package:j3enterprise/src/pro/models/items/item_pricing_rule_model.dart';
+import 'package:j3enterprise/src/pro/models/items/price_list_model.dart';
+import 'package:j3enterprise/src/pro/models/items/stock_uom_model.dart';
+import 'package:j3enterprise/src/pro/models/items/uom_model.dart';
+import 'package:j3enterprise/src/pro/models/sales/fullfillment/journey_plan.dart';
 import 'package:j3enterprise/src/pro/models/sales/sales_order/sales_order_detail_model.dart';
 import 'package:j3enterprise/src/pro/models/sales/sales_order/sales_order_header_model.dart';
 import 'package:j3enterprise/src/pro/models/series_number/series_number_model.dart';
@@ -60,7 +72,20 @@ part 'moor_database.g.dart';
   SalesOrderHeader,
   SalesOrderDetail,
   SeriesNumberGenerator,
-  TempNumberLogs
+  TempNumberLogs,
+  Customer,
+  Address,
+  Contact,
+  Items,
+  ItemPrice,
+  ItemPricingRule,
+  Category,
+  ItemGroups,
+  PriceList,
+  UnitOfMeaseure,
+  StockUnitOfMeaseure,
+  JourneyPlan
+
 ])
 class AppDatabase extends _$AppDatabase {
   static AppDatabase _db = _constructDb();

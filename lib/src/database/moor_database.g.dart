@@ -13830,6 +13830,14725 @@ class $SeriesNumberGeneratorTable extends SeriesNumberGenerator
   }
 }
 
+class TempNumberLog extends DataClass implements Insertable<TempNumberLog> {
+  final int tenantId;
+  final int id;
+  final String nextSeriesNumber;
+  final String lastSeriesNumber;
+  final DateTime lastUsageDate;
+  final String userName;
+  final String typeOfNumber;
+  TempNumberLog(
+      {this.tenantId,
+      @required this.id,
+      this.nextSeriesNumber,
+      this.lastSeriesNumber,
+      @required this.lastUsageDate,
+      this.userName,
+      this.typeOfNumber});
+  factory TempNumberLog.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    return TempNumberLog(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      nextSeriesNumber: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}next_series_number']),
+      lastSeriesNumber: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_series_number']),
+      lastUsageDate: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}last_usage_date']),
+      userName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}user_name']),
+      typeOfNumber: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}type_of_number']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || nextSeriesNumber != null) {
+      map['next_series_number'] = Variable<String>(nextSeriesNumber);
+    }
+    if (!nullToAbsent || lastSeriesNumber != null) {
+      map['last_series_number'] = Variable<String>(lastSeriesNumber);
+    }
+    if (!nullToAbsent || lastUsageDate != null) {
+      map['last_usage_date'] = Variable<DateTime>(lastUsageDate);
+    }
+    if (!nullToAbsent || userName != null) {
+      map['user_name'] = Variable<String>(userName);
+    }
+    if (!nullToAbsent || typeOfNumber != null) {
+      map['type_of_number'] = Variable<String>(typeOfNumber);
+    }
+    return map;
+  }
+
+  TempNumberLogsCompanion toCompanion(bool nullToAbsent) {
+    return TempNumberLogsCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      nextSeriesNumber: nextSeriesNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(nextSeriesNumber),
+      lastSeriesNumber: lastSeriesNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastSeriesNumber),
+      lastUsageDate: lastUsageDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastUsageDate),
+      userName: userName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(userName),
+      typeOfNumber: typeOfNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(typeOfNumber),
+    );
+  }
+
+  factory TempNumberLog.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return TempNumberLog(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      id: serializer.fromJson<int>(json['id']),
+      nextSeriesNumber: serializer.fromJson<String>(json['nextSeriesNumber']),
+      lastSeriesNumber: serializer.fromJson<String>(json['lastSeriesNumber']),
+      lastUsageDate: serializer.fromJson<DateTime>(json['lastUsageDate']),
+      userName: serializer.fromJson<String>(json['userName']),
+      typeOfNumber: serializer.fromJson<String>(json['typeOfNumber']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'id': serializer.toJson<int>(id),
+      'nextSeriesNumber': serializer.toJson<String>(nextSeriesNumber),
+      'lastSeriesNumber': serializer.toJson<String>(lastSeriesNumber),
+      'lastUsageDate': serializer.toJson<DateTime>(lastUsageDate),
+      'userName': serializer.toJson<String>(userName),
+      'typeOfNumber': serializer.toJson<String>(typeOfNumber),
+    };
+  }
+
+  TempNumberLog copyWith(
+          {int tenantId,
+          int id,
+          String nextSeriesNumber,
+          String lastSeriesNumber,
+          DateTime lastUsageDate,
+          String userName,
+          String typeOfNumber}) =>
+      TempNumberLog(
+        tenantId: tenantId ?? this.tenantId,
+        id: id ?? this.id,
+        nextSeriesNumber: nextSeriesNumber ?? this.nextSeriesNumber,
+        lastSeriesNumber: lastSeriesNumber ?? this.lastSeriesNumber,
+        lastUsageDate: lastUsageDate ?? this.lastUsageDate,
+        userName: userName ?? this.userName,
+        typeOfNumber: typeOfNumber ?? this.typeOfNumber,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('TempNumberLog(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('nextSeriesNumber: $nextSeriesNumber, ')
+          ..write('lastSeriesNumber: $lastSeriesNumber, ')
+          ..write('lastUsageDate: $lastUsageDate, ')
+          ..write('userName: $userName, ')
+          ..write('typeOfNumber: $typeOfNumber')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode,
+      $mrjc(
+          id.hashCode,
+          $mrjc(
+              nextSeriesNumber.hashCode,
+              $mrjc(
+                  lastSeriesNumber.hashCode,
+                  $mrjc(lastUsageDate.hashCode,
+                      $mrjc(userName.hashCode, typeOfNumber.hashCode)))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is TempNumberLog &&
+          other.tenantId == this.tenantId &&
+          other.id == this.id &&
+          other.nextSeriesNumber == this.nextSeriesNumber &&
+          other.lastSeriesNumber == this.lastSeriesNumber &&
+          other.lastUsageDate == this.lastUsageDate &&
+          other.userName == this.userName &&
+          other.typeOfNumber == this.typeOfNumber);
+}
+
+class TempNumberLogsCompanion extends UpdateCompanion<TempNumberLog> {
+  final Value<int> tenantId;
+  final Value<int> id;
+  final Value<String> nextSeriesNumber;
+  final Value<String> lastSeriesNumber;
+  final Value<DateTime> lastUsageDate;
+  final Value<String> userName;
+  final Value<String> typeOfNumber;
+  const TempNumberLogsCompanion({
+    this.tenantId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.nextSeriesNumber = const Value.absent(),
+    this.lastSeriesNumber = const Value.absent(),
+    this.lastUsageDate = const Value.absent(),
+    this.userName = const Value.absent(),
+    this.typeOfNumber = const Value.absent(),
+  });
+  TempNumberLogsCompanion.insert({
+    this.tenantId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.nextSeriesNumber = const Value.absent(),
+    this.lastSeriesNumber = const Value.absent(),
+    @required DateTime lastUsageDate,
+    this.userName = const Value.absent(),
+    this.typeOfNumber = const Value.absent(),
+  }) : lastUsageDate = Value(lastUsageDate);
+  static Insertable<TempNumberLog> custom({
+    Expression<int> tenantId,
+    Expression<int> id,
+    Expression<String> nextSeriesNumber,
+    Expression<String> lastSeriesNumber,
+    Expression<DateTime> lastUsageDate,
+    Expression<String> userName,
+    Expression<String> typeOfNumber,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (id != null) 'id': id,
+      if (nextSeriesNumber != null) 'next_series_number': nextSeriesNumber,
+      if (lastSeriesNumber != null) 'last_series_number': lastSeriesNumber,
+      if (lastUsageDate != null) 'last_usage_date': lastUsageDate,
+      if (userName != null) 'user_name': userName,
+      if (typeOfNumber != null) 'type_of_number': typeOfNumber,
+    });
+  }
+
+  TempNumberLogsCompanion copyWith(
+      {Value<int> tenantId,
+      Value<int> id,
+      Value<String> nextSeriesNumber,
+      Value<String> lastSeriesNumber,
+      Value<DateTime> lastUsageDate,
+      Value<String> userName,
+      Value<String> typeOfNumber}) {
+    return TempNumberLogsCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      id: id ?? this.id,
+      nextSeriesNumber: nextSeriesNumber ?? this.nextSeriesNumber,
+      lastSeriesNumber: lastSeriesNumber ?? this.lastSeriesNumber,
+      lastUsageDate: lastUsageDate ?? this.lastUsageDate,
+      userName: userName ?? this.userName,
+      typeOfNumber: typeOfNumber ?? this.typeOfNumber,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (nextSeriesNumber.present) {
+      map['next_series_number'] = Variable<String>(nextSeriesNumber.value);
+    }
+    if (lastSeriesNumber.present) {
+      map['last_series_number'] = Variable<String>(lastSeriesNumber.value);
+    }
+    if (lastUsageDate.present) {
+      map['last_usage_date'] = Variable<DateTime>(lastUsageDate.value);
+    }
+    if (userName.present) {
+      map['user_name'] = Variable<String>(userName.value);
+    }
+    if (typeOfNumber.present) {
+      map['type_of_number'] = Variable<String>(typeOfNumber.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TempNumberLogsCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('nextSeriesNumber: $nextSeriesNumber, ')
+          ..write('lastSeriesNumber: $lastSeriesNumber, ')
+          ..write('lastUsageDate: $lastUsageDate, ')
+          ..write('userName: $userName, ')
+          ..write('typeOfNumber: $typeOfNumber')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $TempNumberLogsTable extends TempNumberLogs
+    with TableInfo<$TempNumberLogsTable, TempNumberLog> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $TempNumberLogsTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _nextSeriesNumberMeta =
+      const VerificationMeta('nextSeriesNumber');
+  GeneratedTextColumn _nextSeriesNumber;
+  @override
+  GeneratedTextColumn get nextSeriesNumber =>
+      _nextSeriesNumber ??= _constructNextSeriesNumber();
+  GeneratedTextColumn _constructNextSeriesNumber() {
+    return GeneratedTextColumn(
+      'next_series_number',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastSeriesNumberMeta =
+      const VerificationMeta('lastSeriesNumber');
+  GeneratedTextColumn _lastSeriesNumber;
+  @override
+  GeneratedTextColumn get lastSeriesNumber =>
+      _lastSeriesNumber ??= _constructLastSeriesNumber();
+  GeneratedTextColumn _constructLastSeriesNumber() {
+    return GeneratedTextColumn(
+      'last_series_number',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastUsageDateMeta =
+      const VerificationMeta('lastUsageDate');
+  GeneratedDateTimeColumn _lastUsageDate;
+  @override
+  GeneratedDateTimeColumn get lastUsageDate =>
+      _lastUsageDate ??= _constructLastUsageDate();
+  GeneratedDateTimeColumn _constructLastUsageDate() {
+    return GeneratedDateTimeColumn(
+      'last_usage_date',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _userNameMeta = const VerificationMeta('userName');
+  GeneratedTextColumn _userName;
+  @override
+  GeneratedTextColumn get userName => _userName ??= _constructUserName();
+  GeneratedTextColumn _constructUserName() {
+    return GeneratedTextColumn(
+      'user_name',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _typeOfNumberMeta =
+      const VerificationMeta('typeOfNumber');
+  GeneratedTextColumn _typeOfNumber;
+  @override
+  GeneratedTextColumn get typeOfNumber =>
+      _typeOfNumber ??= _constructTypeOfNumber();
+  GeneratedTextColumn _constructTypeOfNumber() {
+    return GeneratedTextColumn(
+      'type_of_number',
+      $tableName,
+      true,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        tenantId,
+        id,
+        nextSeriesNumber,
+        lastSeriesNumber,
+        lastUsageDate,
+        userName,
+        typeOfNumber
+      ];
+  @override
+  $TempNumberLogsTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'temp_number_logs';
+  @override
+  final String actualTableName = 'temp_number_logs';
+  @override
+  VerificationContext validateIntegrity(Insertable<TempNumberLog> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('next_series_number')) {
+      context.handle(
+          _nextSeriesNumberMeta,
+          nextSeriesNumber.isAcceptableOrUnknown(
+              data['next_series_number'], _nextSeriesNumberMeta));
+    }
+    if (data.containsKey('last_series_number')) {
+      context.handle(
+          _lastSeriesNumberMeta,
+          lastSeriesNumber.isAcceptableOrUnknown(
+              data['last_series_number'], _lastSeriesNumberMeta));
+    }
+    if (data.containsKey('last_usage_date')) {
+      context.handle(
+          _lastUsageDateMeta,
+          lastUsageDate.isAcceptableOrUnknown(
+              data['last_usage_date'], _lastUsageDateMeta));
+    } else if (isInserting) {
+      context.missing(_lastUsageDateMeta);
+    }
+    if (data.containsKey('user_name')) {
+      context.handle(_userNameMeta,
+          userName.isAcceptableOrUnknown(data['user_name'], _userNameMeta));
+    }
+    if (data.containsKey('type_of_number')) {
+      context.handle(
+          _typeOfNumberMeta,
+          typeOfNumber.isAcceptableOrUnknown(
+              data['type_of_number'], _typeOfNumberMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TempNumberLog map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return TempNumberLog.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $TempNumberLogsTable createAlias(String alias) {
+    return $TempNumberLogsTable(_db, alias);
+  }
+}
+
+class CustomerData extends DataClass implements Insertable<CustomerData> {
+  final int tenantId;
+  final DateTime creationTime;
+  final DateTime deleteTime;
+  final int createUserId;
+  final String creatorUser;
+  final String lastModifierUser;
+  final int lastModifierUserId;
+  final int deleteUserId;
+  final String deleterUserId;
+  final bool isDeleted;
+  final int id;
+  final String customerId;
+  final String customerName;
+  final String companyName;
+  final String customerType;
+  final String customerGroup;
+  final String customerTerritory;
+  final String defaultCurrency;
+  final String paymentTerms;
+  final String language;
+  final double creditLimit;
+  final String billingAddressName;
+  final String shippingAddressName;
+  final String contactName;
+  final String priceList;
+  final double minQuantity;
+  final double maxQuantity;
+  final String discountType;
+  final double discountPercentage;
+  final double discountAmount;
+  final double enableHeaderDiscount;
+  final double accumulatedPurchase;
+  final DateTime validFrom;
+  final DateTime validTo;
+  final String taxId;
+  final String taxGroup;
+  CustomerData(
+      {this.tenantId,
+      this.creationTime,
+      this.deleteTime,
+      this.createUserId,
+      this.creatorUser,
+      this.lastModifierUser,
+      this.lastModifierUserId,
+      this.deleteUserId,
+      this.deleterUserId,
+      @required this.isDeleted,
+      @required this.id,
+      @required this.customerId,
+      @required this.customerName,
+      @required this.companyName,
+      @required this.customerType,
+      @required this.customerGroup,
+      @required this.customerTerritory,
+      @required this.defaultCurrency,
+      @required this.paymentTerms,
+      @required this.language,
+      @required this.creditLimit,
+      this.billingAddressName,
+      this.shippingAddressName,
+      this.contactName,
+      this.priceList,
+      @required this.minQuantity,
+      @required this.maxQuantity,
+      @required this.discountType,
+      @required this.discountPercentage,
+      @required this.discountAmount,
+      @required this.enableHeaderDiscount,
+      @required this.accumulatedPurchase,
+      @required this.validFrom,
+      @required this.validTo,
+      @required this.taxId,
+      @required this.taxGroup});
+  factory CustomerData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    final doubleType = db.typeSystem.forDartType<double>();
+    return CustomerData(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      creationTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
+      deleteTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
+      createUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
+      creatorUser: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
+      lastModifierUser: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user']),
+      lastModifierUserId: intType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user_id']),
+      deleteUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
+      deleterUserId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
+      isDeleted: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      customerId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}customer_id']),
+      customerName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}customer_name']),
+      companyName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}company_name']),
+      customerType: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}customer_type']),
+      customerGroup: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}customer_group']),
+      customerTerritory: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}customer_territory']),
+      defaultCurrency: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}default_currency']),
+      paymentTerms: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}payment_terms']),
+      language: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}language']),
+      creditLimit: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}credit_limit']),
+      billingAddressName: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}billing_address_name']),
+      shippingAddressName: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}shipping_address_name']),
+      contactName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}contact_name']),
+      priceList: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}price_list']),
+      minQuantity: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}min_quantity']),
+      maxQuantity: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}max_quantity']),
+      discountType: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}discount_type']),
+      discountPercentage: doubleType.mapFromDatabaseResponse(
+          data['${effectivePrefix}discount_percentage']),
+      discountAmount: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}discount_amount']),
+      enableHeaderDiscount: doubleType.mapFromDatabaseResponse(
+          data['${effectivePrefix}enable_header_discount']),
+      accumulatedPurchase: doubleType.mapFromDatabaseResponse(
+          data['${effectivePrefix}accumulated_purchase']),
+      validFrom: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}valid_from']),
+      validTo: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}valid_to']),
+      taxId:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}tax_id']),
+      taxGroup: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}tax_group']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || creationTime != null) {
+      map['creation_time'] = Variable<DateTime>(creationTime);
+    }
+    if (!nullToAbsent || deleteTime != null) {
+      map['delete_time'] = Variable<DateTime>(deleteTime);
+    }
+    if (!nullToAbsent || createUserId != null) {
+      map['create_user_id'] = Variable<int>(createUserId);
+    }
+    if (!nullToAbsent || creatorUser != null) {
+      map['creator_user'] = Variable<String>(creatorUser);
+    }
+    if (!nullToAbsent || lastModifierUser != null) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser);
+    }
+    if (!nullToAbsent || lastModifierUserId != null) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
+    }
+    if (!nullToAbsent || deleteUserId != null) {
+      map['delete_user_id'] = Variable<int>(deleteUserId);
+    }
+    if (!nullToAbsent || deleterUserId != null) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId);
+    }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || customerId != null) {
+      map['customer_id'] = Variable<String>(customerId);
+    }
+    if (!nullToAbsent || customerName != null) {
+      map['customer_name'] = Variable<String>(customerName);
+    }
+    if (!nullToAbsent || companyName != null) {
+      map['company_name'] = Variable<String>(companyName);
+    }
+    if (!nullToAbsent || customerType != null) {
+      map['customer_type'] = Variable<String>(customerType);
+    }
+    if (!nullToAbsent || customerGroup != null) {
+      map['customer_group'] = Variable<String>(customerGroup);
+    }
+    if (!nullToAbsent || customerTerritory != null) {
+      map['customer_territory'] = Variable<String>(customerTerritory);
+    }
+    if (!nullToAbsent || defaultCurrency != null) {
+      map['default_currency'] = Variable<String>(defaultCurrency);
+    }
+    if (!nullToAbsent || paymentTerms != null) {
+      map['payment_terms'] = Variable<String>(paymentTerms);
+    }
+    if (!nullToAbsent || language != null) {
+      map['language'] = Variable<String>(language);
+    }
+    if (!nullToAbsent || creditLimit != null) {
+      map['credit_limit'] = Variable<double>(creditLimit);
+    }
+    if (!nullToAbsent || billingAddressName != null) {
+      map['billing_address_name'] = Variable<String>(billingAddressName);
+    }
+    if (!nullToAbsent || shippingAddressName != null) {
+      map['shipping_address_name'] = Variable<String>(shippingAddressName);
+    }
+    if (!nullToAbsent || contactName != null) {
+      map['contact_name'] = Variable<String>(contactName);
+    }
+    if (!nullToAbsent || priceList != null) {
+      map['price_list'] = Variable<String>(priceList);
+    }
+    if (!nullToAbsent || minQuantity != null) {
+      map['min_quantity'] = Variable<double>(minQuantity);
+    }
+    if (!nullToAbsent || maxQuantity != null) {
+      map['max_quantity'] = Variable<double>(maxQuantity);
+    }
+    if (!nullToAbsent || discountType != null) {
+      map['discount_type'] = Variable<String>(discountType);
+    }
+    if (!nullToAbsent || discountPercentage != null) {
+      map['discount_percentage'] = Variable<double>(discountPercentage);
+    }
+    if (!nullToAbsent || discountAmount != null) {
+      map['discount_amount'] = Variable<double>(discountAmount);
+    }
+    if (!nullToAbsent || enableHeaderDiscount != null) {
+      map['enable_header_discount'] = Variable<double>(enableHeaderDiscount);
+    }
+    if (!nullToAbsent || accumulatedPurchase != null) {
+      map['accumulated_purchase'] = Variable<double>(accumulatedPurchase);
+    }
+    if (!nullToAbsent || validFrom != null) {
+      map['valid_from'] = Variable<DateTime>(validFrom);
+    }
+    if (!nullToAbsent || validTo != null) {
+      map['valid_to'] = Variable<DateTime>(validTo);
+    }
+    if (!nullToAbsent || taxId != null) {
+      map['tax_id'] = Variable<String>(taxId);
+    }
+    if (!nullToAbsent || taxGroup != null) {
+      map['tax_group'] = Variable<String>(taxGroup);
+    }
+    return map;
+  }
+
+  CustomerCompanion toCompanion(bool nullToAbsent) {
+    return CustomerCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      creationTime: creationTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creationTime),
+      deleteTime: deleteTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteTime),
+      createUserId: createUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createUserId),
+      creatorUser: creatorUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creatorUser),
+      lastModifierUser: lastModifierUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUser),
+      lastModifierUserId: lastModifierUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUserId),
+      deleteUserId: deleteUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteUserId),
+      deleterUserId: deleterUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleterUserId),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      customerId: customerId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerId),
+      customerName: customerName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerName),
+      companyName: companyName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(companyName),
+      customerType: customerType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerType),
+      customerGroup: customerGroup == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerGroup),
+      customerTerritory: customerTerritory == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerTerritory),
+      defaultCurrency: defaultCurrency == null && nullToAbsent
+          ? const Value.absent()
+          : Value(defaultCurrency),
+      paymentTerms: paymentTerms == null && nullToAbsent
+          ? const Value.absent()
+          : Value(paymentTerms),
+      language: language == null && nullToAbsent
+          ? const Value.absent()
+          : Value(language),
+      creditLimit: creditLimit == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creditLimit),
+      billingAddressName: billingAddressName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(billingAddressName),
+      shippingAddressName: shippingAddressName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(shippingAddressName),
+      contactName: contactName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(contactName),
+      priceList: priceList == null && nullToAbsent
+          ? const Value.absent()
+          : Value(priceList),
+      minQuantity: minQuantity == null && nullToAbsent
+          ? const Value.absent()
+          : Value(minQuantity),
+      maxQuantity: maxQuantity == null && nullToAbsent
+          ? const Value.absent()
+          : Value(maxQuantity),
+      discountType: discountType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(discountType),
+      discountPercentage: discountPercentage == null && nullToAbsent
+          ? const Value.absent()
+          : Value(discountPercentage),
+      discountAmount: discountAmount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(discountAmount),
+      enableHeaderDiscount: enableHeaderDiscount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(enableHeaderDiscount),
+      accumulatedPurchase: accumulatedPurchase == null && nullToAbsent
+          ? const Value.absent()
+          : Value(accumulatedPurchase),
+      validFrom: validFrom == null && nullToAbsent
+          ? const Value.absent()
+          : Value(validFrom),
+      validTo: validTo == null && nullToAbsent
+          ? const Value.absent()
+          : Value(validTo),
+      taxId:
+          taxId == null && nullToAbsent ? const Value.absent() : Value(taxId),
+      taxGroup: taxGroup == null && nullToAbsent
+          ? const Value.absent()
+          : Value(taxGroup),
+    );
+  }
+
+  factory CustomerData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return CustomerData(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
+      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
+      createUserId: serializer.fromJson<int>(json['createUserId']),
+      creatorUser: serializer.fromJson<String>(json['creatorUser']),
+      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
+      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
+      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
+      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      id: serializer.fromJson<int>(json['id']),
+      customerId: serializer.fromJson<String>(json['customerId']),
+      customerName: serializer.fromJson<String>(json['customerName']),
+      companyName: serializer.fromJson<String>(json['companyName']),
+      customerType: serializer.fromJson<String>(json['customerType']),
+      customerGroup: serializer.fromJson<String>(json['customerGroup']),
+      customerTerritory: serializer.fromJson<String>(json['customerTerritory']),
+      defaultCurrency: serializer.fromJson<String>(json['defaultCurrency']),
+      paymentTerms: serializer.fromJson<String>(json['paymentTerms']),
+      language: serializer.fromJson<String>(json['language']),
+      creditLimit: serializer.fromJson<double>(json['creditLimit']),
+      billingAddressName:
+          serializer.fromJson<String>(json['billingAddressName']),
+      shippingAddressName:
+          serializer.fromJson<String>(json['shippingAddressName']),
+      contactName: serializer.fromJson<String>(json['contactName']),
+      priceList: serializer.fromJson<String>(json['priceList']),
+      minQuantity: serializer.fromJson<double>(json['minQuantity']),
+      maxQuantity: serializer.fromJson<double>(json['maxQuantity']),
+      discountType: serializer.fromJson<String>(json['discountType']),
+      discountPercentage:
+          serializer.fromJson<double>(json['discountPercentage']),
+      discountAmount: serializer.fromJson<double>(json['discountAmount']),
+      enableHeaderDiscount:
+          serializer.fromJson<double>(json['enableHeaderDiscount']),
+      accumulatedPurchase:
+          serializer.fromJson<double>(json['accumulatedPurchase']),
+      validFrom: serializer.fromJson<DateTime>(json['validFrom']),
+      validTo: serializer.fromJson<DateTime>(json['validTo']),
+      taxId: serializer.fromJson<String>(json['taxId']),
+      taxGroup: serializer.fromJson<String>(json['taxGroup']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'creationTime': serializer.toJson<DateTime>(creationTime),
+      'deleteTime': serializer.toJson<DateTime>(deleteTime),
+      'createUserId': serializer.toJson<int>(createUserId),
+      'creatorUser': serializer.toJson<String>(creatorUser),
+      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
+      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
+      'deleteUserId': serializer.toJson<int>(deleteUserId),
+      'deleterUserId': serializer.toJson<String>(deleterUserId),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'id': serializer.toJson<int>(id),
+      'customerId': serializer.toJson<String>(customerId),
+      'customerName': serializer.toJson<String>(customerName),
+      'companyName': serializer.toJson<String>(companyName),
+      'customerType': serializer.toJson<String>(customerType),
+      'customerGroup': serializer.toJson<String>(customerGroup),
+      'customerTerritory': serializer.toJson<String>(customerTerritory),
+      'defaultCurrency': serializer.toJson<String>(defaultCurrency),
+      'paymentTerms': serializer.toJson<String>(paymentTerms),
+      'language': serializer.toJson<String>(language),
+      'creditLimit': serializer.toJson<double>(creditLimit),
+      'billingAddressName': serializer.toJson<String>(billingAddressName),
+      'shippingAddressName': serializer.toJson<String>(shippingAddressName),
+      'contactName': serializer.toJson<String>(contactName),
+      'priceList': serializer.toJson<String>(priceList),
+      'minQuantity': serializer.toJson<double>(minQuantity),
+      'maxQuantity': serializer.toJson<double>(maxQuantity),
+      'discountType': serializer.toJson<String>(discountType),
+      'discountPercentage': serializer.toJson<double>(discountPercentage),
+      'discountAmount': serializer.toJson<double>(discountAmount),
+      'enableHeaderDiscount': serializer.toJson<double>(enableHeaderDiscount),
+      'accumulatedPurchase': serializer.toJson<double>(accumulatedPurchase),
+      'validFrom': serializer.toJson<DateTime>(validFrom),
+      'validTo': serializer.toJson<DateTime>(validTo),
+      'taxId': serializer.toJson<String>(taxId),
+      'taxGroup': serializer.toJson<String>(taxGroup),
+    };
+  }
+
+  CustomerData copyWith(
+          {int tenantId,
+          DateTime creationTime,
+          DateTime deleteTime,
+          int createUserId,
+          String creatorUser,
+          String lastModifierUser,
+          int lastModifierUserId,
+          int deleteUserId,
+          String deleterUserId,
+          bool isDeleted,
+          int id,
+          String customerId,
+          String customerName,
+          String companyName,
+          String customerType,
+          String customerGroup,
+          String customerTerritory,
+          String defaultCurrency,
+          String paymentTerms,
+          String language,
+          double creditLimit,
+          String billingAddressName,
+          String shippingAddressName,
+          String contactName,
+          String priceList,
+          double minQuantity,
+          double maxQuantity,
+          String discountType,
+          double discountPercentage,
+          double discountAmount,
+          double enableHeaderDiscount,
+          double accumulatedPurchase,
+          DateTime validFrom,
+          DateTime validTo,
+          String taxId,
+          String taxGroup}) =>
+      CustomerData(
+        tenantId: tenantId ?? this.tenantId,
+        creationTime: creationTime ?? this.creationTime,
+        deleteTime: deleteTime ?? this.deleteTime,
+        createUserId: createUserId ?? this.createUserId,
+        creatorUser: creatorUser ?? this.creatorUser,
+        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+        deleteUserId: deleteUserId ?? this.deleteUserId,
+        deleterUserId: deleterUserId ?? this.deleterUserId,
+        isDeleted: isDeleted ?? this.isDeleted,
+        id: id ?? this.id,
+        customerId: customerId ?? this.customerId,
+        customerName: customerName ?? this.customerName,
+        companyName: companyName ?? this.companyName,
+        customerType: customerType ?? this.customerType,
+        customerGroup: customerGroup ?? this.customerGroup,
+        customerTerritory: customerTerritory ?? this.customerTerritory,
+        defaultCurrency: defaultCurrency ?? this.defaultCurrency,
+        paymentTerms: paymentTerms ?? this.paymentTerms,
+        language: language ?? this.language,
+        creditLimit: creditLimit ?? this.creditLimit,
+        billingAddressName: billingAddressName ?? this.billingAddressName,
+        shippingAddressName: shippingAddressName ?? this.shippingAddressName,
+        contactName: contactName ?? this.contactName,
+        priceList: priceList ?? this.priceList,
+        minQuantity: minQuantity ?? this.minQuantity,
+        maxQuantity: maxQuantity ?? this.maxQuantity,
+        discountType: discountType ?? this.discountType,
+        discountPercentage: discountPercentage ?? this.discountPercentage,
+        discountAmount: discountAmount ?? this.discountAmount,
+        enableHeaderDiscount: enableHeaderDiscount ?? this.enableHeaderDiscount,
+        accumulatedPurchase: accumulatedPurchase ?? this.accumulatedPurchase,
+        validFrom: validFrom ?? this.validFrom,
+        validTo: validTo ?? this.validTo,
+        taxId: taxId ?? this.taxId,
+        taxGroup: taxGroup ?? this.taxGroup,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('CustomerData(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('customerId: $customerId, ')
+          ..write('customerName: $customerName, ')
+          ..write('companyName: $companyName, ')
+          ..write('customerType: $customerType, ')
+          ..write('customerGroup: $customerGroup, ')
+          ..write('customerTerritory: $customerTerritory, ')
+          ..write('defaultCurrency: $defaultCurrency, ')
+          ..write('paymentTerms: $paymentTerms, ')
+          ..write('language: $language, ')
+          ..write('creditLimit: $creditLimit, ')
+          ..write('billingAddressName: $billingAddressName, ')
+          ..write('shippingAddressName: $shippingAddressName, ')
+          ..write('contactName: $contactName, ')
+          ..write('priceList: $priceList, ')
+          ..write('minQuantity: $minQuantity, ')
+          ..write('maxQuantity: $maxQuantity, ')
+          ..write('discountType: $discountType, ')
+          ..write('discountPercentage: $discountPercentage, ')
+          ..write('discountAmount: $discountAmount, ')
+          ..write('enableHeaderDiscount: $enableHeaderDiscount, ')
+          ..write('accumulatedPurchase: $accumulatedPurchase, ')
+          ..write('validFrom: $validFrom, ')
+          ..write('validTo: $validTo, ')
+          ..write('taxId: $taxId, ')
+          ..write('taxGroup: $taxGroup')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode,
+      $mrjc(
+          creationTime.hashCode,
+          $mrjc(
+              deleteTime.hashCode,
+              $mrjc(
+                  createUserId.hashCode,
+                  $mrjc(
+                      creatorUser.hashCode,
+                      $mrjc(
+                          lastModifierUser.hashCode,
+                          $mrjc(
+                              lastModifierUserId.hashCode,
+                              $mrjc(
+                                  deleteUserId.hashCode,
+                                  $mrjc(
+                                      deleterUserId.hashCode,
+                                      $mrjc(
+                                          isDeleted.hashCode,
+                                          $mrjc(
+                                              id.hashCode,
+                                              $mrjc(
+                                                  customerId.hashCode,
+                                                  $mrjc(
+                                                      customerName.hashCode,
+                                                      $mrjc(
+                                                          companyName.hashCode,
+                                                          $mrjc(
+                                                              customerType
+                                                                  .hashCode,
+                                                              $mrjc(
+                                                                  customerGroup
+                                                                      .hashCode,
+                                                                  $mrjc(
+                                                                      customerTerritory
+                                                                          .hashCode,
+                                                                      $mrjc(
+                                                                          defaultCurrency
+                                                                              .hashCode,
+                                                                          $mrjc(
+                                                                              paymentTerms.hashCode,
+                                                                              $mrjc(language.hashCode, $mrjc(creditLimit.hashCode, $mrjc(billingAddressName.hashCode, $mrjc(shippingAddressName.hashCode, $mrjc(contactName.hashCode, $mrjc(priceList.hashCode, $mrjc(minQuantity.hashCode, $mrjc(maxQuantity.hashCode, $mrjc(discountType.hashCode, $mrjc(discountPercentage.hashCode, $mrjc(discountAmount.hashCode, $mrjc(enableHeaderDiscount.hashCode, $mrjc(accumulatedPurchase.hashCode, $mrjc(validFrom.hashCode, $mrjc(validTo.hashCode, $mrjc(taxId.hashCode, taxGroup.hashCode))))))))))))))))))))))))))))))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is CustomerData &&
+          other.tenantId == this.tenantId &&
+          other.creationTime == this.creationTime &&
+          other.deleteTime == this.deleteTime &&
+          other.createUserId == this.createUserId &&
+          other.creatorUser == this.creatorUser &&
+          other.lastModifierUser == this.lastModifierUser &&
+          other.lastModifierUserId == this.lastModifierUserId &&
+          other.deleteUserId == this.deleteUserId &&
+          other.deleterUserId == this.deleterUserId &&
+          other.isDeleted == this.isDeleted &&
+          other.id == this.id &&
+          other.customerId == this.customerId &&
+          other.customerName == this.customerName &&
+          other.companyName == this.companyName &&
+          other.customerType == this.customerType &&
+          other.customerGroup == this.customerGroup &&
+          other.customerTerritory == this.customerTerritory &&
+          other.defaultCurrency == this.defaultCurrency &&
+          other.paymentTerms == this.paymentTerms &&
+          other.language == this.language &&
+          other.creditLimit == this.creditLimit &&
+          other.billingAddressName == this.billingAddressName &&
+          other.shippingAddressName == this.shippingAddressName &&
+          other.contactName == this.contactName &&
+          other.priceList == this.priceList &&
+          other.minQuantity == this.minQuantity &&
+          other.maxQuantity == this.maxQuantity &&
+          other.discountType == this.discountType &&
+          other.discountPercentage == this.discountPercentage &&
+          other.discountAmount == this.discountAmount &&
+          other.enableHeaderDiscount == this.enableHeaderDiscount &&
+          other.accumulatedPurchase == this.accumulatedPurchase &&
+          other.validFrom == this.validFrom &&
+          other.validTo == this.validTo &&
+          other.taxId == this.taxId &&
+          other.taxGroup == this.taxGroup);
+}
+
+class CustomerCompanion extends UpdateCompanion<CustomerData> {
+  final Value<int> tenantId;
+  final Value<DateTime> creationTime;
+  final Value<DateTime> deleteTime;
+  final Value<int> createUserId;
+  final Value<String> creatorUser;
+  final Value<String> lastModifierUser;
+  final Value<int> lastModifierUserId;
+  final Value<int> deleteUserId;
+  final Value<String> deleterUserId;
+  final Value<bool> isDeleted;
+  final Value<int> id;
+  final Value<String> customerId;
+  final Value<String> customerName;
+  final Value<String> companyName;
+  final Value<String> customerType;
+  final Value<String> customerGroup;
+  final Value<String> customerTerritory;
+  final Value<String> defaultCurrency;
+  final Value<String> paymentTerms;
+  final Value<String> language;
+  final Value<double> creditLimit;
+  final Value<String> billingAddressName;
+  final Value<String> shippingAddressName;
+  final Value<String> contactName;
+  final Value<String> priceList;
+  final Value<double> minQuantity;
+  final Value<double> maxQuantity;
+  final Value<String> discountType;
+  final Value<double> discountPercentage;
+  final Value<double> discountAmount;
+  final Value<double> enableHeaderDiscount;
+  final Value<double> accumulatedPurchase;
+  final Value<DateTime> validFrom;
+  final Value<DateTime> validTo;
+  final Value<String> taxId;
+  final Value<String> taxGroup;
+  const CustomerCompanion({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    this.customerId = const Value.absent(),
+    this.customerName = const Value.absent(),
+    this.companyName = const Value.absent(),
+    this.customerType = const Value.absent(),
+    this.customerGroup = const Value.absent(),
+    this.customerTerritory = const Value.absent(),
+    this.defaultCurrency = const Value.absent(),
+    this.paymentTerms = const Value.absent(),
+    this.language = const Value.absent(),
+    this.creditLimit = const Value.absent(),
+    this.billingAddressName = const Value.absent(),
+    this.shippingAddressName = const Value.absent(),
+    this.contactName = const Value.absent(),
+    this.priceList = const Value.absent(),
+    this.minQuantity = const Value.absent(),
+    this.maxQuantity = const Value.absent(),
+    this.discountType = const Value.absent(),
+    this.discountPercentage = const Value.absent(),
+    this.discountAmount = const Value.absent(),
+    this.enableHeaderDiscount = const Value.absent(),
+    this.accumulatedPurchase = const Value.absent(),
+    this.validFrom = const Value.absent(),
+    this.validTo = const Value.absent(),
+    this.taxId = const Value.absent(),
+    this.taxGroup = const Value.absent(),
+  });
+  CustomerCompanion.insert({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    @required String customerId,
+    @required String customerName,
+    @required String companyName,
+    @required String customerType,
+    @required String customerGroup,
+    @required String customerTerritory,
+    @required String defaultCurrency,
+    @required String paymentTerms,
+    @required String language,
+    @required double creditLimit,
+    this.billingAddressName = const Value.absent(),
+    this.shippingAddressName = const Value.absent(),
+    this.contactName = const Value.absent(),
+    this.priceList = const Value.absent(),
+    @required double minQuantity,
+    @required double maxQuantity,
+    @required String discountType,
+    @required double discountPercentage,
+    @required double discountAmount,
+    @required double enableHeaderDiscount,
+    @required double accumulatedPurchase,
+    @required DateTime validFrom,
+    @required DateTime validTo,
+    @required String taxId,
+    @required String taxGroup,
+  })  : customerId = Value(customerId),
+        customerName = Value(customerName),
+        companyName = Value(companyName),
+        customerType = Value(customerType),
+        customerGroup = Value(customerGroup),
+        customerTerritory = Value(customerTerritory),
+        defaultCurrency = Value(defaultCurrency),
+        paymentTerms = Value(paymentTerms),
+        language = Value(language),
+        creditLimit = Value(creditLimit),
+        minQuantity = Value(minQuantity),
+        maxQuantity = Value(maxQuantity),
+        discountType = Value(discountType),
+        discountPercentage = Value(discountPercentage),
+        discountAmount = Value(discountAmount),
+        enableHeaderDiscount = Value(enableHeaderDiscount),
+        accumulatedPurchase = Value(accumulatedPurchase),
+        validFrom = Value(validFrom),
+        validTo = Value(validTo),
+        taxId = Value(taxId),
+        taxGroup = Value(taxGroup);
+  static Insertable<CustomerData> custom({
+    Expression<int> tenantId,
+    Expression<DateTime> creationTime,
+    Expression<DateTime> deleteTime,
+    Expression<int> createUserId,
+    Expression<String> creatorUser,
+    Expression<String> lastModifierUser,
+    Expression<int> lastModifierUserId,
+    Expression<int> deleteUserId,
+    Expression<String> deleterUserId,
+    Expression<bool> isDeleted,
+    Expression<int> id,
+    Expression<String> customerId,
+    Expression<String> customerName,
+    Expression<String> companyName,
+    Expression<String> customerType,
+    Expression<String> customerGroup,
+    Expression<String> customerTerritory,
+    Expression<String> defaultCurrency,
+    Expression<String> paymentTerms,
+    Expression<String> language,
+    Expression<double> creditLimit,
+    Expression<String> billingAddressName,
+    Expression<String> shippingAddressName,
+    Expression<String> contactName,
+    Expression<String> priceList,
+    Expression<double> minQuantity,
+    Expression<double> maxQuantity,
+    Expression<String> discountType,
+    Expression<double> discountPercentage,
+    Expression<double> discountAmount,
+    Expression<double> enableHeaderDiscount,
+    Expression<double> accumulatedPurchase,
+    Expression<DateTime> validFrom,
+    Expression<DateTime> validTo,
+    Expression<String> taxId,
+    Expression<String> taxGroup,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (creationTime != null) 'creation_time': creationTime,
+      if (deleteTime != null) 'delete_time': deleteTime,
+      if (createUserId != null) 'create_user_id': createUserId,
+      if (creatorUser != null) 'creator_user': creatorUser,
+      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
+      if (lastModifierUserId != null)
+        'last_modifier_user_id': lastModifierUserId,
+      if (deleteUserId != null) 'delete_user_id': deleteUserId,
+      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (id != null) 'id': id,
+      if (customerId != null) 'customer_id': customerId,
+      if (customerName != null) 'customer_name': customerName,
+      if (companyName != null) 'company_name': companyName,
+      if (customerType != null) 'customer_type': customerType,
+      if (customerGroup != null) 'customer_group': customerGroup,
+      if (customerTerritory != null) 'customer_territory': customerTerritory,
+      if (defaultCurrency != null) 'default_currency': defaultCurrency,
+      if (paymentTerms != null) 'payment_terms': paymentTerms,
+      if (language != null) 'language': language,
+      if (creditLimit != null) 'credit_limit': creditLimit,
+      if (billingAddressName != null)
+        'billing_address_name': billingAddressName,
+      if (shippingAddressName != null)
+        'shipping_address_name': shippingAddressName,
+      if (contactName != null) 'contact_name': contactName,
+      if (priceList != null) 'price_list': priceList,
+      if (minQuantity != null) 'min_quantity': minQuantity,
+      if (maxQuantity != null) 'max_quantity': maxQuantity,
+      if (discountType != null) 'discount_type': discountType,
+      if (discountPercentage != null) 'discount_percentage': discountPercentage,
+      if (discountAmount != null) 'discount_amount': discountAmount,
+      if (enableHeaderDiscount != null)
+        'enable_header_discount': enableHeaderDiscount,
+      if (accumulatedPurchase != null)
+        'accumulated_purchase': accumulatedPurchase,
+      if (validFrom != null) 'valid_from': validFrom,
+      if (validTo != null) 'valid_to': validTo,
+      if (taxId != null) 'tax_id': taxId,
+      if (taxGroup != null) 'tax_group': taxGroup,
+    });
+  }
+
+  CustomerCompanion copyWith(
+      {Value<int> tenantId,
+      Value<DateTime> creationTime,
+      Value<DateTime> deleteTime,
+      Value<int> createUserId,
+      Value<String> creatorUser,
+      Value<String> lastModifierUser,
+      Value<int> lastModifierUserId,
+      Value<int> deleteUserId,
+      Value<String> deleterUserId,
+      Value<bool> isDeleted,
+      Value<int> id,
+      Value<String> customerId,
+      Value<String> customerName,
+      Value<String> companyName,
+      Value<String> customerType,
+      Value<String> customerGroup,
+      Value<String> customerTerritory,
+      Value<String> defaultCurrency,
+      Value<String> paymentTerms,
+      Value<String> language,
+      Value<double> creditLimit,
+      Value<String> billingAddressName,
+      Value<String> shippingAddressName,
+      Value<String> contactName,
+      Value<String> priceList,
+      Value<double> minQuantity,
+      Value<double> maxQuantity,
+      Value<String> discountType,
+      Value<double> discountPercentage,
+      Value<double> discountAmount,
+      Value<double> enableHeaderDiscount,
+      Value<double> accumulatedPurchase,
+      Value<DateTime> validFrom,
+      Value<DateTime> validTo,
+      Value<String> taxId,
+      Value<String> taxGroup}) {
+    return CustomerCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      creationTime: creationTime ?? this.creationTime,
+      deleteTime: deleteTime ?? this.deleteTime,
+      createUserId: createUserId ?? this.createUserId,
+      creatorUser: creatorUser ?? this.creatorUser,
+      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+      deleteUserId: deleteUserId ?? this.deleteUserId,
+      deleterUserId: deleterUserId ?? this.deleterUserId,
+      isDeleted: isDeleted ?? this.isDeleted,
+      id: id ?? this.id,
+      customerId: customerId ?? this.customerId,
+      customerName: customerName ?? this.customerName,
+      companyName: companyName ?? this.companyName,
+      customerType: customerType ?? this.customerType,
+      customerGroup: customerGroup ?? this.customerGroup,
+      customerTerritory: customerTerritory ?? this.customerTerritory,
+      defaultCurrency: defaultCurrency ?? this.defaultCurrency,
+      paymentTerms: paymentTerms ?? this.paymentTerms,
+      language: language ?? this.language,
+      creditLimit: creditLimit ?? this.creditLimit,
+      billingAddressName: billingAddressName ?? this.billingAddressName,
+      shippingAddressName: shippingAddressName ?? this.shippingAddressName,
+      contactName: contactName ?? this.contactName,
+      priceList: priceList ?? this.priceList,
+      minQuantity: minQuantity ?? this.minQuantity,
+      maxQuantity: maxQuantity ?? this.maxQuantity,
+      discountType: discountType ?? this.discountType,
+      discountPercentage: discountPercentage ?? this.discountPercentage,
+      discountAmount: discountAmount ?? this.discountAmount,
+      enableHeaderDiscount: enableHeaderDiscount ?? this.enableHeaderDiscount,
+      accumulatedPurchase: accumulatedPurchase ?? this.accumulatedPurchase,
+      validFrom: validFrom ?? this.validFrom,
+      validTo: validTo ?? this.validTo,
+      taxId: taxId ?? this.taxId,
+      taxGroup: taxGroup ?? this.taxGroup,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (creationTime.present) {
+      map['creation_time'] = Variable<DateTime>(creationTime.value);
+    }
+    if (deleteTime.present) {
+      map['delete_time'] = Variable<DateTime>(deleteTime.value);
+    }
+    if (createUserId.present) {
+      map['create_user_id'] = Variable<int>(createUserId.value);
+    }
+    if (creatorUser.present) {
+      map['creator_user'] = Variable<String>(creatorUser.value);
+    }
+    if (lastModifierUser.present) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
+    }
+    if (lastModifierUserId.present) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
+    }
+    if (deleteUserId.present) {
+      map['delete_user_id'] = Variable<int>(deleteUserId.value);
+    }
+    if (deleterUserId.present) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (customerId.present) {
+      map['customer_id'] = Variable<String>(customerId.value);
+    }
+    if (customerName.present) {
+      map['customer_name'] = Variable<String>(customerName.value);
+    }
+    if (companyName.present) {
+      map['company_name'] = Variable<String>(companyName.value);
+    }
+    if (customerType.present) {
+      map['customer_type'] = Variable<String>(customerType.value);
+    }
+    if (customerGroup.present) {
+      map['customer_group'] = Variable<String>(customerGroup.value);
+    }
+    if (customerTerritory.present) {
+      map['customer_territory'] = Variable<String>(customerTerritory.value);
+    }
+    if (defaultCurrency.present) {
+      map['default_currency'] = Variable<String>(defaultCurrency.value);
+    }
+    if (paymentTerms.present) {
+      map['payment_terms'] = Variable<String>(paymentTerms.value);
+    }
+    if (language.present) {
+      map['language'] = Variable<String>(language.value);
+    }
+    if (creditLimit.present) {
+      map['credit_limit'] = Variable<double>(creditLimit.value);
+    }
+    if (billingAddressName.present) {
+      map['billing_address_name'] = Variable<String>(billingAddressName.value);
+    }
+    if (shippingAddressName.present) {
+      map['shipping_address_name'] =
+          Variable<String>(shippingAddressName.value);
+    }
+    if (contactName.present) {
+      map['contact_name'] = Variable<String>(contactName.value);
+    }
+    if (priceList.present) {
+      map['price_list'] = Variable<String>(priceList.value);
+    }
+    if (minQuantity.present) {
+      map['min_quantity'] = Variable<double>(minQuantity.value);
+    }
+    if (maxQuantity.present) {
+      map['max_quantity'] = Variable<double>(maxQuantity.value);
+    }
+    if (discountType.present) {
+      map['discount_type'] = Variable<String>(discountType.value);
+    }
+    if (discountPercentage.present) {
+      map['discount_percentage'] = Variable<double>(discountPercentage.value);
+    }
+    if (discountAmount.present) {
+      map['discount_amount'] = Variable<double>(discountAmount.value);
+    }
+    if (enableHeaderDiscount.present) {
+      map['enable_header_discount'] =
+          Variable<double>(enableHeaderDiscount.value);
+    }
+    if (accumulatedPurchase.present) {
+      map['accumulated_purchase'] = Variable<double>(accumulatedPurchase.value);
+    }
+    if (validFrom.present) {
+      map['valid_from'] = Variable<DateTime>(validFrom.value);
+    }
+    if (validTo.present) {
+      map['valid_to'] = Variable<DateTime>(validTo.value);
+    }
+    if (taxId.present) {
+      map['tax_id'] = Variable<String>(taxId.value);
+    }
+    if (taxGroup.present) {
+      map['tax_group'] = Variable<String>(taxGroup.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CustomerCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('customerId: $customerId, ')
+          ..write('customerName: $customerName, ')
+          ..write('companyName: $companyName, ')
+          ..write('customerType: $customerType, ')
+          ..write('customerGroup: $customerGroup, ')
+          ..write('customerTerritory: $customerTerritory, ')
+          ..write('defaultCurrency: $defaultCurrency, ')
+          ..write('paymentTerms: $paymentTerms, ')
+          ..write('language: $language, ')
+          ..write('creditLimit: $creditLimit, ')
+          ..write('billingAddressName: $billingAddressName, ')
+          ..write('shippingAddressName: $shippingAddressName, ')
+          ..write('contactName: $contactName, ')
+          ..write('priceList: $priceList, ')
+          ..write('minQuantity: $minQuantity, ')
+          ..write('maxQuantity: $maxQuantity, ')
+          ..write('discountType: $discountType, ')
+          ..write('discountPercentage: $discountPercentage, ')
+          ..write('discountAmount: $discountAmount, ')
+          ..write('enableHeaderDiscount: $enableHeaderDiscount, ')
+          ..write('accumulatedPurchase: $accumulatedPurchase, ')
+          ..write('validFrom: $validFrom, ')
+          ..write('validTo: $validTo, ')
+          ..write('taxId: $taxId, ')
+          ..write('taxGroup: $taxGroup')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $CustomerTable extends Customer
+    with TableInfo<$CustomerTable, CustomerData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $CustomerTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creationTimeMeta =
+      const VerificationMeta('creationTime');
+  GeneratedDateTimeColumn _creationTime;
+  @override
+  GeneratedDateTimeColumn get creationTime =>
+      _creationTime ??= _constructCreationTime();
+  GeneratedDateTimeColumn _constructCreationTime() {
+    return GeneratedDateTimeColumn(
+      'creation_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
+  GeneratedDateTimeColumn _deleteTime;
+  @override
+  GeneratedDateTimeColumn get deleteTime =>
+      _deleteTime ??= _constructDeleteTime();
+  GeneratedDateTimeColumn _constructDeleteTime() {
+    return GeneratedDateTimeColumn(
+      'delete_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _createUserIdMeta =
+      const VerificationMeta('createUserId');
+  GeneratedIntColumn _createUserId;
+  @override
+  GeneratedIntColumn get createUserId =>
+      _createUserId ??= _constructCreateUserId();
+  GeneratedIntColumn _constructCreateUserId() {
+    return GeneratedIntColumn(
+      'create_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creatorUserMeta =
+      const VerificationMeta('creatorUser');
+  GeneratedTextColumn _creatorUser;
+  @override
+  GeneratedTextColumn get creatorUser =>
+      _creatorUser ??= _constructCreatorUser();
+  GeneratedTextColumn _constructCreatorUser() {
+    return GeneratedTextColumn(
+      'creator_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserMeta =
+      const VerificationMeta('lastModifierUser');
+  GeneratedTextColumn _lastModifierUser;
+  @override
+  GeneratedTextColumn get lastModifierUser =>
+      _lastModifierUser ??= _constructLastModifierUser();
+  GeneratedTextColumn _constructLastModifierUser() {
+    return GeneratedTextColumn(
+      'last_modifier_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserIdMeta =
+      const VerificationMeta('lastModifierUserId');
+  GeneratedIntColumn _lastModifierUserId;
+  @override
+  GeneratedIntColumn get lastModifierUserId =>
+      _lastModifierUserId ??= _constructLastModifierUserId();
+  GeneratedIntColumn _constructLastModifierUserId() {
+    return GeneratedIntColumn(
+      'last_modifier_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteUserIdMeta =
+      const VerificationMeta('deleteUserId');
+  GeneratedIntColumn _deleteUserId;
+  @override
+  GeneratedIntColumn get deleteUserId =>
+      _deleteUserId ??= _constructDeleteUserId();
+  GeneratedIntColumn _constructDeleteUserId() {
+    return GeneratedIntColumn(
+      'delete_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleterUserIdMeta =
+      const VerificationMeta('deleterUserId');
+  GeneratedTextColumn _deleterUserId;
+  @override
+  GeneratedTextColumn get deleterUserId =>
+      _deleterUserId ??= _constructDeleterUserId();
+  GeneratedTextColumn _constructDeleterUserId() {
+    return GeneratedTextColumn(
+      'deleter_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  GeneratedBoolColumn _isDeleted;
+  @override
+  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
+  GeneratedBoolColumn _constructIsDeleted() {
+    return GeneratedBoolColumn('is_deleted', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _customerIdMeta = const VerificationMeta('customerId');
+  GeneratedTextColumn _customerId;
+  @override
+  GeneratedTextColumn get customerId => _customerId ??= _constructCustomerId();
+  GeneratedTextColumn _constructCustomerId() {
+    return GeneratedTextColumn(
+      'customer_id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _customerNameMeta =
+      const VerificationMeta('customerName');
+  GeneratedTextColumn _customerName;
+  @override
+  GeneratedTextColumn get customerName =>
+      _customerName ??= _constructCustomerName();
+  GeneratedTextColumn _constructCustomerName() {
+    return GeneratedTextColumn(
+      'customer_name',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _companyNameMeta =
+      const VerificationMeta('companyName');
+  GeneratedTextColumn _companyName;
+  @override
+  GeneratedTextColumn get companyName =>
+      _companyName ??= _constructCompanyName();
+  GeneratedTextColumn _constructCompanyName() {
+    return GeneratedTextColumn(
+      'company_name',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _customerTypeMeta =
+      const VerificationMeta('customerType');
+  GeneratedTextColumn _customerType;
+  @override
+  GeneratedTextColumn get customerType =>
+      _customerType ??= _constructCustomerType();
+  GeneratedTextColumn _constructCustomerType() {
+    return GeneratedTextColumn(
+      'customer_type',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _customerGroupMeta =
+      const VerificationMeta('customerGroup');
+  GeneratedTextColumn _customerGroup;
+  @override
+  GeneratedTextColumn get customerGroup =>
+      _customerGroup ??= _constructCustomerGroup();
+  GeneratedTextColumn _constructCustomerGroup() {
+    return GeneratedTextColumn(
+      'customer_group',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _customerTerritoryMeta =
+      const VerificationMeta('customerTerritory');
+  GeneratedTextColumn _customerTerritory;
+  @override
+  GeneratedTextColumn get customerTerritory =>
+      _customerTerritory ??= _constructCustomerTerritory();
+  GeneratedTextColumn _constructCustomerTerritory() {
+    return GeneratedTextColumn(
+      'customer_territory',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _defaultCurrencyMeta =
+      const VerificationMeta('defaultCurrency');
+  GeneratedTextColumn _defaultCurrency;
+  @override
+  GeneratedTextColumn get defaultCurrency =>
+      _defaultCurrency ??= _constructDefaultCurrency();
+  GeneratedTextColumn _constructDefaultCurrency() {
+    return GeneratedTextColumn(
+      'default_currency',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _paymentTermsMeta =
+      const VerificationMeta('paymentTerms');
+  GeneratedTextColumn _paymentTerms;
+  @override
+  GeneratedTextColumn get paymentTerms =>
+      _paymentTerms ??= _constructPaymentTerms();
+  GeneratedTextColumn _constructPaymentTerms() {
+    return GeneratedTextColumn(
+      'payment_terms',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _languageMeta = const VerificationMeta('language');
+  GeneratedTextColumn _language;
+  @override
+  GeneratedTextColumn get language => _language ??= _constructLanguage();
+  GeneratedTextColumn _constructLanguage() {
+    return GeneratedTextColumn(
+      'language',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _creditLimitMeta =
+      const VerificationMeta('creditLimit');
+  GeneratedRealColumn _creditLimit;
+  @override
+  GeneratedRealColumn get creditLimit =>
+      _creditLimit ??= _constructCreditLimit();
+  GeneratedRealColumn _constructCreditLimit() {
+    return GeneratedRealColumn(
+      'credit_limit',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _billingAddressNameMeta =
+      const VerificationMeta('billingAddressName');
+  GeneratedTextColumn _billingAddressName;
+  @override
+  GeneratedTextColumn get billingAddressName =>
+      _billingAddressName ??= _constructBillingAddressName();
+  GeneratedTextColumn _constructBillingAddressName() {
+    return GeneratedTextColumn(
+      'billing_address_name',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _shippingAddressNameMeta =
+      const VerificationMeta('shippingAddressName');
+  GeneratedTextColumn _shippingAddressName;
+  @override
+  GeneratedTextColumn get shippingAddressName =>
+      _shippingAddressName ??= _constructShippingAddressName();
+  GeneratedTextColumn _constructShippingAddressName() {
+    return GeneratedTextColumn(
+      'shipping_address_name',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _contactNameMeta =
+      const VerificationMeta('contactName');
+  GeneratedTextColumn _contactName;
+  @override
+  GeneratedTextColumn get contactName =>
+      _contactName ??= _constructContactName();
+  GeneratedTextColumn _constructContactName() {
+    return GeneratedTextColumn(
+      'contact_name',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _priceListMeta = const VerificationMeta('priceList');
+  GeneratedTextColumn _priceList;
+  @override
+  GeneratedTextColumn get priceList => _priceList ??= _constructPriceList();
+  GeneratedTextColumn _constructPriceList() {
+    return GeneratedTextColumn(
+      'price_list',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _minQuantityMeta =
+      const VerificationMeta('minQuantity');
+  GeneratedRealColumn _minQuantity;
+  @override
+  GeneratedRealColumn get minQuantity =>
+      _minQuantity ??= _constructMinQuantity();
+  GeneratedRealColumn _constructMinQuantity() {
+    return GeneratedRealColumn(
+      'min_quantity',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _maxQuantityMeta =
+      const VerificationMeta('maxQuantity');
+  GeneratedRealColumn _maxQuantity;
+  @override
+  GeneratedRealColumn get maxQuantity =>
+      _maxQuantity ??= _constructMaxQuantity();
+  GeneratedRealColumn _constructMaxQuantity() {
+    return GeneratedRealColumn(
+      'max_quantity',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _discountTypeMeta =
+      const VerificationMeta('discountType');
+  GeneratedTextColumn _discountType;
+  @override
+  GeneratedTextColumn get discountType =>
+      _discountType ??= _constructDiscountType();
+  GeneratedTextColumn _constructDiscountType() {
+    return GeneratedTextColumn(
+      'discount_type',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _discountPercentageMeta =
+      const VerificationMeta('discountPercentage');
+  GeneratedRealColumn _discountPercentage;
+  @override
+  GeneratedRealColumn get discountPercentage =>
+      _discountPercentage ??= _constructDiscountPercentage();
+  GeneratedRealColumn _constructDiscountPercentage() {
+    return GeneratedRealColumn(
+      'discount_percentage',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _discountAmountMeta =
+      const VerificationMeta('discountAmount');
+  GeneratedRealColumn _discountAmount;
+  @override
+  GeneratedRealColumn get discountAmount =>
+      _discountAmount ??= _constructDiscountAmount();
+  GeneratedRealColumn _constructDiscountAmount() {
+    return GeneratedRealColumn(
+      'discount_amount',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _enableHeaderDiscountMeta =
+      const VerificationMeta('enableHeaderDiscount');
+  GeneratedRealColumn _enableHeaderDiscount;
+  @override
+  GeneratedRealColumn get enableHeaderDiscount =>
+      _enableHeaderDiscount ??= _constructEnableHeaderDiscount();
+  GeneratedRealColumn _constructEnableHeaderDiscount() {
+    return GeneratedRealColumn(
+      'enable_header_discount',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _accumulatedPurchaseMeta =
+      const VerificationMeta('accumulatedPurchase');
+  GeneratedRealColumn _accumulatedPurchase;
+  @override
+  GeneratedRealColumn get accumulatedPurchase =>
+      _accumulatedPurchase ??= _constructAccumulatedPurchase();
+  GeneratedRealColumn _constructAccumulatedPurchase() {
+    return GeneratedRealColumn(
+      'accumulated_purchase',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _validFromMeta = const VerificationMeta('validFrom');
+  GeneratedDateTimeColumn _validFrom;
+  @override
+  GeneratedDateTimeColumn get validFrom => _validFrom ??= _constructValidFrom();
+  GeneratedDateTimeColumn _constructValidFrom() {
+    return GeneratedDateTimeColumn(
+      'valid_from',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _validToMeta = const VerificationMeta('validTo');
+  GeneratedDateTimeColumn _validTo;
+  @override
+  GeneratedDateTimeColumn get validTo => _validTo ??= _constructValidTo();
+  GeneratedDateTimeColumn _constructValidTo() {
+    return GeneratedDateTimeColumn(
+      'valid_to',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _taxIdMeta = const VerificationMeta('taxId');
+  GeneratedTextColumn _taxId;
+  @override
+  GeneratedTextColumn get taxId => _taxId ??= _constructTaxId();
+  GeneratedTextColumn _constructTaxId() {
+    return GeneratedTextColumn(
+      'tax_id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _taxGroupMeta = const VerificationMeta('taxGroup');
+  GeneratedTextColumn _taxGroup;
+  @override
+  GeneratedTextColumn get taxGroup => _taxGroup ??= _constructTaxGroup();
+  GeneratedTextColumn _constructTaxGroup() {
+    return GeneratedTextColumn(
+      'tax_group',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        tenantId,
+        creationTime,
+        deleteTime,
+        createUserId,
+        creatorUser,
+        lastModifierUser,
+        lastModifierUserId,
+        deleteUserId,
+        deleterUserId,
+        isDeleted,
+        id,
+        customerId,
+        customerName,
+        companyName,
+        customerType,
+        customerGroup,
+        customerTerritory,
+        defaultCurrency,
+        paymentTerms,
+        language,
+        creditLimit,
+        billingAddressName,
+        shippingAddressName,
+        contactName,
+        priceList,
+        minQuantity,
+        maxQuantity,
+        discountType,
+        discountPercentage,
+        discountAmount,
+        enableHeaderDiscount,
+        accumulatedPurchase,
+        validFrom,
+        validTo,
+        taxId,
+        taxGroup
+      ];
+  @override
+  $CustomerTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'customer';
+  @override
+  final String actualTableName = 'customer';
+  @override
+  VerificationContext validateIntegrity(Insertable<CustomerData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
+    if (data.containsKey('creation_time')) {
+      context.handle(
+          _creationTimeMeta,
+          creationTime.isAcceptableOrUnknown(
+              data['creation_time'], _creationTimeMeta));
+    }
+    if (data.containsKey('delete_time')) {
+      context.handle(
+          _deleteTimeMeta,
+          deleteTime.isAcceptableOrUnknown(
+              data['delete_time'], _deleteTimeMeta));
+    }
+    if (data.containsKey('create_user_id')) {
+      context.handle(
+          _createUserIdMeta,
+          createUserId.isAcceptableOrUnknown(
+              data['create_user_id'], _createUserIdMeta));
+    }
+    if (data.containsKey('creator_user')) {
+      context.handle(
+          _creatorUserMeta,
+          creatorUser.isAcceptableOrUnknown(
+              data['creator_user'], _creatorUserMeta));
+    }
+    if (data.containsKey('last_modifier_user')) {
+      context.handle(
+          _lastModifierUserMeta,
+          lastModifierUser.isAcceptableOrUnknown(
+              data['last_modifier_user'], _lastModifierUserMeta));
+    }
+    if (data.containsKey('last_modifier_user_id')) {
+      context.handle(
+          _lastModifierUserIdMeta,
+          lastModifierUserId.isAcceptableOrUnknown(
+              data['last_modifier_user_id'], _lastModifierUserIdMeta));
+    }
+    if (data.containsKey('delete_user_id')) {
+      context.handle(
+          _deleteUserIdMeta,
+          deleteUserId.isAcceptableOrUnknown(
+              data['delete_user_id'], _deleteUserIdMeta));
+    }
+    if (data.containsKey('deleter_user_id')) {
+      context.handle(
+          _deleterUserIdMeta,
+          deleterUserId.isAcceptableOrUnknown(
+              data['deleter_user_id'], _deleterUserIdMeta));
+    }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('customer_id')) {
+      context.handle(
+          _customerIdMeta,
+          customerId.isAcceptableOrUnknown(
+              data['customer_id'], _customerIdMeta));
+    } else if (isInserting) {
+      context.missing(_customerIdMeta);
+    }
+    if (data.containsKey('customer_name')) {
+      context.handle(
+          _customerNameMeta,
+          customerName.isAcceptableOrUnknown(
+              data['customer_name'], _customerNameMeta));
+    } else if (isInserting) {
+      context.missing(_customerNameMeta);
+    }
+    if (data.containsKey('company_name')) {
+      context.handle(
+          _companyNameMeta,
+          companyName.isAcceptableOrUnknown(
+              data['company_name'], _companyNameMeta));
+    } else if (isInserting) {
+      context.missing(_companyNameMeta);
+    }
+    if (data.containsKey('customer_type')) {
+      context.handle(
+          _customerTypeMeta,
+          customerType.isAcceptableOrUnknown(
+              data['customer_type'], _customerTypeMeta));
+    } else if (isInserting) {
+      context.missing(_customerTypeMeta);
+    }
+    if (data.containsKey('customer_group')) {
+      context.handle(
+          _customerGroupMeta,
+          customerGroup.isAcceptableOrUnknown(
+              data['customer_group'], _customerGroupMeta));
+    } else if (isInserting) {
+      context.missing(_customerGroupMeta);
+    }
+    if (data.containsKey('customer_territory')) {
+      context.handle(
+          _customerTerritoryMeta,
+          customerTerritory.isAcceptableOrUnknown(
+              data['customer_territory'], _customerTerritoryMeta));
+    } else if (isInserting) {
+      context.missing(_customerTerritoryMeta);
+    }
+    if (data.containsKey('default_currency')) {
+      context.handle(
+          _defaultCurrencyMeta,
+          defaultCurrency.isAcceptableOrUnknown(
+              data['default_currency'], _defaultCurrencyMeta));
+    } else if (isInserting) {
+      context.missing(_defaultCurrencyMeta);
+    }
+    if (data.containsKey('payment_terms')) {
+      context.handle(
+          _paymentTermsMeta,
+          paymentTerms.isAcceptableOrUnknown(
+              data['payment_terms'], _paymentTermsMeta));
+    } else if (isInserting) {
+      context.missing(_paymentTermsMeta);
+    }
+    if (data.containsKey('language')) {
+      context.handle(_languageMeta,
+          language.isAcceptableOrUnknown(data['language'], _languageMeta));
+    } else if (isInserting) {
+      context.missing(_languageMeta);
+    }
+    if (data.containsKey('credit_limit')) {
+      context.handle(
+          _creditLimitMeta,
+          creditLimit.isAcceptableOrUnknown(
+              data['credit_limit'], _creditLimitMeta));
+    } else if (isInserting) {
+      context.missing(_creditLimitMeta);
+    }
+    if (data.containsKey('billing_address_name')) {
+      context.handle(
+          _billingAddressNameMeta,
+          billingAddressName.isAcceptableOrUnknown(
+              data['billing_address_name'], _billingAddressNameMeta));
+    }
+    if (data.containsKey('shipping_address_name')) {
+      context.handle(
+          _shippingAddressNameMeta,
+          shippingAddressName.isAcceptableOrUnknown(
+              data['shipping_address_name'], _shippingAddressNameMeta));
+    }
+    if (data.containsKey('contact_name')) {
+      context.handle(
+          _contactNameMeta,
+          contactName.isAcceptableOrUnknown(
+              data['contact_name'], _contactNameMeta));
+    }
+    if (data.containsKey('price_list')) {
+      context.handle(_priceListMeta,
+          priceList.isAcceptableOrUnknown(data['price_list'], _priceListMeta));
+    }
+    if (data.containsKey('min_quantity')) {
+      context.handle(
+          _minQuantityMeta,
+          minQuantity.isAcceptableOrUnknown(
+              data['min_quantity'], _minQuantityMeta));
+    } else if (isInserting) {
+      context.missing(_minQuantityMeta);
+    }
+    if (data.containsKey('max_quantity')) {
+      context.handle(
+          _maxQuantityMeta,
+          maxQuantity.isAcceptableOrUnknown(
+              data['max_quantity'], _maxQuantityMeta));
+    } else if (isInserting) {
+      context.missing(_maxQuantityMeta);
+    }
+    if (data.containsKey('discount_type')) {
+      context.handle(
+          _discountTypeMeta,
+          discountType.isAcceptableOrUnknown(
+              data['discount_type'], _discountTypeMeta));
+    } else if (isInserting) {
+      context.missing(_discountTypeMeta);
+    }
+    if (data.containsKey('discount_percentage')) {
+      context.handle(
+          _discountPercentageMeta,
+          discountPercentage.isAcceptableOrUnknown(
+              data['discount_percentage'], _discountPercentageMeta));
+    } else if (isInserting) {
+      context.missing(_discountPercentageMeta);
+    }
+    if (data.containsKey('discount_amount')) {
+      context.handle(
+          _discountAmountMeta,
+          discountAmount.isAcceptableOrUnknown(
+              data['discount_amount'], _discountAmountMeta));
+    } else if (isInserting) {
+      context.missing(_discountAmountMeta);
+    }
+    if (data.containsKey('enable_header_discount')) {
+      context.handle(
+          _enableHeaderDiscountMeta,
+          enableHeaderDiscount.isAcceptableOrUnknown(
+              data['enable_header_discount'], _enableHeaderDiscountMeta));
+    } else if (isInserting) {
+      context.missing(_enableHeaderDiscountMeta);
+    }
+    if (data.containsKey('accumulated_purchase')) {
+      context.handle(
+          _accumulatedPurchaseMeta,
+          accumulatedPurchase.isAcceptableOrUnknown(
+              data['accumulated_purchase'], _accumulatedPurchaseMeta));
+    } else if (isInserting) {
+      context.missing(_accumulatedPurchaseMeta);
+    }
+    if (data.containsKey('valid_from')) {
+      context.handle(_validFromMeta,
+          validFrom.isAcceptableOrUnknown(data['valid_from'], _validFromMeta));
+    } else if (isInserting) {
+      context.missing(_validFromMeta);
+    }
+    if (data.containsKey('valid_to')) {
+      context.handle(_validToMeta,
+          validTo.isAcceptableOrUnknown(data['valid_to'], _validToMeta));
+    } else if (isInserting) {
+      context.missing(_validToMeta);
+    }
+    if (data.containsKey('tax_id')) {
+      context.handle(
+          _taxIdMeta, taxId.isAcceptableOrUnknown(data['tax_id'], _taxIdMeta));
+    } else if (isInserting) {
+      context.missing(_taxIdMeta);
+    }
+    if (data.containsKey('tax_group')) {
+      context.handle(_taxGroupMeta,
+          taxGroup.isAcceptableOrUnknown(data['tax_group'], _taxGroupMeta));
+    } else if (isInserting) {
+      context.missing(_taxGroupMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CustomerData map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return CustomerData.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $CustomerTable createAlias(String alias) {
+    return $CustomerTable(_db, alias);
+  }
+}
+
+class Addres extends DataClass implements Insertable<Addres> {
+  final int tenantId;
+  final DateTime creationTime;
+  final DateTime deleteTime;
+  final int createUserId;
+  final String creatorUser;
+  final String lastModifierUser;
+  final int lastModifierUserId;
+  final int deleteUserId;
+  final String deleterUserId;
+  final bool isDeleted;
+  final int id;
+  final String customerId;
+  final String addressTitle;
+  final String addressType;
+  final String addressLine1;
+  final String addressLine2;
+  final String city;
+  final String state;
+  final String appartment;
+  final String country;
+  final String zipCode;
+  final String contactPerson;
+  final String phoneNumber;
+  final bool isYourCompanyAddress;
+  final bool isPrimaryAddress;
+  final bool isShippingAddress;
+  final double latitude;
+  final double longitude;
+  Addres(
+      {this.tenantId,
+      this.creationTime,
+      this.deleteTime,
+      this.createUserId,
+      this.creatorUser,
+      this.lastModifierUser,
+      this.lastModifierUserId,
+      this.deleteUserId,
+      this.deleterUserId,
+      @required this.isDeleted,
+      @required this.id,
+      @required this.customerId,
+      @required this.addressTitle,
+      @required this.addressType,
+      @required this.addressLine1,
+      @required this.addressLine2,
+      @required this.city,
+      @required this.state,
+      @required this.appartment,
+      @required this.country,
+      @required this.zipCode,
+      @required this.contactPerson,
+      @required this.phoneNumber,
+      @required this.isYourCompanyAddress,
+      @required this.isPrimaryAddress,
+      @required this.isShippingAddress,
+      @required this.latitude,
+      @required this.longitude});
+  factory Addres.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    final doubleType = db.typeSystem.forDartType<double>();
+    return Addres(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      creationTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
+      deleteTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
+      createUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
+      creatorUser: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
+      lastModifierUser: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user']),
+      lastModifierUserId: intType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user_id']),
+      deleteUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
+      deleterUserId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
+      isDeleted: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      customerId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}customer_id']),
+      addressTitle: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}address_title']),
+      addressType: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}address_type']),
+      addressLine1: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}address_line1']),
+      addressLine2: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}address_line2']),
+      city: stringType.mapFromDatabaseResponse(data['${effectivePrefix}city']),
+      state:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}state']),
+      appartment: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}appartment']),
+      country:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}country']),
+      zipCode: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}zip_code']),
+      contactPerson: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}contact_person']),
+      phoneNumber: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}phone_number']),
+      isYourCompanyAddress: boolType.mapFromDatabaseResponse(
+          data['${effectivePrefix}is_your_company_address']),
+      isPrimaryAddress: boolType.mapFromDatabaseResponse(
+          data['${effectivePrefix}is_primary_address']),
+      isShippingAddress: boolType.mapFromDatabaseResponse(
+          data['${effectivePrefix}is_shipping_address']),
+      latitude: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}latitude']),
+      longitude: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}longitude']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || creationTime != null) {
+      map['creation_time'] = Variable<DateTime>(creationTime);
+    }
+    if (!nullToAbsent || deleteTime != null) {
+      map['delete_time'] = Variable<DateTime>(deleteTime);
+    }
+    if (!nullToAbsent || createUserId != null) {
+      map['create_user_id'] = Variable<int>(createUserId);
+    }
+    if (!nullToAbsent || creatorUser != null) {
+      map['creator_user'] = Variable<String>(creatorUser);
+    }
+    if (!nullToAbsent || lastModifierUser != null) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser);
+    }
+    if (!nullToAbsent || lastModifierUserId != null) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
+    }
+    if (!nullToAbsent || deleteUserId != null) {
+      map['delete_user_id'] = Variable<int>(deleteUserId);
+    }
+    if (!nullToAbsent || deleterUserId != null) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId);
+    }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || customerId != null) {
+      map['customer_id'] = Variable<String>(customerId);
+    }
+    if (!nullToAbsent || addressTitle != null) {
+      map['address_title'] = Variable<String>(addressTitle);
+    }
+    if (!nullToAbsent || addressType != null) {
+      map['address_type'] = Variable<String>(addressType);
+    }
+    if (!nullToAbsent || addressLine1 != null) {
+      map['address_line1'] = Variable<String>(addressLine1);
+    }
+    if (!nullToAbsent || addressLine2 != null) {
+      map['address_line2'] = Variable<String>(addressLine2);
+    }
+    if (!nullToAbsent || city != null) {
+      map['city'] = Variable<String>(city);
+    }
+    if (!nullToAbsent || state != null) {
+      map['state'] = Variable<String>(state);
+    }
+    if (!nullToAbsent || appartment != null) {
+      map['appartment'] = Variable<String>(appartment);
+    }
+    if (!nullToAbsent || country != null) {
+      map['country'] = Variable<String>(country);
+    }
+    if (!nullToAbsent || zipCode != null) {
+      map['zip_code'] = Variable<String>(zipCode);
+    }
+    if (!nullToAbsent || contactPerson != null) {
+      map['contact_person'] = Variable<String>(contactPerson);
+    }
+    if (!nullToAbsent || phoneNumber != null) {
+      map['phone_number'] = Variable<String>(phoneNumber);
+    }
+    if (!nullToAbsent || isYourCompanyAddress != null) {
+      map['is_your_company_address'] = Variable<bool>(isYourCompanyAddress);
+    }
+    if (!nullToAbsent || isPrimaryAddress != null) {
+      map['is_primary_address'] = Variable<bool>(isPrimaryAddress);
+    }
+    if (!nullToAbsent || isShippingAddress != null) {
+      map['is_shipping_address'] = Variable<bool>(isShippingAddress);
+    }
+    if (!nullToAbsent || latitude != null) {
+      map['latitude'] = Variable<double>(latitude);
+    }
+    if (!nullToAbsent || longitude != null) {
+      map['longitude'] = Variable<double>(longitude);
+    }
+    return map;
+  }
+
+  AddressCompanion toCompanion(bool nullToAbsent) {
+    return AddressCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      creationTime: creationTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creationTime),
+      deleteTime: deleteTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteTime),
+      createUserId: createUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createUserId),
+      creatorUser: creatorUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creatorUser),
+      lastModifierUser: lastModifierUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUser),
+      lastModifierUserId: lastModifierUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUserId),
+      deleteUserId: deleteUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteUserId),
+      deleterUserId: deleterUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleterUserId),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      customerId: customerId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerId),
+      addressTitle: addressTitle == null && nullToAbsent
+          ? const Value.absent()
+          : Value(addressTitle),
+      addressType: addressType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(addressType),
+      addressLine1: addressLine1 == null && nullToAbsent
+          ? const Value.absent()
+          : Value(addressLine1),
+      addressLine2: addressLine2 == null && nullToAbsent
+          ? const Value.absent()
+          : Value(addressLine2),
+      city: city == null && nullToAbsent ? const Value.absent() : Value(city),
+      state:
+          state == null && nullToAbsent ? const Value.absent() : Value(state),
+      appartment: appartment == null && nullToAbsent
+          ? const Value.absent()
+          : Value(appartment),
+      country: country == null && nullToAbsent
+          ? const Value.absent()
+          : Value(country),
+      zipCode: zipCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(zipCode),
+      contactPerson: contactPerson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(contactPerson),
+      phoneNumber: phoneNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(phoneNumber),
+      isYourCompanyAddress: isYourCompanyAddress == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isYourCompanyAddress),
+      isPrimaryAddress: isPrimaryAddress == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isPrimaryAddress),
+      isShippingAddress: isShippingAddress == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isShippingAddress),
+      latitude: latitude == null && nullToAbsent
+          ? const Value.absent()
+          : Value(latitude),
+      longitude: longitude == null && nullToAbsent
+          ? const Value.absent()
+          : Value(longitude),
+    );
+  }
+
+  factory Addres.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return Addres(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
+      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
+      createUserId: serializer.fromJson<int>(json['createUserId']),
+      creatorUser: serializer.fromJson<String>(json['creatorUser']),
+      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
+      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
+      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
+      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      id: serializer.fromJson<int>(json['id']),
+      customerId: serializer.fromJson<String>(json['customerId']),
+      addressTitle: serializer.fromJson<String>(json['addressTitle']),
+      addressType: serializer.fromJson<String>(json['addressType']),
+      addressLine1: serializer.fromJson<String>(json['addressLine1']),
+      addressLine2: serializer.fromJson<String>(json['addressLine2']),
+      city: serializer.fromJson<String>(json['city']),
+      state: serializer.fromJson<String>(json['state']),
+      appartment: serializer.fromJson<String>(json['appartment']),
+      country: serializer.fromJson<String>(json['country']),
+      zipCode: serializer.fromJson<String>(json['zipCode']),
+      contactPerson: serializer.fromJson<String>(json['contactPerson']),
+      phoneNumber: serializer.fromJson<String>(json['phoneNumber']),
+      isYourCompanyAddress:
+          serializer.fromJson<bool>(json['isYourCompanyAddress']),
+      isPrimaryAddress: serializer.fromJson<bool>(json['isPrimaryAddress']),
+      isShippingAddress: serializer.fromJson<bool>(json['isShippingAddress']),
+      latitude: serializer.fromJson<double>(json['latitude']),
+      longitude: serializer.fromJson<double>(json['longitude']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'creationTime': serializer.toJson<DateTime>(creationTime),
+      'deleteTime': serializer.toJson<DateTime>(deleteTime),
+      'createUserId': serializer.toJson<int>(createUserId),
+      'creatorUser': serializer.toJson<String>(creatorUser),
+      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
+      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
+      'deleteUserId': serializer.toJson<int>(deleteUserId),
+      'deleterUserId': serializer.toJson<String>(deleterUserId),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'id': serializer.toJson<int>(id),
+      'customerId': serializer.toJson<String>(customerId),
+      'addressTitle': serializer.toJson<String>(addressTitle),
+      'addressType': serializer.toJson<String>(addressType),
+      'addressLine1': serializer.toJson<String>(addressLine1),
+      'addressLine2': serializer.toJson<String>(addressLine2),
+      'city': serializer.toJson<String>(city),
+      'state': serializer.toJson<String>(state),
+      'appartment': serializer.toJson<String>(appartment),
+      'country': serializer.toJson<String>(country),
+      'zipCode': serializer.toJson<String>(zipCode),
+      'contactPerson': serializer.toJson<String>(contactPerson),
+      'phoneNumber': serializer.toJson<String>(phoneNumber),
+      'isYourCompanyAddress': serializer.toJson<bool>(isYourCompanyAddress),
+      'isPrimaryAddress': serializer.toJson<bool>(isPrimaryAddress),
+      'isShippingAddress': serializer.toJson<bool>(isShippingAddress),
+      'latitude': serializer.toJson<double>(latitude),
+      'longitude': serializer.toJson<double>(longitude),
+    };
+  }
+
+  Addres copyWith(
+          {int tenantId,
+          DateTime creationTime,
+          DateTime deleteTime,
+          int createUserId,
+          String creatorUser,
+          String lastModifierUser,
+          int lastModifierUserId,
+          int deleteUserId,
+          String deleterUserId,
+          bool isDeleted,
+          int id,
+          String customerId,
+          String addressTitle,
+          String addressType,
+          String addressLine1,
+          String addressLine2,
+          String city,
+          String state,
+          String appartment,
+          String country,
+          String zipCode,
+          String contactPerson,
+          String phoneNumber,
+          bool isYourCompanyAddress,
+          bool isPrimaryAddress,
+          bool isShippingAddress,
+          double latitude,
+          double longitude}) =>
+      Addres(
+        tenantId: tenantId ?? this.tenantId,
+        creationTime: creationTime ?? this.creationTime,
+        deleteTime: deleteTime ?? this.deleteTime,
+        createUserId: createUserId ?? this.createUserId,
+        creatorUser: creatorUser ?? this.creatorUser,
+        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+        deleteUserId: deleteUserId ?? this.deleteUserId,
+        deleterUserId: deleterUserId ?? this.deleterUserId,
+        isDeleted: isDeleted ?? this.isDeleted,
+        id: id ?? this.id,
+        customerId: customerId ?? this.customerId,
+        addressTitle: addressTitle ?? this.addressTitle,
+        addressType: addressType ?? this.addressType,
+        addressLine1: addressLine1 ?? this.addressLine1,
+        addressLine2: addressLine2 ?? this.addressLine2,
+        city: city ?? this.city,
+        state: state ?? this.state,
+        appartment: appartment ?? this.appartment,
+        country: country ?? this.country,
+        zipCode: zipCode ?? this.zipCode,
+        contactPerson: contactPerson ?? this.contactPerson,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        isYourCompanyAddress: isYourCompanyAddress ?? this.isYourCompanyAddress,
+        isPrimaryAddress: isPrimaryAddress ?? this.isPrimaryAddress,
+        isShippingAddress: isShippingAddress ?? this.isShippingAddress,
+        latitude: latitude ?? this.latitude,
+        longitude: longitude ?? this.longitude,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('Addres(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('customerId: $customerId, ')
+          ..write('addressTitle: $addressTitle, ')
+          ..write('addressType: $addressType, ')
+          ..write('addressLine1: $addressLine1, ')
+          ..write('addressLine2: $addressLine2, ')
+          ..write('city: $city, ')
+          ..write('state: $state, ')
+          ..write('appartment: $appartment, ')
+          ..write('country: $country, ')
+          ..write('zipCode: $zipCode, ')
+          ..write('contactPerson: $contactPerson, ')
+          ..write('phoneNumber: $phoneNumber, ')
+          ..write('isYourCompanyAddress: $isYourCompanyAddress, ')
+          ..write('isPrimaryAddress: $isPrimaryAddress, ')
+          ..write('isShippingAddress: $isShippingAddress, ')
+          ..write('latitude: $latitude, ')
+          ..write('longitude: $longitude')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode,
+      $mrjc(
+          creationTime.hashCode,
+          $mrjc(
+              deleteTime.hashCode,
+              $mrjc(
+                  createUserId.hashCode,
+                  $mrjc(
+                      creatorUser.hashCode,
+                      $mrjc(
+                          lastModifierUser.hashCode,
+                          $mrjc(
+                              lastModifierUserId.hashCode,
+                              $mrjc(
+                                  deleteUserId.hashCode,
+                                  $mrjc(
+                                      deleterUserId.hashCode,
+                                      $mrjc(
+                                          isDeleted.hashCode,
+                                          $mrjc(
+                                              id.hashCode,
+                                              $mrjc(
+                                                  customerId.hashCode,
+                                                  $mrjc(
+                                                      addressTitle.hashCode,
+                                                      $mrjc(
+                                                          addressType.hashCode,
+                                                          $mrjc(
+                                                              addressLine1
+                                                                  .hashCode,
+                                                              $mrjc(
+                                                                  addressLine2
+                                                                      .hashCode,
+                                                                  $mrjc(
+                                                                      city
+                                                                          .hashCode,
+                                                                      $mrjc(
+                                                                          state
+                                                                              .hashCode,
+                                                                          $mrjc(
+                                                                              appartment.hashCode,
+                                                                              $mrjc(country.hashCode, $mrjc(zipCode.hashCode, $mrjc(contactPerson.hashCode, $mrjc(phoneNumber.hashCode, $mrjc(isYourCompanyAddress.hashCode, $mrjc(isPrimaryAddress.hashCode, $mrjc(isShippingAddress.hashCode, $mrjc(latitude.hashCode, longitude.hashCode))))))))))))))))))))))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is Addres &&
+          other.tenantId == this.tenantId &&
+          other.creationTime == this.creationTime &&
+          other.deleteTime == this.deleteTime &&
+          other.createUserId == this.createUserId &&
+          other.creatorUser == this.creatorUser &&
+          other.lastModifierUser == this.lastModifierUser &&
+          other.lastModifierUserId == this.lastModifierUserId &&
+          other.deleteUserId == this.deleteUserId &&
+          other.deleterUserId == this.deleterUserId &&
+          other.isDeleted == this.isDeleted &&
+          other.id == this.id &&
+          other.customerId == this.customerId &&
+          other.addressTitle == this.addressTitle &&
+          other.addressType == this.addressType &&
+          other.addressLine1 == this.addressLine1 &&
+          other.addressLine2 == this.addressLine2 &&
+          other.city == this.city &&
+          other.state == this.state &&
+          other.appartment == this.appartment &&
+          other.country == this.country &&
+          other.zipCode == this.zipCode &&
+          other.contactPerson == this.contactPerson &&
+          other.phoneNumber == this.phoneNumber &&
+          other.isYourCompanyAddress == this.isYourCompanyAddress &&
+          other.isPrimaryAddress == this.isPrimaryAddress &&
+          other.isShippingAddress == this.isShippingAddress &&
+          other.latitude == this.latitude &&
+          other.longitude == this.longitude);
+}
+
+class AddressCompanion extends UpdateCompanion<Addres> {
+  final Value<int> tenantId;
+  final Value<DateTime> creationTime;
+  final Value<DateTime> deleteTime;
+  final Value<int> createUserId;
+  final Value<String> creatorUser;
+  final Value<String> lastModifierUser;
+  final Value<int> lastModifierUserId;
+  final Value<int> deleteUserId;
+  final Value<String> deleterUserId;
+  final Value<bool> isDeleted;
+  final Value<int> id;
+  final Value<String> customerId;
+  final Value<String> addressTitle;
+  final Value<String> addressType;
+  final Value<String> addressLine1;
+  final Value<String> addressLine2;
+  final Value<String> city;
+  final Value<String> state;
+  final Value<String> appartment;
+  final Value<String> country;
+  final Value<String> zipCode;
+  final Value<String> contactPerson;
+  final Value<String> phoneNumber;
+  final Value<bool> isYourCompanyAddress;
+  final Value<bool> isPrimaryAddress;
+  final Value<bool> isShippingAddress;
+  final Value<double> latitude;
+  final Value<double> longitude;
+  const AddressCompanion({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    this.customerId = const Value.absent(),
+    this.addressTitle = const Value.absent(),
+    this.addressType = const Value.absent(),
+    this.addressLine1 = const Value.absent(),
+    this.addressLine2 = const Value.absent(),
+    this.city = const Value.absent(),
+    this.state = const Value.absent(),
+    this.appartment = const Value.absent(),
+    this.country = const Value.absent(),
+    this.zipCode = const Value.absent(),
+    this.contactPerson = const Value.absent(),
+    this.phoneNumber = const Value.absent(),
+    this.isYourCompanyAddress = const Value.absent(),
+    this.isPrimaryAddress = const Value.absent(),
+    this.isShippingAddress = const Value.absent(),
+    this.latitude = const Value.absent(),
+    this.longitude = const Value.absent(),
+  });
+  AddressCompanion.insert({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    @required String customerId,
+    @required String addressTitle,
+    @required String addressType,
+    @required String addressLine1,
+    @required String addressLine2,
+    @required String city,
+    @required String state,
+    @required String appartment,
+    @required String country,
+    @required String zipCode,
+    @required String contactPerson,
+    @required String phoneNumber,
+    this.isYourCompanyAddress = const Value.absent(),
+    this.isPrimaryAddress = const Value.absent(),
+    this.isShippingAddress = const Value.absent(),
+    @required double latitude,
+    @required double longitude,
+  })  : customerId = Value(customerId),
+        addressTitle = Value(addressTitle),
+        addressType = Value(addressType),
+        addressLine1 = Value(addressLine1),
+        addressLine2 = Value(addressLine2),
+        city = Value(city),
+        state = Value(state),
+        appartment = Value(appartment),
+        country = Value(country),
+        zipCode = Value(zipCode),
+        contactPerson = Value(contactPerson),
+        phoneNumber = Value(phoneNumber),
+        latitude = Value(latitude),
+        longitude = Value(longitude);
+  static Insertable<Addres> custom({
+    Expression<int> tenantId,
+    Expression<DateTime> creationTime,
+    Expression<DateTime> deleteTime,
+    Expression<int> createUserId,
+    Expression<String> creatorUser,
+    Expression<String> lastModifierUser,
+    Expression<int> lastModifierUserId,
+    Expression<int> deleteUserId,
+    Expression<String> deleterUserId,
+    Expression<bool> isDeleted,
+    Expression<int> id,
+    Expression<String> customerId,
+    Expression<String> addressTitle,
+    Expression<String> addressType,
+    Expression<String> addressLine1,
+    Expression<String> addressLine2,
+    Expression<String> city,
+    Expression<String> state,
+    Expression<String> appartment,
+    Expression<String> country,
+    Expression<String> zipCode,
+    Expression<String> contactPerson,
+    Expression<String> phoneNumber,
+    Expression<bool> isYourCompanyAddress,
+    Expression<bool> isPrimaryAddress,
+    Expression<bool> isShippingAddress,
+    Expression<double> latitude,
+    Expression<double> longitude,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (creationTime != null) 'creation_time': creationTime,
+      if (deleteTime != null) 'delete_time': deleteTime,
+      if (createUserId != null) 'create_user_id': createUserId,
+      if (creatorUser != null) 'creator_user': creatorUser,
+      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
+      if (lastModifierUserId != null)
+        'last_modifier_user_id': lastModifierUserId,
+      if (deleteUserId != null) 'delete_user_id': deleteUserId,
+      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (id != null) 'id': id,
+      if (customerId != null) 'customer_id': customerId,
+      if (addressTitle != null) 'address_title': addressTitle,
+      if (addressType != null) 'address_type': addressType,
+      if (addressLine1 != null) 'address_line1': addressLine1,
+      if (addressLine2 != null) 'address_line2': addressLine2,
+      if (city != null) 'city': city,
+      if (state != null) 'state': state,
+      if (appartment != null) 'appartment': appartment,
+      if (country != null) 'country': country,
+      if (zipCode != null) 'zip_code': zipCode,
+      if (contactPerson != null) 'contact_person': contactPerson,
+      if (phoneNumber != null) 'phone_number': phoneNumber,
+      if (isYourCompanyAddress != null)
+        'is_your_company_address': isYourCompanyAddress,
+      if (isPrimaryAddress != null) 'is_primary_address': isPrimaryAddress,
+      if (isShippingAddress != null) 'is_shipping_address': isShippingAddress,
+      if (latitude != null) 'latitude': latitude,
+      if (longitude != null) 'longitude': longitude,
+    });
+  }
+
+  AddressCompanion copyWith(
+      {Value<int> tenantId,
+      Value<DateTime> creationTime,
+      Value<DateTime> deleteTime,
+      Value<int> createUserId,
+      Value<String> creatorUser,
+      Value<String> lastModifierUser,
+      Value<int> lastModifierUserId,
+      Value<int> deleteUserId,
+      Value<String> deleterUserId,
+      Value<bool> isDeleted,
+      Value<int> id,
+      Value<String> customerId,
+      Value<String> addressTitle,
+      Value<String> addressType,
+      Value<String> addressLine1,
+      Value<String> addressLine2,
+      Value<String> city,
+      Value<String> state,
+      Value<String> appartment,
+      Value<String> country,
+      Value<String> zipCode,
+      Value<String> contactPerson,
+      Value<String> phoneNumber,
+      Value<bool> isYourCompanyAddress,
+      Value<bool> isPrimaryAddress,
+      Value<bool> isShippingAddress,
+      Value<double> latitude,
+      Value<double> longitude}) {
+    return AddressCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      creationTime: creationTime ?? this.creationTime,
+      deleteTime: deleteTime ?? this.deleteTime,
+      createUserId: createUserId ?? this.createUserId,
+      creatorUser: creatorUser ?? this.creatorUser,
+      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+      deleteUserId: deleteUserId ?? this.deleteUserId,
+      deleterUserId: deleterUserId ?? this.deleterUserId,
+      isDeleted: isDeleted ?? this.isDeleted,
+      id: id ?? this.id,
+      customerId: customerId ?? this.customerId,
+      addressTitle: addressTitle ?? this.addressTitle,
+      addressType: addressType ?? this.addressType,
+      addressLine1: addressLine1 ?? this.addressLine1,
+      addressLine2: addressLine2 ?? this.addressLine2,
+      city: city ?? this.city,
+      state: state ?? this.state,
+      appartment: appartment ?? this.appartment,
+      country: country ?? this.country,
+      zipCode: zipCode ?? this.zipCode,
+      contactPerson: contactPerson ?? this.contactPerson,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      isYourCompanyAddress: isYourCompanyAddress ?? this.isYourCompanyAddress,
+      isPrimaryAddress: isPrimaryAddress ?? this.isPrimaryAddress,
+      isShippingAddress: isShippingAddress ?? this.isShippingAddress,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (creationTime.present) {
+      map['creation_time'] = Variable<DateTime>(creationTime.value);
+    }
+    if (deleteTime.present) {
+      map['delete_time'] = Variable<DateTime>(deleteTime.value);
+    }
+    if (createUserId.present) {
+      map['create_user_id'] = Variable<int>(createUserId.value);
+    }
+    if (creatorUser.present) {
+      map['creator_user'] = Variable<String>(creatorUser.value);
+    }
+    if (lastModifierUser.present) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
+    }
+    if (lastModifierUserId.present) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
+    }
+    if (deleteUserId.present) {
+      map['delete_user_id'] = Variable<int>(deleteUserId.value);
+    }
+    if (deleterUserId.present) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (customerId.present) {
+      map['customer_id'] = Variable<String>(customerId.value);
+    }
+    if (addressTitle.present) {
+      map['address_title'] = Variable<String>(addressTitle.value);
+    }
+    if (addressType.present) {
+      map['address_type'] = Variable<String>(addressType.value);
+    }
+    if (addressLine1.present) {
+      map['address_line1'] = Variable<String>(addressLine1.value);
+    }
+    if (addressLine2.present) {
+      map['address_line2'] = Variable<String>(addressLine2.value);
+    }
+    if (city.present) {
+      map['city'] = Variable<String>(city.value);
+    }
+    if (state.present) {
+      map['state'] = Variable<String>(state.value);
+    }
+    if (appartment.present) {
+      map['appartment'] = Variable<String>(appartment.value);
+    }
+    if (country.present) {
+      map['country'] = Variable<String>(country.value);
+    }
+    if (zipCode.present) {
+      map['zip_code'] = Variable<String>(zipCode.value);
+    }
+    if (contactPerson.present) {
+      map['contact_person'] = Variable<String>(contactPerson.value);
+    }
+    if (phoneNumber.present) {
+      map['phone_number'] = Variable<String>(phoneNumber.value);
+    }
+    if (isYourCompanyAddress.present) {
+      map['is_your_company_address'] =
+          Variable<bool>(isYourCompanyAddress.value);
+    }
+    if (isPrimaryAddress.present) {
+      map['is_primary_address'] = Variable<bool>(isPrimaryAddress.value);
+    }
+    if (isShippingAddress.present) {
+      map['is_shipping_address'] = Variable<bool>(isShippingAddress.value);
+    }
+    if (latitude.present) {
+      map['latitude'] = Variable<double>(latitude.value);
+    }
+    if (longitude.present) {
+      map['longitude'] = Variable<double>(longitude.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AddressCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('customerId: $customerId, ')
+          ..write('addressTitle: $addressTitle, ')
+          ..write('addressType: $addressType, ')
+          ..write('addressLine1: $addressLine1, ')
+          ..write('addressLine2: $addressLine2, ')
+          ..write('city: $city, ')
+          ..write('state: $state, ')
+          ..write('appartment: $appartment, ')
+          ..write('country: $country, ')
+          ..write('zipCode: $zipCode, ')
+          ..write('contactPerson: $contactPerson, ')
+          ..write('phoneNumber: $phoneNumber, ')
+          ..write('isYourCompanyAddress: $isYourCompanyAddress, ')
+          ..write('isPrimaryAddress: $isPrimaryAddress, ')
+          ..write('isShippingAddress: $isShippingAddress, ')
+          ..write('latitude: $latitude, ')
+          ..write('longitude: $longitude')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $AddressTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creationTimeMeta =
+      const VerificationMeta('creationTime');
+  GeneratedDateTimeColumn _creationTime;
+  @override
+  GeneratedDateTimeColumn get creationTime =>
+      _creationTime ??= _constructCreationTime();
+  GeneratedDateTimeColumn _constructCreationTime() {
+    return GeneratedDateTimeColumn(
+      'creation_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
+  GeneratedDateTimeColumn _deleteTime;
+  @override
+  GeneratedDateTimeColumn get deleteTime =>
+      _deleteTime ??= _constructDeleteTime();
+  GeneratedDateTimeColumn _constructDeleteTime() {
+    return GeneratedDateTimeColumn(
+      'delete_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _createUserIdMeta =
+      const VerificationMeta('createUserId');
+  GeneratedIntColumn _createUserId;
+  @override
+  GeneratedIntColumn get createUserId =>
+      _createUserId ??= _constructCreateUserId();
+  GeneratedIntColumn _constructCreateUserId() {
+    return GeneratedIntColumn(
+      'create_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creatorUserMeta =
+      const VerificationMeta('creatorUser');
+  GeneratedTextColumn _creatorUser;
+  @override
+  GeneratedTextColumn get creatorUser =>
+      _creatorUser ??= _constructCreatorUser();
+  GeneratedTextColumn _constructCreatorUser() {
+    return GeneratedTextColumn(
+      'creator_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserMeta =
+      const VerificationMeta('lastModifierUser');
+  GeneratedTextColumn _lastModifierUser;
+  @override
+  GeneratedTextColumn get lastModifierUser =>
+      _lastModifierUser ??= _constructLastModifierUser();
+  GeneratedTextColumn _constructLastModifierUser() {
+    return GeneratedTextColumn(
+      'last_modifier_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserIdMeta =
+      const VerificationMeta('lastModifierUserId');
+  GeneratedIntColumn _lastModifierUserId;
+  @override
+  GeneratedIntColumn get lastModifierUserId =>
+      _lastModifierUserId ??= _constructLastModifierUserId();
+  GeneratedIntColumn _constructLastModifierUserId() {
+    return GeneratedIntColumn(
+      'last_modifier_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteUserIdMeta =
+      const VerificationMeta('deleteUserId');
+  GeneratedIntColumn _deleteUserId;
+  @override
+  GeneratedIntColumn get deleteUserId =>
+      _deleteUserId ??= _constructDeleteUserId();
+  GeneratedIntColumn _constructDeleteUserId() {
+    return GeneratedIntColumn(
+      'delete_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleterUserIdMeta =
+      const VerificationMeta('deleterUserId');
+  GeneratedTextColumn _deleterUserId;
+  @override
+  GeneratedTextColumn get deleterUserId =>
+      _deleterUserId ??= _constructDeleterUserId();
+  GeneratedTextColumn _constructDeleterUserId() {
+    return GeneratedTextColumn(
+      'deleter_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  GeneratedBoolColumn _isDeleted;
+  @override
+  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
+  GeneratedBoolColumn _constructIsDeleted() {
+    return GeneratedBoolColumn('is_deleted', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _customerIdMeta = const VerificationMeta('customerId');
+  GeneratedTextColumn _customerId;
+  @override
+  GeneratedTextColumn get customerId => _customerId ??= _constructCustomerId();
+  GeneratedTextColumn _constructCustomerId() {
+    return GeneratedTextColumn(
+      'customer_id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _addressTitleMeta =
+      const VerificationMeta('addressTitle');
+  GeneratedTextColumn _addressTitle;
+  @override
+  GeneratedTextColumn get addressTitle =>
+      _addressTitle ??= _constructAddressTitle();
+  GeneratedTextColumn _constructAddressTitle() {
+    return GeneratedTextColumn(
+      'address_title',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _addressTypeMeta =
+      const VerificationMeta('addressType');
+  GeneratedTextColumn _addressType;
+  @override
+  GeneratedTextColumn get addressType =>
+      _addressType ??= _constructAddressType();
+  GeneratedTextColumn _constructAddressType() {
+    return GeneratedTextColumn(
+      'address_type',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _addressLine1Meta =
+      const VerificationMeta('addressLine1');
+  GeneratedTextColumn _addressLine1;
+  @override
+  GeneratedTextColumn get addressLine1 =>
+      _addressLine1 ??= _constructAddressLine1();
+  GeneratedTextColumn _constructAddressLine1() {
+    return GeneratedTextColumn(
+      'address_line1',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _addressLine2Meta =
+      const VerificationMeta('addressLine2');
+  GeneratedTextColumn _addressLine2;
+  @override
+  GeneratedTextColumn get addressLine2 =>
+      _addressLine2 ??= _constructAddressLine2();
+  GeneratedTextColumn _constructAddressLine2() {
+    return GeneratedTextColumn(
+      'address_line2',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _cityMeta = const VerificationMeta('city');
+  GeneratedTextColumn _city;
+  @override
+  GeneratedTextColumn get city => _city ??= _constructCity();
+  GeneratedTextColumn _constructCity() {
+    return GeneratedTextColumn(
+      'city',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _stateMeta = const VerificationMeta('state');
+  GeneratedTextColumn _state;
+  @override
+  GeneratedTextColumn get state => _state ??= _constructState();
+  GeneratedTextColumn _constructState() {
+    return GeneratedTextColumn(
+      'state',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _appartmentMeta = const VerificationMeta('appartment');
+  GeneratedTextColumn _appartment;
+  @override
+  GeneratedTextColumn get appartment => _appartment ??= _constructAppartment();
+  GeneratedTextColumn _constructAppartment() {
+    return GeneratedTextColumn(
+      'appartment',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _countryMeta = const VerificationMeta('country');
+  GeneratedTextColumn _country;
+  @override
+  GeneratedTextColumn get country => _country ??= _constructCountry();
+  GeneratedTextColumn _constructCountry() {
+    return GeneratedTextColumn(
+      'country',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _zipCodeMeta = const VerificationMeta('zipCode');
+  GeneratedTextColumn _zipCode;
+  @override
+  GeneratedTextColumn get zipCode => _zipCode ??= _constructZipCode();
+  GeneratedTextColumn _constructZipCode() {
+    return GeneratedTextColumn(
+      'zip_code',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _contactPersonMeta =
+      const VerificationMeta('contactPerson');
+  GeneratedTextColumn _contactPerson;
+  @override
+  GeneratedTextColumn get contactPerson =>
+      _contactPerson ??= _constructContactPerson();
+  GeneratedTextColumn _constructContactPerson() {
+    return GeneratedTextColumn(
+      'contact_person',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _phoneNumberMeta =
+      const VerificationMeta('phoneNumber');
+  GeneratedTextColumn _phoneNumber;
+  @override
+  GeneratedTextColumn get phoneNumber =>
+      _phoneNumber ??= _constructPhoneNumber();
+  GeneratedTextColumn _constructPhoneNumber() {
+    return GeneratedTextColumn(
+      'phone_number',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _isYourCompanyAddressMeta =
+      const VerificationMeta('isYourCompanyAddress');
+  GeneratedBoolColumn _isYourCompanyAddress;
+  @override
+  GeneratedBoolColumn get isYourCompanyAddress =>
+      _isYourCompanyAddress ??= _constructIsYourCompanyAddress();
+  GeneratedBoolColumn _constructIsYourCompanyAddress() {
+    return GeneratedBoolColumn('is_your_company_address', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _isPrimaryAddressMeta =
+      const VerificationMeta('isPrimaryAddress');
+  GeneratedBoolColumn _isPrimaryAddress;
+  @override
+  GeneratedBoolColumn get isPrimaryAddress =>
+      _isPrimaryAddress ??= _constructIsPrimaryAddress();
+  GeneratedBoolColumn _constructIsPrimaryAddress() {
+    return GeneratedBoolColumn('is_primary_address', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _isShippingAddressMeta =
+      const VerificationMeta('isShippingAddress');
+  GeneratedBoolColumn _isShippingAddress;
+  @override
+  GeneratedBoolColumn get isShippingAddress =>
+      _isShippingAddress ??= _constructIsShippingAddress();
+  GeneratedBoolColumn _constructIsShippingAddress() {
+    return GeneratedBoolColumn('is_shipping_address', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _latitudeMeta = const VerificationMeta('latitude');
+  GeneratedRealColumn _latitude;
+  @override
+  GeneratedRealColumn get latitude => _latitude ??= _constructLatitude();
+  GeneratedRealColumn _constructLatitude() {
+    return GeneratedRealColumn(
+      'latitude',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _longitudeMeta = const VerificationMeta('longitude');
+  GeneratedRealColumn _longitude;
+  @override
+  GeneratedRealColumn get longitude => _longitude ??= _constructLongitude();
+  GeneratedRealColumn _constructLongitude() {
+    return GeneratedRealColumn(
+      'longitude',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        tenantId,
+        creationTime,
+        deleteTime,
+        createUserId,
+        creatorUser,
+        lastModifierUser,
+        lastModifierUserId,
+        deleteUserId,
+        deleterUserId,
+        isDeleted,
+        id,
+        customerId,
+        addressTitle,
+        addressType,
+        addressLine1,
+        addressLine2,
+        city,
+        state,
+        appartment,
+        country,
+        zipCode,
+        contactPerson,
+        phoneNumber,
+        isYourCompanyAddress,
+        isPrimaryAddress,
+        isShippingAddress,
+        latitude,
+        longitude
+      ];
+  @override
+  $AddressTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'address';
+  @override
+  final String actualTableName = 'address';
+  @override
+  VerificationContext validateIntegrity(Insertable<Addres> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
+    if (data.containsKey('creation_time')) {
+      context.handle(
+          _creationTimeMeta,
+          creationTime.isAcceptableOrUnknown(
+              data['creation_time'], _creationTimeMeta));
+    }
+    if (data.containsKey('delete_time')) {
+      context.handle(
+          _deleteTimeMeta,
+          deleteTime.isAcceptableOrUnknown(
+              data['delete_time'], _deleteTimeMeta));
+    }
+    if (data.containsKey('create_user_id')) {
+      context.handle(
+          _createUserIdMeta,
+          createUserId.isAcceptableOrUnknown(
+              data['create_user_id'], _createUserIdMeta));
+    }
+    if (data.containsKey('creator_user')) {
+      context.handle(
+          _creatorUserMeta,
+          creatorUser.isAcceptableOrUnknown(
+              data['creator_user'], _creatorUserMeta));
+    }
+    if (data.containsKey('last_modifier_user')) {
+      context.handle(
+          _lastModifierUserMeta,
+          lastModifierUser.isAcceptableOrUnknown(
+              data['last_modifier_user'], _lastModifierUserMeta));
+    }
+    if (data.containsKey('last_modifier_user_id')) {
+      context.handle(
+          _lastModifierUserIdMeta,
+          lastModifierUserId.isAcceptableOrUnknown(
+              data['last_modifier_user_id'], _lastModifierUserIdMeta));
+    }
+    if (data.containsKey('delete_user_id')) {
+      context.handle(
+          _deleteUserIdMeta,
+          deleteUserId.isAcceptableOrUnknown(
+              data['delete_user_id'], _deleteUserIdMeta));
+    }
+    if (data.containsKey('deleter_user_id')) {
+      context.handle(
+          _deleterUserIdMeta,
+          deleterUserId.isAcceptableOrUnknown(
+              data['deleter_user_id'], _deleterUserIdMeta));
+    }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('customer_id')) {
+      context.handle(
+          _customerIdMeta,
+          customerId.isAcceptableOrUnknown(
+              data['customer_id'], _customerIdMeta));
+    } else if (isInserting) {
+      context.missing(_customerIdMeta);
+    }
+    if (data.containsKey('address_title')) {
+      context.handle(
+          _addressTitleMeta,
+          addressTitle.isAcceptableOrUnknown(
+              data['address_title'], _addressTitleMeta));
+    } else if (isInserting) {
+      context.missing(_addressTitleMeta);
+    }
+    if (data.containsKey('address_type')) {
+      context.handle(
+          _addressTypeMeta,
+          addressType.isAcceptableOrUnknown(
+              data['address_type'], _addressTypeMeta));
+    } else if (isInserting) {
+      context.missing(_addressTypeMeta);
+    }
+    if (data.containsKey('address_line1')) {
+      context.handle(
+          _addressLine1Meta,
+          addressLine1.isAcceptableOrUnknown(
+              data['address_line1'], _addressLine1Meta));
+    } else if (isInserting) {
+      context.missing(_addressLine1Meta);
+    }
+    if (data.containsKey('address_line2')) {
+      context.handle(
+          _addressLine2Meta,
+          addressLine2.isAcceptableOrUnknown(
+              data['address_line2'], _addressLine2Meta));
+    } else if (isInserting) {
+      context.missing(_addressLine2Meta);
+    }
+    if (data.containsKey('city')) {
+      context.handle(
+          _cityMeta, city.isAcceptableOrUnknown(data['city'], _cityMeta));
+    } else if (isInserting) {
+      context.missing(_cityMeta);
+    }
+    if (data.containsKey('state')) {
+      context.handle(
+          _stateMeta, state.isAcceptableOrUnknown(data['state'], _stateMeta));
+    } else if (isInserting) {
+      context.missing(_stateMeta);
+    }
+    if (data.containsKey('appartment')) {
+      context.handle(
+          _appartmentMeta,
+          appartment.isAcceptableOrUnknown(
+              data['appartment'], _appartmentMeta));
+    } else if (isInserting) {
+      context.missing(_appartmentMeta);
+    }
+    if (data.containsKey('country')) {
+      context.handle(_countryMeta,
+          country.isAcceptableOrUnknown(data['country'], _countryMeta));
+    } else if (isInserting) {
+      context.missing(_countryMeta);
+    }
+    if (data.containsKey('zip_code')) {
+      context.handle(_zipCodeMeta,
+          zipCode.isAcceptableOrUnknown(data['zip_code'], _zipCodeMeta));
+    } else if (isInserting) {
+      context.missing(_zipCodeMeta);
+    }
+    if (data.containsKey('contact_person')) {
+      context.handle(
+          _contactPersonMeta,
+          contactPerson.isAcceptableOrUnknown(
+              data['contact_person'], _contactPersonMeta));
+    } else if (isInserting) {
+      context.missing(_contactPersonMeta);
+    }
+    if (data.containsKey('phone_number')) {
+      context.handle(
+          _phoneNumberMeta,
+          phoneNumber.isAcceptableOrUnknown(
+              data['phone_number'], _phoneNumberMeta));
+    } else if (isInserting) {
+      context.missing(_phoneNumberMeta);
+    }
+    if (data.containsKey('is_your_company_address')) {
+      context.handle(
+          _isYourCompanyAddressMeta,
+          isYourCompanyAddress.isAcceptableOrUnknown(
+              data['is_your_company_address'], _isYourCompanyAddressMeta));
+    }
+    if (data.containsKey('is_primary_address')) {
+      context.handle(
+          _isPrimaryAddressMeta,
+          isPrimaryAddress.isAcceptableOrUnknown(
+              data['is_primary_address'], _isPrimaryAddressMeta));
+    }
+    if (data.containsKey('is_shipping_address')) {
+      context.handle(
+          _isShippingAddressMeta,
+          isShippingAddress.isAcceptableOrUnknown(
+              data['is_shipping_address'], _isShippingAddressMeta));
+    }
+    if (data.containsKey('latitude')) {
+      context.handle(_latitudeMeta,
+          latitude.isAcceptableOrUnknown(data['latitude'], _latitudeMeta));
+    } else if (isInserting) {
+      context.missing(_latitudeMeta);
+    }
+    if (data.containsKey('longitude')) {
+      context.handle(_longitudeMeta,
+          longitude.isAcceptableOrUnknown(data['longitude'], _longitudeMeta));
+    } else if (isInserting) {
+      context.missing(_longitudeMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Addres map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return Addres.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $AddressTable createAlias(String alias) {
+    return $AddressTable(_db, alias);
+  }
+}
+
+class ContactData extends DataClass implements Insertable<ContactData> {
+  final int tenantId;
+  final DateTime creationTime;
+  final DateTime deleteTime;
+  final int createUserId;
+  final String creatorUser;
+  final String lastModifierUser;
+  final int lastModifierUserId;
+  final int deleteUserId;
+  final String deleterUserId;
+  final bool isDeleted;
+  final int id;
+  final String contactTitle;
+  final String customerId;
+  final String contactPerson;
+  final String workNumber;
+  final String cellNumber;
+  final String whatappNumber;
+  final bool isYourCompanyContact;
+  final bool isPrimaryContact;
+  final bool isUserContact;
+  final String userName;
+  ContactData(
+      {this.tenantId,
+      this.creationTime,
+      this.deleteTime,
+      this.createUserId,
+      this.creatorUser,
+      this.lastModifierUser,
+      this.lastModifierUserId,
+      this.deleteUserId,
+      this.deleterUserId,
+      @required this.isDeleted,
+      @required this.id,
+      @required this.contactTitle,
+      @required this.customerId,
+      @required this.contactPerson,
+      @required this.workNumber,
+      @required this.cellNumber,
+      @required this.whatappNumber,
+      @required this.isYourCompanyContact,
+      @required this.isPrimaryContact,
+      @required this.isUserContact,
+      @required this.userName});
+  factory ContactData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    return ContactData(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      creationTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
+      deleteTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
+      createUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
+      creatorUser: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
+      lastModifierUser: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user']),
+      lastModifierUserId: intType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user_id']),
+      deleteUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
+      deleterUserId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
+      isDeleted: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      contactTitle: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}contact_title']),
+      customerId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}customer_id']),
+      contactPerson: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}contact_person']),
+      workNumber: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}work_number']),
+      cellNumber: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}cell_number']),
+      whatappNumber: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}whatapp_number']),
+      isYourCompanyContact: boolType.mapFromDatabaseResponse(
+          data['${effectivePrefix}is_your_company_contact']),
+      isPrimaryContact: boolType.mapFromDatabaseResponse(
+          data['${effectivePrefix}is_primary_contact']),
+      isUserContact: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_user_contact']),
+      userName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}user_name']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || creationTime != null) {
+      map['creation_time'] = Variable<DateTime>(creationTime);
+    }
+    if (!nullToAbsent || deleteTime != null) {
+      map['delete_time'] = Variable<DateTime>(deleteTime);
+    }
+    if (!nullToAbsent || createUserId != null) {
+      map['create_user_id'] = Variable<int>(createUserId);
+    }
+    if (!nullToAbsent || creatorUser != null) {
+      map['creator_user'] = Variable<String>(creatorUser);
+    }
+    if (!nullToAbsent || lastModifierUser != null) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser);
+    }
+    if (!nullToAbsent || lastModifierUserId != null) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
+    }
+    if (!nullToAbsent || deleteUserId != null) {
+      map['delete_user_id'] = Variable<int>(deleteUserId);
+    }
+    if (!nullToAbsent || deleterUserId != null) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId);
+    }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || contactTitle != null) {
+      map['contact_title'] = Variable<String>(contactTitle);
+    }
+    if (!nullToAbsent || customerId != null) {
+      map['customer_id'] = Variable<String>(customerId);
+    }
+    if (!nullToAbsent || contactPerson != null) {
+      map['contact_person'] = Variable<String>(contactPerson);
+    }
+    if (!nullToAbsent || workNumber != null) {
+      map['work_number'] = Variable<String>(workNumber);
+    }
+    if (!nullToAbsent || cellNumber != null) {
+      map['cell_number'] = Variable<String>(cellNumber);
+    }
+    if (!nullToAbsent || whatappNumber != null) {
+      map['whatapp_number'] = Variable<String>(whatappNumber);
+    }
+    if (!nullToAbsent || isYourCompanyContact != null) {
+      map['is_your_company_contact'] = Variable<bool>(isYourCompanyContact);
+    }
+    if (!nullToAbsent || isPrimaryContact != null) {
+      map['is_primary_contact'] = Variable<bool>(isPrimaryContact);
+    }
+    if (!nullToAbsent || isUserContact != null) {
+      map['is_user_contact'] = Variable<bool>(isUserContact);
+    }
+    if (!nullToAbsent || userName != null) {
+      map['user_name'] = Variable<String>(userName);
+    }
+    return map;
+  }
+
+  ContactCompanion toCompanion(bool nullToAbsent) {
+    return ContactCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      creationTime: creationTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creationTime),
+      deleteTime: deleteTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteTime),
+      createUserId: createUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createUserId),
+      creatorUser: creatorUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creatorUser),
+      lastModifierUser: lastModifierUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUser),
+      lastModifierUserId: lastModifierUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUserId),
+      deleteUserId: deleteUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteUserId),
+      deleterUserId: deleterUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleterUserId),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      contactTitle: contactTitle == null && nullToAbsent
+          ? const Value.absent()
+          : Value(contactTitle),
+      customerId: customerId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerId),
+      contactPerson: contactPerson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(contactPerson),
+      workNumber: workNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(workNumber),
+      cellNumber: cellNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(cellNumber),
+      whatappNumber: whatappNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(whatappNumber),
+      isYourCompanyContact: isYourCompanyContact == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isYourCompanyContact),
+      isPrimaryContact: isPrimaryContact == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isPrimaryContact),
+      isUserContact: isUserContact == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isUserContact),
+      userName: userName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(userName),
+    );
+  }
+
+  factory ContactData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return ContactData(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
+      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
+      createUserId: serializer.fromJson<int>(json['createUserId']),
+      creatorUser: serializer.fromJson<String>(json['creatorUser']),
+      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
+      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
+      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
+      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      id: serializer.fromJson<int>(json['id']),
+      contactTitle: serializer.fromJson<String>(json['contactTitle']),
+      customerId: serializer.fromJson<String>(json['customerId']),
+      contactPerson: serializer.fromJson<String>(json['contactPerson']),
+      workNumber: serializer.fromJson<String>(json['workNumber']),
+      cellNumber: serializer.fromJson<String>(json['cellNumber']),
+      whatappNumber: serializer.fromJson<String>(json['whatappNumber']),
+      isYourCompanyContact:
+          serializer.fromJson<bool>(json['isYourCompanyContact']),
+      isPrimaryContact: serializer.fromJson<bool>(json['isPrimaryContact']),
+      isUserContact: serializer.fromJson<bool>(json['isUserContact']),
+      userName: serializer.fromJson<String>(json['userName']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'creationTime': serializer.toJson<DateTime>(creationTime),
+      'deleteTime': serializer.toJson<DateTime>(deleteTime),
+      'createUserId': serializer.toJson<int>(createUserId),
+      'creatorUser': serializer.toJson<String>(creatorUser),
+      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
+      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
+      'deleteUserId': serializer.toJson<int>(deleteUserId),
+      'deleterUserId': serializer.toJson<String>(deleterUserId),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'id': serializer.toJson<int>(id),
+      'contactTitle': serializer.toJson<String>(contactTitle),
+      'customerId': serializer.toJson<String>(customerId),
+      'contactPerson': serializer.toJson<String>(contactPerson),
+      'workNumber': serializer.toJson<String>(workNumber),
+      'cellNumber': serializer.toJson<String>(cellNumber),
+      'whatappNumber': serializer.toJson<String>(whatappNumber),
+      'isYourCompanyContact': serializer.toJson<bool>(isYourCompanyContact),
+      'isPrimaryContact': serializer.toJson<bool>(isPrimaryContact),
+      'isUserContact': serializer.toJson<bool>(isUserContact),
+      'userName': serializer.toJson<String>(userName),
+    };
+  }
+
+  ContactData copyWith(
+          {int tenantId,
+          DateTime creationTime,
+          DateTime deleteTime,
+          int createUserId,
+          String creatorUser,
+          String lastModifierUser,
+          int lastModifierUserId,
+          int deleteUserId,
+          String deleterUserId,
+          bool isDeleted,
+          int id,
+          String contactTitle,
+          String customerId,
+          String contactPerson,
+          String workNumber,
+          String cellNumber,
+          String whatappNumber,
+          bool isYourCompanyContact,
+          bool isPrimaryContact,
+          bool isUserContact,
+          String userName}) =>
+      ContactData(
+        tenantId: tenantId ?? this.tenantId,
+        creationTime: creationTime ?? this.creationTime,
+        deleteTime: deleteTime ?? this.deleteTime,
+        createUserId: createUserId ?? this.createUserId,
+        creatorUser: creatorUser ?? this.creatorUser,
+        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+        deleteUserId: deleteUserId ?? this.deleteUserId,
+        deleterUserId: deleterUserId ?? this.deleterUserId,
+        isDeleted: isDeleted ?? this.isDeleted,
+        id: id ?? this.id,
+        contactTitle: contactTitle ?? this.contactTitle,
+        customerId: customerId ?? this.customerId,
+        contactPerson: contactPerson ?? this.contactPerson,
+        workNumber: workNumber ?? this.workNumber,
+        cellNumber: cellNumber ?? this.cellNumber,
+        whatappNumber: whatappNumber ?? this.whatappNumber,
+        isYourCompanyContact: isYourCompanyContact ?? this.isYourCompanyContact,
+        isPrimaryContact: isPrimaryContact ?? this.isPrimaryContact,
+        isUserContact: isUserContact ?? this.isUserContact,
+        userName: userName ?? this.userName,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('ContactData(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('contactTitle: $contactTitle, ')
+          ..write('customerId: $customerId, ')
+          ..write('contactPerson: $contactPerson, ')
+          ..write('workNumber: $workNumber, ')
+          ..write('cellNumber: $cellNumber, ')
+          ..write('whatappNumber: $whatappNumber, ')
+          ..write('isYourCompanyContact: $isYourCompanyContact, ')
+          ..write('isPrimaryContact: $isPrimaryContact, ')
+          ..write('isUserContact: $isUserContact, ')
+          ..write('userName: $userName')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode,
+      $mrjc(
+          creationTime.hashCode,
+          $mrjc(
+              deleteTime.hashCode,
+              $mrjc(
+                  createUserId.hashCode,
+                  $mrjc(
+                      creatorUser.hashCode,
+                      $mrjc(
+                          lastModifierUser.hashCode,
+                          $mrjc(
+                              lastModifierUserId.hashCode,
+                              $mrjc(
+                                  deleteUserId.hashCode,
+                                  $mrjc(
+                                      deleterUserId.hashCode,
+                                      $mrjc(
+                                          isDeleted.hashCode,
+                                          $mrjc(
+                                              id.hashCode,
+                                              $mrjc(
+                                                  contactTitle.hashCode,
+                                                  $mrjc(
+                                                      customerId.hashCode,
+                                                      $mrjc(
+                                                          contactPerson
+                                                              .hashCode,
+                                                          $mrjc(
+                                                              workNumber
+                                                                  .hashCode,
+                                                              $mrjc(
+                                                                  cellNumber
+                                                                      .hashCode,
+                                                                  $mrjc(
+                                                                      whatappNumber
+                                                                          .hashCode,
+                                                                      $mrjc(
+                                                                          isYourCompanyContact
+                                                                              .hashCode,
+                                                                          $mrjc(
+                                                                              isPrimaryContact.hashCode,
+                                                                              $mrjc(isUserContact.hashCode, userName.hashCode)))))))))))))))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is ContactData &&
+          other.tenantId == this.tenantId &&
+          other.creationTime == this.creationTime &&
+          other.deleteTime == this.deleteTime &&
+          other.createUserId == this.createUserId &&
+          other.creatorUser == this.creatorUser &&
+          other.lastModifierUser == this.lastModifierUser &&
+          other.lastModifierUserId == this.lastModifierUserId &&
+          other.deleteUserId == this.deleteUserId &&
+          other.deleterUserId == this.deleterUserId &&
+          other.isDeleted == this.isDeleted &&
+          other.id == this.id &&
+          other.contactTitle == this.contactTitle &&
+          other.customerId == this.customerId &&
+          other.contactPerson == this.contactPerson &&
+          other.workNumber == this.workNumber &&
+          other.cellNumber == this.cellNumber &&
+          other.whatappNumber == this.whatappNumber &&
+          other.isYourCompanyContact == this.isYourCompanyContact &&
+          other.isPrimaryContact == this.isPrimaryContact &&
+          other.isUserContact == this.isUserContact &&
+          other.userName == this.userName);
+}
+
+class ContactCompanion extends UpdateCompanion<ContactData> {
+  final Value<int> tenantId;
+  final Value<DateTime> creationTime;
+  final Value<DateTime> deleteTime;
+  final Value<int> createUserId;
+  final Value<String> creatorUser;
+  final Value<String> lastModifierUser;
+  final Value<int> lastModifierUserId;
+  final Value<int> deleteUserId;
+  final Value<String> deleterUserId;
+  final Value<bool> isDeleted;
+  final Value<int> id;
+  final Value<String> contactTitle;
+  final Value<String> customerId;
+  final Value<String> contactPerson;
+  final Value<String> workNumber;
+  final Value<String> cellNumber;
+  final Value<String> whatappNumber;
+  final Value<bool> isYourCompanyContact;
+  final Value<bool> isPrimaryContact;
+  final Value<bool> isUserContact;
+  final Value<String> userName;
+  const ContactCompanion({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    this.contactTitle = const Value.absent(),
+    this.customerId = const Value.absent(),
+    this.contactPerson = const Value.absent(),
+    this.workNumber = const Value.absent(),
+    this.cellNumber = const Value.absent(),
+    this.whatappNumber = const Value.absent(),
+    this.isYourCompanyContact = const Value.absent(),
+    this.isPrimaryContact = const Value.absent(),
+    this.isUserContact = const Value.absent(),
+    this.userName = const Value.absent(),
+  });
+  ContactCompanion.insert({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    @required String contactTitle,
+    @required String customerId,
+    @required String contactPerson,
+    @required String workNumber,
+    @required String cellNumber,
+    @required String whatappNumber,
+    this.isYourCompanyContact = const Value.absent(),
+    this.isPrimaryContact = const Value.absent(),
+    this.isUserContact = const Value.absent(),
+    @required String userName,
+  })  : contactTitle = Value(contactTitle),
+        customerId = Value(customerId),
+        contactPerson = Value(contactPerson),
+        workNumber = Value(workNumber),
+        cellNumber = Value(cellNumber),
+        whatappNumber = Value(whatappNumber),
+        userName = Value(userName);
+  static Insertable<ContactData> custom({
+    Expression<int> tenantId,
+    Expression<DateTime> creationTime,
+    Expression<DateTime> deleteTime,
+    Expression<int> createUserId,
+    Expression<String> creatorUser,
+    Expression<String> lastModifierUser,
+    Expression<int> lastModifierUserId,
+    Expression<int> deleteUserId,
+    Expression<String> deleterUserId,
+    Expression<bool> isDeleted,
+    Expression<int> id,
+    Expression<String> contactTitle,
+    Expression<String> customerId,
+    Expression<String> contactPerson,
+    Expression<String> workNumber,
+    Expression<String> cellNumber,
+    Expression<String> whatappNumber,
+    Expression<bool> isYourCompanyContact,
+    Expression<bool> isPrimaryContact,
+    Expression<bool> isUserContact,
+    Expression<String> userName,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (creationTime != null) 'creation_time': creationTime,
+      if (deleteTime != null) 'delete_time': deleteTime,
+      if (createUserId != null) 'create_user_id': createUserId,
+      if (creatorUser != null) 'creator_user': creatorUser,
+      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
+      if (lastModifierUserId != null)
+        'last_modifier_user_id': lastModifierUserId,
+      if (deleteUserId != null) 'delete_user_id': deleteUserId,
+      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (id != null) 'id': id,
+      if (contactTitle != null) 'contact_title': contactTitle,
+      if (customerId != null) 'customer_id': customerId,
+      if (contactPerson != null) 'contact_person': contactPerson,
+      if (workNumber != null) 'work_number': workNumber,
+      if (cellNumber != null) 'cell_number': cellNumber,
+      if (whatappNumber != null) 'whatapp_number': whatappNumber,
+      if (isYourCompanyContact != null)
+        'is_your_company_contact': isYourCompanyContact,
+      if (isPrimaryContact != null) 'is_primary_contact': isPrimaryContact,
+      if (isUserContact != null) 'is_user_contact': isUserContact,
+      if (userName != null) 'user_name': userName,
+    });
+  }
+
+  ContactCompanion copyWith(
+      {Value<int> tenantId,
+      Value<DateTime> creationTime,
+      Value<DateTime> deleteTime,
+      Value<int> createUserId,
+      Value<String> creatorUser,
+      Value<String> lastModifierUser,
+      Value<int> lastModifierUserId,
+      Value<int> deleteUserId,
+      Value<String> deleterUserId,
+      Value<bool> isDeleted,
+      Value<int> id,
+      Value<String> contactTitle,
+      Value<String> customerId,
+      Value<String> contactPerson,
+      Value<String> workNumber,
+      Value<String> cellNumber,
+      Value<String> whatappNumber,
+      Value<bool> isYourCompanyContact,
+      Value<bool> isPrimaryContact,
+      Value<bool> isUserContact,
+      Value<String> userName}) {
+    return ContactCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      creationTime: creationTime ?? this.creationTime,
+      deleteTime: deleteTime ?? this.deleteTime,
+      createUserId: createUserId ?? this.createUserId,
+      creatorUser: creatorUser ?? this.creatorUser,
+      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+      deleteUserId: deleteUserId ?? this.deleteUserId,
+      deleterUserId: deleterUserId ?? this.deleterUserId,
+      isDeleted: isDeleted ?? this.isDeleted,
+      id: id ?? this.id,
+      contactTitle: contactTitle ?? this.contactTitle,
+      customerId: customerId ?? this.customerId,
+      contactPerson: contactPerson ?? this.contactPerson,
+      workNumber: workNumber ?? this.workNumber,
+      cellNumber: cellNumber ?? this.cellNumber,
+      whatappNumber: whatappNumber ?? this.whatappNumber,
+      isYourCompanyContact: isYourCompanyContact ?? this.isYourCompanyContact,
+      isPrimaryContact: isPrimaryContact ?? this.isPrimaryContact,
+      isUserContact: isUserContact ?? this.isUserContact,
+      userName: userName ?? this.userName,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (creationTime.present) {
+      map['creation_time'] = Variable<DateTime>(creationTime.value);
+    }
+    if (deleteTime.present) {
+      map['delete_time'] = Variable<DateTime>(deleteTime.value);
+    }
+    if (createUserId.present) {
+      map['create_user_id'] = Variable<int>(createUserId.value);
+    }
+    if (creatorUser.present) {
+      map['creator_user'] = Variable<String>(creatorUser.value);
+    }
+    if (lastModifierUser.present) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
+    }
+    if (lastModifierUserId.present) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
+    }
+    if (deleteUserId.present) {
+      map['delete_user_id'] = Variable<int>(deleteUserId.value);
+    }
+    if (deleterUserId.present) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (contactTitle.present) {
+      map['contact_title'] = Variable<String>(contactTitle.value);
+    }
+    if (customerId.present) {
+      map['customer_id'] = Variable<String>(customerId.value);
+    }
+    if (contactPerson.present) {
+      map['contact_person'] = Variable<String>(contactPerson.value);
+    }
+    if (workNumber.present) {
+      map['work_number'] = Variable<String>(workNumber.value);
+    }
+    if (cellNumber.present) {
+      map['cell_number'] = Variable<String>(cellNumber.value);
+    }
+    if (whatappNumber.present) {
+      map['whatapp_number'] = Variable<String>(whatappNumber.value);
+    }
+    if (isYourCompanyContact.present) {
+      map['is_your_company_contact'] =
+          Variable<bool>(isYourCompanyContact.value);
+    }
+    if (isPrimaryContact.present) {
+      map['is_primary_contact'] = Variable<bool>(isPrimaryContact.value);
+    }
+    if (isUserContact.present) {
+      map['is_user_contact'] = Variable<bool>(isUserContact.value);
+    }
+    if (userName.present) {
+      map['user_name'] = Variable<String>(userName.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ContactCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('contactTitle: $contactTitle, ')
+          ..write('customerId: $customerId, ')
+          ..write('contactPerson: $contactPerson, ')
+          ..write('workNumber: $workNumber, ')
+          ..write('cellNumber: $cellNumber, ')
+          ..write('whatappNumber: $whatappNumber, ')
+          ..write('isYourCompanyContact: $isYourCompanyContact, ')
+          ..write('isPrimaryContact: $isPrimaryContact, ')
+          ..write('isUserContact: $isUserContact, ')
+          ..write('userName: $userName')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ContactTable extends Contact with TableInfo<$ContactTable, ContactData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $ContactTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creationTimeMeta =
+      const VerificationMeta('creationTime');
+  GeneratedDateTimeColumn _creationTime;
+  @override
+  GeneratedDateTimeColumn get creationTime =>
+      _creationTime ??= _constructCreationTime();
+  GeneratedDateTimeColumn _constructCreationTime() {
+    return GeneratedDateTimeColumn(
+      'creation_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
+  GeneratedDateTimeColumn _deleteTime;
+  @override
+  GeneratedDateTimeColumn get deleteTime =>
+      _deleteTime ??= _constructDeleteTime();
+  GeneratedDateTimeColumn _constructDeleteTime() {
+    return GeneratedDateTimeColumn(
+      'delete_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _createUserIdMeta =
+      const VerificationMeta('createUserId');
+  GeneratedIntColumn _createUserId;
+  @override
+  GeneratedIntColumn get createUserId =>
+      _createUserId ??= _constructCreateUserId();
+  GeneratedIntColumn _constructCreateUserId() {
+    return GeneratedIntColumn(
+      'create_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creatorUserMeta =
+      const VerificationMeta('creatorUser');
+  GeneratedTextColumn _creatorUser;
+  @override
+  GeneratedTextColumn get creatorUser =>
+      _creatorUser ??= _constructCreatorUser();
+  GeneratedTextColumn _constructCreatorUser() {
+    return GeneratedTextColumn(
+      'creator_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserMeta =
+      const VerificationMeta('lastModifierUser');
+  GeneratedTextColumn _lastModifierUser;
+  @override
+  GeneratedTextColumn get lastModifierUser =>
+      _lastModifierUser ??= _constructLastModifierUser();
+  GeneratedTextColumn _constructLastModifierUser() {
+    return GeneratedTextColumn(
+      'last_modifier_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserIdMeta =
+      const VerificationMeta('lastModifierUserId');
+  GeneratedIntColumn _lastModifierUserId;
+  @override
+  GeneratedIntColumn get lastModifierUserId =>
+      _lastModifierUserId ??= _constructLastModifierUserId();
+  GeneratedIntColumn _constructLastModifierUserId() {
+    return GeneratedIntColumn(
+      'last_modifier_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteUserIdMeta =
+      const VerificationMeta('deleteUserId');
+  GeneratedIntColumn _deleteUserId;
+  @override
+  GeneratedIntColumn get deleteUserId =>
+      _deleteUserId ??= _constructDeleteUserId();
+  GeneratedIntColumn _constructDeleteUserId() {
+    return GeneratedIntColumn(
+      'delete_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleterUserIdMeta =
+      const VerificationMeta('deleterUserId');
+  GeneratedTextColumn _deleterUserId;
+  @override
+  GeneratedTextColumn get deleterUserId =>
+      _deleterUserId ??= _constructDeleterUserId();
+  GeneratedTextColumn _constructDeleterUserId() {
+    return GeneratedTextColumn(
+      'deleter_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  GeneratedBoolColumn _isDeleted;
+  @override
+  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
+  GeneratedBoolColumn _constructIsDeleted() {
+    return GeneratedBoolColumn('is_deleted', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _contactTitleMeta =
+      const VerificationMeta('contactTitle');
+  GeneratedTextColumn _contactTitle;
+  @override
+  GeneratedTextColumn get contactTitle =>
+      _contactTitle ??= _constructContactTitle();
+  GeneratedTextColumn _constructContactTitle() {
+    return GeneratedTextColumn(
+      'contact_title',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _customerIdMeta = const VerificationMeta('customerId');
+  GeneratedTextColumn _customerId;
+  @override
+  GeneratedTextColumn get customerId => _customerId ??= _constructCustomerId();
+  GeneratedTextColumn _constructCustomerId() {
+    return GeneratedTextColumn(
+      'customer_id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _contactPersonMeta =
+      const VerificationMeta('contactPerson');
+  GeneratedTextColumn _contactPerson;
+  @override
+  GeneratedTextColumn get contactPerson =>
+      _contactPerson ??= _constructContactPerson();
+  GeneratedTextColumn _constructContactPerson() {
+    return GeneratedTextColumn(
+      'contact_person',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _workNumberMeta = const VerificationMeta('workNumber');
+  GeneratedTextColumn _workNumber;
+  @override
+  GeneratedTextColumn get workNumber => _workNumber ??= _constructWorkNumber();
+  GeneratedTextColumn _constructWorkNumber() {
+    return GeneratedTextColumn(
+      'work_number',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _cellNumberMeta = const VerificationMeta('cellNumber');
+  GeneratedTextColumn _cellNumber;
+  @override
+  GeneratedTextColumn get cellNumber => _cellNumber ??= _constructCellNumber();
+  GeneratedTextColumn _constructCellNumber() {
+    return GeneratedTextColumn(
+      'cell_number',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _whatappNumberMeta =
+      const VerificationMeta('whatappNumber');
+  GeneratedTextColumn _whatappNumber;
+  @override
+  GeneratedTextColumn get whatappNumber =>
+      _whatappNumber ??= _constructWhatappNumber();
+  GeneratedTextColumn _constructWhatappNumber() {
+    return GeneratedTextColumn(
+      'whatapp_number',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _isYourCompanyContactMeta =
+      const VerificationMeta('isYourCompanyContact');
+  GeneratedBoolColumn _isYourCompanyContact;
+  @override
+  GeneratedBoolColumn get isYourCompanyContact =>
+      _isYourCompanyContact ??= _constructIsYourCompanyContact();
+  GeneratedBoolColumn _constructIsYourCompanyContact() {
+    return GeneratedBoolColumn('is_your_company_contact', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _isPrimaryContactMeta =
+      const VerificationMeta('isPrimaryContact');
+  GeneratedBoolColumn _isPrimaryContact;
+  @override
+  GeneratedBoolColumn get isPrimaryContact =>
+      _isPrimaryContact ??= _constructIsPrimaryContact();
+  GeneratedBoolColumn _constructIsPrimaryContact() {
+    return GeneratedBoolColumn('is_primary_contact', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _isUserContactMeta =
+      const VerificationMeta('isUserContact');
+  GeneratedBoolColumn _isUserContact;
+  @override
+  GeneratedBoolColumn get isUserContact =>
+      _isUserContact ??= _constructIsUserContact();
+  GeneratedBoolColumn _constructIsUserContact() {
+    return GeneratedBoolColumn('is_user_contact', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _userNameMeta = const VerificationMeta('userName');
+  GeneratedTextColumn _userName;
+  @override
+  GeneratedTextColumn get userName => _userName ??= _constructUserName();
+  GeneratedTextColumn _constructUserName() {
+    return GeneratedTextColumn(
+      'user_name',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        tenantId,
+        creationTime,
+        deleteTime,
+        createUserId,
+        creatorUser,
+        lastModifierUser,
+        lastModifierUserId,
+        deleteUserId,
+        deleterUserId,
+        isDeleted,
+        id,
+        contactTitle,
+        customerId,
+        contactPerson,
+        workNumber,
+        cellNumber,
+        whatappNumber,
+        isYourCompanyContact,
+        isPrimaryContact,
+        isUserContact,
+        userName
+      ];
+  @override
+  $ContactTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'contact';
+  @override
+  final String actualTableName = 'contact';
+  @override
+  VerificationContext validateIntegrity(Insertable<ContactData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
+    if (data.containsKey('creation_time')) {
+      context.handle(
+          _creationTimeMeta,
+          creationTime.isAcceptableOrUnknown(
+              data['creation_time'], _creationTimeMeta));
+    }
+    if (data.containsKey('delete_time')) {
+      context.handle(
+          _deleteTimeMeta,
+          deleteTime.isAcceptableOrUnknown(
+              data['delete_time'], _deleteTimeMeta));
+    }
+    if (data.containsKey('create_user_id')) {
+      context.handle(
+          _createUserIdMeta,
+          createUserId.isAcceptableOrUnknown(
+              data['create_user_id'], _createUserIdMeta));
+    }
+    if (data.containsKey('creator_user')) {
+      context.handle(
+          _creatorUserMeta,
+          creatorUser.isAcceptableOrUnknown(
+              data['creator_user'], _creatorUserMeta));
+    }
+    if (data.containsKey('last_modifier_user')) {
+      context.handle(
+          _lastModifierUserMeta,
+          lastModifierUser.isAcceptableOrUnknown(
+              data['last_modifier_user'], _lastModifierUserMeta));
+    }
+    if (data.containsKey('last_modifier_user_id')) {
+      context.handle(
+          _lastModifierUserIdMeta,
+          lastModifierUserId.isAcceptableOrUnknown(
+              data['last_modifier_user_id'], _lastModifierUserIdMeta));
+    }
+    if (data.containsKey('delete_user_id')) {
+      context.handle(
+          _deleteUserIdMeta,
+          deleteUserId.isAcceptableOrUnknown(
+              data['delete_user_id'], _deleteUserIdMeta));
+    }
+    if (data.containsKey('deleter_user_id')) {
+      context.handle(
+          _deleterUserIdMeta,
+          deleterUserId.isAcceptableOrUnknown(
+              data['deleter_user_id'], _deleterUserIdMeta));
+    }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('contact_title')) {
+      context.handle(
+          _contactTitleMeta,
+          contactTitle.isAcceptableOrUnknown(
+              data['contact_title'], _contactTitleMeta));
+    } else if (isInserting) {
+      context.missing(_contactTitleMeta);
+    }
+    if (data.containsKey('customer_id')) {
+      context.handle(
+          _customerIdMeta,
+          customerId.isAcceptableOrUnknown(
+              data['customer_id'], _customerIdMeta));
+    } else if (isInserting) {
+      context.missing(_customerIdMeta);
+    }
+    if (data.containsKey('contact_person')) {
+      context.handle(
+          _contactPersonMeta,
+          contactPerson.isAcceptableOrUnknown(
+              data['contact_person'], _contactPersonMeta));
+    } else if (isInserting) {
+      context.missing(_contactPersonMeta);
+    }
+    if (data.containsKey('work_number')) {
+      context.handle(
+          _workNumberMeta,
+          workNumber.isAcceptableOrUnknown(
+              data['work_number'], _workNumberMeta));
+    } else if (isInserting) {
+      context.missing(_workNumberMeta);
+    }
+    if (data.containsKey('cell_number')) {
+      context.handle(
+          _cellNumberMeta,
+          cellNumber.isAcceptableOrUnknown(
+              data['cell_number'], _cellNumberMeta));
+    } else if (isInserting) {
+      context.missing(_cellNumberMeta);
+    }
+    if (data.containsKey('whatapp_number')) {
+      context.handle(
+          _whatappNumberMeta,
+          whatappNumber.isAcceptableOrUnknown(
+              data['whatapp_number'], _whatappNumberMeta));
+    } else if (isInserting) {
+      context.missing(_whatappNumberMeta);
+    }
+    if (data.containsKey('is_your_company_contact')) {
+      context.handle(
+          _isYourCompanyContactMeta,
+          isYourCompanyContact.isAcceptableOrUnknown(
+              data['is_your_company_contact'], _isYourCompanyContactMeta));
+    }
+    if (data.containsKey('is_primary_contact')) {
+      context.handle(
+          _isPrimaryContactMeta,
+          isPrimaryContact.isAcceptableOrUnknown(
+              data['is_primary_contact'], _isPrimaryContactMeta));
+    }
+    if (data.containsKey('is_user_contact')) {
+      context.handle(
+          _isUserContactMeta,
+          isUserContact.isAcceptableOrUnknown(
+              data['is_user_contact'], _isUserContactMeta));
+    }
+    if (data.containsKey('user_name')) {
+      context.handle(_userNameMeta,
+          userName.isAcceptableOrUnknown(data['user_name'], _userNameMeta));
+    } else if (isInserting) {
+      context.missing(_userNameMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ContactData map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return ContactData.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $ContactTable createAlias(String alias) {
+    return $ContactTable(_db, alias);
+  }
+}
+
+class Item extends DataClass implements Insertable<Item> {
+  final int tenantId;
+  final DateTime creationTime;
+  final DateTime deleteTime;
+  final int createUserId;
+  final String creatorUser;
+  final String lastModifierUser;
+  final int lastModifierUserId;
+  final int deleteUserId;
+  final String deleterUserId;
+  final bool isDeleted;
+  final int id;
+  final String description;
+  final String itemCode;
+  final String itemName;
+  final String itemGroup;
+  final String taxGroup;
+  final String uom;
+  final String trackInventory;
+  final String category;
+  final bool isProductBundleParent;
+  final bool isQuickMenue;
+  final bool isRetired;
+  final DateTime retiredDate;
+  final bool hasVariant;
+  final String defaultWarehouse;
+  Item(
+      {this.tenantId,
+      this.creationTime,
+      this.deleteTime,
+      this.createUserId,
+      this.creatorUser,
+      this.lastModifierUser,
+      this.lastModifierUserId,
+      this.deleteUserId,
+      this.deleterUserId,
+      @required this.isDeleted,
+      @required this.id,
+      this.description,
+      this.itemCode,
+      this.itemName,
+      this.itemGroup,
+      this.taxGroup,
+      this.uom,
+      this.trackInventory,
+      this.category,
+      @required this.isProductBundleParent,
+      @required this.isQuickMenue,
+      @required this.isRetired,
+      this.retiredDate,
+      @required this.hasVariant,
+      this.defaultWarehouse});
+  factory Item.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    return Item(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      creationTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
+      deleteTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
+      createUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
+      creatorUser: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
+      lastModifierUser: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user']),
+      lastModifierUserId: intType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user_id']),
+      deleteUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
+      deleterUserId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
+      isDeleted: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      description: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}description']),
+      itemCode: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}item_code']),
+      itemName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}item_name']),
+      itemGroup: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}item_group']),
+      taxGroup: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}tax_group']),
+      uom: stringType.mapFromDatabaseResponse(data['${effectivePrefix}uom']),
+      trackInventory: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}track_inventory']),
+      category: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}category']),
+      isProductBundleParent: boolType.mapFromDatabaseResponse(
+          data['${effectivePrefix}is_product_bundle_parent']),
+      isQuickMenue: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_quick_menue']),
+      isRetired: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_retired']),
+      retiredDate: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}retired_date']),
+      hasVariant: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}has_variant']),
+      defaultWarehouse: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}default_warehouse']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || creationTime != null) {
+      map['creation_time'] = Variable<DateTime>(creationTime);
+    }
+    if (!nullToAbsent || deleteTime != null) {
+      map['delete_time'] = Variable<DateTime>(deleteTime);
+    }
+    if (!nullToAbsent || createUserId != null) {
+      map['create_user_id'] = Variable<int>(createUserId);
+    }
+    if (!nullToAbsent || creatorUser != null) {
+      map['creator_user'] = Variable<String>(creatorUser);
+    }
+    if (!nullToAbsent || lastModifierUser != null) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser);
+    }
+    if (!nullToAbsent || lastModifierUserId != null) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
+    }
+    if (!nullToAbsent || deleteUserId != null) {
+      map['delete_user_id'] = Variable<int>(deleteUserId);
+    }
+    if (!nullToAbsent || deleterUserId != null) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId);
+    }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    if (!nullToAbsent || itemCode != null) {
+      map['item_code'] = Variable<String>(itemCode);
+    }
+    if (!nullToAbsent || itemName != null) {
+      map['item_name'] = Variable<String>(itemName);
+    }
+    if (!nullToAbsent || itemGroup != null) {
+      map['item_group'] = Variable<String>(itemGroup);
+    }
+    if (!nullToAbsent || taxGroup != null) {
+      map['tax_group'] = Variable<String>(taxGroup);
+    }
+    if (!nullToAbsent || uom != null) {
+      map['uom'] = Variable<String>(uom);
+    }
+    if (!nullToAbsent || trackInventory != null) {
+      map['track_inventory'] = Variable<String>(trackInventory);
+    }
+    if (!nullToAbsent || category != null) {
+      map['category'] = Variable<String>(category);
+    }
+    if (!nullToAbsent || isProductBundleParent != null) {
+      map['is_product_bundle_parent'] = Variable<bool>(isProductBundleParent);
+    }
+    if (!nullToAbsent || isQuickMenue != null) {
+      map['is_quick_menue'] = Variable<bool>(isQuickMenue);
+    }
+    if (!nullToAbsent || isRetired != null) {
+      map['is_retired'] = Variable<bool>(isRetired);
+    }
+    if (!nullToAbsent || retiredDate != null) {
+      map['retired_date'] = Variable<DateTime>(retiredDate);
+    }
+    if (!nullToAbsent || hasVariant != null) {
+      map['has_variant'] = Variable<bool>(hasVariant);
+    }
+    if (!nullToAbsent || defaultWarehouse != null) {
+      map['default_warehouse'] = Variable<String>(defaultWarehouse);
+    }
+    return map;
+  }
+
+  ItemsCompanion toCompanion(bool nullToAbsent) {
+    return ItemsCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      creationTime: creationTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creationTime),
+      deleteTime: deleteTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteTime),
+      createUserId: createUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createUserId),
+      creatorUser: creatorUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creatorUser),
+      lastModifierUser: lastModifierUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUser),
+      lastModifierUserId: lastModifierUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUserId),
+      deleteUserId: deleteUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteUserId),
+      deleterUserId: deleterUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleterUserId),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      itemCode: itemCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(itemCode),
+      itemName: itemName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(itemName),
+      itemGroup: itemGroup == null && nullToAbsent
+          ? const Value.absent()
+          : Value(itemGroup),
+      taxGroup: taxGroup == null && nullToAbsent
+          ? const Value.absent()
+          : Value(taxGroup),
+      uom: uom == null && nullToAbsent ? const Value.absent() : Value(uom),
+      trackInventory: trackInventory == null && nullToAbsent
+          ? const Value.absent()
+          : Value(trackInventory),
+      category: category == null && nullToAbsent
+          ? const Value.absent()
+          : Value(category),
+      isProductBundleParent: isProductBundleParent == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isProductBundleParent),
+      isQuickMenue: isQuickMenue == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isQuickMenue),
+      isRetired: isRetired == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isRetired),
+      retiredDate: retiredDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(retiredDate),
+      hasVariant: hasVariant == null && nullToAbsent
+          ? const Value.absent()
+          : Value(hasVariant),
+      defaultWarehouse: defaultWarehouse == null && nullToAbsent
+          ? const Value.absent()
+          : Value(defaultWarehouse),
+    );
+  }
+
+  factory Item.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return Item(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
+      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
+      createUserId: serializer.fromJson<int>(json['createUserId']),
+      creatorUser: serializer.fromJson<String>(json['creatorUser']),
+      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
+      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
+      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
+      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      id: serializer.fromJson<int>(json['id']),
+      description: serializer.fromJson<String>(json['description']),
+      itemCode: serializer.fromJson<String>(json['itemCode']),
+      itemName: serializer.fromJson<String>(json['itemName']),
+      itemGroup: serializer.fromJson<String>(json['itemGroup']),
+      taxGroup: serializer.fromJson<String>(json['taxGroup']),
+      uom: serializer.fromJson<String>(json['uom']),
+      trackInventory: serializer.fromJson<String>(json['trackInventory']),
+      category: serializer.fromJson<String>(json['category']),
+      isProductBundleParent:
+          serializer.fromJson<bool>(json['isProductBundleParent']),
+      isQuickMenue: serializer.fromJson<bool>(json['isQuickMenue']),
+      isRetired: serializer.fromJson<bool>(json['isRetired']),
+      retiredDate: serializer.fromJson<DateTime>(json['retiredDate']),
+      hasVariant: serializer.fromJson<bool>(json['hasVariant']),
+      defaultWarehouse: serializer.fromJson<String>(json['defaultWarehouse']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'creationTime': serializer.toJson<DateTime>(creationTime),
+      'deleteTime': serializer.toJson<DateTime>(deleteTime),
+      'createUserId': serializer.toJson<int>(createUserId),
+      'creatorUser': serializer.toJson<String>(creatorUser),
+      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
+      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
+      'deleteUserId': serializer.toJson<int>(deleteUserId),
+      'deleterUserId': serializer.toJson<String>(deleterUserId),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'id': serializer.toJson<int>(id),
+      'description': serializer.toJson<String>(description),
+      'itemCode': serializer.toJson<String>(itemCode),
+      'itemName': serializer.toJson<String>(itemName),
+      'itemGroup': serializer.toJson<String>(itemGroup),
+      'taxGroup': serializer.toJson<String>(taxGroup),
+      'uom': serializer.toJson<String>(uom),
+      'trackInventory': serializer.toJson<String>(trackInventory),
+      'category': serializer.toJson<String>(category),
+      'isProductBundleParent': serializer.toJson<bool>(isProductBundleParent),
+      'isQuickMenue': serializer.toJson<bool>(isQuickMenue),
+      'isRetired': serializer.toJson<bool>(isRetired),
+      'retiredDate': serializer.toJson<DateTime>(retiredDate),
+      'hasVariant': serializer.toJson<bool>(hasVariant),
+      'defaultWarehouse': serializer.toJson<String>(defaultWarehouse),
+    };
+  }
+
+  Item copyWith(
+          {int tenantId,
+          DateTime creationTime,
+          DateTime deleteTime,
+          int createUserId,
+          String creatorUser,
+          String lastModifierUser,
+          int lastModifierUserId,
+          int deleteUserId,
+          String deleterUserId,
+          bool isDeleted,
+          int id,
+          String description,
+          String itemCode,
+          String itemName,
+          String itemGroup,
+          String taxGroup,
+          String uom,
+          String trackInventory,
+          String category,
+          bool isProductBundleParent,
+          bool isQuickMenue,
+          bool isRetired,
+          DateTime retiredDate,
+          bool hasVariant,
+          String defaultWarehouse}) =>
+      Item(
+        tenantId: tenantId ?? this.tenantId,
+        creationTime: creationTime ?? this.creationTime,
+        deleteTime: deleteTime ?? this.deleteTime,
+        createUserId: createUserId ?? this.createUserId,
+        creatorUser: creatorUser ?? this.creatorUser,
+        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+        deleteUserId: deleteUserId ?? this.deleteUserId,
+        deleterUserId: deleterUserId ?? this.deleterUserId,
+        isDeleted: isDeleted ?? this.isDeleted,
+        id: id ?? this.id,
+        description: description ?? this.description,
+        itemCode: itemCode ?? this.itemCode,
+        itemName: itemName ?? this.itemName,
+        itemGroup: itemGroup ?? this.itemGroup,
+        taxGroup: taxGroup ?? this.taxGroup,
+        uom: uom ?? this.uom,
+        trackInventory: trackInventory ?? this.trackInventory,
+        category: category ?? this.category,
+        isProductBundleParent:
+            isProductBundleParent ?? this.isProductBundleParent,
+        isQuickMenue: isQuickMenue ?? this.isQuickMenue,
+        isRetired: isRetired ?? this.isRetired,
+        retiredDate: retiredDate ?? this.retiredDate,
+        hasVariant: hasVariant ?? this.hasVariant,
+        defaultWarehouse: defaultWarehouse ?? this.defaultWarehouse,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('Item(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('description: $description, ')
+          ..write('itemCode: $itemCode, ')
+          ..write('itemName: $itemName, ')
+          ..write('itemGroup: $itemGroup, ')
+          ..write('taxGroup: $taxGroup, ')
+          ..write('uom: $uom, ')
+          ..write('trackInventory: $trackInventory, ')
+          ..write('category: $category, ')
+          ..write('isProductBundleParent: $isProductBundleParent, ')
+          ..write('isQuickMenue: $isQuickMenue, ')
+          ..write('isRetired: $isRetired, ')
+          ..write('retiredDate: $retiredDate, ')
+          ..write('hasVariant: $hasVariant, ')
+          ..write('defaultWarehouse: $defaultWarehouse')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode,
+      $mrjc(
+          creationTime.hashCode,
+          $mrjc(
+              deleteTime.hashCode,
+              $mrjc(
+                  createUserId.hashCode,
+                  $mrjc(
+                      creatorUser.hashCode,
+                      $mrjc(
+                          lastModifierUser.hashCode,
+                          $mrjc(
+                              lastModifierUserId.hashCode,
+                              $mrjc(
+                                  deleteUserId.hashCode,
+                                  $mrjc(
+                                      deleterUserId.hashCode,
+                                      $mrjc(
+                                          isDeleted.hashCode,
+                                          $mrjc(
+                                              id.hashCode,
+                                              $mrjc(
+                                                  description.hashCode,
+                                                  $mrjc(
+                                                      itemCode.hashCode,
+                                                      $mrjc(
+                                                          itemName.hashCode,
+                                                          $mrjc(
+                                                              itemGroup
+                                                                  .hashCode,
+                                                              $mrjc(
+                                                                  taxGroup
+                                                                      .hashCode,
+                                                                  $mrjc(
+                                                                      uom
+                                                                          .hashCode,
+                                                                      $mrjc(
+                                                                          trackInventory
+                                                                              .hashCode,
+                                                                          $mrjc(
+                                                                              category.hashCode,
+                                                                              $mrjc(isProductBundleParent.hashCode, $mrjc(isQuickMenue.hashCode, $mrjc(isRetired.hashCode, $mrjc(retiredDate.hashCode, $mrjc(hasVariant.hashCode, defaultWarehouse.hashCode)))))))))))))))))))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is Item &&
+          other.tenantId == this.tenantId &&
+          other.creationTime == this.creationTime &&
+          other.deleteTime == this.deleteTime &&
+          other.createUserId == this.createUserId &&
+          other.creatorUser == this.creatorUser &&
+          other.lastModifierUser == this.lastModifierUser &&
+          other.lastModifierUserId == this.lastModifierUserId &&
+          other.deleteUserId == this.deleteUserId &&
+          other.deleterUserId == this.deleterUserId &&
+          other.isDeleted == this.isDeleted &&
+          other.id == this.id &&
+          other.description == this.description &&
+          other.itemCode == this.itemCode &&
+          other.itemName == this.itemName &&
+          other.itemGroup == this.itemGroup &&
+          other.taxGroup == this.taxGroup &&
+          other.uom == this.uom &&
+          other.trackInventory == this.trackInventory &&
+          other.category == this.category &&
+          other.isProductBundleParent == this.isProductBundleParent &&
+          other.isQuickMenue == this.isQuickMenue &&
+          other.isRetired == this.isRetired &&
+          other.retiredDate == this.retiredDate &&
+          other.hasVariant == this.hasVariant &&
+          other.defaultWarehouse == this.defaultWarehouse);
+}
+
+class ItemsCompanion extends UpdateCompanion<Item> {
+  final Value<int> tenantId;
+  final Value<DateTime> creationTime;
+  final Value<DateTime> deleteTime;
+  final Value<int> createUserId;
+  final Value<String> creatorUser;
+  final Value<String> lastModifierUser;
+  final Value<int> lastModifierUserId;
+  final Value<int> deleteUserId;
+  final Value<String> deleterUserId;
+  final Value<bool> isDeleted;
+  final Value<int> id;
+  final Value<String> description;
+  final Value<String> itemCode;
+  final Value<String> itemName;
+  final Value<String> itemGroup;
+  final Value<String> taxGroup;
+  final Value<String> uom;
+  final Value<String> trackInventory;
+  final Value<String> category;
+  final Value<bool> isProductBundleParent;
+  final Value<bool> isQuickMenue;
+  final Value<bool> isRetired;
+  final Value<DateTime> retiredDate;
+  final Value<bool> hasVariant;
+  final Value<String> defaultWarehouse;
+  const ItemsCompanion({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    this.description = const Value.absent(),
+    this.itemCode = const Value.absent(),
+    this.itemName = const Value.absent(),
+    this.itemGroup = const Value.absent(),
+    this.taxGroup = const Value.absent(),
+    this.uom = const Value.absent(),
+    this.trackInventory = const Value.absent(),
+    this.category = const Value.absent(),
+    this.isProductBundleParent = const Value.absent(),
+    this.isQuickMenue = const Value.absent(),
+    this.isRetired = const Value.absent(),
+    this.retiredDate = const Value.absent(),
+    this.hasVariant = const Value.absent(),
+    this.defaultWarehouse = const Value.absent(),
+  });
+  ItemsCompanion.insert({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    this.description = const Value.absent(),
+    this.itemCode = const Value.absent(),
+    this.itemName = const Value.absent(),
+    this.itemGroup = const Value.absent(),
+    this.taxGroup = const Value.absent(),
+    this.uom = const Value.absent(),
+    this.trackInventory = const Value.absent(),
+    this.category = const Value.absent(),
+    this.isProductBundleParent = const Value.absent(),
+    this.isQuickMenue = const Value.absent(),
+    this.isRetired = const Value.absent(),
+    this.retiredDate = const Value.absent(),
+    this.hasVariant = const Value.absent(),
+    this.defaultWarehouse = const Value.absent(),
+  });
+  static Insertable<Item> custom({
+    Expression<int> tenantId,
+    Expression<DateTime> creationTime,
+    Expression<DateTime> deleteTime,
+    Expression<int> createUserId,
+    Expression<String> creatorUser,
+    Expression<String> lastModifierUser,
+    Expression<int> lastModifierUserId,
+    Expression<int> deleteUserId,
+    Expression<String> deleterUserId,
+    Expression<bool> isDeleted,
+    Expression<int> id,
+    Expression<String> description,
+    Expression<String> itemCode,
+    Expression<String> itemName,
+    Expression<String> itemGroup,
+    Expression<String> taxGroup,
+    Expression<String> uom,
+    Expression<String> trackInventory,
+    Expression<String> category,
+    Expression<bool> isProductBundleParent,
+    Expression<bool> isQuickMenue,
+    Expression<bool> isRetired,
+    Expression<DateTime> retiredDate,
+    Expression<bool> hasVariant,
+    Expression<String> defaultWarehouse,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (creationTime != null) 'creation_time': creationTime,
+      if (deleteTime != null) 'delete_time': deleteTime,
+      if (createUserId != null) 'create_user_id': createUserId,
+      if (creatorUser != null) 'creator_user': creatorUser,
+      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
+      if (lastModifierUserId != null)
+        'last_modifier_user_id': lastModifierUserId,
+      if (deleteUserId != null) 'delete_user_id': deleteUserId,
+      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (id != null) 'id': id,
+      if (description != null) 'description': description,
+      if (itemCode != null) 'item_code': itemCode,
+      if (itemName != null) 'item_name': itemName,
+      if (itemGroup != null) 'item_group': itemGroup,
+      if (taxGroup != null) 'tax_group': taxGroup,
+      if (uom != null) 'uom': uom,
+      if (trackInventory != null) 'track_inventory': trackInventory,
+      if (category != null) 'category': category,
+      if (isProductBundleParent != null)
+        'is_product_bundle_parent': isProductBundleParent,
+      if (isQuickMenue != null) 'is_quick_menue': isQuickMenue,
+      if (isRetired != null) 'is_retired': isRetired,
+      if (retiredDate != null) 'retired_date': retiredDate,
+      if (hasVariant != null) 'has_variant': hasVariant,
+      if (defaultWarehouse != null) 'default_warehouse': defaultWarehouse,
+    });
+  }
+
+  ItemsCompanion copyWith(
+      {Value<int> tenantId,
+      Value<DateTime> creationTime,
+      Value<DateTime> deleteTime,
+      Value<int> createUserId,
+      Value<String> creatorUser,
+      Value<String> lastModifierUser,
+      Value<int> lastModifierUserId,
+      Value<int> deleteUserId,
+      Value<String> deleterUserId,
+      Value<bool> isDeleted,
+      Value<int> id,
+      Value<String> description,
+      Value<String> itemCode,
+      Value<String> itemName,
+      Value<String> itemGroup,
+      Value<String> taxGroup,
+      Value<String> uom,
+      Value<String> trackInventory,
+      Value<String> category,
+      Value<bool> isProductBundleParent,
+      Value<bool> isQuickMenue,
+      Value<bool> isRetired,
+      Value<DateTime> retiredDate,
+      Value<bool> hasVariant,
+      Value<String> defaultWarehouse}) {
+    return ItemsCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      creationTime: creationTime ?? this.creationTime,
+      deleteTime: deleteTime ?? this.deleteTime,
+      createUserId: createUserId ?? this.createUserId,
+      creatorUser: creatorUser ?? this.creatorUser,
+      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+      deleteUserId: deleteUserId ?? this.deleteUserId,
+      deleterUserId: deleterUserId ?? this.deleterUserId,
+      isDeleted: isDeleted ?? this.isDeleted,
+      id: id ?? this.id,
+      description: description ?? this.description,
+      itemCode: itemCode ?? this.itemCode,
+      itemName: itemName ?? this.itemName,
+      itemGroup: itemGroup ?? this.itemGroup,
+      taxGroup: taxGroup ?? this.taxGroup,
+      uom: uom ?? this.uom,
+      trackInventory: trackInventory ?? this.trackInventory,
+      category: category ?? this.category,
+      isProductBundleParent:
+          isProductBundleParent ?? this.isProductBundleParent,
+      isQuickMenue: isQuickMenue ?? this.isQuickMenue,
+      isRetired: isRetired ?? this.isRetired,
+      retiredDate: retiredDate ?? this.retiredDate,
+      hasVariant: hasVariant ?? this.hasVariant,
+      defaultWarehouse: defaultWarehouse ?? this.defaultWarehouse,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (creationTime.present) {
+      map['creation_time'] = Variable<DateTime>(creationTime.value);
+    }
+    if (deleteTime.present) {
+      map['delete_time'] = Variable<DateTime>(deleteTime.value);
+    }
+    if (createUserId.present) {
+      map['create_user_id'] = Variable<int>(createUserId.value);
+    }
+    if (creatorUser.present) {
+      map['creator_user'] = Variable<String>(creatorUser.value);
+    }
+    if (lastModifierUser.present) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
+    }
+    if (lastModifierUserId.present) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
+    }
+    if (deleteUserId.present) {
+      map['delete_user_id'] = Variable<int>(deleteUserId.value);
+    }
+    if (deleterUserId.present) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (itemCode.present) {
+      map['item_code'] = Variable<String>(itemCode.value);
+    }
+    if (itemName.present) {
+      map['item_name'] = Variable<String>(itemName.value);
+    }
+    if (itemGroup.present) {
+      map['item_group'] = Variable<String>(itemGroup.value);
+    }
+    if (taxGroup.present) {
+      map['tax_group'] = Variable<String>(taxGroup.value);
+    }
+    if (uom.present) {
+      map['uom'] = Variable<String>(uom.value);
+    }
+    if (trackInventory.present) {
+      map['track_inventory'] = Variable<String>(trackInventory.value);
+    }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
+    }
+    if (isProductBundleParent.present) {
+      map['is_product_bundle_parent'] =
+          Variable<bool>(isProductBundleParent.value);
+    }
+    if (isQuickMenue.present) {
+      map['is_quick_menue'] = Variable<bool>(isQuickMenue.value);
+    }
+    if (isRetired.present) {
+      map['is_retired'] = Variable<bool>(isRetired.value);
+    }
+    if (retiredDate.present) {
+      map['retired_date'] = Variable<DateTime>(retiredDate.value);
+    }
+    if (hasVariant.present) {
+      map['has_variant'] = Variable<bool>(hasVariant.value);
+    }
+    if (defaultWarehouse.present) {
+      map['default_warehouse'] = Variable<String>(defaultWarehouse.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ItemsCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('description: $description, ')
+          ..write('itemCode: $itemCode, ')
+          ..write('itemName: $itemName, ')
+          ..write('itemGroup: $itemGroup, ')
+          ..write('taxGroup: $taxGroup, ')
+          ..write('uom: $uom, ')
+          ..write('trackInventory: $trackInventory, ')
+          ..write('category: $category, ')
+          ..write('isProductBundleParent: $isProductBundleParent, ')
+          ..write('isQuickMenue: $isQuickMenue, ')
+          ..write('isRetired: $isRetired, ')
+          ..write('retiredDate: $retiredDate, ')
+          ..write('hasVariant: $hasVariant, ')
+          ..write('defaultWarehouse: $defaultWarehouse')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ItemsTable extends Items with TableInfo<$ItemsTable, Item> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $ItemsTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creationTimeMeta =
+      const VerificationMeta('creationTime');
+  GeneratedDateTimeColumn _creationTime;
+  @override
+  GeneratedDateTimeColumn get creationTime =>
+      _creationTime ??= _constructCreationTime();
+  GeneratedDateTimeColumn _constructCreationTime() {
+    return GeneratedDateTimeColumn(
+      'creation_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
+  GeneratedDateTimeColumn _deleteTime;
+  @override
+  GeneratedDateTimeColumn get deleteTime =>
+      _deleteTime ??= _constructDeleteTime();
+  GeneratedDateTimeColumn _constructDeleteTime() {
+    return GeneratedDateTimeColumn(
+      'delete_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _createUserIdMeta =
+      const VerificationMeta('createUserId');
+  GeneratedIntColumn _createUserId;
+  @override
+  GeneratedIntColumn get createUserId =>
+      _createUserId ??= _constructCreateUserId();
+  GeneratedIntColumn _constructCreateUserId() {
+    return GeneratedIntColumn(
+      'create_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creatorUserMeta =
+      const VerificationMeta('creatorUser');
+  GeneratedTextColumn _creatorUser;
+  @override
+  GeneratedTextColumn get creatorUser =>
+      _creatorUser ??= _constructCreatorUser();
+  GeneratedTextColumn _constructCreatorUser() {
+    return GeneratedTextColumn(
+      'creator_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserMeta =
+      const VerificationMeta('lastModifierUser');
+  GeneratedTextColumn _lastModifierUser;
+  @override
+  GeneratedTextColumn get lastModifierUser =>
+      _lastModifierUser ??= _constructLastModifierUser();
+  GeneratedTextColumn _constructLastModifierUser() {
+    return GeneratedTextColumn(
+      'last_modifier_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserIdMeta =
+      const VerificationMeta('lastModifierUserId');
+  GeneratedIntColumn _lastModifierUserId;
+  @override
+  GeneratedIntColumn get lastModifierUserId =>
+      _lastModifierUserId ??= _constructLastModifierUserId();
+  GeneratedIntColumn _constructLastModifierUserId() {
+    return GeneratedIntColumn(
+      'last_modifier_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteUserIdMeta =
+      const VerificationMeta('deleteUserId');
+  GeneratedIntColumn _deleteUserId;
+  @override
+  GeneratedIntColumn get deleteUserId =>
+      _deleteUserId ??= _constructDeleteUserId();
+  GeneratedIntColumn _constructDeleteUserId() {
+    return GeneratedIntColumn(
+      'delete_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleterUserIdMeta =
+      const VerificationMeta('deleterUserId');
+  GeneratedTextColumn _deleterUserId;
+  @override
+  GeneratedTextColumn get deleterUserId =>
+      _deleterUserId ??= _constructDeleterUserId();
+  GeneratedTextColumn _constructDeleterUserId() {
+    return GeneratedTextColumn(
+      'deleter_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  GeneratedBoolColumn _isDeleted;
+  @override
+  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
+  GeneratedBoolColumn _constructIsDeleted() {
+    return GeneratedBoolColumn('is_deleted', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  GeneratedTextColumn _description;
+  @override
+  GeneratedTextColumn get description =>
+      _description ??= _constructDescription();
+  GeneratedTextColumn _constructDescription() {
+    return GeneratedTextColumn(
+      'description',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _itemCodeMeta = const VerificationMeta('itemCode');
+  GeneratedTextColumn _itemCode;
+  @override
+  GeneratedTextColumn get itemCode => _itemCode ??= _constructItemCode();
+  GeneratedTextColumn _constructItemCode() {
+    return GeneratedTextColumn(
+      'item_code',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _itemNameMeta = const VerificationMeta('itemName');
+  GeneratedTextColumn _itemName;
+  @override
+  GeneratedTextColumn get itemName => _itemName ??= _constructItemName();
+  GeneratedTextColumn _constructItemName() {
+    return GeneratedTextColumn(
+      'item_name',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _itemGroupMeta = const VerificationMeta('itemGroup');
+  GeneratedTextColumn _itemGroup;
+  @override
+  GeneratedTextColumn get itemGroup => _itemGroup ??= _constructItemGroup();
+  GeneratedTextColumn _constructItemGroup() {
+    return GeneratedTextColumn(
+      'item_group',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _taxGroupMeta = const VerificationMeta('taxGroup');
+  GeneratedTextColumn _taxGroup;
+  @override
+  GeneratedTextColumn get taxGroup => _taxGroup ??= _constructTaxGroup();
+  GeneratedTextColumn _constructTaxGroup() {
+    return GeneratedTextColumn(
+      'tax_group',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _uomMeta = const VerificationMeta('uom');
+  GeneratedTextColumn _uom;
+  @override
+  GeneratedTextColumn get uom => _uom ??= _constructUom();
+  GeneratedTextColumn _constructUom() {
+    return GeneratedTextColumn(
+      'uom',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _trackInventoryMeta =
+      const VerificationMeta('trackInventory');
+  GeneratedTextColumn _trackInventory;
+  @override
+  GeneratedTextColumn get trackInventory =>
+      _trackInventory ??= _constructTrackInventory();
+  GeneratedTextColumn _constructTrackInventory() {
+    return GeneratedTextColumn(
+      'track_inventory',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _categoryMeta = const VerificationMeta('category');
+  GeneratedTextColumn _category;
+  @override
+  GeneratedTextColumn get category => _category ??= _constructCategory();
+  GeneratedTextColumn _constructCategory() {
+    return GeneratedTextColumn(
+      'category',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _isProductBundleParentMeta =
+      const VerificationMeta('isProductBundleParent');
+  GeneratedBoolColumn _isProductBundleParent;
+  @override
+  GeneratedBoolColumn get isProductBundleParent =>
+      _isProductBundleParent ??= _constructIsProductBundleParent();
+  GeneratedBoolColumn _constructIsProductBundleParent() {
+    return GeneratedBoolColumn('is_product_bundle_parent', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _isQuickMenueMeta =
+      const VerificationMeta('isQuickMenue');
+  GeneratedBoolColumn _isQuickMenue;
+  @override
+  GeneratedBoolColumn get isQuickMenue =>
+      _isQuickMenue ??= _constructIsQuickMenue();
+  GeneratedBoolColumn _constructIsQuickMenue() {
+    return GeneratedBoolColumn('is_quick_menue', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _isRetiredMeta = const VerificationMeta('isRetired');
+  GeneratedBoolColumn _isRetired;
+  @override
+  GeneratedBoolColumn get isRetired => _isRetired ??= _constructIsRetired();
+  GeneratedBoolColumn _constructIsRetired() {
+    return GeneratedBoolColumn('is_retired', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _retiredDateMeta =
+      const VerificationMeta('retiredDate');
+  GeneratedDateTimeColumn _retiredDate;
+  @override
+  GeneratedDateTimeColumn get retiredDate =>
+      _retiredDate ??= _constructRetiredDate();
+  GeneratedDateTimeColumn _constructRetiredDate() {
+    return GeneratedDateTimeColumn(
+      'retired_date',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _hasVariantMeta = const VerificationMeta('hasVariant');
+  GeneratedBoolColumn _hasVariant;
+  @override
+  GeneratedBoolColumn get hasVariant => _hasVariant ??= _constructHasVariant();
+  GeneratedBoolColumn _constructHasVariant() {
+    return GeneratedBoolColumn('has_variant', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _defaultWarehouseMeta =
+      const VerificationMeta('defaultWarehouse');
+  GeneratedTextColumn _defaultWarehouse;
+  @override
+  GeneratedTextColumn get defaultWarehouse =>
+      _defaultWarehouse ??= _constructDefaultWarehouse();
+  GeneratedTextColumn _constructDefaultWarehouse() {
+    return GeneratedTextColumn(
+      'default_warehouse',
+      $tableName,
+      true,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        tenantId,
+        creationTime,
+        deleteTime,
+        createUserId,
+        creatorUser,
+        lastModifierUser,
+        lastModifierUserId,
+        deleteUserId,
+        deleterUserId,
+        isDeleted,
+        id,
+        description,
+        itemCode,
+        itemName,
+        itemGroup,
+        taxGroup,
+        uom,
+        trackInventory,
+        category,
+        isProductBundleParent,
+        isQuickMenue,
+        isRetired,
+        retiredDate,
+        hasVariant,
+        defaultWarehouse
+      ];
+  @override
+  $ItemsTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'items';
+  @override
+  final String actualTableName = 'items';
+  @override
+  VerificationContext validateIntegrity(Insertable<Item> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
+    if (data.containsKey('creation_time')) {
+      context.handle(
+          _creationTimeMeta,
+          creationTime.isAcceptableOrUnknown(
+              data['creation_time'], _creationTimeMeta));
+    }
+    if (data.containsKey('delete_time')) {
+      context.handle(
+          _deleteTimeMeta,
+          deleteTime.isAcceptableOrUnknown(
+              data['delete_time'], _deleteTimeMeta));
+    }
+    if (data.containsKey('create_user_id')) {
+      context.handle(
+          _createUserIdMeta,
+          createUserId.isAcceptableOrUnknown(
+              data['create_user_id'], _createUserIdMeta));
+    }
+    if (data.containsKey('creator_user')) {
+      context.handle(
+          _creatorUserMeta,
+          creatorUser.isAcceptableOrUnknown(
+              data['creator_user'], _creatorUserMeta));
+    }
+    if (data.containsKey('last_modifier_user')) {
+      context.handle(
+          _lastModifierUserMeta,
+          lastModifierUser.isAcceptableOrUnknown(
+              data['last_modifier_user'], _lastModifierUserMeta));
+    }
+    if (data.containsKey('last_modifier_user_id')) {
+      context.handle(
+          _lastModifierUserIdMeta,
+          lastModifierUserId.isAcceptableOrUnknown(
+              data['last_modifier_user_id'], _lastModifierUserIdMeta));
+    }
+    if (data.containsKey('delete_user_id')) {
+      context.handle(
+          _deleteUserIdMeta,
+          deleteUserId.isAcceptableOrUnknown(
+              data['delete_user_id'], _deleteUserIdMeta));
+    }
+    if (data.containsKey('deleter_user_id')) {
+      context.handle(
+          _deleterUserIdMeta,
+          deleterUserId.isAcceptableOrUnknown(
+              data['deleter_user_id'], _deleterUserIdMeta));
+    }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description'], _descriptionMeta));
+    }
+    if (data.containsKey('item_code')) {
+      context.handle(_itemCodeMeta,
+          itemCode.isAcceptableOrUnknown(data['item_code'], _itemCodeMeta));
+    }
+    if (data.containsKey('item_name')) {
+      context.handle(_itemNameMeta,
+          itemName.isAcceptableOrUnknown(data['item_name'], _itemNameMeta));
+    }
+    if (data.containsKey('item_group')) {
+      context.handle(_itemGroupMeta,
+          itemGroup.isAcceptableOrUnknown(data['item_group'], _itemGroupMeta));
+    }
+    if (data.containsKey('tax_group')) {
+      context.handle(_taxGroupMeta,
+          taxGroup.isAcceptableOrUnknown(data['tax_group'], _taxGroupMeta));
+    }
+    if (data.containsKey('uom')) {
+      context.handle(
+          _uomMeta, uom.isAcceptableOrUnknown(data['uom'], _uomMeta));
+    }
+    if (data.containsKey('track_inventory')) {
+      context.handle(
+          _trackInventoryMeta,
+          trackInventory.isAcceptableOrUnknown(
+              data['track_inventory'], _trackInventoryMeta));
+    }
+    if (data.containsKey('category')) {
+      context.handle(_categoryMeta,
+          category.isAcceptableOrUnknown(data['category'], _categoryMeta));
+    }
+    if (data.containsKey('is_product_bundle_parent')) {
+      context.handle(
+          _isProductBundleParentMeta,
+          isProductBundleParent.isAcceptableOrUnknown(
+              data['is_product_bundle_parent'], _isProductBundleParentMeta));
+    }
+    if (data.containsKey('is_quick_menue')) {
+      context.handle(
+          _isQuickMenueMeta,
+          isQuickMenue.isAcceptableOrUnknown(
+              data['is_quick_menue'], _isQuickMenueMeta));
+    }
+    if (data.containsKey('is_retired')) {
+      context.handle(_isRetiredMeta,
+          isRetired.isAcceptableOrUnknown(data['is_retired'], _isRetiredMeta));
+    }
+    if (data.containsKey('retired_date')) {
+      context.handle(
+          _retiredDateMeta,
+          retiredDate.isAcceptableOrUnknown(
+              data['retired_date'], _retiredDateMeta));
+    }
+    if (data.containsKey('has_variant')) {
+      context.handle(
+          _hasVariantMeta,
+          hasVariant.isAcceptableOrUnknown(
+              data['has_variant'], _hasVariantMeta));
+    }
+    if (data.containsKey('default_warehouse')) {
+      context.handle(
+          _defaultWarehouseMeta,
+          defaultWarehouse.isAcceptableOrUnknown(
+              data['default_warehouse'], _defaultWarehouseMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Item map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return Item.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $ItemsTable createAlias(String alias) {
+    return $ItemsTable(_db, alias);
+  }
+}
+
+class ItemPriceData extends DataClass implements Insertable<ItemPriceData> {
+  final int tenantId;
+  final DateTime creationTime;
+  final DateTime deleteTime;
+  final int createUserId;
+  final String creatorUser;
+  final String lastModifierUser;
+  final int lastModifierUserId;
+  final int deleteUserId;
+  final String deleterUserId;
+  final bool isDeleted;
+  final int id;
+  final int itemId;
+  final String itemCode;
+  final String priceList;
+  final String itemName;
+  final double itemPrice;
+  final double returnPrice;
+  final double deposit;
+  final double shippingCost;
+  final double sellingDeposit;
+  final double returnDeposit;
+  final double conversionFactor;
+  final double actualPoints;
+  final String uom;
+  final String currency;
+  final int pricingScheduleNo;
+  final bool isActive;
+  final bool isDiscountEnable;
+  final DateTime validFrom;
+  final DateTime validTo;
+  ItemPriceData(
+      {this.tenantId,
+      this.creationTime,
+      this.deleteTime,
+      this.createUserId,
+      this.creatorUser,
+      this.lastModifierUser,
+      this.lastModifierUserId,
+      this.deleteUserId,
+      this.deleterUserId,
+      @required this.isDeleted,
+      @required this.id,
+      @required this.itemId,
+      this.itemCode,
+      this.priceList,
+      this.itemName,
+      @required this.itemPrice,
+      @required this.returnPrice,
+      @required this.deposit,
+      @required this.shippingCost,
+      @required this.sellingDeposit,
+      @required this.returnDeposit,
+      @required this.conversionFactor,
+      @required this.actualPoints,
+      this.uom,
+      this.currency,
+      @required this.pricingScheduleNo,
+      @required this.isActive,
+      @required this.isDiscountEnable,
+      this.validFrom,
+      this.validTo});
+  factory ItemPriceData.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    final doubleType = db.typeSystem.forDartType<double>();
+    return ItemPriceData(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      creationTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
+      deleteTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
+      createUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
+      creatorUser: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
+      lastModifierUser: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user']),
+      lastModifierUserId: intType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user_id']),
+      deleteUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
+      deleterUserId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
+      isDeleted: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      itemId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
+      itemCode: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}item_code']),
+      priceList: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}price_list']),
+      itemName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}item_name']),
+      itemPrice: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}item_price']),
+      returnPrice: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}return_price']),
+      deposit:
+          doubleType.mapFromDatabaseResponse(data['${effectivePrefix}deposit']),
+      shippingCost: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}shipping_cost']),
+      sellingDeposit: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}selling_deposit']),
+      returnDeposit: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}return_deposit']),
+      conversionFactor: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}conversion_factor']),
+      actualPoints: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}actual_points']),
+      uom: stringType.mapFromDatabaseResponse(data['${effectivePrefix}uom']),
+      currency: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}currency']),
+      pricingScheduleNo: intType.mapFromDatabaseResponse(
+          data['${effectivePrefix}pricing_schedule_no']),
+      isActive:
+          boolType.mapFromDatabaseResponse(data['${effectivePrefix}is_active']),
+      isDiscountEnable: boolType.mapFromDatabaseResponse(
+          data['${effectivePrefix}is_discount_enable']),
+      validFrom: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}valid_from']),
+      validTo: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}valid_to']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || creationTime != null) {
+      map['creation_time'] = Variable<DateTime>(creationTime);
+    }
+    if (!nullToAbsent || deleteTime != null) {
+      map['delete_time'] = Variable<DateTime>(deleteTime);
+    }
+    if (!nullToAbsent || createUserId != null) {
+      map['create_user_id'] = Variable<int>(createUserId);
+    }
+    if (!nullToAbsent || creatorUser != null) {
+      map['creator_user'] = Variable<String>(creatorUser);
+    }
+    if (!nullToAbsent || lastModifierUser != null) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser);
+    }
+    if (!nullToAbsent || lastModifierUserId != null) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
+    }
+    if (!nullToAbsent || deleteUserId != null) {
+      map['delete_user_id'] = Variable<int>(deleteUserId);
+    }
+    if (!nullToAbsent || deleterUserId != null) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId);
+    }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || itemId != null) {
+      map['item_id'] = Variable<int>(itemId);
+    }
+    if (!nullToAbsent || itemCode != null) {
+      map['item_code'] = Variable<String>(itemCode);
+    }
+    if (!nullToAbsent || priceList != null) {
+      map['price_list'] = Variable<String>(priceList);
+    }
+    if (!nullToAbsent || itemName != null) {
+      map['item_name'] = Variable<String>(itemName);
+    }
+    if (!nullToAbsent || itemPrice != null) {
+      map['item_price'] = Variable<double>(itemPrice);
+    }
+    if (!nullToAbsent || returnPrice != null) {
+      map['return_price'] = Variable<double>(returnPrice);
+    }
+    if (!nullToAbsent || deposit != null) {
+      map['deposit'] = Variable<double>(deposit);
+    }
+    if (!nullToAbsent || shippingCost != null) {
+      map['shipping_cost'] = Variable<double>(shippingCost);
+    }
+    if (!nullToAbsent || sellingDeposit != null) {
+      map['selling_deposit'] = Variable<double>(sellingDeposit);
+    }
+    if (!nullToAbsent || returnDeposit != null) {
+      map['return_deposit'] = Variable<double>(returnDeposit);
+    }
+    if (!nullToAbsent || conversionFactor != null) {
+      map['conversion_factor'] = Variable<double>(conversionFactor);
+    }
+    if (!nullToAbsent || actualPoints != null) {
+      map['actual_points'] = Variable<double>(actualPoints);
+    }
+    if (!nullToAbsent || uom != null) {
+      map['uom'] = Variable<String>(uom);
+    }
+    if (!nullToAbsent || currency != null) {
+      map['currency'] = Variable<String>(currency);
+    }
+    if (!nullToAbsent || pricingScheduleNo != null) {
+      map['pricing_schedule_no'] = Variable<int>(pricingScheduleNo);
+    }
+    if (!nullToAbsent || isActive != null) {
+      map['is_active'] = Variable<bool>(isActive);
+    }
+    if (!nullToAbsent || isDiscountEnable != null) {
+      map['is_discount_enable'] = Variable<bool>(isDiscountEnable);
+    }
+    if (!nullToAbsent || validFrom != null) {
+      map['valid_from'] = Variable<DateTime>(validFrom);
+    }
+    if (!nullToAbsent || validTo != null) {
+      map['valid_to'] = Variable<DateTime>(validTo);
+    }
+    return map;
+  }
+
+  ItemPriceCompanion toCompanion(bool nullToAbsent) {
+    return ItemPriceCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      creationTime: creationTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creationTime),
+      deleteTime: deleteTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteTime),
+      createUserId: createUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createUserId),
+      creatorUser: creatorUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creatorUser),
+      lastModifierUser: lastModifierUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUser),
+      lastModifierUserId: lastModifierUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUserId),
+      deleteUserId: deleteUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteUserId),
+      deleterUserId: deleterUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleterUserId),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      itemId:
+          itemId == null && nullToAbsent ? const Value.absent() : Value(itemId),
+      itemCode: itemCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(itemCode),
+      priceList: priceList == null && nullToAbsent
+          ? const Value.absent()
+          : Value(priceList),
+      itemName: itemName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(itemName),
+      itemPrice: itemPrice == null && nullToAbsent
+          ? const Value.absent()
+          : Value(itemPrice),
+      returnPrice: returnPrice == null && nullToAbsent
+          ? const Value.absent()
+          : Value(returnPrice),
+      deposit: deposit == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deposit),
+      shippingCost: shippingCost == null && nullToAbsent
+          ? const Value.absent()
+          : Value(shippingCost),
+      sellingDeposit: sellingDeposit == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sellingDeposit),
+      returnDeposit: returnDeposit == null && nullToAbsent
+          ? const Value.absent()
+          : Value(returnDeposit),
+      conversionFactor: conversionFactor == null && nullToAbsent
+          ? const Value.absent()
+          : Value(conversionFactor),
+      actualPoints: actualPoints == null && nullToAbsent
+          ? const Value.absent()
+          : Value(actualPoints),
+      uom: uom == null && nullToAbsent ? const Value.absent() : Value(uom),
+      currency: currency == null && nullToAbsent
+          ? const Value.absent()
+          : Value(currency),
+      pricingScheduleNo: pricingScheduleNo == null && nullToAbsent
+          ? const Value.absent()
+          : Value(pricingScheduleNo),
+      isActive: isActive == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isActive),
+      isDiscountEnable: isDiscountEnable == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDiscountEnable),
+      validFrom: validFrom == null && nullToAbsent
+          ? const Value.absent()
+          : Value(validFrom),
+      validTo: validTo == null && nullToAbsent
+          ? const Value.absent()
+          : Value(validTo),
+    );
+  }
+
+  factory ItemPriceData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return ItemPriceData(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
+      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
+      createUserId: serializer.fromJson<int>(json['createUserId']),
+      creatorUser: serializer.fromJson<String>(json['creatorUser']),
+      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
+      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
+      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
+      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      id: serializer.fromJson<int>(json['id']),
+      itemId: serializer.fromJson<int>(json['itemId']),
+      itemCode: serializer.fromJson<String>(json['itemCode']),
+      priceList: serializer.fromJson<String>(json['priceList']),
+      itemName: serializer.fromJson<String>(json['itemName']),
+      itemPrice: serializer.fromJson<double>(json['itemPrice']),
+      returnPrice: serializer.fromJson<double>(json['returnPrice']),
+      deposit: serializer.fromJson<double>(json['deposit']),
+      shippingCost: serializer.fromJson<double>(json['shippingCost']),
+      sellingDeposit: serializer.fromJson<double>(json['sellingDeposit']),
+      returnDeposit: serializer.fromJson<double>(json['returnDeposit']),
+      conversionFactor: serializer.fromJson<double>(json['conversionFactor']),
+      actualPoints: serializer.fromJson<double>(json['actualPoints']),
+      uom: serializer.fromJson<String>(json['uom']),
+      currency: serializer.fromJson<String>(json['currency']),
+      pricingScheduleNo: serializer.fromJson<int>(json['pricingScheduleNo']),
+      isActive: serializer.fromJson<bool>(json['isActive']),
+      isDiscountEnable: serializer.fromJson<bool>(json['isDiscountEnable']),
+      validFrom: serializer.fromJson<DateTime>(json['validFrom']),
+      validTo: serializer.fromJson<DateTime>(json['validTo']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'creationTime': serializer.toJson<DateTime>(creationTime),
+      'deleteTime': serializer.toJson<DateTime>(deleteTime),
+      'createUserId': serializer.toJson<int>(createUserId),
+      'creatorUser': serializer.toJson<String>(creatorUser),
+      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
+      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
+      'deleteUserId': serializer.toJson<int>(deleteUserId),
+      'deleterUserId': serializer.toJson<String>(deleterUserId),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'id': serializer.toJson<int>(id),
+      'itemId': serializer.toJson<int>(itemId),
+      'itemCode': serializer.toJson<String>(itemCode),
+      'priceList': serializer.toJson<String>(priceList),
+      'itemName': serializer.toJson<String>(itemName),
+      'itemPrice': serializer.toJson<double>(itemPrice),
+      'returnPrice': serializer.toJson<double>(returnPrice),
+      'deposit': serializer.toJson<double>(deposit),
+      'shippingCost': serializer.toJson<double>(shippingCost),
+      'sellingDeposit': serializer.toJson<double>(sellingDeposit),
+      'returnDeposit': serializer.toJson<double>(returnDeposit),
+      'conversionFactor': serializer.toJson<double>(conversionFactor),
+      'actualPoints': serializer.toJson<double>(actualPoints),
+      'uom': serializer.toJson<String>(uom),
+      'currency': serializer.toJson<String>(currency),
+      'pricingScheduleNo': serializer.toJson<int>(pricingScheduleNo),
+      'isActive': serializer.toJson<bool>(isActive),
+      'isDiscountEnable': serializer.toJson<bool>(isDiscountEnable),
+      'validFrom': serializer.toJson<DateTime>(validFrom),
+      'validTo': serializer.toJson<DateTime>(validTo),
+    };
+  }
+
+  ItemPriceData copyWith(
+          {int tenantId,
+          DateTime creationTime,
+          DateTime deleteTime,
+          int createUserId,
+          String creatorUser,
+          String lastModifierUser,
+          int lastModifierUserId,
+          int deleteUserId,
+          String deleterUserId,
+          bool isDeleted,
+          int id,
+          int itemId,
+          String itemCode,
+          String priceList,
+          String itemName,
+          double itemPrice,
+          double returnPrice,
+          double deposit,
+          double shippingCost,
+          double sellingDeposit,
+          double returnDeposit,
+          double conversionFactor,
+          double actualPoints,
+          String uom,
+          String currency,
+          int pricingScheduleNo,
+          bool isActive,
+          bool isDiscountEnable,
+          DateTime validFrom,
+          DateTime validTo}) =>
+      ItemPriceData(
+        tenantId: tenantId ?? this.tenantId,
+        creationTime: creationTime ?? this.creationTime,
+        deleteTime: deleteTime ?? this.deleteTime,
+        createUserId: createUserId ?? this.createUserId,
+        creatorUser: creatorUser ?? this.creatorUser,
+        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+        deleteUserId: deleteUserId ?? this.deleteUserId,
+        deleterUserId: deleterUserId ?? this.deleterUserId,
+        isDeleted: isDeleted ?? this.isDeleted,
+        id: id ?? this.id,
+        itemId: itemId ?? this.itemId,
+        itemCode: itemCode ?? this.itemCode,
+        priceList: priceList ?? this.priceList,
+        itemName: itemName ?? this.itemName,
+        itemPrice: itemPrice ?? this.itemPrice,
+        returnPrice: returnPrice ?? this.returnPrice,
+        deposit: deposit ?? this.deposit,
+        shippingCost: shippingCost ?? this.shippingCost,
+        sellingDeposit: sellingDeposit ?? this.sellingDeposit,
+        returnDeposit: returnDeposit ?? this.returnDeposit,
+        conversionFactor: conversionFactor ?? this.conversionFactor,
+        actualPoints: actualPoints ?? this.actualPoints,
+        uom: uom ?? this.uom,
+        currency: currency ?? this.currency,
+        pricingScheduleNo: pricingScheduleNo ?? this.pricingScheduleNo,
+        isActive: isActive ?? this.isActive,
+        isDiscountEnable: isDiscountEnable ?? this.isDiscountEnable,
+        validFrom: validFrom ?? this.validFrom,
+        validTo: validTo ?? this.validTo,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('ItemPriceData(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('itemId: $itemId, ')
+          ..write('itemCode: $itemCode, ')
+          ..write('priceList: $priceList, ')
+          ..write('itemName: $itemName, ')
+          ..write('itemPrice: $itemPrice, ')
+          ..write('returnPrice: $returnPrice, ')
+          ..write('deposit: $deposit, ')
+          ..write('shippingCost: $shippingCost, ')
+          ..write('sellingDeposit: $sellingDeposit, ')
+          ..write('returnDeposit: $returnDeposit, ')
+          ..write('conversionFactor: $conversionFactor, ')
+          ..write('actualPoints: $actualPoints, ')
+          ..write('uom: $uom, ')
+          ..write('currency: $currency, ')
+          ..write('pricingScheduleNo: $pricingScheduleNo, ')
+          ..write('isActive: $isActive, ')
+          ..write('isDiscountEnable: $isDiscountEnable, ')
+          ..write('validFrom: $validFrom, ')
+          ..write('validTo: $validTo')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode,
+      $mrjc(
+          creationTime.hashCode,
+          $mrjc(
+              deleteTime.hashCode,
+              $mrjc(
+                  createUserId.hashCode,
+                  $mrjc(
+                      creatorUser.hashCode,
+                      $mrjc(
+                          lastModifierUser.hashCode,
+                          $mrjc(
+                              lastModifierUserId.hashCode,
+                              $mrjc(
+                                  deleteUserId.hashCode,
+                                  $mrjc(
+                                      deleterUserId.hashCode,
+                                      $mrjc(
+                                          isDeleted.hashCode,
+                                          $mrjc(
+                                              id.hashCode,
+                                              $mrjc(
+                                                  itemId.hashCode,
+                                                  $mrjc(
+                                                      itemCode.hashCode,
+                                                      $mrjc(
+                                                          priceList.hashCode,
+                                                          $mrjc(
+                                                              itemName.hashCode,
+                                                              $mrjc(
+                                                                  itemPrice
+                                                                      .hashCode,
+                                                                  $mrjc(
+                                                                      returnPrice
+                                                                          .hashCode,
+                                                                      $mrjc(
+                                                                          deposit
+                                                                              .hashCode,
+                                                                          $mrjc(
+                                                                              shippingCost.hashCode,
+                                                                              $mrjc(sellingDeposit.hashCode, $mrjc(returnDeposit.hashCode, $mrjc(conversionFactor.hashCode, $mrjc(actualPoints.hashCode, $mrjc(uom.hashCode, $mrjc(currency.hashCode, $mrjc(pricingScheduleNo.hashCode, $mrjc(isActive.hashCode, $mrjc(isDiscountEnable.hashCode, $mrjc(validFrom.hashCode, validTo.hashCode))))))))))))))))))))))))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is ItemPriceData &&
+          other.tenantId == this.tenantId &&
+          other.creationTime == this.creationTime &&
+          other.deleteTime == this.deleteTime &&
+          other.createUserId == this.createUserId &&
+          other.creatorUser == this.creatorUser &&
+          other.lastModifierUser == this.lastModifierUser &&
+          other.lastModifierUserId == this.lastModifierUserId &&
+          other.deleteUserId == this.deleteUserId &&
+          other.deleterUserId == this.deleterUserId &&
+          other.isDeleted == this.isDeleted &&
+          other.id == this.id &&
+          other.itemId == this.itemId &&
+          other.itemCode == this.itemCode &&
+          other.priceList == this.priceList &&
+          other.itemName == this.itemName &&
+          other.itemPrice == this.itemPrice &&
+          other.returnPrice == this.returnPrice &&
+          other.deposit == this.deposit &&
+          other.shippingCost == this.shippingCost &&
+          other.sellingDeposit == this.sellingDeposit &&
+          other.returnDeposit == this.returnDeposit &&
+          other.conversionFactor == this.conversionFactor &&
+          other.actualPoints == this.actualPoints &&
+          other.uom == this.uom &&
+          other.currency == this.currency &&
+          other.pricingScheduleNo == this.pricingScheduleNo &&
+          other.isActive == this.isActive &&
+          other.isDiscountEnable == this.isDiscountEnable &&
+          other.validFrom == this.validFrom &&
+          other.validTo == this.validTo);
+}
+
+class ItemPriceCompanion extends UpdateCompanion<ItemPriceData> {
+  final Value<int> tenantId;
+  final Value<DateTime> creationTime;
+  final Value<DateTime> deleteTime;
+  final Value<int> createUserId;
+  final Value<String> creatorUser;
+  final Value<String> lastModifierUser;
+  final Value<int> lastModifierUserId;
+  final Value<int> deleteUserId;
+  final Value<String> deleterUserId;
+  final Value<bool> isDeleted;
+  final Value<int> id;
+  final Value<int> itemId;
+  final Value<String> itemCode;
+  final Value<String> priceList;
+  final Value<String> itemName;
+  final Value<double> itemPrice;
+  final Value<double> returnPrice;
+  final Value<double> deposit;
+  final Value<double> shippingCost;
+  final Value<double> sellingDeposit;
+  final Value<double> returnDeposit;
+  final Value<double> conversionFactor;
+  final Value<double> actualPoints;
+  final Value<String> uom;
+  final Value<String> currency;
+  final Value<int> pricingScheduleNo;
+  final Value<bool> isActive;
+  final Value<bool> isDiscountEnable;
+  final Value<DateTime> validFrom;
+  final Value<DateTime> validTo;
+  const ItemPriceCompanion({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    this.itemId = const Value.absent(),
+    this.itemCode = const Value.absent(),
+    this.priceList = const Value.absent(),
+    this.itemName = const Value.absent(),
+    this.itemPrice = const Value.absent(),
+    this.returnPrice = const Value.absent(),
+    this.deposit = const Value.absent(),
+    this.shippingCost = const Value.absent(),
+    this.sellingDeposit = const Value.absent(),
+    this.returnDeposit = const Value.absent(),
+    this.conversionFactor = const Value.absent(),
+    this.actualPoints = const Value.absent(),
+    this.uom = const Value.absent(),
+    this.currency = const Value.absent(),
+    this.pricingScheduleNo = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.isDiscountEnable = const Value.absent(),
+    this.validFrom = const Value.absent(),
+    this.validTo = const Value.absent(),
+  });
+  ItemPriceCompanion.insert({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    @required int itemId,
+    this.itemCode = const Value.absent(),
+    this.priceList = const Value.absent(),
+    this.itemName = const Value.absent(),
+    @required double itemPrice,
+    @required double returnPrice,
+    @required double deposit,
+    @required double shippingCost,
+    @required double sellingDeposit,
+    @required double returnDeposit,
+    @required double conversionFactor,
+    @required double actualPoints,
+    this.uom = const Value.absent(),
+    this.currency = const Value.absent(),
+    @required int pricingScheduleNo,
+    this.isActive = const Value.absent(),
+    this.isDiscountEnable = const Value.absent(),
+    this.validFrom = const Value.absent(),
+    this.validTo = const Value.absent(),
+  })  : itemId = Value(itemId),
+        itemPrice = Value(itemPrice),
+        returnPrice = Value(returnPrice),
+        deposit = Value(deposit),
+        shippingCost = Value(shippingCost),
+        sellingDeposit = Value(sellingDeposit),
+        returnDeposit = Value(returnDeposit),
+        conversionFactor = Value(conversionFactor),
+        actualPoints = Value(actualPoints),
+        pricingScheduleNo = Value(pricingScheduleNo);
+  static Insertable<ItemPriceData> custom({
+    Expression<int> tenantId,
+    Expression<DateTime> creationTime,
+    Expression<DateTime> deleteTime,
+    Expression<int> createUserId,
+    Expression<String> creatorUser,
+    Expression<String> lastModifierUser,
+    Expression<int> lastModifierUserId,
+    Expression<int> deleteUserId,
+    Expression<String> deleterUserId,
+    Expression<bool> isDeleted,
+    Expression<int> id,
+    Expression<int> itemId,
+    Expression<String> itemCode,
+    Expression<String> priceList,
+    Expression<String> itemName,
+    Expression<double> itemPrice,
+    Expression<double> returnPrice,
+    Expression<double> deposit,
+    Expression<double> shippingCost,
+    Expression<double> sellingDeposit,
+    Expression<double> returnDeposit,
+    Expression<double> conversionFactor,
+    Expression<double> actualPoints,
+    Expression<String> uom,
+    Expression<String> currency,
+    Expression<int> pricingScheduleNo,
+    Expression<bool> isActive,
+    Expression<bool> isDiscountEnable,
+    Expression<DateTime> validFrom,
+    Expression<DateTime> validTo,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (creationTime != null) 'creation_time': creationTime,
+      if (deleteTime != null) 'delete_time': deleteTime,
+      if (createUserId != null) 'create_user_id': createUserId,
+      if (creatorUser != null) 'creator_user': creatorUser,
+      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
+      if (lastModifierUserId != null)
+        'last_modifier_user_id': lastModifierUserId,
+      if (deleteUserId != null) 'delete_user_id': deleteUserId,
+      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (id != null) 'id': id,
+      if (itemId != null) 'item_id': itemId,
+      if (itemCode != null) 'item_code': itemCode,
+      if (priceList != null) 'price_list': priceList,
+      if (itemName != null) 'item_name': itemName,
+      if (itemPrice != null) 'item_price': itemPrice,
+      if (returnPrice != null) 'return_price': returnPrice,
+      if (deposit != null) 'deposit': deposit,
+      if (shippingCost != null) 'shipping_cost': shippingCost,
+      if (sellingDeposit != null) 'selling_deposit': sellingDeposit,
+      if (returnDeposit != null) 'return_deposit': returnDeposit,
+      if (conversionFactor != null) 'conversion_factor': conversionFactor,
+      if (actualPoints != null) 'actual_points': actualPoints,
+      if (uom != null) 'uom': uom,
+      if (currency != null) 'currency': currency,
+      if (pricingScheduleNo != null) 'pricing_schedule_no': pricingScheduleNo,
+      if (isActive != null) 'is_active': isActive,
+      if (isDiscountEnable != null) 'is_discount_enable': isDiscountEnable,
+      if (validFrom != null) 'valid_from': validFrom,
+      if (validTo != null) 'valid_to': validTo,
+    });
+  }
+
+  ItemPriceCompanion copyWith(
+      {Value<int> tenantId,
+      Value<DateTime> creationTime,
+      Value<DateTime> deleteTime,
+      Value<int> createUserId,
+      Value<String> creatorUser,
+      Value<String> lastModifierUser,
+      Value<int> lastModifierUserId,
+      Value<int> deleteUserId,
+      Value<String> deleterUserId,
+      Value<bool> isDeleted,
+      Value<int> id,
+      Value<int> itemId,
+      Value<String> itemCode,
+      Value<String> priceList,
+      Value<String> itemName,
+      Value<double> itemPrice,
+      Value<double> returnPrice,
+      Value<double> deposit,
+      Value<double> shippingCost,
+      Value<double> sellingDeposit,
+      Value<double> returnDeposit,
+      Value<double> conversionFactor,
+      Value<double> actualPoints,
+      Value<String> uom,
+      Value<String> currency,
+      Value<int> pricingScheduleNo,
+      Value<bool> isActive,
+      Value<bool> isDiscountEnable,
+      Value<DateTime> validFrom,
+      Value<DateTime> validTo}) {
+    return ItemPriceCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      creationTime: creationTime ?? this.creationTime,
+      deleteTime: deleteTime ?? this.deleteTime,
+      createUserId: createUserId ?? this.createUserId,
+      creatorUser: creatorUser ?? this.creatorUser,
+      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+      deleteUserId: deleteUserId ?? this.deleteUserId,
+      deleterUserId: deleterUserId ?? this.deleterUserId,
+      isDeleted: isDeleted ?? this.isDeleted,
+      id: id ?? this.id,
+      itemId: itemId ?? this.itemId,
+      itemCode: itemCode ?? this.itemCode,
+      priceList: priceList ?? this.priceList,
+      itemName: itemName ?? this.itemName,
+      itemPrice: itemPrice ?? this.itemPrice,
+      returnPrice: returnPrice ?? this.returnPrice,
+      deposit: deposit ?? this.deposit,
+      shippingCost: shippingCost ?? this.shippingCost,
+      sellingDeposit: sellingDeposit ?? this.sellingDeposit,
+      returnDeposit: returnDeposit ?? this.returnDeposit,
+      conversionFactor: conversionFactor ?? this.conversionFactor,
+      actualPoints: actualPoints ?? this.actualPoints,
+      uom: uom ?? this.uom,
+      currency: currency ?? this.currency,
+      pricingScheduleNo: pricingScheduleNo ?? this.pricingScheduleNo,
+      isActive: isActive ?? this.isActive,
+      isDiscountEnable: isDiscountEnable ?? this.isDiscountEnable,
+      validFrom: validFrom ?? this.validFrom,
+      validTo: validTo ?? this.validTo,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (creationTime.present) {
+      map['creation_time'] = Variable<DateTime>(creationTime.value);
+    }
+    if (deleteTime.present) {
+      map['delete_time'] = Variable<DateTime>(deleteTime.value);
+    }
+    if (createUserId.present) {
+      map['create_user_id'] = Variable<int>(createUserId.value);
+    }
+    if (creatorUser.present) {
+      map['creator_user'] = Variable<String>(creatorUser.value);
+    }
+    if (lastModifierUser.present) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
+    }
+    if (lastModifierUserId.present) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
+    }
+    if (deleteUserId.present) {
+      map['delete_user_id'] = Variable<int>(deleteUserId.value);
+    }
+    if (deleterUserId.present) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (itemId.present) {
+      map['item_id'] = Variable<int>(itemId.value);
+    }
+    if (itemCode.present) {
+      map['item_code'] = Variable<String>(itemCode.value);
+    }
+    if (priceList.present) {
+      map['price_list'] = Variable<String>(priceList.value);
+    }
+    if (itemName.present) {
+      map['item_name'] = Variable<String>(itemName.value);
+    }
+    if (itemPrice.present) {
+      map['item_price'] = Variable<double>(itemPrice.value);
+    }
+    if (returnPrice.present) {
+      map['return_price'] = Variable<double>(returnPrice.value);
+    }
+    if (deposit.present) {
+      map['deposit'] = Variable<double>(deposit.value);
+    }
+    if (shippingCost.present) {
+      map['shipping_cost'] = Variable<double>(shippingCost.value);
+    }
+    if (sellingDeposit.present) {
+      map['selling_deposit'] = Variable<double>(sellingDeposit.value);
+    }
+    if (returnDeposit.present) {
+      map['return_deposit'] = Variable<double>(returnDeposit.value);
+    }
+    if (conversionFactor.present) {
+      map['conversion_factor'] = Variable<double>(conversionFactor.value);
+    }
+    if (actualPoints.present) {
+      map['actual_points'] = Variable<double>(actualPoints.value);
+    }
+    if (uom.present) {
+      map['uom'] = Variable<String>(uom.value);
+    }
+    if (currency.present) {
+      map['currency'] = Variable<String>(currency.value);
+    }
+    if (pricingScheduleNo.present) {
+      map['pricing_schedule_no'] = Variable<int>(pricingScheduleNo.value);
+    }
+    if (isActive.present) {
+      map['is_active'] = Variable<bool>(isActive.value);
+    }
+    if (isDiscountEnable.present) {
+      map['is_discount_enable'] = Variable<bool>(isDiscountEnable.value);
+    }
+    if (validFrom.present) {
+      map['valid_from'] = Variable<DateTime>(validFrom.value);
+    }
+    if (validTo.present) {
+      map['valid_to'] = Variable<DateTime>(validTo.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ItemPriceCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('itemId: $itemId, ')
+          ..write('itemCode: $itemCode, ')
+          ..write('priceList: $priceList, ')
+          ..write('itemName: $itemName, ')
+          ..write('itemPrice: $itemPrice, ')
+          ..write('returnPrice: $returnPrice, ')
+          ..write('deposit: $deposit, ')
+          ..write('shippingCost: $shippingCost, ')
+          ..write('sellingDeposit: $sellingDeposit, ')
+          ..write('returnDeposit: $returnDeposit, ')
+          ..write('conversionFactor: $conversionFactor, ')
+          ..write('actualPoints: $actualPoints, ')
+          ..write('uom: $uom, ')
+          ..write('currency: $currency, ')
+          ..write('pricingScheduleNo: $pricingScheduleNo, ')
+          ..write('isActive: $isActive, ')
+          ..write('isDiscountEnable: $isDiscountEnable, ')
+          ..write('validFrom: $validFrom, ')
+          ..write('validTo: $validTo')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ItemPriceTable extends ItemPrice
+    with TableInfo<$ItemPriceTable, ItemPriceData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $ItemPriceTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creationTimeMeta =
+      const VerificationMeta('creationTime');
+  GeneratedDateTimeColumn _creationTime;
+  @override
+  GeneratedDateTimeColumn get creationTime =>
+      _creationTime ??= _constructCreationTime();
+  GeneratedDateTimeColumn _constructCreationTime() {
+    return GeneratedDateTimeColumn(
+      'creation_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
+  GeneratedDateTimeColumn _deleteTime;
+  @override
+  GeneratedDateTimeColumn get deleteTime =>
+      _deleteTime ??= _constructDeleteTime();
+  GeneratedDateTimeColumn _constructDeleteTime() {
+    return GeneratedDateTimeColumn(
+      'delete_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _createUserIdMeta =
+      const VerificationMeta('createUserId');
+  GeneratedIntColumn _createUserId;
+  @override
+  GeneratedIntColumn get createUserId =>
+      _createUserId ??= _constructCreateUserId();
+  GeneratedIntColumn _constructCreateUserId() {
+    return GeneratedIntColumn(
+      'create_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creatorUserMeta =
+      const VerificationMeta('creatorUser');
+  GeneratedTextColumn _creatorUser;
+  @override
+  GeneratedTextColumn get creatorUser =>
+      _creatorUser ??= _constructCreatorUser();
+  GeneratedTextColumn _constructCreatorUser() {
+    return GeneratedTextColumn(
+      'creator_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserMeta =
+      const VerificationMeta('lastModifierUser');
+  GeneratedTextColumn _lastModifierUser;
+  @override
+  GeneratedTextColumn get lastModifierUser =>
+      _lastModifierUser ??= _constructLastModifierUser();
+  GeneratedTextColumn _constructLastModifierUser() {
+    return GeneratedTextColumn(
+      'last_modifier_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserIdMeta =
+      const VerificationMeta('lastModifierUserId');
+  GeneratedIntColumn _lastModifierUserId;
+  @override
+  GeneratedIntColumn get lastModifierUserId =>
+      _lastModifierUserId ??= _constructLastModifierUserId();
+  GeneratedIntColumn _constructLastModifierUserId() {
+    return GeneratedIntColumn(
+      'last_modifier_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteUserIdMeta =
+      const VerificationMeta('deleteUserId');
+  GeneratedIntColumn _deleteUserId;
+  @override
+  GeneratedIntColumn get deleteUserId =>
+      _deleteUserId ??= _constructDeleteUserId();
+  GeneratedIntColumn _constructDeleteUserId() {
+    return GeneratedIntColumn(
+      'delete_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleterUserIdMeta =
+      const VerificationMeta('deleterUserId');
+  GeneratedTextColumn _deleterUserId;
+  @override
+  GeneratedTextColumn get deleterUserId =>
+      _deleterUserId ??= _constructDeleterUserId();
+  GeneratedTextColumn _constructDeleterUserId() {
+    return GeneratedTextColumn(
+      'deleter_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  GeneratedBoolColumn _isDeleted;
+  @override
+  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
+  GeneratedBoolColumn _constructIsDeleted() {
+    return GeneratedBoolColumn('is_deleted', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
+  GeneratedIntColumn _itemId;
+  @override
+  GeneratedIntColumn get itemId => _itemId ??= _constructItemId();
+  GeneratedIntColumn _constructItemId() {
+    return GeneratedIntColumn(
+      'item_id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _itemCodeMeta = const VerificationMeta('itemCode');
+  GeneratedTextColumn _itemCode;
+  @override
+  GeneratedTextColumn get itemCode => _itemCode ??= _constructItemCode();
+  GeneratedTextColumn _constructItemCode() {
+    return GeneratedTextColumn(
+      'item_code',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _priceListMeta = const VerificationMeta('priceList');
+  GeneratedTextColumn _priceList;
+  @override
+  GeneratedTextColumn get priceList => _priceList ??= _constructPriceList();
+  GeneratedTextColumn _constructPriceList() {
+    return GeneratedTextColumn(
+      'price_list',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _itemNameMeta = const VerificationMeta('itemName');
+  GeneratedTextColumn _itemName;
+  @override
+  GeneratedTextColumn get itemName => _itemName ??= _constructItemName();
+  GeneratedTextColumn _constructItemName() {
+    return GeneratedTextColumn(
+      'item_name',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _itemPriceMeta = const VerificationMeta('itemPrice');
+  GeneratedRealColumn _itemPrice;
+  @override
+  GeneratedRealColumn get itemPrice => _itemPrice ??= _constructItemPrice();
+  GeneratedRealColumn _constructItemPrice() {
+    return GeneratedRealColumn(
+      'item_price',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _returnPriceMeta =
+      const VerificationMeta('returnPrice');
+  GeneratedRealColumn _returnPrice;
+  @override
+  GeneratedRealColumn get returnPrice =>
+      _returnPrice ??= _constructReturnPrice();
+  GeneratedRealColumn _constructReturnPrice() {
+    return GeneratedRealColumn(
+      'return_price',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _depositMeta = const VerificationMeta('deposit');
+  GeneratedRealColumn _deposit;
+  @override
+  GeneratedRealColumn get deposit => _deposit ??= _constructDeposit();
+  GeneratedRealColumn _constructDeposit() {
+    return GeneratedRealColumn(
+      'deposit',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _shippingCostMeta =
+      const VerificationMeta('shippingCost');
+  GeneratedRealColumn _shippingCost;
+  @override
+  GeneratedRealColumn get shippingCost =>
+      _shippingCost ??= _constructShippingCost();
+  GeneratedRealColumn _constructShippingCost() {
+    return GeneratedRealColumn(
+      'shipping_cost',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _sellingDepositMeta =
+      const VerificationMeta('sellingDeposit');
+  GeneratedRealColumn _sellingDeposit;
+  @override
+  GeneratedRealColumn get sellingDeposit =>
+      _sellingDeposit ??= _constructSellingDeposit();
+  GeneratedRealColumn _constructSellingDeposit() {
+    return GeneratedRealColumn(
+      'selling_deposit',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _returnDepositMeta =
+      const VerificationMeta('returnDeposit');
+  GeneratedRealColumn _returnDeposit;
+  @override
+  GeneratedRealColumn get returnDeposit =>
+      _returnDeposit ??= _constructReturnDeposit();
+  GeneratedRealColumn _constructReturnDeposit() {
+    return GeneratedRealColumn(
+      'return_deposit',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _conversionFactorMeta =
+      const VerificationMeta('conversionFactor');
+  GeneratedRealColumn _conversionFactor;
+  @override
+  GeneratedRealColumn get conversionFactor =>
+      _conversionFactor ??= _constructConversionFactor();
+  GeneratedRealColumn _constructConversionFactor() {
+    return GeneratedRealColumn(
+      'conversion_factor',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _actualPointsMeta =
+      const VerificationMeta('actualPoints');
+  GeneratedRealColumn _actualPoints;
+  @override
+  GeneratedRealColumn get actualPoints =>
+      _actualPoints ??= _constructActualPoints();
+  GeneratedRealColumn _constructActualPoints() {
+    return GeneratedRealColumn(
+      'actual_points',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _uomMeta = const VerificationMeta('uom');
+  GeneratedTextColumn _uom;
+  @override
+  GeneratedTextColumn get uom => _uom ??= _constructUom();
+  GeneratedTextColumn _constructUom() {
+    return GeneratedTextColumn(
+      'uom',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _currencyMeta = const VerificationMeta('currency');
+  GeneratedTextColumn _currency;
+  @override
+  GeneratedTextColumn get currency => _currency ??= _constructCurrency();
+  GeneratedTextColumn _constructCurrency() {
+    return GeneratedTextColumn(
+      'currency',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _pricingScheduleNoMeta =
+      const VerificationMeta('pricingScheduleNo');
+  GeneratedIntColumn _pricingScheduleNo;
+  @override
+  GeneratedIntColumn get pricingScheduleNo =>
+      _pricingScheduleNo ??= _constructPricingScheduleNo();
+  GeneratedIntColumn _constructPricingScheduleNo() {
+    return GeneratedIntColumn(
+      'pricing_schedule_no',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _isActiveMeta = const VerificationMeta('isActive');
+  GeneratedBoolColumn _isActive;
+  @override
+  GeneratedBoolColumn get isActive => _isActive ??= _constructIsActive();
+  GeneratedBoolColumn _constructIsActive() {
+    return GeneratedBoolColumn('is_active', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _isDiscountEnableMeta =
+      const VerificationMeta('isDiscountEnable');
+  GeneratedBoolColumn _isDiscountEnable;
+  @override
+  GeneratedBoolColumn get isDiscountEnable =>
+      _isDiscountEnable ??= _constructIsDiscountEnable();
+  GeneratedBoolColumn _constructIsDiscountEnable() {
+    return GeneratedBoolColumn('is_discount_enable', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _validFromMeta = const VerificationMeta('validFrom');
+  GeneratedDateTimeColumn _validFrom;
+  @override
+  GeneratedDateTimeColumn get validFrom => _validFrom ??= _constructValidFrom();
+  GeneratedDateTimeColumn _constructValidFrom() {
+    return GeneratedDateTimeColumn(
+      'valid_from',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _validToMeta = const VerificationMeta('validTo');
+  GeneratedDateTimeColumn _validTo;
+  @override
+  GeneratedDateTimeColumn get validTo => _validTo ??= _constructValidTo();
+  GeneratedDateTimeColumn _constructValidTo() {
+    return GeneratedDateTimeColumn(
+      'valid_to',
+      $tableName,
+      true,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        tenantId,
+        creationTime,
+        deleteTime,
+        createUserId,
+        creatorUser,
+        lastModifierUser,
+        lastModifierUserId,
+        deleteUserId,
+        deleterUserId,
+        isDeleted,
+        id,
+        itemId,
+        itemCode,
+        priceList,
+        itemName,
+        itemPrice,
+        returnPrice,
+        deposit,
+        shippingCost,
+        sellingDeposit,
+        returnDeposit,
+        conversionFactor,
+        actualPoints,
+        uom,
+        currency,
+        pricingScheduleNo,
+        isActive,
+        isDiscountEnable,
+        validFrom,
+        validTo
+      ];
+  @override
+  $ItemPriceTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'item_price';
+  @override
+  final String actualTableName = 'item_price';
+  @override
+  VerificationContext validateIntegrity(Insertable<ItemPriceData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
+    if (data.containsKey('creation_time')) {
+      context.handle(
+          _creationTimeMeta,
+          creationTime.isAcceptableOrUnknown(
+              data['creation_time'], _creationTimeMeta));
+    }
+    if (data.containsKey('delete_time')) {
+      context.handle(
+          _deleteTimeMeta,
+          deleteTime.isAcceptableOrUnknown(
+              data['delete_time'], _deleteTimeMeta));
+    }
+    if (data.containsKey('create_user_id')) {
+      context.handle(
+          _createUserIdMeta,
+          createUserId.isAcceptableOrUnknown(
+              data['create_user_id'], _createUserIdMeta));
+    }
+    if (data.containsKey('creator_user')) {
+      context.handle(
+          _creatorUserMeta,
+          creatorUser.isAcceptableOrUnknown(
+              data['creator_user'], _creatorUserMeta));
+    }
+    if (data.containsKey('last_modifier_user')) {
+      context.handle(
+          _lastModifierUserMeta,
+          lastModifierUser.isAcceptableOrUnknown(
+              data['last_modifier_user'], _lastModifierUserMeta));
+    }
+    if (data.containsKey('last_modifier_user_id')) {
+      context.handle(
+          _lastModifierUserIdMeta,
+          lastModifierUserId.isAcceptableOrUnknown(
+              data['last_modifier_user_id'], _lastModifierUserIdMeta));
+    }
+    if (data.containsKey('delete_user_id')) {
+      context.handle(
+          _deleteUserIdMeta,
+          deleteUserId.isAcceptableOrUnknown(
+              data['delete_user_id'], _deleteUserIdMeta));
+    }
+    if (data.containsKey('deleter_user_id')) {
+      context.handle(
+          _deleterUserIdMeta,
+          deleterUserId.isAcceptableOrUnknown(
+              data['deleter_user_id'], _deleterUserIdMeta));
+    }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('item_id')) {
+      context.handle(_itemIdMeta,
+          itemId.isAcceptableOrUnknown(data['item_id'], _itemIdMeta));
+    } else if (isInserting) {
+      context.missing(_itemIdMeta);
+    }
+    if (data.containsKey('item_code')) {
+      context.handle(_itemCodeMeta,
+          itemCode.isAcceptableOrUnknown(data['item_code'], _itemCodeMeta));
+    }
+    if (data.containsKey('price_list')) {
+      context.handle(_priceListMeta,
+          priceList.isAcceptableOrUnknown(data['price_list'], _priceListMeta));
+    }
+    if (data.containsKey('item_name')) {
+      context.handle(_itemNameMeta,
+          itemName.isAcceptableOrUnknown(data['item_name'], _itemNameMeta));
+    }
+    if (data.containsKey('item_price')) {
+      context.handle(_itemPriceMeta,
+          itemPrice.isAcceptableOrUnknown(data['item_price'], _itemPriceMeta));
+    } else if (isInserting) {
+      context.missing(_itemPriceMeta);
+    }
+    if (data.containsKey('return_price')) {
+      context.handle(
+          _returnPriceMeta,
+          returnPrice.isAcceptableOrUnknown(
+              data['return_price'], _returnPriceMeta));
+    } else if (isInserting) {
+      context.missing(_returnPriceMeta);
+    }
+    if (data.containsKey('deposit')) {
+      context.handle(_depositMeta,
+          deposit.isAcceptableOrUnknown(data['deposit'], _depositMeta));
+    } else if (isInserting) {
+      context.missing(_depositMeta);
+    }
+    if (data.containsKey('shipping_cost')) {
+      context.handle(
+          _shippingCostMeta,
+          shippingCost.isAcceptableOrUnknown(
+              data['shipping_cost'], _shippingCostMeta));
+    } else if (isInserting) {
+      context.missing(_shippingCostMeta);
+    }
+    if (data.containsKey('selling_deposit')) {
+      context.handle(
+          _sellingDepositMeta,
+          sellingDeposit.isAcceptableOrUnknown(
+              data['selling_deposit'], _sellingDepositMeta));
+    } else if (isInserting) {
+      context.missing(_sellingDepositMeta);
+    }
+    if (data.containsKey('return_deposit')) {
+      context.handle(
+          _returnDepositMeta,
+          returnDeposit.isAcceptableOrUnknown(
+              data['return_deposit'], _returnDepositMeta));
+    } else if (isInserting) {
+      context.missing(_returnDepositMeta);
+    }
+    if (data.containsKey('conversion_factor')) {
+      context.handle(
+          _conversionFactorMeta,
+          conversionFactor.isAcceptableOrUnknown(
+              data['conversion_factor'], _conversionFactorMeta));
+    } else if (isInserting) {
+      context.missing(_conversionFactorMeta);
+    }
+    if (data.containsKey('actual_points')) {
+      context.handle(
+          _actualPointsMeta,
+          actualPoints.isAcceptableOrUnknown(
+              data['actual_points'], _actualPointsMeta));
+    } else if (isInserting) {
+      context.missing(_actualPointsMeta);
+    }
+    if (data.containsKey('uom')) {
+      context.handle(
+          _uomMeta, uom.isAcceptableOrUnknown(data['uom'], _uomMeta));
+    }
+    if (data.containsKey('currency')) {
+      context.handle(_currencyMeta,
+          currency.isAcceptableOrUnknown(data['currency'], _currencyMeta));
+    }
+    if (data.containsKey('pricing_schedule_no')) {
+      context.handle(
+          _pricingScheduleNoMeta,
+          pricingScheduleNo.isAcceptableOrUnknown(
+              data['pricing_schedule_no'], _pricingScheduleNoMeta));
+    } else if (isInserting) {
+      context.missing(_pricingScheduleNoMeta);
+    }
+    if (data.containsKey('is_active')) {
+      context.handle(_isActiveMeta,
+          isActive.isAcceptableOrUnknown(data['is_active'], _isActiveMeta));
+    }
+    if (data.containsKey('is_discount_enable')) {
+      context.handle(
+          _isDiscountEnableMeta,
+          isDiscountEnable.isAcceptableOrUnknown(
+              data['is_discount_enable'], _isDiscountEnableMeta));
+    }
+    if (data.containsKey('valid_from')) {
+      context.handle(_validFromMeta,
+          validFrom.isAcceptableOrUnknown(data['valid_from'], _validFromMeta));
+    }
+    if (data.containsKey('valid_to')) {
+      context.handle(_validToMeta,
+          validTo.isAcceptableOrUnknown(data['valid_to'], _validToMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ItemPriceData map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return ItemPriceData.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $ItemPriceTable createAlias(String alias) {
+    return $ItemPriceTable(_db, alias);
+  }
+}
+
+class ItemPricingRuleData extends DataClass
+    implements Insertable<ItemPricingRuleData> {
+  final int tenantId;
+  final DateTime creationTime;
+  final DateTime deleteTime;
+  final int createUserId;
+  final String creatorUser;
+  final String lastModifierUser;
+  final int lastModifierUserId;
+  final int deleteUserId;
+  final String deleterUserId;
+  final bool isDeleted;
+  final int id;
+  final int itemId;
+  final String itemCode;
+  final String priceList;
+  final String customerId;
+  final double minQuantity;
+  final double maxQuantity;
+  final double price;
+  final double discountPercentage;
+  final String uom;
+  final String priceOrDiscount;
+  final String customerGroup;
+  final String itemGroup;
+  final String category;
+  final String applicableFor;
+  final String applyOn;
+  final String title;
+  final String ruleName;
+  final bool isActive;
+  final bool isDiscountEnable;
+  final DateTime validFrom;
+  final DateTime validTo;
+  ItemPricingRuleData(
+      {this.tenantId,
+      this.creationTime,
+      this.deleteTime,
+      this.createUserId,
+      this.creatorUser,
+      this.lastModifierUser,
+      this.lastModifierUserId,
+      this.deleteUserId,
+      this.deleterUserId,
+      @required this.isDeleted,
+      @required this.id,
+      @required this.itemId,
+      this.itemCode,
+      this.priceList,
+      this.customerId,
+      @required this.minQuantity,
+      @required this.maxQuantity,
+      @required this.price,
+      @required this.discountPercentage,
+      this.uom,
+      this.priceOrDiscount,
+      this.customerGroup,
+      this.itemGroup,
+      this.category,
+      this.applicableFor,
+      this.applyOn,
+      this.title,
+      this.ruleName,
+      @required this.isActive,
+      @required this.isDiscountEnable,
+      this.validFrom,
+      this.validTo});
+  factory ItemPricingRuleData.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    final doubleType = db.typeSystem.forDartType<double>();
+    return ItemPricingRuleData(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      creationTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
+      deleteTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
+      createUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
+      creatorUser: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
+      lastModifierUser: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user']),
+      lastModifierUserId: intType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user_id']),
+      deleteUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
+      deleterUserId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
+      isDeleted: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      itemId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
+      itemCode: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}item_code']),
+      priceList: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}price_list']),
+      customerId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}customer_id']),
+      minQuantity: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}min_quantity']),
+      maxQuantity: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}max_quantity']),
+      price:
+          doubleType.mapFromDatabaseResponse(data['${effectivePrefix}price']),
+      discountPercentage: doubleType.mapFromDatabaseResponse(
+          data['${effectivePrefix}discount_percentage']),
+      uom: stringType.mapFromDatabaseResponse(data['${effectivePrefix}uom']),
+      priceOrDiscount: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}price_or_discount']),
+      customerGroup: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}customer_group']),
+      itemGroup: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}item_group']),
+      category: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}category']),
+      applicableFor: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}applicable_for']),
+      applyOn: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}apply_on']),
+      title:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}title']),
+      ruleName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}rule_name']),
+      isActive:
+          boolType.mapFromDatabaseResponse(data['${effectivePrefix}is_active']),
+      isDiscountEnable: boolType.mapFromDatabaseResponse(
+          data['${effectivePrefix}is_discount_enable']),
+      validFrom: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}valid_from']),
+      validTo: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}valid_to']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || creationTime != null) {
+      map['creation_time'] = Variable<DateTime>(creationTime);
+    }
+    if (!nullToAbsent || deleteTime != null) {
+      map['delete_time'] = Variable<DateTime>(deleteTime);
+    }
+    if (!nullToAbsent || createUserId != null) {
+      map['create_user_id'] = Variable<int>(createUserId);
+    }
+    if (!nullToAbsent || creatorUser != null) {
+      map['creator_user'] = Variable<String>(creatorUser);
+    }
+    if (!nullToAbsent || lastModifierUser != null) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser);
+    }
+    if (!nullToAbsent || lastModifierUserId != null) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
+    }
+    if (!nullToAbsent || deleteUserId != null) {
+      map['delete_user_id'] = Variable<int>(deleteUserId);
+    }
+    if (!nullToAbsent || deleterUserId != null) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId);
+    }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || itemId != null) {
+      map['item_id'] = Variable<int>(itemId);
+    }
+    if (!nullToAbsent || itemCode != null) {
+      map['item_code'] = Variable<String>(itemCode);
+    }
+    if (!nullToAbsent || priceList != null) {
+      map['price_list'] = Variable<String>(priceList);
+    }
+    if (!nullToAbsent || customerId != null) {
+      map['customer_id'] = Variable<String>(customerId);
+    }
+    if (!nullToAbsent || minQuantity != null) {
+      map['min_quantity'] = Variable<double>(minQuantity);
+    }
+    if (!nullToAbsent || maxQuantity != null) {
+      map['max_quantity'] = Variable<double>(maxQuantity);
+    }
+    if (!nullToAbsent || price != null) {
+      map['price'] = Variable<double>(price);
+    }
+    if (!nullToAbsent || discountPercentage != null) {
+      map['discount_percentage'] = Variable<double>(discountPercentage);
+    }
+    if (!nullToAbsent || uom != null) {
+      map['uom'] = Variable<String>(uom);
+    }
+    if (!nullToAbsent || priceOrDiscount != null) {
+      map['price_or_discount'] = Variable<String>(priceOrDiscount);
+    }
+    if (!nullToAbsent || customerGroup != null) {
+      map['customer_group'] = Variable<String>(customerGroup);
+    }
+    if (!nullToAbsent || itemGroup != null) {
+      map['item_group'] = Variable<String>(itemGroup);
+    }
+    if (!nullToAbsent || category != null) {
+      map['category'] = Variable<String>(category);
+    }
+    if (!nullToAbsent || applicableFor != null) {
+      map['applicable_for'] = Variable<String>(applicableFor);
+    }
+    if (!nullToAbsent || applyOn != null) {
+      map['apply_on'] = Variable<String>(applyOn);
+    }
+    if (!nullToAbsent || title != null) {
+      map['title'] = Variable<String>(title);
+    }
+    if (!nullToAbsent || ruleName != null) {
+      map['rule_name'] = Variable<String>(ruleName);
+    }
+    if (!nullToAbsent || isActive != null) {
+      map['is_active'] = Variable<bool>(isActive);
+    }
+    if (!nullToAbsent || isDiscountEnable != null) {
+      map['is_discount_enable'] = Variable<bool>(isDiscountEnable);
+    }
+    if (!nullToAbsent || validFrom != null) {
+      map['valid_from'] = Variable<DateTime>(validFrom);
+    }
+    if (!nullToAbsent || validTo != null) {
+      map['valid_to'] = Variable<DateTime>(validTo);
+    }
+    return map;
+  }
+
+  ItemPricingRuleCompanion toCompanion(bool nullToAbsent) {
+    return ItemPricingRuleCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      creationTime: creationTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creationTime),
+      deleteTime: deleteTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteTime),
+      createUserId: createUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createUserId),
+      creatorUser: creatorUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creatorUser),
+      lastModifierUser: lastModifierUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUser),
+      lastModifierUserId: lastModifierUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUserId),
+      deleteUserId: deleteUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteUserId),
+      deleterUserId: deleterUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleterUserId),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      itemId:
+          itemId == null && nullToAbsent ? const Value.absent() : Value(itemId),
+      itemCode: itemCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(itemCode),
+      priceList: priceList == null && nullToAbsent
+          ? const Value.absent()
+          : Value(priceList),
+      customerId: customerId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerId),
+      minQuantity: minQuantity == null && nullToAbsent
+          ? const Value.absent()
+          : Value(minQuantity),
+      maxQuantity: maxQuantity == null && nullToAbsent
+          ? const Value.absent()
+          : Value(maxQuantity),
+      price:
+          price == null && nullToAbsent ? const Value.absent() : Value(price),
+      discountPercentage: discountPercentage == null && nullToAbsent
+          ? const Value.absent()
+          : Value(discountPercentage),
+      uom: uom == null && nullToAbsent ? const Value.absent() : Value(uom),
+      priceOrDiscount: priceOrDiscount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(priceOrDiscount),
+      customerGroup: customerGroup == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerGroup),
+      itemGroup: itemGroup == null && nullToAbsent
+          ? const Value.absent()
+          : Value(itemGroup),
+      category: category == null && nullToAbsent
+          ? const Value.absent()
+          : Value(category),
+      applicableFor: applicableFor == null && nullToAbsent
+          ? const Value.absent()
+          : Value(applicableFor),
+      applyOn: applyOn == null && nullToAbsent
+          ? const Value.absent()
+          : Value(applyOn),
+      title:
+          title == null && nullToAbsent ? const Value.absent() : Value(title),
+      ruleName: ruleName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(ruleName),
+      isActive: isActive == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isActive),
+      isDiscountEnable: isDiscountEnable == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDiscountEnable),
+      validFrom: validFrom == null && nullToAbsent
+          ? const Value.absent()
+          : Value(validFrom),
+      validTo: validTo == null && nullToAbsent
+          ? const Value.absent()
+          : Value(validTo),
+    );
+  }
+
+  factory ItemPricingRuleData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return ItemPricingRuleData(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
+      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
+      createUserId: serializer.fromJson<int>(json['createUserId']),
+      creatorUser: serializer.fromJson<String>(json['creatorUser']),
+      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
+      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
+      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
+      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      id: serializer.fromJson<int>(json['id']),
+      itemId: serializer.fromJson<int>(json['itemId']),
+      itemCode: serializer.fromJson<String>(json['itemCode']),
+      priceList: serializer.fromJson<String>(json['priceList']),
+      customerId: serializer.fromJson<String>(json['customerId']),
+      minQuantity: serializer.fromJson<double>(json['minQuantity']),
+      maxQuantity: serializer.fromJson<double>(json['maxQuantity']),
+      price: serializer.fromJson<double>(json['price']),
+      discountPercentage:
+          serializer.fromJson<double>(json['discountPercentage']),
+      uom: serializer.fromJson<String>(json['uom']),
+      priceOrDiscount: serializer.fromJson<String>(json['priceOrDiscount']),
+      customerGroup: serializer.fromJson<String>(json['customerGroup']),
+      itemGroup: serializer.fromJson<String>(json['itemGroup']),
+      category: serializer.fromJson<String>(json['category']),
+      applicableFor: serializer.fromJson<String>(json['applicableFor']),
+      applyOn: serializer.fromJson<String>(json['applyOn']),
+      title: serializer.fromJson<String>(json['title']),
+      ruleName: serializer.fromJson<String>(json['ruleName']),
+      isActive: serializer.fromJson<bool>(json['isActive']),
+      isDiscountEnable: serializer.fromJson<bool>(json['isDiscountEnable']),
+      validFrom: serializer.fromJson<DateTime>(json['validFrom']),
+      validTo: serializer.fromJson<DateTime>(json['validTo']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'creationTime': serializer.toJson<DateTime>(creationTime),
+      'deleteTime': serializer.toJson<DateTime>(deleteTime),
+      'createUserId': serializer.toJson<int>(createUserId),
+      'creatorUser': serializer.toJson<String>(creatorUser),
+      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
+      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
+      'deleteUserId': serializer.toJson<int>(deleteUserId),
+      'deleterUserId': serializer.toJson<String>(deleterUserId),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'id': serializer.toJson<int>(id),
+      'itemId': serializer.toJson<int>(itemId),
+      'itemCode': serializer.toJson<String>(itemCode),
+      'priceList': serializer.toJson<String>(priceList),
+      'customerId': serializer.toJson<String>(customerId),
+      'minQuantity': serializer.toJson<double>(minQuantity),
+      'maxQuantity': serializer.toJson<double>(maxQuantity),
+      'price': serializer.toJson<double>(price),
+      'discountPercentage': serializer.toJson<double>(discountPercentage),
+      'uom': serializer.toJson<String>(uom),
+      'priceOrDiscount': serializer.toJson<String>(priceOrDiscount),
+      'customerGroup': serializer.toJson<String>(customerGroup),
+      'itemGroup': serializer.toJson<String>(itemGroup),
+      'category': serializer.toJson<String>(category),
+      'applicableFor': serializer.toJson<String>(applicableFor),
+      'applyOn': serializer.toJson<String>(applyOn),
+      'title': serializer.toJson<String>(title),
+      'ruleName': serializer.toJson<String>(ruleName),
+      'isActive': serializer.toJson<bool>(isActive),
+      'isDiscountEnable': serializer.toJson<bool>(isDiscountEnable),
+      'validFrom': serializer.toJson<DateTime>(validFrom),
+      'validTo': serializer.toJson<DateTime>(validTo),
+    };
+  }
+
+  ItemPricingRuleData copyWith(
+          {int tenantId,
+          DateTime creationTime,
+          DateTime deleteTime,
+          int createUserId,
+          String creatorUser,
+          String lastModifierUser,
+          int lastModifierUserId,
+          int deleteUserId,
+          String deleterUserId,
+          bool isDeleted,
+          int id,
+          int itemId,
+          String itemCode,
+          String priceList,
+          String customerId,
+          double minQuantity,
+          double maxQuantity,
+          double price,
+          double discountPercentage,
+          String uom,
+          String priceOrDiscount,
+          String customerGroup,
+          String itemGroup,
+          String category,
+          String applicableFor,
+          String applyOn,
+          String title,
+          String ruleName,
+          bool isActive,
+          bool isDiscountEnable,
+          DateTime validFrom,
+          DateTime validTo}) =>
+      ItemPricingRuleData(
+        tenantId: tenantId ?? this.tenantId,
+        creationTime: creationTime ?? this.creationTime,
+        deleteTime: deleteTime ?? this.deleteTime,
+        createUserId: createUserId ?? this.createUserId,
+        creatorUser: creatorUser ?? this.creatorUser,
+        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+        deleteUserId: deleteUserId ?? this.deleteUserId,
+        deleterUserId: deleterUserId ?? this.deleterUserId,
+        isDeleted: isDeleted ?? this.isDeleted,
+        id: id ?? this.id,
+        itemId: itemId ?? this.itemId,
+        itemCode: itemCode ?? this.itemCode,
+        priceList: priceList ?? this.priceList,
+        customerId: customerId ?? this.customerId,
+        minQuantity: minQuantity ?? this.minQuantity,
+        maxQuantity: maxQuantity ?? this.maxQuantity,
+        price: price ?? this.price,
+        discountPercentage: discountPercentage ?? this.discountPercentage,
+        uom: uom ?? this.uom,
+        priceOrDiscount: priceOrDiscount ?? this.priceOrDiscount,
+        customerGroup: customerGroup ?? this.customerGroup,
+        itemGroup: itemGroup ?? this.itemGroup,
+        category: category ?? this.category,
+        applicableFor: applicableFor ?? this.applicableFor,
+        applyOn: applyOn ?? this.applyOn,
+        title: title ?? this.title,
+        ruleName: ruleName ?? this.ruleName,
+        isActive: isActive ?? this.isActive,
+        isDiscountEnable: isDiscountEnable ?? this.isDiscountEnable,
+        validFrom: validFrom ?? this.validFrom,
+        validTo: validTo ?? this.validTo,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('ItemPricingRuleData(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('itemId: $itemId, ')
+          ..write('itemCode: $itemCode, ')
+          ..write('priceList: $priceList, ')
+          ..write('customerId: $customerId, ')
+          ..write('minQuantity: $minQuantity, ')
+          ..write('maxQuantity: $maxQuantity, ')
+          ..write('price: $price, ')
+          ..write('discountPercentage: $discountPercentage, ')
+          ..write('uom: $uom, ')
+          ..write('priceOrDiscount: $priceOrDiscount, ')
+          ..write('customerGroup: $customerGroup, ')
+          ..write('itemGroup: $itemGroup, ')
+          ..write('category: $category, ')
+          ..write('applicableFor: $applicableFor, ')
+          ..write('applyOn: $applyOn, ')
+          ..write('title: $title, ')
+          ..write('ruleName: $ruleName, ')
+          ..write('isActive: $isActive, ')
+          ..write('isDiscountEnable: $isDiscountEnable, ')
+          ..write('validFrom: $validFrom, ')
+          ..write('validTo: $validTo')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode,
+      $mrjc(
+          creationTime.hashCode,
+          $mrjc(
+              deleteTime.hashCode,
+              $mrjc(
+                  createUserId.hashCode,
+                  $mrjc(
+                      creatorUser.hashCode,
+                      $mrjc(
+                          lastModifierUser.hashCode,
+                          $mrjc(
+                              lastModifierUserId.hashCode,
+                              $mrjc(
+                                  deleteUserId.hashCode,
+                                  $mrjc(
+                                      deleterUserId.hashCode,
+                                      $mrjc(
+                                          isDeleted.hashCode,
+                                          $mrjc(
+                                              id.hashCode,
+                                              $mrjc(
+                                                  itemId.hashCode,
+                                                  $mrjc(
+                                                      itemCode.hashCode,
+                                                      $mrjc(
+                                                          priceList.hashCode,
+                                                          $mrjc(
+                                                              customerId
+                                                                  .hashCode,
+                                                              $mrjc(
+                                                                  minQuantity
+                                                                      .hashCode,
+                                                                  $mrjc(
+                                                                      maxQuantity
+                                                                          .hashCode,
+                                                                      $mrjc(
+                                                                          price
+                                                                              .hashCode,
+                                                                          $mrjc(
+                                                                              discountPercentage.hashCode,
+                                                                              $mrjc(uom.hashCode, $mrjc(priceOrDiscount.hashCode, $mrjc(customerGroup.hashCode, $mrjc(itemGroup.hashCode, $mrjc(category.hashCode, $mrjc(applicableFor.hashCode, $mrjc(applyOn.hashCode, $mrjc(title.hashCode, $mrjc(ruleName.hashCode, $mrjc(isActive.hashCode, $mrjc(isDiscountEnable.hashCode, $mrjc(validFrom.hashCode, validTo.hashCode))))))))))))))))))))))))))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is ItemPricingRuleData &&
+          other.tenantId == this.tenantId &&
+          other.creationTime == this.creationTime &&
+          other.deleteTime == this.deleteTime &&
+          other.createUserId == this.createUserId &&
+          other.creatorUser == this.creatorUser &&
+          other.lastModifierUser == this.lastModifierUser &&
+          other.lastModifierUserId == this.lastModifierUserId &&
+          other.deleteUserId == this.deleteUserId &&
+          other.deleterUserId == this.deleterUserId &&
+          other.isDeleted == this.isDeleted &&
+          other.id == this.id &&
+          other.itemId == this.itemId &&
+          other.itemCode == this.itemCode &&
+          other.priceList == this.priceList &&
+          other.customerId == this.customerId &&
+          other.minQuantity == this.minQuantity &&
+          other.maxQuantity == this.maxQuantity &&
+          other.price == this.price &&
+          other.discountPercentage == this.discountPercentage &&
+          other.uom == this.uom &&
+          other.priceOrDiscount == this.priceOrDiscount &&
+          other.customerGroup == this.customerGroup &&
+          other.itemGroup == this.itemGroup &&
+          other.category == this.category &&
+          other.applicableFor == this.applicableFor &&
+          other.applyOn == this.applyOn &&
+          other.title == this.title &&
+          other.ruleName == this.ruleName &&
+          other.isActive == this.isActive &&
+          other.isDiscountEnable == this.isDiscountEnable &&
+          other.validFrom == this.validFrom &&
+          other.validTo == this.validTo);
+}
+
+class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
+  final Value<int> tenantId;
+  final Value<DateTime> creationTime;
+  final Value<DateTime> deleteTime;
+  final Value<int> createUserId;
+  final Value<String> creatorUser;
+  final Value<String> lastModifierUser;
+  final Value<int> lastModifierUserId;
+  final Value<int> deleteUserId;
+  final Value<String> deleterUserId;
+  final Value<bool> isDeleted;
+  final Value<int> id;
+  final Value<int> itemId;
+  final Value<String> itemCode;
+  final Value<String> priceList;
+  final Value<String> customerId;
+  final Value<double> minQuantity;
+  final Value<double> maxQuantity;
+  final Value<double> price;
+  final Value<double> discountPercentage;
+  final Value<String> uom;
+  final Value<String> priceOrDiscount;
+  final Value<String> customerGroup;
+  final Value<String> itemGroup;
+  final Value<String> category;
+  final Value<String> applicableFor;
+  final Value<String> applyOn;
+  final Value<String> title;
+  final Value<String> ruleName;
+  final Value<bool> isActive;
+  final Value<bool> isDiscountEnable;
+  final Value<DateTime> validFrom;
+  final Value<DateTime> validTo;
+  const ItemPricingRuleCompanion({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    this.itemId = const Value.absent(),
+    this.itemCode = const Value.absent(),
+    this.priceList = const Value.absent(),
+    this.customerId = const Value.absent(),
+    this.minQuantity = const Value.absent(),
+    this.maxQuantity = const Value.absent(),
+    this.price = const Value.absent(),
+    this.discountPercentage = const Value.absent(),
+    this.uom = const Value.absent(),
+    this.priceOrDiscount = const Value.absent(),
+    this.customerGroup = const Value.absent(),
+    this.itemGroup = const Value.absent(),
+    this.category = const Value.absent(),
+    this.applicableFor = const Value.absent(),
+    this.applyOn = const Value.absent(),
+    this.title = const Value.absent(),
+    this.ruleName = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.isDiscountEnable = const Value.absent(),
+    this.validFrom = const Value.absent(),
+    this.validTo = const Value.absent(),
+  });
+  ItemPricingRuleCompanion.insert({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    @required int itemId,
+    this.itemCode = const Value.absent(),
+    this.priceList = const Value.absent(),
+    this.customerId = const Value.absent(),
+    @required double minQuantity,
+    @required double maxQuantity,
+    @required double price,
+    @required double discountPercentage,
+    this.uom = const Value.absent(),
+    this.priceOrDiscount = const Value.absent(),
+    this.customerGroup = const Value.absent(),
+    this.itemGroup = const Value.absent(),
+    this.category = const Value.absent(),
+    this.applicableFor = const Value.absent(),
+    this.applyOn = const Value.absent(),
+    this.title = const Value.absent(),
+    this.ruleName = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.isDiscountEnable = const Value.absent(),
+    this.validFrom = const Value.absent(),
+    this.validTo = const Value.absent(),
+  })  : itemId = Value(itemId),
+        minQuantity = Value(minQuantity),
+        maxQuantity = Value(maxQuantity),
+        price = Value(price),
+        discountPercentage = Value(discountPercentage);
+  static Insertable<ItemPricingRuleData> custom({
+    Expression<int> tenantId,
+    Expression<DateTime> creationTime,
+    Expression<DateTime> deleteTime,
+    Expression<int> createUserId,
+    Expression<String> creatorUser,
+    Expression<String> lastModifierUser,
+    Expression<int> lastModifierUserId,
+    Expression<int> deleteUserId,
+    Expression<String> deleterUserId,
+    Expression<bool> isDeleted,
+    Expression<int> id,
+    Expression<int> itemId,
+    Expression<String> itemCode,
+    Expression<String> priceList,
+    Expression<String> customerId,
+    Expression<double> minQuantity,
+    Expression<double> maxQuantity,
+    Expression<double> price,
+    Expression<double> discountPercentage,
+    Expression<String> uom,
+    Expression<String> priceOrDiscount,
+    Expression<String> customerGroup,
+    Expression<String> itemGroup,
+    Expression<String> category,
+    Expression<String> applicableFor,
+    Expression<String> applyOn,
+    Expression<String> title,
+    Expression<String> ruleName,
+    Expression<bool> isActive,
+    Expression<bool> isDiscountEnable,
+    Expression<DateTime> validFrom,
+    Expression<DateTime> validTo,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (creationTime != null) 'creation_time': creationTime,
+      if (deleteTime != null) 'delete_time': deleteTime,
+      if (createUserId != null) 'create_user_id': createUserId,
+      if (creatorUser != null) 'creator_user': creatorUser,
+      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
+      if (lastModifierUserId != null)
+        'last_modifier_user_id': lastModifierUserId,
+      if (deleteUserId != null) 'delete_user_id': deleteUserId,
+      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (id != null) 'id': id,
+      if (itemId != null) 'item_id': itemId,
+      if (itemCode != null) 'item_code': itemCode,
+      if (priceList != null) 'price_list': priceList,
+      if (customerId != null) 'customer_id': customerId,
+      if (minQuantity != null) 'min_quantity': minQuantity,
+      if (maxQuantity != null) 'max_quantity': maxQuantity,
+      if (price != null) 'price': price,
+      if (discountPercentage != null) 'discount_percentage': discountPercentage,
+      if (uom != null) 'uom': uom,
+      if (priceOrDiscount != null) 'price_or_discount': priceOrDiscount,
+      if (customerGroup != null) 'customer_group': customerGroup,
+      if (itemGroup != null) 'item_group': itemGroup,
+      if (category != null) 'category': category,
+      if (applicableFor != null) 'applicable_for': applicableFor,
+      if (applyOn != null) 'apply_on': applyOn,
+      if (title != null) 'title': title,
+      if (ruleName != null) 'rule_name': ruleName,
+      if (isActive != null) 'is_active': isActive,
+      if (isDiscountEnable != null) 'is_discount_enable': isDiscountEnable,
+      if (validFrom != null) 'valid_from': validFrom,
+      if (validTo != null) 'valid_to': validTo,
+    });
+  }
+
+  ItemPricingRuleCompanion copyWith(
+      {Value<int> tenantId,
+      Value<DateTime> creationTime,
+      Value<DateTime> deleteTime,
+      Value<int> createUserId,
+      Value<String> creatorUser,
+      Value<String> lastModifierUser,
+      Value<int> lastModifierUserId,
+      Value<int> deleteUserId,
+      Value<String> deleterUserId,
+      Value<bool> isDeleted,
+      Value<int> id,
+      Value<int> itemId,
+      Value<String> itemCode,
+      Value<String> priceList,
+      Value<String> customerId,
+      Value<double> minQuantity,
+      Value<double> maxQuantity,
+      Value<double> price,
+      Value<double> discountPercentage,
+      Value<String> uom,
+      Value<String> priceOrDiscount,
+      Value<String> customerGroup,
+      Value<String> itemGroup,
+      Value<String> category,
+      Value<String> applicableFor,
+      Value<String> applyOn,
+      Value<String> title,
+      Value<String> ruleName,
+      Value<bool> isActive,
+      Value<bool> isDiscountEnable,
+      Value<DateTime> validFrom,
+      Value<DateTime> validTo}) {
+    return ItemPricingRuleCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      creationTime: creationTime ?? this.creationTime,
+      deleteTime: deleteTime ?? this.deleteTime,
+      createUserId: createUserId ?? this.createUserId,
+      creatorUser: creatorUser ?? this.creatorUser,
+      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+      deleteUserId: deleteUserId ?? this.deleteUserId,
+      deleterUserId: deleterUserId ?? this.deleterUserId,
+      isDeleted: isDeleted ?? this.isDeleted,
+      id: id ?? this.id,
+      itemId: itemId ?? this.itemId,
+      itemCode: itemCode ?? this.itemCode,
+      priceList: priceList ?? this.priceList,
+      customerId: customerId ?? this.customerId,
+      minQuantity: minQuantity ?? this.minQuantity,
+      maxQuantity: maxQuantity ?? this.maxQuantity,
+      price: price ?? this.price,
+      discountPercentage: discountPercentage ?? this.discountPercentage,
+      uom: uom ?? this.uom,
+      priceOrDiscount: priceOrDiscount ?? this.priceOrDiscount,
+      customerGroup: customerGroup ?? this.customerGroup,
+      itemGroup: itemGroup ?? this.itemGroup,
+      category: category ?? this.category,
+      applicableFor: applicableFor ?? this.applicableFor,
+      applyOn: applyOn ?? this.applyOn,
+      title: title ?? this.title,
+      ruleName: ruleName ?? this.ruleName,
+      isActive: isActive ?? this.isActive,
+      isDiscountEnable: isDiscountEnable ?? this.isDiscountEnable,
+      validFrom: validFrom ?? this.validFrom,
+      validTo: validTo ?? this.validTo,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (creationTime.present) {
+      map['creation_time'] = Variable<DateTime>(creationTime.value);
+    }
+    if (deleteTime.present) {
+      map['delete_time'] = Variable<DateTime>(deleteTime.value);
+    }
+    if (createUserId.present) {
+      map['create_user_id'] = Variable<int>(createUserId.value);
+    }
+    if (creatorUser.present) {
+      map['creator_user'] = Variable<String>(creatorUser.value);
+    }
+    if (lastModifierUser.present) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
+    }
+    if (lastModifierUserId.present) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
+    }
+    if (deleteUserId.present) {
+      map['delete_user_id'] = Variable<int>(deleteUserId.value);
+    }
+    if (deleterUserId.present) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (itemId.present) {
+      map['item_id'] = Variable<int>(itemId.value);
+    }
+    if (itemCode.present) {
+      map['item_code'] = Variable<String>(itemCode.value);
+    }
+    if (priceList.present) {
+      map['price_list'] = Variable<String>(priceList.value);
+    }
+    if (customerId.present) {
+      map['customer_id'] = Variable<String>(customerId.value);
+    }
+    if (minQuantity.present) {
+      map['min_quantity'] = Variable<double>(minQuantity.value);
+    }
+    if (maxQuantity.present) {
+      map['max_quantity'] = Variable<double>(maxQuantity.value);
+    }
+    if (price.present) {
+      map['price'] = Variable<double>(price.value);
+    }
+    if (discountPercentage.present) {
+      map['discount_percentage'] = Variable<double>(discountPercentage.value);
+    }
+    if (uom.present) {
+      map['uom'] = Variable<String>(uom.value);
+    }
+    if (priceOrDiscount.present) {
+      map['price_or_discount'] = Variable<String>(priceOrDiscount.value);
+    }
+    if (customerGroup.present) {
+      map['customer_group'] = Variable<String>(customerGroup.value);
+    }
+    if (itemGroup.present) {
+      map['item_group'] = Variable<String>(itemGroup.value);
+    }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
+    }
+    if (applicableFor.present) {
+      map['applicable_for'] = Variable<String>(applicableFor.value);
+    }
+    if (applyOn.present) {
+      map['apply_on'] = Variable<String>(applyOn.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (ruleName.present) {
+      map['rule_name'] = Variable<String>(ruleName.value);
+    }
+    if (isActive.present) {
+      map['is_active'] = Variable<bool>(isActive.value);
+    }
+    if (isDiscountEnable.present) {
+      map['is_discount_enable'] = Variable<bool>(isDiscountEnable.value);
+    }
+    if (validFrom.present) {
+      map['valid_from'] = Variable<DateTime>(validFrom.value);
+    }
+    if (validTo.present) {
+      map['valid_to'] = Variable<DateTime>(validTo.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ItemPricingRuleCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('itemId: $itemId, ')
+          ..write('itemCode: $itemCode, ')
+          ..write('priceList: $priceList, ')
+          ..write('customerId: $customerId, ')
+          ..write('minQuantity: $minQuantity, ')
+          ..write('maxQuantity: $maxQuantity, ')
+          ..write('price: $price, ')
+          ..write('discountPercentage: $discountPercentage, ')
+          ..write('uom: $uom, ')
+          ..write('priceOrDiscount: $priceOrDiscount, ')
+          ..write('customerGroup: $customerGroup, ')
+          ..write('itemGroup: $itemGroup, ')
+          ..write('category: $category, ')
+          ..write('applicableFor: $applicableFor, ')
+          ..write('applyOn: $applyOn, ')
+          ..write('title: $title, ')
+          ..write('ruleName: $ruleName, ')
+          ..write('isActive: $isActive, ')
+          ..write('isDiscountEnable: $isDiscountEnable, ')
+          ..write('validFrom: $validFrom, ')
+          ..write('validTo: $validTo')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ItemPricingRuleTable extends ItemPricingRule
+    with TableInfo<$ItemPricingRuleTable, ItemPricingRuleData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $ItemPricingRuleTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creationTimeMeta =
+      const VerificationMeta('creationTime');
+  GeneratedDateTimeColumn _creationTime;
+  @override
+  GeneratedDateTimeColumn get creationTime =>
+      _creationTime ??= _constructCreationTime();
+  GeneratedDateTimeColumn _constructCreationTime() {
+    return GeneratedDateTimeColumn(
+      'creation_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
+  GeneratedDateTimeColumn _deleteTime;
+  @override
+  GeneratedDateTimeColumn get deleteTime =>
+      _deleteTime ??= _constructDeleteTime();
+  GeneratedDateTimeColumn _constructDeleteTime() {
+    return GeneratedDateTimeColumn(
+      'delete_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _createUserIdMeta =
+      const VerificationMeta('createUserId');
+  GeneratedIntColumn _createUserId;
+  @override
+  GeneratedIntColumn get createUserId =>
+      _createUserId ??= _constructCreateUserId();
+  GeneratedIntColumn _constructCreateUserId() {
+    return GeneratedIntColumn(
+      'create_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creatorUserMeta =
+      const VerificationMeta('creatorUser');
+  GeneratedTextColumn _creatorUser;
+  @override
+  GeneratedTextColumn get creatorUser =>
+      _creatorUser ??= _constructCreatorUser();
+  GeneratedTextColumn _constructCreatorUser() {
+    return GeneratedTextColumn(
+      'creator_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserMeta =
+      const VerificationMeta('lastModifierUser');
+  GeneratedTextColumn _lastModifierUser;
+  @override
+  GeneratedTextColumn get lastModifierUser =>
+      _lastModifierUser ??= _constructLastModifierUser();
+  GeneratedTextColumn _constructLastModifierUser() {
+    return GeneratedTextColumn(
+      'last_modifier_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserIdMeta =
+      const VerificationMeta('lastModifierUserId');
+  GeneratedIntColumn _lastModifierUserId;
+  @override
+  GeneratedIntColumn get lastModifierUserId =>
+      _lastModifierUserId ??= _constructLastModifierUserId();
+  GeneratedIntColumn _constructLastModifierUserId() {
+    return GeneratedIntColumn(
+      'last_modifier_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteUserIdMeta =
+      const VerificationMeta('deleteUserId');
+  GeneratedIntColumn _deleteUserId;
+  @override
+  GeneratedIntColumn get deleteUserId =>
+      _deleteUserId ??= _constructDeleteUserId();
+  GeneratedIntColumn _constructDeleteUserId() {
+    return GeneratedIntColumn(
+      'delete_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleterUserIdMeta =
+      const VerificationMeta('deleterUserId');
+  GeneratedTextColumn _deleterUserId;
+  @override
+  GeneratedTextColumn get deleterUserId =>
+      _deleterUserId ??= _constructDeleterUserId();
+  GeneratedTextColumn _constructDeleterUserId() {
+    return GeneratedTextColumn(
+      'deleter_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  GeneratedBoolColumn _isDeleted;
+  @override
+  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
+  GeneratedBoolColumn _constructIsDeleted() {
+    return GeneratedBoolColumn('is_deleted', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
+  GeneratedIntColumn _itemId;
+  @override
+  GeneratedIntColumn get itemId => _itemId ??= _constructItemId();
+  GeneratedIntColumn _constructItemId() {
+    return GeneratedIntColumn(
+      'item_id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _itemCodeMeta = const VerificationMeta('itemCode');
+  GeneratedTextColumn _itemCode;
+  @override
+  GeneratedTextColumn get itemCode => _itemCode ??= _constructItemCode();
+  GeneratedTextColumn _constructItemCode() {
+    return GeneratedTextColumn(
+      'item_code',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _priceListMeta = const VerificationMeta('priceList');
+  GeneratedTextColumn _priceList;
+  @override
+  GeneratedTextColumn get priceList => _priceList ??= _constructPriceList();
+  GeneratedTextColumn _constructPriceList() {
+    return GeneratedTextColumn(
+      'price_list',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _customerIdMeta = const VerificationMeta('customerId');
+  GeneratedTextColumn _customerId;
+  @override
+  GeneratedTextColumn get customerId => _customerId ??= _constructCustomerId();
+  GeneratedTextColumn _constructCustomerId() {
+    return GeneratedTextColumn(
+      'customer_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _minQuantityMeta =
+      const VerificationMeta('minQuantity');
+  GeneratedRealColumn _minQuantity;
+  @override
+  GeneratedRealColumn get minQuantity =>
+      _minQuantity ??= _constructMinQuantity();
+  GeneratedRealColumn _constructMinQuantity() {
+    return GeneratedRealColumn(
+      'min_quantity',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _maxQuantityMeta =
+      const VerificationMeta('maxQuantity');
+  GeneratedRealColumn _maxQuantity;
+  @override
+  GeneratedRealColumn get maxQuantity =>
+      _maxQuantity ??= _constructMaxQuantity();
+  GeneratedRealColumn _constructMaxQuantity() {
+    return GeneratedRealColumn(
+      'max_quantity',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _priceMeta = const VerificationMeta('price');
+  GeneratedRealColumn _price;
+  @override
+  GeneratedRealColumn get price => _price ??= _constructPrice();
+  GeneratedRealColumn _constructPrice() {
+    return GeneratedRealColumn(
+      'price',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _discountPercentageMeta =
+      const VerificationMeta('discountPercentage');
+  GeneratedRealColumn _discountPercentage;
+  @override
+  GeneratedRealColumn get discountPercentage =>
+      _discountPercentage ??= _constructDiscountPercentage();
+  GeneratedRealColumn _constructDiscountPercentage() {
+    return GeneratedRealColumn(
+      'discount_percentage',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _uomMeta = const VerificationMeta('uom');
+  GeneratedTextColumn _uom;
+  @override
+  GeneratedTextColumn get uom => _uom ??= _constructUom();
+  GeneratedTextColumn _constructUom() {
+    return GeneratedTextColumn(
+      'uom',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _priceOrDiscountMeta =
+      const VerificationMeta('priceOrDiscount');
+  GeneratedTextColumn _priceOrDiscount;
+  @override
+  GeneratedTextColumn get priceOrDiscount =>
+      _priceOrDiscount ??= _constructPriceOrDiscount();
+  GeneratedTextColumn _constructPriceOrDiscount() {
+    return GeneratedTextColumn(
+      'price_or_discount',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _customerGroupMeta =
+      const VerificationMeta('customerGroup');
+  GeneratedTextColumn _customerGroup;
+  @override
+  GeneratedTextColumn get customerGroup =>
+      _customerGroup ??= _constructCustomerGroup();
+  GeneratedTextColumn _constructCustomerGroup() {
+    return GeneratedTextColumn(
+      'customer_group',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _itemGroupMeta = const VerificationMeta('itemGroup');
+  GeneratedTextColumn _itemGroup;
+  @override
+  GeneratedTextColumn get itemGroup => _itemGroup ??= _constructItemGroup();
+  GeneratedTextColumn _constructItemGroup() {
+    return GeneratedTextColumn(
+      'item_group',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _categoryMeta = const VerificationMeta('category');
+  GeneratedTextColumn _category;
+  @override
+  GeneratedTextColumn get category => _category ??= _constructCategory();
+  GeneratedTextColumn _constructCategory() {
+    return GeneratedTextColumn(
+      'category',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _applicableForMeta =
+      const VerificationMeta('applicableFor');
+  GeneratedTextColumn _applicableFor;
+  @override
+  GeneratedTextColumn get applicableFor =>
+      _applicableFor ??= _constructApplicableFor();
+  GeneratedTextColumn _constructApplicableFor() {
+    return GeneratedTextColumn(
+      'applicable_for',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _applyOnMeta = const VerificationMeta('applyOn');
+  GeneratedTextColumn _applyOn;
+  @override
+  GeneratedTextColumn get applyOn => _applyOn ??= _constructApplyOn();
+  GeneratedTextColumn _constructApplyOn() {
+    return GeneratedTextColumn(
+      'apply_on',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _titleMeta = const VerificationMeta('title');
+  GeneratedTextColumn _title;
+  @override
+  GeneratedTextColumn get title => _title ??= _constructTitle();
+  GeneratedTextColumn _constructTitle() {
+    return GeneratedTextColumn(
+      'title',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _ruleNameMeta = const VerificationMeta('ruleName');
+  GeneratedTextColumn _ruleName;
+  @override
+  GeneratedTextColumn get ruleName => _ruleName ??= _constructRuleName();
+  GeneratedTextColumn _constructRuleName() {
+    return GeneratedTextColumn(
+      'rule_name',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _isActiveMeta = const VerificationMeta('isActive');
+  GeneratedBoolColumn _isActive;
+  @override
+  GeneratedBoolColumn get isActive => _isActive ??= _constructIsActive();
+  GeneratedBoolColumn _constructIsActive() {
+    return GeneratedBoolColumn('is_active', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _isDiscountEnableMeta =
+      const VerificationMeta('isDiscountEnable');
+  GeneratedBoolColumn _isDiscountEnable;
+  @override
+  GeneratedBoolColumn get isDiscountEnable =>
+      _isDiscountEnable ??= _constructIsDiscountEnable();
+  GeneratedBoolColumn _constructIsDiscountEnable() {
+    return GeneratedBoolColumn('is_discount_enable', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _validFromMeta = const VerificationMeta('validFrom');
+  GeneratedDateTimeColumn _validFrom;
+  @override
+  GeneratedDateTimeColumn get validFrom => _validFrom ??= _constructValidFrom();
+  GeneratedDateTimeColumn _constructValidFrom() {
+    return GeneratedDateTimeColumn(
+      'valid_from',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _validToMeta = const VerificationMeta('validTo');
+  GeneratedDateTimeColumn _validTo;
+  @override
+  GeneratedDateTimeColumn get validTo => _validTo ??= _constructValidTo();
+  GeneratedDateTimeColumn _constructValidTo() {
+    return GeneratedDateTimeColumn(
+      'valid_to',
+      $tableName,
+      true,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        tenantId,
+        creationTime,
+        deleteTime,
+        createUserId,
+        creatorUser,
+        lastModifierUser,
+        lastModifierUserId,
+        deleteUserId,
+        deleterUserId,
+        isDeleted,
+        id,
+        itemId,
+        itemCode,
+        priceList,
+        customerId,
+        minQuantity,
+        maxQuantity,
+        price,
+        discountPercentage,
+        uom,
+        priceOrDiscount,
+        customerGroup,
+        itemGroup,
+        category,
+        applicableFor,
+        applyOn,
+        title,
+        ruleName,
+        isActive,
+        isDiscountEnable,
+        validFrom,
+        validTo
+      ];
+  @override
+  $ItemPricingRuleTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'item_pricing_rule';
+  @override
+  final String actualTableName = 'item_pricing_rule';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<ItemPricingRuleData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
+    if (data.containsKey('creation_time')) {
+      context.handle(
+          _creationTimeMeta,
+          creationTime.isAcceptableOrUnknown(
+              data['creation_time'], _creationTimeMeta));
+    }
+    if (data.containsKey('delete_time')) {
+      context.handle(
+          _deleteTimeMeta,
+          deleteTime.isAcceptableOrUnknown(
+              data['delete_time'], _deleteTimeMeta));
+    }
+    if (data.containsKey('create_user_id')) {
+      context.handle(
+          _createUserIdMeta,
+          createUserId.isAcceptableOrUnknown(
+              data['create_user_id'], _createUserIdMeta));
+    }
+    if (data.containsKey('creator_user')) {
+      context.handle(
+          _creatorUserMeta,
+          creatorUser.isAcceptableOrUnknown(
+              data['creator_user'], _creatorUserMeta));
+    }
+    if (data.containsKey('last_modifier_user')) {
+      context.handle(
+          _lastModifierUserMeta,
+          lastModifierUser.isAcceptableOrUnknown(
+              data['last_modifier_user'], _lastModifierUserMeta));
+    }
+    if (data.containsKey('last_modifier_user_id')) {
+      context.handle(
+          _lastModifierUserIdMeta,
+          lastModifierUserId.isAcceptableOrUnknown(
+              data['last_modifier_user_id'], _lastModifierUserIdMeta));
+    }
+    if (data.containsKey('delete_user_id')) {
+      context.handle(
+          _deleteUserIdMeta,
+          deleteUserId.isAcceptableOrUnknown(
+              data['delete_user_id'], _deleteUserIdMeta));
+    }
+    if (data.containsKey('deleter_user_id')) {
+      context.handle(
+          _deleterUserIdMeta,
+          deleterUserId.isAcceptableOrUnknown(
+              data['deleter_user_id'], _deleterUserIdMeta));
+    }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('item_id')) {
+      context.handle(_itemIdMeta,
+          itemId.isAcceptableOrUnknown(data['item_id'], _itemIdMeta));
+    } else if (isInserting) {
+      context.missing(_itemIdMeta);
+    }
+    if (data.containsKey('item_code')) {
+      context.handle(_itemCodeMeta,
+          itemCode.isAcceptableOrUnknown(data['item_code'], _itemCodeMeta));
+    }
+    if (data.containsKey('price_list')) {
+      context.handle(_priceListMeta,
+          priceList.isAcceptableOrUnknown(data['price_list'], _priceListMeta));
+    }
+    if (data.containsKey('customer_id')) {
+      context.handle(
+          _customerIdMeta,
+          customerId.isAcceptableOrUnknown(
+              data['customer_id'], _customerIdMeta));
+    }
+    if (data.containsKey('min_quantity')) {
+      context.handle(
+          _minQuantityMeta,
+          minQuantity.isAcceptableOrUnknown(
+              data['min_quantity'], _minQuantityMeta));
+    } else if (isInserting) {
+      context.missing(_minQuantityMeta);
+    }
+    if (data.containsKey('max_quantity')) {
+      context.handle(
+          _maxQuantityMeta,
+          maxQuantity.isAcceptableOrUnknown(
+              data['max_quantity'], _maxQuantityMeta));
+    } else if (isInserting) {
+      context.missing(_maxQuantityMeta);
+    }
+    if (data.containsKey('price')) {
+      context.handle(
+          _priceMeta, price.isAcceptableOrUnknown(data['price'], _priceMeta));
+    } else if (isInserting) {
+      context.missing(_priceMeta);
+    }
+    if (data.containsKey('discount_percentage')) {
+      context.handle(
+          _discountPercentageMeta,
+          discountPercentage.isAcceptableOrUnknown(
+              data['discount_percentage'], _discountPercentageMeta));
+    } else if (isInserting) {
+      context.missing(_discountPercentageMeta);
+    }
+    if (data.containsKey('uom')) {
+      context.handle(
+          _uomMeta, uom.isAcceptableOrUnknown(data['uom'], _uomMeta));
+    }
+    if (data.containsKey('price_or_discount')) {
+      context.handle(
+          _priceOrDiscountMeta,
+          priceOrDiscount.isAcceptableOrUnknown(
+              data['price_or_discount'], _priceOrDiscountMeta));
+    }
+    if (data.containsKey('customer_group')) {
+      context.handle(
+          _customerGroupMeta,
+          customerGroup.isAcceptableOrUnknown(
+              data['customer_group'], _customerGroupMeta));
+    }
+    if (data.containsKey('item_group')) {
+      context.handle(_itemGroupMeta,
+          itemGroup.isAcceptableOrUnknown(data['item_group'], _itemGroupMeta));
+    }
+    if (data.containsKey('category')) {
+      context.handle(_categoryMeta,
+          category.isAcceptableOrUnknown(data['category'], _categoryMeta));
+    }
+    if (data.containsKey('applicable_for')) {
+      context.handle(
+          _applicableForMeta,
+          applicableFor.isAcceptableOrUnknown(
+              data['applicable_for'], _applicableForMeta));
+    }
+    if (data.containsKey('apply_on')) {
+      context.handle(_applyOnMeta,
+          applyOn.isAcceptableOrUnknown(data['apply_on'], _applyOnMeta));
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+          _titleMeta, title.isAcceptableOrUnknown(data['title'], _titleMeta));
+    }
+    if (data.containsKey('rule_name')) {
+      context.handle(_ruleNameMeta,
+          ruleName.isAcceptableOrUnknown(data['rule_name'], _ruleNameMeta));
+    }
+    if (data.containsKey('is_active')) {
+      context.handle(_isActiveMeta,
+          isActive.isAcceptableOrUnknown(data['is_active'], _isActiveMeta));
+    }
+    if (data.containsKey('is_discount_enable')) {
+      context.handle(
+          _isDiscountEnableMeta,
+          isDiscountEnable.isAcceptableOrUnknown(
+              data['is_discount_enable'], _isDiscountEnableMeta));
+    }
+    if (data.containsKey('valid_from')) {
+      context.handle(_validFromMeta,
+          validFrom.isAcceptableOrUnknown(data['valid_from'], _validFromMeta));
+    }
+    if (data.containsKey('valid_to')) {
+      context.handle(_validToMeta,
+          validTo.isAcceptableOrUnknown(data['valid_to'], _validToMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ItemPricingRuleData map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return ItemPricingRuleData.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $ItemPricingRuleTable createAlias(String alias) {
+    return $ItemPricingRuleTable(_db, alias);
+  }
+}
+
+class CategoryData extends DataClass implements Insertable<CategoryData> {
+  final int tenantId;
+  final DateTime creationTime;
+  final DateTime deleteTime;
+  final int createUserId;
+  final String creatorUser;
+  final String lastModifierUser;
+  final int lastModifierUserId;
+  final int deleteUserId;
+  final String deleterUserId;
+  final bool isDeleted;
+  final int id;
+  final int itemId;
+  final String parentCategory;
+  final String category;
+  CategoryData(
+      {this.tenantId,
+      this.creationTime,
+      this.deleteTime,
+      this.createUserId,
+      this.creatorUser,
+      this.lastModifierUser,
+      this.lastModifierUserId,
+      this.deleteUserId,
+      this.deleterUserId,
+      @required this.isDeleted,
+      @required this.id,
+      @required this.itemId,
+      this.parentCategory,
+      this.category});
+  factory CategoryData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    return CategoryData(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      creationTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
+      deleteTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
+      createUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
+      creatorUser: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
+      lastModifierUser: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user']),
+      lastModifierUserId: intType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user_id']),
+      deleteUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
+      deleterUserId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
+      isDeleted: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      itemId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
+      parentCategory: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}parent_category']),
+      category: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}category']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || creationTime != null) {
+      map['creation_time'] = Variable<DateTime>(creationTime);
+    }
+    if (!nullToAbsent || deleteTime != null) {
+      map['delete_time'] = Variable<DateTime>(deleteTime);
+    }
+    if (!nullToAbsent || createUserId != null) {
+      map['create_user_id'] = Variable<int>(createUserId);
+    }
+    if (!nullToAbsent || creatorUser != null) {
+      map['creator_user'] = Variable<String>(creatorUser);
+    }
+    if (!nullToAbsent || lastModifierUser != null) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser);
+    }
+    if (!nullToAbsent || lastModifierUserId != null) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
+    }
+    if (!nullToAbsent || deleteUserId != null) {
+      map['delete_user_id'] = Variable<int>(deleteUserId);
+    }
+    if (!nullToAbsent || deleterUserId != null) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId);
+    }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || itemId != null) {
+      map['item_id'] = Variable<int>(itemId);
+    }
+    if (!nullToAbsent || parentCategory != null) {
+      map['parent_category'] = Variable<String>(parentCategory);
+    }
+    if (!nullToAbsent || category != null) {
+      map['category'] = Variable<String>(category);
+    }
+    return map;
+  }
+
+  CategoryCompanion toCompanion(bool nullToAbsent) {
+    return CategoryCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      creationTime: creationTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creationTime),
+      deleteTime: deleteTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteTime),
+      createUserId: createUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createUserId),
+      creatorUser: creatorUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creatorUser),
+      lastModifierUser: lastModifierUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUser),
+      lastModifierUserId: lastModifierUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUserId),
+      deleteUserId: deleteUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteUserId),
+      deleterUserId: deleterUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleterUserId),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      itemId:
+          itemId == null && nullToAbsent ? const Value.absent() : Value(itemId),
+      parentCategory: parentCategory == null && nullToAbsent
+          ? const Value.absent()
+          : Value(parentCategory),
+      category: category == null && nullToAbsent
+          ? const Value.absent()
+          : Value(category),
+    );
+  }
+
+  factory CategoryData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return CategoryData(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
+      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
+      createUserId: serializer.fromJson<int>(json['createUserId']),
+      creatorUser: serializer.fromJson<String>(json['creatorUser']),
+      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
+      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
+      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
+      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      id: serializer.fromJson<int>(json['id']),
+      itemId: serializer.fromJson<int>(json['itemId']),
+      parentCategory: serializer.fromJson<String>(json['parentCategory']),
+      category: serializer.fromJson<String>(json['category']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'creationTime': serializer.toJson<DateTime>(creationTime),
+      'deleteTime': serializer.toJson<DateTime>(deleteTime),
+      'createUserId': serializer.toJson<int>(createUserId),
+      'creatorUser': serializer.toJson<String>(creatorUser),
+      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
+      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
+      'deleteUserId': serializer.toJson<int>(deleteUserId),
+      'deleterUserId': serializer.toJson<String>(deleterUserId),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'id': serializer.toJson<int>(id),
+      'itemId': serializer.toJson<int>(itemId),
+      'parentCategory': serializer.toJson<String>(parentCategory),
+      'category': serializer.toJson<String>(category),
+    };
+  }
+
+  CategoryData copyWith(
+          {int tenantId,
+          DateTime creationTime,
+          DateTime deleteTime,
+          int createUserId,
+          String creatorUser,
+          String lastModifierUser,
+          int lastModifierUserId,
+          int deleteUserId,
+          String deleterUserId,
+          bool isDeleted,
+          int id,
+          int itemId,
+          String parentCategory,
+          String category}) =>
+      CategoryData(
+        tenantId: tenantId ?? this.tenantId,
+        creationTime: creationTime ?? this.creationTime,
+        deleteTime: deleteTime ?? this.deleteTime,
+        createUserId: createUserId ?? this.createUserId,
+        creatorUser: creatorUser ?? this.creatorUser,
+        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+        deleteUserId: deleteUserId ?? this.deleteUserId,
+        deleterUserId: deleterUserId ?? this.deleterUserId,
+        isDeleted: isDeleted ?? this.isDeleted,
+        id: id ?? this.id,
+        itemId: itemId ?? this.itemId,
+        parentCategory: parentCategory ?? this.parentCategory,
+        category: category ?? this.category,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('CategoryData(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('itemId: $itemId, ')
+          ..write('parentCategory: $parentCategory, ')
+          ..write('category: $category')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode,
+      $mrjc(
+          creationTime.hashCode,
+          $mrjc(
+              deleteTime.hashCode,
+              $mrjc(
+                  createUserId.hashCode,
+                  $mrjc(
+                      creatorUser.hashCode,
+                      $mrjc(
+                          lastModifierUser.hashCode,
+                          $mrjc(
+                              lastModifierUserId.hashCode,
+                              $mrjc(
+                                  deleteUserId.hashCode,
+                                  $mrjc(
+                                      deleterUserId.hashCode,
+                                      $mrjc(
+                                          isDeleted.hashCode,
+                                          $mrjc(
+                                              id.hashCode,
+                                              $mrjc(
+                                                  itemId.hashCode,
+                                                  $mrjc(
+                                                      parentCategory.hashCode,
+                                                      category
+                                                          .hashCode))))))))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is CategoryData &&
+          other.tenantId == this.tenantId &&
+          other.creationTime == this.creationTime &&
+          other.deleteTime == this.deleteTime &&
+          other.createUserId == this.createUserId &&
+          other.creatorUser == this.creatorUser &&
+          other.lastModifierUser == this.lastModifierUser &&
+          other.lastModifierUserId == this.lastModifierUserId &&
+          other.deleteUserId == this.deleteUserId &&
+          other.deleterUserId == this.deleterUserId &&
+          other.isDeleted == this.isDeleted &&
+          other.id == this.id &&
+          other.itemId == this.itemId &&
+          other.parentCategory == this.parentCategory &&
+          other.category == this.category);
+}
+
+class CategoryCompanion extends UpdateCompanion<CategoryData> {
+  final Value<int> tenantId;
+  final Value<DateTime> creationTime;
+  final Value<DateTime> deleteTime;
+  final Value<int> createUserId;
+  final Value<String> creatorUser;
+  final Value<String> lastModifierUser;
+  final Value<int> lastModifierUserId;
+  final Value<int> deleteUserId;
+  final Value<String> deleterUserId;
+  final Value<bool> isDeleted;
+  final Value<int> id;
+  final Value<int> itemId;
+  final Value<String> parentCategory;
+  final Value<String> category;
+  const CategoryCompanion({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    this.itemId = const Value.absent(),
+    this.parentCategory = const Value.absent(),
+    this.category = const Value.absent(),
+  });
+  CategoryCompanion.insert({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    @required int itemId,
+    this.parentCategory = const Value.absent(),
+    this.category = const Value.absent(),
+  }) : itemId = Value(itemId);
+  static Insertable<CategoryData> custom({
+    Expression<int> tenantId,
+    Expression<DateTime> creationTime,
+    Expression<DateTime> deleteTime,
+    Expression<int> createUserId,
+    Expression<String> creatorUser,
+    Expression<String> lastModifierUser,
+    Expression<int> lastModifierUserId,
+    Expression<int> deleteUserId,
+    Expression<String> deleterUserId,
+    Expression<bool> isDeleted,
+    Expression<int> id,
+    Expression<int> itemId,
+    Expression<String> parentCategory,
+    Expression<String> category,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (creationTime != null) 'creation_time': creationTime,
+      if (deleteTime != null) 'delete_time': deleteTime,
+      if (createUserId != null) 'create_user_id': createUserId,
+      if (creatorUser != null) 'creator_user': creatorUser,
+      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
+      if (lastModifierUserId != null)
+        'last_modifier_user_id': lastModifierUserId,
+      if (deleteUserId != null) 'delete_user_id': deleteUserId,
+      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (id != null) 'id': id,
+      if (itemId != null) 'item_id': itemId,
+      if (parentCategory != null) 'parent_category': parentCategory,
+      if (category != null) 'category': category,
+    });
+  }
+
+  CategoryCompanion copyWith(
+      {Value<int> tenantId,
+      Value<DateTime> creationTime,
+      Value<DateTime> deleteTime,
+      Value<int> createUserId,
+      Value<String> creatorUser,
+      Value<String> lastModifierUser,
+      Value<int> lastModifierUserId,
+      Value<int> deleteUserId,
+      Value<String> deleterUserId,
+      Value<bool> isDeleted,
+      Value<int> id,
+      Value<int> itemId,
+      Value<String> parentCategory,
+      Value<String> category}) {
+    return CategoryCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      creationTime: creationTime ?? this.creationTime,
+      deleteTime: deleteTime ?? this.deleteTime,
+      createUserId: createUserId ?? this.createUserId,
+      creatorUser: creatorUser ?? this.creatorUser,
+      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+      deleteUserId: deleteUserId ?? this.deleteUserId,
+      deleterUserId: deleterUserId ?? this.deleterUserId,
+      isDeleted: isDeleted ?? this.isDeleted,
+      id: id ?? this.id,
+      itemId: itemId ?? this.itemId,
+      parentCategory: parentCategory ?? this.parentCategory,
+      category: category ?? this.category,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (creationTime.present) {
+      map['creation_time'] = Variable<DateTime>(creationTime.value);
+    }
+    if (deleteTime.present) {
+      map['delete_time'] = Variable<DateTime>(deleteTime.value);
+    }
+    if (createUserId.present) {
+      map['create_user_id'] = Variable<int>(createUserId.value);
+    }
+    if (creatorUser.present) {
+      map['creator_user'] = Variable<String>(creatorUser.value);
+    }
+    if (lastModifierUser.present) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
+    }
+    if (lastModifierUserId.present) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
+    }
+    if (deleteUserId.present) {
+      map['delete_user_id'] = Variable<int>(deleteUserId.value);
+    }
+    if (deleterUserId.present) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (itemId.present) {
+      map['item_id'] = Variable<int>(itemId.value);
+    }
+    if (parentCategory.present) {
+      map['parent_category'] = Variable<String>(parentCategory.value);
+    }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CategoryCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('itemId: $itemId, ')
+          ..write('parentCategory: $parentCategory, ')
+          ..write('category: $category')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $CategoryTable extends Category
+    with TableInfo<$CategoryTable, CategoryData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $CategoryTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creationTimeMeta =
+      const VerificationMeta('creationTime');
+  GeneratedDateTimeColumn _creationTime;
+  @override
+  GeneratedDateTimeColumn get creationTime =>
+      _creationTime ??= _constructCreationTime();
+  GeneratedDateTimeColumn _constructCreationTime() {
+    return GeneratedDateTimeColumn(
+      'creation_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
+  GeneratedDateTimeColumn _deleteTime;
+  @override
+  GeneratedDateTimeColumn get deleteTime =>
+      _deleteTime ??= _constructDeleteTime();
+  GeneratedDateTimeColumn _constructDeleteTime() {
+    return GeneratedDateTimeColumn(
+      'delete_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _createUserIdMeta =
+      const VerificationMeta('createUserId');
+  GeneratedIntColumn _createUserId;
+  @override
+  GeneratedIntColumn get createUserId =>
+      _createUserId ??= _constructCreateUserId();
+  GeneratedIntColumn _constructCreateUserId() {
+    return GeneratedIntColumn(
+      'create_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creatorUserMeta =
+      const VerificationMeta('creatorUser');
+  GeneratedTextColumn _creatorUser;
+  @override
+  GeneratedTextColumn get creatorUser =>
+      _creatorUser ??= _constructCreatorUser();
+  GeneratedTextColumn _constructCreatorUser() {
+    return GeneratedTextColumn(
+      'creator_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserMeta =
+      const VerificationMeta('lastModifierUser');
+  GeneratedTextColumn _lastModifierUser;
+  @override
+  GeneratedTextColumn get lastModifierUser =>
+      _lastModifierUser ??= _constructLastModifierUser();
+  GeneratedTextColumn _constructLastModifierUser() {
+    return GeneratedTextColumn(
+      'last_modifier_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserIdMeta =
+      const VerificationMeta('lastModifierUserId');
+  GeneratedIntColumn _lastModifierUserId;
+  @override
+  GeneratedIntColumn get lastModifierUserId =>
+      _lastModifierUserId ??= _constructLastModifierUserId();
+  GeneratedIntColumn _constructLastModifierUserId() {
+    return GeneratedIntColumn(
+      'last_modifier_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteUserIdMeta =
+      const VerificationMeta('deleteUserId');
+  GeneratedIntColumn _deleteUserId;
+  @override
+  GeneratedIntColumn get deleteUserId =>
+      _deleteUserId ??= _constructDeleteUserId();
+  GeneratedIntColumn _constructDeleteUserId() {
+    return GeneratedIntColumn(
+      'delete_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleterUserIdMeta =
+      const VerificationMeta('deleterUserId');
+  GeneratedTextColumn _deleterUserId;
+  @override
+  GeneratedTextColumn get deleterUserId =>
+      _deleterUserId ??= _constructDeleterUserId();
+  GeneratedTextColumn _constructDeleterUserId() {
+    return GeneratedTextColumn(
+      'deleter_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  GeneratedBoolColumn _isDeleted;
+  @override
+  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
+  GeneratedBoolColumn _constructIsDeleted() {
+    return GeneratedBoolColumn('is_deleted', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
+  GeneratedIntColumn _itemId;
+  @override
+  GeneratedIntColumn get itemId => _itemId ??= _constructItemId();
+  GeneratedIntColumn _constructItemId() {
+    return GeneratedIntColumn(
+      'item_id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _parentCategoryMeta =
+      const VerificationMeta('parentCategory');
+  GeneratedTextColumn _parentCategory;
+  @override
+  GeneratedTextColumn get parentCategory =>
+      _parentCategory ??= _constructParentCategory();
+  GeneratedTextColumn _constructParentCategory() {
+    return GeneratedTextColumn(
+      'parent_category',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _categoryMeta = const VerificationMeta('category');
+  GeneratedTextColumn _category;
+  @override
+  GeneratedTextColumn get category => _category ??= _constructCategory();
+  GeneratedTextColumn _constructCategory() {
+    return GeneratedTextColumn(
+      'category',
+      $tableName,
+      true,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        tenantId,
+        creationTime,
+        deleteTime,
+        createUserId,
+        creatorUser,
+        lastModifierUser,
+        lastModifierUserId,
+        deleteUserId,
+        deleterUserId,
+        isDeleted,
+        id,
+        itemId,
+        parentCategory,
+        category
+      ];
+  @override
+  $CategoryTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'category';
+  @override
+  final String actualTableName = 'category';
+  @override
+  VerificationContext validateIntegrity(Insertable<CategoryData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
+    if (data.containsKey('creation_time')) {
+      context.handle(
+          _creationTimeMeta,
+          creationTime.isAcceptableOrUnknown(
+              data['creation_time'], _creationTimeMeta));
+    }
+    if (data.containsKey('delete_time')) {
+      context.handle(
+          _deleteTimeMeta,
+          deleteTime.isAcceptableOrUnknown(
+              data['delete_time'], _deleteTimeMeta));
+    }
+    if (data.containsKey('create_user_id')) {
+      context.handle(
+          _createUserIdMeta,
+          createUserId.isAcceptableOrUnknown(
+              data['create_user_id'], _createUserIdMeta));
+    }
+    if (data.containsKey('creator_user')) {
+      context.handle(
+          _creatorUserMeta,
+          creatorUser.isAcceptableOrUnknown(
+              data['creator_user'], _creatorUserMeta));
+    }
+    if (data.containsKey('last_modifier_user')) {
+      context.handle(
+          _lastModifierUserMeta,
+          lastModifierUser.isAcceptableOrUnknown(
+              data['last_modifier_user'], _lastModifierUserMeta));
+    }
+    if (data.containsKey('last_modifier_user_id')) {
+      context.handle(
+          _lastModifierUserIdMeta,
+          lastModifierUserId.isAcceptableOrUnknown(
+              data['last_modifier_user_id'], _lastModifierUserIdMeta));
+    }
+    if (data.containsKey('delete_user_id')) {
+      context.handle(
+          _deleteUserIdMeta,
+          deleteUserId.isAcceptableOrUnknown(
+              data['delete_user_id'], _deleteUserIdMeta));
+    }
+    if (data.containsKey('deleter_user_id')) {
+      context.handle(
+          _deleterUserIdMeta,
+          deleterUserId.isAcceptableOrUnknown(
+              data['deleter_user_id'], _deleterUserIdMeta));
+    }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('item_id')) {
+      context.handle(_itemIdMeta,
+          itemId.isAcceptableOrUnknown(data['item_id'], _itemIdMeta));
+    } else if (isInserting) {
+      context.missing(_itemIdMeta);
+    }
+    if (data.containsKey('parent_category')) {
+      context.handle(
+          _parentCategoryMeta,
+          parentCategory.isAcceptableOrUnknown(
+              data['parent_category'], _parentCategoryMeta));
+    }
+    if (data.containsKey('category')) {
+      context.handle(_categoryMeta,
+          category.isAcceptableOrUnknown(data['category'], _categoryMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CategoryData map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return CategoryData.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $CategoryTable createAlias(String alias) {
+    return $CategoryTable(_db, alias);
+  }
+}
+
+class ItemGroup extends DataClass implements Insertable<ItemGroup> {
+  final int tenantId;
+  final DateTime creationTime;
+  final DateTime deleteTime;
+  final int createUserId;
+  final String creatorUser;
+  final String lastModifierUser;
+  final int lastModifierUserId;
+  final int deleteUserId;
+  final String deleterUserId;
+  final bool isDeleted;
+  final int id;
+  final int itemId;
+  final String parentGroup;
+  final String group;
+  ItemGroup(
+      {this.tenantId,
+      this.creationTime,
+      this.deleteTime,
+      this.createUserId,
+      this.creatorUser,
+      this.lastModifierUser,
+      this.lastModifierUserId,
+      this.deleteUserId,
+      this.deleterUserId,
+      @required this.isDeleted,
+      @required this.id,
+      @required this.itemId,
+      this.parentGroup,
+      this.group});
+  factory ItemGroup.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    return ItemGroup(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      creationTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
+      deleteTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
+      createUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
+      creatorUser: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
+      lastModifierUser: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user']),
+      lastModifierUserId: intType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user_id']),
+      deleteUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
+      deleterUserId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
+      isDeleted: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      itemId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
+      parentGroup: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}parent_group']),
+      group:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}group']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || creationTime != null) {
+      map['creation_time'] = Variable<DateTime>(creationTime);
+    }
+    if (!nullToAbsent || deleteTime != null) {
+      map['delete_time'] = Variable<DateTime>(deleteTime);
+    }
+    if (!nullToAbsent || createUserId != null) {
+      map['create_user_id'] = Variable<int>(createUserId);
+    }
+    if (!nullToAbsent || creatorUser != null) {
+      map['creator_user'] = Variable<String>(creatorUser);
+    }
+    if (!nullToAbsent || lastModifierUser != null) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser);
+    }
+    if (!nullToAbsent || lastModifierUserId != null) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
+    }
+    if (!nullToAbsent || deleteUserId != null) {
+      map['delete_user_id'] = Variable<int>(deleteUserId);
+    }
+    if (!nullToAbsent || deleterUserId != null) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId);
+    }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || itemId != null) {
+      map['item_id'] = Variable<int>(itemId);
+    }
+    if (!nullToAbsent || parentGroup != null) {
+      map['parent_group'] = Variable<String>(parentGroup);
+    }
+    if (!nullToAbsent || group != null) {
+      map['group'] = Variable<String>(group);
+    }
+    return map;
+  }
+
+  ItemGroupsCompanion toCompanion(bool nullToAbsent) {
+    return ItemGroupsCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      creationTime: creationTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creationTime),
+      deleteTime: deleteTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteTime),
+      createUserId: createUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createUserId),
+      creatorUser: creatorUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creatorUser),
+      lastModifierUser: lastModifierUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUser),
+      lastModifierUserId: lastModifierUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUserId),
+      deleteUserId: deleteUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteUserId),
+      deleterUserId: deleterUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleterUserId),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      itemId:
+          itemId == null && nullToAbsent ? const Value.absent() : Value(itemId),
+      parentGroup: parentGroup == null && nullToAbsent
+          ? const Value.absent()
+          : Value(parentGroup),
+      group:
+          group == null && nullToAbsent ? const Value.absent() : Value(group),
+    );
+  }
+
+  factory ItemGroup.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return ItemGroup(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
+      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
+      createUserId: serializer.fromJson<int>(json['createUserId']),
+      creatorUser: serializer.fromJson<String>(json['creatorUser']),
+      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
+      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
+      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
+      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      id: serializer.fromJson<int>(json['id']),
+      itemId: serializer.fromJson<int>(json['itemId']),
+      parentGroup: serializer.fromJson<String>(json['parentGroup']),
+      group: serializer.fromJson<String>(json['group']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'creationTime': serializer.toJson<DateTime>(creationTime),
+      'deleteTime': serializer.toJson<DateTime>(deleteTime),
+      'createUserId': serializer.toJson<int>(createUserId),
+      'creatorUser': serializer.toJson<String>(creatorUser),
+      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
+      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
+      'deleteUserId': serializer.toJson<int>(deleteUserId),
+      'deleterUserId': serializer.toJson<String>(deleterUserId),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'id': serializer.toJson<int>(id),
+      'itemId': serializer.toJson<int>(itemId),
+      'parentGroup': serializer.toJson<String>(parentGroup),
+      'group': serializer.toJson<String>(group),
+    };
+  }
+
+  ItemGroup copyWith(
+          {int tenantId,
+          DateTime creationTime,
+          DateTime deleteTime,
+          int createUserId,
+          String creatorUser,
+          String lastModifierUser,
+          int lastModifierUserId,
+          int deleteUserId,
+          String deleterUserId,
+          bool isDeleted,
+          int id,
+          int itemId,
+          String parentGroup,
+          String group}) =>
+      ItemGroup(
+        tenantId: tenantId ?? this.tenantId,
+        creationTime: creationTime ?? this.creationTime,
+        deleteTime: deleteTime ?? this.deleteTime,
+        createUserId: createUserId ?? this.createUserId,
+        creatorUser: creatorUser ?? this.creatorUser,
+        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+        deleteUserId: deleteUserId ?? this.deleteUserId,
+        deleterUserId: deleterUserId ?? this.deleterUserId,
+        isDeleted: isDeleted ?? this.isDeleted,
+        id: id ?? this.id,
+        itemId: itemId ?? this.itemId,
+        parentGroup: parentGroup ?? this.parentGroup,
+        group: group ?? this.group,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('ItemGroup(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('itemId: $itemId, ')
+          ..write('parentGroup: $parentGroup, ')
+          ..write('group: $group')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode,
+      $mrjc(
+          creationTime.hashCode,
+          $mrjc(
+              deleteTime.hashCode,
+              $mrjc(
+                  createUserId.hashCode,
+                  $mrjc(
+                      creatorUser.hashCode,
+                      $mrjc(
+                          lastModifierUser.hashCode,
+                          $mrjc(
+                              lastModifierUserId.hashCode,
+                              $mrjc(
+                                  deleteUserId.hashCode,
+                                  $mrjc(
+                                      deleterUserId.hashCode,
+                                      $mrjc(
+                                          isDeleted.hashCode,
+                                          $mrjc(
+                                              id.hashCode,
+                                              $mrjc(
+                                                  itemId.hashCode,
+                                                  $mrjc(
+                                                      parentGroup.hashCode,
+                                                      group
+                                                          .hashCode))))))))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is ItemGroup &&
+          other.tenantId == this.tenantId &&
+          other.creationTime == this.creationTime &&
+          other.deleteTime == this.deleteTime &&
+          other.createUserId == this.createUserId &&
+          other.creatorUser == this.creatorUser &&
+          other.lastModifierUser == this.lastModifierUser &&
+          other.lastModifierUserId == this.lastModifierUserId &&
+          other.deleteUserId == this.deleteUserId &&
+          other.deleterUserId == this.deleterUserId &&
+          other.isDeleted == this.isDeleted &&
+          other.id == this.id &&
+          other.itemId == this.itemId &&
+          other.parentGroup == this.parentGroup &&
+          other.group == this.group);
+}
+
+class ItemGroupsCompanion extends UpdateCompanion<ItemGroup> {
+  final Value<int> tenantId;
+  final Value<DateTime> creationTime;
+  final Value<DateTime> deleteTime;
+  final Value<int> createUserId;
+  final Value<String> creatorUser;
+  final Value<String> lastModifierUser;
+  final Value<int> lastModifierUserId;
+  final Value<int> deleteUserId;
+  final Value<String> deleterUserId;
+  final Value<bool> isDeleted;
+  final Value<int> id;
+  final Value<int> itemId;
+  final Value<String> parentGroup;
+  final Value<String> group;
+  const ItemGroupsCompanion({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    this.itemId = const Value.absent(),
+    this.parentGroup = const Value.absent(),
+    this.group = const Value.absent(),
+  });
+  ItemGroupsCompanion.insert({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    @required int itemId,
+    this.parentGroup = const Value.absent(),
+    this.group = const Value.absent(),
+  }) : itemId = Value(itemId);
+  static Insertable<ItemGroup> custom({
+    Expression<int> tenantId,
+    Expression<DateTime> creationTime,
+    Expression<DateTime> deleteTime,
+    Expression<int> createUserId,
+    Expression<String> creatorUser,
+    Expression<String> lastModifierUser,
+    Expression<int> lastModifierUserId,
+    Expression<int> deleteUserId,
+    Expression<String> deleterUserId,
+    Expression<bool> isDeleted,
+    Expression<int> id,
+    Expression<int> itemId,
+    Expression<String> parentGroup,
+    Expression<String> group,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (creationTime != null) 'creation_time': creationTime,
+      if (deleteTime != null) 'delete_time': deleteTime,
+      if (createUserId != null) 'create_user_id': createUserId,
+      if (creatorUser != null) 'creator_user': creatorUser,
+      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
+      if (lastModifierUserId != null)
+        'last_modifier_user_id': lastModifierUserId,
+      if (deleteUserId != null) 'delete_user_id': deleteUserId,
+      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (id != null) 'id': id,
+      if (itemId != null) 'item_id': itemId,
+      if (parentGroup != null) 'parent_group': parentGroup,
+      if (group != null) 'group': group,
+    });
+  }
+
+  ItemGroupsCompanion copyWith(
+      {Value<int> tenantId,
+      Value<DateTime> creationTime,
+      Value<DateTime> deleteTime,
+      Value<int> createUserId,
+      Value<String> creatorUser,
+      Value<String> lastModifierUser,
+      Value<int> lastModifierUserId,
+      Value<int> deleteUserId,
+      Value<String> deleterUserId,
+      Value<bool> isDeleted,
+      Value<int> id,
+      Value<int> itemId,
+      Value<String> parentGroup,
+      Value<String> group}) {
+    return ItemGroupsCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      creationTime: creationTime ?? this.creationTime,
+      deleteTime: deleteTime ?? this.deleteTime,
+      createUserId: createUserId ?? this.createUserId,
+      creatorUser: creatorUser ?? this.creatorUser,
+      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+      deleteUserId: deleteUserId ?? this.deleteUserId,
+      deleterUserId: deleterUserId ?? this.deleterUserId,
+      isDeleted: isDeleted ?? this.isDeleted,
+      id: id ?? this.id,
+      itemId: itemId ?? this.itemId,
+      parentGroup: parentGroup ?? this.parentGroup,
+      group: group ?? this.group,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (creationTime.present) {
+      map['creation_time'] = Variable<DateTime>(creationTime.value);
+    }
+    if (deleteTime.present) {
+      map['delete_time'] = Variable<DateTime>(deleteTime.value);
+    }
+    if (createUserId.present) {
+      map['create_user_id'] = Variable<int>(createUserId.value);
+    }
+    if (creatorUser.present) {
+      map['creator_user'] = Variable<String>(creatorUser.value);
+    }
+    if (lastModifierUser.present) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
+    }
+    if (lastModifierUserId.present) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
+    }
+    if (deleteUserId.present) {
+      map['delete_user_id'] = Variable<int>(deleteUserId.value);
+    }
+    if (deleterUserId.present) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (itemId.present) {
+      map['item_id'] = Variable<int>(itemId.value);
+    }
+    if (parentGroup.present) {
+      map['parent_group'] = Variable<String>(parentGroup.value);
+    }
+    if (group.present) {
+      map['group'] = Variable<String>(group.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ItemGroupsCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('itemId: $itemId, ')
+          ..write('parentGroup: $parentGroup, ')
+          ..write('group: $group')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ItemGroupsTable extends ItemGroups
+    with TableInfo<$ItemGroupsTable, ItemGroup> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $ItemGroupsTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creationTimeMeta =
+      const VerificationMeta('creationTime');
+  GeneratedDateTimeColumn _creationTime;
+  @override
+  GeneratedDateTimeColumn get creationTime =>
+      _creationTime ??= _constructCreationTime();
+  GeneratedDateTimeColumn _constructCreationTime() {
+    return GeneratedDateTimeColumn(
+      'creation_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
+  GeneratedDateTimeColumn _deleteTime;
+  @override
+  GeneratedDateTimeColumn get deleteTime =>
+      _deleteTime ??= _constructDeleteTime();
+  GeneratedDateTimeColumn _constructDeleteTime() {
+    return GeneratedDateTimeColumn(
+      'delete_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _createUserIdMeta =
+      const VerificationMeta('createUserId');
+  GeneratedIntColumn _createUserId;
+  @override
+  GeneratedIntColumn get createUserId =>
+      _createUserId ??= _constructCreateUserId();
+  GeneratedIntColumn _constructCreateUserId() {
+    return GeneratedIntColumn(
+      'create_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creatorUserMeta =
+      const VerificationMeta('creatorUser');
+  GeneratedTextColumn _creatorUser;
+  @override
+  GeneratedTextColumn get creatorUser =>
+      _creatorUser ??= _constructCreatorUser();
+  GeneratedTextColumn _constructCreatorUser() {
+    return GeneratedTextColumn(
+      'creator_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserMeta =
+      const VerificationMeta('lastModifierUser');
+  GeneratedTextColumn _lastModifierUser;
+  @override
+  GeneratedTextColumn get lastModifierUser =>
+      _lastModifierUser ??= _constructLastModifierUser();
+  GeneratedTextColumn _constructLastModifierUser() {
+    return GeneratedTextColumn(
+      'last_modifier_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserIdMeta =
+      const VerificationMeta('lastModifierUserId');
+  GeneratedIntColumn _lastModifierUserId;
+  @override
+  GeneratedIntColumn get lastModifierUserId =>
+      _lastModifierUserId ??= _constructLastModifierUserId();
+  GeneratedIntColumn _constructLastModifierUserId() {
+    return GeneratedIntColumn(
+      'last_modifier_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteUserIdMeta =
+      const VerificationMeta('deleteUserId');
+  GeneratedIntColumn _deleteUserId;
+  @override
+  GeneratedIntColumn get deleteUserId =>
+      _deleteUserId ??= _constructDeleteUserId();
+  GeneratedIntColumn _constructDeleteUserId() {
+    return GeneratedIntColumn(
+      'delete_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleterUserIdMeta =
+      const VerificationMeta('deleterUserId');
+  GeneratedTextColumn _deleterUserId;
+  @override
+  GeneratedTextColumn get deleterUserId =>
+      _deleterUserId ??= _constructDeleterUserId();
+  GeneratedTextColumn _constructDeleterUserId() {
+    return GeneratedTextColumn(
+      'deleter_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  GeneratedBoolColumn _isDeleted;
+  @override
+  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
+  GeneratedBoolColumn _constructIsDeleted() {
+    return GeneratedBoolColumn('is_deleted', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
+  GeneratedIntColumn _itemId;
+  @override
+  GeneratedIntColumn get itemId => _itemId ??= _constructItemId();
+  GeneratedIntColumn _constructItemId() {
+    return GeneratedIntColumn(
+      'item_id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _parentGroupMeta =
+      const VerificationMeta('parentGroup');
+  GeneratedTextColumn _parentGroup;
+  @override
+  GeneratedTextColumn get parentGroup =>
+      _parentGroup ??= _constructParentGroup();
+  GeneratedTextColumn _constructParentGroup() {
+    return GeneratedTextColumn(
+      'parent_group',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _groupMeta = const VerificationMeta('group');
+  GeneratedTextColumn _group;
+  @override
+  GeneratedTextColumn get group => _group ??= _constructGroup();
+  GeneratedTextColumn _constructGroup() {
+    return GeneratedTextColumn(
+      'group',
+      $tableName,
+      true,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        tenantId,
+        creationTime,
+        deleteTime,
+        createUserId,
+        creatorUser,
+        lastModifierUser,
+        lastModifierUserId,
+        deleteUserId,
+        deleterUserId,
+        isDeleted,
+        id,
+        itemId,
+        parentGroup,
+        group
+      ];
+  @override
+  $ItemGroupsTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'item_groups';
+  @override
+  final String actualTableName = 'item_groups';
+  @override
+  VerificationContext validateIntegrity(Insertable<ItemGroup> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
+    if (data.containsKey('creation_time')) {
+      context.handle(
+          _creationTimeMeta,
+          creationTime.isAcceptableOrUnknown(
+              data['creation_time'], _creationTimeMeta));
+    }
+    if (data.containsKey('delete_time')) {
+      context.handle(
+          _deleteTimeMeta,
+          deleteTime.isAcceptableOrUnknown(
+              data['delete_time'], _deleteTimeMeta));
+    }
+    if (data.containsKey('create_user_id')) {
+      context.handle(
+          _createUserIdMeta,
+          createUserId.isAcceptableOrUnknown(
+              data['create_user_id'], _createUserIdMeta));
+    }
+    if (data.containsKey('creator_user')) {
+      context.handle(
+          _creatorUserMeta,
+          creatorUser.isAcceptableOrUnknown(
+              data['creator_user'], _creatorUserMeta));
+    }
+    if (data.containsKey('last_modifier_user')) {
+      context.handle(
+          _lastModifierUserMeta,
+          lastModifierUser.isAcceptableOrUnknown(
+              data['last_modifier_user'], _lastModifierUserMeta));
+    }
+    if (data.containsKey('last_modifier_user_id')) {
+      context.handle(
+          _lastModifierUserIdMeta,
+          lastModifierUserId.isAcceptableOrUnknown(
+              data['last_modifier_user_id'], _lastModifierUserIdMeta));
+    }
+    if (data.containsKey('delete_user_id')) {
+      context.handle(
+          _deleteUserIdMeta,
+          deleteUserId.isAcceptableOrUnknown(
+              data['delete_user_id'], _deleteUserIdMeta));
+    }
+    if (data.containsKey('deleter_user_id')) {
+      context.handle(
+          _deleterUserIdMeta,
+          deleterUserId.isAcceptableOrUnknown(
+              data['deleter_user_id'], _deleterUserIdMeta));
+    }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('item_id')) {
+      context.handle(_itemIdMeta,
+          itemId.isAcceptableOrUnknown(data['item_id'], _itemIdMeta));
+    } else if (isInserting) {
+      context.missing(_itemIdMeta);
+    }
+    if (data.containsKey('parent_group')) {
+      context.handle(
+          _parentGroupMeta,
+          parentGroup.isAcceptableOrUnknown(
+              data['parent_group'], _parentGroupMeta));
+    }
+    if (data.containsKey('group')) {
+      context.handle(
+          _groupMeta, group.isAcceptableOrUnknown(data['group'], _groupMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ItemGroup map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return ItemGroup.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $ItemGroupsTable createAlias(String alias) {
+    return $ItemGroupsTable(_db, alias);
+  }
+}
+
+class PriceListData extends DataClass implements Insertable<PriceListData> {
+  final int tenantId;
+  final DateTime creationTime;
+  final DateTime deleteTime;
+  final int createUserId;
+  final String creatorUser;
+  final String lastModifierUser;
+  final int lastModifierUserId;
+  final int deleteUserId;
+  final String deleterUserId;
+  final bool isDeleted;
+  final int id;
+  final String priceListName;
+  final String currency;
+  final bool isActive;
+  final bool isBuying;
+  final bool isSelling;
+  final bool isPriceNotUOMDependency;
+  PriceListData(
+      {this.tenantId,
+      this.creationTime,
+      this.deleteTime,
+      this.createUserId,
+      this.creatorUser,
+      this.lastModifierUser,
+      this.lastModifierUserId,
+      this.deleteUserId,
+      this.deleterUserId,
+      @required this.isDeleted,
+      @required this.id,
+      @required this.priceListName,
+      this.currency,
+      @required this.isActive,
+      @required this.isBuying,
+      @required this.isSelling,
+      @required this.isPriceNotUOMDependency});
+  factory PriceListData.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    return PriceListData(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      creationTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
+      deleteTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
+      createUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
+      creatorUser: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
+      lastModifierUser: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user']),
+      lastModifierUserId: intType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user_id']),
+      deleteUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
+      deleterUserId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
+      isDeleted: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      priceListName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}price_list_name']),
+      currency: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}currency']),
+      isActive:
+          boolType.mapFromDatabaseResponse(data['${effectivePrefix}is_active']),
+      isBuying:
+          boolType.mapFromDatabaseResponse(data['${effectivePrefix}is_buying']),
+      isSelling: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_selling']),
+      isPriceNotUOMDependency: boolType.mapFromDatabaseResponse(
+          data['${effectivePrefix}is_price_not_u_o_m_dependency']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || creationTime != null) {
+      map['creation_time'] = Variable<DateTime>(creationTime);
+    }
+    if (!nullToAbsent || deleteTime != null) {
+      map['delete_time'] = Variable<DateTime>(deleteTime);
+    }
+    if (!nullToAbsent || createUserId != null) {
+      map['create_user_id'] = Variable<int>(createUserId);
+    }
+    if (!nullToAbsent || creatorUser != null) {
+      map['creator_user'] = Variable<String>(creatorUser);
+    }
+    if (!nullToAbsent || lastModifierUser != null) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser);
+    }
+    if (!nullToAbsent || lastModifierUserId != null) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
+    }
+    if (!nullToAbsent || deleteUserId != null) {
+      map['delete_user_id'] = Variable<int>(deleteUserId);
+    }
+    if (!nullToAbsent || deleterUserId != null) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId);
+    }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || priceListName != null) {
+      map['price_list_name'] = Variable<String>(priceListName);
+    }
+    if (!nullToAbsent || currency != null) {
+      map['currency'] = Variable<String>(currency);
+    }
+    if (!nullToAbsent || isActive != null) {
+      map['is_active'] = Variable<bool>(isActive);
+    }
+    if (!nullToAbsent || isBuying != null) {
+      map['is_buying'] = Variable<bool>(isBuying);
+    }
+    if (!nullToAbsent || isSelling != null) {
+      map['is_selling'] = Variable<bool>(isSelling);
+    }
+    if (!nullToAbsent || isPriceNotUOMDependency != null) {
+      map['is_price_not_u_o_m_dependency'] =
+          Variable<bool>(isPriceNotUOMDependency);
+    }
+    return map;
+  }
+
+  PriceListCompanion toCompanion(bool nullToAbsent) {
+    return PriceListCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      creationTime: creationTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creationTime),
+      deleteTime: deleteTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteTime),
+      createUserId: createUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createUserId),
+      creatorUser: creatorUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creatorUser),
+      lastModifierUser: lastModifierUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUser),
+      lastModifierUserId: lastModifierUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUserId),
+      deleteUserId: deleteUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteUserId),
+      deleterUserId: deleterUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleterUserId),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      priceListName: priceListName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(priceListName),
+      currency: currency == null && nullToAbsent
+          ? const Value.absent()
+          : Value(currency),
+      isActive: isActive == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isActive),
+      isBuying: isBuying == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isBuying),
+      isSelling: isSelling == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isSelling),
+      isPriceNotUOMDependency: isPriceNotUOMDependency == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isPriceNotUOMDependency),
+    );
+  }
+
+  factory PriceListData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return PriceListData(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
+      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
+      createUserId: serializer.fromJson<int>(json['createUserId']),
+      creatorUser: serializer.fromJson<String>(json['creatorUser']),
+      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
+      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
+      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
+      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      id: serializer.fromJson<int>(json['id']),
+      priceListName: serializer.fromJson<String>(json['priceListName']),
+      currency: serializer.fromJson<String>(json['currency']),
+      isActive: serializer.fromJson<bool>(json['isActive']),
+      isBuying: serializer.fromJson<bool>(json['isBuying']),
+      isSelling: serializer.fromJson<bool>(json['isSelling']),
+      isPriceNotUOMDependency:
+          serializer.fromJson<bool>(json['isPriceNotUOMDependency']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'creationTime': serializer.toJson<DateTime>(creationTime),
+      'deleteTime': serializer.toJson<DateTime>(deleteTime),
+      'createUserId': serializer.toJson<int>(createUserId),
+      'creatorUser': serializer.toJson<String>(creatorUser),
+      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
+      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
+      'deleteUserId': serializer.toJson<int>(deleteUserId),
+      'deleterUserId': serializer.toJson<String>(deleterUserId),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'id': serializer.toJson<int>(id),
+      'priceListName': serializer.toJson<String>(priceListName),
+      'currency': serializer.toJson<String>(currency),
+      'isActive': serializer.toJson<bool>(isActive),
+      'isBuying': serializer.toJson<bool>(isBuying),
+      'isSelling': serializer.toJson<bool>(isSelling),
+      'isPriceNotUOMDependency':
+          serializer.toJson<bool>(isPriceNotUOMDependency),
+    };
+  }
+
+  PriceListData copyWith(
+          {int tenantId,
+          DateTime creationTime,
+          DateTime deleteTime,
+          int createUserId,
+          String creatorUser,
+          String lastModifierUser,
+          int lastModifierUserId,
+          int deleteUserId,
+          String deleterUserId,
+          bool isDeleted,
+          int id,
+          String priceListName,
+          String currency,
+          bool isActive,
+          bool isBuying,
+          bool isSelling,
+          bool isPriceNotUOMDependency}) =>
+      PriceListData(
+        tenantId: tenantId ?? this.tenantId,
+        creationTime: creationTime ?? this.creationTime,
+        deleteTime: deleteTime ?? this.deleteTime,
+        createUserId: createUserId ?? this.createUserId,
+        creatorUser: creatorUser ?? this.creatorUser,
+        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+        deleteUserId: deleteUserId ?? this.deleteUserId,
+        deleterUserId: deleterUserId ?? this.deleterUserId,
+        isDeleted: isDeleted ?? this.isDeleted,
+        id: id ?? this.id,
+        priceListName: priceListName ?? this.priceListName,
+        currency: currency ?? this.currency,
+        isActive: isActive ?? this.isActive,
+        isBuying: isBuying ?? this.isBuying,
+        isSelling: isSelling ?? this.isSelling,
+        isPriceNotUOMDependency:
+            isPriceNotUOMDependency ?? this.isPriceNotUOMDependency,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('PriceListData(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('priceListName: $priceListName, ')
+          ..write('currency: $currency, ')
+          ..write('isActive: $isActive, ')
+          ..write('isBuying: $isBuying, ')
+          ..write('isSelling: $isSelling, ')
+          ..write('isPriceNotUOMDependency: $isPriceNotUOMDependency')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode,
+      $mrjc(
+          creationTime.hashCode,
+          $mrjc(
+              deleteTime.hashCode,
+              $mrjc(
+                  createUserId.hashCode,
+                  $mrjc(
+                      creatorUser.hashCode,
+                      $mrjc(
+                          lastModifierUser.hashCode,
+                          $mrjc(
+                              lastModifierUserId.hashCode,
+                              $mrjc(
+                                  deleteUserId.hashCode,
+                                  $mrjc(
+                                      deleterUserId.hashCode,
+                                      $mrjc(
+                                          isDeleted.hashCode,
+                                          $mrjc(
+                                              id.hashCode,
+                                              $mrjc(
+                                                  priceListName.hashCode,
+                                                  $mrjc(
+                                                      currency.hashCode,
+                                                      $mrjc(
+                                                          isActive.hashCode,
+                                                          $mrjc(
+                                                              isBuying.hashCode,
+                                                              $mrjc(
+                                                                  isSelling
+                                                                      .hashCode,
+                                                                  isPriceNotUOMDependency
+                                                                      .hashCode)))))))))))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is PriceListData &&
+          other.tenantId == this.tenantId &&
+          other.creationTime == this.creationTime &&
+          other.deleteTime == this.deleteTime &&
+          other.createUserId == this.createUserId &&
+          other.creatorUser == this.creatorUser &&
+          other.lastModifierUser == this.lastModifierUser &&
+          other.lastModifierUserId == this.lastModifierUserId &&
+          other.deleteUserId == this.deleteUserId &&
+          other.deleterUserId == this.deleterUserId &&
+          other.isDeleted == this.isDeleted &&
+          other.id == this.id &&
+          other.priceListName == this.priceListName &&
+          other.currency == this.currency &&
+          other.isActive == this.isActive &&
+          other.isBuying == this.isBuying &&
+          other.isSelling == this.isSelling &&
+          other.isPriceNotUOMDependency == this.isPriceNotUOMDependency);
+}
+
+class PriceListCompanion extends UpdateCompanion<PriceListData> {
+  final Value<int> tenantId;
+  final Value<DateTime> creationTime;
+  final Value<DateTime> deleteTime;
+  final Value<int> createUserId;
+  final Value<String> creatorUser;
+  final Value<String> lastModifierUser;
+  final Value<int> lastModifierUserId;
+  final Value<int> deleteUserId;
+  final Value<String> deleterUserId;
+  final Value<bool> isDeleted;
+  final Value<int> id;
+  final Value<String> priceListName;
+  final Value<String> currency;
+  final Value<bool> isActive;
+  final Value<bool> isBuying;
+  final Value<bool> isSelling;
+  final Value<bool> isPriceNotUOMDependency;
+  const PriceListCompanion({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    this.priceListName = const Value.absent(),
+    this.currency = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.isBuying = const Value.absent(),
+    this.isSelling = const Value.absent(),
+    this.isPriceNotUOMDependency = const Value.absent(),
+  });
+  PriceListCompanion.insert({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    @required String priceListName,
+    this.currency = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.isBuying = const Value.absent(),
+    this.isSelling = const Value.absent(),
+    this.isPriceNotUOMDependency = const Value.absent(),
+  }) : priceListName = Value(priceListName);
+  static Insertable<PriceListData> custom({
+    Expression<int> tenantId,
+    Expression<DateTime> creationTime,
+    Expression<DateTime> deleteTime,
+    Expression<int> createUserId,
+    Expression<String> creatorUser,
+    Expression<String> lastModifierUser,
+    Expression<int> lastModifierUserId,
+    Expression<int> deleteUserId,
+    Expression<String> deleterUserId,
+    Expression<bool> isDeleted,
+    Expression<int> id,
+    Expression<String> priceListName,
+    Expression<String> currency,
+    Expression<bool> isActive,
+    Expression<bool> isBuying,
+    Expression<bool> isSelling,
+    Expression<bool> isPriceNotUOMDependency,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (creationTime != null) 'creation_time': creationTime,
+      if (deleteTime != null) 'delete_time': deleteTime,
+      if (createUserId != null) 'create_user_id': createUserId,
+      if (creatorUser != null) 'creator_user': creatorUser,
+      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
+      if (lastModifierUserId != null)
+        'last_modifier_user_id': lastModifierUserId,
+      if (deleteUserId != null) 'delete_user_id': deleteUserId,
+      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (id != null) 'id': id,
+      if (priceListName != null) 'price_list_name': priceListName,
+      if (currency != null) 'currency': currency,
+      if (isActive != null) 'is_active': isActive,
+      if (isBuying != null) 'is_buying': isBuying,
+      if (isSelling != null) 'is_selling': isSelling,
+      if (isPriceNotUOMDependency != null)
+        'is_price_not_u_o_m_dependency': isPriceNotUOMDependency,
+    });
+  }
+
+  PriceListCompanion copyWith(
+      {Value<int> tenantId,
+      Value<DateTime> creationTime,
+      Value<DateTime> deleteTime,
+      Value<int> createUserId,
+      Value<String> creatorUser,
+      Value<String> lastModifierUser,
+      Value<int> lastModifierUserId,
+      Value<int> deleteUserId,
+      Value<String> deleterUserId,
+      Value<bool> isDeleted,
+      Value<int> id,
+      Value<String> priceListName,
+      Value<String> currency,
+      Value<bool> isActive,
+      Value<bool> isBuying,
+      Value<bool> isSelling,
+      Value<bool> isPriceNotUOMDependency}) {
+    return PriceListCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      creationTime: creationTime ?? this.creationTime,
+      deleteTime: deleteTime ?? this.deleteTime,
+      createUserId: createUserId ?? this.createUserId,
+      creatorUser: creatorUser ?? this.creatorUser,
+      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+      deleteUserId: deleteUserId ?? this.deleteUserId,
+      deleterUserId: deleterUserId ?? this.deleterUserId,
+      isDeleted: isDeleted ?? this.isDeleted,
+      id: id ?? this.id,
+      priceListName: priceListName ?? this.priceListName,
+      currency: currency ?? this.currency,
+      isActive: isActive ?? this.isActive,
+      isBuying: isBuying ?? this.isBuying,
+      isSelling: isSelling ?? this.isSelling,
+      isPriceNotUOMDependency:
+          isPriceNotUOMDependency ?? this.isPriceNotUOMDependency,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (creationTime.present) {
+      map['creation_time'] = Variable<DateTime>(creationTime.value);
+    }
+    if (deleteTime.present) {
+      map['delete_time'] = Variable<DateTime>(deleteTime.value);
+    }
+    if (createUserId.present) {
+      map['create_user_id'] = Variable<int>(createUserId.value);
+    }
+    if (creatorUser.present) {
+      map['creator_user'] = Variable<String>(creatorUser.value);
+    }
+    if (lastModifierUser.present) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
+    }
+    if (lastModifierUserId.present) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
+    }
+    if (deleteUserId.present) {
+      map['delete_user_id'] = Variable<int>(deleteUserId.value);
+    }
+    if (deleterUserId.present) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (priceListName.present) {
+      map['price_list_name'] = Variable<String>(priceListName.value);
+    }
+    if (currency.present) {
+      map['currency'] = Variable<String>(currency.value);
+    }
+    if (isActive.present) {
+      map['is_active'] = Variable<bool>(isActive.value);
+    }
+    if (isBuying.present) {
+      map['is_buying'] = Variable<bool>(isBuying.value);
+    }
+    if (isSelling.present) {
+      map['is_selling'] = Variable<bool>(isSelling.value);
+    }
+    if (isPriceNotUOMDependency.present) {
+      map['is_price_not_u_o_m_dependency'] =
+          Variable<bool>(isPriceNotUOMDependency.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PriceListCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('priceListName: $priceListName, ')
+          ..write('currency: $currency, ')
+          ..write('isActive: $isActive, ')
+          ..write('isBuying: $isBuying, ')
+          ..write('isSelling: $isSelling, ')
+          ..write('isPriceNotUOMDependency: $isPriceNotUOMDependency')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $PriceListTable extends PriceList
+    with TableInfo<$PriceListTable, PriceListData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $PriceListTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creationTimeMeta =
+      const VerificationMeta('creationTime');
+  GeneratedDateTimeColumn _creationTime;
+  @override
+  GeneratedDateTimeColumn get creationTime =>
+      _creationTime ??= _constructCreationTime();
+  GeneratedDateTimeColumn _constructCreationTime() {
+    return GeneratedDateTimeColumn(
+      'creation_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
+  GeneratedDateTimeColumn _deleteTime;
+  @override
+  GeneratedDateTimeColumn get deleteTime =>
+      _deleteTime ??= _constructDeleteTime();
+  GeneratedDateTimeColumn _constructDeleteTime() {
+    return GeneratedDateTimeColumn(
+      'delete_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _createUserIdMeta =
+      const VerificationMeta('createUserId');
+  GeneratedIntColumn _createUserId;
+  @override
+  GeneratedIntColumn get createUserId =>
+      _createUserId ??= _constructCreateUserId();
+  GeneratedIntColumn _constructCreateUserId() {
+    return GeneratedIntColumn(
+      'create_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creatorUserMeta =
+      const VerificationMeta('creatorUser');
+  GeneratedTextColumn _creatorUser;
+  @override
+  GeneratedTextColumn get creatorUser =>
+      _creatorUser ??= _constructCreatorUser();
+  GeneratedTextColumn _constructCreatorUser() {
+    return GeneratedTextColumn(
+      'creator_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserMeta =
+      const VerificationMeta('lastModifierUser');
+  GeneratedTextColumn _lastModifierUser;
+  @override
+  GeneratedTextColumn get lastModifierUser =>
+      _lastModifierUser ??= _constructLastModifierUser();
+  GeneratedTextColumn _constructLastModifierUser() {
+    return GeneratedTextColumn(
+      'last_modifier_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserIdMeta =
+      const VerificationMeta('lastModifierUserId');
+  GeneratedIntColumn _lastModifierUserId;
+  @override
+  GeneratedIntColumn get lastModifierUserId =>
+      _lastModifierUserId ??= _constructLastModifierUserId();
+  GeneratedIntColumn _constructLastModifierUserId() {
+    return GeneratedIntColumn(
+      'last_modifier_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteUserIdMeta =
+      const VerificationMeta('deleteUserId');
+  GeneratedIntColumn _deleteUserId;
+  @override
+  GeneratedIntColumn get deleteUserId =>
+      _deleteUserId ??= _constructDeleteUserId();
+  GeneratedIntColumn _constructDeleteUserId() {
+    return GeneratedIntColumn(
+      'delete_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleterUserIdMeta =
+      const VerificationMeta('deleterUserId');
+  GeneratedTextColumn _deleterUserId;
+  @override
+  GeneratedTextColumn get deleterUserId =>
+      _deleterUserId ??= _constructDeleterUserId();
+  GeneratedTextColumn _constructDeleterUserId() {
+    return GeneratedTextColumn(
+      'deleter_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  GeneratedBoolColumn _isDeleted;
+  @override
+  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
+  GeneratedBoolColumn _constructIsDeleted() {
+    return GeneratedBoolColumn('is_deleted', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _priceListNameMeta =
+      const VerificationMeta('priceListName');
+  GeneratedTextColumn _priceListName;
+  @override
+  GeneratedTextColumn get priceListName =>
+      _priceListName ??= _constructPriceListName();
+  GeneratedTextColumn _constructPriceListName() {
+    return GeneratedTextColumn(
+      'price_list_name',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _currencyMeta = const VerificationMeta('currency');
+  GeneratedTextColumn _currency;
+  @override
+  GeneratedTextColumn get currency => _currency ??= _constructCurrency();
+  GeneratedTextColumn _constructCurrency() {
+    return GeneratedTextColumn(
+      'currency',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _isActiveMeta = const VerificationMeta('isActive');
+  GeneratedBoolColumn _isActive;
+  @override
+  GeneratedBoolColumn get isActive => _isActive ??= _constructIsActive();
+  GeneratedBoolColumn _constructIsActive() {
+    return GeneratedBoolColumn('is_active', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _isBuyingMeta = const VerificationMeta('isBuying');
+  GeneratedBoolColumn _isBuying;
+  @override
+  GeneratedBoolColumn get isBuying => _isBuying ??= _constructIsBuying();
+  GeneratedBoolColumn _constructIsBuying() {
+    return GeneratedBoolColumn('is_buying', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _isSellingMeta = const VerificationMeta('isSelling');
+  GeneratedBoolColumn _isSelling;
+  @override
+  GeneratedBoolColumn get isSelling => _isSelling ??= _constructIsSelling();
+  GeneratedBoolColumn _constructIsSelling() {
+    return GeneratedBoolColumn('is_selling', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _isPriceNotUOMDependencyMeta =
+      const VerificationMeta('isPriceNotUOMDependency');
+  GeneratedBoolColumn _isPriceNotUOMDependency;
+  @override
+  GeneratedBoolColumn get isPriceNotUOMDependency =>
+      _isPriceNotUOMDependency ??= _constructIsPriceNotUOMDependency();
+  GeneratedBoolColumn _constructIsPriceNotUOMDependency() {
+    return GeneratedBoolColumn(
+        'is_price_not_u_o_m_dependency', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        tenantId,
+        creationTime,
+        deleteTime,
+        createUserId,
+        creatorUser,
+        lastModifierUser,
+        lastModifierUserId,
+        deleteUserId,
+        deleterUserId,
+        isDeleted,
+        id,
+        priceListName,
+        currency,
+        isActive,
+        isBuying,
+        isSelling,
+        isPriceNotUOMDependency
+      ];
+  @override
+  $PriceListTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'price_list';
+  @override
+  final String actualTableName = 'price_list';
+  @override
+  VerificationContext validateIntegrity(Insertable<PriceListData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
+    if (data.containsKey('creation_time')) {
+      context.handle(
+          _creationTimeMeta,
+          creationTime.isAcceptableOrUnknown(
+              data['creation_time'], _creationTimeMeta));
+    }
+    if (data.containsKey('delete_time')) {
+      context.handle(
+          _deleteTimeMeta,
+          deleteTime.isAcceptableOrUnknown(
+              data['delete_time'], _deleteTimeMeta));
+    }
+    if (data.containsKey('create_user_id')) {
+      context.handle(
+          _createUserIdMeta,
+          createUserId.isAcceptableOrUnknown(
+              data['create_user_id'], _createUserIdMeta));
+    }
+    if (data.containsKey('creator_user')) {
+      context.handle(
+          _creatorUserMeta,
+          creatorUser.isAcceptableOrUnknown(
+              data['creator_user'], _creatorUserMeta));
+    }
+    if (data.containsKey('last_modifier_user')) {
+      context.handle(
+          _lastModifierUserMeta,
+          lastModifierUser.isAcceptableOrUnknown(
+              data['last_modifier_user'], _lastModifierUserMeta));
+    }
+    if (data.containsKey('last_modifier_user_id')) {
+      context.handle(
+          _lastModifierUserIdMeta,
+          lastModifierUserId.isAcceptableOrUnknown(
+              data['last_modifier_user_id'], _lastModifierUserIdMeta));
+    }
+    if (data.containsKey('delete_user_id')) {
+      context.handle(
+          _deleteUserIdMeta,
+          deleteUserId.isAcceptableOrUnknown(
+              data['delete_user_id'], _deleteUserIdMeta));
+    }
+    if (data.containsKey('deleter_user_id')) {
+      context.handle(
+          _deleterUserIdMeta,
+          deleterUserId.isAcceptableOrUnknown(
+              data['deleter_user_id'], _deleterUserIdMeta));
+    }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('price_list_name')) {
+      context.handle(
+          _priceListNameMeta,
+          priceListName.isAcceptableOrUnknown(
+              data['price_list_name'], _priceListNameMeta));
+    } else if (isInserting) {
+      context.missing(_priceListNameMeta);
+    }
+    if (data.containsKey('currency')) {
+      context.handle(_currencyMeta,
+          currency.isAcceptableOrUnknown(data['currency'], _currencyMeta));
+    }
+    if (data.containsKey('is_active')) {
+      context.handle(_isActiveMeta,
+          isActive.isAcceptableOrUnknown(data['is_active'], _isActiveMeta));
+    }
+    if (data.containsKey('is_buying')) {
+      context.handle(_isBuyingMeta,
+          isBuying.isAcceptableOrUnknown(data['is_buying'], _isBuyingMeta));
+    }
+    if (data.containsKey('is_selling')) {
+      context.handle(_isSellingMeta,
+          isSelling.isAcceptableOrUnknown(data['is_selling'], _isSellingMeta));
+    }
+    if (data.containsKey('is_price_not_u_o_m_dependency')) {
+      context.handle(
+          _isPriceNotUOMDependencyMeta,
+          isPriceNotUOMDependency.isAcceptableOrUnknown(
+              data['is_price_not_u_o_m_dependency'],
+              _isPriceNotUOMDependencyMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  PriceListData map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return PriceListData.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $PriceListTable createAlias(String alias) {
+    return $PriceListTable(_db, alias);
+  }
+}
+
+class UnitOfMeaseureData extends DataClass
+    implements Insertable<UnitOfMeaseureData> {
+  final int tenantId;
+  final DateTime creationTime;
+  final DateTime deleteTime;
+  final int createUserId;
+  final String creatorUser;
+  final String lastModifierUser;
+  final int lastModifierUserId;
+  final int deleteUserId;
+  final String deleterUserId;
+  final bool isDeleted;
+  final int id;
+  final String uom;
+  UnitOfMeaseureData(
+      {this.tenantId,
+      this.creationTime,
+      this.deleteTime,
+      this.createUserId,
+      this.creatorUser,
+      this.lastModifierUser,
+      this.lastModifierUserId,
+      this.deleteUserId,
+      this.deleterUserId,
+      @required this.isDeleted,
+      @required this.id,
+      this.uom});
+  factory UnitOfMeaseureData.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    return UnitOfMeaseureData(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      creationTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
+      deleteTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
+      createUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
+      creatorUser: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
+      lastModifierUser: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user']),
+      lastModifierUserId: intType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user_id']),
+      deleteUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
+      deleterUserId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
+      isDeleted: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      uom: stringType.mapFromDatabaseResponse(data['${effectivePrefix}uom']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || creationTime != null) {
+      map['creation_time'] = Variable<DateTime>(creationTime);
+    }
+    if (!nullToAbsent || deleteTime != null) {
+      map['delete_time'] = Variable<DateTime>(deleteTime);
+    }
+    if (!nullToAbsent || createUserId != null) {
+      map['create_user_id'] = Variable<int>(createUserId);
+    }
+    if (!nullToAbsent || creatorUser != null) {
+      map['creator_user'] = Variable<String>(creatorUser);
+    }
+    if (!nullToAbsent || lastModifierUser != null) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser);
+    }
+    if (!nullToAbsent || lastModifierUserId != null) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
+    }
+    if (!nullToAbsent || deleteUserId != null) {
+      map['delete_user_id'] = Variable<int>(deleteUserId);
+    }
+    if (!nullToAbsent || deleterUserId != null) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId);
+    }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || uom != null) {
+      map['uom'] = Variable<String>(uom);
+    }
+    return map;
+  }
+
+  UnitOfMeaseureCompanion toCompanion(bool nullToAbsent) {
+    return UnitOfMeaseureCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      creationTime: creationTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creationTime),
+      deleteTime: deleteTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteTime),
+      createUserId: createUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createUserId),
+      creatorUser: creatorUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creatorUser),
+      lastModifierUser: lastModifierUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUser),
+      lastModifierUserId: lastModifierUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUserId),
+      deleteUserId: deleteUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteUserId),
+      deleterUserId: deleterUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleterUserId),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      uom: uom == null && nullToAbsent ? const Value.absent() : Value(uom),
+    );
+  }
+
+  factory UnitOfMeaseureData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return UnitOfMeaseureData(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
+      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
+      createUserId: serializer.fromJson<int>(json['createUserId']),
+      creatorUser: serializer.fromJson<String>(json['creatorUser']),
+      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
+      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
+      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
+      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      id: serializer.fromJson<int>(json['id']),
+      uom: serializer.fromJson<String>(json['uom']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'creationTime': serializer.toJson<DateTime>(creationTime),
+      'deleteTime': serializer.toJson<DateTime>(deleteTime),
+      'createUserId': serializer.toJson<int>(createUserId),
+      'creatorUser': serializer.toJson<String>(creatorUser),
+      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
+      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
+      'deleteUserId': serializer.toJson<int>(deleteUserId),
+      'deleterUserId': serializer.toJson<String>(deleterUserId),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'id': serializer.toJson<int>(id),
+      'uom': serializer.toJson<String>(uom),
+    };
+  }
+
+  UnitOfMeaseureData copyWith(
+          {int tenantId,
+          DateTime creationTime,
+          DateTime deleteTime,
+          int createUserId,
+          String creatorUser,
+          String lastModifierUser,
+          int lastModifierUserId,
+          int deleteUserId,
+          String deleterUserId,
+          bool isDeleted,
+          int id,
+          String uom}) =>
+      UnitOfMeaseureData(
+        tenantId: tenantId ?? this.tenantId,
+        creationTime: creationTime ?? this.creationTime,
+        deleteTime: deleteTime ?? this.deleteTime,
+        createUserId: createUserId ?? this.createUserId,
+        creatorUser: creatorUser ?? this.creatorUser,
+        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+        deleteUserId: deleteUserId ?? this.deleteUserId,
+        deleterUserId: deleterUserId ?? this.deleterUserId,
+        isDeleted: isDeleted ?? this.isDeleted,
+        id: id ?? this.id,
+        uom: uom ?? this.uom,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('UnitOfMeaseureData(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('uom: $uom')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode,
+      $mrjc(
+          creationTime.hashCode,
+          $mrjc(
+              deleteTime.hashCode,
+              $mrjc(
+                  createUserId.hashCode,
+                  $mrjc(
+                      creatorUser.hashCode,
+                      $mrjc(
+                          lastModifierUser.hashCode,
+                          $mrjc(
+                              lastModifierUserId.hashCode,
+                              $mrjc(
+                                  deleteUserId.hashCode,
+                                  $mrjc(
+                                      deleterUserId.hashCode,
+                                      $mrjc(
+                                          isDeleted.hashCode,
+                                          $mrjc(id.hashCode,
+                                              uom.hashCode))))))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is UnitOfMeaseureData &&
+          other.tenantId == this.tenantId &&
+          other.creationTime == this.creationTime &&
+          other.deleteTime == this.deleteTime &&
+          other.createUserId == this.createUserId &&
+          other.creatorUser == this.creatorUser &&
+          other.lastModifierUser == this.lastModifierUser &&
+          other.lastModifierUserId == this.lastModifierUserId &&
+          other.deleteUserId == this.deleteUserId &&
+          other.deleterUserId == this.deleterUserId &&
+          other.isDeleted == this.isDeleted &&
+          other.id == this.id &&
+          other.uom == this.uom);
+}
+
+class UnitOfMeaseureCompanion extends UpdateCompanion<UnitOfMeaseureData> {
+  final Value<int> tenantId;
+  final Value<DateTime> creationTime;
+  final Value<DateTime> deleteTime;
+  final Value<int> createUserId;
+  final Value<String> creatorUser;
+  final Value<String> lastModifierUser;
+  final Value<int> lastModifierUserId;
+  final Value<int> deleteUserId;
+  final Value<String> deleterUserId;
+  final Value<bool> isDeleted;
+  final Value<int> id;
+  final Value<String> uom;
+  const UnitOfMeaseureCompanion({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    this.uom = const Value.absent(),
+  });
+  UnitOfMeaseureCompanion.insert({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    this.uom = const Value.absent(),
+  });
+  static Insertable<UnitOfMeaseureData> custom({
+    Expression<int> tenantId,
+    Expression<DateTime> creationTime,
+    Expression<DateTime> deleteTime,
+    Expression<int> createUserId,
+    Expression<String> creatorUser,
+    Expression<String> lastModifierUser,
+    Expression<int> lastModifierUserId,
+    Expression<int> deleteUserId,
+    Expression<String> deleterUserId,
+    Expression<bool> isDeleted,
+    Expression<int> id,
+    Expression<String> uom,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (creationTime != null) 'creation_time': creationTime,
+      if (deleteTime != null) 'delete_time': deleteTime,
+      if (createUserId != null) 'create_user_id': createUserId,
+      if (creatorUser != null) 'creator_user': creatorUser,
+      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
+      if (lastModifierUserId != null)
+        'last_modifier_user_id': lastModifierUserId,
+      if (deleteUserId != null) 'delete_user_id': deleteUserId,
+      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (id != null) 'id': id,
+      if (uom != null) 'uom': uom,
+    });
+  }
+
+  UnitOfMeaseureCompanion copyWith(
+      {Value<int> tenantId,
+      Value<DateTime> creationTime,
+      Value<DateTime> deleteTime,
+      Value<int> createUserId,
+      Value<String> creatorUser,
+      Value<String> lastModifierUser,
+      Value<int> lastModifierUserId,
+      Value<int> deleteUserId,
+      Value<String> deleterUserId,
+      Value<bool> isDeleted,
+      Value<int> id,
+      Value<String> uom}) {
+    return UnitOfMeaseureCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      creationTime: creationTime ?? this.creationTime,
+      deleteTime: deleteTime ?? this.deleteTime,
+      createUserId: createUserId ?? this.createUserId,
+      creatorUser: creatorUser ?? this.creatorUser,
+      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+      deleteUserId: deleteUserId ?? this.deleteUserId,
+      deleterUserId: deleterUserId ?? this.deleterUserId,
+      isDeleted: isDeleted ?? this.isDeleted,
+      id: id ?? this.id,
+      uom: uom ?? this.uom,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (creationTime.present) {
+      map['creation_time'] = Variable<DateTime>(creationTime.value);
+    }
+    if (deleteTime.present) {
+      map['delete_time'] = Variable<DateTime>(deleteTime.value);
+    }
+    if (createUserId.present) {
+      map['create_user_id'] = Variable<int>(createUserId.value);
+    }
+    if (creatorUser.present) {
+      map['creator_user'] = Variable<String>(creatorUser.value);
+    }
+    if (lastModifierUser.present) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
+    }
+    if (lastModifierUserId.present) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
+    }
+    if (deleteUserId.present) {
+      map['delete_user_id'] = Variable<int>(deleteUserId.value);
+    }
+    if (deleterUserId.present) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (uom.present) {
+      map['uom'] = Variable<String>(uom.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UnitOfMeaseureCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('uom: $uom')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $UnitOfMeaseureTable extends UnitOfMeaseure
+    with TableInfo<$UnitOfMeaseureTable, UnitOfMeaseureData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $UnitOfMeaseureTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creationTimeMeta =
+      const VerificationMeta('creationTime');
+  GeneratedDateTimeColumn _creationTime;
+  @override
+  GeneratedDateTimeColumn get creationTime =>
+      _creationTime ??= _constructCreationTime();
+  GeneratedDateTimeColumn _constructCreationTime() {
+    return GeneratedDateTimeColumn(
+      'creation_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
+  GeneratedDateTimeColumn _deleteTime;
+  @override
+  GeneratedDateTimeColumn get deleteTime =>
+      _deleteTime ??= _constructDeleteTime();
+  GeneratedDateTimeColumn _constructDeleteTime() {
+    return GeneratedDateTimeColumn(
+      'delete_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _createUserIdMeta =
+      const VerificationMeta('createUserId');
+  GeneratedIntColumn _createUserId;
+  @override
+  GeneratedIntColumn get createUserId =>
+      _createUserId ??= _constructCreateUserId();
+  GeneratedIntColumn _constructCreateUserId() {
+    return GeneratedIntColumn(
+      'create_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creatorUserMeta =
+      const VerificationMeta('creatorUser');
+  GeneratedTextColumn _creatorUser;
+  @override
+  GeneratedTextColumn get creatorUser =>
+      _creatorUser ??= _constructCreatorUser();
+  GeneratedTextColumn _constructCreatorUser() {
+    return GeneratedTextColumn(
+      'creator_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserMeta =
+      const VerificationMeta('lastModifierUser');
+  GeneratedTextColumn _lastModifierUser;
+  @override
+  GeneratedTextColumn get lastModifierUser =>
+      _lastModifierUser ??= _constructLastModifierUser();
+  GeneratedTextColumn _constructLastModifierUser() {
+    return GeneratedTextColumn(
+      'last_modifier_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserIdMeta =
+      const VerificationMeta('lastModifierUserId');
+  GeneratedIntColumn _lastModifierUserId;
+  @override
+  GeneratedIntColumn get lastModifierUserId =>
+      _lastModifierUserId ??= _constructLastModifierUserId();
+  GeneratedIntColumn _constructLastModifierUserId() {
+    return GeneratedIntColumn(
+      'last_modifier_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteUserIdMeta =
+      const VerificationMeta('deleteUserId');
+  GeneratedIntColumn _deleteUserId;
+  @override
+  GeneratedIntColumn get deleteUserId =>
+      _deleteUserId ??= _constructDeleteUserId();
+  GeneratedIntColumn _constructDeleteUserId() {
+    return GeneratedIntColumn(
+      'delete_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleterUserIdMeta =
+      const VerificationMeta('deleterUserId');
+  GeneratedTextColumn _deleterUserId;
+  @override
+  GeneratedTextColumn get deleterUserId =>
+      _deleterUserId ??= _constructDeleterUserId();
+  GeneratedTextColumn _constructDeleterUserId() {
+    return GeneratedTextColumn(
+      'deleter_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  GeneratedBoolColumn _isDeleted;
+  @override
+  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
+  GeneratedBoolColumn _constructIsDeleted() {
+    return GeneratedBoolColumn('is_deleted', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _uomMeta = const VerificationMeta('uom');
+  GeneratedTextColumn _uom;
+  @override
+  GeneratedTextColumn get uom => _uom ??= _constructUom();
+  GeneratedTextColumn _constructUom() {
+    return GeneratedTextColumn(
+      'uom',
+      $tableName,
+      true,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        tenantId,
+        creationTime,
+        deleteTime,
+        createUserId,
+        creatorUser,
+        lastModifierUser,
+        lastModifierUserId,
+        deleteUserId,
+        deleterUserId,
+        isDeleted,
+        id,
+        uom
+      ];
+  @override
+  $UnitOfMeaseureTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'unit_of_measeure';
+  @override
+  final String actualTableName = 'unit_of_measeure';
+  @override
+  VerificationContext validateIntegrity(Insertable<UnitOfMeaseureData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
+    if (data.containsKey('creation_time')) {
+      context.handle(
+          _creationTimeMeta,
+          creationTime.isAcceptableOrUnknown(
+              data['creation_time'], _creationTimeMeta));
+    }
+    if (data.containsKey('delete_time')) {
+      context.handle(
+          _deleteTimeMeta,
+          deleteTime.isAcceptableOrUnknown(
+              data['delete_time'], _deleteTimeMeta));
+    }
+    if (data.containsKey('create_user_id')) {
+      context.handle(
+          _createUserIdMeta,
+          createUserId.isAcceptableOrUnknown(
+              data['create_user_id'], _createUserIdMeta));
+    }
+    if (data.containsKey('creator_user')) {
+      context.handle(
+          _creatorUserMeta,
+          creatorUser.isAcceptableOrUnknown(
+              data['creator_user'], _creatorUserMeta));
+    }
+    if (data.containsKey('last_modifier_user')) {
+      context.handle(
+          _lastModifierUserMeta,
+          lastModifierUser.isAcceptableOrUnknown(
+              data['last_modifier_user'], _lastModifierUserMeta));
+    }
+    if (data.containsKey('last_modifier_user_id')) {
+      context.handle(
+          _lastModifierUserIdMeta,
+          lastModifierUserId.isAcceptableOrUnknown(
+              data['last_modifier_user_id'], _lastModifierUserIdMeta));
+    }
+    if (data.containsKey('delete_user_id')) {
+      context.handle(
+          _deleteUserIdMeta,
+          deleteUserId.isAcceptableOrUnknown(
+              data['delete_user_id'], _deleteUserIdMeta));
+    }
+    if (data.containsKey('deleter_user_id')) {
+      context.handle(
+          _deleterUserIdMeta,
+          deleterUserId.isAcceptableOrUnknown(
+              data['deleter_user_id'], _deleterUserIdMeta));
+    }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('uom')) {
+      context.handle(
+          _uomMeta, uom.isAcceptableOrUnknown(data['uom'], _uomMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  UnitOfMeaseureData map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return UnitOfMeaseureData.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $UnitOfMeaseureTable createAlias(String alias) {
+    return $UnitOfMeaseureTable(_db, alias);
+  }
+}
+
+class StockUnitOfMeaseureData extends DataClass
+    implements Insertable<StockUnitOfMeaseureData> {
+  final int tenantId;
+  final DateTime creationTime;
+  final DateTime deleteTime;
+  final int createUserId;
+  final String creatorUser;
+  final String lastModifierUser;
+  final int lastModifierUserId;
+  final int deleteUserId;
+  final String deleterUserId;
+  final bool isDeleted;
+  final int id;
+  final int itemId;
+  final String uom;
+  StockUnitOfMeaseureData(
+      {this.tenantId,
+      this.creationTime,
+      this.deleteTime,
+      this.createUserId,
+      this.creatorUser,
+      this.lastModifierUser,
+      this.lastModifierUserId,
+      this.deleteUserId,
+      this.deleterUserId,
+      @required this.isDeleted,
+      @required this.id,
+      @required this.itemId,
+      this.uom});
+  factory StockUnitOfMeaseureData.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    return StockUnitOfMeaseureData(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      creationTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
+      deleteTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
+      createUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
+      creatorUser: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
+      lastModifierUser: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user']),
+      lastModifierUserId: intType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user_id']),
+      deleteUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
+      deleterUserId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
+      isDeleted: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      itemId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
+      uom: stringType.mapFromDatabaseResponse(data['${effectivePrefix}uom']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || creationTime != null) {
+      map['creation_time'] = Variable<DateTime>(creationTime);
+    }
+    if (!nullToAbsent || deleteTime != null) {
+      map['delete_time'] = Variable<DateTime>(deleteTime);
+    }
+    if (!nullToAbsent || createUserId != null) {
+      map['create_user_id'] = Variable<int>(createUserId);
+    }
+    if (!nullToAbsent || creatorUser != null) {
+      map['creator_user'] = Variable<String>(creatorUser);
+    }
+    if (!nullToAbsent || lastModifierUser != null) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser);
+    }
+    if (!nullToAbsent || lastModifierUserId != null) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
+    }
+    if (!nullToAbsent || deleteUserId != null) {
+      map['delete_user_id'] = Variable<int>(deleteUserId);
+    }
+    if (!nullToAbsent || deleterUserId != null) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId);
+    }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || itemId != null) {
+      map['item_id'] = Variable<int>(itemId);
+    }
+    if (!nullToAbsent || uom != null) {
+      map['uom'] = Variable<String>(uom);
+    }
+    return map;
+  }
+
+  StockUnitOfMeaseureCompanion toCompanion(bool nullToAbsent) {
+    return StockUnitOfMeaseureCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      creationTime: creationTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creationTime),
+      deleteTime: deleteTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteTime),
+      createUserId: createUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createUserId),
+      creatorUser: creatorUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creatorUser),
+      lastModifierUser: lastModifierUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUser),
+      lastModifierUserId: lastModifierUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUserId),
+      deleteUserId: deleteUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteUserId),
+      deleterUserId: deleterUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleterUserId),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      itemId:
+          itemId == null && nullToAbsent ? const Value.absent() : Value(itemId),
+      uom: uom == null && nullToAbsent ? const Value.absent() : Value(uom),
+    );
+  }
+
+  factory StockUnitOfMeaseureData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return StockUnitOfMeaseureData(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
+      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
+      createUserId: serializer.fromJson<int>(json['createUserId']),
+      creatorUser: serializer.fromJson<String>(json['creatorUser']),
+      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
+      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
+      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
+      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      id: serializer.fromJson<int>(json['id']),
+      itemId: serializer.fromJson<int>(json['itemId']),
+      uom: serializer.fromJson<String>(json['uom']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'creationTime': serializer.toJson<DateTime>(creationTime),
+      'deleteTime': serializer.toJson<DateTime>(deleteTime),
+      'createUserId': serializer.toJson<int>(createUserId),
+      'creatorUser': serializer.toJson<String>(creatorUser),
+      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
+      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
+      'deleteUserId': serializer.toJson<int>(deleteUserId),
+      'deleterUserId': serializer.toJson<String>(deleterUserId),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'id': serializer.toJson<int>(id),
+      'itemId': serializer.toJson<int>(itemId),
+      'uom': serializer.toJson<String>(uom),
+    };
+  }
+
+  StockUnitOfMeaseureData copyWith(
+          {int tenantId,
+          DateTime creationTime,
+          DateTime deleteTime,
+          int createUserId,
+          String creatorUser,
+          String lastModifierUser,
+          int lastModifierUserId,
+          int deleteUserId,
+          String deleterUserId,
+          bool isDeleted,
+          int id,
+          int itemId,
+          String uom}) =>
+      StockUnitOfMeaseureData(
+        tenantId: tenantId ?? this.tenantId,
+        creationTime: creationTime ?? this.creationTime,
+        deleteTime: deleteTime ?? this.deleteTime,
+        createUserId: createUserId ?? this.createUserId,
+        creatorUser: creatorUser ?? this.creatorUser,
+        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+        deleteUserId: deleteUserId ?? this.deleteUserId,
+        deleterUserId: deleterUserId ?? this.deleterUserId,
+        isDeleted: isDeleted ?? this.isDeleted,
+        id: id ?? this.id,
+        itemId: itemId ?? this.itemId,
+        uom: uom ?? this.uom,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('StockUnitOfMeaseureData(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('itemId: $itemId, ')
+          ..write('uom: $uom')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode,
+      $mrjc(
+          creationTime.hashCode,
+          $mrjc(
+              deleteTime.hashCode,
+              $mrjc(
+                  createUserId.hashCode,
+                  $mrjc(
+                      creatorUser.hashCode,
+                      $mrjc(
+                          lastModifierUser.hashCode,
+                          $mrjc(
+                              lastModifierUserId.hashCode,
+                              $mrjc(
+                                  deleteUserId.hashCode,
+                                  $mrjc(
+                                      deleterUserId.hashCode,
+                                      $mrjc(
+                                          isDeleted.hashCode,
+                                          $mrjc(
+                                              id.hashCode,
+                                              $mrjc(itemId.hashCode,
+                                                  uom.hashCode)))))))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is StockUnitOfMeaseureData &&
+          other.tenantId == this.tenantId &&
+          other.creationTime == this.creationTime &&
+          other.deleteTime == this.deleteTime &&
+          other.createUserId == this.createUserId &&
+          other.creatorUser == this.creatorUser &&
+          other.lastModifierUser == this.lastModifierUser &&
+          other.lastModifierUserId == this.lastModifierUserId &&
+          other.deleteUserId == this.deleteUserId &&
+          other.deleterUserId == this.deleterUserId &&
+          other.isDeleted == this.isDeleted &&
+          other.id == this.id &&
+          other.itemId == this.itemId &&
+          other.uom == this.uom);
+}
+
+class StockUnitOfMeaseureCompanion
+    extends UpdateCompanion<StockUnitOfMeaseureData> {
+  final Value<int> tenantId;
+  final Value<DateTime> creationTime;
+  final Value<DateTime> deleteTime;
+  final Value<int> createUserId;
+  final Value<String> creatorUser;
+  final Value<String> lastModifierUser;
+  final Value<int> lastModifierUserId;
+  final Value<int> deleteUserId;
+  final Value<String> deleterUserId;
+  final Value<bool> isDeleted;
+  final Value<int> id;
+  final Value<int> itemId;
+  final Value<String> uom;
+  const StockUnitOfMeaseureCompanion({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    this.itemId = const Value.absent(),
+    this.uom = const Value.absent(),
+  });
+  StockUnitOfMeaseureCompanion.insert({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    @required int itemId,
+    this.uom = const Value.absent(),
+  }) : itemId = Value(itemId);
+  static Insertable<StockUnitOfMeaseureData> custom({
+    Expression<int> tenantId,
+    Expression<DateTime> creationTime,
+    Expression<DateTime> deleteTime,
+    Expression<int> createUserId,
+    Expression<String> creatorUser,
+    Expression<String> lastModifierUser,
+    Expression<int> lastModifierUserId,
+    Expression<int> deleteUserId,
+    Expression<String> deleterUserId,
+    Expression<bool> isDeleted,
+    Expression<int> id,
+    Expression<int> itemId,
+    Expression<String> uom,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (creationTime != null) 'creation_time': creationTime,
+      if (deleteTime != null) 'delete_time': deleteTime,
+      if (createUserId != null) 'create_user_id': createUserId,
+      if (creatorUser != null) 'creator_user': creatorUser,
+      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
+      if (lastModifierUserId != null)
+        'last_modifier_user_id': lastModifierUserId,
+      if (deleteUserId != null) 'delete_user_id': deleteUserId,
+      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (id != null) 'id': id,
+      if (itemId != null) 'item_id': itemId,
+      if (uom != null) 'uom': uom,
+    });
+  }
+
+  StockUnitOfMeaseureCompanion copyWith(
+      {Value<int> tenantId,
+      Value<DateTime> creationTime,
+      Value<DateTime> deleteTime,
+      Value<int> createUserId,
+      Value<String> creatorUser,
+      Value<String> lastModifierUser,
+      Value<int> lastModifierUserId,
+      Value<int> deleteUserId,
+      Value<String> deleterUserId,
+      Value<bool> isDeleted,
+      Value<int> id,
+      Value<int> itemId,
+      Value<String> uom}) {
+    return StockUnitOfMeaseureCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      creationTime: creationTime ?? this.creationTime,
+      deleteTime: deleteTime ?? this.deleteTime,
+      createUserId: createUserId ?? this.createUserId,
+      creatorUser: creatorUser ?? this.creatorUser,
+      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+      deleteUserId: deleteUserId ?? this.deleteUserId,
+      deleterUserId: deleterUserId ?? this.deleterUserId,
+      isDeleted: isDeleted ?? this.isDeleted,
+      id: id ?? this.id,
+      itemId: itemId ?? this.itemId,
+      uom: uom ?? this.uom,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (creationTime.present) {
+      map['creation_time'] = Variable<DateTime>(creationTime.value);
+    }
+    if (deleteTime.present) {
+      map['delete_time'] = Variable<DateTime>(deleteTime.value);
+    }
+    if (createUserId.present) {
+      map['create_user_id'] = Variable<int>(createUserId.value);
+    }
+    if (creatorUser.present) {
+      map['creator_user'] = Variable<String>(creatorUser.value);
+    }
+    if (lastModifierUser.present) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
+    }
+    if (lastModifierUserId.present) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
+    }
+    if (deleteUserId.present) {
+      map['delete_user_id'] = Variable<int>(deleteUserId.value);
+    }
+    if (deleterUserId.present) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (itemId.present) {
+      map['item_id'] = Variable<int>(itemId.value);
+    }
+    if (uom.present) {
+      map['uom'] = Variable<String>(uom.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('StockUnitOfMeaseureCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('itemId: $itemId, ')
+          ..write('uom: $uom')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $StockUnitOfMeaseureTable extends StockUnitOfMeaseure
+    with TableInfo<$StockUnitOfMeaseureTable, StockUnitOfMeaseureData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $StockUnitOfMeaseureTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creationTimeMeta =
+      const VerificationMeta('creationTime');
+  GeneratedDateTimeColumn _creationTime;
+  @override
+  GeneratedDateTimeColumn get creationTime =>
+      _creationTime ??= _constructCreationTime();
+  GeneratedDateTimeColumn _constructCreationTime() {
+    return GeneratedDateTimeColumn(
+      'creation_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
+  GeneratedDateTimeColumn _deleteTime;
+  @override
+  GeneratedDateTimeColumn get deleteTime =>
+      _deleteTime ??= _constructDeleteTime();
+  GeneratedDateTimeColumn _constructDeleteTime() {
+    return GeneratedDateTimeColumn(
+      'delete_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _createUserIdMeta =
+      const VerificationMeta('createUserId');
+  GeneratedIntColumn _createUserId;
+  @override
+  GeneratedIntColumn get createUserId =>
+      _createUserId ??= _constructCreateUserId();
+  GeneratedIntColumn _constructCreateUserId() {
+    return GeneratedIntColumn(
+      'create_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creatorUserMeta =
+      const VerificationMeta('creatorUser');
+  GeneratedTextColumn _creatorUser;
+  @override
+  GeneratedTextColumn get creatorUser =>
+      _creatorUser ??= _constructCreatorUser();
+  GeneratedTextColumn _constructCreatorUser() {
+    return GeneratedTextColumn(
+      'creator_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserMeta =
+      const VerificationMeta('lastModifierUser');
+  GeneratedTextColumn _lastModifierUser;
+  @override
+  GeneratedTextColumn get lastModifierUser =>
+      _lastModifierUser ??= _constructLastModifierUser();
+  GeneratedTextColumn _constructLastModifierUser() {
+    return GeneratedTextColumn(
+      'last_modifier_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserIdMeta =
+      const VerificationMeta('lastModifierUserId');
+  GeneratedIntColumn _lastModifierUserId;
+  @override
+  GeneratedIntColumn get lastModifierUserId =>
+      _lastModifierUserId ??= _constructLastModifierUserId();
+  GeneratedIntColumn _constructLastModifierUserId() {
+    return GeneratedIntColumn(
+      'last_modifier_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteUserIdMeta =
+      const VerificationMeta('deleteUserId');
+  GeneratedIntColumn _deleteUserId;
+  @override
+  GeneratedIntColumn get deleteUserId =>
+      _deleteUserId ??= _constructDeleteUserId();
+  GeneratedIntColumn _constructDeleteUserId() {
+    return GeneratedIntColumn(
+      'delete_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleterUserIdMeta =
+      const VerificationMeta('deleterUserId');
+  GeneratedTextColumn _deleterUserId;
+  @override
+  GeneratedTextColumn get deleterUserId =>
+      _deleterUserId ??= _constructDeleterUserId();
+  GeneratedTextColumn _constructDeleterUserId() {
+    return GeneratedTextColumn(
+      'deleter_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  GeneratedBoolColumn _isDeleted;
+  @override
+  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
+  GeneratedBoolColumn _constructIsDeleted() {
+    return GeneratedBoolColumn('is_deleted', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
+  GeneratedIntColumn _itemId;
+  @override
+  GeneratedIntColumn get itemId => _itemId ??= _constructItemId();
+  GeneratedIntColumn _constructItemId() {
+    return GeneratedIntColumn(
+      'item_id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _uomMeta = const VerificationMeta('uom');
+  GeneratedTextColumn _uom;
+  @override
+  GeneratedTextColumn get uom => _uom ??= _constructUom();
+  GeneratedTextColumn _constructUom() {
+    return GeneratedTextColumn(
+      'uom',
+      $tableName,
+      true,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        tenantId,
+        creationTime,
+        deleteTime,
+        createUserId,
+        creatorUser,
+        lastModifierUser,
+        lastModifierUserId,
+        deleteUserId,
+        deleterUserId,
+        isDeleted,
+        id,
+        itemId,
+        uom
+      ];
+  @override
+  $StockUnitOfMeaseureTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'stock_unit_of_measeure';
+  @override
+  final String actualTableName = 'stock_unit_of_measeure';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<StockUnitOfMeaseureData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
+    if (data.containsKey('creation_time')) {
+      context.handle(
+          _creationTimeMeta,
+          creationTime.isAcceptableOrUnknown(
+              data['creation_time'], _creationTimeMeta));
+    }
+    if (data.containsKey('delete_time')) {
+      context.handle(
+          _deleteTimeMeta,
+          deleteTime.isAcceptableOrUnknown(
+              data['delete_time'], _deleteTimeMeta));
+    }
+    if (data.containsKey('create_user_id')) {
+      context.handle(
+          _createUserIdMeta,
+          createUserId.isAcceptableOrUnknown(
+              data['create_user_id'], _createUserIdMeta));
+    }
+    if (data.containsKey('creator_user')) {
+      context.handle(
+          _creatorUserMeta,
+          creatorUser.isAcceptableOrUnknown(
+              data['creator_user'], _creatorUserMeta));
+    }
+    if (data.containsKey('last_modifier_user')) {
+      context.handle(
+          _lastModifierUserMeta,
+          lastModifierUser.isAcceptableOrUnknown(
+              data['last_modifier_user'], _lastModifierUserMeta));
+    }
+    if (data.containsKey('last_modifier_user_id')) {
+      context.handle(
+          _lastModifierUserIdMeta,
+          lastModifierUserId.isAcceptableOrUnknown(
+              data['last_modifier_user_id'], _lastModifierUserIdMeta));
+    }
+    if (data.containsKey('delete_user_id')) {
+      context.handle(
+          _deleteUserIdMeta,
+          deleteUserId.isAcceptableOrUnknown(
+              data['delete_user_id'], _deleteUserIdMeta));
+    }
+    if (data.containsKey('deleter_user_id')) {
+      context.handle(
+          _deleterUserIdMeta,
+          deleterUserId.isAcceptableOrUnknown(
+              data['deleter_user_id'], _deleterUserIdMeta));
+    }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('item_id')) {
+      context.handle(_itemIdMeta,
+          itemId.isAcceptableOrUnknown(data['item_id'], _itemIdMeta));
+    } else if (isInserting) {
+      context.missing(_itemIdMeta);
+    }
+    if (data.containsKey('uom')) {
+      context.handle(
+          _uomMeta, uom.isAcceptableOrUnknown(data['uom'], _uomMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  StockUnitOfMeaseureData map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return StockUnitOfMeaseureData.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $StockUnitOfMeaseureTable createAlias(String alias) {
+    return $StockUnitOfMeaseureTable(_db, alias);
+  }
+}
+
+class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
+  final int tenantId;
+  final DateTime creationTime;
+  final DateTime deleteTime;
+  final int createUserId;
+  final String creatorUser;
+  final String lastModifierUser;
+  final int lastModifierUserId;
+  final int deleteUserId;
+  final String deleterUserId;
+  final bool isDeleted;
+  final int id;
+  final String customerId;
+  final String customerName;
+  final String companyName;
+  final String customerType;
+  final String customerGroup;
+  final String customerTerritory;
+  final String billingAddressName;
+  final String shippingAddressName;
+  final String assignTo;
+  final DateTime expiryDate;
+  final int weekNumber;
+  final String weekDay;
+  JourneyPlanData(
+      {this.tenantId,
+      this.creationTime,
+      this.deleteTime,
+      this.createUserId,
+      this.creatorUser,
+      this.lastModifierUser,
+      this.lastModifierUserId,
+      this.deleteUserId,
+      this.deleterUserId,
+      @required this.isDeleted,
+      @required this.id,
+      @required this.customerId,
+      @required this.customerName,
+      @required this.companyName,
+      @required this.customerType,
+      @required this.customerGroup,
+      @required this.customerTerritory,
+      this.billingAddressName,
+      this.shippingAddressName,
+      this.assignTo,
+      this.expiryDate,
+      this.weekNumber,
+      this.weekDay});
+  factory JourneyPlanData.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    return JourneyPlanData(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      creationTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
+      deleteTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
+      createUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
+      creatorUser: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
+      lastModifierUser: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user']),
+      lastModifierUserId: intType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user_id']),
+      deleteUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
+      deleterUserId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
+      isDeleted: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      customerId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}customer_id']),
+      customerName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}customer_name']),
+      companyName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}company_name']),
+      customerType: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}customer_type']),
+      customerGroup: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}customer_group']),
+      customerTerritory: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}customer_territory']),
+      billingAddressName: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}billing_address_name']),
+      shippingAddressName: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}shipping_address_name']),
+      assignTo: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}assign_to']),
+      expiryDate: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}expiry_date']),
+      weekNumber: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}week_number']),
+      weekDay: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}week_day']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || creationTime != null) {
+      map['creation_time'] = Variable<DateTime>(creationTime);
+    }
+    if (!nullToAbsent || deleteTime != null) {
+      map['delete_time'] = Variable<DateTime>(deleteTime);
+    }
+    if (!nullToAbsent || createUserId != null) {
+      map['create_user_id'] = Variable<int>(createUserId);
+    }
+    if (!nullToAbsent || creatorUser != null) {
+      map['creator_user'] = Variable<String>(creatorUser);
+    }
+    if (!nullToAbsent || lastModifierUser != null) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser);
+    }
+    if (!nullToAbsent || lastModifierUserId != null) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
+    }
+    if (!nullToAbsent || deleteUserId != null) {
+      map['delete_user_id'] = Variable<int>(deleteUserId);
+    }
+    if (!nullToAbsent || deleterUserId != null) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId);
+    }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || customerId != null) {
+      map['customer_id'] = Variable<String>(customerId);
+    }
+    if (!nullToAbsent || customerName != null) {
+      map['customer_name'] = Variable<String>(customerName);
+    }
+    if (!nullToAbsent || companyName != null) {
+      map['company_name'] = Variable<String>(companyName);
+    }
+    if (!nullToAbsent || customerType != null) {
+      map['customer_type'] = Variable<String>(customerType);
+    }
+    if (!nullToAbsent || customerGroup != null) {
+      map['customer_group'] = Variable<String>(customerGroup);
+    }
+    if (!nullToAbsent || customerTerritory != null) {
+      map['customer_territory'] = Variable<String>(customerTerritory);
+    }
+    if (!nullToAbsent || billingAddressName != null) {
+      map['billing_address_name'] = Variable<String>(billingAddressName);
+    }
+    if (!nullToAbsent || shippingAddressName != null) {
+      map['shipping_address_name'] = Variable<String>(shippingAddressName);
+    }
+    if (!nullToAbsent || assignTo != null) {
+      map['assign_to'] = Variable<String>(assignTo);
+    }
+    if (!nullToAbsent || expiryDate != null) {
+      map['expiry_date'] = Variable<DateTime>(expiryDate);
+    }
+    if (!nullToAbsent || weekNumber != null) {
+      map['week_number'] = Variable<int>(weekNumber);
+    }
+    if (!nullToAbsent || weekDay != null) {
+      map['week_day'] = Variable<String>(weekDay);
+    }
+    return map;
+  }
+
+  JourneyPlanCompanion toCompanion(bool nullToAbsent) {
+    return JourneyPlanCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      creationTime: creationTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creationTime),
+      deleteTime: deleteTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteTime),
+      createUserId: createUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createUserId),
+      creatorUser: creatorUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creatorUser),
+      lastModifierUser: lastModifierUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUser),
+      lastModifierUserId: lastModifierUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUserId),
+      deleteUserId: deleteUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteUserId),
+      deleterUserId: deleterUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleterUserId),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      customerId: customerId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerId),
+      customerName: customerName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerName),
+      companyName: companyName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(companyName),
+      customerType: customerType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerType),
+      customerGroup: customerGroup == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerGroup),
+      customerTerritory: customerTerritory == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerTerritory),
+      billingAddressName: billingAddressName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(billingAddressName),
+      shippingAddressName: shippingAddressName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(shippingAddressName),
+      assignTo: assignTo == null && nullToAbsent
+          ? const Value.absent()
+          : Value(assignTo),
+      expiryDate: expiryDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(expiryDate),
+      weekNumber: weekNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(weekNumber),
+      weekDay: weekDay == null && nullToAbsent
+          ? const Value.absent()
+          : Value(weekDay),
+    );
+  }
+
+  factory JourneyPlanData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return JourneyPlanData(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
+      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
+      createUserId: serializer.fromJson<int>(json['createUserId']),
+      creatorUser: serializer.fromJson<String>(json['creatorUser']),
+      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
+      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
+      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
+      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      id: serializer.fromJson<int>(json['id']),
+      customerId: serializer.fromJson<String>(json['customerId']),
+      customerName: serializer.fromJson<String>(json['customerName']),
+      companyName: serializer.fromJson<String>(json['companyName']),
+      customerType: serializer.fromJson<String>(json['customerType']),
+      customerGroup: serializer.fromJson<String>(json['customerGroup']),
+      customerTerritory: serializer.fromJson<String>(json['customerTerritory']),
+      billingAddressName:
+          serializer.fromJson<String>(json['billingAddressName']),
+      shippingAddressName:
+          serializer.fromJson<String>(json['shippingAddressName']),
+      assignTo: serializer.fromJson<String>(json['assignTo']),
+      expiryDate: serializer.fromJson<DateTime>(json['expiryDate']),
+      weekNumber: serializer.fromJson<int>(json['weekNumber']),
+      weekDay: serializer.fromJson<String>(json['weekDay']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'creationTime': serializer.toJson<DateTime>(creationTime),
+      'deleteTime': serializer.toJson<DateTime>(deleteTime),
+      'createUserId': serializer.toJson<int>(createUserId),
+      'creatorUser': serializer.toJson<String>(creatorUser),
+      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
+      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
+      'deleteUserId': serializer.toJson<int>(deleteUserId),
+      'deleterUserId': serializer.toJson<String>(deleterUserId),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'id': serializer.toJson<int>(id),
+      'customerId': serializer.toJson<String>(customerId),
+      'customerName': serializer.toJson<String>(customerName),
+      'companyName': serializer.toJson<String>(companyName),
+      'customerType': serializer.toJson<String>(customerType),
+      'customerGroup': serializer.toJson<String>(customerGroup),
+      'customerTerritory': serializer.toJson<String>(customerTerritory),
+      'billingAddressName': serializer.toJson<String>(billingAddressName),
+      'shippingAddressName': serializer.toJson<String>(shippingAddressName),
+      'assignTo': serializer.toJson<String>(assignTo),
+      'expiryDate': serializer.toJson<DateTime>(expiryDate),
+      'weekNumber': serializer.toJson<int>(weekNumber),
+      'weekDay': serializer.toJson<String>(weekDay),
+    };
+  }
+
+  JourneyPlanData copyWith(
+          {int tenantId,
+          DateTime creationTime,
+          DateTime deleteTime,
+          int createUserId,
+          String creatorUser,
+          String lastModifierUser,
+          int lastModifierUserId,
+          int deleteUserId,
+          String deleterUserId,
+          bool isDeleted,
+          int id,
+          String customerId,
+          String customerName,
+          String companyName,
+          String customerType,
+          String customerGroup,
+          String customerTerritory,
+          String billingAddressName,
+          String shippingAddressName,
+          String assignTo,
+          DateTime expiryDate,
+          int weekNumber,
+          String weekDay}) =>
+      JourneyPlanData(
+        tenantId: tenantId ?? this.tenantId,
+        creationTime: creationTime ?? this.creationTime,
+        deleteTime: deleteTime ?? this.deleteTime,
+        createUserId: createUserId ?? this.createUserId,
+        creatorUser: creatorUser ?? this.creatorUser,
+        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+        deleteUserId: deleteUserId ?? this.deleteUserId,
+        deleterUserId: deleterUserId ?? this.deleterUserId,
+        isDeleted: isDeleted ?? this.isDeleted,
+        id: id ?? this.id,
+        customerId: customerId ?? this.customerId,
+        customerName: customerName ?? this.customerName,
+        companyName: companyName ?? this.companyName,
+        customerType: customerType ?? this.customerType,
+        customerGroup: customerGroup ?? this.customerGroup,
+        customerTerritory: customerTerritory ?? this.customerTerritory,
+        billingAddressName: billingAddressName ?? this.billingAddressName,
+        shippingAddressName: shippingAddressName ?? this.shippingAddressName,
+        assignTo: assignTo ?? this.assignTo,
+        expiryDate: expiryDate ?? this.expiryDate,
+        weekNumber: weekNumber ?? this.weekNumber,
+        weekDay: weekDay ?? this.weekDay,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('JourneyPlanData(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('customerId: $customerId, ')
+          ..write('customerName: $customerName, ')
+          ..write('companyName: $companyName, ')
+          ..write('customerType: $customerType, ')
+          ..write('customerGroup: $customerGroup, ')
+          ..write('customerTerritory: $customerTerritory, ')
+          ..write('billingAddressName: $billingAddressName, ')
+          ..write('shippingAddressName: $shippingAddressName, ')
+          ..write('assignTo: $assignTo, ')
+          ..write('expiryDate: $expiryDate, ')
+          ..write('weekNumber: $weekNumber, ')
+          ..write('weekDay: $weekDay')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode,
+      $mrjc(
+          creationTime.hashCode,
+          $mrjc(
+              deleteTime.hashCode,
+              $mrjc(
+                  createUserId.hashCode,
+                  $mrjc(
+                      creatorUser.hashCode,
+                      $mrjc(
+                          lastModifierUser.hashCode,
+                          $mrjc(
+                              lastModifierUserId.hashCode,
+                              $mrjc(
+                                  deleteUserId.hashCode,
+                                  $mrjc(
+                                      deleterUserId.hashCode,
+                                      $mrjc(
+                                          isDeleted.hashCode,
+                                          $mrjc(
+                                              id.hashCode,
+                                              $mrjc(
+                                                  customerId.hashCode,
+                                                  $mrjc(
+                                                      customerName.hashCode,
+                                                      $mrjc(
+                                                          companyName.hashCode,
+                                                          $mrjc(
+                                                              customerType
+                                                                  .hashCode,
+                                                              $mrjc(
+                                                                  customerGroup
+                                                                      .hashCode,
+                                                                  $mrjc(
+                                                                      customerTerritory
+                                                                          .hashCode,
+                                                                      $mrjc(
+                                                                          billingAddressName
+                                                                              .hashCode,
+                                                                          $mrjc(
+                                                                              shippingAddressName.hashCode,
+                                                                              $mrjc(assignTo.hashCode, $mrjc(expiryDate.hashCode, $mrjc(weekNumber.hashCode, weekDay.hashCode)))))))))))))))))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is JourneyPlanData &&
+          other.tenantId == this.tenantId &&
+          other.creationTime == this.creationTime &&
+          other.deleteTime == this.deleteTime &&
+          other.createUserId == this.createUserId &&
+          other.creatorUser == this.creatorUser &&
+          other.lastModifierUser == this.lastModifierUser &&
+          other.lastModifierUserId == this.lastModifierUserId &&
+          other.deleteUserId == this.deleteUserId &&
+          other.deleterUserId == this.deleterUserId &&
+          other.isDeleted == this.isDeleted &&
+          other.id == this.id &&
+          other.customerId == this.customerId &&
+          other.customerName == this.customerName &&
+          other.companyName == this.companyName &&
+          other.customerType == this.customerType &&
+          other.customerGroup == this.customerGroup &&
+          other.customerTerritory == this.customerTerritory &&
+          other.billingAddressName == this.billingAddressName &&
+          other.shippingAddressName == this.shippingAddressName &&
+          other.assignTo == this.assignTo &&
+          other.expiryDate == this.expiryDate &&
+          other.weekNumber == this.weekNumber &&
+          other.weekDay == this.weekDay);
+}
+
+class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
+  final Value<int> tenantId;
+  final Value<DateTime> creationTime;
+  final Value<DateTime> deleteTime;
+  final Value<int> createUserId;
+  final Value<String> creatorUser;
+  final Value<String> lastModifierUser;
+  final Value<int> lastModifierUserId;
+  final Value<int> deleteUserId;
+  final Value<String> deleterUserId;
+  final Value<bool> isDeleted;
+  final Value<int> id;
+  final Value<String> customerId;
+  final Value<String> customerName;
+  final Value<String> companyName;
+  final Value<String> customerType;
+  final Value<String> customerGroup;
+  final Value<String> customerTerritory;
+  final Value<String> billingAddressName;
+  final Value<String> shippingAddressName;
+  final Value<String> assignTo;
+  final Value<DateTime> expiryDate;
+  final Value<int> weekNumber;
+  final Value<String> weekDay;
+  const JourneyPlanCompanion({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    this.customerId = const Value.absent(),
+    this.customerName = const Value.absent(),
+    this.companyName = const Value.absent(),
+    this.customerType = const Value.absent(),
+    this.customerGroup = const Value.absent(),
+    this.customerTerritory = const Value.absent(),
+    this.billingAddressName = const Value.absent(),
+    this.shippingAddressName = const Value.absent(),
+    this.assignTo = const Value.absent(),
+    this.expiryDate = const Value.absent(),
+    this.weekNumber = const Value.absent(),
+    this.weekDay = const Value.absent(),
+  });
+  JourneyPlanCompanion.insert({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    @required String customerId,
+    @required String customerName,
+    @required String companyName,
+    @required String customerType,
+    @required String customerGroup,
+    @required String customerTerritory,
+    this.billingAddressName = const Value.absent(),
+    this.shippingAddressName = const Value.absent(),
+    this.assignTo = const Value.absent(),
+    this.expiryDate = const Value.absent(),
+    this.weekNumber = const Value.absent(),
+    this.weekDay = const Value.absent(),
+  })  : customerId = Value(customerId),
+        customerName = Value(customerName),
+        companyName = Value(companyName),
+        customerType = Value(customerType),
+        customerGroup = Value(customerGroup),
+        customerTerritory = Value(customerTerritory);
+  static Insertable<JourneyPlanData> custom({
+    Expression<int> tenantId,
+    Expression<DateTime> creationTime,
+    Expression<DateTime> deleteTime,
+    Expression<int> createUserId,
+    Expression<String> creatorUser,
+    Expression<String> lastModifierUser,
+    Expression<int> lastModifierUserId,
+    Expression<int> deleteUserId,
+    Expression<String> deleterUserId,
+    Expression<bool> isDeleted,
+    Expression<int> id,
+    Expression<String> customerId,
+    Expression<String> customerName,
+    Expression<String> companyName,
+    Expression<String> customerType,
+    Expression<String> customerGroup,
+    Expression<String> customerTerritory,
+    Expression<String> billingAddressName,
+    Expression<String> shippingAddressName,
+    Expression<String> assignTo,
+    Expression<DateTime> expiryDate,
+    Expression<int> weekNumber,
+    Expression<String> weekDay,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (creationTime != null) 'creation_time': creationTime,
+      if (deleteTime != null) 'delete_time': deleteTime,
+      if (createUserId != null) 'create_user_id': createUserId,
+      if (creatorUser != null) 'creator_user': creatorUser,
+      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
+      if (lastModifierUserId != null)
+        'last_modifier_user_id': lastModifierUserId,
+      if (deleteUserId != null) 'delete_user_id': deleteUserId,
+      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (id != null) 'id': id,
+      if (customerId != null) 'customer_id': customerId,
+      if (customerName != null) 'customer_name': customerName,
+      if (companyName != null) 'company_name': companyName,
+      if (customerType != null) 'customer_type': customerType,
+      if (customerGroup != null) 'customer_group': customerGroup,
+      if (customerTerritory != null) 'customer_territory': customerTerritory,
+      if (billingAddressName != null)
+        'billing_address_name': billingAddressName,
+      if (shippingAddressName != null)
+        'shipping_address_name': shippingAddressName,
+      if (assignTo != null) 'assign_to': assignTo,
+      if (expiryDate != null) 'expiry_date': expiryDate,
+      if (weekNumber != null) 'week_number': weekNumber,
+      if (weekDay != null) 'week_day': weekDay,
+    });
+  }
+
+  JourneyPlanCompanion copyWith(
+      {Value<int> tenantId,
+      Value<DateTime> creationTime,
+      Value<DateTime> deleteTime,
+      Value<int> createUserId,
+      Value<String> creatorUser,
+      Value<String> lastModifierUser,
+      Value<int> lastModifierUserId,
+      Value<int> deleteUserId,
+      Value<String> deleterUserId,
+      Value<bool> isDeleted,
+      Value<int> id,
+      Value<String> customerId,
+      Value<String> customerName,
+      Value<String> companyName,
+      Value<String> customerType,
+      Value<String> customerGroup,
+      Value<String> customerTerritory,
+      Value<String> billingAddressName,
+      Value<String> shippingAddressName,
+      Value<String> assignTo,
+      Value<DateTime> expiryDate,
+      Value<int> weekNumber,
+      Value<String> weekDay}) {
+    return JourneyPlanCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      creationTime: creationTime ?? this.creationTime,
+      deleteTime: deleteTime ?? this.deleteTime,
+      createUserId: createUserId ?? this.createUserId,
+      creatorUser: creatorUser ?? this.creatorUser,
+      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+      deleteUserId: deleteUserId ?? this.deleteUserId,
+      deleterUserId: deleterUserId ?? this.deleterUserId,
+      isDeleted: isDeleted ?? this.isDeleted,
+      id: id ?? this.id,
+      customerId: customerId ?? this.customerId,
+      customerName: customerName ?? this.customerName,
+      companyName: companyName ?? this.companyName,
+      customerType: customerType ?? this.customerType,
+      customerGroup: customerGroup ?? this.customerGroup,
+      customerTerritory: customerTerritory ?? this.customerTerritory,
+      billingAddressName: billingAddressName ?? this.billingAddressName,
+      shippingAddressName: shippingAddressName ?? this.shippingAddressName,
+      assignTo: assignTo ?? this.assignTo,
+      expiryDate: expiryDate ?? this.expiryDate,
+      weekNumber: weekNumber ?? this.weekNumber,
+      weekDay: weekDay ?? this.weekDay,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (creationTime.present) {
+      map['creation_time'] = Variable<DateTime>(creationTime.value);
+    }
+    if (deleteTime.present) {
+      map['delete_time'] = Variable<DateTime>(deleteTime.value);
+    }
+    if (createUserId.present) {
+      map['create_user_id'] = Variable<int>(createUserId.value);
+    }
+    if (creatorUser.present) {
+      map['creator_user'] = Variable<String>(creatorUser.value);
+    }
+    if (lastModifierUser.present) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
+    }
+    if (lastModifierUserId.present) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
+    }
+    if (deleteUserId.present) {
+      map['delete_user_id'] = Variable<int>(deleteUserId.value);
+    }
+    if (deleterUserId.present) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (customerId.present) {
+      map['customer_id'] = Variable<String>(customerId.value);
+    }
+    if (customerName.present) {
+      map['customer_name'] = Variable<String>(customerName.value);
+    }
+    if (companyName.present) {
+      map['company_name'] = Variable<String>(companyName.value);
+    }
+    if (customerType.present) {
+      map['customer_type'] = Variable<String>(customerType.value);
+    }
+    if (customerGroup.present) {
+      map['customer_group'] = Variable<String>(customerGroup.value);
+    }
+    if (customerTerritory.present) {
+      map['customer_territory'] = Variable<String>(customerTerritory.value);
+    }
+    if (billingAddressName.present) {
+      map['billing_address_name'] = Variable<String>(billingAddressName.value);
+    }
+    if (shippingAddressName.present) {
+      map['shipping_address_name'] =
+          Variable<String>(shippingAddressName.value);
+    }
+    if (assignTo.present) {
+      map['assign_to'] = Variable<String>(assignTo.value);
+    }
+    if (expiryDate.present) {
+      map['expiry_date'] = Variable<DateTime>(expiryDate.value);
+    }
+    if (weekNumber.present) {
+      map['week_number'] = Variable<int>(weekNumber.value);
+    }
+    if (weekDay.present) {
+      map['week_day'] = Variable<String>(weekDay.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('JourneyPlanCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('customerId: $customerId, ')
+          ..write('customerName: $customerName, ')
+          ..write('companyName: $companyName, ')
+          ..write('customerType: $customerType, ')
+          ..write('customerGroup: $customerGroup, ')
+          ..write('customerTerritory: $customerTerritory, ')
+          ..write('billingAddressName: $billingAddressName, ')
+          ..write('shippingAddressName: $shippingAddressName, ')
+          ..write('assignTo: $assignTo, ')
+          ..write('expiryDate: $expiryDate, ')
+          ..write('weekNumber: $weekNumber, ')
+          ..write('weekDay: $weekDay')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $JourneyPlanTable extends JourneyPlan
+    with TableInfo<$JourneyPlanTable, JourneyPlanData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $JourneyPlanTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creationTimeMeta =
+      const VerificationMeta('creationTime');
+  GeneratedDateTimeColumn _creationTime;
+  @override
+  GeneratedDateTimeColumn get creationTime =>
+      _creationTime ??= _constructCreationTime();
+  GeneratedDateTimeColumn _constructCreationTime() {
+    return GeneratedDateTimeColumn(
+      'creation_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
+  GeneratedDateTimeColumn _deleteTime;
+  @override
+  GeneratedDateTimeColumn get deleteTime =>
+      _deleteTime ??= _constructDeleteTime();
+  GeneratedDateTimeColumn _constructDeleteTime() {
+    return GeneratedDateTimeColumn(
+      'delete_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _createUserIdMeta =
+      const VerificationMeta('createUserId');
+  GeneratedIntColumn _createUserId;
+  @override
+  GeneratedIntColumn get createUserId =>
+      _createUserId ??= _constructCreateUserId();
+  GeneratedIntColumn _constructCreateUserId() {
+    return GeneratedIntColumn(
+      'create_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creatorUserMeta =
+      const VerificationMeta('creatorUser');
+  GeneratedTextColumn _creatorUser;
+  @override
+  GeneratedTextColumn get creatorUser =>
+      _creatorUser ??= _constructCreatorUser();
+  GeneratedTextColumn _constructCreatorUser() {
+    return GeneratedTextColumn(
+      'creator_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserMeta =
+      const VerificationMeta('lastModifierUser');
+  GeneratedTextColumn _lastModifierUser;
+  @override
+  GeneratedTextColumn get lastModifierUser =>
+      _lastModifierUser ??= _constructLastModifierUser();
+  GeneratedTextColumn _constructLastModifierUser() {
+    return GeneratedTextColumn(
+      'last_modifier_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserIdMeta =
+      const VerificationMeta('lastModifierUserId');
+  GeneratedIntColumn _lastModifierUserId;
+  @override
+  GeneratedIntColumn get lastModifierUserId =>
+      _lastModifierUserId ??= _constructLastModifierUserId();
+  GeneratedIntColumn _constructLastModifierUserId() {
+    return GeneratedIntColumn(
+      'last_modifier_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteUserIdMeta =
+      const VerificationMeta('deleteUserId');
+  GeneratedIntColumn _deleteUserId;
+  @override
+  GeneratedIntColumn get deleteUserId =>
+      _deleteUserId ??= _constructDeleteUserId();
+  GeneratedIntColumn _constructDeleteUserId() {
+    return GeneratedIntColumn(
+      'delete_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleterUserIdMeta =
+      const VerificationMeta('deleterUserId');
+  GeneratedTextColumn _deleterUserId;
+  @override
+  GeneratedTextColumn get deleterUserId =>
+      _deleterUserId ??= _constructDeleterUserId();
+  GeneratedTextColumn _constructDeleterUserId() {
+    return GeneratedTextColumn(
+      'deleter_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  GeneratedBoolColumn _isDeleted;
+  @override
+  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
+  GeneratedBoolColumn _constructIsDeleted() {
+    return GeneratedBoolColumn('is_deleted', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _customerIdMeta = const VerificationMeta('customerId');
+  GeneratedTextColumn _customerId;
+  @override
+  GeneratedTextColumn get customerId => _customerId ??= _constructCustomerId();
+  GeneratedTextColumn _constructCustomerId() {
+    return GeneratedTextColumn(
+      'customer_id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _customerNameMeta =
+      const VerificationMeta('customerName');
+  GeneratedTextColumn _customerName;
+  @override
+  GeneratedTextColumn get customerName =>
+      _customerName ??= _constructCustomerName();
+  GeneratedTextColumn _constructCustomerName() {
+    return GeneratedTextColumn(
+      'customer_name',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _companyNameMeta =
+      const VerificationMeta('companyName');
+  GeneratedTextColumn _companyName;
+  @override
+  GeneratedTextColumn get companyName =>
+      _companyName ??= _constructCompanyName();
+  GeneratedTextColumn _constructCompanyName() {
+    return GeneratedTextColumn(
+      'company_name',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _customerTypeMeta =
+      const VerificationMeta('customerType');
+  GeneratedTextColumn _customerType;
+  @override
+  GeneratedTextColumn get customerType =>
+      _customerType ??= _constructCustomerType();
+  GeneratedTextColumn _constructCustomerType() {
+    return GeneratedTextColumn(
+      'customer_type',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _customerGroupMeta =
+      const VerificationMeta('customerGroup');
+  GeneratedTextColumn _customerGroup;
+  @override
+  GeneratedTextColumn get customerGroup =>
+      _customerGroup ??= _constructCustomerGroup();
+  GeneratedTextColumn _constructCustomerGroup() {
+    return GeneratedTextColumn(
+      'customer_group',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _customerTerritoryMeta =
+      const VerificationMeta('customerTerritory');
+  GeneratedTextColumn _customerTerritory;
+  @override
+  GeneratedTextColumn get customerTerritory =>
+      _customerTerritory ??= _constructCustomerTerritory();
+  GeneratedTextColumn _constructCustomerTerritory() {
+    return GeneratedTextColumn(
+      'customer_territory',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _billingAddressNameMeta =
+      const VerificationMeta('billingAddressName');
+  GeneratedTextColumn _billingAddressName;
+  @override
+  GeneratedTextColumn get billingAddressName =>
+      _billingAddressName ??= _constructBillingAddressName();
+  GeneratedTextColumn _constructBillingAddressName() {
+    return GeneratedTextColumn(
+      'billing_address_name',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _shippingAddressNameMeta =
+      const VerificationMeta('shippingAddressName');
+  GeneratedTextColumn _shippingAddressName;
+  @override
+  GeneratedTextColumn get shippingAddressName =>
+      _shippingAddressName ??= _constructShippingAddressName();
+  GeneratedTextColumn _constructShippingAddressName() {
+    return GeneratedTextColumn(
+      'shipping_address_name',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _assignToMeta = const VerificationMeta('assignTo');
+  GeneratedTextColumn _assignTo;
+  @override
+  GeneratedTextColumn get assignTo => _assignTo ??= _constructAssignTo();
+  GeneratedTextColumn _constructAssignTo() {
+    return GeneratedTextColumn(
+      'assign_to',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _expiryDateMeta = const VerificationMeta('expiryDate');
+  GeneratedDateTimeColumn _expiryDate;
+  @override
+  GeneratedDateTimeColumn get expiryDate =>
+      _expiryDate ??= _constructExpiryDate();
+  GeneratedDateTimeColumn _constructExpiryDate() {
+    return GeneratedDateTimeColumn(
+      'expiry_date',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _weekNumberMeta = const VerificationMeta('weekNumber');
+  GeneratedIntColumn _weekNumber;
+  @override
+  GeneratedIntColumn get weekNumber => _weekNumber ??= _constructWeekNumber();
+  GeneratedIntColumn _constructWeekNumber() {
+    return GeneratedIntColumn(
+      'week_number',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _weekDayMeta = const VerificationMeta('weekDay');
+  GeneratedTextColumn _weekDay;
+  @override
+  GeneratedTextColumn get weekDay => _weekDay ??= _constructWeekDay();
+  GeneratedTextColumn _constructWeekDay() {
+    return GeneratedTextColumn(
+      'week_day',
+      $tableName,
+      true,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        tenantId,
+        creationTime,
+        deleteTime,
+        createUserId,
+        creatorUser,
+        lastModifierUser,
+        lastModifierUserId,
+        deleteUserId,
+        deleterUserId,
+        isDeleted,
+        id,
+        customerId,
+        customerName,
+        companyName,
+        customerType,
+        customerGroup,
+        customerTerritory,
+        billingAddressName,
+        shippingAddressName,
+        assignTo,
+        expiryDate,
+        weekNumber,
+        weekDay
+      ];
+  @override
+  $JourneyPlanTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'journey_plan';
+  @override
+  final String actualTableName = 'journey_plan';
+  @override
+  VerificationContext validateIntegrity(Insertable<JourneyPlanData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
+    if (data.containsKey('creation_time')) {
+      context.handle(
+          _creationTimeMeta,
+          creationTime.isAcceptableOrUnknown(
+              data['creation_time'], _creationTimeMeta));
+    }
+    if (data.containsKey('delete_time')) {
+      context.handle(
+          _deleteTimeMeta,
+          deleteTime.isAcceptableOrUnknown(
+              data['delete_time'], _deleteTimeMeta));
+    }
+    if (data.containsKey('create_user_id')) {
+      context.handle(
+          _createUserIdMeta,
+          createUserId.isAcceptableOrUnknown(
+              data['create_user_id'], _createUserIdMeta));
+    }
+    if (data.containsKey('creator_user')) {
+      context.handle(
+          _creatorUserMeta,
+          creatorUser.isAcceptableOrUnknown(
+              data['creator_user'], _creatorUserMeta));
+    }
+    if (data.containsKey('last_modifier_user')) {
+      context.handle(
+          _lastModifierUserMeta,
+          lastModifierUser.isAcceptableOrUnknown(
+              data['last_modifier_user'], _lastModifierUserMeta));
+    }
+    if (data.containsKey('last_modifier_user_id')) {
+      context.handle(
+          _lastModifierUserIdMeta,
+          lastModifierUserId.isAcceptableOrUnknown(
+              data['last_modifier_user_id'], _lastModifierUserIdMeta));
+    }
+    if (data.containsKey('delete_user_id')) {
+      context.handle(
+          _deleteUserIdMeta,
+          deleteUserId.isAcceptableOrUnknown(
+              data['delete_user_id'], _deleteUserIdMeta));
+    }
+    if (data.containsKey('deleter_user_id')) {
+      context.handle(
+          _deleterUserIdMeta,
+          deleterUserId.isAcceptableOrUnknown(
+              data['deleter_user_id'], _deleterUserIdMeta));
+    }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('customer_id')) {
+      context.handle(
+          _customerIdMeta,
+          customerId.isAcceptableOrUnknown(
+              data['customer_id'], _customerIdMeta));
+    } else if (isInserting) {
+      context.missing(_customerIdMeta);
+    }
+    if (data.containsKey('customer_name')) {
+      context.handle(
+          _customerNameMeta,
+          customerName.isAcceptableOrUnknown(
+              data['customer_name'], _customerNameMeta));
+    } else if (isInserting) {
+      context.missing(_customerNameMeta);
+    }
+    if (data.containsKey('company_name')) {
+      context.handle(
+          _companyNameMeta,
+          companyName.isAcceptableOrUnknown(
+              data['company_name'], _companyNameMeta));
+    } else if (isInserting) {
+      context.missing(_companyNameMeta);
+    }
+    if (data.containsKey('customer_type')) {
+      context.handle(
+          _customerTypeMeta,
+          customerType.isAcceptableOrUnknown(
+              data['customer_type'], _customerTypeMeta));
+    } else if (isInserting) {
+      context.missing(_customerTypeMeta);
+    }
+    if (data.containsKey('customer_group')) {
+      context.handle(
+          _customerGroupMeta,
+          customerGroup.isAcceptableOrUnknown(
+              data['customer_group'], _customerGroupMeta));
+    } else if (isInserting) {
+      context.missing(_customerGroupMeta);
+    }
+    if (data.containsKey('customer_territory')) {
+      context.handle(
+          _customerTerritoryMeta,
+          customerTerritory.isAcceptableOrUnknown(
+              data['customer_territory'], _customerTerritoryMeta));
+    } else if (isInserting) {
+      context.missing(_customerTerritoryMeta);
+    }
+    if (data.containsKey('billing_address_name')) {
+      context.handle(
+          _billingAddressNameMeta,
+          billingAddressName.isAcceptableOrUnknown(
+              data['billing_address_name'], _billingAddressNameMeta));
+    }
+    if (data.containsKey('shipping_address_name')) {
+      context.handle(
+          _shippingAddressNameMeta,
+          shippingAddressName.isAcceptableOrUnknown(
+              data['shipping_address_name'], _shippingAddressNameMeta));
+    }
+    if (data.containsKey('assign_to')) {
+      context.handle(_assignToMeta,
+          assignTo.isAcceptableOrUnknown(data['assign_to'], _assignToMeta));
+    }
+    if (data.containsKey('expiry_date')) {
+      context.handle(
+          _expiryDateMeta,
+          expiryDate.isAcceptableOrUnknown(
+              data['expiry_date'], _expiryDateMeta));
+    }
+    if (data.containsKey('week_number')) {
+      context.handle(
+          _weekNumberMeta,
+          weekNumber.isAcceptableOrUnknown(
+              data['week_number'], _weekNumberMeta));
+    }
+    if (data.containsKey('week_day')) {
+      context.handle(_weekDayMeta,
+          weekDay.isAcceptableOrUnknown(data['week_day'], _weekDayMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  JourneyPlanData map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return JourneyPlanData.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $JourneyPlanTable createAlias(String alias) {
+    return $JourneyPlanTable(_db, alias);
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $UsersTable _users;
@@ -13873,6 +28592,36 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $SeriesNumberGeneratorTable _seriesNumberGenerator;
   $SeriesNumberGeneratorTable get seriesNumberGenerator =>
       _seriesNumberGenerator ??= $SeriesNumberGeneratorTable(this);
+  $TempNumberLogsTable _tempNumberLogs;
+  $TempNumberLogsTable get tempNumberLogs =>
+      _tempNumberLogs ??= $TempNumberLogsTable(this);
+  $CustomerTable _customer;
+  $CustomerTable get customer => _customer ??= $CustomerTable(this);
+  $AddressTable _address;
+  $AddressTable get address => _address ??= $AddressTable(this);
+  $ContactTable _contact;
+  $ContactTable get contact => _contact ??= $ContactTable(this);
+  $ItemsTable _items;
+  $ItemsTable get items => _items ??= $ItemsTable(this);
+  $ItemPriceTable _itemPrice;
+  $ItemPriceTable get itemPrice => _itemPrice ??= $ItemPriceTable(this);
+  $ItemPricingRuleTable _itemPricingRule;
+  $ItemPricingRuleTable get itemPricingRule =>
+      _itemPricingRule ??= $ItemPricingRuleTable(this);
+  $CategoryTable _category;
+  $CategoryTable get category => _category ??= $CategoryTable(this);
+  $ItemGroupsTable _itemGroups;
+  $ItemGroupsTable get itemGroups => _itemGroups ??= $ItemGroupsTable(this);
+  $PriceListTable _priceList;
+  $PriceListTable get priceList => _priceList ??= $PriceListTable(this);
+  $UnitOfMeaseureTable _unitOfMeaseure;
+  $UnitOfMeaseureTable get unitOfMeaseure =>
+      _unitOfMeaseure ??= $UnitOfMeaseureTable(this);
+  $StockUnitOfMeaseureTable _stockUnitOfMeaseure;
+  $StockUnitOfMeaseureTable get stockUnitOfMeaseure =>
+      _stockUnitOfMeaseure ??= $StockUnitOfMeaseureTable(this);
+  $JourneyPlanTable _journeyPlan;
+  $JourneyPlanTable get journeyPlan => _journeyPlan ??= $JourneyPlanTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
@@ -13891,6 +28640,19 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         desktop,
         salesOrderHeader,
         salesOrderDetail,
-        seriesNumberGenerator
+        seriesNumberGenerator,
+        tempNumberLogs,
+        customer,
+        address,
+        contact,
+        items,
+        itemPrice,
+        itemPricingRule,
+        category,
+        itemGroups,
+        priceList,
+        unitOfMeaseure,
+        stockUnitOfMeaseure,
+        journeyPlan
       ];
 }
