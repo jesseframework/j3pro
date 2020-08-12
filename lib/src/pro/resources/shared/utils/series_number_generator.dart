@@ -25,7 +25,6 @@ class NumberGenerator {
     userSharedData = new UserSharedData();
   }
 
-
   Future<String> getSerialNumber(
       String typeOfNumber, int nextIncrementNumber, int endingLength) async {
     _log.finest("start create new serial number");
@@ -46,9 +45,6 @@ class NumberGenerator {
             DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
         setJulianDate = j.julianDayNumber.toString();
-
-        setJulianDate = _format(Jalali.now());
-
       }
 
       if (getSeries[0].includeUserID == true) {
@@ -70,7 +66,6 @@ class NumberGenerator {
             nextIncrementNumber.toString().padLeft(getSeries[0].endingLength);
 
         setNextIncrement = nextIncrementNumber.toString();
-
       } else {
         _log.finest("generate randon number");
         setNextIncrement = randomString(
@@ -79,11 +74,7 @@ class NumberGenerator {
           includeLowercase: false,
           includeUppercase: false,
           exclusions: {'0', '1'},
-
         ).padLeft(endingLength);
-
-        );
-
       }
 
       if (getSeries[0].endingLength > 0) {
@@ -106,10 +97,7 @@ class NumberGenerator {
         includeLowercase: false,
         includeUppercase: false,
         exclusions: {'0', '1'},
-
       ).padLeft(endingLength);
-
-      );
 
       seriesNumber =
           '$setNumberPrefix $setUserId $setTenantId $setJulianDate $setNextIncrement';
