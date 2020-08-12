@@ -35,6 +35,7 @@ import 'package:j3enterprise/src/models/user_model.dart';
 import 'package:j3enterprise/src/pro/models/sales/sales_order/sales_order_detail_model.dart';
 import 'package:j3enterprise/src/pro/models/sales/sales_order/sales_order_header_model.dart';
 import 'package:j3enterprise/src/pro/models/series_number/series_number_model.dart';
+import 'package:j3enterprise/src/pro/models/series_number/temp_number_logs.dart';
 import 'package:j3enterprise/src/resources/shared/utils/date_formating.dart';
 import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
@@ -58,7 +59,8 @@ part 'moor_database.g.dart';
   Desktop,
   SalesOrderHeader,
   SalesOrderDetail,
-  SeriesNumberGenerator
+  SeriesNumberGenerator,
+  TempNumberLogs
 ])
 class AppDatabase extends _$AppDatabase {
   static AppDatabase _db = _constructDb();
