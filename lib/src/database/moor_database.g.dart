@@ -13235,6 +13235,601 @@ class $SalesOrderDetailTable extends SalesOrderDetail
   }
 }
 
+class SeriesNumberGeneratorData extends DataClass
+    implements Insertable<SeriesNumberGeneratorData> {
+  final int tenantId;
+  final int id;
+  final String numberPrefix;
+  final bool includePrefix;
+  final bool includeJulianDate;
+  final bool includeUserID;
+  final bool includetenantId;
+  final bool usedAutoNumber;
+  final int endingLength;
+  final String typeOfNumber;
+  SeriesNumberGeneratorData(
+      {this.tenantId,
+      @required this.id,
+      this.numberPrefix,
+      @required this.includePrefix,
+      @required this.includeJulianDate,
+      @required this.includeUserID,
+      @required this.includetenantId,
+      @required this.usedAutoNumber,
+      this.endingLength,
+      this.typeOfNumber});
+  factory SeriesNumberGeneratorData.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    return SeriesNumberGeneratorData(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      numberPrefix: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}number_prefix']),
+      includePrefix: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}include_prefix']),
+      includeJulianDate: boolType.mapFromDatabaseResponse(
+          data['${effectivePrefix}include_julian_date']),
+      includeUserID: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}include_user_i_d']),
+      includetenantId: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}includetenant_id']),
+      usedAutoNumber: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}used_auto_number']),
+      endingLength: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}ending_length']),
+      typeOfNumber: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}type_of_number']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || numberPrefix != null) {
+      map['number_prefix'] = Variable<String>(numberPrefix);
+    }
+    if (!nullToAbsent || includePrefix != null) {
+      map['include_prefix'] = Variable<bool>(includePrefix);
+    }
+    if (!nullToAbsent || includeJulianDate != null) {
+      map['include_julian_date'] = Variable<bool>(includeJulianDate);
+    }
+    if (!nullToAbsent || includeUserID != null) {
+      map['include_user_i_d'] = Variable<bool>(includeUserID);
+    }
+    if (!nullToAbsent || includetenantId != null) {
+      map['includetenant_id'] = Variable<bool>(includetenantId);
+    }
+    if (!nullToAbsent || usedAutoNumber != null) {
+      map['used_auto_number'] = Variable<bool>(usedAutoNumber);
+    }
+    if (!nullToAbsent || endingLength != null) {
+      map['ending_length'] = Variable<int>(endingLength);
+    }
+    if (!nullToAbsent || typeOfNumber != null) {
+      map['type_of_number'] = Variable<String>(typeOfNumber);
+    }
+    return map;
+  }
+
+  SeriesNumberGeneratorCompanion toCompanion(bool nullToAbsent) {
+    return SeriesNumberGeneratorCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      numberPrefix: numberPrefix == null && nullToAbsent
+          ? const Value.absent()
+          : Value(numberPrefix),
+      includePrefix: includePrefix == null && nullToAbsent
+          ? const Value.absent()
+          : Value(includePrefix),
+      includeJulianDate: includeJulianDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(includeJulianDate),
+      includeUserID: includeUserID == null && nullToAbsent
+          ? const Value.absent()
+          : Value(includeUserID),
+      includetenantId: includetenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(includetenantId),
+      usedAutoNumber: usedAutoNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(usedAutoNumber),
+      endingLength: endingLength == null && nullToAbsent
+          ? const Value.absent()
+          : Value(endingLength),
+      typeOfNumber: typeOfNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(typeOfNumber),
+    );
+  }
+
+  factory SeriesNumberGeneratorData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return SeriesNumberGeneratorData(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      id: serializer.fromJson<int>(json['id']),
+      numberPrefix: serializer.fromJson<String>(json['numberPrefix']),
+      includePrefix: serializer.fromJson<bool>(json['includePrefix']),
+      includeJulianDate: serializer.fromJson<bool>(json['includeJulianDate']),
+      includeUserID: serializer.fromJson<bool>(json['includeUserID']),
+      includetenantId: serializer.fromJson<bool>(json['includetenantId']),
+      usedAutoNumber: serializer.fromJson<bool>(json['usedAutoNumber']),
+      endingLength: serializer.fromJson<int>(json['endingLength']),
+      typeOfNumber: serializer.fromJson<String>(json['typeOfNumber']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'id': serializer.toJson<int>(id),
+      'numberPrefix': serializer.toJson<String>(numberPrefix),
+      'includePrefix': serializer.toJson<bool>(includePrefix),
+      'includeJulianDate': serializer.toJson<bool>(includeJulianDate),
+      'includeUserID': serializer.toJson<bool>(includeUserID),
+      'includetenantId': serializer.toJson<bool>(includetenantId),
+      'usedAutoNumber': serializer.toJson<bool>(usedAutoNumber),
+      'endingLength': serializer.toJson<int>(endingLength),
+      'typeOfNumber': serializer.toJson<String>(typeOfNumber),
+    };
+  }
+
+  SeriesNumberGeneratorData copyWith(
+          {int tenantId,
+          int id,
+          String numberPrefix,
+          bool includePrefix,
+          bool includeJulianDate,
+          bool includeUserID,
+          bool includetenantId,
+          bool usedAutoNumber,
+          int endingLength,
+          String typeOfNumber}) =>
+      SeriesNumberGeneratorData(
+        tenantId: tenantId ?? this.tenantId,
+        id: id ?? this.id,
+        numberPrefix: numberPrefix ?? this.numberPrefix,
+        includePrefix: includePrefix ?? this.includePrefix,
+        includeJulianDate: includeJulianDate ?? this.includeJulianDate,
+        includeUserID: includeUserID ?? this.includeUserID,
+        includetenantId: includetenantId ?? this.includetenantId,
+        usedAutoNumber: usedAutoNumber ?? this.usedAutoNumber,
+        endingLength: endingLength ?? this.endingLength,
+        typeOfNumber: typeOfNumber ?? this.typeOfNumber,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('SeriesNumberGeneratorData(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('numberPrefix: $numberPrefix, ')
+          ..write('includePrefix: $includePrefix, ')
+          ..write('includeJulianDate: $includeJulianDate, ')
+          ..write('includeUserID: $includeUserID, ')
+          ..write('includetenantId: $includetenantId, ')
+          ..write('usedAutoNumber: $usedAutoNumber, ')
+          ..write('endingLength: $endingLength, ')
+          ..write('typeOfNumber: $typeOfNumber')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode,
+      $mrjc(
+          id.hashCode,
+          $mrjc(
+              numberPrefix.hashCode,
+              $mrjc(
+                  includePrefix.hashCode,
+                  $mrjc(
+                      includeJulianDate.hashCode,
+                      $mrjc(
+                          includeUserID.hashCode,
+                          $mrjc(
+                              includetenantId.hashCode,
+                              $mrjc(
+                                  usedAutoNumber.hashCode,
+                                  $mrjc(endingLength.hashCode,
+                                      typeOfNumber.hashCode))))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is SeriesNumberGeneratorData &&
+          other.tenantId == this.tenantId &&
+          other.id == this.id &&
+          other.numberPrefix == this.numberPrefix &&
+          other.includePrefix == this.includePrefix &&
+          other.includeJulianDate == this.includeJulianDate &&
+          other.includeUserID == this.includeUserID &&
+          other.includetenantId == this.includetenantId &&
+          other.usedAutoNumber == this.usedAutoNumber &&
+          other.endingLength == this.endingLength &&
+          other.typeOfNumber == this.typeOfNumber);
+}
+
+class SeriesNumberGeneratorCompanion
+    extends UpdateCompanion<SeriesNumberGeneratorData> {
+  final Value<int> tenantId;
+  final Value<int> id;
+  final Value<String> numberPrefix;
+  final Value<bool> includePrefix;
+  final Value<bool> includeJulianDate;
+  final Value<bool> includeUserID;
+  final Value<bool> includetenantId;
+  final Value<bool> usedAutoNumber;
+  final Value<int> endingLength;
+  final Value<String> typeOfNumber;
+  const SeriesNumberGeneratorCompanion({
+    this.tenantId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.numberPrefix = const Value.absent(),
+    this.includePrefix = const Value.absent(),
+    this.includeJulianDate = const Value.absent(),
+    this.includeUserID = const Value.absent(),
+    this.includetenantId = const Value.absent(),
+    this.usedAutoNumber = const Value.absent(),
+    this.endingLength = const Value.absent(),
+    this.typeOfNumber = const Value.absent(),
+  });
+  SeriesNumberGeneratorCompanion.insert({
+    this.tenantId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.numberPrefix = const Value.absent(),
+    this.includePrefix = const Value.absent(),
+    this.includeJulianDate = const Value.absent(),
+    this.includeUserID = const Value.absent(),
+    this.includetenantId = const Value.absent(),
+    this.usedAutoNumber = const Value.absent(),
+    this.endingLength = const Value.absent(),
+    this.typeOfNumber = const Value.absent(),
+  });
+  static Insertable<SeriesNumberGeneratorData> custom({
+    Expression<int> tenantId,
+    Expression<int> id,
+    Expression<String> numberPrefix,
+    Expression<bool> includePrefix,
+    Expression<bool> includeJulianDate,
+    Expression<bool> includeUserID,
+    Expression<bool> includetenantId,
+    Expression<bool> usedAutoNumber,
+    Expression<int> endingLength,
+    Expression<String> typeOfNumber,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (id != null) 'id': id,
+      if (numberPrefix != null) 'number_prefix': numberPrefix,
+      if (includePrefix != null) 'include_prefix': includePrefix,
+      if (includeJulianDate != null) 'include_julian_date': includeJulianDate,
+      if (includeUserID != null) 'include_user_i_d': includeUserID,
+      if (includetenantId != null) 'includetenant_id': includetenantId,
+      if (usedAutoNumber != null) 'used_auto_number': usedAutoNumber,
+      if (endingLength != null) 'ending_length': endingLength,
+      if (typeOfNumber != null) 'type_of_number': typeOfNumber,
+    });
+  }
+
+  SeriesNumberGeneratorCompanion copyWith(
+      {Value<int> tenantId,
+      Value<int> id,
+      Value<String> numberPrefix,
+      Value<bool> includePrefix,
+      Value<bool> includeJulianDate,
+      Value<bool> includeUserID,
+      Value<bool> includetenantId,
+      Value<bool> usedAutoNumber,
+      Value<int> endingLength,
+      Value<String> typeOfNumber}) {
+    return SeriesNumberGeneratorCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      id: id ?? this.id,
+      numberPrefix: numberPrefix ?? this.numberPrefix,
+      includePrefix: includePrefix ?? this.includePrefix,
+      includeJulianDate: includeJulianDate ?? this.includeJulianDate,
+      includeUserID: includeUserID ?? this.includeUserID,
+      includetenantId: includetenantId ?? this.includetenantId,
+      usedAutoNumber: usedAutoNumber ?? this.usedAutoNumber,
+      endingLength: endingLength ?? this.endingLength,
+      typeOfNumber: typeOfNumber ?? this.typeOfNumber,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (numberPrefix.present) {
+      map['number_prefix'] = Variable<String>(numberPrefix.value);
+    }
+    if (includePrefix.present) {
+      map['include_prefix'] = Variable<bool>(includePrefix.value);
+    }
+    if (includeJulianDate.present) {
+      map['include_julian_date'] = Variable<bool>(includeJulianDate.value);
+    }
+    if (includeUserID.present) {
+      map['include_user_i_d'] = Variable<bool>(includeUserID.value);
+    }
+    if (includetenantId.present) {
+      map['includetenant_id'] = Variable<bool>(includetenantId.value);
+    }
+    if (usedAutoNumber.present) {
+      map['used_auto_number'] = Variable<bool>(usedAutoNumber.value);
+    }
+    if (endingLength.present) {
+      map['ending_length'] = Variable<int>(endingLength.value);
+    }
+    if (typeOfNumber.present) {
+      map['type_of_number'] = Variable<String>(typeOfNumber.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SeriesNumberGeneratorCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('numberPrefix: $numberPrefix, ')
+          ..write('includePrefix: $includePrefix, ')
+          ..write('includeJulianDate: $includeJulianDate, ')
+          ..write('includeUserID: $includeUserID, ')
+          ..write('includetenantId: $includetenantId, ')
+          ..write('usedAutoNumber: $usedAutoNumber, ')
+          ..write('endingLength: $endingLength, ')
+          ..write('typeOfNumber: $typeOfNumber')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $SeriesNumberGeneratorTable extends SeriesNumberGenerator
+    with TableInfo<$SeriesNumberGeneratorTable, SeriesNumberGeneratorData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $SeriesNumberGeneratorTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _numberPrefixMeta =
+      const VerificationMeta('numberPrefix');
+  GeneratedTextColumn _numberPrefix;
+  @override
+  GeneratedTextColumn get numberPrefix =>
+      _numberPrefix ??= _constructNumberPrefix();
+  GeneratedTextColumn _constructNumberPrefix() {
+    return GeneratedTextColumn(
+      'number_prefix',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _includePrefixMeta =
+      const VerificationMeta('includePrefix');
+  GeneratedBoolColumn _includePrefix;
+  @override
+  GeneratedBoolColumn get includePrefix =>
+      _includePrefix ??= _constructIncludePrefix();
+  GeneratedBoolColumn _constructIncludePrefix() {
+    return GeneratedBoolColumn('include_prefix', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _includeJulianDateMeta =
+      const VerificationMeta('includeJulianDate');
+  GeneratedBoolColumn _includeJulianDate;
+  @override
+  GeneratedBoolColumn get includeJulianDate =>
+      _includeJulianDate ??= _constructIncludeJulianDate();
+  GeneratedBoolColumn _constructIncludeJulianDate() {
+    return GeneratedBoolColumn('include_julian_date', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _includeUserIDMeta =
+      const VerificationMeta('includeUserID');
+  GeneratedBoolColumn _includeUserID;
+  @override
+  GeneratedBoolColumn get includeUserID =>
+      _includeUserID ??= _constructIncludeUserID();
+  GeneratedBoolColumn _constructIncludeUserID() {
+    return GeneratedBoolColumn('include_user_i_d', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _includetenantIdMeta =
+      const VerificationMeta('includetenantId');
+  GeneratedBoolColumn _includetenantId;
+  @override
+  GeneratedBoolColumn get includetenantId =>
+      _includetenantId ??= _constructIncludetenantId();
+  GeneratedBoolColumn _constructIncludetenantId() {
+    return GeneratedBoolColumn('includetenant_id', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _usedAutoNumberMeta =
+      const VerificationMeta('usedAutoNumber');
+  GeneratedBoolColumn _usedAutoNumber;
+  @override
+  GeneratedBoolColumn get usedAutoNumber =>
+      _usedAutoNumber ??= _constructUsedAutoNumber();
+  GeneratedBoolColumn _constructUsedAutoNumber() {
+    return GeneratedBoolColumn('used_auto_number', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _endingLengthMeta =
+      const VerificationMeta('endingLength');
+  GeneratedIntColumn _endingLength;
+  @override
+  GeneratedIntColumn get endingLength =>
+      _endingLength ??= _constructEndingLength();
+  GeneratedIntColumn _constructEndingLength() {
+    return GeneratedIntColumn(
+      'ending_length',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _typeOfNumberMeta =
+      const VerificationMeta('typeOfNumber');
+  GeneratedTextColumn _typeOfNumber;
+  @override
+  GeneratedTextColumn get typeOfNumber =>
+      _typeOfNumber ??= _constructTypeOfNumber();
+  GeneratedTextColumn _constructTypeOfNumber() {
+    return GeneratedTextColumn(
+      'type_of_number',
+      $tableName,
+      true,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        tenantId,
+        id,
+        numberPrefix,
+        includePrefix,
+        includeJulianDate,
+        includeUserID,
+        includetenantId,
+        usedAutoNumber,
+        endingLength,
+        typeOfNumber
+      ];
+  @override
+  $SeriesNumberGeneratorTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'series_number_generator';
+  @override
+  final String actualTableName = 'series_number_generator';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<SeriesNumberGeneratorData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('number_prefix')) {
+      context.handle(
+          _numberPrefixMeta,
+          numberPrefix.isAcceptableOrUnknown(
+              data['number_prefix'], _numberPrefixMeta));
+    }
+    if (data.containsKey('include_prefix')) {
+      context.handle(
+          _includePrefixMeta,
+          includePrefix.isAcceptableOrUnknown(
+              data['include_prefix'], _includePrefixMeta));
+    }
+    if (data.containsKey('include_julian_date')) {
+      context.handle(
+          _includeJulianDateMeta,
+          includeJulianDate.isAcceptableOrUnknown(
+              data['include_julian_date'], _includeJulianDateMeta));
+    }
+    if (data.containsKey('include_user_i_d')) {
+      context.handle(
+          _includeUserIDMeta,
+          includeUserID.isAcceptableOrUnknown(
+              data['include_user_i_d'], _includeUserIDMeta));
+    }
+    if (data.containsKey('includetenant_id')) {
+      context.handle(
+          _includetenantIdMeta,
+          includetenantId.isAcceptableOrUnknown(
+              data['includetenant_id'], _includetenantIdMeta));
+    }
+    if (data.containsKey('used_auto_number')) {
+      context.handle(
+          _usedAutoNumberMeta,
+          usedAutoNumber.isAcceptableOrUnknown(
+              data['used_auto_number'], _usedAutoNumberMeta));
+    }
+    if (data.containsKey('ending_length')) {
+      context.handle(
+          _endingLengthMeta,
+          endingLength.isAcceptableOrUnknown(
+              data['ending_length'], _endingLengthMeta));
+    }
+    if (data.containsKey('type_of_number')) {
+      context.handle(
+          _typeOfNumberMeta,
+          typeOfNumber.isAcceptableOrUnknown(
+              data['type_of_number'], _typeOfNumberMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  SeriesNumberGeneratorData map(Map<String, dynamic> data,
+      {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return SeriesNumberGeneratorData.fromData(data, _db,
+        prefix: effectivePrefix);
+  }
+
+  @override
+  $SeriesNumberGeneratorTable createAlias(String alias) {
+    return $SeriesNumberGeneratorTable(_db, alias);
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $UsersTable _users;
@@ -13275,6 +13870,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $SalesOrderDetailTable _salesOrderDetail;
   $SalesOrderDetailTable get salesOrderDetail =>
       _salesOrderDetail ??= $SalesOrderDetailTable(this);
+  $SeriesNumberGeneratorTable _seriesNumberGenerator;
+  $SeriesNumberGeneratorTable get seriesNumberGenerator =>
+      _seriesNumberGenerator ??= $SeriesNumberGeneratorTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
@@ -13292,6 +13890,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         nonGlobalPreference,
         desktop,
         salesOrderHeader,
-        salesOrderDetail
+        salesOrderDetail,
+        seriesNumberGenerator
       ];
 }

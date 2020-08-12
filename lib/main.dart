@@ -144,6 +144,7 @@ class _AppState extends State<App> {
               }
               if (state is AuthenticationUnauthenticated) {
                 return LoginPage();
+                
               }
               if (state is AuthenticationLoading) {
                 return LoadingIndicator();

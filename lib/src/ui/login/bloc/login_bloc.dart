@@ -29,6 +29,7 @@ import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/database/crud/tenant/tenant_crud.dart';
 import 'package:j3enterprise/src/database/crud/user/user_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/pro/resources/shared/utils/series_number_generator.dart';
 import 'package:j3enterprise/src/resources/repositories/applogger_repositiry.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/services/connection_service.dart';
@@ -169,7 +170,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               _log.finest('Create share preference for user');
               int userId = int.tryParse(result['userId'].toString());
               userSharedData.setUserSharedPref(
-                  
                   event.deviceId,
                   deviceState,
                   tenantState,
@@ -288,6 +288,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                 0.toString());
             _log.finest(
                 'Tenant tenant result assign to virable tenant LoginLoading state');
+
+            NumberGenerator numberGenerator = new NumberGenerator();
+            String ng =
+                await numberGenerator.getSerialNumber("Sales Order", 001, 4);
+            print(ng);
 
             if (tenantResult['tenantId'] == null) {
               tenantId = 0.toString();
