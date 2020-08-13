@@ -5,7 +5,7 @@ import 'package:moor/moor.dart';
 class UPCCode extends Table implements MustHaveTenant, FullAudited {
   IntColumn get id => integer()();
   TextColumn get upCode => text().nullable()();
-  TextColumn get codeTyoe => text().nullable()();
+  TextColumn get codeType => text().nullable()();
   IntColumn get itemId => integer()();
   IntColumn get tenantId => integer().nullable()();
   IntColumn get createUserId => integer().nullable()();

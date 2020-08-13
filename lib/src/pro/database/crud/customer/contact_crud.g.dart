@@ -1,12 +1,11 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'sales_order_crud.dart';
+part of 'contact_crud.dart';
 
 // **************************************************************************
 // DaoGenerator
 // **************************************************************************
 
-mixin _$SalesOrderHeaderDaoMixin on DatabaseAccessor<AppDatabase> {
-  $SalesOrderHeaderTable get salesOrderHeader =>
-      attachedDatabase.salesOrderHeader;
+mixin _$ContactDaoMixin on DatabaseAccessor<AppDatabase> {
+  $ContactTable get contact => attachedDatabase.contact;
 }
