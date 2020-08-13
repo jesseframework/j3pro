@@ -28549,6 +28549,793 @@ class $JourneyPlanTable extends JourneyPlan
   }
 }
 
+class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
+  final int tenantId;
+  final DateTime creationTime;
+  final DateTime deleteTime;
+  final int createUserId;
+  final String creatorUser;
+  final String lastModifierUser;
+  final int lastModifierUserId;
+  final int deleteUserId;
+  final String deleterUserId;
+  final bool isDeleted;
+  final int id;
+  final String upCode;
+  final String codeType;
+  final int itemId;
+  UPCCodeData(
+      {this.tenantId,
+      this.creationTime,
+      this.deleteTime,
+      this.createUserId,
+      this.creatorUser,
+      this.lastModifierUser,
+      this.lastModifierUserId,
+      this.deleteUserId,
+      this.deleterUserId,
+      @required this.isDeleted,
+      @required this.id,
+      this.upCode,
+      this.codeType,
+      @required this.itemId});
+  factory UPCCodeData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    return UPCCodeData(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      creationTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
+      deleteTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
+      createUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
+      creatorUser: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
+      lastModifierUser: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user']),
+      lastModifierUserId: intType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user_id']),
+      deleteUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
+      deleterUserId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
+      isDeleted: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      upCode:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}up_code']),
+      codeType: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}code_type']),
+      itemId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || creationTime != null) {
+      map['creation_time'] = Variable<DateTime>(creationTime);
+    }
+    if (!nullToAbsent || deleteTime != null) {
+      map['delete_time'] = Variable<DateTime>(deleteTime);
+    }
+    if (!nullToAbsent || createUserId != null) {
+      map['create_user_id'] = Variable<int>(createUserId);
+    }
+    if (!nullToAbsent || creatorUser != null) {
+      map['creator_user'] = Variable<String>(creatorUser);
+    }
+    if (!nullToAbsent || lastModifierUser != null) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser);
+    }
+    if (!nullToAbsent || lastModifierUserId != null) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
+    }
+    if (!nullToAbsent || deleteUserId != null) {
+      map['delete_user_id'] = Variable<int>(deleteUserId);
+    }
+    if (!nullToAbsent || deleterUserId != null) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId);
+    }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || upCode != null) {
+      map['up_code'] = Variable<String>(upCode);
+    }
+    if (!nullToAbsent || codeType != null) {
+      map['code_type'] = Variable<String>(codeType);
+    }
+    if (!nullToAbsent || itemId != null) {
+      map['item_id'] = Variable<int>(itemId);
+    }
+    return map;
+  }
+
+  UPCCodeCompanion toCompanion(bool nullToAbsent) {
+    return UPCCodeCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      creationTime: creationTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creationTime),
+      deleteTime: deleteTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteTime),
+      createUserId: createUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createUserId),
+      creatorUser: creatorUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creatorUser),
+      lastModifierUser: lastModifierUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUser),
+      lastModifierUserId: lastModifierUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUserId),
+      deleteUserId: deleteUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteUserId),
+      deleterUserId: deleterUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleterUserId),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      upCode:
+          upCode == null && nullToAbsent ? const Value.absent() : Value(upCode),
+      codeType: codeType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(codeType),
+      itemId:
+          itemId == null && nullToAbsent ? const Value.absent() : Value(itemId),
+    );
+  }
+
+  factory UPCCodeData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return UPCCodeData(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
+      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
+      createUserId: serializer.fromJson<int>(json['createUserId']),
+      creatorUser: serializer.fromJson<String>(json['creatorUser']),
+      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
+      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
+      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
+      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      id: serializer.fromJson<int>(json['id']),
+      upCode: serializer.fromJson<String>(json['upCode']),
+      codeType: serializer.fromJson<String>(json['codeType']),
+      itemId: serializer.fromJson<int>(json['itemId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'creationTime': serializer.toJson<DateTime>(creationTime),
+      'deleteTime': serializer.toJson<DateTime>(deleteTime),
+      'createUserId': serializer.toJson<int>(createUserId),
+      'creatorUser': serializer.toJson<String>(creatorUser),
+      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
+      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
+      'deleteUserId': serializer.toJson<int>(deleteUserId),
+      'deleterUserId': serializer.toJson<String>(deleterUserId),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'id': serializer.toJson<int>(id),
+      'upCode': serializer.toJson<String>(upCode),
+      'codeType': serializer.toJson<String>(codeType),
+      'itemId': serializer.toJson<int>(itemId),
+    };
+  }
+
+  UPCCodeData copyWith(
+          {int tenantId,
+          DateTime creationTime,
+          DateTime deleteTime,
+          int createUserId,
+          String creatorUser,
+          String lastModifierUser,
+          int lastModifierUserId,
+          int deleteUserId,
+          String deleterUserId,
+          bool isDeleted,
+          int id,
+          String upCode,
+          String codeType,
+          int itemId}) =>
+      UPCCodeData(
+        tenantId: tenantId ?? this.tenantId,
+        creationTime: creationTime ?? this.creationTime,
+        deleteTime: deleteTime ?? this.deleteTime,
+        createUserId: createUserId ?? this.createUserId,
+        creatorUser: creatorUser ?? this.creatorUser,
+        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+        deleteUserId: deleteUserId ?? this.deleteUserId,
+        deleterUserId: deleterUserId ?? this.deleterUserId,
+        isDeleted: isDeleted ?? this.isDeleted,
+        id: id ?? this.id,
+        upCode: upCode ?? this.upCode,
+        codeType: codeType ?? this.codeType,
+        itemId: itemId ?? this.itemId,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('UPCCodeData(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('upCode: $upCode, ')
+          ..write('codeType: $codeType, ')
+          ..write('itemId: $itemId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode,
+      $mrjc(
+          creationTime.hashCode,
+          $mrjc(
+              deleteTime.hashCode,
+              $mrjc(
+                  createUserId.hashCode,
+                  $mrjc(
+                      creatorUser.hashCode,
+                      $mrjc(
+                          lastModifierUser.hashCode,
+                          $mrjc(
+                              lastModifierUserId.hashCode,
+                              $mrjc(
+                                  deleteUserId.hashCode,
+                                  $mrjc(
+                                      deleterUserId.hashCode,
+                                      $mrjc(
+                                          isDeleted.hashCode,
+                                          $mrjc(
+                                              id.hashCode,
+                                              $mrjc(
+                                                  upCode.hashCode,
+                                                  $mrjc(
+                                                      codeType.hashCode,
+                                                      itemId
+                                                          .hashCode))))))))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is UPCCodeData &&
+          other.tenantId == this.tenantId &&
+          other.creationTime == this.creationTime &&
+          other.deleteTime == this.deleteTime &&
+          other.createUserId == this.createUserId &&
+          other.creatorUser == this.creatorUser &&
+          other.lastModifierUser == this.lastModifierUser &&
+          other.lastModifierUserId == this.lastModifierUserId &&
+          other.deleteUserId == this.deleteUserId &&
+          other.deleterUserId == this.deleterUserId &&
+          other.isDeleted == this.isDeleted &&
+          other.id == this.id &&
+          other.upCode == this.upCode &&
+          other.codeType == this.codeType &&
+          other.itemId == this.itemId);
+}
+
+class UPCCodeCompanion extends UpdateCompanion<UPCCodeData> {
+  final Value<int> tenantId;
+  final Value<DateTime> creationTime;
+  final Value<DateTime> deleteTime;
+  final Value<int> createUserId;
+  final Value<String> creatorUser;
+  final Value<String> lastModifierUser;
+  final Value<int> lastModifierUserId;
+  final Value<int> deleteUserId;
+  final Value<String> deleterUserId;
+  final Value<bool> isDeleted;
+  final Value<int> id;
+  final Value<String> upCode;
+  final Value<String> codeType;
+  final Value<int> itemId;
+  const UPCCodeCompanion({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    this.upCode = const Value.absent(),
+    this.codeType = const Value.absent(),
+    this.itemId = const Value.absent(),
+  });
+  UPCCodeCompanion.insert({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    this.upCode = const Value.absent(),
+    this.codeType = const Value.absent(),
+    @required int itemId,
+  }) : itemId = Value(itemId);
+  static Insertable<UPCCodeData> custom({
+    Expression<int> tenantId,
+    Expression<DateTime> creationTime,
+    Expression<DateTime> deleteTime,
+    Expression<int> createUserId,
+    Expression<String> creatorUser,
+    Expression<String> lastModifierUser,
+    Expression<int> lastModifierUserId,
+    Expression<int> deleteUserId,
+    Expression<String> deleterUserId,
+    Expression<bool> isDeleted,
+    Expression<int> id,
+    Expression<String> upCode,
+    Expression<String> codeType,
+    Expression<int> itemId,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (creationTime != null) 'creation_time': creationTime,
+      if (deleteTime != null) 'delete_time': deleteTime,
+      if (createUserId != null) 'create_user_id': createUserId,
+      if (creatorUser != null) 'creator_user': creatorUser,
+      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
+      if (lastModifierUserId != null)
+        'last_modifier_user_id': lastModifierUserId,
+      if (deleteUserId != null) 'delete_user_id': deleteUserId,
+      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (id != null) 'id': id,
+      if (upCode != null) 'up_code': upCode,
+      if (codeType != null) 'code_type': codeType,
+      if (itemId != null) 'item_id': itemId,
+    });
+  }
+
+  UPCCodeCompanion copyWith(
+      {Value<int> tenantId,
+      Value<DateTime> creationTime,
+      Value<DateTime> deleteTime,
+      Value<int> createUserId,
+      Value<String> creatorUser,
+      Value<String> lastModifierUser,
+      Value<int> lastModifierUserId,
+      Value<int> deleteUserId,
+      Value<String> deleterUserId,
+      Value<bool> isDeleted,
+      Value<int> id,
+      Value<String> upCode,
+      Value<String> codeType,
+      Value<int> itemId}) {
+    return UPCCodeCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      creationTime: creationTime ?? this.creationTime,
+      deleteTime: deleteTime ?? this.deleteTime,
+      createUserId: createUserId ?? this.createUserId,
+      creatorUser: creatorUser ?? this.creatorUser,
+      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+      deleteUserId: deleteUserId ?? this.deleteUserId,
+      deleterUserId: deleterUserId ?? this.deleterUserId,
+      isDeleted: isDeleted ?? this.isDeleted,
+      id: id ?? this.id,
+      upCode: upCode ?? this.upCode,
+      codeType: codeType ?? this.codeType,
+      itemId: itemId ?? this.itemId,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (creationTime.present) {
+      map['creation_time'] = Variable<DateTime>(creationTime.value);
+    }
+    if (deleteTime.present) {
+      map['delete_time'] = Variable<DateTime>(deleteTime.value);
+    }
+    if (createUserId.present) {
+      map['create_user_id'] = Variable<int>(createUserId.value);
+    }
+    if (creatorUser.present) {
+      map['creator_user'] = Variable<String>(creatorUser.value);
+    }
+    if (lastModifierUser.present) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
+    }
+    if (lastModifierUserId.present) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
+    }
+    if (deleteUserId.present) {
+      map['delete_user_id'] = Variable<int>(deleteUserId.value);
+    }
+    if (deleterUserId.present) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (upCode.present) {
+      map['up_code'] = Variable<String>(upCode.value);
+    }
+    if (codeType.present) {
+      map['code_type'] = Variable<String>(codeType.value);
+    }
+    if (itemId.present) {
+      map['item_id'] = Variable<int>(itemId.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UPCCodeCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('upCode: $upCode, ')
+          ..write('codeType: $codeType, ')
+          ..write('itemId: $itemId')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $UPCCodeTable extends UPCCode with TableInfo<$UPCCodeTable, UPCCodeData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $UPCCodeTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creationTimeMeta =
+      const VerificationMeta('creationTime');
+  GeneratedDateTimeColumn _creationTime;
+  @override
+  GeneratedDateTimeColumn get creationTime =>
+      _creationTime ??= _constructCreationTime();
+  GeneratedDateTimeColumn _constructCreationTime() {
+    return GeneratedDateTimeColumn(
+      'creation_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
+  GeneratedDateTimeColumn _deleteTime;
+  @override
+  GeneratedDateTimeColumn get deleteTime =>
+      _deleteTime ??= _constructDeleteTime();
+  GeneratedDateTimeColumn _constructDeleteTime() {
+    return GeneratedDateTimeColumn(
+      'delete_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _createUserIdMeta =
+      const VerificationMeta('createUserId');
+  GeneratedIntColumn _createUserId;
+  @override
+  GeneratedIntColumn get createUserId =>
+      _createUserId ??= _constructCreateUserId();
+  GeneratedIntColumn _constructCreateUserId() {
+    return GeneratedIntColumn(
+      'create_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creatorUserMeta =
+      const VerificationMeta('creatorUser');
+  GeneratedTextColumn _creatorUser;
+  @override
+  GeneratedTextColumn get creatorUser =>
+      _creatorUser ??= _constructCreatorUser();
+  GeneratedTextColumn _constructCreatorUser() {
+    return GeneratedTextColumn(
+      'creator_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserMeta =
+      const VerificationMeta('lastModifierUser');
+  GeneratedTextColumn _lastModifierUser;
+  @override
+  GeneratedTextColumn get lastModifierUser =>
+      _lastModifierUser ??= _constructLastModifierUser();
+  GeneratedTextColumn _constructLastModifierUser() {
+    return GeneratedTextColumn(
+      'last_modifier_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserIdMeta =
+      const VerificationMeta('lastModifierUserId');
+  GeneratedIntColumn _lastModifierUserId;
+  @override
+  GeneratedIntColumn get lastModifierUserId =>
+      _lastModifierUserId ??= _constructLastModifierUserId();
+  GeneratedIntColumn _constructLastModifierUserId() {
+    return GeneratedIntColumn(
+      'last_modifier_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteUserIdMeta =
+      const VerificationMeta('deleteUserId');
+  GeneratedIntColumn _deleteUserId;
+  @override
+  GeneratedIntColumn get deleteUserId =>
+      _deleteUserId ??= _constructDeleteUserId();
+  GeneratedIntColumn _constructDeleteUserId() {
+    return GeneratedIntColumn(
+      'delete_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleterUserIdMeta =
+      const VerificationMeta('deleterUserId');
+  GeneratedTextColumn _deleterUserId;
+  @override
+  GeneratedTextColumn get deleterUserId =>
+      _deleterUserId ??= _constructDeleterUserId();
+  GeneratedTextColumn _constructDeleterUserId() {
+    return GeneratedTextColumn(
+      'deleter_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  GeneratedBoolColumn _isDeleted;
+  @override
+  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
+  GeneratedBoolColumn _constructIsDeleted() {
+    return GeneratedBoolColumn('is_deleted', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _upCodeMeta = const VerificationMeta('upCode');
+  GeneratedTextColumn _upCode;
+  @override
+  GeneratedTextColumn get upCode => _upCode ??= _constructUpCode();
+  GeneratedTextColumn _constructUpCode() {
+    return GeneratedTextColumn(
+      'up_code',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _codeTypeMeta = const VerificationMeta('codeType');
+  GeneratedTextColumn _codeType;
+  @override
+  GeneratedTextColumn get codeType => _codeType ??= _constructCodeType();
+  GeneratedTextColumn _constructCodeType() {
+    return GeneratedTextColumn(
+      'code_type',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
+  GeneratedIntColumn _itemId;
+  @override
+  GeneratedIntColumn get itemId => _itemId ??= _constructItemId();
+  GeneratedIntColumn _constructItemId() {
+    return GeneratedIntColumn(
+      'item_id',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        tenantId,
+        creationTime,
+        deleteTime,
+        createUserId,
+        creatorUser,
+        lastModifierUser,
+        lastModifierUserId,
+        deleteUserId,
+        deleterUserId,
+        isDeleted,
+        id,
+        upCode,
+        codeType,
+        itemId
+      ];
+  @override
+  $UPCCodeTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'u_p_c_code';
+  @override
+  final String actualTableName = 'u_p_c_code';
+  @override
+  VerificationContext validateIntegrity(Insertable<UPCCodeData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
+    if (data.containsKey('creation_time')) {
+      context.handle(
+          _creationTimeMeta,
+          creationTime.isAcceptableOrUnknown(
+              data['creation_time'], _creationTimeMeta));
+    }
+    if (data.containsKey('delete_time')) {
+      context.handle(
+          _deleteTimeMeta,
+          deleteTime.isAcceptableOrUnknown(
+              data['delete_time'], _deleteTimeMeta));
+    }
+    if (data.containsKey('create_user_id')) {
+      context.handle(
+          _createUserIdMeta,
+          createUserId.isAcceptableOrUnknown(
+              data['create_user_id'], _createUserIdMeta));
+    }
+    if (data.containsKey('creator_user')) {
+      context.handle(
+          _creatorUserMeta,
+          creatorUser.isAcceptableOrUnknown(
+              data['creator_user'], _creatorUserMeta));
+    }
+    if (data.containsKey('last_modifier_user')) {
+      context.handle(
+          _lastModifierUserMeta,
+          lastModifierUser.isAcceptableOrUnknown(
+              data['last_modifier_user'], _lastModifierUserMeta));
+    }
+    if (data.containsKey('last_modifier_user_id')) {
+      context.handle(
+          _lastModifierUserIdMeta,
+          lastModifierUserId.isAcceptableOrUnknown(
+              data['last_modifier_user_id'], _lastModifierUserIdMeta));
+    }
+    if (data.containsKey('delete_user_id')) {
+      context.handle(
+          _deleteUserIdMeta,
+          deleteUserId.isAcceptableOrUnknown(
+              data['delete_user_id'], _deleteUserIdMeta));
+    }
+    if (data.containsKey('deleter_user_id')) {
+      context.handle(
+          _deleterUserIdMeta,
+          deleterUserId.isAcceptableOrUnknown(
+              data['deleter_user_id'], _deleterUserIdMeta));
+    }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('up_code')) {
+      context.handle(_upCodeMeta,
+          upCode.isAcceptableOrUnknown(data['up_code'], _upCodeMeta));
+    }
+    if (data.containsKey('code_type')) {
+      context.handle(_codeTypeMeta,
+          codeType.isAcceptableOrUnknown(data['code_type'], _codeTypeMeta));
+    }
+    if (data.containsKey('item_id')) {
+      context.handle(_itemIdMeta,
+          itemId.isAcceptableOrUnknown(data['item_id'], _itemIdMeta));
+    } else if (isInserting) {
+      context.missing(_itemIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  UPCCodeData map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return UPCCodeData.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $UPCCodeTable createAlias(String alias) {
+    return $UPCCodeTable(_db, alias);
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $UsersTable _users;
@@ -28622,6 +29409,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       _stockUnitOfMeaseure ??= $StockUnitOfMeaseureTable(this);
   $JourneyPlanTable _journeyPlan;
   $JourneyPlanTable get journeyPlan => _journeyPlan ??= $JourneyPlanTable(this);
+  $UPCCodeTable _uPCCode;
+  $UPCCodeTable get uPCCode => _uPCCode ??= $UPCCodeTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
@@ -28653,6 +29442,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         priceList,
         unitOfMeaseure,
         stockUnitOfMeaseure,
-        journeyPlan
+        journeyPlan,
+        uPCCode
       ];
 }

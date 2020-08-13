@@ -43,6 +43,7 @@ import 'package:j3enterprise/src/pro/models/items/item_pricing_rule_model.dart';
 import 'package:j3enterprise/src/pro/models/items/price_list_model.dart';
 import 'package:j3enterprise/src/pro/models/items/stock_uom_model.dart';
 import 'package:j3enterprise/src/pro/models/items/uom_model.dart';
+import 'package:j3enterprise/src/pro/models/items/upc_code_model.dart';
 import 'package:j3enterprise/src/pro/models/sales/fullfillment/journey_plan.dart';
 import 'package:j3enterprise/src/pro/models/sales/sales_order/sales_order_detail_model.dart';
 import 'package:j3enterprise/src/pro/models/sales/sales_order/sales_order_header_model.dart';
@@ -84,7 +85,8 @@ part 'moor_database.g.dart';
   PriceList,
   UnitOfMeaseure,
   StockUnitOfMeaseure,
-  JourneyPlan
+  JourneyPlan,
+  UPCCode
 
 ])
 class AppDatabase extends _$AppDatabase {
