@@ -6,6 +6,6 @@ part of 'uom_crud.dart';
 // DaoGenerator
 // **************************************************************************
 
-mixin _$UnitOfMeaseureDaoMixin on DatabaseAccessor<AppDatabase> {
-  $UnitOfMeaseureTable get unitOfMeaseure => attachedDatabase.unitOfMeaseure;
+mixin _$UnitOfMeasureDaoMixin on DatabaseAccessor<AppDatabase> {
+  $UnitOfMeasureTable get unitOfMeasure => attachedDatabase.unitOfMeasure;
 }

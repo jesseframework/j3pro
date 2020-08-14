@@ -83,11 +83,10 @@ part 'moor_database.g.dart';
   Category,
   ItemGroups,
   PriceList,
-  UnitOfMeaseure,
-  StockUnitOfMeaseure,
+  UnitOfMeasure,
+  StockUnitOfMeasure,
   JourneyPlan,
   UPCCode
-
 ])
 class AppDatabase extends _$AppDatabase {
   static AppDatabase _db = _constructDb();
@@ -102,21 +101,20 @@ class AppDatabase extends _$AppDatabase {
   int get schemaVersion => 3;
 
   @override
-  MigrationStrategy get migration =>
-      MigrationStrategy(
-        // Runs if the database has already been opened on the device with a lower version
+  MigrationStrategy get migration => MigrationStrategy(
+          // Runs if the database has already been opened on the device with a lower version
           onUpgrade: (doMigration, from, to) async {
-            if (from == 2) {
-              //await migrator.addColumn(tasks, tasks.tagName);
-              //await doMigration.createTable(ApplicationLogger);
-            }
+        if (from == 2) {
+          //await migrator.addColumn(tasks, tasks.tagName);
+          //await doMigration.createTable(ApplicationLogger);
+        }
 
-            // ignore: unnecessary_statements
-                (db, details) async {
-              await db.customStatement(
-                  'PRAGMA foreign_keys = ON ' + 'PRAGMA journal_mode=WAL');
-            };
-          }, beforeOpen: (details) async {
+        // ignore: unnecessary_statements
+        (db, details) async {
+          await db.customStatement(
+              'PRAGMA foreign_keys = ON ' + 'PRAGMA journal_mode=WAL');
+        };
+      }, beforeOpen: (details) async {
         if (details.wasCreated) {
           String systemDate = await formatDate(DateTime.now().toString());
           await into(backgroundJobSchedule).insert(BackgroundJobScheduleData(

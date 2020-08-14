@@ -12,7 +12,7 @@ class Address extends Table implements MustHaveTenant, FullAudited {
   TextColumn get addressLine2 => text()();
   TextColumn get city => text()();
   TextColumn get state => text()();
-  TextColumn get appartment => text()();
+  TextColumn get apartment => text()();
   TextColumn get country => text()();
   TextColumn get zipCode => text()();
   TextColumn get contactPerson => text()();

@@ -16218,7 +16218,7 @@ class Addres extends DataClass implements Insertable<Addres> {
   final String addressLine2;
   final String city;
   final String state;
-  final String appartment;
+  final String apartment;
   final String country;
   final String zipCode;
   final String contactPerson;
@@ -16247,7 +16247,7 @@ class Addres extends DataClass implements Insertable<Addres> {
       @required this.addressLine2,
       @required this.city,
       @required this.state,
-      @required this.appartment,
+      @required this.apartment,
       @required this.country,
       @required this.zipCode,
       @required this.contactPerson,
@@ -16300,8 +16300,8 @@ class Addres extends DataClass implements Insertable<Addres> {
       city: stringType.mapFromDatabaseResponse(data['${effectivePrefix}city']),
       state:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}state']),
-      appartment: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}appartment']),
+      apartment: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}apartment']),
       country:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}country']),
       zipCode: stringType
@@ -16379,8 +16379,8 @@ class Addres extends DataClass implements Insertable<Addres> {
     if (!nullToAbsent || state != null) {
       map['state'] = Variable<String>(state);
     }
-    if (!nullToAbsent || appartment != null) {
-      map['appartment'] = Variable<String>(appartment);
+    if (!nullToAbsent || apartment != null) {
+      map['apartment'] = Variable<String>(apartment);
     }
     if (!nullToAbsent || country != null) {
       map['country'] = Variable<String>(country);
@@ -16463,9 +16463,9 @@ class Addres extends DataClass implements Insertable<Addres> {
       city: city == null && nullToAbsent ? const Value.absent() : Value(city),
       state:
           state == null && nullToAbsent ? const Value.absent() : Value(state),
-      appartment: appartment == null && nullToAbsent
+      apartment: apartment == null && nullToAbsent
           ? const Value.absent()
-          : Value(appartment),
+          : Value(apartment),
       country: country == null && nullToAbsent
           ? const Value.absent()
           : Value(country),
@@ -16518,7 +16518,7 @@ class Addres extends DataClass implements Insertable<Addres> {
       addressLine2: serializer.fromJson<String>(json['addressLine2']),
       city: serializer.fromJson<String>(json['city']),
       state: serializer.fromJson<String>(json['state']),
-      appartment: serializer.fromJson<String>(json['appartment']),
+      apartment: serializer.fromJson<String>(json['apartment']),
       country: serializer.fromJson<String>(json['country']),
       zipCode: serializer.fromJson<String>(json['zipCode']),
       contactPerson: serializer.fromJson<String>(json['contactPerson']),
@@ -16553,7 +16553,7 @@ class Addres extends DataClass implements Insertable<Addres> {
       'addressLine2': serializer.toJson<String>(addressLine2),
       'city': serializer.toJson<String>(city),
       'state': serializer.toJson<String>(state),
-      'appartment': serializer.toJson<String>(appartment),
+      'apartment': serializer.toJson<String>(apartment),
       'country': serializer.toJson<String>(country),
       'zipCode': serializer.toJson<String>(zipCode),
       'contactPerson': serializer.toJson<String>(contactPerson),
@@ -16585,7 +16585,7 @@ class Addres extends DataClass implements Insertable<Addres> {
           String addressLine2,
           String city,
           String state,
-          String appartment,
+          String apartment,
           String country,
           String zipCode,
           String contactPerson,
@@ -16614,7 +16614,7 @@ class Addres extends DataClass implements Insertable<Addres> {
         addressLine2: addressLine2 ?? this.addressLine2,
         city: city ?? this.city,
         state: state ?? this.state,
-        appartment: appartment ?? this.appartment,
+        apartment: apartment ?? this.apartment,
         country: country ?? this.country,
         zipCode: zipCode ?? this.zipCode,
         contactPerson: contactPerson ?? this.contactPerson,
@@ -16646,7 +16646,7 @@ class Addres extends DataClass implements Insertable<Addres> {
           ..write('addressLine2: $addressLine2, ')
           ..write('city: $city, ')
           ..write('state: $state, ')
-          ..write('appartment: $appartment, ')
+          ..write('apartment: $apartment, ')
           ..write('country: $country, ')
           ..write('zipCode: $zipCode, ')
           ..write('contactPerson: $contactPerson, ')
@@ -16702,7 +16702,7 @@ class Addres extends DataClass implements Insertable<Addres> {
                                                                           state
                                                                               .hashCode,
                                                                           $mrjc(
-                                                                              appartment.hashCode,
+                                                                              apartment.hashCode,
                                                                               $mrjc(country.hashCode, $mrjc(zipCode.hashCode, $mrjc(contactPerson.hashCode, $mrjc(phoneNumber.hashCode, $mrjc(isYourCompanyAddress.hashCode, $mrjc(isPrimaryAddress.hashCode, $mrjc(isShippingAddress.hashCode, $mrjc(latitude.hashCode, longitude.hashCode))))))))))))))))))))))))))));
   @override
   bool operator ==(dynamic other) =>
@@ -16726,7 +16726,7 @@ class Addres extends DataClass implements Insertable<Addres> {
           other.addressLine2 == this.addressLine2 &&
           other.city == this.city &&
           other.state == this.state &&
-          other.appartment == this.appartment &&
+          other.apartment == this.apartment &&
           other.country == this.country &&
           other.zipCode == this.zipCode &&
           other.contactPerson == this.contactPerson &&
@@ -16757,7 +16757,7 @@ class AddressCompanion extends UpdateCompanion<Addres> {
   final Value<String> addressLine2;
   final Value<String> city;
   final Value<String> state;
-  final Value<String> appartment;
+  final Value<String> apartment;
   final Value<String> country;
   final Value<String> zipCode;
   final Value<String> contactPerson;
@@ -16786,7 +16786,7 @@ class AddressCompanion extends UpdateCompanion<Addres> {
     this.addressLine2 = const Value.absent(),
     this.city = const Value.absent(),
     this.state = const Value.absent(),
-    this.appartment = const Value.absent(),
+    this.apartment = const Value.absent(),
     this.country = const Value.absent(),
     this.zipCode = const Value.absent(),
     this.contactPerson = const Value.absent(),
@@ -16816,7 +16816,7 @@ class AddressCompanion extends UpdateCompanion<Addres> {
     @required String addressLine2,
     @required String city,
     @required String state,
-    @required String appartment,
+    @required String apartment,
     @required String country,
     @required String zipCode,
     @required String contactPerson,
@@ -16833,7 +16833,7 @@ class AddressCompanion extends UpdateCompanion<Addres> {
         addressLine2 = Value(addressLine2),
         city = Value(city),
         state = Value(state),
-        appartment = Value(appartment),
+        apartment = Value(apartment),
         country = Value(country),
         zipCode = Value(zipCode),
         contactPerson = Value(contactPerson),
@@ -16859,7 +16859,7 @@ class AddressCompanion extends UpdateCompanion<Addres> {
     Expression<String> addressLine2,
     Expression<String> city,
     Expression<String> state,
-    Expression<String> appartment,
+    Expression<String> apartment,
     Expression<String> country,
     Expression<String> zipCode,
     Expression<String> contactPerson,
@@ -16890,7 +16890,7 @@ class AddressCompanion extends UpdateCompanion<Addres> {
       if (addressLine2 != null) 'address_line2': addressLine2,
       if (city != null) 'city': city,
       if (state != null) 'state': state,
-      if (appartment != null) 'appartment': appartment,
+      if (apartment != null) 'apartment': apartment,
       if (country != null) 'country': country,
       if (zipCode != null) 'zip_code': zipCode,
       if (contactPerson != null) 'contact_person': contactPerson,
@@ -16923,7 +16923,7 @@ class AddressCompanion extends UpdateCompanion<Addres> {
       Value<String> addressLine2,
       Value<String> city,
       Value<String> state,
-      Value<String> appartment,
+      Value<String> apartment,
       Value<String> country,
       Value<String> zipCode,
       Value<String> contactPerson,
@@ -16952,7 +16952,7 @@ class AddressCompanion extends UpdateCompanion<Addres> {
       addressLine2: addressLine2 ?? this.addressLine2,
       city: city ?? this.city,
       state: state ?? this.state,
-      appartment: appartment ?? this.appartment,
+      apartment: apartment ?? this.apartment,
       country: country ?? this.country,
       zipCode: zipCode ?? this.zipCode,
       contactPerson: contactPerson ?? this.contactPerson,
@@ -17022,8 +17022,8 @@ class AddressCompanion extends UpdateCompanion<Addres> {
     if (state.present) {
       map['state'] = Variable<String>(state.value);
     }
-    if (appartment.present) {
-      map['appartment'] = Variable<String>(appartment.value);
+    if (apartment.present) {
+      map['apartment'] = Variable<String>(apartment.value);
     }
     if (country.present) {
       map['country'] = Variable<String>(country.value);
@@ -17077,7 +17077,7 @@ class AddressCompanion extends UpdateCompanion<Addres> {
           ..write('addressLine2: $addressLine2, ')
           ..write('city: $city, ')
           ..write('state: $state, ')
-          ..write('appartment: $appartment, ')
+          ..write('apartment: $apartment, ')
           ..write('country: $country, ')
           ..write('zipCode: $zipCode, ')
           ..write('contactPerson: $contactPerson, ')
@@ -17332,13 +17332,13 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
     );
   }
 
-  final VerificationMeta _appartmentMeta = const VerificationMeta('appartment');
-  GeneratedTextColumn _appartment;
+  final VerificationMeta _apartmentMeta = const VerificationMeta('apartment');
+  GeneratedTextColumn _apartment;
   @override
-  GeneratedTextColumn get appartment => _appartment ??= _constructAppartment();
-  GeneratedTextColumn _constructAppartment() {
+  GeneratedTextColumn get apartment => _apartment ??= _constructApartment();
+  GeneratedTextColumn _constructApartment() {
     return GeneratedTextColumn(
-      'appartment',
+      'apartment',
       $tableName,
       false,
     );
@@ -17473,7 +17473,7 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
         addressLine2,
         city,
         state,
-        appartment,
+        apartment,
         country,
         zipCode,
         contactPerson,
@@ -17606,13 +17606,11 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
     } else if (isInserting) {
       context.missing(_stateMeta);
     }
-    if (data.containsKey('appartment')) {
-      context.handle(
-          _appartmentMeta,
-          appartment.isAcceptableOrUnknown(
-              data['appartment'], _appartmentMeta));
+    if (data.containsKey('apartment')) {
+      context.handle(_apartmentMeta,
+          apartment.isAcceptableOrUnknown(data['apartment'], _apartmentMeta));
     } else if (isInserting) {
-      context.missing(_appartmentMeta);
+      context.missing(_apartmentMeta);
     }
     if (data.containsKey('country')) {
       context.handle(_countryMeta,
@@ -25857,8 +25855,8 @@ class $PriceListTable extends PriceList
   }
 }
 
-class UnitOfMeaseureData extends DataClass
-    implements Insertable<UnitOfMeaseureData> {
+class UnitOfMeasureData extends DataClass
+    implements Insertable<UnitOfMeasureData> {
   final int tenantId;
   final DateTime creationTime;
   final DateTime deleteTime;
@@ -25871,7 +25869,7 @@ class UnitOfMeaseureData extends DataClass
   final bool isDeleted;
   final int id;
   final String uom;
-  UnitOfMeaseureData(
+  UnitOfMeasureData(
       {this.tenantId,
       this.creationTime,
       this.deleteTime,
@@ -25884,7 +25882,7 @@ class UnitOfMeaseureData extends DataClass
       @required this.isDeleted,
       @required this.id,
       this.uom});
-  factory UnitOfMeaseureData.fromData(
+  factory UnitOfMeasureData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -25892,7 +25890,7 @@ class UnitOfMeaseureData extends DataClass
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final stringType = db.typeSystem.forDartType<String>();
     final boolType = db.typeSystem.forDartType<bool>();
-    return UnitOfMeaseureData(
+    return UnitOfMeasureData(
       tenantId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
       creationTime: dateTimeType
@@ -25959,8 +25957,8 @@ class UnitOfMeaseureData extends DataClass
     return map;
   }
 
-  UnitOfMeaseureCompanion toCompanion(bool nullToAbsent) {
-    return UnitOfMeaseureCompanion(
+  UnitOfMeasureCompanion toCompanion(bool nullToAbsent) {
+    return UnitOfMeasureCompanion(
       tenantId: tenantId == null && nullToAbsent
           ? const Value.absent()
           : Value(tenantId),
@@ -25996,10 +25994,10 @@ class UnitOfMeaseureData extends DataClass
     );
   }
 
-  factory UnitOfMeaseureData.fromJson(Map<String, dynamic> json,
+  factory UnitOfMeasureData.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
-    return UnitOfMeaseureData(
+    return UnitOfMeasureData(
       tenantId: serializer.fromJson<int>(json['tenantId']),
       creationTime: serializer.fromJson<DateTime>(json['creationTime']),
       deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
@@ -26033,7 +26031,7 @@ class UnitOfMeaseureData extends DataClass
     };
   }
 
-  UnitOfMeaseureData copyWith(
+  UnitOfMeasureData copyWith(
           {int tenantId,
           DateTime creationTime,
           DateTime deleteTime,
@@ -26046,7 +26044,7 @@ class UnitOfMeaseureData extends DataClass
           bool isDeleted,
           int id,
           String uom}) =>
-      UnitOfMeaseureData(
+      UnitOfMeasureData(
         tenantId: tenantId ?? this.tenantId,
         creationTime: creationTime ?? this.creationTime,
         deleteTime: deleteTime ?? this.deleteTime,
@@ -26062,7 +26060,7 @@ class UnitOfMeaseureData extends DataClass
       );
   @override
   String toString() {
-    return (StringBuffer('UnitOfMeaseureData(')
+    return (StringBuffer('UnitOfMeasureData(')
           ..write('tenantId: $tenantId, ')
           ..write('creationTime: $creationTime, ')
           ..write('deleteTime: $deleteTime, ')
@@ -26105,7 +26103,7 @@ class UnitOfMeaseureData extends DataClass
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
-      (other is UnitOfMeaseureData &&
+      (other is UnitOfMeasureData &&
           other.tenantId == this.tenantId &&
           other.creationTime == this.creationTime &&
           other.deleteTime == this.deleteTime &&
@@ -26120,7 +26118,7 @@ class UnitOfMeaseureData extends DataClass
           other.uom == this.uom);
 }
 
-class UnitOfMeaseureCompanion extends UpdateCompanion<UnitOfMeaseureData> {
+class UnitOfMeasureCompanion extends UpdateCompanion<UnitOfMeasureData> {
   final Value<int> tenantId;
   final Value<DateTime> creationTime;
   final Value<DateTime> deleteTime;
@@ -26133,7 +26131,7 @@ class UnitOfMeaseureCompanion extends UpdateCompanion<UnitOfMeaseureData> {
   final Value<bool> isDeleted;
   final Value<int> id;
   final Value<String> uom;
-  const UnitOfMeaseureCompanion({
+  const UnitOfMeasureCompanion({
     this.tenantId = const Value.absent(),
     this.creationTime = const Value.absent(),
     this.deleteTime = const Value.absent(),
@@ -26147,7 +26145,7 @@ class UnitOfMeaseureCompanion extends UpdateCompanion<UnitOfMeaseureData> {
     this.id = const Value.absent(),
     this.uom = const Value.absent(),
   });
-  UnitOfMeaseureCompanion.insert({
+  UnitOfMeasureCompanion.insert({
     this.tenantId = const Value.absent(),
     this.creationTime = const Value.absent(),
     this.deleteTime = const Value.absent(),
@@ -26161,7 +26159,7 @@ class UnitOfMeaseureCompanion extends UpdateCompanion<UnitOfMeaseureData> {
     this.id = const Value.absent(),
     this.uom = const Value.absent(),
   });
-  static Insertable<UnitOfMeaseureData> custom({
+  static Insertable<UnitOfMeasureData> custom({
     Expression<int> tenantId,
     Expression<DateTime> creationTime,
     Expression<DateTime> deleteTime,
@@ -26192,7 +26190,7 @@ class UnitOfMeaseureCompanion extends UpdateCompanion<UnitOfMeaseureData> {
     });
   }
 
-  UnitOfMeaseureCompanion copyWith(
+  UnitOfMeasureCompanion copyWith(
       {Value<int> tenantId,
       Value<DateTime> creationTime,
       Value<DateTime> deleteTime,
@@ -26205,7 +26203,7 @@ class UnitOfMeaseureCompanion extends UpdateCompanion<UnitOfMeaseureData> {
       Value<bool> isDeleted,
       Value<int> id,
       Value<String> uom}) {
-    return UnitOfMeaseureCompanion(
+    return UnitOfMeasureCompanion(
       tenantId: tenantId ?? this.tenantId,
       creationTime: creationTime ?? this.creationTime,
       deleteTime: deleteTime ?? this.deleteTime,
@@ -26265,7 +26263,7 @@ class UnitOfMeaseureCompanion extends UpdateCompanion<UnitOfMeaseureData> {
 
   @override
   String toString() {
-    return (StringBuffer('UnitOfMeaseureCompanion(')
+    return (StringBuffer('UnitOfMeasureCompanion(')
           ..write('tenantId: $tenantId, ')
           ..write('creationTime: $creationTime, ')
           ..write('deleteTime: $deleteTime, ')
@@ -26283,11 +26281,11 @@ class UnitOfMeaseureCompanion extends UpdateCompanion<UnitOfMeaseureData> {
   }
 }
 
-class $UnitOfMeaseureTable extends UnitOfMeaseure
-    with TableInfo<$UnitOfMeaseureTable, UnitOfMeaseureData> {
+class $UnitOfMeasureTable extends UnitOfMeasure
+    with TableInfo<$UnitOfMeasureTable, UnitOfMeasureData> {
   final GeneratedDatabase _db;
   final String _alias;
-  $UnitOfMeaseureTable(this._db, [this._alias]);
+  $UnitOfMeasureTable(this._db, [this._alias]);
   final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
   GeneratedIntColumn _tenantId;
   @override
@@ -26460,13 +26458,13 @@ class $UnitOfMeaseureTable extends UnitOfMeaseure
         uom
       ];
   @override
-  $UnitOfMeaseureTable get asDslTable => this;
+  $UnitOfMeasureTable get asDslTable => this;
   @override
-  String get $tableName => _alias ?? 'unit_of_measeure';
+  String get $tableName => _alias ?? 'unit_of_measure';
   @override
-  final String actualTableName = 'unit_of_measeure';
+  final String actualTableName = 'unit_of_measure';
   @override
-  VerificationContext validateIntegrity(Insertable<UnitOfMeaseureData> instance,
+  VerificationContext validateIntegrity(Insertable<UnitOfMeasureData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -26539,19 +26537,19 @@ class $UnitOfMeaseureTable extends UnitOfMeaseure
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  UnitOfMeaseureData map(Map<String, dynamic> data, {String tablePrefix}) {
+  UnitOfMeasureData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
-    return UnitOfMeaseureData.fromData(data, _db, prefix: effectivePrefix);
+    return UnitOfMeasureData.fromData(data, _db, prefix: effectivePrefix);
   }
 
   @override
-  $UnitOfMeaseureTable createAlias(String alias) {
-    return $UnitOfMeaseureTable(_db, alias);
+  $UnitOfMeasureTable createAlias(String alias) {
+    return $UnitOfMeasureTable(_db, alias);
   }
 }
 
-class StockUnitOfMeaseureData extends DataClass
-    implements Insertable<StockUnitOfMeaseureData> {
+class StockUnitOfMeasureData extends DataClass
+    implements Insertable<StockUnitOfMeasureData> {
   final int tenantId;
   final DateTime creationTime;
   final DateTime deleteTime;
@@ -26565,7 +26563,7 @@ class StockUnitOfMeaseureData extends DataClass
   final int id;
   final int itemId;
   final String uom;
-  StockUnitOfMeaseureData(
+  StockUnitOfMeasureData(
       {this.tenantId,
       this.creationTime,
       this.deleteTime,
@@ -26579,7 +26577,7 @@ class StockUnitOfMeaseureData extends DataClass
       @required this.id,
       @required this.itemId,
       this.uom});
-  factory StockUnitOfMeaseureData.fromData(
+  factory StockUnitOfMeasureData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -26587,7 +26585,7 @@ class StockUnitOfMeaseureData extends DataClass
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final stringType = db.typeSystem.forDartType<String>();
     final boolType = db.typeSystem.forDartType<bool>();
-    return StockUnitOfMeaseureData(
+    return StockUnitOfMeasureData(
       tenantId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
       creationTime: dateTimeType
@@ -26659,8 +26657,8 @@ class StockUnitOfMeaseureData extends DataClass
     return map;
   }
 
-  StockUnitOfMeaseureCompanion toCompanion(bool nullToAbsent) {
-    return StockUnitOfMeaseureCompanion(
+  StockUnitOfMeasureCompanion toCompanion(bool nullToAbsent) {
+    return StockUnitOfMeasureCompanion(
       tenantId: tenantId == null && nullToAbsent
           ? const Value.absent()
           : Value(tenantId),
@@ -26698,10 +26696,10 @@ class StockUnitOfMeaseureData extends DataClass
     );
   }
 
-  factory StockUnitOfMeaseureData.fromJson(Map<String, dynamic> json,
+  factory StockUnitOfMeasureData.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
-    return StockUnitOfMeaseureData(
+    return StockUnitOfMeasureData(
       tenantId: serializer.fromJson<int>(json['tenantId']),
       creationTime: serializer.fromJson<DateTime>(json['creationTime']),
       deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
@@ -26737,7 +26735,7 @@ class StockUnitOfMeaseureData extends DataClass
     };
   }
 
-  StockUnitOfMeaseureData copyWith(
+  StockUnitOfMeasureData copyWith(
           {int tenantId,
           DateTime creationTime,
           DateTime deleteTime,
@@ -26751,7 +26749,7 @@ class StockUnitOfMeaseureData extends DataClass
           int id,
           int itemId,
           String uom}) =>
-      StockUnitOfMeaseureData(
+      StockUnitOfMeasureData(
         tenantId: tenantId ?? this.tenantId,
         creationTime: creationTime ?? this.creationTime,
         deleteTime: deleteTime ?? this.deleteTime,
@@ -26768,7 +26766,7 @@ class StockUnitOfMeaseureData extends DataClass
       );
   @override
   String toString() {
-    return (StringBuffer('StockUnitOfMeaseureData(')
+    return (StringBuffer('StockUnitOfMeasureData(')
           ..write('tenantId: $tenantId, ')
           ..write('creationTime: $creationTime, ')
           ..write('deleteTime: $deleteTime, ')
@@ -26814,7 +26812,7 @@ class StockUnitOfMeaseureData extends DataClass
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
-      (other is StockUnitOfMeaseureData &&
+      (other is StockUnitOfMeasureData &&
           other.tenantId == this.tenantId &&
           other.creationTime == this.creationTime &&
           other.deleteTime == this.deleteTime &&
@@ -26830,8 +26828,8 @@ class StockUnitOfMeaseureData extends DataClass
           other.uom == this.uom);
 }
 
-class StockUnitOfMeaseureCompanion
-    extends UpdateCompanion<StockUnitOfMeaseureData> {
+class StockUnitOfMeasureCompanion
+    extends UpdateCompanion<StockUnitOfMeasureData> {
   final Value<int> tenantId;
   final Value<DateTime> creationTime;
   final Value<DateTime> deleteTime;
@@ -26845,7 +26843,7 @@ class StockUnitOfMeaseureCompanion
   final Value<int> id;
   final Value<int> itemId;
   final Value<String> uom;
-  const StockUnitOfMeaseureCompanion({
+  const StockUnitOfMeasureCompanion({
     this.tenantId = const Value.absent(),
     this.creationTime = const Value.absent(),
     this.deleteTime = const Value.absent(),
@@ -26860,7 +26858,7 @@ class StockUnitOfMeaseureCompanion
     this.itemId = const Value.absent(),
     this.uom = const Value.absent(),
   });
-  StockUnitOfMeaseureCompanion.insert({
+  StockUnitOfMeasureCompanion.insert({
     this.tenantId = const Value.absent(),
     this.creationTime = const Value.absent(),
     this.deleteTime = const Value.absent(),
@@ -26875,7 +26873,7 @@ class StockUnitOfMeaseureCompanion
     @required int itemId,
     this.uom = const Value.absent(),
   }) : itemId = Value(itemId);
-  static Insertable<StockUnitOfMeaseureData> custom({
+  static Insertable<StockUnitOfMeasureData> custom({
     Expression<int> tenantId,
     Expression<DateTime> creationTime,
     Expression<DateTime> deleteTime,
@@ -26908,7 +26906,7 @@ class StockUnitOfMeaseureCompanion
     });
   }
 
-  StockUnitOfMeaseureCompanion copyWith(
+  StockUnitOfMeasureCompanion copyWith(
       {Value<int> tenantId,
       Value<DateTime> creationTime,
       Value<DateTime> deleteTime,
@@ -26922,7 +26920,7 @@ class StockUnitOfMeaseureCompanion
       Value<int> id,
       Value<int> itemId,
       Value<String> uom}) {
-    return StockUnitOfMeaseureCompanion(
+    return StockUnitOfMeasureCompanion(
       tenantId: tenantId ?? this.tenantId,
       creationTime: creationTime ?? this.creationTime,
       deleteTime: deleteTime ?? this.deleteTime,
@@ -26986,7 +26984,7 @@ class StockUnitOfMeaseureCompanion
 
   @override
   String toString() {
-    return (StringBuffer('StockUnitOfMeaseureCompanion(')
+    return (StringBuffer('StockUnitOfMeasureCompanion(')
           ..write('tenantId: $tenantId, ')
           ..write('creationTime: $creationTime, ')
           ..write('deleteTime: $deleteTime, ')
@@ -27005,11 +27003,11 @@ class StockUnitOfMeaseureCompanion
   }
 }
 
-class $StockUnitOfMeaseureTable extends StockUnitOfMeaseure
-    with TableInfo<$StockUnitOfMeaseureTable, StockUnitOfMeaseureData> {
+class $StockUnitOfMeasureTable extends StockUnitOfMeasure
+    with TableInfo<$StockUnitOfMeasureTable, StockUnitOfMeasureData> {
   final GeneratedDatabase _db;
   final String _alias;
-  $StockUnitOfMeaseureTable(this._db, [this._alias]);
+  $StockUnitOfMeasureTable(this._db, [this._alias]);
   final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
   GeneratedIntColumn _tenantId;
   @override
@@ -27195,14 +27193,14 @@ class $StockUnitOfMeaseureTable extends StockUnitOfMeaseure
         uom
       ];
   @override
-  $StockUnitOfMeaseureTable get asDslTable => this;
+  $StockUnitOfMeasureTable get asDslTable => this;
   @override
-  String get $tableName => _alias ?? 'stock_unit_of_measeure';
+  String get $tableName => _alias ?? 'stock_unit_of_measure';
   @override
-  final String actualTableName = 'stock_unit_of_measeure';
+  final String actualTableName = 'stock_unit_of_measure';
   @override
   VerificationContext validateIntegrity(
-      Insertable<StockUnitOfMeaseureData> instance,
+      Insertable<StockUnitOfMeasureData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -27281,14 +27279,14 @@ class $StockUnitOfMeaseureTable extends StockUnitOfMeaseure
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  StockUnitOfMeaseureData map(Map<String, dynamic> data, {String tablePrefix}) {
+  StockUnitOfMeasureData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
-    return StockUnitOfMeaseureData.fromData(data, _db, prefix: effectivePrefix);
+    return StockUnitOfMeasureData.fromData(data, _db, prefix: effectivePrefix);
   }
 
   @override
-  $StockUnitOfMeaseureTable createAlias(String alias) {
-    return $StockUnitOfMeaseureTable(_db, alias);
+  $StockUnitOfMeasureTable createAlias(String alias) {
+    return $StockUnitOfMeasureTable(_db, alias);
   }
 }
 
@@ -28561,7 +28559,7 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
   final String deleterUserId;
   final bool isDeleted;
   final int id;
-  final String upCode;
+  final String upcCode;
   final String codeType;
   final int itemId;
   UPCCodeData(
@@ -28576,7 +28574,7 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
       this.deleterUserId,
       @required this.isDeleted,
       @required this.id,
-      this.upCode,
+      this.upcCode,
       this.codeType,
       @required this.itemId});
   factory UPCCodeData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
@@ -28608,8 +28606,8 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
       isDeleted: boolType
           .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      upCode:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}up_code']),
+      upcCode: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}upc_code']),
       codeType: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}code_type']),
       itemId:
@@ -28652,8 +28650,8 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int>(id);
     }
-    if (!nullToAbsent || upCode != null) {
-      map['up_code'] = Variable<String>(upCode);
+    if (!nullToAbsent || upcCode != null) {
+      map['upc_code'] = Variable<String>(upcCode);
     }
     if (!nullToAbsent || codeType != null) {
       map['code_type'] = Variable<String>(codeType);
@@ -28697,8 +28695,9 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
           ? const Value.absent()
           : Value(isDeleted),
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      upCode:
-          upCode == null && nullToAbsent ? const Value.absent() : Value(upCode),
+      upcCode: upcCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(upcCode),
       codeType: codeType == null && nullToAbsent
           ? const Value.absent()
           : Value(codeType),
@@ -28722,7 +28721,7 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
       deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
       isDeleted: serializer.fromJson<bool>(json['isDeleted']),
       id: serializer.fromJson<int>(json['id']),
-      upCode: serializer.fromJson<String>(json['upCode']),
+      upcCode: serializer.fromJson<String>(json['upcCode']),
       codeType: serializer.fromJson<String>(json['codeType']),
       itemId: serializer.fromJson<int>(json['itemId']),
     );
@@ -28742,7 +28741,7 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
       'deleterUserId': serializer.toJson<String>(deleterUserId),
       'isDeleted': serializer.toJson<bool>(isDeleted),
       'id': serializer.toJson<int>(id),
-      'upCode': serializer.toJson<String>(upCode),
+      'upcCode': serializer.toJson<String>(upcCode),
       'codeType': serializer.toJson<String>(codeType),
       'itemId': serializer.toJson<int>(itemId),
     };
@@ -28760,7 +28759,7 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
           String deleterUserId,
           bool isDeleted,
           int id,
-          String upCode,
+          String upcCode,
           String codeType,
           int itemId}) =>
       UPCCodeData(
@@ -28775,7 +28774,7 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
         deleterUserId: deleterUserId ?? this.deleterUserId,
         isDeleted: isDeleted ?? this.isDeleted,
         id: id ?? this.id,
-        upCode: upCode ?? this.upCode,
+        upcCode: upcCode ?? this.upcCode,
         codeType: codeType ?? this.codeType,
         itemId: itemId ?? this.itemId,
       );
@@ -28793,7 +28792,7 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
           ..write('deleterUserId: $deleterUserId, ')
           ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
-          ..write('upCode: $upCode, ')
+          ..write('upcCode: $upcCode, ')
           ..write('codeType: $codeType, ')
           ..write('itemId: $itemId')
           ..write(')'))
@@ -28824,7 +28823,7 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
                                           $mrjc(
                                               id.hashCode,
                                               $mrjc(
-                                                  upCode.hashCode,
+                                                  upcCode.hashCode,
                                                   $mrjc(
                                                       codeType.hashCode,
                                                       itemId
@@ -28844,7 +28843,7 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
           other.deleterUserId == this.deleterUserId &&
           other.isDeleted == this.isDeleted &&
           other.id == this.id &&
-          other.upCode == this.upCode &&
+          other.upcCode == this.upcCode &&
           other.codeType == this.codeType &&
           other.itemId == this.itemId);
 }
@@ -28861,7 +28860,7 @@ class UPCCodeCompanion extends UpdateCompanion<UPCCodeData> {
   final Value<String> deleterUserId;
   final Value<bool> isDeleted;
   final Value<int> id;
-  final Value<String> upCode;
+  final Value<String> upcCode;
   final Value<String> codeType;
   final Value<int> itemId;
   const UPCCodeCompanion({
@@ -28876,7 +28875,7 @@ class UPCCodeCompanion extends UpdateCompanion<UPCCodeData> {
     this.deleterUserId = const Value.absent(),
     this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
-    this.upCode = const Value.absent(),
+    this.upcCode = const Value.absent(),
     this.codeType = const Value.absent(),
     this.itemId = const Value.absent(),
   });
@@ -28892,7 +28891,7 @@ class UPCCodeCompanion extends UpdateCompanion<UPCCodeData> {
     this.deleterUserId = const Value.absent(),
     this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
-    this.upCode = const Value.absent(),
+    this.upcCode = const Value.absent(),
     this.codeType = const Value.absent(),
     @required int itemId,
   }) : itemId = Value(itemId);
@@ -28908,7 +28907,7 @@ class UPCCodeCompanion extends UpdateCompanion<UPCCodeData> {
     Expression<String> deleterUserId,
     Expression<bool> isDeleted,
     Expression<int> id,
-    Expression<String> upCode,
+    Expression<String> upcCode,
     Expression<String> codeType,
     Expression<int> itemId,
   }) {
@@ -28925,7 +28924,7 @@ class UPCCodeCompanion extends UpdateCompanion<UPCCodeData> {
       if (deleterUserId != null) 'deleter_user_id': deleterUserId,
       if (isDeleted != null) 'is_deleted': isDeleted,
       if (id != null) 'id': id,
-      if (upCode != null) 'up_code': upCode,
+      if (upcCode != null) 'upc_code': upcCode,
       if (codeType != null) 'code_type': codeType,
       if (itemId != null) 'item_id': itemId,
     });
@@ -28943,7 +28942,7 @@ class UPCCodeCompanion extends UpdateCompanion<UPCCodeData> {
       Value<String> deleterUserId,
       Value<bool> isDeleted,
       Value<int> id,
-      Value<String> upCode,
+      Value<String> upcCode,
       Value<String> codeType,
       Value<int> itemId}) {
     return UPCCodeCompanion(
@@ -28958,7 +28957,7 @@ class UPCCodeCompanion extends UpdateCompanion<UPCCodeData> {
       deleterUserId: deleterUserId ?? this.deleterUserId,
       isDeleted: isDeleted ?? this.isDeleted,
       id: id ?? this.id,
-      upCode: upCode ?? this.upCode,
+      upcCode: upcCode ?? this.upcCode,
       codeType: codeType ?? this.codeType,
       itemId: itemId ?? this.itemId,
     );
@@ -29000,8 +28999,8 @@ class UPCCodeCompanion extends UpdateCompanion<UPCCodeData> {
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
-    if (upCode.present) {
-      map['up_code'] = Variable<String>(upCode.value);
+    if (upcCode.present) {
+      map['upc_code'] = Variable<String>(upcCode.value);
     }
     if (codeType.present) {
       map['code_type'] = Variable<String>(codeType.value);
@@ -29026,7 +29025,7 @@ class UPCCodeCompanion extends UpdateCompanion<UPCCodeData> {
           ..write('deleterUserId: $deleterUserId, ')
           ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
-          ..write('upCode: $upCode, ')
+          ..write('upcCode: $upcCode, ')
           ..write('codeType: $codeType, ')
           ..write('itemId: $itemId')
           ..write(')'))
@@ -29182,13 +29181,13 @@ class $UPCCodeTable extends UPCCode with TableInfo<$UPCCodeTable, UPCCodeData> {
     );
   }
 
-  final VerificationMeta _upCodeMeta = const VerificationMeta('upCode');
-  GeneratedTextColumn _upCode;
+  final VerificationMeta _upcCodeMeta = const VerificationMeta('upcCode');
+  GeneratedTextColumn _upcCode;
   @override
-  GeneratedTextColumn get upCode => _upCode ??= _constructUpCode();
-  GeneratedTextColumn _constructUpCode() {
+  GeneratedTextColumn get upcCode => _upcCode ??= _constructUpcCode();
+  GeneratedTextColumn _constructUpcCode() {
     return GeneratedTextColumn(
-      'up_code',
+      'upc_code',
       $tableName,
       true,
     );
@@ -29231,7 +29230,7 @@ class $UPCCodeTable extends UPCCode with TableInfo<$UPCCodeTable, UPCCodeData> {
         deleterUserId,
         isDeleted,
         id,
-        upCode,
+        upcCode,
         codeType,
         itemId
       ];
@@ -29305,9 +29304,9 @@ class $UPCCodeTable extends UPCCode with TableInfo<$UPCCodeTable, UPCCodeData> {
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     }
-    if (data.containsKey('up_code')) {
-      context.handle(_upCodeMeta,
-          upCode.isAcceptableOrUnknown(data['up_code'], _upCodeMeta));
+    if (data.containsKey('upc_code')) {
+      context.handle(_upcCodeMeta,
+          upcCode.isAcceptableOrUnknown(data['upc_code'], _upcCodeMeta));
     }
     if (data.containsKey('code_type')) {
       context.handle(_codeTypeMeta,
@@ -29401,12 +29400,12 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $ItemGroupsTable get itemGroups => _itemGroups ??= $ItemGroupsTable(this);
   $PriceListTable _priceList;
   $PriceListTable get priceList => _priceList ??= $PriceListTable(this);
-  $UnitOfMeaseureTable _unitOfMeaseure;
-  $UnitOfMeaseureTable get unitOfMeaseure =>
-      _unitOfMeaseure ??= $UnitOfMeaseureTable(this);
-  $StockUnitOfMeaseureTable _stockUnitOfMeaseure;
-  $StockUnitOfMeaseureTable get stockUnitOfMeaseure =>
-      _stockUnitOfMeaseure ??= $StockUnitOfMeaseureTable(this);
+  $UnitOfMeasureTable _unitOfMeasure;
+  $UnitOfMeasureTable get unitOfMeasure =>
+      _unitOfMeasure ??= $UnitOfMeasureTable(this);
+  $StockUnitOfMeasureTable _stockUnitOfMeasure;
+  $StockUnitOfMeasureTable get stockUnitOfMeasure =>
+      _stockUnitOfMeasure ??= $StockUnitOfMeasureTable(this);
   $JourneyPlanTable _journeyPlan;
   $JourneyPlanTable get journeyPlan => _journeyPlan ??= $JourneyPlanTable(this);
   $UPCCodeTable _uPCCode;
@@ -29440,8 +29439,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         category,
         itemGroups,
         priceList,
-        unitOfMeaseure,
-        stockUnitOfMeaseure,
+        unitOfMeasure,
+        stockUnitOfMeasure,
         journeyPlan,
         uPCCode
       ];

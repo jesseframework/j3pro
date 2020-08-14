@@ -1,16 +1,36 @@
 import 'package:j3enterprise/src/database/moor_database.dart';
-
 import 'package:j3enterprise/src/pro/models/items/stock_uom_model.dart';
-
-
 import 'package:moor/moor.dart';
 
 part 'stock_uom_crud.g.dart';
 
-@UseDao(tables: [StockUnitOfMeaseure])
-class StockUnitOfMeaseureDao extends DatabaseAccessor<AppDatabase> with _$StockUnitOfMeaseureDaoMixin {
+@UseDao(tables: [StockUnitOfMeasure])
+class StockUnitOfMeasureDao extends DatabaseAccessor<AppDatabase>
+    with _$StockUnitOfMeasureDaoMixin {
   final AppDatabase db;
-  StockUnitOfMeaseureDao(this.db) : super(db);
+  StockUnitOfMeasureDao(this.db) : super(db);
 
-  
+  Future<List<StockUnitOfMeasureData>> getAllStockUnitOfMeasureData() {
+    return (select(db.stockUnitOfMeasure).get());
+  }
+
+  Stream<List<StockUnitOfMeasureData>> watchAllStockUnitOfMeasureByUOM(
+      String uom) {
+    return (select(db.stockUnitOfMeasure)..where((t) => t.uom.equals(uom)))
+        .watch();
+  }
+
+  Future<List<StockUnitOfMeasureData>> getAllStockUnitOfMeasureByUOM(
+      String uom) {
+    return (select(db.stockUnitOfMeasure)..where((t) => t.uom.equals(uom)))
+        .get();
+  }
+
+  Future<void> createOrUpdateUOM(
+      StockUnitOfMeasureData stockUnitOfMeasureData) {
+    return into(db.stockUnitOfMeasure)
+        .insertOnConflictUpdate(stockUnitOfMeasureData);
+  }
+
+  Future deleteAllStockUnitOfMeasure() => delete(db.stockUnitOfMeasure).go();
 }

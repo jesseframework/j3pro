@@ -2,7 +2,7 @@ import 'package:j3enterprise/src/resources/shared/extension/full_audited.dart';
 import 'package:j3enterprise/src/resources/shared/extension/must_have_tenant.dart';
 import 'package:moor/moor.dart';
 
-class UnitOfMeaseure extends Table implements MustHaveTenant, FullAudited {
+class UnitOfMeasure extends Table implements MustHaveTenant, FullAudited {
   IntColumn get id => integer()();
   TextColumn get uom => text().nullable()();
   IntColumn get tenantId => integer().nullable()();

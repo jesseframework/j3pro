@@ -6,7 +6,7 @@ part of 'stock_uom_crud.dart';
 // DaoGenerator
 // **************************************************************************
 
-mixin _$StockUnitOfMeaseureDaoMixin on DatabaseAccessor<AppDatabase> {
-  $StockUnitOfMeaseureTable get stockUnitOfMeaseure =>
-      attachedDatabase.stockUnitOfMeaseure;
+mixin _$StockUnitOfMeasureDaoMixin on DatabaseAccessor<AppDatabase> {
+  $StockUnitOfMeasureTable get stockUnitOfMeasure =>
+      attachedDatabase.stockUnitOfMeasure;
 }
