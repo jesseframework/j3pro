@@ -63,6 +63,117 @@ abstract class RestApiService extends ChopperService {
   @Post(path: '/services/app/SalesOrder/Create')
   Future<Response> createSalesOrder(@Body() Map<String, dynamic> body);
 
+  @Get(path: '/services/app/Customer/GetAll')
+  Future<Response> getAllCustomer();
+
+  @Get(path: '/services/app/Customer/Get')
+  Future<Response> getAllCustomerById();
+
+  @Post(path: '/services/app/Customer/Create')
+  Future<Response> createCustomerInServer(@Body() Map<String, dynamic> body);
+
+  @Post(path: '/services/app/Customer/Update')
+  Future<Response> updateCustomerInServer(@Body() Map<String, dynamic> body);
+
+  @Get(path: '/services/app/Journey/Get')
+  Future<Response> getJourneyPlanBySalesRep();
+
+  @Get(path: '/services/app/Item/GetAll')
+  Future<Response> getAllItems();
+
+  @Get(path: '/services/app/Item/Get')
+  Future<Response> getItemById();
+
+  @Post(path: '/services/app/Item/Create')
+  Future<Response> createItemInServer(@Body() Map<String, dynamic> body);
+
+  @Post(path: '/services/app/Item/Update')
+  Future<Response> updateItemInServer(@Body() Map<String, dynamic> body);
+
+  @Get(path: '/services/app/ItemGroup/GetAll')
+  Future<Response> getAllItemGroup();
+
+  @Get(path: '/services/app/ItemGroup/Get')
+  Future<Response> getItemGroup();
+
+  @Post(path: '/services/app/ItemGroup/Create')
+  Future<Response> createItemGroupInServer(@Body() Map<String, dynamic> body);
+
+  @Post(path: '/services/app/ItemGroup/Update')
+  Future<Response> updateItemGroupInServer(@Body() Map<String, dynamic> body);
+
+  @Get(path: '/services/app/Category/GetAll')
+  Future<Response> getAllCategory();
+
+  @Get(path: '/services/app/Category/Get')
+  Future<Response> getCategory();
+
+  @Post(path: '/services/app/Category/Create')
+  Future<Response> createCategoryInServer(@Body() Map<String, dynamic> body);
+
+  @Post(path: '/services/app/Category/Update')
+  Future<Response> updateCategoryInServer(@Body() Map<String, dynamic> body);
+
+  @Get(path: '/services/app/PriceList/GetAll')
+  Future<Response> getAllPriceList();
+
+  @Get(path: '/services/app/PriceList/Get')
+  Future<Response> getPriceList();
+
+  @Post(path: '/services/app/PriceList/Create')
+  Future<Response> createPriceListInServer(@Body() Map<String, dynamic> body);
+
+  @Post(path: '/services/app/PriceList/Update')
+  Future<Response> updatePriceListInServer(@Body() Map<String, dynamic> body);
+
+  @Get(path: '/services/app/PricingRule/GetAll')
+  Future<Response> getAllPricingRule();
+
+  @Get(path: '/services/app/PricingRule/Get')
+  Future<Response> getPricingRule();
+
+  @Post(path: '/services/app/PricingRule/Create')
+  Future<Response> createPricingRuleInServer(@Body() Map<String, dynamic> body);
+
+  @Post(path: '/services/app/PricingRule/Update')
+  Future<Response> updatePricingRuleInServer(@Body() Map<String, dynamic> body);
+
+  @Get(path: '/services/app/StockUOM/GetAll')
+  Future<Response> getAllStockUOM();
+
+  @Get(path: '/services/app/StockUOM/Get')
+  Future<Response> getStockUOM();
+
+  @Post(path: '/services/app/StockUOM/Create')
+  Future<Response> createStockUOMInServer(@Body() Map<String, dynamic> body);
+
+  @Post(path: '/services/app/StockUOM/Update')
+  Future<Response> updateStockUOMInServer(@Body() Map<String, dynamic> body);
+
+  @Get(path: '/services/app/Uom/GetAll')
+  Future<Response> getAllUom();
+
+  @Get(path: '/services/app/Uom/Get')
+  Future<Response> getUom();
+
+  @Post(path: '/services/app/Uom/Create')
+  Future<Response> createUomInServer(@Body() Map<String, dynamic> body);
+
+  @Post(path: '/services/app/Uom/Update')
+  Future<Response> updateUomInServer(@Body() Map<String, dynamic> body);
+
+  @Get(path: '/services/app/UpcCode/GetAll')
+  Future<Response> getAllUpcCode();
+
+  @Get(path: '/services/app/UpcCode/Get')
+  Future<Response> getUpcCode();
+
+  @Post(path: '/services/app/UpcCode/Create')
+  Future<Response> createUpcCodeInServer(@Body() Map<String, dynamic> body);
+
+  @Post(path: '/services/app/UpcCode/Update')
+  Future<Response> updateUpcCodeInServer(@Body() Map<String, dynamic> body);
+
   //End user Point
 
   @Post(path: '/{url}')

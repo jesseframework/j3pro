@@ -100,6 +100,285 @@ class _$RestApiService extends RestApiService {
   }
 
   @override
+  Future<Response<dynamic>> getAllCustomer() {
+    final $url = '/api/services/app/Customer/GetAll';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> getAllCustomerById() {
+    final $url = '/api/services/app/Customer/Get';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> createCustomerInServer(Map<String, dynamic> body) {
+    final $url = '/api/services/app/Customer/Create';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> updateCustomerInServer(Map<String, dynamic> body) {
+    final $url = '/api/services/app/Customer/Update';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> getJourneyPlanBySalesRep() {
+    final $url = '/api/services/app/Journey/Get';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> getAllItems() {
+    final $url = '/api/services/app/Item/GetAll';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> getItemById() {
+    final $url = '/api/services/app/Item/Get';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> createItemInServer(Map<String, dynamic> body) {
+    final $url = '/api/services/app/Item/Create';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> updateItemInServer(Map<String, dynamic> body) {
+    final $url = '/api/services/app/Item/Update';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> getAllItemGroup() {
+    final $url = '/api/services/app/ItemGroup/GetAll';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> getItemGroup() {
+    final $url = '/api/services/app/ItemGroup/Get';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> createItemGroupInServer(Map<String, dynamic> body) {
+    final $url = '/api/services/app/ItemGroup/Create';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> updateItemGroupInServer(Map<String, dynamic> body) {
+    final $url = '/api/services/app/ItemGroup/Update';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> getAllCategory() {
+    final $url = '/api/services/app/Category/GetAll';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> getCategory() {
+    final $url = '/api/services/app/Category/Get';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> createCategoryInServer(Map<String, dynamic> body) {
+    final $url = '/api/services/app/Category/Create';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> updateCategoryInServer(Map<String, dynamic> body) {
+    final $url = '/api/services/app/Category/Update';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> getAllPriceList() {
+    final $url = '/api/services/app/PriceList/GetAll';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> getPriceList() {
+    final $url = '/api/services/app/PriceList/Get';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> createPriceListInServer(Map<String, dynamic> body) {
+    final $url = '/api/services/app/PriceList/Create';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> updatePriceListInServer(Map<String, dynamic> body) {
+    final $url = '/api/services/app/PriceList/Update';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> getAllPricingRule() {
+    final $url = '/api/services/app/PricingRule/GetAll';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> getPricingRule() {
+    final $url = '/api/services/app/PricingRule/Get';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> createPricingRuleInServer(
+      Map<String, dynamic> body) {
+    final $url = '/api/services/app/PricingRule/Create';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> updatePricingRuleInServer(
+      Map<String, dynamic> body) {
+    final $url = '/api/services/app/PricingRule/Update';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> getAllStockUOM() {
+    final $url = '/api/services/app/StockUOM/GetAll';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> getStockUOM() {
+    final $url = '/api/services/app/StockUOM/Get';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> createStockUOMInServer(Map<String, dynamic> body) {
+    final $url = '/api/services/app/StockUOM/Create';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> updateStockUOMInServer(Map<String, dynamic> body) {
+    final $url = '/api/services/app/StockUOM/Update';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> getAllUom() {
+    final $url = '/api/services/app/Uom/GetAll';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> getUom() {
+    final $url = '/api/services/app/Uom/Get';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> createUomInServer(Map<String, dynamic> body) {
+    final $url = '/api/services/app/Uom/Create';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> updateUomInServer(Map<String, dynamic> body) {
+    final $url = '/api/services/app/Uom/Update';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> getAllUpcCode() {
+    final $url = '/api/services/app/UpcCode/GetAll';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> getUpcCode() {
+    final $url = '/api/services/app/UpcCode/Get';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> createUpcCodeInServer(Map<String, dynamic> body) {
+    final $url = '/api/services/app/UpcCode/Create';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> updateUpcCodeInServer(Map<String, dynamic> body) {
+    final $url = '/api/services/app/UpcCode/Update';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<dynamic>> sampleWithUrlAndQuery(String url, String page) {
     final $url = '/api/$url';
     final $params = <String, dynamic>{'page': page};
