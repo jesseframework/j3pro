@@ -24,7 +24,7 @@ class ItemPriceDao extends DatabaseAccessor<AppDatabase>
         .get();
   }
 
-  Future<void> createOrUpdateItems(ItemPriceData itemPriceData) {
+  Future<void> createOrUpdateItemPrice(ItemPriceData itemPriceData) {
     return into(db.itemPrice).insertOnConflictUpdate(itemPriceData);
   }
 

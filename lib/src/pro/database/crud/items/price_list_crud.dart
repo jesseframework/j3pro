@@ -27,7 +27,7 @@ class PriceListDao extends DatabaseAccessor<AppDatabase>
         .get();
   }
 
-  Future<void> createOrUpdateItems(PriceListData priceListData) {
+  Future<void> createOrUpdatePriceList(PriceListData priceListData) {
     return into(db.priceList).insertOnConflictUpdate(priceListData);
   }
 

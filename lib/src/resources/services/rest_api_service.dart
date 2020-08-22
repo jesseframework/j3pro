@@ -117,14 +117,26 @@ abstract class RestApiService extends ChopperService {
   @Get(path: '/services/app/PriceList/GetAll')
   Future<Response> getAllPriceList();
 
-  @Get(path: '/services/app/PriceList/Get')
+  @Get(path: '/services/app/PricingBundle/Get')
   Future<Response> getPriceList();
 
-  @Post(path: '/services/app/PriceList/Create')
+  @Post(path: '/services/app/PricingBundle/Create')
   Future<Response> createPriceListInServer(@Body() Map<String, dynamic> body);
 
-  @Post(path: '/services/app/PriceList/Update')
+  @Post(path: '/services/app/PricingBundle/Update')
   Future<Response> updatePriceListInServer(@Body() Map<String, dynamic> body);
+
+  @Get(path: '/services/app/PricingBundle/GetAll')
+  Future<Response> getAllPrices();
+
+  @Get(path: '/services/app/PriceList/Get')
+  Future<Response> getPrice();
+
+  @Post(path: '/services/app/PriceList/Create')
+  Future<Response> createPriceInServer(@Body() Map<String, dynamic> body);
+
+  @Post(path: '/services/app/PriceList/Update')
+  Future<Response> updatePriceInServer(@Body() Map<String, dynamic> body);
 
   @Get(path: '/services/app/PricingRule/GetAll')
   Future<Response> getAllPricingRule();
