@@ -49,6 +49,7 @@ import 'package:j3enterprise/src/pro/models/sales/sales_order/sales_order_detail
 import 'package:j3enterprise/src/pro/models/sales/sales_order/sales_order_header_model.dart';
 import 'package:j3enterprise/src/pro/models/series_number/series_number_model.dart';
 import 'package:j3enterprise/src/pro/models/series_number/temp_number_logs.dart';
+import 'package:j3enterprise/src/pro/models/warehouse/inventory_items_model.dart';
 import 'package:j3enterprise/src/resources/shared/utils/date_formating.dart';
 import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
@@ -86,7 +87,8 @@ part 'moor_database.g.dart';
   UnitOfMeasure,
   StockUnitOfMeasure,
   JourneyPlan,
-  UPCCode
+  UPCCode,
+  InventoryItems
 ])
 class AppDatabase extends _$AppDatabase {
   static AppDatabase _db = _constructDb();

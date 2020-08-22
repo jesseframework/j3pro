@@ -18860,7 +18860,7 @@ class Item extends DataClass implements Insertable<Item> {
   final String itemGroup;
   final String taxGroup;
   final String uom;
-  final String trackInventory;
+  final bool trackInventory;
   final String category;
   final bool isProductBundleParent;
   final bool isQuickMenue;
@@ -18886,7 +18886,7 @@ class Item extends DataClass implements Insertable<Item> {
       this.itemGroup,
       this.taxGroup,
       this.uom,
-      this.trackInventory,
+      @required this.trackInventory,
       this.category,
       @required this.isProductBundleParent,
       @required this.isQuickMenue,
@@ -18934,7 +18934,7 @@ class Item extends DataClass implements Insertable<Item> {
       taxGroup: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}tax_group']),
       uom: stringType.mapFromDatabaseResponse(data['${effectivePrefix}uom']),
-      trackInventory: stringType
+      trackInventory: boolType
           .mapFromDatabaseResponse(data['${effectivePrefix}track_inventory']),
       category: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}category']),
@@ -19007,7 +19007,7 @@ class Item extends DataClass implements Insertable<Item> {
       map['uom'] = Variable<String>(uom);
     }
     if (!nullToAbsent || trackInventory != null) {
-      map['track_inventory'] = Variable<String>(trackInventory);
+      map['track_inventory'] = Variable<bool>(trackInventory);
     }
     if (!nullToAbsent || category != null) {
       map['category'] = Variable<String>(category);
@@ -19130,7 +19130,7 @@ class Item extends DataClass implements Insertable<Item> {
       itemGroup: serializer.fromJson<String>(json['itemGroup']),
       taxGroup: serializer.fromJson<String>(json['taxGroup']),
       uom: serializer.fromJson<String>(json['uom']),
-      trackInventory: serializer.fromJson<String>(json['trackInventory']),
+      trackInventory: serializer.fromJson<bool>(json['trackInventory']),
       category: serializer.fromJson<String>(json['category']),
       isProductBundleParent:
           serializer.fromJson<bool>(json['isProductBundleParent']),
@@ -19162,7 +19162,7 @@ class Item extends DataClass implements Insertable<Item> {
       'itemGroup': serializer.toJson<String>(itemGroup),
       'taxGroup': serializer.toJson<String>(taxGroup),
       'uom': serializer.toJson<String>(uom),
-      'trackInventory': serializer.toJson<String>(trackInventory),
+      'trackInventory': serializer.toJson<bool>(trackInventory),
       'category': serializer.toJson<String>(category),
       'isProductBundleParent': serializer.toJson<bool>(isProductBundleParent),
       'isQuickMenue': serializer.toJson<bool>(isQuickMenue),
@@ -19191,7 +19191,7 @@ class Item extends DataClass implements Insertable<Item> {
           String itemGroup,
           String taxGroup,
           String uom,
-          String trackInventory,
+          bool trackInventory,
           String category,
           bool isProductBundleParent,
           bool isQuickMenue,
@@ -19352,7 +19352,7 @@ class ItemsCompanion extends UpdateCompanion<Item> {
   final Value<String> itemGroup;
   final Value<String> taxGroup;
   final Value<String> uom;
-  final Value<String> trackInventory;
+  final Value<bool> trackInventory;
   final Value<String> category;
   final Value<bool> isProductBundleParent;
   final Value<bool> isQuickMenue;
@@ -19432,7 +19432,7 @@ class ItemsCompanion extends UpdateCompanion<Item> {
     Expression<String> itemGroup,
     Expression<String> taxGroup,
     Expression<String> uom,
-    Expression<String> trackInventory,
+    Expression<bool> trackInventory,
     Expression<String> category,
     Expression<bool> isProductBundleParent,
     Expression<bool> isQuickMenue,
@@ -19490,7 +19490,7 @@ class ItemsCompanion extends UpdateCompanion<Item> {
       Value<String> itemGroup,
       Value<String> taxGroup,
       Value<String> uom,
-      Value<String> trackInventory,
+      Value<bool> trackInventory,
       Value<String> category,
       Value<bool> isProductBundleParent,
       Value<bool> isQuickMenue,
@@ -19583,7 +19583,7 @@ class ItemsCompanion extends UpdateCompanion<Item> {
       map['uom'] = Variable<String>(uom.value);
     }
     if (trackInventory.present) {
-      map['track_inventory'] = Variable<String>(trackInventory.value);
+      map['track_inventory'] = Variable<bool>(trackInventory.value);
     }
     if (category.present) {
       map['category'] = Variable<String>(category.value);
@@ -19867,16 +19867,13 @@ class $ItemsTable extends Items with TableInfo<$ItemsTable, Item> {
 
   final VerificationMeta _trackInventoryMeta =
       const VerificationMeta('trackInventory');
-  GeneratedTextColumn _trackInventory;
+  GeneratedBoolColumn _trackInventory;
   @override
-  GeneratedTextColumn get trackInventory =>
+  GeneratedBoolColumn get trackInventory =>
       _trackInventory ??= _constructTrackInventory();
-  GeneratedTextColumn _constructTrackInventory() {
-    return GeneratedTextColumn(
-      'track_inventory',
-      $tableName,
-      true,
-    );
+  GeneratedBoolColumn _constructTrackInventory() {
+    return GeneratedBoolColumn('track_inventory', $tableName, false,
+        defaultValue: Constant(false));
   }
 
   final VerificationMeta _categoryMeta = const VerificationMeta('category');
@@ -29335,6 +29332,1097 @@ class $UPCCodeTable extends UPCCode with TableInfo<$UPCCodeTable, UPCCodeData> {
   }
 }
 
+class InventoryItem extends DataClass implements Insertable<InventoryItem> {
+  final int tenantId;
+  final DateTime creationTime;
+  final DateTime deleteTime;
+  final int createUserId;
+  final String creatorUser;
+  final String lastModifierUser;
+  final int lastModifierUserId;
+  final int deleteUserId;
+  final String deleterUserId;
+  final bool isDeleted;
+  final int id;
+  final String itemCode;
+  final String itemName;
+  final String uom;
+  final String defaultWarehouse;
+  final double qtyOnHand;
+  final double qtyAdjust;
+  final double qtySold;
+  final double qtyCount;
+  final String inventoryCycleNumber;
+  InventoryItem(
+      {this.tenantId,
+      this.creationTime,
+      this.deleteTime,
+      this.createUserId,
+      this.creatorUser,
+      this.lastModifierUser,
+      this.lastModifierUserId,
+      this.deleteUserId,
+      this.deleterUserId,
+      @required this.isDeleted,
+      @required this.id,
+      this.itemCode,
+      this.itemName,
+      this.uom,
+      this.defaultWarehouse,
+      @required this.qtyOnHand,
+      @required this.qtyAdjust,
+      @required this.qtySold,
+      @required this.qtyCount,
+      @required this.inventoryCycleNumber});
+  factory InventoryItem.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    final doubleType = db.typeSystem.forDartType<double>();
+    return InventoryItem(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      creationTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
+      deleteTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
+      createUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
+      creatorUser: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
+      lastModifierUser: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user']),
+      lastModifierUserId: intType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user_id']),
+      deleteUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
+      deleterUserId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
+      isDeleted: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      itemCode: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}item_code']),
+      itemName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}item_name']),
+      uom: stringType.mapFromDatabaseResponse(data['${effectivePrefix}uom']),
+      defaultWarehouse: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}default_warehouse']),
+      qtyOnHand: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}qty_on_hand']),
+      qtyAdjust: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}qty_adjust']),
+      qtySold: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}qty_sold']),
+      qtyCount: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}qty_count']),
+      inventoryCycleNumber: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}inventory_cycle_number']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || creationTime != null) {
+      map['creation_time'] = Variable<DateTime>(creationTime);
+    }
+    if (!nullToAbsent || deleteTime != null) {
+      map['delete_time'] = Variable<DateTime>(deleteTime);
+    }
+    if (!nullToAbsent || createUserId != null) {
+      map['create_user_id'] = Variable<int>(createUserId);
+    }
+    if (!nullToAbsent || creatorUser != null) {
+      map['creator_user'] = Variable<String>(creatorUser);
+    }
+    if (!nullToAbsent || lastModifierUser != null) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser);
+    }
+    if (!nullToAbsent || lastModifierUserId != null) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
+    }
+    if (!nullToAbsent || deleteUserId != null) {
+      map['delete_user_id'] = Variable<int>(deleteUserId);
+    }
+    if (!nullToAbsent || deleterUserId != null) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId);
+    }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || itemCode != null) {
+      map['item_code'] = Variable<String>(itemCode);
+    }
+    if (!nullToAbsent || itemName != null) {
+      map['item_name'] = Variable<String>(itemName);
+    }
+    if (!nullToAbsent || uom != null) {
+      map['uom'] = Variable<String>(uom);
+    }
+    if (!nullToAbsent || defaultWarehouse != null) {
+      map['default_warehouse'] = Variable<String>(defaultWarehouse);
+    }
+    if (!nullToAbsent || qtyOnHand != null) {
+      map['qty_on_hand'] = Variable<double>(qtyOnHand);
+    }
+    if (!nullToAbsent || qtyAdjust != null) {
+      map['qty_adjust'] = Variable<double>(qtyAdjust);
+    }
+    if (!nullToAbsent || qtySold != null) {
+      map['qty_sold'] = Variable<double>(qtySold);
+    }
+    if (!nullToAbsent || qtyCount != null) {
+      map['qty_count'] = Variable<double>(qtyCount);
+    }
+    if (!nullToAbsent || inventoryCycleNumber != null) {
+      map['inventory_cycle_number'] = Variable<String>(inventoryCycleNumber);
+    }
+    return map;
+  }
+
+  InventoryItemsCompanion toCompanion(bool nullToAbsent) {
+    return InventoryItemsCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      creationTime: creationTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creationTime),
+      deleteTime: deleteTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteTime),
+      createUserId: createUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createUserId),
+      creatorUser: creatorUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creatorUser),
+      lastModifierUser: lastModifierUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUser),
+      lastModifierUserId: lastModifierUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUserId),
+      deleteUserId: deleteUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteUserId),
+      deleterUserId: deleterUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleterUserId),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      itemCode: itemCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(itemCode),
+      itemName: itemName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(itemName),
+      uom: uom == null && nullToAbsent ? const Value.absent() : Value(uom),
+      defaultWarehouse: defaultWarehouse == null && nullToAbsent
+          ? const Value.absent()
+          : Value(defaultWarehouse),
+      qtyOnHand: qtyOnHand == null && nullToAbsent
+          ? const Value.absent()
+          : Value(qtyOnHand),
+      qtyAdjust: qtyAdjust == null && nullToAbsent
+          ? const Value.absent()
+          : Value(qtyAdjust),
+      qtySold: qtySold == null && nullToAbsent
+          ? const Value.absent()
+          : Value(qtySold),
+      qtyCount: qtyCount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(qtyCount),
+      inventoryCycleNumber: inventoryCycleNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(inventoryCycleNumber),
+    );
+  }
+
+  factory InventoryItem.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return InventoryItem(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
+      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
+      createUserId: serializer.fromJson<int>(json['createUserId']),
+      creatorUser: serializer.fromJson<String>(json['creatorUser']),
+      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
+      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
+      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
+      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      id: serializer.fromJson<int>(json['id']),
+      itemCode: serializer.fromJson<String>(json['itemCode']),
+      itemName: serializer.fromJson<String>(json['itemName']),
+      uom: serializer.fromJson<String>(json['uom']),
+      defaultWarehouse: serializer.fromJson<String>(json['defaultWarehouse']),
+      qtyOnHand: serializer.fromJson<double>(json['qtyOnHand']),
+      qtyAdjust: serializer.fromJson<double>(json['qtyAdjust']),
+      qtySold: serializer.fromJson<double>(json['qtySold']),
+      qtyCount: serializer.fromJson<double>(json['qtyCount']),
+      inventoryCycleNumber:
+          serializer.fromJson<String>(json['inventoryCycleNumber']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'creationTime': serializer.toJson<DateTime>(creationTime),
+      'deleteTime': serializer.toJson<DateTime>(deleteTime),
+      'createUserId': serializer.toJson<int>(createUserId),
+      'creatorUser': serializer.toJson<String>(creatorUser),
+      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
+      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
+      'deleteUserId': serializer.toJson<int>(deleteUserId),
+      'deleterUserId': serializer.toJson<String>(deleterUserId),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'id': serializer.toJson<int>(id),
+      'itemCode': serializer.toJson<String>(itemCode),
+      'itemName': serializer.toJson<String>(itemName),
+      'uom': serializer.toJson<String>(uom),
+      'defaultWarehouse': serializer.toJson<String>(defaultWarehouse),
+      'qtyOnHand': serializer.toJson<double>(qtyOnHand),
+      'qtyAdjust': serializer.toJson<double>(qtyAdjust),
+      'qtySold': serializer.toJson<double>(qtySold),
+      'qtyCount': serializer.toJson<double>(qtyCount),
+      'inventoryCycleNumber': serializer.toJson<String>(inventoryCycleNumber),
+    };
+  }
+
+  InventoryItem copyWith(
+          {int tenantId,
+          DateTime creationTime,
+          DateTime deleteTime,
+          int createUserId,
+          String creatorUser,
+          String lastModifierUser,
+          int lastModifierUserId,
+          int deleteUserId,
+          String deleterUserId,
+          bool isDeleted,
+          int id,
+          String itemCode,
+          String itemName,
+          String uom,
+          String defaultWarehouse,
+          double qtyOnHand,
+          double qtyAdjust,
+          double qtySold,
+          double qtyCount,
+          String inventoryCycleNumber}) =>
+      InventoryItem(
+        tenantId: tenantId ?? this.tenantId,
+        creationTime: creationTime ?? this.creationTime,
+        deleteTime: deleteTime ?? this.deleteTime,
+        createUserId: createUserId ?? this.createUserId,
+        creatorUser: creatorUser ?? this.creatorUser,
+        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+        deleteUserId: deleteUserId ?? this.deleteUserId,
+        deleterUserId: deleterUserId ?? this.deleterUserId,
+        isDeleted: isDeleted ?? this.isDeleted,
+        id: id ?? this.id,
+        itemCode: itemCode ?? this.itemCode,
+        itemName: itemName ?? this.itemName,
+        uom: uom ?? this.uom,
+        defaultWarehouse: defaultWarehouse ?? this.defaultWarehouse,
+        qtyOnHand: qtyOnHand ?? this.qtyOnHand,
+        qtyAdjust: qtyAdjust ?? this.qtyAdjust,
+        qtySold: qtySold ?? this.qtySold,
+        qtyCount: qtyCount ?? this.qtyCount,
+        inventoryCycleNumber: inventoryCycleNumber ?? this.inventoryCycleNumber,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('InventoryItem(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('itemCode: $itemCode, ')
+          ..write('itemName: $itemName, ')
+          ..write('uom: $uom, ')
+          ..write('defaultWarehouse: $defaultWarehouse, ')
+          ..write('qtyOnHand: $qtyOnHand, ')
+          ..write('qtyAdjust: $qtyAdjust, ')
+          ..write('qtySold: $qtySold, ')
+          ..write('qtyCount: $qtyCount, ')
+          ..write('inventoryCycleNumber: $inventoryCycleNumber')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode,
+      $mrjc(
+          creationTime.hashCode,
+          $mrjc(
+              deleteTime.hashCode,
+              $mrjc(
+                  createUserId.hashCode,
+                  $mrjc(
+                      creatorUser.hashCode,
+                      $mrjc(
+                          lastModifierUser.hashCode,
+                          $mrjc(
+                              lastModifierUserId.hashCode,
+                              $mrjc(
+                                  deleteUserId.hashCode,
+                                  $mrjc(
+                                      deleterUserId.hashCode,
+                                      $mrjc(
+                                          isDeleted.hashCode,
+                                          $mrjc(
+                                              id.hashCode,
+                                              $mrjc(
+                                                  itemCode.hashCode,
+                                                  $mrjc(
+                                                      itemName.hashCode,
+                                                      $mrjc(
+                                                          uom.hashCode,
+                                                          $mrjc(
+                                                              defaultWarehouse
+                                                                  .hashCode,
+                                                              $mrjc(
+                                                                  qtyOnHand
+                                                                      .hashCode,
+                                                                  $mrjc(
+                                                                      qtyAdjust
+                                                                          .hashCode,
+                                                                      $mrjc(
+                                                                          qtySold
+                                                                              .hashCode,
+                                                                          $mrjc(
+                                                                              qtyCount.hashCode,
+                                                                              inventoryCycleNumber.hashCode))))))))))))))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is InventoryItem &&
+          other.tenantId == this.tenantId &&
+          other.creationTime == this.creationTime &&
+          other.deleteTime == this.deleteTime &&
+          other.createUserId == this.createUserId &&
+          other.creatorUser == this.creatorUser &&
+          other.lastModifierUser == this.lastModifierUser &&
+          other.lastModifierUserId == this.lastModifierUserId &&
+          other.deleteUserId == this.deleteUserId &&
+          other.deleterUserId == this.deleterUserId &&
+          other.isDeleted == this.isDeleted &&
+          other.id == this.id &&
+          other.itemCode == this.itemCode &&
+          other.itemName == this.itemName &&
+          other.uom == this.uom &&
+          other.defaultWarehouse == this.defaultWarehouse &&
+          other.qtyOnHand == this.qtyOnHand &&
+          other.qtyAdjust == this.qtyAdjust &&
+          other.qtySold == this.qtySold &&
+          other.qtyCount == this.qtyCount &&
+          other.inventoryCycleNumber == this.inventoryCycleNumber);
+}
+
+class InventoryItemsCompanion extends UpdateCompanion<InventoryItem> {
+  final Value<int> tenantId;
+  final Value<DateTime> creationTime;
+  final Value<DateTime> deleteTime;
+  final Value<int> createUserId;
+  final Value<String> creatorUser;
+  final Value<String> lastModifierUser;
+  final Value<int> lastModifierUserId;
+  final Value<int> deleteUserId;
+  final Value<String> deleterUserId;
+  final Value<bool> isDeleted;
+  final Value<int> id;
+  final Value<String> itemCode;
+  final Value<String> itemName;
+  final Value<String> uom;
+  final Value<String> defaultWarehouse;
+  final Value<double> qtyOnHand;
+  final Value<double> qtyAdjust;
+  final Value<double> qtySold;
+  final Value<double> qtyCount;
+  final Value<String> inventoryCycleNumber;
+  const InventoryItemsCompanion({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    this.itemCode = const Value.absent(),
+    this.itemName = const Value.absent(),
+    this.uom = const Value.absent(),
+    this.defaultWarehouse = const Value.absent(),
+    this.qtyOnHand = const Value.absent(),
+    this.qtyAdjust = const Value.absent(),
+    this.qtySold = const Value.absent(),
+    this.qtyCount = const Value.absent(),
+    this.inventoryCycleNumber = const Value.absent(),
+  });
+  InventoryItemsCompanion.insert({
+    this.tenantId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.id = const Value.absent(),
+    this.itemCode = const Value.absent(),
+    this.itemName = const Value.absent(),
+    this.uom = const Value.absent(),
+    this.defaultWarehouse = const Value.absent(),
+    @required double qtyOnHand,
+    @required double qtyAdjust,
+    @required double qtySold,
+    @required double qtyCount,
+    @required String inventoryCycleNumber,
+  })  : qtyOnHand = Value(qtyOnHand),
+        qtyAdjust = Value(qtyAdjust),
+        qtySold = Value(qtySold),
+        qtyCount = Value(qtyCount),
+        inventoryCycleNumber = Value(inventoryCycleNumber);
+  static Insertable<InventoryItem> custom({
+    Expression<int> tenantId,
+    Expression<DateTime> creationTime,
+    Expression<DateTime> deleteTime,
+    Expression<int> createUserId,
+    Expression<String> creatorUser,
+    Expression<String> lastModifierUser,
+    Expression<int> lastModifierUserId,
+    Expression<int> deleteUserId,
+    Expression<String> deleterUserId,
+    Expression<bool> isDeleted,
+    Expression<int> id,
+    Expression<String> itemCode,
+    Expression<String> itemName,
+    Expression<String> uom,
+    Expression<String> defaultWarehouse,
+    Expression<double> qtyOnHand,
+    Expression<double> qtyAdjust,
+    Expression<double> qtySold,
+    Expression<double> qtyCount,
+    Expression<String> inventoryCycleNumber,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (creationTime != null) 'creation_time': creationTime,
+      if (deleteTime != null) 'delete_time': deleteTime,
+      if (createUserId != null) 'create_user_id': createUserId,
+      if (creatorUser != null) 'creator_user': creatorUser,
+      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
+      if (lastModifierUserId != null)
+        'last_modifier_user_id': lastModifierUserId,
+      if (deleteUserId != null) 'delete_user_id': deleteUserId,
+      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (id != null) 'id': id,
+      if (itemCode != null) 'item_code': itemCode,
+      if (itemName != null) 'item_name': itemName,
+      if (uom != null) 'uom': uom,
+      if (defaultWarehouse != null) 'default_warehouse': defaultWarehouse,
+      if (qtyOnHand != null) 'qty_on_hand': qtyOnHand,
+      if (qtyAdjust != null) 'qty_adjust': qtyAdjust,
+      if (qtySold != null) 'qty_sold': qtySold,
+      if (qtyCount != null) 'qty_count': qtyCount,
+      if (inventoryCycleNumber != null)
+        'inventory_cycle_number': inventoryCycleNumber,
+    });
+  }
+
+  InventoryItemsCompanion copyWith(
+      {Value<int> tenantId,
+      Value<DateTime> creationTime,
+      Value<DateTime> deleteTime,
+      Value<int> createUserId,
+      Value<String> creatorUser,
+      Value<String> lastModifierUser,
+      Value<int> lastModifierUserId,
+      Value<int> deleteUserId,
+      Value<String> deleterUserId,
+      Value<bool> isDeleted,
+      Value<int> id,
+      Value<String> itemCode,
+      Value<String> itemName,
+      Value<String> uom,
+      Value<String> defaultWarehouse,
+      Value<double> qtyOnHand,
+      Value<double> qtyAdjust,
+      Value<double> qtySold,
+      Value<double> qtyCount,
+      Value<String> inventoryCycleNumber}) {
+    return InventoryItemsCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      creationTime: creationTime ?? this.creationTime,
+      deleteTime: deleteTime ?? this.deleteTime,
+      createUserId: createUserId ?? this.createUserId,
+      creatorUser: creatorUser ?? this.creatorUser,
+      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+      deleteUserId: deleteUserId ?? this.deleteUserId,
+      deleterUserId: deleterUserId ?? this.deleterUserId,
+      isDeleted: isDeleted ?? this.isDeleted,
+      id: id ?? this.id,
+      itemCode: itemCode ?? this.itemCode,
+      itemName: itemName ?? this.itemName,
+      uom: uom ?? this.uom,
+      defaultWarehouse: defaultWarehouse ?? this.defaultWarehouse,
+      qtyOnHand: qtyOnHand ?? this.qtyOnHand,
+      qtyAdjust: qtyAdjust ?? this.qtyAdjust,
+      qtySold: qtySold ?? this.qtySold,
+      qtyCount: qtyCount ?? this.qtyCount,
+      inventoryCycleNumber: inventoryCycleNumber ?? this.inventoryCycleNumber,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (creationTime.present) {
+      map['creation_time'] = Variable<DateTime>(creationTime.value);
+    }
+    if (deleteTime.present) {
+      map['delete_time'] = Variable<DateTime>(deleteTime.value);
+    }
+    if (createUserId.present) {
+      map['create_user_id'] = Variable<int>(createUserId.value);
+    }
+    if (creatorUser.present) {
+      map['creator_user'] = Variable<String>(creatorUser.value);
+    }
+    if (lastModifierUser.present) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
+    }
+    if (lastModifierUserId.present) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
+    }
+    if (deleteUserId.present) {
+      map['delete_user_id'] = Variable<int>(deleteUserId.value);
+    }
+    if (deleterUserId.present) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (itemCode.present) {
+      map['item_code'] = Variable<String>(itemCode.value);
+    }
+    if (itemName.present) {
+      map['item_name'] = Variable<String>(itemName.value);
+    }
+    if (uom.present) {
+      map['uom'] = Variable<String>(uom.value);
+    }
+    if (defaultWarehouse.present) {
+      map['default_warehouse'] = Variable<String>(defaultWarehouse.value);
+    }
+    if (qtyOnHand.present) {
+      map['qty_on_hand'] = Variable<double>(qtyOnHand.value);
+    }
+    if (qtyAdjust.present) {
+      map['qty_adjust'] = Variable<double>(qtyAdjust.value);
+    }
+    if (qtySold.present) {
+      map['qty_sold'] = Variable<double>(qtySold.value);
+    }
+    if (qtyCount.present) {
+      map['qty_count'] = Variable<double>(qtyCount.value);
+    }
+    if (inventoryCycleNumber.present) {
+      map['inventory_cycle_number'] =
+          Variable<String>(inventoryCycleNumber.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('InventoryItemsCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('id: $id, ')
+          ..write('itemCode: $itemCode, ')
+          ..write('itemName: $itemName, ')
+          ..write('uom: $uom, ')
+          ..write('defaultWarehouse: $defaultWarehouse, ')
+          ..write('qtyOnHand: $qtyOnHand, ')
+          ..write('qtyAdjust: $qtyAdjust, ')
+          ..write('qtySold: $qtySold, ')
+          ..write('qtyCount: $qtyCount, ')
+          ..write('inventoryCycleNumber: $inventoryCycleNumber')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $InventoryItemsTable extends InventoryItems
+    with TableInfo<$InventoryItemsTable, InventoryItem> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $InventoryItemsTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creationTimeMeta =
+      const VerificationMeta('creationTime');
+  GeneratedDateTimeColumn _creationTime;
+  @override
+  GeneratedDateTimeColumn get creationTime =>
+      _creationTime ??= _constructCreationTime();
+  GeneratedDateTimeColumn _constructCreationTime() {
+    return GeneratedDateTimeColumn(
+      'creation_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
+  GeneratedDateTimeColumn _deleteTime;
+  @override
+  GeneratedDateTimeColumn get deleteTime =>
+      _deleteTime ??= _constructDeleteTime();
+  GeneratedDateTimeColumn _constructDeleteTime() {
+    return GeneratedDateTimeColumn(
+      'delete_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _createUserIdMeta =
+      const VerificationMeta('createUserId');
+  GeneratedIntColumn _createUserId;
+  @override
+  GeneratedIntColumn get createUserId =>
+      _createUserId ??= _constructCreateUserId();
+  GeneratedIntColumn _constructCreateUserId() {
+    return GeneratedIntColumn(
+      'create_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creatorUserMeta =
+      const VerificationMeta('creatorUser');
+  GeneratedTextColumn _creatorUser;
+  @override
+  GeneratedTextColumn get creatorUser =>
+      _creatorUser ??= _constructCreatorUser();
+  GeneratedTextColumn _constructCreatorUser() {
+    return GeneratedTextColumn(
+      'creator_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserMeta =
+      const VerificationMeta('lastModifierUser');
+  GeneratedTextColumn _lastModifierUser;
+  @override
+  GeneratedTextColumn get lastModifierUser =>
+      _lastModifierUser ??= _constructLastModifierUser();
+  GeneratedTextColumn _constructLastModifierUser() {
+    return GeneratedTextColumn(
+      'last_modifier_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserIdMeta =
+      const VerificationMeta('lastModifierUserId');
+  GeneratedIntColumn _lastModifierUserId;
+  @override
+  GeneratedIntColumn get lastModifierUserId =>
+      _lastModifierUserId ??= _constructLastModifierUserId();
+  GeneratedIntColumn _constructLastModifierUserId() {
+    return GeneratedIntColumn(
+      'last_modifier_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteUserIdMeta =
+      const VerificationMeta('deleteUserId');
+  GeneratedIntColumn _deleteUserId;
+  @override
+  GeneratedIntColumn get deleteUserId =>
+      _deleteUserId ??= _constructDeleteUserId();
+  GeneratedIntColumn _constructDeleteUserId() {
+    return GeneratedIntColumn(
+      'delete_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleterUserIdMeta =
+      const VerificationMeta('deleterUserId');
+  GeneratedTextColumn _deleterUserId;
+  @override
+  GeneratedTextColumn get deleterUserId =>
+      _deleterUserId ??= _constructDeleterUserId();
+  GeneratedTextColumn _constructDeleterUserId() {
+    return GeneratedTextColumn(
+      'deleter_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  GeneratedBoolColumn _isDeleted;
+  @override
+  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
+  GeneratedBoolColumn _constructIsDeleted() {
+    return GeneratedBoolColumn('is_deleted', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _itemCodeMeta = const VerificationMeta('itemCode');
+  GeneratedTextColumn _itemCode;
+  @override
+  GeneratedTextColumn get itemCode => _itemCode ??= _constructItemCode();
+  GeneratedTextColumn _constructItemCode() {
+    return GeneratedTextColumn(
+      'item_code',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _itemNameMeta = const VerificationMeta('itemName');
+  GeneratedTextColumn _itemName;
+  @override
+  GeneratedTextColumn get itemName => _itemName ??= _constructItemName();
+  GeneratedTextColumn _constructItemName() {
+    return GeneratedTextColumn(
+      'item_name',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _uomMeta = const VerificationMeta('uom');
+  GeneratedTextColumn _uom;
+  @override
+  GeneratedTextColumn get uom => _uom ??= _constructUom();
+  GeneratedTextColumn _constructUom() {
+    return GeneratedTextColumn(
+      'uom',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _defaultWarehouseMeta =
+      const VerificationMeta('defaultWarehouse');
+  GeneratedTextColumn _defaultWarehouse;
+  @override
+  GeneratedTextColumn get defaultWarehouse =>
+      _defaultWarehouse ??= _constructDefaultWarehouse();
+  GeneratedTextColumn _constructDefaultWarehouse() {
+    return GeneratedTextColumn(
+      'default_warehouse',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _qtyOnHandMeta = const VerificationMeta('qtyOnHand');
+  GeneratedRealColumn _qtyOnHand;
+  @override
+  GeneratedRealColumn get qtyOnHand => _qtyOnHand ??= _constructQtyOnHand();
+  GeneratedRealColumn _constructQtyOnHand() {
+    return GeneratedRealColumn(
+      'qty_on_hand',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _qtyAdjustMeta = const VerificationMeta('qtyAdjust');
+  GeneratedRealColumn _qtyAdjust;
+  @override
+  GeneratedRealColumn get qtyAdjust => _qtyAdjust ??= _constructQtyAdjust();
+  GeneratedRealColumn _constructQtyAdjust() {
+    return GeneratedRealColumn(
+      'qty_adjust',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _qtySoldMeta = const VerificationMeta('qtySold');
+  GeneratedRealColumn _qtySold;
+  @override
+  GeneratedRealColumn get qtySold => _qtySold ??= _constructQtySold();
+  GeneratedRealColumn _constructQtySold() {
+    return GeneratedRealColumn(
+      'qty_sold',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _qtyCountMeta = const VerificationMeta('qtyCount');
+  GeneratedRealColumn _qtyCount;
+  @override
+  GeneratedRealColumn get qtyCount => _qtyCount ??= _constructQtyCount();
+  GeneratedRealColumn _constructQtyCount() {
+    return GeneratedRealColumn(
+      'qty_count',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _inventoryCycleNumberMeta =
+      const VerificationMeta('inventoryCycleNumber');
+  GeneratedTextColumn _inventoryCycleNumber;
+  @override
+  GeneratedTextColumn get inventoryCycleNumber =>
+      _inventoryCycleNumber ??= _constructInventoryCycleNumber();
+  GeneratedTextColumn _constructInventoryCycleNumber() {
+    return GeneratedTextColumn(
+      'inventory_cycle_number',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        tenantId,
+        creationTime,
+        deleteTime,
+        createUserId,
+        creatorUser,
+        lastModifierUser,
+        lastModifierUserId,
+        deleteUserId,
+        deleterUserId,
+        isDeleted,
+        id,
+        itemCode,
+        itemName,
+        uom,
+        defaultWarehouse,
+        qtyOnHand,
+        qtyAdjust,
+        qtySold,
+        qtyCount,
+        inventoryCycleNumber
+      ];
+  @override
+  $InventoryItemsTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'inventory_items';
+  @override
+  final String actualTableName = 'inventory_items';
+  @override
+  VerificationContext validateIntegrity(Insertable<InventoryItem> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
+    if (data.containsKey('creation_time')) {
+      context.handle(
+          _creationTimeMeta,
+          creationTime.isAcceptableOrUnknown(
+              data['creation_time'], _creationTimeMeta));
+    }
+    if (data.containsKey('delete_time')) {
+      context.handle(
+          _deleteTimeMeta,
+          deleteTime.isAcceptableOrUnknown(
+              data['delete_time'], _deleteTimeMeta));
+    }
+    if (data.containsKey('create_user_id')) {
+      context.handle(
+          _createUserIdMeta,
+          createUserId.isAcceptableOrUnknown(
+              data['create_user_id'], _createUserIdMeta));
+    }
+    if (data.containsKey('creator_user')) {
+      context.handle(
+          _creatorUserMeta,
+          creatorUser.isAcceptableOrUnknown(
+              data['creator_user'], _creatorUserMeta));
+    }
+    if (data.containsKey('last_modifier_user')) {
+      context.handle(
+          _lastModifierUserMeta,
+          lastModifierUser.isAcceptableOrUnknown(
+              data['last_modifier_user'], _lastModifierUserMeta));
+    }
+    if (data.containsKey('last_modifier_user_id')) {
+      context.handle(
+          _lastModifierUserIdMeta,
+          lastModifierUserId.isAcceptableOrUnknown(
+              data['last_modifier_user_id'], _lastModifierUserIdMeta));
+    }
+    if (data.containsKey('delete_user_id')) {
+      context.handle(
+          _deleteUserIdMeta,
+          deleteUserId.isAcceptableOrUnknown(
+              data['delete_user_id'], _deleteUserIdMeta));
+    }
+    if (data.containsKey('deleter_user_id')) {
+      context.handle(
+          _deleterUserIdMeta,
+          deleterUserId.isAcceptableOrUnknown(
+              data['deleter_user_id'], _deleterUserIdMeta));
+    }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('item_code')) {
+      context.handle(_itemCodeMeta,
+          itemCode.isAcceptableOrUnknown(data['item_code'], _itemCodeMeta));
+    }
+    if (data.containsKey('item_name')) {
+      context.handle(_itemNameMeta,
+          itemName.isAcceptableOrUnknown(data['item_name'], _itemNameMeta));
+    }
+    if (data.containsKey('uom')) {
+      context.handle(
+          _uomMeta, uom.isAcceptableOrUnknown(data['uom'], _uomMeta));
+    }
+    if (data.containsKey('default_warehouse')) {
+      context.handle(
+          _defaultWarehouseMeta,
+          defaultWarehouse.isAcceptableOrUnknown(
+              data['default_warehouse'], _defaultWarehouseMeta));
+    }
+    if (data.containsKey('qty_on_hand')) {
+      context.handle(_qtyOnHandMeta,
+          qtyOnHand.isAcceptableOrUnknown(data['qty_on_hand'], _qtyOnHandMeta));
+    } else if (isInserting) {
+      context.missing(_qtyOnHandMeta);
+    }
+    if (data.containsKey('qty_adjust')) {
+      context.handle(_qtyAdjustMeta,
+          qtyAdjust.isAcceptableOrUnknown(data['qty_adjust'], _qtyAdjustMeta));
+    } else if (isInserting) {
+      context.missing(_qtyAdjustMeta);
+    }
+    if (data.containsKey('qty_sold')) {
+      context.handle(_qtySoldMeta,
+          qtySold.isAcceptableOrUnknown(data['qty_sold'], _qtySoldMeta));
+    } else if (isInserting) {
+      context.missing(_qtySoldMeta);
+    }
+    if (data.containsKey('qty_count')) {
+      context.handle(_qtyCountMeta,
+          qtyCount.isAcceptableOrUnknown(data['qty_count'], _qtyCountMeta));
+    } else if (isInserting) {
+      context.missing(_qtyCountMeta);
+    }
+    if (data.containsKey('inventory_cycle_number')) {
+      context.handle(
+          _inventoryCycleNumberMeta,
+          inventoryCycleNumber.isAcceptableOrUnknown(
+              data['inventory_cycle_number'], _inventoryCycleNumberMeta));
+    } else if (isInserting) {
+      context.missing(_inventoryCycleNumberMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  InventoryItem map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return InventoryItem.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $InventoryItemsTable createAlias(String alias) {
+    return $InventoryItemsTable(_db, alias);
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $UsersTable _users;
@@ -29410,6 +30498,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $JourneyPlanTable get journeyPlan => _journeyPlan ??= $JourneyPlanTable(this);
   $UPCCodeTable _uPCCode;
   $UPCCodeTable get uPCCode => _uPCCode ??= $UPCCodeTable(this);
+  $InventoryItemsTable _inventoryItems;
+  $InventoryItemsTable get inventoryItems =>
+      _inventoryItems ??= $InventoryItemsTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
@@ -29442,6 +30533,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         unitOfMeasure,
         stockUnitOfMeasure,
         journeyPlan,
-        uPCCode
+        uPCCode,
+        inventoryItems
       ];
 }

@@ -14,12 +14,12 @@ class ItemPriceDao extends DatabaseAccessor<AppDatabase>
     return (select(db.itemPrice).get());
   }
 
-  Stream<List<ItemPriceData>> watchAllItemPriceByCode(String itemCode) {
+  Stream<List<ItemPriceData>> watchItemPriceByCode(String itemCode) {
     return (select(db.itemPrice)..where((t) => t.itemCode.equals(itemCode)))
         .watch();
   }
 
-  Future<List<ItemPriceData>> getAllItemPricesByCode(String itemCode) {
+  Future<List<ItemPriceData>> getItemPricesByCode(String itemCode) {
     return (select(db.itemPrice)..where((t) => t.itemCode.equals(itemCode)))
         .get();
   }
@@ -29,4 +29,6 @@ class ItemPriceDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future deleteAllItemPrice() => delete(db.itemPrice).go();
+
+  
 }
