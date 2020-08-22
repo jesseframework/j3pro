@@ -25,7 +25,7 @@ class CategoryDao extends DatabaseAccessor<AppDatabase>
         .get();
   }
 
-  Future<void> createOrUpdateAddress(CategoryData categoryData) {
+  Future<void> createOrUpdateCateory(CategoryData categoryData) {
     return into(db.category).insertOnConflictUpdate(categoryData);
   }
 

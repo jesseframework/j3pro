@@ -24,7 +24,7 @@ class CustomerDao extends DatabaseAccessor<AppDatabase>
         .get();
   }
 
-  Future<void> createOrUpdateAddress(CustomerData customerData) {
+  Future<void> createOrUpdateByCustomer(CustomerData customerData) {
     return into(db.customer).insertOnConflictUpdate(customerData);
   }
 

@@ -235,14 +235,14 @@ class _$RestApiService extends RestApiService {
 
   @override
   Future<Response<dynamic>> getPriceList() {
-    final $url = '/api/services/app/PriceList/Get';
+    final $url = '/api/services/app/PricingBundle/Get';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
   Future<Response<dynamic>> createPriceListInServer(Map<String, dynamic> body) {
-    final $url = '/api/services/app/PriceList/Create';
+    final $url = '/api/services/app/PricingBundle/Create';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);
@@ -250,6 +250,36 @@ class _$RestApiService extends RestApiService {
 
   @override
   Future<Response<dynamic>> updatePriceListInServer(Map<String, dynamic> body) {
+    final $url = '/api/services/app/PricingBundle/Update';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> getAllPrices() {
+    final $url = '/api/services/app/PricingBundle/GetAll';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> getPrice() {
+    final $url = '/api/services/app/PriceList/Get';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> createPriceInServer(Map<String, dynamic> body) {
+    final $url = '/api/services/app/PriceList/Create';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> updatePriceInServer(Map<String, dynamic> body) {
     final $url = '/api/services/app/PriceList/Update';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);

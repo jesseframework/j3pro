@@ -11,5 +11,23 @@ class JourneyPlanDao extends DatabaseAccessor<AppDatabase>
   final AppDatabase db;
   JourneyPlanDao(this.db) : super(db);
 
-  //This is a test;
+  Future<List<JourneyPlanData>> getAllJourneyPlanData() {
+    return (select(db.journeyPlan).get());
+  }
+
+  Stream<List<JourneyPlanData>> watchAllJourneyPlanByUser(String userName) {
+    return (select(db.journeyPlan)..where((t) => t.assignTo.equals(userName)))
+        .watch();
+  }
+
+  Future<List<JourneyPlanData>> getAllJourneyPlanByUser(String userName) {
+    return (select(db.journeyPlan)..where((t) => t.assignTo.equals(userName)))
+        .get();
+  }
+
+  Future<void> createOrUpdateJourneyPlan(JourneyPlanData journeyPlanData) {
+    return into(db.journeyPlan).insertOnConflictUpdate(journeyPlanData);
+  }
+
+  Future deleteAllJourneyPlan() => delete(db.journeyPlan).go();
 }

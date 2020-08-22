@@ -23,7 +23,7 @@ class ItemGroupDao extends DatabaseAccessor<AppDatabase>
         .get();
   }
 
-  Future<void> createOrUpdateAddress(ItemGroup itemGroup) {
+  Future<void> createOrUpdateItemGroup(ItemGroup itemGroup) {
     return into(db.itemGroups).insertOnConflictUpdate(itemGroup);
   }
 

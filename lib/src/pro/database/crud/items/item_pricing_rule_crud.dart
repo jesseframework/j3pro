@@ -28,7 +28,7 @@ class ItemPricingRuleDao extends DatabaseAccessor<AppDatabase>
         .get();
   }
 
-  Future<void> createOrUpdateItems(ItemPricingRuleData itemPriceData) {
+  Future<void> createOrUpdateItemPricingRule(ItemPricingRuleData itemPriceData) {
     return into(db.itemPricingRule).insertOnConflictUpdate(itemPriceData);
   }
 
