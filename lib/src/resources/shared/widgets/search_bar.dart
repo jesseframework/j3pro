@@ -22,7 +22,7 @@ import 'package:flutter/material.dart';
 class ListFilter extends StatefulWidget {
   const ListFilter({
     @required this.placeholder,
-    @required this.filter,
+    this.filter,
     @required this.onFilterChanged,
   });
 

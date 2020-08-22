@@ -18,6 +18,9 @@
  */
 
 import 'package:background_fetch/background_fetch.dart';
+import 'package:j3enterprise/src/pro/ui/sales_oder/sales_order_page.dart';
+import 'package:j3enterprise/src/pro/ui/sales_oder/seles_order_item_page.dart';
+import 'file:///E:/grey/j3pro/lib/src/pro/ui/service_activities/service_activities_page.dart';
 import 'package:j3enterprise/src/resources/services/background_fetch_service.dart';
 import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
@@ -143,7 +146,7 @@ class _AppState extends State<App> {
                 return HomePage();
               }
               if (state is AuthenticationUnauthenticated) {
-                return LoginPage();
+                return SalesOrderItemPage();
               }
               if (state is AuthenticationLoading) {
                 return LoadingIndicator();
