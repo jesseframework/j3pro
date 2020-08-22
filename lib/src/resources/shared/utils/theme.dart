@@ -7,9 +7,10 @@ final lightTheme = ThemeData(
     brightness: Brightness.light,
     backgroundColor: Color(0xffe7ebee),
     scaffoldBackgroundColor:Color(0xffe7ebee) ,
-    accentColor: Colors.black87,
+    accentColor: Colors.black54,
     accentIconTheme: IconThemeData(color: Colors.white),
     dividerColor: Colors.white54,
+    textSelectionColor:Colors.grey ,
     appBarTheme: AppBarTheme(
       color: Colors.blue,
     ),
