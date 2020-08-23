@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:j3enterprise/src/pro/ui/sales_oder/sales_order_checkout_page.dart';
-import 'package:j3enterprise/src/pro/ui/sales_oder/sales_order_item_detail_page.dart';
+import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_checkout_page.dart';
+import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_item_detail_page.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';

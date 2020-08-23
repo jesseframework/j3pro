@@ -42,20 +42,20 @@ abstract class RestApiService extends ChopperService {
 
   //System Setting
 
-  @Get(path: '/services/app/Preference/GetAll')
+  @Get(path: '/services/app/Preference/GetAll?MaxResultCount=30000')
   Future<Response> getPreference();
 
-  @Get(path: '/services/app/NonGlobalPreference/GetAll')
+  @Get(path: '/services/app/NonGlobalPreference/GetAll?MaxResultCount=30000')
   Future<Response> getNonGlobalPreference();
 
-  @Get(path: '/services/app/BusinessRule/GetAll')
+  @Get(path: '/services/app/BusinessRule/GetAll?MaxResultCount=300000')
   Future<Response> getBusinessRule();
 
-  @Get(path: '/services/app/NonGlobalBusinessRule/GetAll')
+  @Get(path: '/services/app/NonGlobalBusinessRule/GetAll?MaxResultCount=30000')
   Future<Response> getNonGlobalBusinessRule();
 
   //Mobile Desktop
-  @Get(path: '/services/app/MobileDesktop/GetAll')
+  @Get(path: '/services/app/MobileDesktop/GetAll?MaxResultCount=30000')
   Future<Response> getMobileDesktop();
 
   //Pro End Posint
@@ -63,7 +63,7 @@ abstract class RestApiService extends ChopperService {
   @Post(path: '/services/app/SalesOrder/Create')
   Future<Response> createSalesOrder(@Body() Map<String, dynamic> body);
 
-  @Get(path: '/services/app/Customer/GetAll')
+  @Get(path: '/services/app/Customer/GetAll?MaxResultCount=30000')
   Future<Response> getAllCustomer();
 
   @Get(path: '/services/app/Customer/Get')
@@ -78,7 +78,7 @@ abstract class RestApiService extends ChopperService {
   @Get(path: '/services/app/Journey/Get')
   Future<Response> getJourneyPlanBySalesRep();
 
-  @Get(path: '/services/app/Item/GetAll')
+  @Get(path: '/services/app/Item/GetAll?MaxResultCount=30000')
   Future<Response> getAllItems();
 
   @Get(path: '/services/app/Item/Get')
@@ -90,7 +90,7 @@ abstract class RestApiService extends ChopperService {
   @Post(path: '/services/app/Item/Update')
   Future<Response> updateItemInServer(@Body() Map<String, dynamic> body);
 
-  @Get(path: '/services/app/ItemGroup/GetAll')
+  @Get(path: '/services/app/ItemGroup/GetAll?MaxResultCount=30000')
   Future<Response> getAllItemGroup();
 
   @Get(path: '/services/app/ItemGroup/Get')
@@ -102,7 +102,7 @@ abstract class RestApiService extends ChopperService {
   @Post(path: '/services/app/ItemGroup/Update')
   Future<Response> updateItemGroupInServer(@Body() Map<String, dynamic> body);
 
-  @Get(path: '/services/app/Category/GetAll')
+  @Get(path: '/services/app/Category/GetAll?MaxResultCount=30000')
   Future<Response> getAllCategory();
 
   @Get(path: '/services/app/Category/Get')
@@ -114,7 +114,7 @@ abstract class RestApiService extends ChopperService {
   @Post(path: '/services/app/Category/Update')
   Future<Response> updateCategoryInServer(@Body() Map<String, dynamic> body);
 
-  @Get(path: '/services/app/PriceList/GetAll')
+  @Get(path: '/services/app/PriceList/GetAll?MaxResultCount=30000')
   Future<Response> getAllPriceList();
 
   @Get(path: '/services/app/PricingBundle/Get')
@@ -126,7 +126,7 @@ abstract class RestApiService extends ChopperService {
   @Post(path: '/services/app/PricingBundle/Update')
   Future<Response> updatePriceListInServer(@Body() Map<String, dynamic> body);
 
-  @Get(path: '/services/app/PricingBundle/GetAll')
+  @Get(path: '/services/app/PricingBundle/GetAll?MaxResultCount=30000')
   Future<Response> getAllPrices();
 
   @Get(path: '/services/app/PriceList/Get')
@@ -138,7 +138,7 @@ abstract class RestApiService extends ChopperService {
   @Post(path: '/services/app/PriceList/Update')
   Future<Response> updatePriceInServer(@Body() Map<String, dynamic> body);
 
-  @Get(path: '/services/app/PricingRule/GetAll')
+  @Get(path: '/services/app/PricingRule/GetAll?MaxResultCount=30000')
   Future<Response> getAllPricingRule();
 
   @Get(path: '/services/app/PricingRule/Get')
@@ -150,7 +150,7 @@ abstract class RestApiService extends ChopperService {
   @Post(path: '/services/app/PricingRule/Update')
   Future<Response> updatePricingRuleInServer(@Body() Map<String, dynamic> body);
 
-  @Get(path: '/services/app/StockUOM/GetAll')
+  @Get(path: '/services/app/StockUOM/GetAll?MaxResultCount=30000')
   Future<Response> getAllStockUOM();
 
   @Get(path: '/services/app/StockUOM/Get')
@@ -162,7 +162,7 @@ abstract class RestApiService extends ChopperService {
   @Post(path: '/services/app/StockUOM/Update')
   Future<Response> updateStockUOMInServer(@Body() Map<String, dynamic> body);
 
-  @Get(path: '/services/app/Uom/GetAll')
+  @Get(path: '/services/app/Uom/GetAll?MaxResultCount=30000')
   Future<Response> getAllUom();
 
   @Get(path: '/services/app/Uom/Get')
@@ -174,7 +174,7 @@ abstract class RestApiService extends ChopperService {
   @Post(path: '/services/app/Uom/Update')
   Future<Response> updateUomInServer(@Body() Map<String, dynamic> body);
 
-  @Get(path: '/services/app/UpcCode/GetAll')
+  @Get(path: '/services/app/UpcCode/GetAll?MaxResultCount=30000')
   Future<Response> getAllUpcCode();
 
   @Get(path: '/services/app/UpcCode/Get')

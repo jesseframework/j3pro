@@ -18,9 +18,9 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:j3enterprise/src/pro/ui/sales_oder/sales_order_item_detail_page.dart';
-import 'package:j3enterprise/src/pro/ui/sales_oder/sales_order_page.dart';
-import 'package:j3enterprise/src/pro/ui/sales_oder/seles_order_item_page.dart';
+import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_item_detail_page.dart';
+import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_page.dart';
+import 'package:j3enterprise/src/pro/ui/sales/sales_order/seles_order_item_page.dart';
 import 'package:j3enterprise/src/ui/about/about.dart';
 import 'package:j3enterprise/src/ui/background_jobs/backgroundjobs_pages.dart';
 import 'package:j3enterprise/src/ui/bussiness_rule/bussiness_rule_page.dart';
