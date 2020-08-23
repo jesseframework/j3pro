@@ -58,35 +58,37 @@ class _$RestApiService extends RestApiService {
 
   @override
   Future<Response<dynamic>> getPreference() {
-    final $url = '/api/services/app/Preference/GetAll';
+    final $url = '/api/services/app/Preference/GetAll?MaxResultCount=30000';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
   Future<Response<dynamic>> getNonGlobalPreference() {
-    final $url = '/api/services/app/NonGlobalPreference/GetAll';
+    final $url =
+        '/api/services/app/NonGlobalPreference/GetAll?MaxResultCount=30000';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
   Future<Response<dynamic>> getBusinessRule() {
-    final $url = '/api/services/app/BusinessRule/GetAll';
+    final $url = '/api/services/app/BusinessRule/GetAll?MaxResultCount=300000';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
   Future<Response<dynamic>> getNonGlobalBusinessRule() {
-    final $url = '/api/services/app/NonGlobalBusinessRule/GetAll';
+    final $url =
+        '/api/services/app/NonGlobalBusinessRule/GetAll?MaxResultCount=30000';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
   Future<Response<dynamic>> getMobileDesktop() {
-    final $url = '/api/services/app/MobileDesktop/GetAll';
+    final $url = '/api/services/app/MobileDesktop/GetAll?MaxResultCount=30000';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
@@ -101,7 +103,7 @@ class _$RestApiService extends RestApiService {
 
   @override
   Future<Response<dynamic>> getAllCustomer() {
-    final $url = '/api/services/app/Customer/GetAll';
+    final $url = '/api/services/app/Customer/GetAll?MaxResultCount=30000';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
@@ -138,7 +140,7 @@ class _$RestApiService extends RestApiService {
 
   @override
   Future<Response<dynamic>> getAllItems() {
-    final $url = '/api/services/app/Item/GetAll';
+    final $url = '/api/services/app/Item/GetAll?MaxResultCount=30000';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
@@ -168,7 +170,7 @@ class _$RestApiService extends RestApiService {
 
   @override
   Future<Response<dynamic>> getAllItemGroup() {
-    final $url = '/api/services/app/ItemGroup/GetAll';
+    final $url = '/api/services/app/ItemGroup/GetAll?MaxResultCount=30000';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
@@ -198,7 +200,7 @@ class _$RestApiService extends RestApiService {
 
   @override
   Future<Response<dynamic>> getAllCategory() {
-    final $url = '/api/services/app/Category/GetAll';
+    final $url = '/api/services/app/Category/GetAll?MaxResultCount=30000';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
@@ -228,7 +230,7 @@ class _$RestApiService extends RestApiService {
 
   @override
   Future<Response<dynamic>> getAllPriceList() {
-    final $url = '/api/services/app/PriceList/GetAll';
+    final $url = '/api/services/app/PriceList/GetAll?MaxResultCount=30000';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
@@ -258,7 +260,7 @@ class _$RestApiService extends RestApiService {
 
   @override
   Future<Response<dynamic>> getAllPrices() {
-    final $url = '/api/services/app/PricingBundle/GetAll';
+    final $url = '/api/services/app/PricingBundle/GetAll?MaxResultCount=30000';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
@@ -288,7 +290,7 @@ class _$RestApiService extends RestApiService {
 
   @override
   Future<Response<dynamic>> getAllPricingRule() {
-    final $url = '/api/services/app/PricingRule/GetAll';
+    final $url = '/api/services/app/PricingRule/GetAll?MaxResultCount=30000';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
@@ -320,7 +322,7 @@ class _$RestApiService extends RestApiService {
 
   @override
   Future<Response<dynamic>> getAllStockUOM() {
-    final $url = '/api/services/app/StockUOM/GetAll';
+    final $url = '/api/services/app/StockUOM/GetAll?MaxResultCount=30000';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
@@ -350,7 +352,7 @@ class _$RestApiService extends RestApiService {
 
   @override
   Future<Response<dynamic>> getAllUom() {
-    final $url = '/api/services/app/Uom/GetAll';
+    final $url = '/api/services/app/Uom/GetAll?MaxResultCount=30000';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
@@ -380,7 +382,7 @@ class _$RestApiService extends RestApiService {
 
   @override
   Future<Response<dynamic>> getAllUpcCode() {
-    final $url = '/api/services/app/UpcCode/GetAll';
+    final $url = '/api/services/app/UpcCode/GetAll?MaxResultCount=30000';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
