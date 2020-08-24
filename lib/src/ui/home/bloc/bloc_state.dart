@@ -27,3 +27,14 @@ class BlocInitial extends BlocState {
   @override
   List<Object> get props => [];
 }
+
+class ShowSearchResult extends BlocState {
+  final String searchCommand;
+  const ShowSearchResult({this.searchCommand});
+
+  @override
+  List<Object> get props => [searchCommand];
+
+  @override
+  String toString() => 'ShowSearchResult { searchCommand: $searchCommand }';
+}

@@ -17,21 +17,24 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-import 'package:background_fetch/background_fetch.dart';
-import 'package:j3enterprise/src/resources/services/background_fetch_service.dart';
 import 'dart:io' show Platform;
+
+import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:j3enterprise/src/resources/services/background_fetch_service.dart';
 import 'package:j3enterprise/src/resources/services/firebase_message_wrapper.dart';
 import 'package:j3enterprise/src/resources/services/init_services.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/routes.dart';
 import 'package:j3enterprise/src/resources/shared/utils/theme.dart';
+import 'package:j3enterprise/src/ui/login_offline/offline_login_page.dart';
 import 'package:j3enterprise/src/ui/splash/splash_page.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'src/resources/repositories/user_repository.dart';
 import 'src/resources/shared/common/loading_indicator.dart';
 import 'src/ui/authentication/authentication_bloc.dart';
@@ -136,15 +139,15 @@ class _AppState extends State<App> {
           // navigatorObservers: [BotToastNavigatorObserver()],
           home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (context, state) {
-              if (state is PushNotificationState) {
-                
+              if (state is PushNotificationState) {}
+              if (state is AuthenticationCreateMobileHash) {
+                return OfflineLoginPage(userRepository: widget.userRepository);
               }
               if (state is AuthenticationAuthenticated) {
                 return HomePage();
               }
               if (state is AuthenticationUnauthenticated) {
                 return LoginPage();
-                
               }
               if (state is AuthenticationLoading) {
                 return LoadingIndicator();
@@ -189,7 +192,4 @@ class _AppState extends State<App> {
       ),
     );
   }
-
-  
-  
 }

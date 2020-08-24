@@ -18,6 +18,8 @@
  */
 
 import 'dart:async';
+import 'dart:io' show Platform;
+
 import 'package:bloc/bloc.dart';
 import 'package:j3enterprise/main.dart';
 import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
@@ -31,10 +33,10 @@ import 'package:j3enterprise/src/resources/shared/function/schedule_background_j
 import 'package:j3enterprise/src/resources/shared/utils/date_formating.dart';
 import 'package:j3enterprise/src/resources/shared/utils/user_hashdigest.dart';
 import 'package:logging/logging.dart';
+import 'package:moor/moor.dart' as moor;
+
 import 'authentication_event.dart';
 import 'authentication_state.dart';
-import 'dart:io' show Platform;
-import 'package:moor/moor.dart' as moor;
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
@@ -89,12 +91,12 @@ class AuthenticationBloc
       _log.finest('Starting background Jobs');
 
       if (Platform.isWindows && Platform.isMacOS) {
-        var autoAtartJobs =
+        var autoStartJobs =
             await businessRuleDao.getSingleBusinessRule("AUTOSTARTJOBS");
-        if (autoAtartJobs != null &&
-            autoAtartJobs.value == "ON" &&
-            autoAtartJobs.expiredDateTime.isAfter(DateTime.now()) &&
-            autoAtartJobs.isGlobalRule == false) {
+        if (autoStartJobs != null &&
+            autoStartJobs.value == "ON" &&
+            autoStartJobs.expiredDateTime.isAfter(DateTime.now()) &&
+            autoStartJobs.isGlobalRule == false) {
           var jobData = await backgroundJobScheduleDao.getAllJobs();
           for (var eachJob in jobData) {
             scheduleler.scheduleJobs(
@@ -108,12 +110,12 @@ class AuthenticationBloc
       }
 
       if (Platform.isIOS && Platform.isAndroid) {
-        var autoAtartJobs =
+        var autoStartJobs =
             await businessRuleDao.getSingleBusinessRule("AUTOSTARTJOBS");
-        if (autoAtartJobs != null &&
-            autoAtartJobs.value == "ON" &&
-            autoAtartJobs.expiredDateTime.isAfter(DateTime.now()) &&
-            autoAtartJobs.isGlobalRule == false) {
+        if (autoStartJobs != null &&
+            autoStartJobs.value == "ON" &&
+            autoStartJobs.expiredDateTime.isAfter(DateTime.now()) &&
+            autoStartJobs.isGlobalRule == false) {
           var jobData = await backgroundJobScheduleDao.getAllJobs();
           for (var eachJob in jobData) {
             scheduleler.scheduleJobs(

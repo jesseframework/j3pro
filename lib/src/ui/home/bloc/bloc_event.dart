@@ -22,3 +22,9 @@ part of 'bloc_bloc.dart';
 abstract class BlocEvent extends Equatable {
   const BlocEvent();
 }
+class TypeSearchCommand extends BlocEvent{
+  final String searchString;
+  TypeSearchCommand({this.searchString});
+  @override
+  List<Object> get props => [searchString];
+}

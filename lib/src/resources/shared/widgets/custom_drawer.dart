@@ -13,9 +13,11 @@ import 'package:j3enterprise/src/ui/authentication/authentication.dart';
 import 'package:j3enterprise/src/ui/background_jobs/background_jobs.dart';
 import 'package:j3enterprise/src/ui/communication/setup_communication_page.dart';
 import 'package:j3enterprise/src/ui/profile/profile_page.dart';
+import 'package:logging/logging.dart';
 
 class CustomDrawer extends StatefulWidget {
   var db;
+ final log = Logger('CustomDrawer');
   UserDao userDao;
   CustomDrawer() {
     db = AppDatabase();
@@ -28,30 +30,28 @@ class CustomDrawer extends StatefulWidget {
 
 class _CustomDrawerState extends State<CustomDrawer> {
   Future getProfileData() async {
-
     final data = await UserSharedData().getUserSharedPref();
-    final profileData =await
-    widget.userDao.getSingleUser(int.parse(data['userId']));
-
-    return profileData;
+    if (data['userId'] != null) {
+      final profileData =
+          await widget.userDao.getSingleUser(int.tryParse(data['userId']));
+      return profileData;
+    }
+    return null;
   }
 
   User user;
-  int userId;
+  String userId;
 
   @override
-  void didChangeDependencies() async{
+  void didChangeDependencies() async {
     await getIt<UserRepository>().getUserSharedPref().then((value) {
-
-        if(value==null) {
-          print(value);
-
-        }else{
-          setState(() {
-            userId = int.parse(value['userId']);
-          });
-        }
-
+      
+       
+        widget.log.finest('User Login id $value');   
+        setState(() {
+          userId = value['userId'];
+        });
+      
     });
     super.didChangeDependencies();
   }
@@ -59,69 +59,26 @@ class _CustomDrawerState extends State<CustomDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-
       child: Container(
         color: Theme.of(context).cardColor,
         child: ListView(
           children: <Widget>[
             FutureBuilder(
                 future: getProfileData(),
-               builder: (context,snapshot){
-                   user = snapshot.data;
-            return snapshot.hasData?UserAccountsDrawerHeader(
-
-               accountName: Text( user.fullName),
-               accountEmail: Text(  user.emailAddress),
-               currentAccountPicture: CircleAvatar(
-                 // backgroundColor: Theme.of(context).backgroundColor,
-                   child: Icon(Icons.person)),
-               otherAccountsPictures: <Widget>[
-//                 CircleAvatar(
-//                   backgroundColor: Theme.of(context).backgroundColor,
-//                   child: Text(
-//                     "B",
-//                   ),
-//                 ),
-//                 CircleAvatar(
-//                   backgroundColor: Theme.of(context).backgroundColor,
-//                   child: Text(
-//                     "C",
-//                   ),
-//                 ),
-               ],
-             ):UserAccountsDrawerHeader(accountName: null, accountEmail: null);
-           }),
-            // DrawerHeader(
-            //   child: Align(
-            //       alignment: Alignment.bottomLeft,
-            //       child: Row(
-            //         children: <Widget>[
-            //           Icon(
-            //             Icons.settings,
-            //             size: 32,
-            //             color: Colors.white,
-            //           ),
-            //           SizedBox(
-            //             width: 27,
-            //           ),
-            //           Text(
-            //             AppLocalization.of(context)
-            //                     .translate('setting_label_appdraw') ??
-            //                 'Setting',
-            //             style: TextStyle(
-            //                 fontSize: 22,
-            //                 fontWeight: FontWeight.bold,
-            //                 color: Colors.white),
-            //           ),
-            //         ],
-            //       )),
-            //   decoration: BoxDecoration(
-            //     gradient: LinearGradient(
-            //         colors: [Colors.blueGrey, Colors.blue],
-            //         begin: Alignment.topLeft,
-            //         end: Alignment.bottomRight),
-            //   ),
-            // ),
+                builder: (context, snapshot) {
+                  user = snapshot.data;
+                  return snapshot.hasData
+                      ? UserAccountsDrawerHeader(
+                          accountName: Text(user.fullName),
+                          accountEmail: Text(user.emailAddress),
+                          currentAccountPicture: CircleAvatar(
+                              // backgroundColor: Theme.of(context).backgroundColor,
+                              child: Icon(Icons.person)),
+                          otherAccountsPictures: <Widget>[],
+                        )
+                      : UserAccountsDrawerHeader(
+                          accountName: null, accountEmail: null);
+                }),
             Align(
               alignment: Alignment.bottomLeft,
               child: GestureDetector(
@@ -181,51 +138,57 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 child: ListTile(
                   leading: Icon(
                     Icons.error_outline,
-                   color: Theme.of(context).primaryColor,
+                    color: Theme.of(context).primaryColor,
                   ),
                   title: Text(
-                    AppLocalization.of(context).translate('applogger_appdraw') ??
+                    AppLocalization.of(context)
+                            .translate('applogger_appdraw') ??
                         'App Logger',
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
               ),
             ),
-           userId!=null? Align(
-              alignment: Alignment.bottomLeft,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (contex) => ProfilePage()));
-                },
-                child: ListTile(
-                  leading: Icon(
-                    Icons.person,
-                     color: Theme.of(context).primaryColor,
-                  ),
-                  title: Text(
-                    AppLocalization.of(context).translate('profile_appdraw') ??
-                        'Profile',
-                    // AppLocalization.of(context).translate('language_appdraw') ??
-                    //     'Language',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-              ),
-            ):Container(),
+            userId != null
+                ? Align(
+                    alignment: Alignment.bottomLeft,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (contex) => ProfilePage()));
+                      },
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.person,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        title: Text(
+                          AppLocalization.of(context)
+                                  .translate('profile_appdraw') ??
+                              'Profile',
+                          // AppLocalization.of(context).translate('language_appdraw') ??
+                          //     'Language',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ),
+                  )
+                : Container(),
             Align(
               alignment: Alignment.bottomLeft,
               child: GestureDetector(
                 onTap: () {
                   Navigator.of(context).pop();
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => About()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => About()));
                 },
                 child: ListTile(
                   leading: Icon(
                     CustomIcons.info_circle_solid,
-                     color: Theme.of(context).primaryColor,
+                    color: Theme.of(context).primaryColor,
                   ),
                   title: Text(
                     AppLocalization.of(context).translate('about_appdraw') ??
@@ -242,7 +205,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
                 },
                 child: ListTile(
-                  leading: Icon(Icons.exit_to_app,  color: Theme.of(context).primaryColor,),
+                  leading: Icon(
+                    Icons.exit_to_app,
+                    color: Theme.of(context).primaryColor,
+                  ),
                   title: Text(
                     AppLocalization.of(context).translate('logout_appdraw') ??
                         'Logout',
@@ -259,7 +225,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   SizedBox(
                     height: 32,
                   ),
-
                   Text(
                     AppLocalization.of(context).translate('version_appdraw') ??
                         'Version',
