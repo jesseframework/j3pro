@@ -20,9 +20,7 @@
 import 'package:moor/moor.dart';
 
 mixin MultiUser implements Table {
-  TextColumn get uerName => text()();
+  TextColumn get userName => text()();
   IntColumn get userId => integer()();
   IntColumn get tenantId => integer()();
-
-
 }

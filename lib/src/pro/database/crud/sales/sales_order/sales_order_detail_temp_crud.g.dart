@@ -6,4 +6,7 @@ part of 'sales_order_detail_temp_crud.dart';
 // DaoGenerator
 // **************************************************************************
 
-mixin _$SalesOrderDetailtempDaoMixin on DatabaseAccessor<AppDatabase> {}
+mixin _$SalesOrderDetailTempDaoMixin on DatabaseAccessor<AppDatabase> {
+  $SalesOrderDetailTempTable get salesOrderDetailTemp =>
+      attachedDatabase.salesOrderDetailTemp;
+}

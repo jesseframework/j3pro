@@ -1,20 +1,19 @@
-
 import 'package:j3enterprise/src/resources/shared/extension/multi_user.dart';
 import 'package:j3enterprise/src/resources/shared/extension/must_have_tenant.dart';
 import 'package:moor/moor.dart';
 
 class SalesOrderDetailTemp extends Table implements MustHaveTenant, MultiUser {
   IntColumn get id => integer()();
-  TextColumn get orderNumber => text()();
+  TextColumn get transactionNumber => text()();
   TextColumn get inventoryCycleNumber => text()();
   TextColumn get daySessionNumber => text()();
   DateTimeColumn get deliveryDate => dateTime()();
   TextColumn get currency => text()();
   RealColumn get exchangeRate => real()();
   IntColumn get tenantId => integer().nullable()();
-  TextColumn get uerName => text()();
+  TextColumn get userName => text()();
   IntColumn get userId => integer()();
-
+  TextColumn get transactionStatus => text().nullable()();
   IntColumn get itemId => integer()();
   TextColumn get itemCode => text()();
   TextColumn get upcCode => text()();

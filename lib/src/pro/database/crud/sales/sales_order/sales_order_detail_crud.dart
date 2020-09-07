@@ -1,6 +1,5 @@
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/models/sales/sales_order/sales_order_detail_model.dart';
-
 import 'package:moor/moor.dart';
 
 part 'sales_order_detail_crud.g.dart';
@@ -17,7 +16,7 @@ class SalesOrderDetailDao extends DatabaseAccessor<AppDatabase>
 
   Stream<List<SalesOrderDetailData>> watchAllSalesOrderDetail(String orderNo) {
     return (select(db.salesOrderDetail)
-          ..where((t) => t.orderNumber.contains(orderNo)))
+          ..where((t) => t.transactionNumber.contains(orderNo)))
         .watch();
   }
 

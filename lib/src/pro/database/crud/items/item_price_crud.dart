@@ -19,8 +19,14 @@ class ItemPriceDao extends DatabaseAccessor<AppDatabase>
         .watch();
   }
 
-  Future<List<ItemPriceData>> getItemPricesByCode(String itemCode) {
-    return (select(db.itemPrice)..where((t) => t.itemCode.equals(itemCode)))
+  Future<List<ItemPriceData>> getItemPricesByCode(
+      String itemCode, String uom, String priceList, String standardPriceList) {
+    return (select(db.itemPrice)
+          ..where((t) =>
+              t.itemCode.equals(itemCode) &
+              t.uom.contains(uom) &
+              (t.priceList.contains(priceList) |
+                  t.priceList.equals(standardPriceList))))
         .get();
   }
 
@@ -29,6 +35,4 @@ class ItemPriceDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future deleteAllItemPrice() => delete(db.itemPrice).go();
-
-  
 }
