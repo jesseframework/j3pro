@@ -39,7 +39,9 @@ class DesktopDao extends DatabaseAccessor<AppDatabase> with _$DesktopDaoMixin {
   Stream<List<DesktopData>> watchAllBusinessRule(String functionName) {
     return (select(db.desktop)..where((t) => t.iconName.contains(functionName))).watch();
   }
-
+ Stream<List<DesktopData>> watchAllActivitiesMenu(String functionName) {
+    return (select(db.desktop)..where((t) => t.iconGroup.equals(functionName))).watch();
+  }
   Future insertBusinessRule(DesktopData desktopData) =>
       into(db.desktop).insert(desktopData);
 
