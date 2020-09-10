@@ -21,6 +21,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+<<<<<<< HEAD
+ 
+=======
+>>>>>>> dev
 
 part 'bloc_event.dart';
 part 'bloc_state.dart';
