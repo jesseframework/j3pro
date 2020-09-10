@@ -205,23 +205,23 @@ class AddItemToTransaction {
       var numOfItemOnRegister = salesOrderDetailTempDao.qtyOfItemOnRegister(
           tempSalesOrderNo, itemId, uom, tempTransactionStatus);
 
-      // var discount = itemPricingRuleDao.getAllDiscount(
-      //     itemCode,
-      //     itemGroup,
-      //     itemName,
-      //     category,
-      //     customerGroup,
-      //     customer,
-      //     territory,
-      //     partner,
-      //     priceList,
-      //     validFrom,
-      //     validTo,
-      //     isActive,
-      //     numOfItemOnRegister,
-      //     numOfItemGroupOnRegister,
-      //     numOfAllItemsOnRegister,
-      //     numOfcategoryOnRegister);
+      var discount = itemPricingRuleDao.getAllDiscount(
+          itemCode,
+          itemGroup,
+          itemName,
+          category,
+          customerGroup,
+          customer,
+          territory,
+          partner,
+          priceList,
+          validFrom,
+          validTo,
+          isActive,
+          numOfItemOnRegister,
+          numOfItemGroupOnRegister,
+          numOfAllItemsOnRegister,
+          numOfcategoryOnRegister);
 
       //Add New Line
       var newLine = new SalesOrderDetailTempCompanion(
