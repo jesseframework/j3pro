@@ -46,6 +46,7 @@ import 'package:j3enterprise/src/pro/models/items/uom_model.dart';
 import 'package:j3enterprise/src/pro/models/items/upc_code_model.dart';
 import 'package:j3enterprise/src/pro/models/sales/fullfillment/journey_plan.dart';
 import 'package:j3enterprise/src/pro/models/sales/sales_order/sales_order_detail_model.dart';
+import 'package:j3enterprise/src/pro/models/sales/sales_order/sales_order_detail_temp_model.dart';
 import 'package:j3enterprise/src/pro/models/sales/sales_order/sales_order_header_model.dart';
 import 'package:j3enterprise/src/pro/models/series_number/series_number_model.dart';
 import 'package:j3enterprise/src/pro/models/series_number/temp_number_logs.dart';
@@ -73,6 +74,7 @@ part 'moor_database.g.dart';
   Desktop,
   SalesOrderHeader,
   SalesOrderDetail,
+  SalesOrderDetailTemp,
   SeriesNumberGenerator,
   TempNumberLogs,
   Customer,
@@ -149,7 +151,7 @@ class AppDatabase extends _$AppDatabase {
               includeJulianDate: false,
               includePrefix: false,
               includeUserID: false,
-              includetenantId: false,
+              includeTenantId: false,
               usedAutoNumber: false,
               numberPrefix: "SO",
               endingLength: 8,
@@ -159,7 +161,7 @@ class AppDatabase extends _$AppDatabase {
               includeJulianDate: false,
               includePrefix: false,
               includeUserID: false,
-              includetenantId: false,
+              includeTenantId: false,
               usedAutoNumber: false,
               numberPrefix: "INV",
               endingLength: 8,

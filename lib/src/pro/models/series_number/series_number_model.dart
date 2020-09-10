@@ -8,7 +8,7 @@ class SeriesNumberGenerator extends Table implements MustHaveTenant {
   BoolColumn get includePrefix => boolean().withDefault(Constant(false))();
   BoolColumn get includeJulianDate => boolean().withDefault(Constant(false))();
   BoolColumn get includeUserID => boolean().withDefault(Constant(false))();
-  BoolColumn get includetenantId => boolean().withDefault(Constant(false))();
+  BoolColumn get includeTenantId => boolean().withDefault(Constant(false))();
   BoolColumn get usedAutoNumber => boolean().withDefault(Constant(false))();
   IntColumn get endingLength => integer().nullable()();
   TextColumn get typeOfNumber => text().nullable()();

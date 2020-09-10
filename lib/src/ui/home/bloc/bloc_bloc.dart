@@ -21,13 +21,15 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+<<<<<<< HEAD
  
+=======
+>>>>>>> dev
 
 part 'bloc_event.dart';
 part 'bloc_state.dart';
 
 class BlocBloc extends Bloc<BlocEvent, BlocState> {
-
   @override
   BlocState get initialState => BlocInitial();
 
@@ -36,8 +38,8 @@ class BlocBloc extends Bloc<BlocEvent, BlocState> {
     BlocEvent event,
   ) async* {
     // TODO: implement mapEventToState
-    if(event is TypeSearchCommand){
-      if(event.searchString == "View Prefrence"){
+    if (event is TypeSearchCommand) {
+      if (event.searchString == "View Prefrence") {
         yield ShowSearchResult();
       }
     }

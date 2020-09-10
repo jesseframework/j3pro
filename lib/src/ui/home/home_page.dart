@@ -25,7 +25,10 @@ import 'package:j3enterprise/main.dart';
 import 'package:j3enterprise/src/database/crud/desktop/desktop_crud.dart';
 import 'package:j3enterprise/src/database/crud/user/user_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
+<<<<<<< HEAD
  
+=======
+>>>>>>> dev
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dart';
@@ -74,9 +77,9 @@ class _HomePageState extends State<HomePage> {
 
   User user;
   @override
+  // ignore: missing_return
   Widget build(BuildContext context) {
     try {
-
       return Scaffold(
         appBar: AppBar(
           title: Text(AppLocalization.of(context).translate('app_title')),

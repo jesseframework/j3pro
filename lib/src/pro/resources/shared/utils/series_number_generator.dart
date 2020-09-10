@@ -43,7 +43,6 @@ class NumberGenerator {
 
         Jalali j = Jalali(
             DateTime.now().year, DateTime.now().month, DateTime.now().day);
-            
 
         setJulianDate = j.julianDayNumber.toString();
       }
@@ -54,7 +53,7 @@ class NumberGenerator {
         setUserId = mapDevicePref['userId'];
       }
 
-      if (getSeries[0].includetenantId == true) {
+      if (getSeries[0].includeTenantId == true) {
         _log.finest("get tenantid from sahre prefrence");
         mapDevicePref = await userSharedData.getUserSharedPref();
         setTenantId = mapDevicePref['tenantId'];

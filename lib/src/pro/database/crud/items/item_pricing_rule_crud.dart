@@ -28,9 +28,72 @@ class ItemPricingRuleDao extends DatabaseAccessor<AppDatabase>
         .get();
   }
 
-  Future<void> createOrUpdateItemPricingRule(ItemPricingRuleData itemPriceData) {
+  Future<void> createOrUpdateItemPricingRule(
+      ItemPricingRuleData itemPriceData) {
     return into(db.itemPricingRule).insertOnConflictUpdate(itemPriceData);
   }
 
   Future deleteAllItemPricingRule() => delete(db.itemPricingRule).go();
+
+  //This section is used for discount calculation
+  Stream<List<ItemPricingRuleData>> getAllDiscount(
+      String itemCode,
+      String itemGroup,
+      String itemName,
+      String category,
+      String customerGroup,
+      String customer,
+      String territory,
+      String partner,
+      String priceList,
+      DateTime validFrom,
+      DateTime validTo,
+      bool isActive,
+      double numOfItemOnRegister,
+      double numOfItemGroupOnRegister,
+      double numOfAllItemsOnRegister,
+      double numOfcategoryOnRegister) {
+    return customSelect(
+      'SELECT *'
+      'FROM item_pricing_rule'
+      'WHERE'
+      '(apply_on = '
+      'Item Code'
+      ' AND item_code = $itemCode AND min_quantity <= $numOfItemOnRegister)'
+      '(OR apply_on = '
+      'Item Group'
+      ' AND item_group = $itemGroup AND min_quantity <= $numOfItemGroupOnRegister)'
+      '(OR apply_on = '
+      'Item Group'
+      ' AND item_group = '
+      'All Item Groups'
+      ' AND min_quantity <= $numOfAllItemsOnRegister)'
+      '(OR apply_on = '
+      'Category'
+      ' AND category = $category AND min_quantity <= $numOfcategoryOnRegister)'
+      '(OR applicable_for = '
+      'Customer Group'
+      ' AND customer_group = $customerGroup)'
+      '(OR applicable_for = '
+      'Customer'
+      ' AND customer_name = $customer)'
+      '(OR applicable_for = '
+      'Territory'
+      ' AND customer_territory = $territory)'
+      '(OR applicable_for = '
+      'Sales Partner'
+      ' AND parent_group = $partner)'
+      'AND price_list_name = $priceList'
+      'AND valid_from <= $validFrom'
+      'AND valid_to >= $validTo'
+      'AND is_active == $isActive',
+      readsFrom: {
+        db.itemPricingRule
+      }, // used for the stream: the stream will update when either table changes
+    ).watch().map((rows) {
+      return rows
+          .map((row) => ItemPricingRuleData.fromData(row.data, db))
+          .toList();
+    });
+  }
 }
