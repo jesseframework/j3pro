@@ -1,6 +1,7 @@
 import 'package:j3enterprise/src/database/crud/business_rule/business_rule_crud.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/preference_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/pro/database/crud/customer/customer_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/items/item_master_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/items/item_price_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/items/item_pricing_rule_crud.dart';
@@ -27,13 +28,28 @@ class AddItemToTransaction {
   String uom;
   String defaultWarehouse;
   String inventoryCycleNumber;
+  String transactionNumber;
   String priceList;
   String standardPriceList;
+  String customer;
   double itemPrice;
   double sellingDeposit;
   double deposit;
   double returnPrice;
   double returnDeposit;
+
+  //Get Discount
+  String customerGroup;
+  String territory;
+  String partner;
+  DateTime validFrom;
+  DateTime validTo;
+  bool enableHeaderDiscount;
+  double minCustPurchase;
+  double maxCustPurchase;
+  double amountOff;
+  double percentageOff;
+  double accumalatedPurchase;
 
   String className = "Add Item To Transaction";
   var db;
@@ -48,6 +64,7 @@ class AddItemToTransaction {
   ItemMasterRepository itemMasterRepository;
   InventoryItemsDao inventoryItemsDao;
   TempNumberLogsDao tempNumberLogsDao;
+  CustomerDao customerDao;
   SalesOrderDetailTempDao salesOrderDetailTempDao;
 
   //Regular Class
@@ -67,6 +84,7 @@ class AddItemToTransaction {
     inventoryItemsDao = new InventoryItemsDao(db);
     tempNumberLogsDao = new TempNumberLogsDao(db);
     salesOrderDetailTempDao = new SalesOrderDetailTempDao(db);
+    customerDao = new CustomerDao(db);
     checkInventory = new CheckInventory();
     itemMasterRepository = new ItemMasterRepository();
 
@@ -78,6 +96,7 @@ class AddItemToTransaction {
       double qtySet,
       String searchText,
       String tempSalesOrderNo,
+      String tempTransactionStatus,
       String tempInventoryCycle,
       String tempDaySessionNumber,
       DateTime deliveryDate,
@@ -168,7 +187,41 @@ class AddItemToTransaction {
         return result;
       }
 
-      //Get Discount
+      //Get Customer infomation
+      var cust = await customerDao.getAllCustomerById(customer);
+      if (cust != null) {
+        customerGroup = cust[0].customerGroup;
+        territory = cust[0].customerTerritory;
+        partner = "";
+        validFrom = cust[0].validFrom;
+        validTo = cust[0].validTo;
+        enableHeaderDiscount = false;
+        accumalatedPurchase = cust[0].accumulatedPurchase;
+        percentageOff = cust[0].discountPercentage;
+        amountOff = cust[0].discountAmount;
+      }
+
+      //Get shopping cart infomation
+      var numOfItemOnRegister = salesOrderDetailTempDao.qtyOfItemOnRegister(
+          tempSalesOrderNo, itemId, uom, tempTransactionStatus);
+
+      var discount = itemPricingRuleDao.getAllDiscount(
+          itemCode,
+          itemGroup,
+          itemName,
+          category,
+          customerGroup,
+          customer,
+          territory,
+          partner,
+          priceList,
+          validFrom,
+          validTo,
+          isActive,
+          numOfItemOnRegister,
+          numOfItemGroupOnRegister,
+          numOfAllItemsOnRegister,
+          numOfcategoryOnRegister);
 
       //Add New Line
       var newLine = new SalesOrderDetailTempCompanion(

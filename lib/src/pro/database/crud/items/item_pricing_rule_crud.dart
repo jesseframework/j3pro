@@ -36,7 +36,7 @@ class ItemPricingRuleDao extends DatabaseAccessor<AppDatabase>
   Future deleteAllItemPricingRule() => delete(db.itemPricingRule).go();
 
   //This section is used for discount calculation
-  Stream<List<ItemPricingRuleData>> qtyOfAllItemsOnRegister(
+  Stream<List<ItemPricingRuleData>> getAllDiscount(
       String itemCode,
       String itemGroup,
       String itemName,
