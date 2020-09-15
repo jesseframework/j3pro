@@ -6,7 +6,16 @@ final darkTheme = ThemeData(
 );
 
 final lightTheme = ThemeData(
-  textTheme: TextTheme(bodyText1: TextStyle().copyWith(color: Colors.white)),
+  textTheme: TextTheme(
+    bodyText1: TextStyle().copyWith(color: Colors.white,
+    
+    
+    ),
+ bodyText2:   TextStyle().copyWith(color: Colors.grey,
+    
+    
+    ),
+  ),
   primaryColor: Colors.blue,
   cardColor: Colors.white,
   brightness: Brightness.light,
