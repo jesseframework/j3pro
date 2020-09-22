@@ -7,11 +7,11 @@ final darkTheme = ThemeData(
 
 final lightTheme = ThemeData(
   textTheme: TextTheme(
-    bodyText1: TextStyle().copyWith(color: Colors.white,
+    bodyText1: TextStyle().copyWith(color: Colors.black,
     
     
     ),
- bodyText2:   TextStyle().copyWith(color: Colors.grey,
+ bodyText2:   TextStyle().copyWith(color: Colors.black,
     
     
     ),
