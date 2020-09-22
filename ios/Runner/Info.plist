@@ -4,6 +4,8 @@
 <dict>
     <key>FirebaseAppDelegateProxyEnabled</key>
     <false/>
+	<key>io.flutter.embedded_views_preview</key>
+    <yes/>
     <key>FirebaseAppDelegateProxyEnabled</key>
     <false/>
 	<key>CFBundleDevelopmentRegion</key>

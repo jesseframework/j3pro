@@ -14,7 +14,8 @@
        android:name=".Application"
         android:label="J3 Enterprise Solution"
         android:icon="@mipmap/ic_launcher">
-
+         <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyBbWjpy5m0J41DHih38wXk5RIeCmletA3A"/>
         <activity
             android:name="io.flutter.embedding.android.FlutterActivity"
             android:launchMode="singleTop"

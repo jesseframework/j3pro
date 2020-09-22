@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:j3enterprise/src/database/crud/desktop/desktop_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
@@ -21,8 +23,13 @@ class ActivitiesMenuPage extends StatefulWidget {
 
 class _ActivitiesMenuPageState extends State<ActivitiesMenuPage> {
   String searchText = 'Sales';
-
+Completer<GoogleMapController> _controller = Completer();
   bool toggleList = false;
+
+  static final CameraPosition _kGooglePlex = CameraPosition(
+    target: LatLng(37.42796133580664, -122.085749655962),
+    zoom: 10.4746,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -63,10 +70,15 @@ class _ActivitiesMenuPageState extends State<ActivitiesMenuPage> {
               child: Stack(
                 children: [
                   Container(
-                    child: Image.asset(
-                      'images/dowload.PNG',
-                      fit: BoxFit.fitWidth,
-                    ),
+                    child: GoogleMap(
+                     
+                      zoomControlsEnabled: false,
+        mapType: MapType.normal,
+        initialCameraPosition: _kGooglePlex,
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },
+      ),  
                     constraints: BoxConstraints.expand(),
                   ),
                   Padding(

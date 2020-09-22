@@ -148,7 +148,7 @@ class _AppState extends State<App> {
                 return OfflineLoginPage(userRepository: widget.userRepository);
               }
               if (state is AuthenticationAuthenticated) {
-                return CustomerListPage();
+                return HomePage();
               }
               if (state is AuthenticationUnauthenticated) {
                 return LoginPage();
