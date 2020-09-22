@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:j3enterprise/src/database/crud/desktop/desktop_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
+ 
 
 class ActivitiesMenuPage extends StatefulWidget {
   static final route = '/activities_menu';
@@ -69,7 +71,11 @@ Completer<GoogleMapController> _controller = Completer();
               height: 130,
               child: Stack(
                 children: [
+
+                Platform.isAndroid||Platform.isIOS==true?  Container(
+
                   Container(
+
                     child: GoogleMap(
                      
                       zoomControlsEnabled: false,
@@ -80,7 +86,9 @@ Completer<GoogleMapController> _controller = Completer();
         },
       ),  
                     constraints: BoxConstraints.expand(),
-                  ),
+                  ):Container(
+                      constraints: BoxConstraints.expand(),
+                    child: Image.asset('images/road.PNG',fit: BoxFit.fill,)),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -130,7 +138,7 @@ Completer<GoogleMapController> _controller = Completer();
                       ],
                     ),
                   ),
-                  Positioned(
+                Platform.isAndroid||Platform.isIOS==true?    Positioned(
                       right: 5,
                       bottom: 5,
                       child: MaterialButton(
@@ -154,7 +162,7 @@ Completer<GoogleMapController> _controller = Completer();
                               ),
                             ],
                           ),
-                          onPressed: () {}))
+                          onPressed: () {})):Container(),
                 ],
               ),
             ),
