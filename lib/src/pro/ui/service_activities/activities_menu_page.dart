@@ -71,7 +71,11 @@ Completer<GoogleMapController> _controller = Completer();
               height: 130,
               child: Stack(
                 children: [
+
                 Platform.isAndroid||Platform.isIOS==true?  Container(
+
+                  Container(
+
                     child: GoogleMap(
                      
                       zoomControlsEnabled: false,
