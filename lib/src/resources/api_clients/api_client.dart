@@ -25,7 +25,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ApiClient {
   final String apiConnection = 'API';
 
-  static const String URL = 'http://app.j3enterprisecloud.com';
+  static const String URL = 'https://app.j3enterprisecloud.com';
 
   static ChopperClient chopper;
 

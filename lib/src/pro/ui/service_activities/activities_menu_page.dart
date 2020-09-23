@@ -7,7 +7,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:j3enterprise/src/database/crud/desktop/desktop_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
- 
 
 class ActivitiesMenuPage extends StatefulWidget {
   static final route = '/activities_menu';
@@ -25,7 +24,7 @@ class ActivitiesMenuPage extends StatefulWidget {
 
 class _ActivitiesMenuPageState extends State<ActivitiesMenuPage> {
   String searchText = 'Sales';
-Completer<GoogleMapController> _controller = Completer();
+  Completer<GoogleMapController> _controller = Completer();
   bool toggleList = false;
 
   static final CameraPosition _kGooglePlex = CameraPosition(
@@ -71,24 +70,24 @@ Completer<GoogleMapController> _controller = Completer();
               height: 130,
               child: Stack(
                 children: [
-
-                Platform.isAndroid||Platform.isIOS==true?  Container(
-
-                  Container(
-
-                    child: GoogleMap(
-                     
-                      zoomControlsEnabled: false,
-        mapType: MapType.normal,
-        initialCameraPosition: _kGooglePlex,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-      ),  
-                    constraints: BoxConstraints.expand(),
-                  ):Container(
-                      constraints: BoxConstraints.expand(),
-                    child: Image.asset('images/road.PNG',fit: BoxFit.fill,)),
+                  Platform.isAndroid || Platform.isIOS == true
+                      ? Container(
+                          child: GoogleMap(
+                            zoomControlsEnabled: false,
+                            mapType: MapType.normal,
+                            initialCameraPosition: _kGooglePlex,
+                            onMapCreated: (GoogleMapController controller) {
+                              _controller.complete(controller);
+                            },
+                          ),
+                          constraints: BoxConstraints.expand(),
+                        )
+                      : Container(
+                          constraints: BoxConstraints.expand(),
+                          child: Image.asset(
+                            'images/road.PNG',
+                            fit: BoxFit.fill,
+                          )),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -138,31 +137,33 @@ Completer<GoogleMapController> _controller = Completer();
                       ],
                     ),
                   ),
-                Platform.isAndroid||Platform.isIOS==true?    Positioned(
-                      right: 5,
-                      bottom: 5,
-                      child: MaterialButton(
-                          color: Colors.red.withOpacity(0.6),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.map,
-                                color: Colors.white,
+                  Platform.isAndroid || Platform.isIOS == true
+                      ? Positioned(
+                          right: 5,
+                          bottom: 5,
+                          child: MaterialButton(
+                              color: Colors.red.withOpacity(0.6),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.map,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    'Navigate',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ],
                               ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                'Navigate',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                            ],
-                          ),
-                          onPressed: () {})):Container(),
+                              onPressed: () {}))
+                      : Container(),
                 ],
               ),
             ),
