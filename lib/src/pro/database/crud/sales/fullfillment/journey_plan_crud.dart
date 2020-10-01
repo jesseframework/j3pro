@@ -1,6 +1,5 @@
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/models/sales/fullfillment/journey_plan.dart';
-
 import 'package:moor/moor.dart';
 
 part 'journey_plan_crud.g.dart';
@@ -18,6 +17,27 @@ class JourneyPlanDao extends DatabaseAccessor<AppDatabase>
   Stream<List<JourneyPlanData>> watchAllJourneyPlanByUser(String userName) {
     return (select(db.journeyPlan)..where((t) => t.assignTo.equals(userName)))
         .watch();
+  }
+
+  Stream<List<JourneyPlanData>> watchAllJourneyPlanByUserandAddress(
+      String userName) {
+    return customSelect(
+      'SELECT'
+      'j.customer_name,'
+      'j.company_name,'
+      'a.address_line1 '
+      'FROM '
+      'journey_plan j '
+      'left outer join address a on j.customer_id = a.customer_id '
+      'WHERE '
+      'j.is_deleted = 0 '
+      'and j.user_name = $userName ',
+      readsFrom: {
+        db.journeyPlan
+      }, // used for the stream: the stream will update when either table changes
+    ).watch().map((rows) {
+      return rows.map((row) => JourneyPlanData.fromData(row.data, db)).toList();
+    });
   }
 
   Future<List<JourneyPlanData>> getAllJourneyPlanByUser(String userName) {

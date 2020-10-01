@@ -12,8 +12,9 @@ class ActivitiesMenuPage extends StatefulWidget {
   static final route = '/activities_menu';
   var db;
   DesktopDao desktopDao;
+  JourneyPlanData journeyPlanData;
 
-  ActivitiesMenuPage() {
+  ActivitiesMenuPage({this.journeyPlanData}) {
     db = AppDatabase();
     desktopDao = DesktopDao(db);
   }
@@ -95,7 +96,7 @@ class _ActivitiesMenuPageState extends State<ActivitiesMenuPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'COMPUTER EXPERTZ LTD',
+                          widget.journeyPlanData.companyName,
                           style: TextStyle(
                               fontSize: 22, fontWeight: FontWeight.bold),
                         ),
@@ -111,7 +112,7 @@ class _ActivitiesMenuPageState extends State<ActivitiesMenuPage> {
                                 width: 3,
                               ),
                               Text(
-                                '120 Portmore Boulevard St.Catherine',
+                                widget.journeyPlanData.billingAddressName,
                                 softWrap: true,
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),

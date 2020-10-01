@@ -105,7 +105,21 @@ class _ListFilterState extends State<ListFilter> {
                       });
                     },
                   )
-                : Icon(Icons.search, color: textColor),
+                : Container(
+                  width: 60,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Icon(Icons.search, color: textColor),
+                          InkWell(
+                                                      child: Container(
+                                margin: EdgeInsets.only(left:10),
+      height: 25,
+      child: Image.asset('images/filter.png')),
+                           )  
+                    ],
+                  ),
+                ),
             border: InputBorder.none,
             hintText: _placeholder,
           ),

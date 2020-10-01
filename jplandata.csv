@@ -1,0 +1,3 @@
+tenant_id,creation_time,delete_time,create_user_id,creator_user,last_modifier_user,last_modifier_user_id,delete_user_id,deleter_user_id,is_deleted,id,customer_id,customer_name,company_name,customer_type,customer_group,customer_territory,billing_address_name,shipping_address_name,assign_to,expiry_date,week_number,week_day
+1,1600797876,1600797876,,,,,,,0,1,100001,Computer Expertz,Computer Expertz,Business,IT,Sales,Cpxz Billing,CPXZ Shipping,admin,1600797876,1,1
+,,,,,,,,,0,2,,,,,,,,,,,,
