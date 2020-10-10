@@ -25,7 +25,6 @@ import 'package:j3enterprise/main.dart';
 import 'package:j3enterprise/src/database/crud/desktop/desktop_crud.dart';
 import 'package:j3enterprise/src/database/crud/user/user_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
- 
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dart';
@@ -199,77 +198,76 @@ class _HomePageState extends State<HomePage> {
                                                     BorderRadius.circular(10),
                                               ),
                                               child: Wrap(
-                                                 direction: Axis.horizontal,
-                                                 alignment: WrapAlignment.start,
-                                                children: [
-                                                 ...prefData.map((e) {
-                                                  if (e.iconGroup ==
-                                                      groupsCollection[index]) {
-                                                    return InkWell(
-                                                        onTap: () {
-                                                          Navigator.pushNamed(
-                                                              context,
-                                                              e.navigationRoute);
-                                                        },
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
+                                                  direction: Axis.horizontal,
+                                                  alignment:
+                                                      WrapAlignment.start,
+                                                  children: [
+                                                    ...prefData.map((e) {
+                                                      if (e.iconGroup ==
+                                                          groupsCollection[
+                                                              index]) {
+                                                        return InkWell(
+                                                            onTap: () {
+                                                              print(e
+                                                                  .navigationRoute);
+                                                              Navigator.pushNamed(
+                                                                  context,
+                                                                  e.navigationRoute);
+                                                            },
+                                                            child: Padding(
+                                                              padding: const EdgeInsets
                                                                       .symmetric(
                                                                   horizontal:
                                                                       12,
                                                                   vertical: 8),
-                                                          child: Container(
-                                                            width: 70,
-                                                            child: Column(
-                                                              children: [
-                                                                Card(
-                                                                  shape: RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              5)),
-                                                                  clipBehavior:
-                                                                      Clip.antiAlias,
-                                                                  child:
-                                                                      Container(
-                                                                    width: 60,
-                                                                    height: 60,
-                                                                    color: Color(
-                                                                        int.parse(
-                                                                            e.iconColour)),
-                                                                    child: Icon(
-                                                                        IconData(
-                                                                            int.parse(e
-                                                                                .iconCode),
-                                                                            fontFamily: e
-                                                                                .iconFamily),
-                                                                        color: Colors
-                                                                            .white),
-                                                                  ),
+                                                              child: Container(
+                                                                width: 70,
+                                                                child: Column(
+                                                                  children: [
+                                                                    Card(
+                                                                      shape: RoundedRectangleBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(5)),
+                                                                      clipBehavior:
+                                                                          Clip.antiAlias,
+                                                                      child:
+                                                                          Container(
+                                                                        width:
+                                                                            60,
+                                                                        height:
+                                                                            60,
+                                                                        color: Color(
+                                                                            int.parse(e.iconColour)),
+                                                                        child: Icon(
+                                                                            IconData(int.parse(e.iconCode),
+                                                                                fontFamily: e.iconFamily),
+                                                                            color: Colors.white),
+                                                                      ),
+                                                                    ),
+                                                                    Container(
+                                                                        child:
+                                                                            Text(
+                                                                      e.iconName,
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                      ),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      softWrap:
+                                                                          true,
+                                                                    ))
+                                                                  ],
                                                                 ),
-                                                                Container(
-                                                                    child: Text(
-                                                                  e.iconName,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                  ),
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .center,
-                                                                  softWrap:
-                                                                      true,
-                                                                ))
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ));
-                                                  } else {
-                                                    return Container();
-                                                  }
-                                                }),
-                                              ]),
+                                                              ),
+                                                            ));
+                                                      } else {
+                                                        return SizedBox();
+                                                      }
+                                                    }),
+                                                  ]),
                                             ),
                                           ),
                                         ],

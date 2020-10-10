@@ -24,7 +24,7 @@ class SalesOrderItemDetailPage extends StatelessWidget {
                   padding: const EdgeInsets.all(10),
                   child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).cardColor,
                         borderRadius: BorderRadius.circular(8)),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -56,7 +56,7 @@ class SalesOrderItemDetailPage extends StatelessWidget {
                   padding: const EdgeInsets.all(10),
                   child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).cardColor,
                         borderRadius: BorderRadius.circular(8)),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -90,7 +90,7 @@ class SalesOrderItemDetailPage extends StatelessWidget {
                   padding: const EdgeInsets.all(10),
                   child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).cardColor,
                         borderRadius: BorderRadius.circular(8)),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -109,7 +109,7 @@ class SalesOrderItemDetailPage extends StatelessWidget {
                   padding: const EdgeInsets.all(10),
                   child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).cardColor,
                         borderRadius: BorderRadius.circular(8)),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),

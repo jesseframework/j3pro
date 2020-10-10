@@ -13,15 +13,18 @@ class AddressDao extends DatabaseAccessor<AppDatabase> with _$AddressDaoMixin {
     return (select(db.address).get());
   }
 
-  Stream<List<Addres>> watchAllAddressByTitle(String addressTitle) {
+  Stream<List<Addres>> watchAllAddressByTitle(
+      {String customerId, String addressType, bool isDisable}) {
     return (select(db.address)
-          ..where((t) => t.addressTitle.equals(addressTitle)))
+          ..where((t) =>
+              t.customerId.equals(customerId) &
+              t.addressType.equals(addressType) &
+              t.isDeleted.equals(isDisable)))
         .watch();
   }
 
-  Future<List<Addres>> getAllAddressByTitle(String addressTitle) {
-    return (select(db.address)
-          ..where((t) => t.addressTitle.equals(addressTitle)))
+  Future<List<Addres>> getAllAddressByTitle(String customerId) {
+    return (select(db.address)..where((t) => t.customerId.equals(customerId)))
         .get();
   }
 

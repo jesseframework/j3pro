@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:j3enterprise/main.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/sales/fullfillment/journey_plan_crud.dart';
+import 'package:j3enterprise/src/pro/models/sales/fullfillment/jounery_with_address.dart';
 import 'package:j3enterprise/src/pro/ui/service_activities/activities_menu_page.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
@@ -10,6 +11,7 @@ import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dar
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
 
 class ServiceActivitiesPage extends StatefulWidget {
+  static final route = '/servies_activites';
   var db;
   JourneyPlanDao journeyPlanDao;
   ServiceActivitiesPage() {
@@ -47,8 +49,11 @@ class _ServiceActivitiesPageState extends State<ServiceActivitiesPage> {
               child: Row(
                 children: [
                   Expanded(
-                    child: ListFilter(
-                        placeholder: 'Search', onFilterChanged: (search) {}),
+                    child: Container(
+                      height: 35,
+                      child: ListFilter(
+                          placeholder: 'Search', onFilterChanged: (search) {}),
+                    ),
                   ),
                 ],
               ),
@@ -113,23 +118,24 @@ class _ServiceActivitiesPageState extends State<ServiceActivitiesPage> {
               ],
             ),
             StreamBuilder(
-              stream: widget.journeyPlanDao.watchAllJourneyPlanByUser('admin'),
+              stream:
+                  widget.journeyPlanDao.watchJourneyWithAddressJoin('username'),
               //  future: widget.journeyPlanDao.getAllJourneyPlanData(),
               builder: (context, snapshot) {
                 print(snapshot.data.toString());
                 if (snapshot.hasData) {
                   print(snapshot.data.toString());
                   if (snapshot.hasData) {
-                    List<JourneyPlanData> journeyPlanData =
-                        List<JourneyPlanData>();
-                    journeyPlanData = snapshot.data;
+                    List<JourneyWithAddress> journeyWithAddressData =
+                        List<JourneyWithAddress>();
+                    journeyWithAddressData = snapshot.data;
 
-                    if (journeyPlanData.isEmpty) {
+                    if (journeyWithAddressData.isEmpty) {
                       return Text("Empty List");
                     }
                     return Expanded(
-                      child: ListView.separated(
-                        itemCount: journeyPlanData.length,
+                      child: ListView.builder(
+                        itemCount: journeyWithAddressData.length,
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {
@@ -137,7 +143,8 @@ class _ServiceActivitiesPageState extends State<ServiceActivitiesPage> {
                                   context,
                                   EnterExitRoute(
                                       enterPage: ActivitiesMenuPage(
-                                    journeyPlanData: journeyPlanData[index],
+                                    journeyWithAddress:
+                                        journeyWithAddressData[index],
                                   )));
                             },
                             child: Container(
@@ -147,21 +154,32 @@ class _ServiceActivitiesPageState extends State<ServiceActivitiesPage> {
                                   Icons.image,
                                   size: 30,
                                 ),
-                                title: Text(journeyPlanData[index].companyName,
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700)),
                                 subtitle: Text(
-                                  journeyPlanData[index].billingAddressName,
+                                  journeyWithAddressData[index]
+                                      .addr
+                                      .addressLine1,
+                                ),
+                                title: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                        journeyWithAddressData[index]
+                                            .jplan
+                                            .companyName,
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w700)),
+                                    Text(
+                                      journeyWithAddressData[index]
+                                          .jplan
+                                          .customerId,
+                                    ),
+                                  ],
                                 ),
                                 trailing: Icon(Icons.arrow_forward_ios),
                               ),
                             ),
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return Divider(
-                            color: Colors.grey,
                           );
                         },
                       ),

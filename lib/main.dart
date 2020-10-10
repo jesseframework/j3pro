@@ -24,10 +24,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
-import 'package:j3enterprise/src/pro/ui/customer/add_customer_page.dart';
-import 'package:j3enterprise/src/pro/ui/customer/customer_list_page.dart';
-import 'package:j3enterprise/src/pro/ui/service_activities/activities_menu_page.dart';
-import 'package:j3enterprise/src/pro/ui/service_activities/service_activities_page.dart';
 import 'package:j3enterprise/src/resources/services/background_fetch_service.dart';
 import 'package:j3enterprise/src/resources/services/firebase_message_wrapper.dart';
 import 'package:j3enterprise/src/resources/services/init_services.dart';
@@ -47,7 +43,7 @@ import 'src/ui/authentication/authentication_event.dart';
 import 'src/ui/authentication/authentication_state.dart';
 import 'src/ui/home/home_page.dart';
 
- GetIt getIt = GetIt.I;
+GetIt getIt = GetIt.I;
 
 void setupLocator() {
   getIt.registerLazySingleton(() => UserRepository());
@@ -149,7 +145,7 @@ class _AppState extends State<App> {
                 return OfflineLoginPage(userRepository: widget.userRepository);
               }
               if (state is AuthenticationAuthenticated) {
-                return ServiceActivitiesPage();
+                return HomePage();
               }
               if (state is AuthenticationUnauthenticated) {
                 return LoginPage();
