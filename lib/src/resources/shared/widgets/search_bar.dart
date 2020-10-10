@@ -20,12 +20,12 @@
 import 'package:flutter/material.dart';
 
 class ListFilter extends StatefulWidget {
-  const ListFilter({
-    @required this.placeholder,
-    this.filter,
-    @required this.onFilterChanged,
-  });
-
+  const ListFilter(
+      {@required this.placeholder,
+      this.filter,
+      @required this.onFilterChanged,
+      this.function});
+  final Function function;
   final String placeholder;
   final String filter;
   final Function(String) onFilterChanged;
@@ -42,6 +42,7 @@ class _ListFilterState extends State<ListFilter> {
   @override
   void initState() {
     super.initState();
+
     _filterController = TextEditingController();
     _focusNode = FocusNode()..addListener(onFocusChanged);
     _placeholder = widget.placeholder;
@@ -49,6 +50,7 @@ class _ListFilterState extends State<ListFilter> {
 
   void onFocusChanged() {
     setState(() {
+      widget.function(_focusNode.hasFocus);
       _placeholder = _focusNode.hasFocus ? '' : widget.placeholder;
     });
   }
@@ -72,49 +74,61 @@ class _ListFilterState extends State<ListFilter> {
     final textColor = Theme.of(context).textTheme.bodyText1.color;
     final isFilterSet = (widget.filter ?? '').isNotEmpty;
 
-    return Padding(
-      padding: const EdgeInsets.only(top: 2),
-      child: Container(
-        padding: const EdgeInsets.only(left: 8.0),
-        height: 40,
-        margin: EdgeInsets.only(bottom: 2.0),
-        decoration: BoxDecoration(
+    return Container(
+      decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-        ),
-        child: TextField(
-          focusNode: _focusNode,
-          textAlign: _focusNode.hasFocus || _filterController.text.isNotEmpty
-              ? TextAlign.start
-              : TextAlign.center,
-          textAlignVertical: TextAlignVertical.center,
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.only(left: 8, right: 8, bottom: 6),
-            suffixIcon: _filterController.text.isNotEmpty
-                ? IconButton(
-                    icon: Icon(
+          borderRadius: BorderRadius.circular(5)),
+      height: 35,
+      child: TextField(
+        focusNode: _focusNode,
+        textAlign: _focusNode.hasFocus || _filterController.text.isNotEmpty
+            ? TextAlign.start
+            : TextAlign.center,
+        textAlignVertical: TextAlignVertical.center,
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.only(left: 8, right: 8, bottom: 5),
+          suffixIcon: _focusNode.hasFocus
+              ? IconButton(
+                  icon: Center(
+                    child: Icon(
                       Icons.clear,
                       color: textColor,
                     ),
-                    onPressed: () {
-                      _filterController.text = '';
-                      _focusNode.unfocus();
-                      widget.onFilterChanged('');
-                      setState(() {
-                        _placeholder = widget.placeholder;
-                      });
-                    },
-                  )
-                : Icon(Icons.search, color: textColor),
-            border: InputBorder.none,
-            hintText: _placeholder,
-          ),
-          autocorrect: false,
-          onChanged: (value) {
-            widget.onFilterChanged(value);
-          },
-          controller: _filterController,
+                  ),
+                  onPressed: () {
+                    _filterController.text = '';
+                    _focusNode.unfocus();
+                    widget.onFilterChanged('');
+                    setState(() {
+                      _placeholder = widget.placeholder;
+                    });
+                  },
+                )
+              : Container(
+                  width: 60,
+                  margin: EdgeInsets.only(right: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(Icons.search, color: textColor),
+                      InkWell(
+                        child: Container(
+                            margin: EdgeInsets.only(left: 10),
+                            height: 25,
+                            child: Image.asset('images/filter.png')),
+                      )
+                    ],
+                  ),
+                ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
+          hintText: _placeholder,
         ),
+        autocorrect: false,
+        onChanged: (value) {
+          widget.onFilterChanged(value);
+        },
+        controller: _filterController,
       ),
     );
   }

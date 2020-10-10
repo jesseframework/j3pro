@@ -52,11 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void didChangeDependencies() async {
-    await getIt<UserRepository>().getLocale().then((value) {
-      setState(() {
-        selecteditem = value.languageCode;
-      });
-    });
+  
     super.didChangeDependencies();
   }
 

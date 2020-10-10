@@ -6,14 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:j3enterprise/src/database/crud/desktop/desktop_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/pro/models/sales/fullfillment/jounery_with_address.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 
 class ActivitiesMenuPage extends StatefulWidget {
   static final route = '/activities_menu';
   var db;
   DesktopDao desktopDao;
+  JourneyWithAddress journeyWithAddress;
 
-  ActivitiesMenuPage() {
+  ActivitiesMenuPage({this.journeyWithAddress}) {
     db = AppDatabase();
     desktopDao = DesktopDao(db);
   }
@@ -95,7 +97,7 @@ class _ActivitiesMenuPageState extends State<ActivitiesMenuPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'COMPUTER EXPERTZ LTD',
+                          widget.journeyWithAddress.jplan.companyName,
                           style: TextStyle(
                               fontSize: 22, fontWeight: FontWeight.bold),
                         ),
@@ -111,7 +113,7 @@ class _ActivitiesMenuPageState extends State<ActivitiesMenuPage> {
                                 width: 3,
                               ),
                               Text(
-                                '120 Portmore Boulevard St.Catherine',
+                                widget.journeyWithAddress.addr.addressLine1,
                                 softWrap: true,
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
@@ -193,7 +195,9 @@ class _ActivitiesMenuPageState extends State<ActivitiesMenuPage> {
                                           return InkWell(
                                               onTap: () {
                                                 Navigator.pushNamed(
-                                                    context, e.navigationRoute);
+                                                    context, e.navigationRoute,
+                                                    arguments: widget
+                                                        .journeyWithAddress);
                                               },
                                               child: Padding(
                                                 padding:
@@ -248,16 +252,25 @@ class _ActivitiesMenuPageState extends State<ActivitiesMenuPage> {
                                 )
                               : ListView.separated(
                                   itemBuilder: (context, index) {
-                                    return ListTile(
-                                      leading: Icon(
-                                        IconData(
-                                            int.parse(prefData[index].iconCode),
-                                            fontFamily:
-                                                prefData[index].iconFamily),
-                                        color: Color(int.parse(
-                                            prefData[index].iconColour)),
+                                    return InkWell(
+                                      onTap: () {
+                                        Navigator.pushNamed(context,
+                                            prefData[index].navigationRoute,
+                                            arguments:
+                                                widget.journeyWithAddress);
+                                      },
+                                      child: ListTile(
+                                        leading: Icon(
+                                          IconData(
+                                              int.parse(
+                                                  prefData[index].iconCode),
+                                              fontFamily:
+                                                  prefData[index].iconFamily),
+                                          color: Color(int.parse(
+                                              prefData[index].iconColour)),
+                                        ),
+                                        title: Text(prefData[index].iconName),
                                       ),
-                                      title: Text(prefData[index].iconName),
                                     );
                                   },
                                   itemCount: prefData.length,

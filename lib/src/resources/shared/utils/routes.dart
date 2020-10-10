@@ -21,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_item_detail_page.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_page.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/seles_order_item_page.dart';
+import 'package:j3enterprise/src/pro/ui/service_activities/service_activities_page.dart';
 import 'package:j3enterprise/src/ui/about/about.dart';
 import 'package:j3enterprise/src/ui/background_jobs/backgroundjobs_pages.dart';
 import 'package:j3enterprise/src/ui/bussiness_rule/bussiness_rule_page.dart';
@@ -36,8 +37,11 @@ final routes = {
       SalesOrderItemDetailPage(),
   BackgroundJobsPage.route: (BuildContext context) => BackgroundJobsPage(),
   SalesOrderItemPage.route: (BuildContext context) => SalesOrderItemPage(),
+  SalesOrderPage.route: (BuildContext context) => SalesOrderPage(),
   CommunicationPage.route: (BuildContext context) => CommunicationPage(),
   BussinessRulePage.route: (BuildContext context) => BussinessRulePage(),
+  ServiceActivitiesPage.route: (BuildContext context) =>
+      ServiceActivitiesPage(),
   PreferencesPage.route: (BuildContext context) => PreferencesPage(),
   SalesOrderPage.route: (BuildContext context) => SalesOrderPage(),
   SplashPage.route: (BuildContext context) => SplashPage(),
