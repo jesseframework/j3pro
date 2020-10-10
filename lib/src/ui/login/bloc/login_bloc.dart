@@ -29,7 +29,8 @@ import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/database/crud/tenant/tenant_crud.dart';
 import 'package:j3enterprise/src/database/crud/user/user_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
-import 'package:j3enterprise/src/pro/resources/shared/utils/series_number_generator.dart';
+import 'package:j3enterprise/src/pro/database/crud/sales/sales_order/sales_order_detail_temp_crud.dart';
+import 'package:j3enterprise/src/pro/resources/shared/sales/add_item_to_transaction.dart';
 import 'package:j3enterprise/src/resources/repositories/applogger_repositiry.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/services/connection_service.dart';
@@ -51,6 +52,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   AppLoggerRepository appLoggerRepository;
   UserSharedData userSharedData;
   TenantDao tenantDao;
+  SalesOrderDetailTempDao salesOrderDetailTempDao;
 
   static final _log = Logger('LoginBloc');
 
@@ -68,6 +70,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     userSharedData = new UserSharedData();
     appLoggerRepository = new AppLoggerRepository();
     tenantDao = new TenantDao(db);
+    salesOrderDetailTempDao = new SalesOrderDetailTempDao(db);
 
     //appLogger = new AppLogger();
     assert(userRepository != null);
@@ -289,10 +292,51 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             _log.finest(
                 'Tenant tenant result assign to virable tenant LoginLoading state');
 
-            NumberGenerator numberGenerator = new NumberGenerator();
-            String ng =
-                await numberGenerator.getSerialNumber("Sales Order", 001, 4);
-            print(ng);
+            // //Test Bed Code
+            // String transactionNumber = "900009911";
+            // String itemId = "1001";
+            // String uom = "Each";
+            // String transactionStatus = "Post";
+
+            // salesOrderDetailTempDao
+            //     .qtyOfItemOnRegister(
+            //         transactionNumber, itemId, uom, transactionStatus)
+            //     .listen((event) {
+            //   print(event.single.quantity);
+            // });
+
+            //NumberGenerator numberGenerator = new NumberGenerator();
+            // String ng =
+            //     await numberGenerator.getSerialNumber("Sales Order", 001, 4);
+            // print(ng);
+
+            double qtySet = 1;
+            String searchText = "19";
+            String tempSalesOrderNo = "101012020";
+            String tempTransactionStatus = "Post";
+            String tempInventoryCycle = "INV88779899";
+            String tempDaySessionNumber = "DE88999";
+            DateTime deliveryDate = DateTime.now();
+            String currency = "JMD";
+            double exchangeRate = 1;
+            int tenantId1 = 1;
+            String userName = "admin";
+            int userId = 1;
+            AddItemToTransaction addItemToTransaction =
+                new AddItemToTransaction();
+            await addItemToTransaction.getItem(
+                qtySet,
+                searchText,
+                tempSalesOrderNo,
+                tempTransactionStatus,
+                tempInventoryCycle,
+                tempDaySessionNumber,
+                deliveryDate,
+                currency,
+                exchangeRate,
+                tenantId1,
+                userName,
+                userId);
 
             if (tenantResult['tenantId'] == null) {
               tenantId = 0.toString();

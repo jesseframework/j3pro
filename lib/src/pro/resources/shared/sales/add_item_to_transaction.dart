@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:j3enterprise/src/database/crud/business_rule/business_rule_crud.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/preference_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
@@ -17,7 +18,7 @@ import 'package:moor/moor.dart' as moor;
 class AddItemToTransaction {
   double quantity;
   String result;
-  int itemId;
+  String itemId;
   String itemName;
   String itemCode;
   String itemDescription;
@@ -61,7 +62,7 @@ class AddItemToTransaction {
   ItemPricingRuleDao itemPricingRuleDao;
   BusinessRuleDao businessRuleDao;
   PreferenceDao preferenceDao;
-  ItemMasterRepository itemMasterRepository;
+  //ItemMasterRepository itemMasterRepository;
   InventoryItemsDao inventoryItemsDao;
   TempNumberLogsDao tempNumberLogsDao;
   CustomerDao customerDao;
@@ -86,7 +87,7 @@ class AddItemToTransaction {
     salesOrderDetailTempDao = new SalesOrderDetailTempDao(db);
     customerDao = new CustomerDao(db);
     checkInventory = new CheckInventory();
-    itemMasterRepository = new ItemMasterRepository();
+    //itemMasterRepository = new ItemMasterRepository();
 
     //Regular Class
     addItemToWarehouse = new AddItemToWarehouse();
@@ -118,7 +119,7 @@ class AddItemToTransaction {
     if (item != null && item.length > 0) {
       result = "Item Found";
       //Assign Item values
-      itemId = item[0].id;
+      itemId = item[0].id.toString();
       itemName = item[0].itemName;
       itemCode = item[0].itemCode;
       itemDescription = item[0].description;
@@ -127,7 +128,7 @@ class AddItemToTransaction {
       stockUOM = "";
       defaultWarehouse = "";
       upcCode = "";
-      uom = "";
+      uom = item[0].uom;
       priceList = "";
       standardPriceList = "Standard Price List";
       DateTime retiredDate = item[0].retiredDate;
@@ -164,66 +165,21 @@ class AddItemToTransaction {
       //Get Price
       var price = await itemPriceDao.getItemPricesByCode(
           itemCode, uom, priceList, standardPriceList);
-      if (price != null && price.length > 0) {
-        if (price != null && price.length == 1) {
-          priceList = price[0].priceList;
-          itemPrice = price[0].itemPrice;
-          sellingDeposit = price[0].sellingDeposit;
-          deposit = price[0].deposit;
-          returnPrice = price[0].returnPrice;
-          returnDeposit = price[0].returnDeposit;
-        }
-        if (price != null && price.length > 0) {
-          priceList = price[0].priceList;
-          itemPrice = price[0].itemPrice;
-          sellingDeposit = price[0].sellingDeposit;
-          deposit = price[0].deposit;
-          returnPrice = price[0].returnPrice;
-          returnDeposit = price[0].returnDeposit;
-        }
+
+      if (price != null && price.length > 0 && price.length == 1) {
+        priceList = price[0].priceList;
+        itemPrice = price[0].itemPrice;
+        sellingDeposit = price[0].sellingDeposit;
+        deposit = price[0].deposit;
+        returnPrice = price[0].returnPrice;
+        returnDeposit = price[0].returnDeposit;
       } else {
         result =
             '$itemDescription not in pricing schedule assign to selected customer';
         return result;
       }
 
-      //Get Customer infomation
-      var cust = await customerDao.getAllCustomerById(customer);
-      if (cust != null) {
-        customerGroup = cust[0].customerGroup;
-        territory = cust[0].customerTerritory;
-        partner = "";
-        validFrom = cust[0].validFrom;
-        validTo = cust[0].validTo;
-        enableHeaderDiscount = false;
-        accumalatedPurchase = cust[0].accumulatedPurchase;
-        percentageOff = cust[0].discountPercentage;
-        amountOff = cust[0].discountAmount;
-      }
-
-      //Get shopping cart infomation
-      var numOfItemOnRegister = salesOrderDetailTempDao.qtyOfItemOnRegister(
-          tempSalesOrderNo, itemId, uom, tempTransactionStatus);
-
-       
-
-      // var discount = itemPricingRuleDao.getAllDiscount(
-      //     itemCode,
-      //     itemGroup,
-      //     itemName,
-      //     category,
-      //     customerGroup,
-      //     customer,
-      //     territory,
-      //     partner,
-      //     priceList,
-      //     validFrom,
-      //     validTo,
-      //     isActive,
-      //     numOfItemOnRegister,
-      //     numOfItemGroupOnRegister,
-      //     numOfAllItemsOnRegister,
-      //     numOfcategoryOnRegister);
+      //Check for discount
 
       //Add New Line
       var newLine = new SalesOrderDetailTempCompanion(
@@ -238,16 +194,22 @@ class AddItemToTransaction {
           userName: moor.Value(currency),
           itemCode: moor.Value(itemCode),
           itemGroup: moor.Value(itemGroup),
-          itemId: moor.Value(itemId),
+          itemId: moor.Value(int.parse(itemId)),
           description: moor.Value(itemDescription),
+          quantity: moor.Value(quantity),
+          shippingTotal: moor.Value(0),
           unitPrice: moor.Value(itemPrice),
           listPrice: moor.Value(0),
           subTotal: moor.Value(0),
-          taxTotal: moor.Value(0));
+          taxTotal: moor.Value(0),
+          upcCode: moor.Value(upcCode),
+          category: moor.Value(category));
+
+      salesOrderDetailTempDao.insertSalesOrderDetail(newLine);
     } else {
       var searchServer = await businessRuleDao.getSingleBusinessRule("SRCR");
       if (searchServer != null && searchServer.value.contains("Yes")) {
-        await itemMasterRepository.getItemMasterFromServer("Items");
+        //await itemMasterRepository.getItemMasterFromServer("Items");
         searchText = null;
         qtySet = 0;
       } else {

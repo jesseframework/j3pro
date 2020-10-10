@@ -14,6 +14,26 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
     return (select(db.salesOrderDetailTemp).get());
   }
 
+  Future updateInvoiceTotal(
+      SalesOrderDetailTempCompanion tempOrder,
+      String transactionNumber,
+      String transactionStatus,
+      int itemId,
+      String salesUom) {
+    return (update(db.salesOrderDetailTemp)
+          ..where((t) =>
+              t.transactionNumber.equals(transactionNumber) &
+              t.transactionStatus.equals(transactionStatus) &
+              t.itemId.equals(itemId) &
+              t.salesUOM.equals(salesUom)))
+        .write(
+      SalesOrderDetailTempCompanion(
+          listPrice: tempOrder.listPrice,
+          taxTotal: tempOrder.taxTotal,
+          subTotal: tempOrder.subTotal),
+    );
+  }
+
   Stream<List<SalesOrderDetailTempData>> watchAllSalesOrderDetail(
       String orderNo) {
     return (select(db.salesOrderDetailTemp)
@@ -22,7 +42,7 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future insertSalesOrderDetail(
-          SalesOrderDetailTempData salesOrderDetailTempData) =>
+          SalesOrderDetailTempCompanion salesOrderDetailTempData) =>
       into(db.salesOrderDetailTemp).insert(salesOrderDetailTempData);
 
   Future deleteAllSalesOrderTempDetail() =>
@@ -31,26 +51,33 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
   //This section calculate discount
   Stream<List<SalesOrderDetailTempData>> qtyOfItemOnRegister(
       String transactionNumber,
-      int itemId,
+      String itemId,
       String uom,
       String transactionStatus) {
     return customSelect(
-      'SELECT '
-      'Sum(quantity) as quantity, '
-      'Sum(subtotal) as subtotal,'
-      'transaction_number,'
-      'FROM sales_order_detail_temp'
-      'where'
-      'transaction_number = $transactionNumber'
-      'and item_id = $itemId'
-      'and uom = $uom'
-      'and transaction_status = $transactionStatus'
-      'group by'
-      'transaction_number,',
-      readsFrom: {
-        db.salesOrderDetailTemp
-      }, // used for the stream: the stream will update when either table changes
-    ).watch().map((rows) {
+        'SELECT '
+        ' Sum(quantity) as quantity, '
+        ' Sum(sub_total) as subtotal, '
+        ' transaction_number'
+        ' FROM sales_order_detail_temp'
+        ' where'
+        ' transaction_number = ? '
+        ' and item_id = ? '
+        ' and sales_u_o_m = ? '
+        ' and transaction_status = ? '
+        ' group by'
+        ' transaction_number;',
+        readsFrom: {
+          db.salesOrderDetailTemp
+        },
+        variables: [
+          Variable.withString(transactionNumber),
+          Variable.withString(itemId),
+          Variable.withString(uom),
+          Variable.withString(transactionStatus)
+        ]
+        // used for the stream: the stream will update when either table changes
+        ).watch().map((rows) {
       return rows
           .map((row) => SalesOrderDetailTempData.fromData(row.data, db))
           .toList();
@@ -63,22 +90,29 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
       String uom,
       String transactionStatus) {
     return customSelect(
-      'SELECT '
-      'Sum(quantity) as quantity, '
-      'Sum(subtotal) as subtotal,'
-      'transaction_number,'
-      'FROM sales_order_detail_temp'
-      'where'
-      'transaction_number = $transactionNumber'
-      'and item_group = $itemGroup'
-      'and uom = $uom'
-      'and transaction_status = $transactionStatus'
-      'group by'
-      'transaction_number,',
-      readsFrom: {
-        db.salesOrderDetailTemp
-      }, // used for the stream: the stream will update when either table changes
-    ).watch().map((rows) {
+        'SELECT '
+        ' Sum(quantity) as quantity, '
+        ' Sum(sub_total) as subtotal, '
+        ' transaction_number'
+        ' FROM sales_order_detail_temp'
+        ' where'
+        ' transaction_number = ? '
+        ' and item_group = ? '
+        ' and sales_u_o_m = ? '
+        ' and transaction_status = ? '
+        ' group by'
+        ' transaction_number;',
+        readsFrom: {
+          db.salesOrderDetailTemp
+        },
+        variables: [
+          Variable.withString(transactionNumber),
+          Variable.withString(itemGroup),
+          Variable.withString(uom),
+          Variable.withString(transactionStatus)
+        ]
+        // used for the stream: the stream will update when either table changes
+        ).watch().map((rows) {
       return rows
           .map((row) => SalesOrderDetailTempData.fromData(row.data, db))
           .toList();
@@ -91,50 +125,29 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
       String uom,
       String transactionStatus) {
     return customSelect(
-      'SELECT '
-      'Sum(quantity) as quantity, '
-      'Sum(subtotal) as subtotal,'
-      'transaction_number,'
-      'FROM sales_order_detail_temp'
-      'where'
-      'transaction_number = $transactionNumber'
-      'and category = $category'
-      'and uom = $uom'
-      'and transaction_status = $transactionStatus'
-      'group by'
-      'transaction_number,',
-      readsFrom: {
-        db.salesOrderDetailTemp
-      }, // used for the stream: the stream will update when either table changes
-    ).watch().map((rows) {
-      return rows
-          .map((row) => SalesOrderDetailTempData.fromData(row.data, db))
-          .toList();
-    });
-  }
-
-  Stream<List<SalesOrderDetailTempData>> qtyOfAllItemsOnRegister(
-      String transactionNumber,
-      int itemId,
-      String uom,
-      String transactionStatus) {
-    return customSelect(
-      'SELECT '
-      'Sum(quantity) as quantity, '
-      'Sum(subtotal) as subtotal,'
-      'transaction_number,'
-      'FROM sales_order_detail_temp'
-      'WHERE'
-      'transaction_number = $transactionNumber'
-      'and item_id = $itemId'
-      'and uom = $uom'
-      'and transaction_status = $transactionStatus'
-      'group by'
-      'transaction_number,',
-      readsFrom: {
-        db.salesOrderDetailTemp
-      }, // used for the stream: the stream will update when either table changes
-    ).watch().map((rows) {
+        'SELECT '
+        ' Sum(quantity) as quantity, '
+        ' Sum(sub_total) as subtotal, '
+        ' transaction_number'
+        ' FROM sales_order_detail_temp'
+        ' where'
+        ' transaction_number = ? '
+        ' and category = ? '
+        ' and sales_u_o_m = ? '
+        ' and transaction_status = ? '
+        ' group by'
+        ' transaction_number;',
+        readsFrom: {
+          db.salesOrderDetailTemp
+        },
+        variables: [
+          Variable.withString(transactionNumber),
+          Variable.withString(category),
+          Variable.withString(uom),
+          Variable.withString(transactionStatus)
+        ]
+        // used for the stream: the stream will update when either table changes
+        ).watch().map((rows) {
       return rows
           .map((row) => SalesOrderDetailTempData.fromData(row.data, db))
           .toList();

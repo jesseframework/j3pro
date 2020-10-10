@@ -13374,34 +13374,34 @@ class SalesOrderDetailTempData extends DataClass
       @required this.userId,
       @required this.id,
       @required this.transactionNumber,
-      @required this.inventoryCycleNumber,
-      @required this.daySessionNumber,
-      @required this.deliveryDate,
-      @required this.currency,
-      @required this.exchangeRate,
+      this.inventoryCycleNumber,
+      this.daySessionNumber,
+      this.deliveryDate,
+      this.currency,
+      this.exchangeRate,
       this.transactionStatus,
       @required this.itemId,
       @required this.itemCode,
-      @required this.upcCode,
+      this.upcCode,
       @required this.description,
-      @required this.itemGroup,
-      @required this.category,
-      @required this.salesUOM,
-      @required this.stockUOM,
-      @required this.taxGroup,
-      @required this.warehouse,
-      @required this.discountType,
-      @required this.discountPercentage,
-      @required this.discountAmount,
-      @required this.lineDiscountTotal,
+      this.itemGroup,
+      this.category,
+      this.salesUOM,
+      this.stockUOM,
+      this.taxGroup,
+      this.warehouse,
+      this.discountType,
+      this.discountPercentage,
+      this.discountAmount,
+      this.lineDiscountTotal,
       @required this.unitPrice,
-      @required this.costPrice,
-      @required this.listPrice,
+      this.costPrice,
+      this.listPrice,
       @required this.quantity,
       @required this.subTotal,
-      @required this.taxTotal,
+      this.taxTotal,
       @required this.shippingTotal,
-      @required this.conversionFactor});
+      this.conversionFactor});
   factory SalesOrderDetailTempData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -14032,64 +14032,44 @@ class SalesOrderDetailTempCompanion
     @required int userId,
     this.id = const Value.absent(),
     @required String transactionNumber,
-    @required String inventoryCycleNumber,
-    @required String daySessionNumber,
-    @required DateTime deliveryDate,
-    @required String currency,
-    @required double exchangeRate,
+    this.inventoryCycleNumber = const Value.absent(),
+    this.daySessionNumber = const Value.absent(),
+    this.deliveryDate = const Value.absent(),
+    this.currency = const Value.absent(),
+    this.exchangeRate = const Value.absent(),
     this.transactionStatus = const Value.absent(),
     @required int itemId,
     @required String itemCode,
-    @required String upcCode,
+    this.upcCode = const Value.absent(),
     @required String description,
-    @required String itemGroup,
-    @required String category,
-    @required String salesUOM,
-    @required String stockUOM,
-    @required String taxGroup,
-    @required String warehouse,
-    @required String discountType,
-    @required double discountPercentage,
-    @required double discountAmount,
-    @required double lineDiscountTotal,
+    this.itemGroup = const Value.absent(),
+    this.category = const Value.absent(),
+    this.salesUOM = const Value.absent(),
+    this.stockUOM = const Value.absent(),
+    this.taxGroup = const Value.absent(),
+    this.warehouse = const Value.absent(),
+    this.discountType = const Value.absent(),
+    this.discountPercentage = const Value.absent(),
+    this.discountAmount = const Value.absent(),
+    this.lineDiscountTotal = const Value.absent(),
     @required double unitPrice,
-    @required double costPrice,
-    @required double listPrice,
+    this.costPrice = const Value.absent(),
+    this.listPrice = const Value.absent(),
     @required double quantity,
     @required double subTotal,
-    @required double taxTotal,
+    this.taxTotal = const Value.absent(),
     @required double shippingTotal,
-    @required double conversionFactor,
+    this.conversionFactor = const Value.absent(),
   })  : userName = Value(userName),
         userId = Value(userId),
         transactionNumber = Value(transactionNumber),
-        inventoryCycleNumber = Value(inventoryCycleNumber),
-        daySessionNumber = Value(daySessionNumber),
-        deliveryDate = Value(deliveryDate),
-        currency = Value(currency),
-        exchangeRate = Value(exchangeRate),
         itemId = Value(itemId),
         itemCode = Value(itemCode),
-        upcCode = Value(upcCode),
         description = Value(description),
-        itemGroup = Value(itemGroup),
-        category = Value(category),
-        salesUOM = Value(salesUOM),
-        stockUOM = Value(stockUOM),
-        taxGroup = Value(taxGroup),
-        warehouse = Value(warehouse),
-        discountType = Value(discountType),
-        discountPercentage = Value(discountPercentage),
-        discountAmount = Value(discountAmount),
-        lineDiscountTotal = Value(lineDiscountTotal),
         unitPrice = Value(unitPrice),
-        costPrice = Value(costPrice),
-        listPrice = Value(listPrice),
         quantity = Value(quantity),
         subTotal = Value(subTotal),
-        taxTotal = Value(taxTotal),
-        shippingTotal = Value(shippingTotal),
-        conversionFactor = Value(conversionFactor);
+        shippingTotal = Value(shippingTotal);
   static Insertable<SalesOrderDetailTempData> custom({
     Expression<int> tenantId,
     Expression<String> userName,
@@ -14458,7 +14438,7 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     return GeneratedTextColumn(
       'inventory_cycle_number',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -14472,7 +14452,7 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     return GeneratedTextColumn(
       'day_session_number',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -14486,7 +14466,7 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     return GeneratedDateTimeColumn(
       'delivery_date',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -14498,7 +14478,7 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     return GeneratedTextColumn(
       'currency',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -14512,7 +14492,7 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     return GeneratedRealColumn(
       'exchange_rate',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -14562,7 +14542,7 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     return GeneratedTextColumn(
       'upc_code',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -14588,7 +14568,7 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     return GeneratedTextColumn(
       'item_group',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -14600,7 +14580,7 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     return GeneratedTextColumn(
       'category',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -14612,7 +14592,7 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     return GeneratedTextColumn(
       'sales_u_o_m',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -14624,7 +14604,7 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     return GeneratedTextColumn(
       'stock_u_o_m',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -14636,7 +14616,7 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     return GeneratedTextColumn(
       'tax_group',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -14648,7 +14628,7 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     return GeneratedTextColumn(
       'warehouse',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -14662,7 +14642,7 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     return GeneratedTextColumn(
       'discount_type',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -14676,7 +14656,7 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     return GeneratedRealColumn(
       'discount_percentage',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -14690,7 +14670,7 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     return GeneratedRealColumn(
       'discount_amount',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -14704,7 +14684,7 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     return GeneratedRealColumn(
       'line_discount_total',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -14728,7 +14708,7 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     return GeneratedRealColumn(
       'cost_price',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -14740,7 +14720,7 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     return GeneratedRealColumn(
       'list_price',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -14776,7 +14756,7 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     return GeneratedRealColumn(
       'tax_total',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -14804,7 +14784,7 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     return GeneratedRealColumn(
       'conversion_factor',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -14888,38 +14868,28 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
           _inventoryCycleNumberMeta,
           inventoryCycleNumber.isAcceptableOrUnknown(
               data['inventory_cycle_number'], _inventoryCycleNumberMeta));
-    } else if (isInserting) {
-      context.missing(_inventoryCycleNumberMeta);
     }
     if (data.containsKey('day_session_number')) {
       context.handle(
           _daySessionNumberMeta,
           daySessionNumber.isAcceptableOrUnknown(
               data['day_session_number'], _daySessionNumberMeta));
-    } else if (isInserting) {
-      context.missing(_daySessionNumberMeta);
     }
     if (data.containsKey('delivery_date')) {
       context.handle(
           _deliveryDateMeta,
           deliveryDate.isAcceptableOrUnknown(
               data['delivery_date'], _deliveryDateMeta));
-    } else if (isInserting) {
-      context.missing(_deliveryDateMeta);
     }
     if (data.containsKey('currency')) {
       context.handle(_currencyMeta,
           currency.isAcceptableOrUnknown(data['currency'], _currencyMeta));
-    } else if (isInserting) {
-      context.missing(_currencyMeta);
     }
     if (data.containsKey('exchange_rate')) {
       context.handle(
           _exchangeRateMeta,
           exchangeRate.isAcceptableOrUnknown(
               data['exchange_rate'], _exchangeRateMeta));
-    } else if (isInserting) {
-      context.missing(_exchangeRateMeta);
     }
     if (data.containsKey('transaction_status')) {
       context.handle(
@@ -14942,8 +14912,6 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     if (data.containsKey('upc_code')) {
       context.handle(_upcCodeMeta,
           upcCode.isAcceptableOrUnknown(data['upc_code'], _upcCodeMeta));
-    } else if (isInserting) {
-      context.missing(_upcCodeMeta);
     }
     if (data.containsKey('description')) {
       context.handle(
@@ -14956,70 +14924,50 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     if (data.containsKey('item_group')) {
       context.handle(_itemGroupMeta,
           itemGroup.isAcceptableOrUnknown(data['item_group'], _itemGroupMeta));
-    } else if (isInserting) {
-      context.missing(_itemGroupMeta);
     }
     if (data.containsKey('category')) {
       context.handle(_categoryMeta,
           category.isAcceptableOrUnknown(data['category'], _categoryMeta));
-    } else if (isInserting) {
-      context.missing(_categoryMeta);
     }
     if (data.containsKey('sales_u_o_m')) {
       context.handle(_salesUOMMeta,
           salesUOM.isAcceptableOrUnknown(data['sales_u_o_m'], _salesUOMMeta));
-    } else if (isInserting) {
-      context.missing(_salesUOMMeta);
     }
     if (data.containsKey('stock_u_o_m')) {
       context.handle(_stockUOMMeta,
           stockUOM.isAcceptableOrUnknown(data['stock_u_o_m'], _stockUOMMeta));
-    } else if (isInserting) {
-      context.missing(_stockUOMMeta);
     }
     if (data.containsKey('tax_group')) {
       context.handle(_taxGroupMeta,
           taxGroup.isAcceptableOrUnknown(data['tax_group'], _taxGroupMeta));
-    } else if (isInserting) {
-      context.missing(_taxGroupMeta);
     }
     if (data.containsKey('warehouse')) {
       context.handle(_warehouseMeta,
           warehouse.isAcceptableOrUnknown(data['warehouse'], _warehouseMeta));
-    } else if (isInserting) {
-      context.missing(_warehouseMeta);
     }
     if (data.containsKey('discount_type')) {
       context.handle(
           _discountTypeMeta,
           discountType.isAcceptableOrUnknown(
               data['discount_type'], _discountTypeMeta));
-    } else if (isInserting) {
-      context.missing(_discountTypeMeta);
     }
     if (data.containsKey('discount_percentage')) {
       context.handle(
           _discountPercentageMeta,
           discountPercentage.isAcceptableOrUnknown(
               data['discount_percentage'], _discountPercentageMeta));
-    } else if (isInserting) {
-      context.missing(_discountPercentageMeta);
     }
     if (data.containsKey('discount_amount')) {
       context.handle(
           _discountAmountMeta,
           discountAmount.isAcceptableOrUnknown(
               data['discount_amount'], _discountAmountMeta));
-    } else if (isInserting) {
-      context.missing(_discountAmountMeta);
     }
     if (data.containsKey('line_discount_total')) {
       context.handle(
           _lineDiscountTotalMeta,
           lineDiscountTotal.isAcceptableOrUnknown(
               data['line_discount_total'], _lineDiscountTotalMeta));
-    } else if (isInserting) {
-      context.missing(_lineDiscountTotalMeta);
     }
     if (data.containsKey('unit_price')) {
       context.handle(_unitPriceMeta,
@@ -15030,14 +14978,10 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     if (data.containsKey('cost_price')) {
       context.handle(_costPriceMeta,
           costPrice.isAcceptableOrUnknown(data['cost_price'], _costPriceMeta));
-    } else if (isInserting) {
-      context.missing(_costPriceMeta);
     }
     if (data.containsKey('list_price')) {
       context.handle(_listPriceMeta,
           listPrice.isAcceptableOrUnknown(data['list_price'], _listPriceMeta));
-    } else if (isInserting) {
-      context.missing(_listPriceMeta);
     }
     if (data.containsKey('quantity')) {
       context.handle(_quantityMeta,
@@ -15054,8 +14998,6 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     if (data.containsKey('tax_total')) {
       context.handle(_taxTotalMeta,
           taxTotal.isAcceptableOrUnknown(data['tax_total'], _taxTotalMeta));
-    } else if (isInserting) {
-      context.missing(_taxTotalMeta);
     }
     if (data.containsKey('shipping_total')) {
       context.handle(
@@ -15070,8 +15012,6 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
           _conversionFactorMeta,
           conversionFactor.isAcceptableOrUnknown(
               data['conversion_factor'], _conversionFactorMeta));
-    } else if (isInserting) {
-      context.missing(_conversionFactorMeta);
     }
     return context;
   }

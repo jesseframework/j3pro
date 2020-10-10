@@ -54,43 +54,62 @@ class ItemPricingRuleDao extends DatabaseAccessor<AppDatabase>
       double numOfAllItemsOnRegister,
       double numOfcategoryOnRegister) {
     return customSelect(
-      'SELECT *'
-      'FROM item_pricing_rule'
-      'WHERE'
-      '(apply_on = '
-      'Item Code'
-      ' AND item_code = $itemCode AND min_quantity <= $numOfItemOnRegister)'
-      '(OR apply_on = '
-      'Item Group'
-      ' AND item_group = $itemGroup AND min_quantity <= $numOfItemGroupOnRegister)'
-      '(OR apply_on = '
-      'Item Group'
-      ' AND item_group = '
-      'All Item Groups'
-      ' AND min_quantity <= $numOfAllItemsOnRegister)'
-      '(OR apply_on = '
-      'Category'
-      ' AND category = $category AND min_quantity <= $numOfcategoryOnRegister)'
-      '(OR applicable_for = '
-      'Customer Group'
-      ' AND customer_group = $customerGroup)'
-      '(OR applicable_for = '
-      'Customer'
-      ' AND customer_name = $customer)'
-      '(OR applicable_for = '
-      'Territory'
-      ' AND customer_territory = $territory)'
-      '(OR applicable_for = '
-      'Sales Partner'
-      ' AND parent_group = $partner)'
-      'AND price_list_name = $priceList'
-      'AND valid_from <= $validFrom'
-      'AND valid_to >= $validTo'
-      'AND is_active == $isActive',
-      readsFrom: {
-        db.itemPricingRule
-      }, // used for the stream: the stream will update when either table changes
-    ).watch().map((rows) {
+        'SELECT '
+        'discount_percentage, '
+        'price_or_discount, '
+        'price '
+        'FROM item_pricing_rule'
+        'WHERE'
+        '(apply_on = '
+        'Item Code'
+        ' AND item_code = ? AND min_quantity <= ?)'
+        '(OR apply_on = '
+        'Item Group'
+        ' AND item_group = ? AND min_quantity <= ?)'
+        '(OR apply_on = '
+        'Item Group'
+        ' AND item_group = '
+        'All Item Groups'
+        ' AND min_quantity <= ?)'
+        '(OR apply_on = '
+        'Category'
+        ' AND category = ? AND min_quantity <= ?)'
+        '(OR applicable_for = '
+        'Customer Group'
+        ' AND customer_group = ?)'
+        '(OR applicable_for = '
+        'Customer'
+        ' AND customer_name = ?)'
+        '(OR applicable_for = '
+        'Territory'
+        ' AND customer_territory = ?)'
+        '(OR applicable_for = '
+        'Sales Partner'
+        ' AND parent_group = ?)'
+        'AND price_list_name = ?'
+        'AND valid_from <= ?'
+        'AND valid_to >= ?'
+        'AND is_active == ?',
+        readsFrom: {
+          db.itemPricingRule
+        },
+        variables: [
+          Variable.withString(itemCode),
+          Variable.withReal(numOfItemOnRegister),
+          Variable.withString(itemGroup),
+          Variable.withReal(numOfItemGroupOnRegister),
+          Variable.withReal(numOfAllItemsOnRegister),
+          Variable.withString(category),
+          Variable.withReal(numOfcategoryOnRegister),
+          Variable.withString(customerGroup),
+          Variable.withString(customer),
+          Variable.withString(territory),
+          Variable.withString(partner),
+          Variable.withString(priceList),
+          Variable.withDateTime(validFrom),
+          Variable.withDateTime(validTo),
+          Variable.withBool(isActive),
+        ]).watch().map((rows) {
       return rows
           .map((row) => ItemPricingRuleData.fromData(row.data, db))
           .toList();
