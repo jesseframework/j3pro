@@ -46,7 +46,7 @@ class JourneyPlanRepository {
           if (isSchedulerEnable.enableJob == true) {
             DateTime startDate = isSchedulerEnable.startDateTime;
             _log.finest("$className jobs start date is $startDate ");
-            final Response response = await api.getAllPricingRule();
+            final Response response = await api.getJourneyPlanBySalesRep();
             _log.finest("Checking server resopnses for $className");
             Map<String, dynamic> map = json.decode(response.bodyString);
             if (response.isSuccessful && map['success']) {

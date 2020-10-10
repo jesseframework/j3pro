@@ -48,7 +48,7 @@ class _SalesOrderCheckOutPageState extends State<SalesOrderCheckOutPage> {
             children: [
               Container(
                 decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).cardColor,
                     borderRadius: BorderRadius.circular(8)),
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
@@ -86,7 +86,7 @@ class _SalesOrderCheckOutPageState extends State<SalesOrderCheckOutPage> {
               ),
               Container(
                 decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).cardColor,
                     borderRadius: BorderRadius.circular(8)),
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
@@ -166,7 +166,7 @@ class _SalesOrderCheckOutPageState extends State<SalesOrderCheckOutPage> {
               ),
               Container(
                 decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).cardColor,
                     borderRadius: BorderRadius.circular(8)),
                 height: MediaQuery.of(context).size.height * 0.38,
                 child: Container(
@@ -202,32 +202,38 @@ class _SalesOrderCheckOutPageState extends State<SalesOrderCheckOutPage> {
                     ),
                     Expanded(
                       child: ListView.builder(itemBuilder: (context, index) {
-                        return Container(
-                          color: (index % 2 == 0)
-                              ? Theme.of(context).primaryColor.withOpacity(0.2)
-                              : Theme.of(context).cardColor.withOpacity(0.1),
-                          height: 60,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Credit Card'),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 5),
-                                  child: Text('JMD'),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 25),
-                                  child: Text('\$1.00'),
-                                ),
-                                Text('\$9,000.00'),
-                                Icon(
-                                  Icons.cancel,
-                                  color: Colors.red,
-                                )
-                              ],
+                        return InkWell(
+                          onTap: () {},
+                          child: Container(
+                            color: (index % 2 == 0)
+                                ? Theme.of(context)
+                                    .primaryColor
+                                    .withOpacity(0.2)
+                                : Theme.of(context).cardColor.withOpacity(0.1),
+                            height: 60,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Credit Card'),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 5),
+                                    child: Text('JMD'),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 25),
+                                    child: Text('\$1.00'),
+                                  ),
+                                  Text('\$9,000.00'),
+                                  Icon(
+                                    Icons.cancel,
+                                    color: Colors.red,
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         );
@@ -241,7 +247,7 @@ class _SalesOrderCheckOutPageState extends State<SalesOrderCheckOutPage> {
               ),
               Container(
                 decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).cardColor,
                     borderRadius: BorderRadius.circular(8)),
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
@@ -288,9 +294,10 @@ class _SalesOrderCheckOutPageState extends State<SalesOrderCheckOutPage> {
 
   TextStyle headerstyle() {
     return TextStyle(
-        fontWeight: FontWeight.w500,
-        fontSize: 10,
-        color: Theme.of(context).primaryColor);
+      fontWeight: FontWeight.w500,
+      fontSize: 10,
+      color: Theme.of(context).textSelectionColor,
+    );
   }
 
   Widget buildSalesOrderCardRowTile(
