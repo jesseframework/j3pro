@@ -134,6 +134,7 @@ class _HomePageState extends State<HomePage> {
                                   horizontal: 12, vertical: 5),
                               child: Center(
                                 child: ListFilter(
+                                  function: (value){},
                                     placeholder: 'Search',
                                     filter: searchText,
                                     onFilterChanged: (search) {

@@ -28,9 +28,27 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
               t.salesUOM.equals(salesUom)))
         .write(
       SalesOrderDetailTempCompanion(
-          listPrice: tempOrder.listPrice,
-          taxTotal: tempOrder.taxTotal,
-          subTotal: tempOrder.subTotal),
+          listPrice: tempOrder.listPrice, subTotal: tempOrder.subTotal),
+    );
+  }
+
+  Future updateLineTax(
+      SalesOrderDetailTempCompanion tax,
+      String transactionNumber,
+      String transactionStatus,
+      int itemId,
+      String salesUom) {
+    return (update(db.salesOrderDetailTemp)
+          ..where((t) =>
+              t.transactionNumber.equals(transactionNumber) &
+              t.transactionStatus.equals(transactionStatus) &
+              t.itemId.equals(itemId) &
+              t.salesUOM.equals(salesUom)))
+        .write(
+      SalesOrderDetailTempCompanion(
+          taxTotal: tax.taxTotal,
+          listPrice: tax.listPrice,
+          subTotal: tax.subTotal),
     );
   }
 

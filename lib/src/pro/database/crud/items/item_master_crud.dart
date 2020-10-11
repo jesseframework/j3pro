@@ -28,13 +28,21 @@ class ItemsDao extends DatabaseAccessor<AppDatabase> with _$ItemsDaoMixin {
 
   Future deleteAllItem() => delete(db.items).go();
 
+   Stream<List<Item>> itemSearch(String searchText) {
+    return (select(db.items)
+          ..where((t) =>
+              t.itemCode.contains(searchText) |
+              t.itemName.contains(searchText) |             
+              t.description.contains(searchText)))
+        .watch();
+  }
+
   //AddItem and Pricing Logic
   Future<List<Item>> getItemForSales(String searchText) {
     return (select(db.items)
           ..where((t) =>
               t.itemCode.equals(searchText) |
-              t.itemName.equals(searchText) |
-              t.itemCode.equals(searchText) |
+              t.itemName.equals(searchText) |             
               t.description.equals(searchText)))
         .get();
   }

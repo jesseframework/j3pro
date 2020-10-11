@@ -292,8 +292,51 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             _log.finest(
                 'Tenant tenant result assign to virable tenant LoginLoading state');
 
+            // //Test Bed Code
+            // String transactionNumber = "900009911";
+            // String itemId = "1001";
+            // String uom = "Each";
+            // String transactionStatus = "Post";
 
-           
+            // salesOrderDetailTempDao
+            //     .qtyOfItemOnRegister(
+            //         transactionNumber, itemId, uom, transactionStatus)
+            //     .listen((event) {
+            //   print(event.single.quantity);
+            // });
+
+            //NumberGenerator numberGenerator = new NumberGenerator();
+            // String ng =
+            //     await numberGenerator.getSerialNumber("Sales Order", 001, 4);
+            // print(ng);
+
+            // double qtySet = 1;
+            // String searchText = "19";
+            // String tempSalesOrderNo = "101012020";
+            // String tempTransactionStatus = "Post";
+            // String tempInventoryCycle = "INV88779899";
+            // String tempDaySessionNumber = "DE88999";
+            // DateTime deliveryDate = DateTime.now();
+            // String currency = "JMD";
+            // double exchangeRate = 1;
+            // int tenantId1 = 1;
+            // String userName = "admin";
+            // int userId = 1;
+            // AddItemToTransaction addItemToTransaction =
+            //     new AddItemToTransaction();
+            // await addItemToTransaction.getItem(
+            //     qtySet,
+            //     searchText,
+            //     tempSalesOrderNo,
+            //     tempTransactionStatus,
+            //     tempInventoryCycle,
+            //     tempDaySessionNumber,
+            //     deliveryDate,
+            //     currency,
+            //     exchangeRate,
+            //     tenantId1,
+            //     userName,
+            //     userId);
 
             if (tenantResult['tenantId'] == null) {
               tenantId = 0.toString();

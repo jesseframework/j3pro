@@ -133,19 +133,23 @@ class CalculateDiscount {
 
     if (priceOrDiscount == "Discount Percentage") {
       discountAmount = amountOff / 100 * unitPrice;
-      listPrice = unitPrice - amountOff;
+      listPrice = unitPrice - discountAmount;
       lineSubTotal = quantity * listPrice;
     } else {
       listPrice = unitPrice - amountOff;
       lineSubTotal = quantity * listPrice;
+      discountAmount = amountOff;
     }
 
     //Now Update the list price and call recalcualte
-    //ToDo Recalculate Tax
-    //ToDo Change Item id to string in model
-    //ToDo Add line discount amount
+    //ToDo Recalculate Tax   
+    //ToDo line discount amount is added however must be able ot recalcuale with other discount apply to the line
     var tempOrder = new SalesOrderDetailTempCompanion(
-        listPrice: moor.Value(listPrice), subTotal: moor.Value(lineSubTotal));
+        listPrice: moor.Value(listPrice),
+        subTotal: moor.Value(lineSubTotal),
+        discountPercentage: moor.Value(amountOff),
+        discountAmount: moor.Value(discountAmount),
+        lineDiscountTotal: moor.Value(discountAmount));
 
     salesOrderDetailTempDao.updateInvoiceTotal(
         tempOrder, transactionNumber, transactionStatus, 1, salesUom);

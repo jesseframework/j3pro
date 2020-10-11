@@ -10,6 +10,8 @@ import 'package:j3enterprise/src/pro/database/crud/sales/sales_order/sales_order
 import 'package:j3enterprise/src/pro/database/crud/series_number/temp_number_log_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/warehouse/inventory_items_crud.dart';
 import 'package:j3enterprise/src/pro/resources/repositories/items/items_master_repositories.dart';
+import 'package:j3enterprise/src/pro/resources/shared/sales/calculate_discount.dart';
+import 'package:j3enterprise/src/pro/resources/shared/sales/calculate_tax.dart';
 import 'package:j3enterprise/src/pro/resources/shared/warehouse/add_item_to_warehouse.dart';
 import 'package:j3enterprise/src/pro/resources/shared/warehouse/check_inventory.dart';
 import 'package:logging/logging.dart';
@@ -32,12 +34,13 @@ class AddItemToTransaction {
   String transactionNumber;
   String priceList;
   String standardPriceList;
-  String customer;
+  String customerId;
   double itemPrice;
   double sellingDeposit;
   double deposit;
   double returnPrice;
   double returnDeposit;
+  double lineSubTotal;
 
   //Get Discount
   String customerGroup;
@@ -51,6 +54,7 @@ class AddItemToTransaction {
   double amountOff;
   double percentageOff;
   double accumalatedPurchase;
+  double listPrice;
 
   String className = "Add Item To Transaction";
   var db;
@@ -71,6 +75,8 @@ class AddItemToTransaction {
   //Regular Class
   AddItemToWarehouse addItemToWarehouse;
   CheckInventory checkInventory;
+  CalculateDiscount calculateDiscount;
+  CalculateTax calculateTax;
 
   AddItemToTransaction() {
     db = AppDatabase();
@@ -87,6 +93,8 @@ class AddItemToTransaction {
     salesOrderDetailTempDao = new SalesOrderDetailTempDao(db);
     customerDao = new CustomerDao(db);
     checkInventory = new CheckInventory();
+    calculateDiscount = new CalculateDiscount();
+    calculateTax = new CalculateTax();
     //itemMasterRepository = new ItemMasterRepository();
 
     //Regular Class
@@ -179,7 +187,8 @@ class AddItemToTransaction {
         return result;
       }
 
-      //Check for discount
+      //Line SubTotal Calculation
+      lineSubTotal = itemPrice * quantity;
 
       //Add New Line
       var newLine = new SalesOrderDetailTempCompanion(
@@ -199,13 +208,34 @@ class AddItemToTransaction {
           quantity: moor.Value(quantity),
           shippingTotal: moor.Value(0),
           unitPrice: moor.Value(itemPrice),
-          listPrice: moor.Value(0),
-          subTotal: moor.Value(0),
+          subTotal: moor.Value(lineSubTotal),
           taxTotal: moor.Value(0),
           upcCode: moor.Value(upcCode),
           category: moor.Value(category));
 
       salesOrderDetailTempDao.insertSalesOrderDetail(newLine);
+
+      //Check for discount
+      calculateDiscount.getDiscount(
+          itemId,
+          uom,
+          customerId,
+          transactionNumber,
+          tempTransactionStatus,
+          itemGroup,
+          itemCode,
+          itemName,
+          category,
+          territory,
+          partner,
+          priceList,
+          itemPrice,
+          quantity,
+          uom);
+
+      //Calculate Tax
+      calculateTax.getTotalTax(searchText, transactionNumber, "Pending",
+          uom, tenantId, userName, userId, int.parse(itemId), lineSubTotal);
     } else {
       var searchServer = await businessRuleDao.getSingleBusinessRule("SRCR");
       if (searchServer != null && searchServer.value.contains("Yes")) {

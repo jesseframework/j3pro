@@ -15627,6 +15627,437 @@ class $SeriesNumberGeneratorTable extends SeriesNumberGenerator
   }
 }
 
+class SalesTaxData extends DataClass implements Insertable<SalesTaxData> {
+  final int tenantId;
+  final int id;
+  final String type;
+  final String taxAccount;
+  final double accountRate;
+  final DateTime effectiveDate;
+  final double amount;
+  SalesTaxData(
+      {this.tenantId,
+      @required this.id,
+      this.type,
+      this.taxAccount,
+      this.accountRate,
+      @required this.effectiveDate,
+      this.amount});
+  factory SalesTaxData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final doubleType = db.typeSystem.forDartType<double>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    return SalesTaxData(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      type: stringType.mapFromDatabaseResponse(data['${effectivePrefix}type']),
+      taxAccount: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}tax_account']),
+      accountRate: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}account_rate']),
+      effectiveDate: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}effective_date']),
+      amount:
+          doubleType.mapFromDatabaseResponse(data['${effectivePrefix}amount']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || type != null) {
+      map['type'] = Variable<String>(type);
+    }
+    if (!nullToAbsent || taxAccount != null) {
+      map['tax_account'] = Variable<String>(taxAccount);
+    }
+    if (!nullToAbsent || accountRate != null) {
+      map['account_rate'] = Variable<double>(accountRate);
+    }
+    if (!nullToAbsent || effectiveDate != null) {
+      map['effective_date'] = Variable<DateTime>(effectiveDate);
+    }
+    if (!nullToAbsent || amount != null) {
+      map['amount'] = Variable<double>(amount);
+    }
+    return map;
+  }
+
+  SalesTaxCompanion toCompanion(bool nullToAbsent) {
+    return SalesTaxCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      type: type == null && nullToAbsent ? const Value.absent() : Value(type),
+      taxAccount: taxAccount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(taxAccount),
+      accountRate: accountRate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(accountRate),
+      effectiveDate: effectiveDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(effectiveDate),
+      amount:
+          amount == null && nullToAbsent ? const Value.absent() : Value(amount),
+    );
+  }
+
+  factory SalesTaxData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return SalesTaxData(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      id: serializer.fromJson<int>(json['id']),
+      type: serializer.fromJson<String>(json['type']),
+      taxAccount: serializer.fromJson<String>(json['taxAccount']),
+      accountRate: serializer.fromJson<double>(json['accountRate']),
+      effectiveDate: serializer.fromJson<DateTime>(json['effectiveDate']),
+      amount: serializer.fromJson<double>(json['amount']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'id': serializer.toJson<int>(id),
+      'type': serializer.toJson<String>(type),
+      'taxAccount': serializer.toJson<String>(taxAccount),
+      'accountRate': serializer.toJson<double>(accountRate),
+      'effectiveDate': serializer.toJson<DateTime>(effectiveDate),
+      'amount': serializer.toJson<double>(amount),
+    };
+  }
+
+  SalesTaxData copyWith(
+          {int tenantId,
+          int id,
+          String type,
+          String taxAccount,
+          double accountRate,
+          DateTime effectiveDate,
+          double amount}) =>
+      SalesTaxData(
+        tenantId: tenantId ?? this.tenantId,
+        id: id ?? this.id,
+        type: type ?? this.type,
+        taxAccount: taxAccount ?? this.taxAccount,
+        accountRate: accountRate ?? this.accountRate,
+        effectiveDate: effectiveDate ?? this.effectiveDate,
+        amount: amount ?? this.amount,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('SalesTaxData(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('type: $type, ')
+          ..write('taxAccount: $taxAccount, ')
+          ..write('accountRate: $accountRate, ')
+          ..write('effectiveDate: $effectiveDate, ')
+          ..write('amount: $amount')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode,
+      $mrjc(
+          id.hashCode,
+          $mrjc(
+              type.hashCode,
+              $mrjc(
+                  taxAccount.hashCode,
+                  $mrjc(accountRate.hashCode,
+                      $mrjc(effectiveDate.hashCode, amount.hashCode)))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is SalesTaxData &&
+          other.tenantId == this.tenantId &&
+          other.id == this.id &&
+          other.type == this.type &&
+          other.taxAccount == this.taxAccount &&
+          other.accountRate == this.accountRate &&
+          other.effectiveDate == this.effectiveDate &&
+          other.amount == this.amount);
+}
+
+class SalesTaxCompanion extends UpdateCompanion<SalesTaxData> {
+  final Value<int> tenantId;
+  final Value<int> id;
+  final Value<String> type;
+  final Value<String> taxAccount;
+  final Value<double> accountRate;
+  final Value<DateTime> effectiveDate;
+  final Value<double> amount;
+  const SalesTaxCompanion({
+    this.tenantId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.type = const Value.absent(),
+    this.taxAccount = const Value.absent(),
+    this.accountRate = const Value.absent(),
+    this.effectiveDate = const Value.absent(),
+    this.amount = const Value.absent(),
+  });
+  SalesTaxCompanion.insert({
+    this.tenantId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.type = const Value.absent(),
+    this.taxAccount = const Value.absent(),
+    this.accountRate = const Value.absent(),
+    @required DateTime effectiveDate,
+    this.amount = const Value.absent(),
+  }) : effectiveDate = Value(effectiveDate);
+  static Insertable<SalesTaxData> custom({
+    Expression<int> tenantId,
+    Expression<int> id,
+    Expression<String> type,
+    Expression<String> taxAccount,
+    Expression<double> accountRate,
+    Expression<DateTime> effectiveDate,
+    Expression<double> amount,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (id != null) 'id': id,
+      if (type != null) 'type': type,
+      if (taxAccount != null) 'tax_account': taxAccount,
+      if (accountRate != null) 'account_rate': accountRate,
+      if (effectiveDate != null) 'effective_date': effectiveDate,
+      if (amount != null) 'amount': amount,
+    });
+  }
+
+  SalesTaxCompanion copyWith(
+      {Value<int> tenantId,
+      Value<int> id,
+      Value<String> type,
+      Value<String> taxAccount,
+      Value<double> accountRate,
+      Value<DateTime> effectiveDate,
+      Value<double> amount}) {
+    return SalesTaxCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      id: id ?? this.id,
+      type: type ?? this.type,
+      taxAccount: taxAccount ?? this.taxAccount,
+      accountRate: accountRate ?? this.accountRate,
+      effectiveDate: effectiveDate ?? this.effectiveDate,
+      amount: amount ?? this.amount,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (type.present) {
+      map['type'] = Variable<String>(type.value);
+    }
+    if (taxAccount.present) {
+      map['tax_account'] = Variable<String>(taxAccount.value);
+    }
+    if (accountRate.present) {
+      map['account_rate'] = Variable<double>(accountRate.value);
+    }
+    if (effectiveDate.present) {
+      map['effective_date'] = Variable<DateTime>(effectiveDate.value);
+    }
+    if (amount.present) {
+      map['amount'] = Variable<double>(amount.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SalesTaxCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('type: $type, ')
+          ..write('taxAccount: $taxAccount, ')
+          ..write('accountRate: $accountRate, ')
+          ..write('effectiveDate: $effectiveDate, ')
+          ..write('amount: $amount')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $SalesTaxTable extends SalesTax
+    with TableInfo<$SalesTaxTable, SalesTaxData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $SalesTaxTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn('id', $tableName, false,
+        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+  }
+
+  final VerificationMeta _typeMeta = const VerificationMeta('type');
+  GeneratedTextColumn _type;
+  @override
+  GeneratedTextColumn get type => _type ??= _constructType();
+  GeneratedTextColumn _constructType() {
+    return GeneratedTextColumn(
+      'type',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _taxAccountMeta = const VerificationMeta('taxAccount');
+  GeneratedTextColumn _taxAccount;
+  @override
+  GeneratedTextColumn get taxAccount => _taxAccount ??= _constructTaxAccount();
+  GeneratedTextColumn _constructTaxAccount() {
+    return GeneratedTextColumn(
+      'tax_account',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _accountRateMeta =
+      const VerificationMeta('accountRate');
+  GeneratedRealColumn _accountRate;
+  @override
+  GeneratedRealColumn get accountRate =>
+      _accountRate ??= _constructAccountRate();
+  GeneratedRealColumn _constructAccountRate() {
+    return GeneratedRealColumn(
+      'account_rate',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _effectiveDateMeta =
+      const VerificationMeta('effectiveDate');
+  GeneratedDateTimeColumn _effectiveDate;
+  @override
+  GeneratedDateTimeColumn get effectiveDate =>
+      _effectiveDate ??= _constructEffectiveDate();
+  GeneratedDateTimeColumn _constructEffectiveDate() {
+    return GeneratedDateTimeColumn(
+      'effective_date',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _amountMeta = const VerificationMeta('amount');
+  GeneratedRealColumn _amount;
+  @override
+  GeneratedRealColumn get amount => _amount ??= _constructAmount();
+  GeneratedRealColumn _constructAmount() {
+    return GeneratedRealColumn(
+      'amount',
+      $tableName,
+      true,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns =>
+      [tenantId, id, type, taxAccount, accountRate, effectiveDate, amount];
+  @override
+  $SalesTaxTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'sales_tax';
+  @override
+  final String actualTableName = 'sales_tax';
+  @override
+  VerificationContext validateIntegrity(Insertable<SalesTaxData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('type')) {
+      context.handle(
+          _typeMeta, type.isAcceptableOrUnknown(data['type'], _typeMeta));
+    }
+    if (data.containsKey('tax_account')) {
+      context.handle(
+          _taxAccountMeta,
+          taxAccount.isAcceptableOrUnknown(
+              data['tax_account'], _taxAccountMeta));
+    }
+    if (data.containsKey('account_rate')) {
+      context.handle(
+          _accountRateMeta,
+          accountRate.isAcceptableOrUnknown(
+              data['account_rate'], _accountRateMeta));
+    }
+    if (data.containsKey('effective_date')) {
+      context.handle(
+          _effectiveDateMeta,
+          effectiveDate.isAcceptableOrUnknown(
+              data['effective_date'], _effectiveDateMeta));
+    } else if (isInserting) {
+      context.missing(_effectiveDateMeta);
+    }
+    if (data.containsKey('amount')) {
+      context.handle(_amountMeta,
+          amount.isAcceptableOrUnknown(data['amount'], _amountMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  SalesTaxData map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return SalesTaxData.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $SalesTaxTable createAlias(String alias) {
+    return $SalesTaxTable(_db, alias);
+  }
+}
+
 class TempNumberLog extends DataClass implements Insertable<TempNumberLog> {
   final int tenantId;
   final int id;
@@ -32266,6 +32697,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $SeriesNumberGeneratorTable _seriesNumberGenerator;
   $SeriesNumberGeneratorTable get seriesNumberGenerator =>
       _seriesNumberGenerator ??= $SeriesNumberGeneratorTable(this);
+  $SalesTaxTable _salesTax;
+  $SalesTaxTable get salesTax => _salesTax ??= $SalesTaxTable(this);
   $TempNumberLogsTable _tempNumberLogs;
   $TempNumberLogsTable get tempNumberLogs =>
       _tempNumberLogs ??= $TempNumberLogsTable(this);
@@ -32321,6 +32754,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         salesOrderDetail,
         salesOrderDetailTemp,
         seriesNumberGenerator,
+        salesTax,
         tempNumberLogs,
         customer,
         address,

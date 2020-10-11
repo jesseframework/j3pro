@@ -32,6 +32,7 @@ import 'package:j3enterprise/src/models/non_global_preference_setting.dart';
 import 'package:j3enterprise/src/models/preference_model.dart';
 import 'package:j3enterprise/src/models/tenant_model.dart';
 import 'package:j3enterprise/src/models/user_model.dart';
+import 'package:j3enterprise/src/pro/models/account/sales_tax/sales_tax_model.dart';
 import 'package:j3enterprise/src/pro/models/customer/address_model.dart';
 import 'package:j3enterprise/src/pro/models/customer/contact_model.dart';
 import 'package:j3enterprise/src/pro/models/customer/customer_master_model.dart';
@@ -76,6 +77,7 @@ part 'moor_database.g.dart';
   SalesOrderDetail,
   SalesOrderDetailTemp,
   SeriesNumberGenerator,
+  SalesTax,
   TempNumberLogs,
   Customer,
   Address,

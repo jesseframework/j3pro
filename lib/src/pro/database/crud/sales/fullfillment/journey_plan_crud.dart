@@ -23,14 +23,13 @@ class JourneyPlanDao extends DatabaseAccessor<AppDatabase>
   // in the database class, we can then load the category for each entry
   //TODO get customer by pasing the specfic username
   Stream<List<JourneyWithAddress>> watchJourneyWithAddressJoin(
-      String username) {
+      String username, String addressType, bool isDelete) {
     final query = select(db.journeyPlan).join([
       leftOuterJoin(db.address,
           db.journeyPlan.customerId.equalsExp(db.address.customerId)),
       leftOuterJoin(db.contact,
           db.journeyPlan.customerId.equalsExp(db.contact.customerId))
     ]);
-
     return query.watch().map((rows) {
       return rows.map((row) {
         return JourneyWithAddress(row.readTable(db.address),
