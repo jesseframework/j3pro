@@ -17,13 +17,12 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-import 'package:find_dropdown/find_dropdown.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/non_preference_crud.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/preference_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
-import 'package:j3enterprise/src/resources/shared/colors/my_color.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:xlive_switch/xlive_switch.dart';
 
@@ -48,7 +47,6 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         //ToDo add translation for preferences title
         title: Text(
@@ -77,9 +75,9 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                 child: Text(
                   "Edit Preference",
                   style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                       ),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               StreamBuilder(
@@ -111,7 +109,6 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                       'Name',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
-
                                           fontSize: 16),
                                     ),
                                     Container(
@@ -120,7 +117,6 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                         prefData.preferenceName,
                                         style: TextStyle(
                                             fontWeight: FontWeight.w500,
-
                                             fontSize: 16),
                                       ),
                                     ),
@@ -134,7 +130,6 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                       'Is Global',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
-
                                           fontSize: 16),
                                     ),
                                     Container(
@@ -160,7 +155,6 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                       'Option',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
-
                                           fontSize: 16),
                                     ),
                                     Container(
@@ -193,7 +187,9 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                                       ),
                                                       InkWell(
                                                         child: Container(
-                                                          color: Theme.of(context).cardColor,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .cardColor,
                                                             margin:
                                                                 EdgeInsets.only(
                                                                     left: 8),
@@ -216,8 +212,8 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                                       ),
                                                     ],
                                                   )
-                                                : FindDropdown(
-                                                  backgroundColor: Theme.of(context).cardColor,
+                                                : DropdownSearch(
+                                                    //backgroundColor: Theme.of(context).cardColor,
                                                     onFind: (value) async {
                                                       print(value);
                                                       return prefData.dataValue
@@ -249,7 +245,6 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                       'Expiry Date',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
-
                                           fontSize: 16),
                                     ),
                                     Expanded(child: Container()),
@@ -257,7 +252,6 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                       "${prefData.expiredDateTime.day}-${prefData.expiredDateTime.month}-${prefData.expiredDateTime.year}",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500,
-
                                           fontSize: 16),
                                     ),
                                     InkWell(
@@ -294,7 +288,6 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-
                   ),
                 ),
               ),
@@ -313,7 +306,6 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                               "No Preference Foud",
                               style: TextStyle(
                                   fontStyle: FontStyle.italic,
-
                                   fontWeight: FontWeight.w800,
                                   fontSize: 25),
                             ),
@@ -423,11 +415,10 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
 
   _displayDialog(BuildContext context, callBack) async {
     return showDialog(
-      barrierColor: Theme.of(context).cardColor,
+        barrierColor: Theme.of(context).cardColor,
         context: context,
         builder: (context) {
           return AlertDialog(
-
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             title: Text('Option'),
