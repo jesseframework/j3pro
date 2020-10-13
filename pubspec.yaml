@@ -37,6 +37,8 @@ dependencies:
   xlive_switch: ^1.0.5
   google_fonts: ^1.1.0
   chopper: ^3.0.0
+  flutter_simple_treeview: ^2.0.1
+ 
 
 
 

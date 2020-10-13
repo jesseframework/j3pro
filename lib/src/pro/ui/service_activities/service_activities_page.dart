@@ -118,8 +118,8 @@ class _ServiceActivitiesPageState extends State<ServiceActivitiesPage> {
               ],
             ),
             StreamBuilder(
-              stream:
-                  widget.journeyPlanDao.watchJourneyWithAddressJoin('admin','Billing',false),
+              stream: widget.journeyPlanDao
+                  .watchJourneyWithAddressJoin('admin', 'Billing', false),
               //  future: widget.journeyPlanDao.getAllJourneyPlanData(),
               builder: (context, snapshot) {
                 print(snapshot.data.toString());
