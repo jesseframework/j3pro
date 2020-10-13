@@ -7,13 +7,14 @@ import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
 
 class SalesOrderItemPage extends StatefulWidget {
   static final route = '/SalesOrderItemPage';
-  bool searchFoused = false;
+
   @override
   _SalesOrderItemPageState createState() => _SalesOrderItemPageState();
 }
 
 class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
   TextEditingController controller = TextEditingController(text: '1');
+  bool searchFoused = false;
 
   @override
   void initState() {
@@ -96,8 +97,10 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
                           onFilterChanged: (search) {},
                           function: (value) {
                             setState(() {
-                              print(widget.searchFoused);
-                              widget.searchFoused = value;
+                              if (searchFoused != value) {
+                                searchFoused = value;
+                              }
+                              print(searchFoused);
                             });
                           },
                         ),
@@ -117,9 +120,9 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
             Expanded(
               child: AnimatedSwitcher(
                 duration: Duration(seconds: 1),
-                child: widget.searchFoused == false
+                child: searchFoused == true
                     ? buildSearchSreeen()
-                    : buildItemScreen(),
+                    : buildItemSreeen(),
                 transitionBuilder: (widget, animation) => ScaleTransition(
                   scale: animation,
                   child: widget,
@@ -157,7 +160,7 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
     );
   }
 
-  buildItemScreen() {
+  buildSearchSreeen() {
     return ListView.builder(
       key: UniqueKey(),
       itemCount: 3,
@@ -363,7 +366,7 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
     );
   }
 
-  buildSearchSreeen() {
+  buildItemSreeen() {
     return ListView.builder(
       key: UniqueKey(),
       itemBuilder: (context, index) {

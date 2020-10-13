@@ -1,4 +1,4 @@
-import 'package:find_dropdown/find_dropdown.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/customer/address_crud.dart';
@@ -86,13 +86,14 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                FindDropdown(
-                                  backgroundColor: Theme.of(context).cardColor,
-                                  labelStyle: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color:
-                                          Theme.of(context).textSelectionColor,
-                                      fontSize: 12),
+                                DropdownSearch(
+                                  mode: Mode.MENU,
+                                  // backgroundColor: Theme.of(context).cardColor,
+                                  // labelStyle: TextStyle(
+                                  //     fontWeight: FontWeight.w600,
+                                  //     color:
+                                  //         Theme.of(context).textSelectionColor,
+                                  //     fontSize: 12),
                                   label: "Shipping Address",
                                   selectedItem: primaryAddress.addressLine1,
                                   showSearchBox: true,
@@ -108,7 +109,7 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
                                     //         value:
                                     //         value));
                                   },
-                                  autofocus: true,
+                                  // autofocus: true,
                                   searchBoxDecoration: InputDecoration(
                                       suffix: Container(
                                     height: 30,
@@ -124,11 +125,11 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
                             SizedBox(
                               height: 15,
                             ),
-                            FindDropdown(
-                              labelStyle: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: Theme.of(context).textSelectionColor,
-                                  fontSize: 12),
+                            DropdownSearch(
+                              // labelStyle: TextStyle(
+                              //     fontWeight: FontWeight.w600,
+                              //     color: Theme.of(context).textSelectionColor,
+                              //     fontSize: 12),
                               label: 'Contact',
                               selectedItem: addres[0].phoneNumber,
                               showSearchBox: false,
@@ -145,7 +146,7 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
                                 //         value:
                                 //         value));
                               },
-                              autofocus: true,
+                              // autofocus: true,
                             ),
                           ],
                         ),
@@ -162,11 +163,12 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            FindDropdown(
-                              labelStyle: TextStyle(
-                                  color: Theme.of(context).textSelectionColor,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12),
+                            DropdownSearch(
+                              mode: Mode.MENU,
+                              // labelStyle: TextStyle(
+                              //     color: Theme.of(context).textSelectionColor,
+                              //     fontWeight: FontWeight.w600,
+                              //     fontSize: 12),
                               label: "Order Type",
                               selectedItem: 'Standard Order',
                               showSearchBox: false,
@@ -192,8 +194,8 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
                                 //         value:
                                 //         value));
                               },
-                              autofocus: true,
-                              backgroundColor: Theme.of(context).cardColor,
+                              // autofocus: true,
+                              // backgroundColor: Theme.of(context).cardColor,
                             ),
                             SizedBox(
                               height: 15,

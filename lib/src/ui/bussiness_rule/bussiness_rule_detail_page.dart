@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-import 'package:find_dropdown/find_dropdown.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/database/crud/business_rule/business_rule_crud.dart';
@@ -214,7 +214,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                                       ),
                                                     ],
                                                   )
-                                                : FindDropdown(
+                                                : DropdownSearch(
                                                     onFind: (value) async {
                                                       print(value);
                                                       return businessRuleData

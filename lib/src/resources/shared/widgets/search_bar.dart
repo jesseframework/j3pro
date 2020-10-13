@@ -50,7 +50,11 @@ class _ListFilterState extends State<ListFilter> {
 
   void onFocusChanged() {
     setState(() {
-      widget.function(_focusNode.hasFocus);
+      //print(_focusNode.hasFocus);
+      if (_focusNode.hasFocus) {
+        widget.function(_focusNode.hasFocus);
+      }
+
       _placeholder = _focusNode.hasFocus ? '' : widget.placeholder;
     });
   }
@@ -99,7 +103,9 @@ class _ListFilterState extends State<ListFilter> {
                     _filterController.text = '';
                     _focusNode.unfocus();
                     widget.onFilterChanged('');
+
                     setState(() {
+                      widget.function(false);
                       _placeholder = widget.placeholder;
                     });
                   },
