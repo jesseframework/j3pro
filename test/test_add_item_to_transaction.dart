@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:j3enterprise/src/pro/resources/shared/sales/add_item_to_transaction.dart';
 
 void main() {
-  test('stream order with header', () async {
+  test('add items to transaction', () async {
     double qtySet = 1;
     String searchText = "19";
     String tempSalesOrderNo = "101012020";

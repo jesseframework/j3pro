@@ -11604,6 +11604,7 @@ class SalesOrderDetailData extends DataClass
   final double discountPercentage;
   final double discountAmount;
   final double lineDiscountTotal;
+  final String taxIndicator;
   final double unitPrice;
   final double costPrice;
   final double listPrice;
@@ -11638,6 +11639,7 @@ class SalesOrderDetailData extends DataClass
       @required this.discountPercentage,
       @required this.discountAmount,
       @required this.lineDiscountTotal,
+      this.taxIndicator,
       @required this.unitPrice,
       @required this.costPrice,
       @required this.listPrice,
@@ -11704,6 +11706,8 @@ class SalesOrderDetailData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}discount_amount']),
       lineDiscountTotal: doubleType.mapFromDatabaseResponse(
           data['${effectivePrefix}line_discount_total']),
+      taxIndicator: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}tax_indicator']),
       unitPrice: doubleType
           .mapFromDatabaseResponse(data['${effectivePrefix}unit_price']),
       costPrice: doubleType
@@ -11799,6 +11803,9 @@ class SalesOrderDetailData extends DataClass
     }
     if (!nullToAbsent || lineDiscountTotal != null) {
       map['line_discount_total'] = Variable<double>(lineDiscountTotal);
+    }
+    if (!nullToAbsent || taxIndicator != null) {
+      map['tax_indicator'] = Variable<String>(taxIndicator);
     }
     if (!nullToAbsent || unitPrice != null) {
       map['unit_price'] = Variable<double>(unitPrice);
@@ -11900,6 +11907,9 @@ class SalesOrderDetailData extends DataClass
       lineDiscountTotal: lineDiscountTotal == null && nullToAbsent
           ? const Value.absent()
           : Value(lineDiscountTotal),
+      taxIndicator: taxIndicator == null && nullToAbsent
+          ? const Value.absent()
+          : Value(taxIndicator),
       unitPrice: unitPrice == null && nullToAbsent
           ? const Value.absent()
           : Value(unitPrice),
@@ -11958,6 +11968,7 @@ class SalesOrderDetailData extends DataClass
           serializer.fromJson<double>(json['discountPercentage']),
       discountAmount: serializer.fromJson<double>(json['discountAmount']),
       lineDiscountTotal: serializer.fromJson<double>(json['lineDiscountTotal']),
+      taxIndicator: serializer.fromJson<String>(json['taxIndicator']),
       unitPrice: serializer.fromJson<double>(json['unitPrice']),
       costPrice: serializer.fromJson<double>(json['costPrice']),
       listPrice: serializer.fromJson<double>(json['listPrice']),
@@ -11997,6 +12008,7 @@ class SalesOrderDetailData extends DataClass
       'discountPercentage': serializer.toJson<double>(discountPercentage),
       'discountAmount': serializer.toJson<double>(discountAmount),
       'lineDiscountTotal': serializer.toJson<double>(lineDiscountTotal),
+      'taxIndicator': serializer.toJson<String>(taxIndicator),
       'unitPrice': serializer.toJson<double>(unitPrice),
       'costPrice': serializer.toJson<double>(costPrice),
       'listPrice': serializer.toJson<double>(listPrice),
@@ -12034,6 +12046,7 @@ class SalesOrderDetailData extends DataClass
           double discountPercentage,
           double discountAmount,
           double lineDiscountTotal,
+          String taxIndicator,
           double unitPrice,
           double costPrice,
           double listPrice,
@@ -12068,6 +12081,7 @@ class SalesOrderDetailData extends DataClass
         discountPercentage: discountPercentage ?? this.discountPercentage,
         discountAmount: discountAmount ?? this.discountAmount,
         lineDiscountTotal: lineDiscountTotal ?? this.lineDiscountTotal,
+        taxIndicator: taxIndicator ?? this.taxIndicator,
         unitPrice: unitPrice ?? this.unitPrice,
         costPrice: costPrice ?? this.costPrice,
         listPrice: listPrice ?? this.listPrice,
@@ -12105,6 +12119,7 @@ class SalesOrderDetailData extends DataClass
           ..write('discountPercentage: $discountPercentage, ')
           ..write('discountAmount: $discountAmount, ')
           ..write('lineDiscountTotal: $lineDiscountTotal, ')
+          ..write('taxIndicator: $taxIndicator, ')
           ..write('unitPrice: $unitPrice, ')
           ..write('costPrice: $costPrice, ')
           ..write('listPrice: $listPrice, ')
@@ -12160,7 +12175,7 @@ class SalesOrderDetailData extends DataClass
                                                                               .hashCode,
                                                                           $mrjc(
                                                                               stockUOM.hashCode,
-                                                                              $mrjc(taxGroup.hashCode, $mrjc(warehouse.hashCode, $mrjc(discountType.hashCode, $mrjc(discountPercentage.hashCode, $mrjc(discountAmount.hashCode, $mrjc(lineDiscountTotal.hashCode, $mrjc(unitPrice.hashCode, $mrjc(costPrice.hashCode, $mrjc(listPrice.hashCode, $mrjc(quantity.hashCode, $mrjc(subTotal.hashCode, $mrjc(taxTotal.hashCode, $mrjc(shippingTotal.hashCode, conversionFactor.hashCode)))))))))))))))))))))))))))))))));
+                                                                              $mrjc(taxGroup.hashCode, $mrjc(warehouse.hashCode, $mrjc(discountType.hashCode, $mrjc(discountPercentage.hashCode, $mrjc(discountAmount.hashCode, $mrjc(lineDiscountTotal.hashCode, $mrjc(taxIndicator.hashCode, $mrjc(unitPrice.hashCode, $mrjc(costPrice.hashCode, $mrjc(listPrice.hashCode, $mrjc(quantity.hashCode, $mrjc(subTotal.hashCode, $mrjc(taxTotal.hashCode, $mrjc(shippingTotal.hashCode, conversionFactor.hashCode))))))))))))))))))))))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -12190,6 +12205,7 @@ class SalesOrderDetailData extends DataClass
           other.discountPercentage == this.discountPercentage &&
           other.discountAmount == this.discountAmount &&
           other.lineDiscountTotal == this.lineDiscountTotal &&
+          other.taxIndicator == this.taxIndicator &&
           other.unitPrice == this.unitPrice &&
           other.costPrice == this.costPrice &&
           other.listPrice == this.listPrice &&
@@ -12226,6 +12242,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
   final Value<double> discountPercentage;
   final Value<double> discountAmount;
   final Value<double> lineDiscountTotal;
+  final Value<String> taxIndicator;
   final Value<double> unitPrice;
   final Value<double> costPrice;
   final Value<double> listPrice;
@@ -12260,6 +12277,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
     this.discountPercentage = const Value.absent(),
     this.discountAmount = const Value.absent(),
     this.lineDiscountTotal = const Value.absent(),
+    this.taxIndicator = const Value.absent(),
     this.unitPrice = const Value.absent(),
     this.costPrice = const Value.absent(),
     this.listPrice = const Value.absent(),
@@ -12295,6 +12313,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
     @required double discountPercentage,
     @required double discountAmount,
     @required double lineDiscountTotal,
+    this.taxIndicator = const Value.absent(),
     @required double unitPrice,
     @required double costPrice,
     @required double listPrice,
@@ -12359,6 +12378,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
     Expression<double> discountPercentage,
     Expression<double> discountAmount,
     Expression<double> lineDiscountTotal,
+    Expression<String> taxIndicator,
     Expression<double> unitPrice,
     Expression<double> costPrice,
     Expression<double> listPrice,
@@ -12395,6 +12415,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
       if (discountPercentage != null) 'discount_percentage': discountPercentage,
       if (discountAmount != null) 'discount_amount': discountAmount,
       if (lineDiscountTotal != null) 'line_discount_total': lineDiscountTotal,
+      if (taxIndicator != null) 'tax_indicator': taxIndicator,
       if (unitPrice != null) 'unit_price': unitPrice,
       if (costPrice != null) 'cost_price': costPrice,
       if (listPrice != null) 'list_price': listPrice,
@@ -12432,6 +12453,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
       Value<double> discountPercentage,
       Value<double> discountAmount,
       Value<double> lineDiscountTotal,
+      Value<String> taxIndicator,
       Value<double> unitPrice,
       Value<double> costPrice,
       Value<double> listPrice,
@@ -12466,6 +12488,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
       discountPercentage: discountPercentage ?? this.discountPercentage,
       discountAmount: discountAmount ?? this.discountAmount,
       lineDiscountTotal: lineDiscountTotal ?? this.lineDiscountTotal,
+      taxIndicator: taxIndicator ?? this.taxIndicator,
       unitPrice: unitPrice ?? this.unitPrice,
       costPrice: costPrice ?? this.costPrice,
       listPrice: listPrice ?? this.listPrice,
@@ -12556,6 +12579,9 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
     if (lineDiscountTotal.present) {
       map['line_discount_total'] = Variable<double>(lineDiscountTotal.value);
     }
+    if (taxIndicator.present) {
+      map['tax_indicator'] = Variable<String>(taxIndicator.value);
+    }
     if (unitPrice.present) {
       map['unit_price'] = Variable<double>(unitPrice.value);
     }
@@ -12611,6 +12637,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
           ..write('discountPercentage: $discountPercentage, ')
           ..write('discountAmount: $discountAmount, ')
           ..write('lineDiscountTotal: $lineDiscountTotal, ')
+          ..write('taxIndicator: $taxIndicator, ')
           ..write('unitPrice: $unitPrice, ')
           ..write('costPrice: $costPrice, ')
           ..write('listPrice: $listPrice, ')
@@ -12951,6 +12978,20 @@ class $SalesOrderDetailTable extends SalesOrderDetail
     );
   }
 
+  final VerificationMeta _taxIndicatorMeta =
+      const VerificationMeta('taxIndicator');
+  GeneratedTextColumn _taxIndicator;
+  @override
+  GeneratedTextColumn get taxIndicator =>
+      _taxIndicator ??= _constructTaxIndicator();
+  GeneratedTextColumn _constructTaxIndicator() {
+    return GeneratedTextColumn(
+      'tax_indicator',
+      $tableName,
+      true,
+    );
+  }
+
   final VerificationMeta _unitPriceMeta = const VerificationMeta('unitPrice');
   GeneratedRealColumn _unitPrice;
   @override
@@ -13078,6 +13119,7 @@ class $SalesOrderDetailTable extends SalesOrderDetail
         discountPercentage,
         discountAmount,
         lineDiscountTotal,
+        taxIndicator,
         unitPrice,
         costPrice,
         listPrice,
@@ -13264,6 +13306,12 @@ class $SalesOrderDetailTable extends SalesOrderDetail
     } else if (isInserting) {
       context.missing(_lineDiscountTotalMeta);
     }
+    if (data.containsKey('tax_indicator')) {
+      context.handle(
+          _taxIndicatorMeta,
+          taxIndicator.isAcceptableOrUnknown(
+              data['tax_indicator'], _taxIndicatorMeta));
+    }
     if (data.containsKey('unit_price')) {
       context.handle(_unitPriceMeta,
           unitPrice.isAcceptableOrUnknown(data['unit_price'], _unitPriceMeta));
@@ -13360,6 +13408,7 @@ class SalesOrderDetailTempData extends DataClass
   final double discountPercentage;
   final double discountAmount;
   final double lineDiscountTotal;
+  final String taxIndicator;
   final double unitPrice;
   final double costPrice;
   final double listPrice;
@@ -13394,6 +13443,7 @@ class SalesOrderDetailTempData extends DataClass
       this.discountPercentage,
       this.discountAmount,
       this.lineDiscountTotal,
+      this.taxIndicator,
       @required this.unitPrice,
       this.costPrice,
       this.listPrice,
@@ -13460,6 +13510,8 @@ class SalesOrderDetailTempData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}discount_amount']),
       lineDiscountTotal: doubleType.mapFromDatabaseResponse(
           data['${effectivePrefix}line_discount_total']),
+      taxIndicator: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}tax_indicator']),
       unitPrice: doubleType
           .mapFromDatabaseResponse(data['${effectivePrefix}unit_price']),
       costPrice: doubleType
@@ -13555,6 +13607,9 @@ class SalesOrderDetailTempData extends DataClass
     }
     if (!nullToAbsent || lineDiscountTotal != null) {
       map['line_discount_total'] = Variable<double>(lineDiscountTotal);
+    }
+    if (!nullToAbsent || taxIndicator != null) {
+      map['tax_indicator'] = Variable<String>(taxIndicator);
     }
     if (!nullToAbsent || unitPrice != null) {
       map['unit_price'] = Variable<double>(unitPrice);
@@ -13656,6 +13711,9 @@ class SalesOrderDetailTempData extends DataClass
       lineDiscountTotal: lineDiscountTotal == null && nullToAbsent
           ? const Value.absent()
           : Value(lineDiscountTotal),
+      taxIndicator: taxIndicator == null && nullToAbsent
+          ? const Value.absent()
+          : Value(taxIndicator),
       unitPrice: unitPrice == null && nullToAbsent
           ? const Value.absent()
           : Value(unitPrice),
@@ -13714,6 +13772,7 @@ class SalesOrderDetailTempData extends DataClass
           serializer.fromJson<double>(json['discountPercentage']),
       discountAmount: serializer.fromJson<double>(json['discountAmount']),
       lineDiscountTotal: serializer.fromJson<double>(json['lineDiscountTotal']),
+      taxIndicator: serializer.fromJson<String>(json['taxIndicator']),
       unitPrice: serializer.fromJson<double>(json['unitPrice']),
       costPrice: serializer.fromJson<double>(json['costPrice']),
       listPrice: serializer.fromJson<double>(json['listPrice']),
@@ -13753,6 +13812,7 @@ class SalesOrderDetailTempData extends DataClass
       'discountPercentage': serializer.toJson<double>(discountPercentage),
       'discountAmount': serializer.toJson<double>(discountAmount),
       'lineDiscountTotal': serializer.toJson<double>(lineDiscountTotal),
+      'taxIndicator': serializer.toJson<String>(taxIndicator),
       'unitPrice': serializer.toJson<double>(unitPrice),
       'costPrice': serializer.toJson<double>(costPrice),
       'listPrice': serializer.toJson<double>(listPrice),
@@ -13790,6 +13850,7 @@ class SalesOrderDetailTempData extends DataClass
           double discountPercentage,
           double discountAmount,
           double lineDiscountTotal,
+          String taxIndicator,
           double unitPrice,
           double costPrice,
           double listPrice,
@@ -13824,6 +13885,7 @@ class SalesOrderDetailTempData extends DataClass
         discountPercentage: discountPercentage ?? this.discountPercentage,
         discountAmount: discountAmount ?? this.discountAmount,
         lineDiscountTotal: lineDiscountTotal ?? this.lineDiscountTotal,
+        taxIndicator: taxIndicator ?? this.taxIndicator,
         unitPrice: unitPrice ?? this.unitPrice,
         costPrice: costPrice ?? this.costPrice,
         listPrice: listPrice ?? this.listPrice,
@@ -13861,6 +13923,7 @@ class SalesOrderDetailTempData extends DataClass
           ..write('discountPercentage: $discountPercentage, ')
           ..write('discountAmount: $discountAmount, ')
           ..write('lineDiscountTotal: $lineDiscountTotal, ')
+          ..write('taxIndicator: $taxIndicator, ')
           ..write('unitPrice: $unitPrice, ')
           ..write('costPrice: $costPrice, ')
           ..write('listPrice: $listPrice, ')
@@ -13916,7 +13979,7 @@ class SalesOrderDetailTempData extends DataClass
                                                                               .hashCode,
                                                                           $mrjc(
                                                                               stockUOM.hashCode,
-                                                                              $mrjc(taxGroup.hashCode, $mrjc(warehouse.hashCode, $mrjc(discountType.hashCode, $mrjc(discountPercentage.hashCode, $mrjc(discountAmount.hashCode, $mrjc(lineDiscountTotal.hashCode, $mrjc(unitPrice.hashCode, $mrjc(costPrice.hashCode, $mrjc(listPrice.hashCode, $mrjc(quantity.hashCode, $mrjc(subTotal.hashCode, $mrjc(taxTotal.hashCode, $mrjc(shippingTotal.hashCode, conversionFactor.hashCode)))))))))))))))))))))))))))))))));
+                                                                              $mrjc(taxGroup.hashCode, $mrjc(warehouse.hashCode, $mrjc(discountType.hashCode, $mrjc(discountPercentage.hashCode, $mrjc(discountAmount.hashCode, $mrjc(lineDiscountTotal.hashCode, $mrjc(taxIndicator.hashCode, $mrjc(unitPrice.hashCode, $mrjc(costPrice.hashCode, $mrjc(listPrice.hashCode, $mrjc(quantity.hashCode, $mrjc(subTotal.hashCode, $mrjc(taxTotal.hashCode, $mrjc(shippingTotal.hashCode, conversionFactor.hashCode))))))))))))))))))))))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -13946,6 +14009,7 @@ class SalesOrderDetailTempData extends DataClass
           other.discountPercentage == this.discountPercentage &&
           other.discountAmount == this.discountAmount &&
           other.lineDiscountTotal == this.lineDiscountTotal &&
+          other.taxIndicator == this.taxIndicator &&
           other.unitPrice == this.unitPrice &&
           other.costPrice == this.costPrice &&
           other.listPrice == this.listPrice &&
@@ -13983,6 +14047,7 @@ class SalesOrderDetailTempCompanion
   final Value<double> discountPercentage;
   final Value<double> discountAmount;
   final Value<double> lineDiscountTotal;
+  final Value<String> taxIndicator;
   final Value<double> unitPrice;
   final Value<double> costPrice;
   final Value<double> listPrice;
@@ -14017,6 +14082,7 @@ class SalesOrderDetailTempCompanion
     this.discountPercentage = const Value.absent(),
     this.discountAmount = const Value.absent(),
     this.lineDiscountTotal = const Value.absent(),
+    this.taxIndicator = const Value.absent(),
     this.unitPrice = const Value.absent(),
     this.costPrice = const Value.absent(),
     this.listPrice = const Value.absent(),
@@ -14052,6 +14118,7 @@ class SalesOrderDetailTempCompanion
     this.discountPercentage = const Value.absent(),
     this.discountAmount = const Value.absent(),
     this.lineDiscountTotal = const Value.absent(),
+    this.taxIndicator = const Value.absent(),
     @required double unitPrice,
     this.costPrice = const Value.absent(),
     this.listPrice = const Value.absent(),
@@ -14096,6 +14163,7 @@ class SalesOrderDetailTempCompanion
     Expression<double> discountPercentage,
     Expression<double> discountAmount,
     Expression<double> lineDiscountTotal,
+    Expression<String> taxIndicator,
     Expression<double> unitPrice,
     Expression<double> costPrice,
     Expression<double> listPrice,
@@ -14132,6 +14200,7 @@ class SalesOrderDetailTempCompanion
       if (discountPercentage != null) 'discount_percentage': discountPercentage,
       if (discountAmount != null) 'discount_amount': discountAmount,
       if (lineDiscountTotal != null) 'line_discount_total': lineDiscountTotal,
+      if (taxIndicator != null) 'tax_indicator': taxIndicator,
       if (unitPrice != null) 'unit_price': unitPrice,
       if (costPrice != null) 'cost_price': costPrice,
       if (listPrice != null) 'list_price': listPrice,
@@ -14169,6 +14238,7 @@ class SalesOrderDetailTempCompanion
       Value<double> discountPercentage,
       Value<double> discountAmount,
       Value<double> lineDiscountTotal,
+      Value<String> taxIndicator,
       Value<double> unitPrice,
       Value<double> costPrice,
       Value<double> listPrice,
@@ -14203,6 +14273,7 @@ class SalesOrderDetailTempCompanion
       discountPercentage: discountPercentage ?? this.discountPercentage,
       discountAmount: discountAmount ?? this.discountAmount,
       lineDiscountTotal: lineDiscountTotal ?? this.lineDiscountTotal,
+      taxIndicator: taxIndicator ?? this.taxIndicator,
       unitPrice: unitPrice ?? this.unitPrice,
       costPrice: costPrice ?? this.costPrice,
       listPrice: listPrice ?? this.listPrice,
@@ -14293,6 +14364,9 @@ class SalesOrderDetailTempCompanion
     if (lineDiscountTotal.present) {
       map['line_discount_total'] = Variable<double>(lineDiscountTotal.value);
     }
+    if (taxIndicator.present) {
+      map['tax_indicator'] = Variable<String>(taxIndicator.value);
+    }
     if (unitPrice.present) {
       map['unit_price'] = Variable<double>(unitPrice.value);
     }
@@ -14348,6 +14422,7 @@ class SalesOrderDetailTempCompanion
           ..write('discountPercentage: $discountPercentage, ')
           ..write('discountAmount: $discountAmount, ')
           ..write('lineDiscountTotal: $lineDiscountTotal, ')
+          ..write('taxIndicator: $taxIndicator, ')
           ..write('unitPrice: $unitPrice, ')
           ..write('costPrice: $costPrice, ')
           ..write('listPrice: $listPrice, ')
@@ -14688,6 +14763,20 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     );
   }
 
+  final VerificationMeta _taxIndicatorMeta =
+      const VerificationMeta('taxIndicator');
+  GeneratedTextColumn _taxIndicator;
+  @override
+  GeneratedTextColumn get taxIndicator =>
+      _taxIndicator ??= _constructTaxIndicator();
+  GeneratedTextColumn _constructTaxIndicator() {
+    return GeneratedTextColumn(
+      'tax_indicator',
+      $tableName,
+      true,
+    );
+  }
+
   final VerificationMeta _unitPriceMeta = const VerificationMeta('unitPrice');
   GeneratedRealColumn _unitPrice;
   @override
@@ -14815,6 +14904,7 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
         discountPercentage,
         discountAmount,
         lineDiscountTotal,
+        taxIndicator,
         unitPrice,
         costPrice,
         listPrice,
@@ -14968,6 +15058,12 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
           _lineDiscountTotalMeta,
           lineDiscountTotal.isAcceptableOrUnknown(
               data['line_discount_total'], _lineDiscountTotalMeta));
+    }
+    if (data.containsKey('tax_indicator')) {
+      context.handle(
+          _taxIndicatorMeta,
+          taxIndicator.isAcceptableOrUnknown(
+              data['tax_indicator'], _taxIndicatorMeta));
     }
     if (data.containsKey('unit_price')) {
       context.handle(_unitPriceMeta,
@@ -15635,6 +15731,7 @@ class SalesTaxData extends DataClass implements Insertable<SalesTaxData> {
   final double accountRate;
   final DateTime effectiveDate;
   final double amount;
+  final String taxIndicator;
   SalesTaxData(
       {this.tenantId,
       @required this.id,
@@ -15642,7 +15739,8 @@ class SalesTaxData extends DataClass implements Insertable<SalesTaxData> {
       this.taxAccount,
       this.accountRate,
       @required this.effectiveDate,
-      this.amount});
+      this.amount,
+      this.taxIndicator});
   factory SalesTaxData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -15663,6 +15761,8 @@ class SalesTaxData extends DataClass implements Insertable<SalesTaxData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}effective_date']),
       amount:
           doubleType.mapFromDatabaseResponse(data['${effectivePrefix}amount']),
+      taxIndicator: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}tax_indicator']),
     );
   }
   @override
@@ -15689,6 +15789,9 @@ class SalesTaxData extends DataClass implements Insertable<SalesTaxData> {
     if (!nullToAbsent || amount != null) {
       map['amount'] = Variable<double>(amount);
     }
+    if (!nullToAbsent || taxIndicator != null) {
+      map['tax_indicator'] = Variable<String>(taxIndicator);
+    }
     return map;
   }
 
@@ -15710,6 +15813,9 @@ class SalesTaxData extends DataClass implements Insertable<SalesTaxData> {
           : Value(effectiveDate),
       amount:
           amount == null && nullToAbsent ? const Value.absent() : Value(amount),
+      taxIndicator: taxIndicator == null && nullToAbsent
+          ? const Value.absent()
+          : Value(taxIndicator),
     );
   }
 
@@ -15724,6 +15830,7 @@ class SalesTaxData extends DataClass implements Insertable<SalesTaxData> {
       accountRate: serializer.fromJson<double>(json['accountRate']),
       effectiveDate: serializer.fromJson<DateTime>(json['effectiveDate']),
       amount: serializer.fromJson<double>(json['amount']),
+      taxIndicator: serializer.fromJson<String>(json['taxIndicator']),
     );
   }
   @override
@@ -15737,6 +15844,7 @@ class SalesTaxData extends DataClass implements Insertable<SalesTaxData> {
       'accountRate': serializer.toJson<double>(accountRate),
       'effectiveDate': serializer.toJson<DateTime>(effectiveDate),
       'amount': serializer.toJson<double>(amount),
+      'taxIndicator': serializer.toJson<String>(taxIndicator),
     };
   }
 
@@ -15747,7 +15855,8 @@ class SalesTaxData extends DataClass implements Insertable<SalesTaxData> {
           String taxAccount,
           double accountRate,
           DateTime effectiveDate,
-          double amount}) =>
+          double amount,
+          String taxIndicator}) =>
       SalesTaxData(
         tenantId: tenantId ?? this.tenantId,
         id: id ?? this.id,
@@ -15756,6 +15865,7 @@ class SalesTaxData extends DataClass implements Insertable<SalesTaxData> {
         accountRate: accountRate ?? this.accountRate,
         effectiveDate: effectiveDate ?? this.effectiveDate,
         amount: amount ?? this.amount,
+        taxIndicator: taxIndicator ?? this.taxIndicator,
       );
   @override
   String toString() {
@@ -15766,7 +15876,8 @@ class SalesTaxData extends DataClass implements Insertable<SalesTaxData> {
           ..write('taxAccount: $taxAccount, ')
           ..write('accountRate: $accountRate, ')
           ..write('effectiveDate: $effectiveDate, ')
-          ..write('amount: $amount')
+          ..write('amount: $amount, ')
+          ..write('taxIndicator: $taxIndicator')
           ..write(')'))
         .toString();
   }
@@ -15780,8 +15891,10 @@ class SalesTaxData extends DataClass implements Insertable<SalesTaxData> {
               type.hashCode,
               $mrjc(
                   taxAccount.hashCode,
-                  $mrjc(accountRate.hashCode,
-                      $mrjc(effectiveDate.hashCode, amount.hashCode)))))));
+                  $mrjc(
+                      accountRate.hashCode,
+                      $mrjc(effectiveDate.hashCode,
+                          $mrjc(amount.hashCode, taxIndicator.hashCode))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -15792,7 +15905,8 @@ class SalesTaxData extends DataClass implements Insertable<SalesTaxData> {
           other.taxAccount == this.taxAccount &&
           other.accountRate == this.accountRate &&
           other.effectiveDate == this.effectiveDate &&
-          other.amount == this.amount);
+          other.amount == this.amount &&
+          other.taxIndicator == this.taxIndicator);
 }
 
 class SalesTaxCompanion extends UpdateCompanion<SalesTaxData> {
@@ -15803,6 +15917,7 @@ class SalesTaxCompanion extends UpdateCompanion<SalesTaxData> {
   final Value<double> accountRate;
   final Value<DateTime> effectiveDate;
   final Value<double> amount;
+  final Value<String> taxIndicator;
   const SalesTaxCompanion({
     this.tenantId = const Value.absent(),
     this.id = const Value.absent(),
@@ -15811,6 +15926,7 @@ class SalesTaxCompanion extends UpdateCompanion<SalesTaxData> {
     this.accountRate = const Value.absent(),
     this.effectiveDate = const Value.absent(),
     this.amount = const Value.absent(),
+    this.taxIndicator = const Value.absent(),
   });
   SalesTaxCompanion.insert({
     this.tenantId = const Value.absent(),
@@ -15820,6 +15936,7 @@ class SalesTaxCompanion extends UpdateCompanion<SalesTaxData> {
     this.accountRate = const Value.absent(),
     @required DateTime effectiveDate,
     this.amount = const Value.absent(),
+    this.taxIndicator = const Value.absent(),
   }) : effectiveDate = Value(effectiveDate);
   static Insertable<SalesTaxData> custom({
     Expression<int> tenantId,
@@ -15829,6 +15946,7 @@ class SalesTaxCompanion extends UpdateCompanion<SalesTaxData> {
     Expression<double> accountRate,
     Expression<DateTime> effectiveDate,
     Expression<double> amount,
+    Expression<String> taxIndicator,
   }) {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
@@ -15838,6 +15956,7 @@ class SalesTaxCompanion extends UpdateCompanion<SalesTaxData> {
       if (accountRate != null) 'account_rate': accountRate,
       if (effectiveDate != null) 'effective_date': effectiveDate,
       if (amount != null) 'amount': amount,
+      if (taxIndicator != null) 'tax_indicator': taxIndicator,
     });
   }
 
@@ -15848,7 +15967,8 @@ class SalesTaxCompanion extends UpdateCompanion<SalesTaxData> {
       Value<String> taxAccount,
       Value<double> accountRate,
       Value<DateTime> effectiveDate,
-      Value<double> amount}) {
+      Value<double> amount,
+      Value<String> taxIndicator}) {
     return SalesTaxCompanion(
       tenantId: tenantId ?? this.tenantId,
       id: id ?? this.id,
@@ -15857,6 +15977,7 @@ class SalesTaxCompanion extends UpdateCompanion<SalesTaxData> {
       accountRate: accountRate ?? this.accountRate,
       effectiveDate: effectiveDate ?? this.effectiveDate,
       amount: amount ?? this.amount,
+      taxIndicator: taxIndicator ?? this.taxIndicator,
     );
   }
 
@@ -15884,6 +16005,9 @@ class SalesTaxCompanion extends UpdateCompanion<SalesTaxData> {
     if (amount.present) {
       map['amount'] = Variable<double>(amount.value);
     }
+    if (taxIndicator.present) {
+      map['tax_indicator'] = Variable<String>(taxIndicator.value);
+    }
     return map;
   }
 
@@ -15896,7 +16020,8 @@ class SalesTaxCompanion extends UpdateCompanion<SalesTaxData> {
           ..write('taxAccount: $taxAccount, ')
           ..write('accountRate: $accountRate, ')
           ..write('effectiveDate: $effectiveDate, ')
-          ..write('amount: $amount')
+          ..write('amount: $amount, ')
+          ..write('taxIndicator: $taxIndicator')
           ..write(')'))
         .toString();
   }
@@ -15992,9 +16117,31 @@ class $SalesTaxTable extends SalesTax
     );
   }
 
+  final VerificationMeta _taxIndicatorMeta =
+      const VerificationMeta('taxIndicator');
+  GeneratedTextColumn _taxIndicator;
   @override
-  List<GeneratedColumn> get $columns =>
-      [tenantId, id, type, taxAccount, accountRate, effectiveDate, amount];
+  GeneratedTextColumn get taxIndicator =>
+      _taxIndicator ??= _constructTaxIndicator();
+  GeneratedTextColumn _constructTaxIndicator() {
+    return GeneratedTextColumn(
+      'tax_indicator',
+      $tableName,
+      true,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        tenantId,
+        id,
+        type,
+        taxAccount,
+        accountRate,
+        effectiveDate,
+        amount,
+        taxIndicator
+      ];
   @override
   $SalesTaxTable get asDslTable => this;
   @override
@@ -16040,6 +16187,12 @@ class $SalesTaxTable extends SalesTax
     if (data.containsKey('amount')) {
       context.handle(_amountMeta,
           amount.isAcceptableOrUnknown(data['amount'], _amountMeta));
+    }
+    if (data.containsKey('tax_indicator')) {
+      context.handle(
+          _taxIndicatorMeta,
+          taxIndicator.isAcceptableOrUnknown(
+              data['tax_indicator'], _taxIndicatorMeta));
     }
     return context;
   }

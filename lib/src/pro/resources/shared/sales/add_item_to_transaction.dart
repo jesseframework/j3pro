@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:j3enterprise/src/database/crud/business_rule/business_rule_crud.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/preference_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
@@ -9,18 +8,18 @@ import 'package:j3enterprise/src/pro/database/crud/items/item_pricing_rule_crud.
 import 'package:j3enterprise/src/pro/database/crud/sales/sales_order/sales_order_detail_temp_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/series_number/temp_number_log_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/warehouse/inventory_items_crud.dart';
-import 'package:j3enterprise/src/pro/resources/repositories/items/items_master_repositories.dart';
 import 'package:j3enterprise/src/pro/resources/shared/sales/calculate_discount.dart';
 import 'package:j3enterprise/src/pro/resources/shared/sales/calculate_tax.dart';
 import 'package:j3enterprise/src/pro/resources/shared/warehouse/add_item_to_warehouse.dart';
 import 'package:j3enterprise/src/pro/resources/shared/warehouse/check_inventory.dart';
+import 'package:j3enterprise/src/resources/shared/utils/date_formating.dart';
 import 'package:logging/logging.dart';
 import 'package:moor/moor.dart' as moor;
 
 class AddItemToTransaction {
   double quantity;
   String result;
-  String itemId;
+  int itemId;
   String itemName;
   String itemCode;
   String itemDescription;
@@ -32,6 +31,7 @@ class AddItemToTransaction {
   String defaultWarehouse;
   String inventoryCycleNumber;
   String transactionNumber;
+  String transactionStatus;
   String priceList;
   String standardPriceList;
   String customerId;
@@ -41,6 +41,9 @@ class AddItemToTransaction {
   double returnPrice;
   double returnDeposit;
   double lineSubTotal;
+  String taxGroup;
+  double conversionFactor;
+  DateTime salesDate;
 
   //Get Discount
   String customerGroup;
@@ -127,19 +130,31 @@ class AddItemToTransaction {
     if (item != null && item.length > 0) {
       result = "Item Found";
       //Assign Item values
-      itemId = item[0].id.toString();
+      itemId = item[0].id;
       itemName = item[0].itemName;
       itemCode = item[0].itemCode;
       itemDescription = item[0].description;
       itemGroup = item[0].itemGroup;
       category = item[0].category;
       stockUOM = "";
-      defaultWarehouse = "";
+      defaultWarehouse = item[0].defaultWarehouse;
       upcCode = "";
+      String formatted = await formatDate(DateTime.now().toString());
+      salesDate = DateTime.tryParse(formatted);
       uom = item[0].uom;
+      //taxIndicator = item[0].tax
       priceList = "";
       standardPriceList = "Standard Price List";
       DateTime retiredDate = item[0].retiredDate;
+
+      var getCusTaxGroup = await customerDao.getAllCustomerById(customerId);
+      if (getCusTaxGroup != null &&
+          getCusTaxGroup.length > 0 &&
+          getCusTaxGroup.single.taxGroup != null) {
+        taxGroup = getCusTaxGroup[0].taxGroup;
+      } else {
+        taxGroup = item[0].taxGroup;
+      }
 
       if (item[0].isRetired == true) {
         result =
@@ -181,6 +196,7 @@ class AddItemToTransaction {
         deposit = price[0].deposit;
         returnPrice = price[0].returnPrice;
         returnDeposit = price[0].returnDeposit;
+        conversionFactor = price[0].conversionFactor;
       } else {
         result =
             '$itemDescription not in pricing schedule assign to selected customer';
@@ -188,6 +204,7 @@ class AddItemToTransaction {
       }
 
       //Line SubTotal Calculation
+      //ToDo Calculate return price, return deposit, deposit and selling deposit
       lineSubTotal = itemPrice * quantity;
 
       //Add New Line
@@ -203,14 +220,22 @@ class AddItemToTransaction {
           userName: moor.Value(currency),
           itemCode: moor.Value(itemCode),
           itemGroup: moor.Value(itemGroup),
-          itemId: moor.Value(int.parse(itemId)),
+          itemId: moor.Value(itemId),
           description: moor.Value(itemDescription),
           quantity: moor.Value(quantity),
           shippingTotal: moor.Value(0),
           unitPrice: moor.Value(itemPrice),
+          listPrice: moor.Value(0),
+          costPrice: moor.Value(0),
+          conversionFactor: moor.Value(conversionFactor),
+          discountAmount: moor.Value(0),
+          lineDiscountTotal: moor.Value(0),
           subTotal: moor.Value(lineSubTotal),
           taxTotal: moor.Value(0),
           upcCode: moor.Value(upcCode),
+          salesUOM: moor.Value(uom),
+          warehouse: moor.Value(defaultWarehouse),
+          transactionStatus: moor.Value(tempTransactionStatus),
           category: moor.Value(category));
 
       salesOrderDetailTempDao.insertSalesOrderDetail(newLine);
@@ -234,8 +259,23 @@ class AddItemToTransaction {
           uom);
 
       //Calculate Tax
-      calculateTax.getTotalTax(searchText, transactionNumber, "Pending",
-          uom, tenantId, userName, userId, int.parse(itemId), lineSubTotal);
+      if (taxGroup != null) {
+        calculateTax.getTotalTax(
+            searchText,
+            transactionNumber,
+            tempTransactionStatus,
+            uom,
+            tenantId,
+            userName,
+            userId,
+            itemId,
+            customerId,
+            taxGroup,
+            salesDate,
+            lineSubTotal);
+      }
+
+      //ToDo Check if code execute successfull
     } else {
       var searchServer = await businessRuleDao.getSingleBusinessRule("SRCR");
       if (searchServer != null && searchServer.value.contains("Yes")) {

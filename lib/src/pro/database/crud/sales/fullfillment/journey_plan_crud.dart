@@ -21,41 +21,22 @@ class JourneyPlanDao extends DatabaseAccessor<AppDatabase>
   }
 
   // in the database class, we can then load the category for each entry
-  //TODO get customer by pasing the specfic username
   Stream<List<JourneyWithAddress>> watchJourneyWithAddressJoin(
-      String username, String addressType, bool isDelete) {
+      String userName, String addressType, bool isDelete) {
     final query = select(db.journeyPlan).join([
       leftOuterJoin(db.address,
           db.journeyPlan.customerId.equalsExp(db.address.customerId)),
       leftOuterJoin(db.contact,
           db.journeyPlan.customerId.equalsExp(db.contact.customerId))
-    ]);
+    ])
+      ..where(db.address.addressType.equals(addressType) &
+          db.journeyPlan.assignTo.equals(userName) &
+          db.journeyPlan.isDeleted.equals(isDelete));
     return query.watch().map((rows) {
       return rows.map((row) {
         return JourneyWithAddress(row.readTable(db.address),
             row.readTable(db.journeyPlan), row.readTable(db.contact));
       }).toList();
-    });
-  }
-
-  Stream<List<JourneyPlanData>> watchAllJourneyPlanByUserandAddress(
-      String userName) {
-    return customSelect(
-      'SELECT'
-      'j.customer_name,'
-      'j.company_name,'
-      'a.address_line1 '
-      'FROM '
-      'journey_plan j '
-      'left outer join address a on j.customer_id = a.customer_id '
-      'WHERE '
-      'j.is_deleted = 0 '
-      'and j.user_name = $userName ',
-      readsFrom: {
-        db.journeyPlan
-      }, // used for the stream: the stream will update when either table changes
-    ).watch().map((rows) {
-      return rows.map((row) => JourneyPlanData.fromData(row.data, db)).toList();
     });
   }
 

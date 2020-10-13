@@ -28,7 +28,7 @@ class SalesOrderDetail extends Table implements MustHaveTenant, MultiUser {
   RealColumn get discountPercentage => real()();
   RealColumn get discountAmount => real()();
   RealColumn get lineDiscountTotal => real()();
-
+  TextColumn get taxIndicator => text().nullable()();
   RealColumn get unitPrice => real()();
   RealColumn get costPrice => real()();
   RealColumn get listPrice => real()();

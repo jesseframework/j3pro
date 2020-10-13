@@ -9,7 +9,7 @@ import 'package:moor/moor.dart' as moor;
 class CalculateTax {
   double lineTaxTotal;
   double taxRate;
-  String taxGroup = "";
+  String taxIndicator;
   String className = "calculate Taxs";
   var db;
   static final _log = Logger('CalcualteTax');
@@ -39,19 +39,27 @@ class CalculateTax {
       String userName,
       int userId,
       int itemId,
+      String customerId,
+      String taxGroup,
+      DateTime salesDate,
       double lineSubTotal) async {
-    var setTaxGroup = await salesTaxDao.getAllSalesTaxByGroup(taxGroup);
-    taxRate = setTaxGroup[0].accountRate;
+    var setTaxGroup =
+        await salesTaxDao.getAllSalesTaxByGroup(taxGroup, salesDate);
+    if (setTaxGroup.length > 0 && setTaxGroup != null) {
+      _log.finest("Start Tax calculation");
+      taxRate = setTaxGroup[0].accountRate;
+      taxGroup = setTaxGroup[0].taxAccount;
+      taxIndicator = setTaxGroup[0].taxIndicator;
 
-    lineTaxTotal = taxRate / 100 * lineSubTotal;
+      if (taxRate > 0) {
+        lineTaxTotal = taxRate / 100 * lineSubTotal;
 
-    var tax =
-        new SalesOrderDetailTempCompanion(taxTotal: moor.Value(lineTaxTotal));
+        var tax = new SalesOrderDetailTempCompanion(
+            taxTotal: moor.Value(lineTaxTotal), taxGroup: moor.Value(taxGroup));
 
-    salesOrderDetailTempDao.updateInvoiceTotal(
-        tax, transactionNumber, transactionStatus, itemId, salesUom);
-
-    await salesOrderDetailTempDao.updateLineTax(
-        tax, transactionNumber, transactionStatus, itemId, salesUom);
+        await salesOrderDetailTempDao.updateLineTax(
+            tax, transactionNumber, transactionStatus, itemId, salesUom);
+      }
+    }
   }
 }

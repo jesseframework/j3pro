@@ -16,8 +16,12 @@ class SalesTaxDao extends DatabaseAccessor<AppDatabase>
     return (select(db.salesTax).get());
   }
 
-  Future<List<SalesTaxData>> getAllSalesTaxByGroup(String taxGroup) {
-    return (select(db.salesTax)..where((t) => t.taxAccount.equals(taxGroup)))
+  Future<List<SalesTaxData>> getAllSalesTaxByGroup(
+      String taxGroup, DateTime salesDate) {
+    return (select(db.salesTax)
+          ..where((t) =>
+              t.taxAccount.equals(taxGroup) &
+              t.effectiveDate.isBiggerOrEqualValue(salesDate)))
         .get();
   }
 }

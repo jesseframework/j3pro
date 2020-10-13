@@ -9,6 +9,7 @@ class SalesTax extends Table implements MustHaveTenant {
   RealColumn get accountRate => real().nullable()();
   DateTimeColumn get effectiveDate => dateTime()();
   RealColumn get amount => real().nullable()();
+  TextColumn get taxIndicator => text().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};

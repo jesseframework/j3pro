@@ -48,6 +48,7 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
       SalesOrderDetailTempCompanion(
           taxTotal: tax.taxTotal,
           listPrice: tax.listPrice,
+          taxGroup: tax.taxGroup,
           subTotal: tax.subTotal),
     );
   }
@@ -69,13 +70,13 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
   //This section calculate discount
   Stream<List<SalesOrderDetailTempData>> qtyOfItemOnRegister(
       String transactionNumber,
-      String itemId,
+      int itemId,
       String uom,
       String transactionStatus) {
     return customSelect(
         'SELECT '
         ' Sum(quantity) as quantity, '
-        ' Sum(sub_total) as subtotal, '
+        ' Sum(sub_total) as sub_total, '
         ' transaction_number'
         ' FROM sales_order_detail_temp'
         ' where'
@@ -90,7 +91,7 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
         },
         variables: [
           Variable.withString(transactionNumber),
-          Variable.withString(itemId),
+          Variable.withInt(itemId),
           Variable.withString(uom),
           Variable.withString(transactionStatus)
         ]
@@ -110,7 +111,7 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
     return customSelect(
         'SELECT '
         ' Sum(quantity) as quantity, '
-        ' Sum(sub_total) as subtotal, '
+        ' Sum(sub_total) as sub_total, '
         ' transaction_number'
         ' FROM sales_order_detail_temp'
         ' where'
@@ -145,7 +146,7 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
     return customSelect(
         'SELECT '
         ' Sum(quantity) as quantity, '
-        ' Sum(sub_total) as subtotal, '
+        ' Sum(sub_total) as sub_total, '
         ' transaction_number'
         ' FROM sales_order_detail_temp'
         ' where'
