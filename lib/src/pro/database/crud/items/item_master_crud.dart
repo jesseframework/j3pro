@@ -50,11 +50,14 @@ class ItemsDao extends DatabaseAccessor<AppDatabase> with _$ItemsDaoMixin {
   }
 
 //ToDo can be remove using
-  Stream<List<ItemsWithPrices>> watchItemsWithPricesJoin(String searchText) {
+  Stream<List<ItemsWithPrices>> watchItemsWithPricesJoin(String searchText, bool isDelete) {
     final query = select(db.items).join([
       leftOuterJoin(
           db.itemsPrices, db.items.id.equalsExp(db.itemsPrices.itemId)),
-    ]);
+    ])..where(db.items.itemName.contains(searchText) |
+          db.items.itemCode.contains(searchText) |
+          db.items.description.contains(searchText) &
+              db.items.isDeleted.equals(isDelete));
 
     return query.watch().map((rows) {
       return rows.map((row) {

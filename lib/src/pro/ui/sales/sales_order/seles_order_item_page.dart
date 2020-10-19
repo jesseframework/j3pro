@@ -109,7 +109,7 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
                           placeholder: 'Search',
                           onFilterChanged: (search) {
                             setState(() {
-                              searchText = "%" + search + "%";
+                              searchText = search;
                             });
                           },
                           function: (value) {
@@ -179,7 +179,7 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
 
   buildSearchSreeen() {
     return StreamBuilder(
-      stream: widget.itemsDao.watchitemsWithprices(searchText),
+      stream: widget.itemsDao.watchItemsWithPricesJoin(searchText, false),
       builder: (context, snapshot) {
         print(snapshot.data);
         if (snapshot.hasData) {
