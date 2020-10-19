@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:chopper/chopper.dart';
+import 'package:flutter/foundation.dart';
 import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/customer/customer_crud.dart';
@@ -53,7 +54,7 @@ class CategoryRepository {
               _log.finest("Server resopnses successful for category ");
               Map<String, dynamic> result = map['result'];
               var items = (result['items'] as List).map((e) {
-                return CategoryData.fromJson(e, serializer: CustomSerializer());
+                return Categore.fromJson(e, serializer: CustomSerializer());
               });
 
               for (var item in items) {

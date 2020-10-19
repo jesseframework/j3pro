@@ -4,30 +4,30 @@ import 'package:moor/moor.dart';
 
 part 'category_crud.g.dart';
 
-@UseDao(tables: [Category])
+@UseDao(tables: [Categores])
 class CategoryDao extends DatabaseAccessor<AppDatabase>
     with _$CategoryDaoMixin {
   final AppDatabase db;
 
   CategoryDao(this.db) : super(db);
 
-  Future<List<CategoryData>> getAllCategory() {
-    return (select(db.category).get());
+  Future<List<Categore>> getAllCategory() {
+    return (select(db.categores).get());
   }
 
-  Stream<List<CategoryData>> watchAllCategoryByName(String categoryName) {
-    return (select(db.category)..where((t) => t.category.equals(categoryName)))
+  Stream<List<Categore>> watchAllCategoryByName(String categoryName) {
+    return (select(db.categores)..where((t) => t.category.equals(categoryName)))
         .watch();
   }
 
-  Future<List<CategoryData>> getAllCategoryByName(String categoryName) {
-    return (select(db.category)..where((t) => t.category.equals(categoryName)))
+  Future<List<Categore>> getAllCategoryByName(String categoryName) {
+    return (select(db.categores)..where((t) => t.category.equals(categoryName)))
         .get();
   }
 
-  Future<void> createOrUpdateCateory(CategoryData categoryData) {
-    return into(db.category).insertOnConflictUpdate(categoryData);
+  Future<void> createOrUpdateCateory(Categore categoryData) {
+    return into(db.categores).insertOnConflictUpdate(categoryData);
   }
 
-  Future deleteAllCategory() => delete(db.category).go();
+  Future deleteAllCategory() => delete(db.categores).go();
 }

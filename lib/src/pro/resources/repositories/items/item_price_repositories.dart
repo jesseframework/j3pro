@@ -51,7 +51,7 @@ class ItemPriceRepository {
               _log.finest("Server resopnses successful for Item Price ");
               Map<String, dynamic> result = map['result'];
               var items = (result['items'] as List).map((e) {
-                return ItemPriceData.fromJson(e,
+                return ItemsPrice.fromJson(e,
                     serializer: CustomSerializer());
               });
 

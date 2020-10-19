@@ -22522,7 +22522,7 @@ class $ItemsTable extends Items with TableInfo<$ItemsTable, Item> {
   }
 }
 
-class ItemPriceData extends DataClass implements Insertable<ItemPriceData> {
+class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
   final int tenantId;
   final DateTime creationTime;
   final DateTime deleteTime;
@@ -22553,7 +22553,7 @@ class ItemPriceData extends DataClass implements Insertable<ItemPriceData> {
   final bool isDiscountEnable;
   final DateTime validFrom;
   final DateTime validTo;
-  ItemPriceData(
+  ItemsPrice(
       {this.tenantId,
       this.creationTime,
       this.deleteTime,
@@ -22584,8 +22584,7 @@ class ItemPriceData extends DataClass implements Insertable<ItemPriceData> {
       @required this.isDiscountEnable,
       this.validFrom,
       this.validTo});
-  factory ItemPriceData.fromData(
-      Map<String, dynamic> data, GeneratedDatabase db,
+  factory ItemsPrice.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
@@ -22593,7 +22592,7 @@ class ItemPriceData extends DataClass implements Insertable<ItemPriceData> {
     final stringType = db.typeSystem.forDartType<String>();
     final boolType = db.typeSystem.forDartType<bool>();
     final doubleType = db.typeSystem.forDartType<double>();
-    return ItemPriceData(
+    return ItemsPrice(
       tenantId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
       creationTime: dateTimeType
@@ -22750,8 +22749,8 @@ class ItemPriceData extends DataClass implements Insertable<ItemPriceData> {
     return map;
   }
 
-  ItemPriceCompanion toCompanion(bool nullToAbsent) {
-    return ItemPriceCompanion(
+  ItemsPricesCompanion toCompanion(bool nullToAbsent) {
+    return ItemsPricesCompanion(
       tenantId: tenantId == null && nullToAbsent
           ? const Value.absent()
           : Value(tenantId),
@@ -22840,10 +22839,10 @@ class ItemPriceData extends DataClass implements Insertable<ItemPriceData> {
     );
   }
 
-  factory ItemPriceData.fromJson(Map<String, dynamic> json,
+  factory ItemsPrice.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
-    return ItemPriceData(
+    return ItemsPrice(
       tenantId: serializer.fromJson<int>(json['tenantId']),
       creationTime: serializer.fromJson<DateTime>(json['creationTime']),
       deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
@@ -22913,7 +22912,7 @@ class ItemPriceData extends DataClass implements Insertable<ItemPriceData> {
     };
   }
 
-  ItemPriceData copyWith(
+  ItemsPrice copyWith(
           {int tenantId,
           DateTime creationTime,
           DateTime deleteTime,
@@ -22944,7 +22943,7 @@ class ItemPriceData extends DataClass implements Insertable<ItemPriceData> {
           bool isDiscountEnable,
           DateTime validFrom,
           DateTime validTo}) =>
-      ItemPriceData(
+      ItemsPrice(
         tenantId: tenantId ?? this.tenantId,
         creationTime: creationTime ?? this.creationTime,
         deleteTime: deleteTime ?? this.deleteTime,
@@ -22978,7 +22977,7 @@ class ItemPriceData extends DataClass implements Insertable<ItemPriceData> {
       );
   @override
   String toString() {
-    return (StringBuffer('ItemPriceData(')
+    return (StringBuffer('ItemsPrice(')
           ..write('tenantId: $tenantId, ')
           ..write('creationTime: $creationTime, ')
           ..write('deleteTime: $deleteTime, ')
@@ -23059,7 +23058,7 @@ class ItemPriceData extends DataClass implements Insertable<ItemPriceData> {
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
-      (other is ItemPriceData &&
+      (other is ItemsPrice &&
           other.tenantId == this.tenantId &&
           other.creationTime == this.creationTime &&
           other.deleteTime == this.deleteTime &&
@@ -23092,7 +23091,7 @@ class ItemPriceData extends DataClass implements Insertable<ItemPriceData> {
           other.validTo == this.validTo);
 }
 
-class ItemPriceCompanion extends UpdateCompanion<ItemPriceData> {
+class ItemsPricesCompanion extends UpdateCompanion<ItemsPrice> {
   final Value<int> tenantId;
   final Value<DateTime> creationTime;
   final Value<DateTime> deleteTime;
@@ -23123,7 +23122,7 @@ class ItemPriceCompanion extends UpdateCompanion<ItemPriceData> {
   final Value<bool> isDiscountEnable;
   final Value<DateTime> validFrom;
   final Value<DateTime> validTo;
-  const ItemPriceCompanion({
+  const ItemsPricesCompanion({
     this.tenantId = const Value.absent(),
     this.creationTime = const Value.absent(),
     this.deleteTime = const Value.absent(),
@@ -23155,7 +23154,7 @@ class ItemPriceCompanion extends UpdateCompanion<ItemPriceData> {
     this.validFrom = const Value.absent(),
     this.validTo = const Value.absent(),
   });
-  ItemPriceCompanion.insert({
+  ItemsPricesCompanion.insert({
     this.tenantId = const Value.absent(),
     this.creationTime = const Value.absent(),
     this.deleteTime = const Value.absent(),
@@ -23196,7 +23195,7 @@ class ItemPriceCompanion extends UpdateCompanion<ItemPriceData> {
         conversionFactor = Value(conversionFactor),
         actualPoints = Value(actualPoints),
         pricingScheduleNo = Value(pricingScheduleNo);
-  static Insertable<ItemPriceData> custom({
+  static Insertable<ItemsPrice> custom({
     Expression<int> tenantId,
     Expression<DateTime> creationTime,
     Expression<DateTime> deleteTime,
@@ -23263,7 +23262,7 @@ class ItemPriceCompanion extends UpdateCompanion<ItemPriceData> {
     });
   }
 
-  ItemPriceCompanion copyWith(
+  ItemsPricesCompanion copyWith(
       {Value<int> tenantId,
       Value<DateTime> creationTime,
       Value<DateTime> deleteTime,
@@ -23294,7 +23293,7 @@ class ItemPriceCompanion extends UpdateCompanion<ItemPriceData> {
       Value<bool> isDiscountEnable,
       Value<DateTime> validFrom,
       Value<DateTime> validTo}) {
-    return ItemPriceCompanion(
+    return ItemsPricesCompanion(
       tenantId: tenantId ?? this.tenantId,
       creationTime: creationTime ?? this.creationTime,
       deleteTime: deleteTime ?? this.deleteTime,
@@ -23426,7 +23425,7 @@ class ItemPriceCompanion extends UpdateCompanion<ItemPriceData> {
 
   @override
   String toString() {
-    return (StringBuffer('ItemPriceCompanion(')
+    return (StringBuffer('ItemsPricesCompanion(')
           ..write('tenantId: $tenantId, ')
           ..write('creationTime: $creationTime, ')
           ..write('deleteTime: $deleteTime, ')
@@ -23462,11 +23461,11 @@ class ItemPriceCompanion extends UpdateCompanion<ItemPriceData> {
   }
 }
 
-class $ItemPriceTable extends ItemPrice
-    with TableInfo<$ItemPriceTable, ItemPriceData> {
+class $ItemsPricesTable extends ItemsPrices
+    with TableInfo<$ItemsPricesTable, ItemsPrice> {
   final GeneratedDatabase _db;
   final String _alias;
-  $ItemPriceTable(this._db, [this._alias]);
+  $ItemsPricesTable(this._db, [this._alias]);
   final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
   GeneratedIntColumn _tenantId;
   @override
@@ -23883,13 +23882,13 @@ class $ItemPriceTable extends ItemPrice
         validTo
       ];
   @override
-  $ItemPriceTable get asDslTable => this;
+  $ItemsPricesTable get asDslTable => this;
   @override
-  String get $tableName => _alias ?? 'item_price';
+  String get $tableName => _alias ?? 'items_prices';
   @override
-  final String actualTableName = 'item_price';
+  final String actualTableName = 'items_prices';
   @override
-  VerificationContext validateIntegrity(Insertable<ItemPriceData> instance,
+  VerificationContext validateIntegrity(Insertable<ItemsPrice> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -24070,14 +24069,14 @@ class $ItemPriceTable extends ItemPrice
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  ItemPriceData map(Map<String, dynamic> data, {String tablePrefix}) {
+  ItemsPrice map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
-    return ItemPriceData.fromData(data, _db, prefix: effectivePrefix);
+    return ItemsPrice.fromData(data, _db, prefix: effectivePrefix);
   }
 
   @override
-  $ItemPriceTable createAlias(String alias) {
-    return $ItemPriceTable(_db, alias);
+  $ItemsPricesTable createAlias(String alias) {
+    return $ItemsPricesTable(_db, alias);
   }
 }
 
@@ -25713,7 +25712,7 @@ class $ItemPricingRuleTable extends ItemPricingRule
   }
 }
 
-class CategoryData extends DataClass implements Insertable<CategoryData> {
+class Categore extends DataClass implements Insertable<Categore> {
   final int tenantId;
   final DateTime creationTime;
   final DateTime deleteTime;
@@ -25728,7 +25727,7 @@ class CategoryData extends DataClass implements Insertable<CategoryData> {
   final int itemId;
   final String parentCategory;
   final String category;
-  CategoryData(
+  Categore(
       {this.tenantId,
       this.creationTime,
       this.deleteTime,
@@ -25743,14 +25742,14 @@ class CategoryData extends DataClass implements Insertable<CategoryData> {
       @required this.itemId,
       this.parentCategory,
       this.category});
-  factory CategoryData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+  factory Categore.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final stringType = db.typeSystem.forDartType<String>();
     final boolType = db.typeSystem.forDartType<bool>();
-    return CategoryData(
+    return Categore(
       tenantId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
       creationTime: dateTimeType
@@ -25828,8 +25827,8 @@ class CategoryData extends DataClass implements Insertable<CategoryData> {
     return map;
   }
 
-  CategoryCompanion toCompanion(bool nullToAbsent) {
-    return CategoryCompanion(
+  CategoresCompanion toCompanion(bool nullToAbsent) {
+    return CategoresCompanion(
       tenantId: tenantId == null && nullToAbsent
           ? const Value.absent()
           : Value(tenantId),
@@ -25872,10 +25871,10 @@ class CategoryData extends DataClass implements Insertable<CategoryData> {
     );
   }
 
-  factory CategoryData.fromJson(Map<String, dynamic> json,
+  factory Categore.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
-    return CategoryData(
+    return Categore(
       tenantId: serializer.fromJson<int>(json['tenantId']),
       creationTime: serializer.fromJson<DateTime>(json['creationTime']),
       deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
@@ -25913,7 +25912,7 @@ class CategoryData extends DataClass implements Insertable<CategoryData> {
     };
   }
 
-  CategoryData copyWith(
+  Categore copyWith(
           {int tenantId,
           DateTime creationTime,
           DateTime deleteTime,
@@ -25928,7 +25927,7 @@ class CategoryData extends DataClass implements Insertable<CategoryData> {
           int itemId,
           String parentCategory,
           String category}) =>
-      CategoryData(
+      Categore(
         tenantId: tenantId ?? this.tenantId,
         creationTime: creationTime ?? this.creationTime,
         deleteTime: deleteTime ?? this.deleteTime,
@@ -25946,7 +25945,7 @@ class CategoryData extends DataClass implements Insertable<CategoryData> {
       );
   @override
   String toString() {
-    return (StringBuffer('CategoryData(')
+    return (StringBuffer('Categore(')
           ..write('tenantId: $tenantId, ')
           ..write('creationTime: $creationTime, ')
           ..write('deleteTime: $deleteTime, ')
@@ -25997,7 +25996,7 @@ class CategoryData extends DataClass implements Insertable<CategoryData> {
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
-      (other is CategoryData &&
+      (other is Categore &&
           other.tenantId == this.tenantId &&
           other.creationTime == this.creationTime &&
           other.deleteTime == this.deleteTime &&
@@ -26014,7 +26013,7 @@ class CategoryData extends DataClass implements Insertable<CategoryData> {
           other.category == this.category);
 }
 
-class CategoryCompanion extends UpdateCompanion<CategoryData> {
+class CategoresCompanion extends UpdateCompanion<Categore> {
   final Value<int> tenantId;
   final Value<DateTime> creationTime;
   final Value<DateTime> deleteTime;
@@ -26029,7 +26028,7 @@ class CategoryCompanion extends UpdateCompanion<CategoryData> {
   final Value<int> itemId;
   final Value<String> parentCategory;
   final Value<String> category;
-  const CategoryCompanion({
+  const CategoresCompanion({
     this.tenantId = const Value.absent(),
     this.creationTime = const Value.absent(),
     this.deleteTime = const Value.absent(),
@@ -26045,7 +26044,7 @@ class CategoryCompanion extends UpdateCompanion<CategoryData> {
     this.parentCategory = const Value.absent(),
     this.category = const Value.absent(),
   });
-  CategoryCompanion.insert({
+  CategoresCompanion.insert({
     this.tenantId = const Value.absent(),
     this.creationTime = const Value.absent(),
     this.deleteTime = const Value.absent(),
@@ -26061,7 +26060,7 @@ class CategoryCompanion extends UpdateCompanion<CategoryData> {
     this.parentCategory = const Value.absent(),
     this.category = const Value.absent(),
   }) : itemId = Value(itemId);
-  static Insertable<CategoryData> custom({
+  static Insertable<Categore> custom({
     Expression<int> tenantId,
     Expression<DateTime> creationTime,
     Expression<DateTime> deleteTime,
@@ -26096,7 +26095,7 @@ class CategoryCompanion extends UpdateCompanion<CategoryData> {
     });
   }
 
-  CategoryCompanion copyWith(
+  CategoresCompanion copyWith(
       {Value<int> tenantId,
       Value<DateTime> creationTime,
       Value<DateTime> deleteTime,
@@ -26111,7 +26110,7 @@ class CategoryCompanion extends UpdateCompanion<CategoryData> {
       Value<int> itemId,
       Value<String> parentCategory,
       Value<String> category}) {
-    return CategoryCompanion(
+    return CategoresCompanion(
       tenantId: tenantId ?? this.tenantId,
       creationTime: creationTime ?? this.creationTime,
       deleteTime: deleteTime ?? this.deleteTime,
@@ -26179,7 +26178,7 @@ class CategoryCompanion extends UpdateCompanion<CategoryData> {
 
   @override
   String toString() {
-    return (StringBuffer('CategoryCompanion(')
+    return (StringBuffer('CategoresCompanion(')
           ..write('tenantId: $tenantId, ')
           ..write('creationTime: $creationTime, ')
           ..write('deleteTime: $deleteTime, ')
@@ -26199,11 +26198,11 @@ class CategoryCompanion extends UpdateCompanion<CategoryData> {
   }
 }
 
-class $CategoryTable extends Category
-    with TableInfo<$CategoryTable, CategoryData> {
+class $CategoresTable extends Categores
+    with TableInfo<$CategoresTable, Categore> {
   final GeneratedDatabase _db;
   final String _alias;
-  $CategoryTable(this._db, [this._alias]);
+  $CategoresTable(this._db, [this._alias]);
   final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
   GeneratedIntColumn _tenantId;
   @override
@@ -26404,13 +26403,13 @@ class $CategoryTable extends Category
         category
       ];
   @override
-  $CategoryTable get asDslTable => this;
+  $CategoresTable get asDslTable => this;
   @override
-  String get $tableName => _alias ?? 'category';
+  String get $tableName => _alias ?? 'categores';
   @override
-  final String actualTableName = 'category';
+  final String actualTableName = 'categores';
   @override
-  VerificationContext validateIntegrity(Insertable<CategoryData> instance,
+  VerificationContext validateIntegrity(Insertable<Categore> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -26495,14 +26494,14 @@ class $CategoryTable extends Category
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  CategoryData map(Map<String, dynamic> data, {String tablePrefix}) {
+  Categore map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
-    return CategoryData.fromData(data, _db, prefix: effectivePrefix);
+    return Categore.fromData(data, _db, prefix: effectivePrefix);
   }
 
   @override
-  $CategoryTable createAlias(String alias) {
-    return $CategoryTable(_db, alias);
+  $CategoresTable createAlias(String alias) {
+    return $CategoresTable(_db, alias);
   }
 }
 
@@ -32863,13 +32862,13 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $ContactTable get contact => _contact ??= $ContactTable(this);
   $ItemsTable _items;
   $ItemsTable get items => _items ??= $ItemsTable(this);
-  $ItemPriceTable _itemPrice;
-  $ItemPriceTable get itemPrice => _itemPrice ??= $ItemPriceTable(this);
+  $ItemsPricesTable _itemsPrices;
+  $ItemsPricesTable get itemsPrices => _itemsPrices ??= $ItemsPricesTable(this);
   $ItemPricingRuleTable _itemPricingRule;
   $ItemPricingRuleTable get itemPricingRule =>
       _itemPricingRule ??= $ItemPricingRuleTable(this);
-  $CategoryTable _category;
-  $CategoryTable get category => _category ??= $CategoryTable(this);
+  $CategoresTable _categores;
+  $CategoresTable get categores => _categores ??= $CategoresTable(this);
   $ItemGroupsTable _itemGroups;
   $ItemGroupsTable get itemGroups => _itemGroups ??= $ItemGroupsTable(this);
   $PriceListTable _priceList;
@@ -32913,9 +32912,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         address,
         contact,
         items,
-        itemPrice,
+        itemsPrices,
         itemPricingRule,
-        category,
+        categores,
         itemGroups,
         priceList,
         unitOfMeasure,

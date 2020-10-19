@@ -32,7 +32,8 @@ class InventoryItemsDao extends DatabaseAccessor<AppDatabase>
         .getSingle();
   }
 
-  Future<void> createOrUpdateInventoryItems(InventoryItemsCompanion inventoryItem) {
+  Future<void> createOrUpdateInventoryItems(
+      InventoryItemsCompanion inventoryItem) {
     return into(db.inventoryItems).insertOnConflictUpdate(inventoryItem);
   }
 

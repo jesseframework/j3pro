@@ -7,5 +7,5 @@ part of 'item_price_crud.dart';
 // **************************************************************************
 
 mixin _$ItemPriceDaoMixin on DatabaseAccessor<AppDatabase> {
-  $ItemPriceTable get itemPrice => attachedDatabase.itemPrice;
+  $ItemsPricesTable get itemsPrices => attachedDatabase.itemsPrices;
 }

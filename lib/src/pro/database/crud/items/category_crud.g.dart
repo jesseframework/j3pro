@@ -7,5 +7,5 @@ part of 'category_crud.dart';
 // **************************************************************************
 
 mixin _$CategoryDaoMixin on DatabaseAccessor<AppDatabase> {
-  $CategoryTable get category => attachedDatabase.category;
+  $CategoresTable get categores => attachedDatabase.categores;
 }
