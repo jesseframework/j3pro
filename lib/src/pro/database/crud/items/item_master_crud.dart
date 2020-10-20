@@ -50,27 +50,30 @@ class ItemsDao extends DatabaseAccessor<AppDatabase> with _$ItemsDaoMixin {
   }
 
 //ToDo can be remove using
-  Stream<List<ItemsWithPrices>> watchItemsWithPricesJoin(String searchText, bool isDelete) {
-    final query = select(db.items).join([
+  Stream<List<ItemsWithPrices>> watchItemsWithPricesJoin(
+      String searchText, bool isDelete) {
+    final query = select(db.items, distinct: true).join([
       leftOuterJoin(
           db.itemsPrices, db.items.id.equalsExp(db.itemsPrices.itemId)),
-    ])..where(db.items.itemName.contains(searchText) |
+      leftOuterJoin(db.uPCCode, db.items.id.equalsExp(db.uPCCode.itemId)),
+    ])
+      ..where(db.items.itemName.contains(searchText) |
           db.items.itemCode.contains(searchText) |
+          db.uPCCode.upcCode.contains(searchText) |
           db.items.description.contains(searchText) &
               db.items.isDeleted.equals(isDelete));
 
     return query.watch().map((rows) {
       return rows.map((row) {
-        return ItemsWithPrices(
-            row.readTable(db.items), row.readTable(db.itemsPrices));
+        return ItemsWithPrices(row.readTable(db.items),
+            row.readTable(db.itemsPrices), row.readTable(db.uPCCode));
       }).toList();
     });
   }
 
-  Stream<List<ItemsWithPrices>> watchitemsWithprices(
-      String searchText) {
+  Stream<List<ItemsWithPrices>> watchitemsWithprices(String searchText) {
     return customSelect(
-        ' SELECT '
+        ' SELECT distinct'
         ' i.item_name, '
         ' i.item_code, '
         ' i.description, '
@@ -80,19 +83,23 @@ class ItemsDao extends DatabaseAccessor<AppDatabase> with _$ItemsDaoMixin {
         ' p.item_price '
         ' FROM items i '
         ' LEFT OUTER JOIN items_prices p on i.id = p.item_id '
+        ' LEFT OUTER JOIN u_p_c_code c on i.id = c.item_id '
         ' WHERE '
-        ' i.item_code LIKE ? or '
-        ' i.item_name LIKE ? or '
-        ' i.description LIKE ? or '
-        ' i.item_group LIKE ? or '
-        ' i.category LIKE ? or '
-        ' i.uom LIKE ? and '
+        ' i.item_code LIKE ? || "%" or '
+        ' c.upc_code LIKE ? || "%" or '
+        ' i.item_name LIKE ? || "%" or '
+        ' i.description LIKE ? || "%" or '
+        ' i.item_group LIKE ? || "%" or '
+        ' i.category LIKE ? || "%" or '
+        ' i.uom LIKE ? || "%" and '
         ' i.is_deleted = 0; ',
         readsFrom: {
           db.items,
-          db.itemsPrices
+          db.itemsPrices,
+          db.uPCCode
         },
         variables: [
+          Variable.withString(searchText),
           Variable.withString(searchText),
           Variable.withString(searchText),
           Variable.withString(searchText),
@@ -102,7 +109,9 @@ class ItemsDao extends DatabaseAccessor<AppDatabase> with _$ItemsDaoMixin {
         ]).watch().map((rows) {
       return rows
           .map((e) => ItemsWithPrices(
-              Item.fromData(e.data, db), ItemsPrice.fromData(e.data, db)))
+              Item.fromData(e.data, db),
+              ItemsPrice.fromData(e.data, db),
+              UPCCodeData.fromData(e.data, db)))
           .toList();
     });
   }
