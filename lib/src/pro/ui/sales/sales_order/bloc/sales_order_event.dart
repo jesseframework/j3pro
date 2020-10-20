@@ -9,7 +9,7 @@ abstract class SalesOrderEvent extends Equatable {
 }
 
 class AddItemButtonPress extends SalesOrderEvent {
-  final int setQty;
+  final double setQty;
   final String searchText;
   final String itemNumber;
   const AddItemButtonPress(

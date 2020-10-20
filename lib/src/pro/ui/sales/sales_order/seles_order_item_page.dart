@@ -93,7 +93,7 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
                           child: TextField(
                             keyboardType: TextInputType.number,
                             textAlignVertical: TextAlignVertical.center,
-                             controller: _qtyController,
+                            controller: _qtyController,
                             textAlign: TextAlign.center,
                             decoration: new InputDecoration(
                               contentPadding: EdgeInsets.only(
@@ -201,80 +201,78 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ListTile(
-                        
-                title:  Text(
-                                itemsWithPrices[index].item.itemName,
-                                style: TextStyle(
-                                    fontSize: 20,
-                                     ),
+                      title: Text(
+                        itemsWithPrices[index].item.itemName,
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                      leading: Hero(
+                        transitionOnUserGestures: true,
+                        tag: 'mask$index',
+                        child: Container(
+                          alignment: Alignment.topCenter,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage('images/mask.png')),
+                              borderRadius: BorderRadius.circular(5)),
+                          height: 84,
+                          width: 84,
+                        ),
+                      ),
+                      subtitle: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              itemsWithPrices[index].item.itemCode,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
                               ),
-                          leading:Hero(
-                            transitionOnUserGestures: true,
-                            tag: 'mask$index',
-                            child: Container(
-                              alignment: Alignment.topCenter,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage('images/mask.png')),
-                                  borderRadius: BorderRadius.circular(5)),
-                              height: 84,
-                              width: 84,
                             ),
                           ),
-                          
-                          
-                          subtitle: Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment:
-                                CrossAxisAlignment.start,
+                          Flexible(
+                              child: Text(
+                            '${itemsWithPrices[index].item.itemGroup}\n${itemsWithPrices[index].item.category}',
+                            overflow: TextOverflow.ellipsis,
+                          )),
+                          Column(
                             children: [
-                              Flexible(
-                                child: Text(
-                                  itemsWithPrices[index].item.itemCode,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                              Flexible(
-                                  child: Text(
-                                '${itemsWithPrices[index].item.itemGroup}\n${itemsWithPrices[index].item.category}',
+                              Text(
+                                '${itemsWithPrices[index].price.itemPrice.toString()}\$',
                                 overflow: TextOverflow.ellipsis,
-                              )),
-                             
-                              Column(
-                                children: [
-                                  Text(
-                                    '${itemsWithPrices[index].price.itemPrice.toString()}\$',
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                     Text(itemsWithPrices[index].item.uom),
-                                ],
                               ),
-                              Container()
+                              Text(itemsWithPrices[index].item.uom),
                             ],
                           ),
-                          trailing: ClipOval(
-                            child: Material(
-                              color: Colors.green, // button color
-                              child: InkWell(
-                                splashColor: Theme.of(context)
-                                    .primaryColor, // inkwell color
-                                child: SizedBox(
-                                    width: 35,
-                                    height: 35,
-                                    child: Icon(Icons.add)),
-                                onTap: () {
-                                  BlocProvider.of<SalesOrderBloc>(context).add(AddItemButtonPress(searchText: searchText,itemNumber: itemsWithPrices[index].item.itemCode,setQty:int.parse(_qtyController.text.toString() ,
-                                   ) ));
-                                },
-                              ),
-                            ),
+                          Container()
+                        ],
+                      ),
+                      trailing: ClipOval(
+                        child: Material(
+                          color: Colors.green, // button color
+                          child: InkWell(
+                            splashColor:
+                                Theme.of(context).primaryColor, // inkwell color
+                            child: SizedBox(
+                                width: 35, height: 35, child: Icon(Icons.add)),
+                            onTap: () {
+                              BlocProvider.of<SalesOrderBloc>(context).add(
+                                  AddItemButtonPress(
+                                      searchText: searchText,
+                                      itemNumber:
+                                          itemsWithPrices[index].item.itemCode,
+                                      setQty: double.parse(
+                                        _qtyController.text.toString(),
+                                      )));
+                            },
                           ),
                         ),
+                      ),
+                    ),
                   ),
                 ),
                 children: [
@@ -515,7 +513,6 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
                               height: 35,
                               width: 35,
                               child: TextField(
-                               
                                 textAlignVertical: TextAlignVertical.center,
                                 // controller: controller,
                                 textAlign: TextAlign.center,
