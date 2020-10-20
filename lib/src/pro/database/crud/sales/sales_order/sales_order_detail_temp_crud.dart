@@ -14,6 +14,20 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
     return (select(db.salesOrderDetailTemp).get());
   }
 
+  Future<List<SalesOrderDetailTempData>> getAllSalesOrderForUpdate(
+      String transactionNumber,
+      String transactionStatus,
+      int itemId,
+      String salesUom) {
+    return (select(db.salesOrderDetailTemp)
+          ..where((t) =>
+              t.transactionNumber.equals(transactionNumber) &
+              t.transactionStatus.equals(transactionStatus) &
+              t.itemId.equals(itemId) &
+              t.salesUOM.equals(salesUom)))
+        .get();
+  }
+
   Future updateInvoiceTotal(
       SalesOrderDetailTempCompanion tempOrder,
       String transactionNumber,
@@ -32,7 +46,7 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
     );
   }
 
-    Future updateLineItem(
+  Future updateLineItem(
       SalesOrderDetailTempCompanion tempOrder,
       String transactionNumber,
       String transactionStatus,

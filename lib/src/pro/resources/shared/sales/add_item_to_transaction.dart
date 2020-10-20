@@ -207,38 +207,52 @@ class AddItemToTransaction {
       //ToDo Calculate return price, return deposit, deposit and selling deposit
       lineSubTotal = itemPrice * quantity;
 
-      //Add New Line
-      var newLine = new SalesOrderDetailTempCompanion(
-          transactionNumber: moor.Value(tempSalesOrderNo),
-          inventoryCycleNumber: moor.Value(tempInventoryCycle),
-          daySessionNumber: moor.Value(tempDaySessionNumber),
-          deliveryDate: moor.Value(deliveryDate),
-          currency: moor.Value(currency),
-          exchangeRate: moor.Value(exchangeRate),
-          tenantId: moor.Value(tenantId),
-          userId: moor.Value(userId),
-          userName: moor.Value(currency),
-          itemCode: moor.Value(itemCode),
-          itemGroup: moor.Value(itemGroup),
-          itemId: moor.Value(itemId),
-          description: moor.Value(itemDescription),
+      //Update Quantity on Line Item
+      var onRegister = await salesOrderDetailTempDao.getAllSalesOrderForUpdate(
+          transactionNumber, transactionStatus, itemId, uom);
+      if (onRegister.length > 0 && onRegister != null) {
+        var lineUpdate = new SalesOrderDetailTempCompanion(
           quantity: moor.Value(quantity),
           shippingTotal: moor.Value(0),
-          unitPrice: moor.Value(itemPrice),
           listPrice: moor.Value(0),
-          costPrice: moor.Value(0),
-          conversionFactor: moor.Value(conversionFactor),
-          discountAmount: moor.Value(0),
-          lineDiscountTotal: moor.Value(0),
           subTotal: moor.Value(lineSubTotal),
-          taxTotal: moor.Value(0),
-          upcCode: moor.Value(upcCode),
-          salesUOM: moor.Value(uom),
-          warehouse: moor.Value(defaultWarehouse),
-          transactionStatus: moor.Value(tempTransactionStatus),
-          category: moor.Value(category));
+        );
+        salesOrderDetailTempDao.updateLineItem(
+            lineUpdate, transactionNumber, transactionStatus, itemId, uom);
+      } else {
+        //Add New Line
+        var newLine = new SalesOrderDetailTempCompanion(
+            transactionNumber: moor.Value(tempSalesOrderNo),
+            inventoryCycleNumber: moor.Value(tempInventoryCycle),
+            daySessionNumber: moor.Value(tempDaySessionNumber),
+            deliveryDate: moor.Value(deliveryDate),
+            currency: moor.Value(currency),
+            exchangeRate: moor.Value(exchangeRate),
+            tenantId: moor.Value(tenantId),
+            userId: moor.Value(userId),
+            userName: moor.Value(currency),
+            itemCode: moor.Value(itemCode),
+            itemGroup: moor.Value(itemGroup),
+            itemId: moor.Value(itemId),
+            description: moor.Value(itemDescription),
+            quantity: moor.Value(quantity),
+            shippingTotal: moor.Value(0),
+            unitPrice: moor.Value(itemPrice),
+            listPrice: moor.Value(0),
+            costPrice: moor.Value(0),
+            conversionFactor: moor.Value(conversionFactor),
+            discountAmount: moor.Value(0),
+            lineDiscountTotal: moor.Value(0),
+            subTotal: moor.Value(lineSubTotal),
+            taxTotal: moor.Value(0),
+            upcCode: moor.Value(upcCode),
+            salesUOM: moor.Value(uom),
+            warehouse: moor.Value(defaultWarehouse),
+            transactionStatus: moor.Value(tempTransactionStatus),
+            category: moor.Value(category));
 
-      salesOrderDetailTempDao.insertSalesOrderDetail(newLine);
+        salesOrderDetailTempDao.insertSalesOrderDetail(newLine);
+      }
 
       //Check for discount
       calculateDiscount.getDiscount(
