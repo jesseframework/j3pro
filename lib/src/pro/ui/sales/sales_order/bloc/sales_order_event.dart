@@ -8,17 +8,19 @@ abstract class SalesOrderEvent extends Equatable {
 
 }
 
-class AddItemToSalesOrderButtonPress extends SalesOrderEvent {
+class AddItemButtonPress extends SalesOrderEvent {
   final int setQty;
   final String searchText;
-  const AddItemToSalesOrderButtonPress(
-      {@required this.searchText, @required this.setQty});
+  final String itemNumber;
+  const AddItemButtonPress(
+      {@required this.searchText, @required this.setQty,@required this.itemNumber});
 
   @override
-  List<Object> get props => [searchText, setQty];
+  List<Object> get props => [searchText, setQty,itemNumber];
 
   @override
   String toString() =>
       'AddItemToSalesOrderButtonPress { searchText: $searchText, '
-      'setQty: $setQty';
+      'setQty: $setQty,' 'itemNuber:$itemNumber';
 }
+ 

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/items/item_master_crud.dart';
 import 'package:j3enterprise/src/pro/models/items/ItemsWithPrices.dart';
+import 'package:j3enterprise/src/pro/ui/sales/sales_order/bloc/sales_order_bloc.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_checkout_page.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_item_detail_page.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
@@ -24,7 +26,7 @@ class SalesOrderItemPage extends StatefulWidget {
 }
 
 class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
-  TextEditingController controller = TextEditingController(text: '1');
+  TextEditingController _qtyController = TextEditingController(text: '1');
 
   String searchText = '';
   bool searchFoused = false;
@@ -89,8 +91,9 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
                           alignment: Alignment.center,
                           width: 35,
                           child: TextField(
+                            keyboardType: TextInputType.number,
                             textAlignVertical: TextAlignVertical.center,
-                            // controller: controller,
+                             controller: _qtyController,
                             textAlign: TextAlign.center,
                             decoration: new InputDecoration(
                               contentPadding: EdgeInsets.only(
@@ -197,150 +200,64 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
                       : Theme.of(context).cardColor.withOpacity(0.1),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              bottom: 12,
-                            ),
-                            child: Hero(
-                              transitionOnUserGestures: true,
-                              tag: 'mask$index',
-                              child: Container(
-                                alignment: Alignment.topCenter,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: AssetImage('images/mask.png')),
-                                    borderRadius: BorderRadius.circular(5)),
-                                height: 84,
-                                width: 84,
+                    child: ListTile(
+                        
+                title:  Text(
+                                itemsWithPrices[index].item.itemName,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                     ),
                               ),
+                          leading:Hero(
+                            transitionOnUserGestures: true,
+                            tag: 'mask$index',
+                            child: Container(
+                              alignment: Alignment.topCenter,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage('images/mask.png')),
+                                  borderRadius: BorderRadius.circular(5)),
+                              height: 84,
+                              width: 84,
                             ),
                           ),
-                          Expanded(
-                            child: Container(
-                              margin: EdgeInsets.only(left: 10),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                          
+                          
+                          subtitle: Row(
+                            mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  itemsWithPrices[index].item.itemCode,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              Flexible(
+                                  child: Text(
+                                '${itemsWithPrices[index].item.itemGroup}\n${itemsWithPrices[index].item.category}',
+                                overflow: TextOverflow.ellipsis,
+                              )),
+                             
+                              Column(
                                 children: [
                                   Text(
-                                    itemsWithPrices[index].item.itemName,
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
+                                    '${itemsWithPrices[index].price.itemPrice.toString()}\$',
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Flexible(
-                                        child: Text(
-                                          itemsWithPrices[index].item.itemCode,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ),
-                                      Flexible(
-                                          child: Text(
-                                        '${itemsWithPrices[index].item.itemGroup}\n${itemsWithPrices[index].item.category}',
-                                        overflow: TextOverflow.ellipsis,
-                                      )),
-                                      Column(
-                                        children: [
-                                          Text(itemsWithPrices[index].item.uom),
-                                          Row(
-                                            children: [
-                                              ClipOval(
-                                                child: Material(
-                                                  color: Colors
-                                                      .red, // button color
-                                                  child: InkWell(
-                                                    splashColor: Theme.of(
-                                                            context)
-                                                        .primaryColor, // inkwell color
-                                                    child: SizedBox(
-                                                        width: 25,
-                                                        height: 25,
-                                                        child:
-                                                            Icon(Icons.remove)),
-                                                    onTap: () {},
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 8),
-                                                child: Container(
-                                                    alignment: Alignment.center,
-                                                    height: 30,
-                                                    width: 30,
-                                                    child: TextField(
-                                                      controller: controller,
-                                                      textAlignVertical:
-                                                          TextAlignVertical
-                                                              .center,
-                                                      // controller: controller,
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      decoration:
-                                                          new InputDecoration(
-                                                        contentPadding:
-                                                            EdgeInsets.only(
-                                                          bottom: 25 /
-                                                              2, // HERE THE IMPORTANT PART
-                                                        ),
-                                                        border: new OutlineInputBorder(
-                                                            borderSide:
-                                                                new BorderSide(
-                                                                    color: Colors
-                                                                        .teal)),
-                                                      ),
-                                                    )),
-                                              ),
-                                              ClipOval(
-                                                child: Material(
-                                                  color: Colors
-                                                      .green, // button color
-                                                  child: InkWell(
-                                                    splashColor: Theme.of(
-                                                            context)
-                                                        .primaryColor, // inkwell color
-                                                    child: SizedBox(
-                                                        width: 25,
-                                                        height: 25,
-                                                        child: Icon(Icons.add)),
-                                                    onTap: () {},
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      Flexible(
-                                        child: Text(
-                                          '${itemsWithPrices[index].price.itemPrice.toString()}\$',
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                      Container()
-                                    ],
-                                  ),
+                                     Text(itemsWithPrices[index].item.uom),
                                 ],
                               ),
-                            ),
+                              Container()
+                            ],
                           ),
-                          ClipOval(
+                          trailing: ClipOval(
                             child: Material(
                               color: Colors.green, // button color
                               child: InkWell(
@@ -350,11 +267,14 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
                                     width: 35,
                                     height: 35,
                                     child: Icon(Icons.add)),
-                                onTap: () {},
+                                onTap: () {
+                                  BlocProvider.of<SalesOrderBloc>(context).add(AddItemButtonPress(searchText: searchText,itemNumber: itemsWithPrices[index].item.itemCode,setQty:int.parse(_qtyController.text.toString() ,
+                                   ) ));
+                                },
                               ),
                             ),
                           ),
-                        ]),
+                        ),
                   ),
                 ),
                 children: [
@@ -595,7 +515,7 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
                               height: 35,
                               width: 35,
                               child: TextField(
-                                controller: controller,
+                               
                                 textAlignVertical: TextAlignVertical.center,
                                 // controller: controller,
                                 textAlign: TextAlign.center,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/customer/address_crud.dart';
 import 'package:j3enterprise/src/pro/models/sales/fullfillment/jounery_with_address.dart';
+import 'package:j3enterprise/src/pro/ui/sales/sales_order/seles_order_form_page.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/seles_order_item_page.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
@@ -39,7 +40,7 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
           InkWell(
             onTap: () {
               Navigator.push(
-                  context, EnterExitRoute(enterPage: SalesOrderItemPage()));
+                  context, EnterExitRoute(enterPage: SalesOrderFormPage()));
             },
             child: Row(
               children: [
