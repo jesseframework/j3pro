@@ -50,13 +50,14 @@ class SalesOrderBloc extends Bloc<SalesOrderEvent, SalesOrderState> {
     DateTime deliveryDate;
     String currency = "";
     double exchangeRate = 0;
-    int tenantId = 0;
+    String customerId = "";
 
     mapDevicePref = await userSharedData.getUserSharedPref();
     String userName = mapDevicePref['userName'];
     String userId = mapDevicePref['userId'];
     String deviceID = mapDevicePref['deviceID'];
     String screen = mapDevicePref['screen'];
+    String tenantId = mapDevicePref['tenantId'];
 
     var temNumbers = await tempNumberLogsDao.getAllSeriesNumberByType();
     for (var numbs in temNumbers) {
@@ -108,7 +109,7 @@ class SalesOrderBloc extends Bloc<SalesOrderEvent, SalesOrderState> {
       } else {
         setQty = 1;
       }
-      _addItemToTransaction.getItem(
+      var result = _addItemToTransaction.getItem(
           setQty,
           getItemNumber,
           tempSalesOrderNo,
@@ -118,9 +119,13 @@ class SalesOrderBloc extends Bloc<SalesOrderEvent, SalesOrderState> {
           deliveryDate,
           currency,
           exchangeRate,
-          tenantId,
+          int.tryParse(tenantId),
           userName,
           int.tryParse(userId));
+
+      if (result != null) {
+        print(result);
+      }
     }
 
     _log.finest('Bloc SalesOrder mapEventToState call');

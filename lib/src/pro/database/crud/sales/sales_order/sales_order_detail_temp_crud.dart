@@ -60,7 +60,7 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
               t.salesUOM.equals(salesUom)))
         .write(
       SalesOrderDetailTempCompanion(
-          listPrice: tempOrder.listPrice, subTotal: tempOrder.subTotal),
+          listPrice: tempOrder.listPrice, subTotal: tempOrder.subTotal, quantity: tempOrder.quantity),
     );
   }
 
@@ -86,9 +86,13 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
   }
 
   Stream<List<SalesOrderDetailTempData>> watchAllSalesOrderDetail(
-      String orderNo) {
+      String transactionNumber, String transactionStatus) {
     return (select(db.salesOrderDetailTemp)
-          ..where((t) => t.transactionNumber.contains(orderNo)))
+          ..orderBy(
+              [(t) => OrderingTerm(expression: t.id, mode: OrderingMode.desc)])
+          ..where((t) =>
+              t.transactionNumber.equals(transactionNumber) &
+              t.transactionStatus.equals(transactionStatus)))
         .watch();
   }
 
@@ -195,6 +199,37 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
           Variable.withString(transactionNumber),
           Variable.withString(category),
           Variable.withString(uom),
+          Variable.withString(transactionStatus)
+        ]
+        // used for the stream: the stream will update when either table changes
+        ).watch().map((rows) {
+      return rows
+          .map((row) => SalesOrderDetailTempData.fromData(row.data, db))
+          .toList();
+    });
+  }
+
+  Stream<List<SalesOrderDetailTempData>> transactionTotal(
+      String transactionNumber, String transactionStatus) {
+    return customSelect(
+        ' SELECT '
+        ' sum(sub_total) as sub_total, '
+        ' sum(tax_total) as tax_total, '
+        ' sum(line_discount_total) as line_discount_total, '
+        ' sum(shipping_total) as shipping_total, '
+        ' count(*) as itemcount, '
+        ' transaction_number '
+        ' FROM '
+        ' sales_order_detail_temp '
+        ' WHERE transaction_number = ? '
+        ' AND transaction_status = ? '
+        ' GROUP BY '
+        ' transaction_number ',
+        readsFrom: {
+          db.salesOrderDetailTemp
+        },
+        variables: [
+          Variable.withString(transactionNumber),
           Variable.withString(transactionStatus)
         ]
         // used for the stream: the stream will update when either table changes

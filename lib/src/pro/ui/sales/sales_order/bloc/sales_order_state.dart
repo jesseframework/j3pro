@@ -13,6 +13,18 @@ class SalesOrderItemFound extends SalesOrderState {}
 
 class SalesOrderItemNotFound extends SalesOrderState {}
 
+class SalesOrderSuccess extends SalesOrderState {
+  //final BackgroundJobScheduleCompanion data;
+  final userMessage;
+  const SalesOrderSuccess({@required this.userMessage});
+
+  @override
+  List<Object> get props => [userMessage];
+
+  @override
+  String toString() => 'SalesOrderSuccess { userMessage: $userMessage }';
+}
+
 class SalesOrderFailure extends SalesOrderState {
   final String error;
 
