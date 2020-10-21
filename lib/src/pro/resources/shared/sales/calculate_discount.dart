@@ -85,8 +85,11 @@ class CalculateDiscount {
     salesOrderDetailTempDao
         .qtyOfItemOnRegister(transactionNumber, itemId, uom, transactionStatus)
         .listen((e) {
-      numOfItemOnRegister = e.single.quantity;
-      minPurchaseOfItemOnRegister = e.single.subTotal;
+          if(e.length > 0){
+            numOfItemOnRegister = e.single.quantity;
+            minPurchaseOfItemOnRegister = e.single.subTotal;
+          }
+
     });
 
     //qty.map((e) => e.single.quantity).listen(print, onError: (e, s) => print('Got error $e at $s'));
@@ -95,16 +98,20 @@ class CalculateDiscount {
         .qtyOfItemGroupOnRegister(
             transactionNumber, itemGroup, uom, transactionStatus)
         .listen((e) {
-      numOfItemGroupOnRegister = e.single.quantity;
-      minPurchaseOfItemGroupOnRegister = e.single.subTotal;
+      if(e.length > 0) {
+        numOfItemGroupOnRegister = e.single.quantity;
+        minPurchaseOfItemGroupOnRegister = e.single.subTotal;
+      }
     });
 
     salesOrderDetailTempDao
         .qtyOfBrandOnRegister(
             transactionNumber, category, uom, transactionStatus)
         .listen((e) {
-      numOfcategoryOnRegister = e.single.quantity;
-      minPurchaseOfBrandOnRegister = e.single.subTotal;
+      if(e.length > 0) {
+        numOfcategoryOnRegister = e.single.quantity;
+        minPurchaseOfBrandOnRegister = e.single.subTotal;
+      }
     });
 
     bool isActive = true;

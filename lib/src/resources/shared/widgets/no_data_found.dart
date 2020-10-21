@@ -25,16 +25,14 @@ class BuildOnNoData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-      return Expanded(
-        child: Center(
-          child: Text(
-            message,
-            style: TextStyle(
-                fontStyle: FontStyle.italic,
-                color: Colors.black45,
-                fontWeight: FontWeight.w800,
-                fontSize: 25),
-          ),
+      return Center(
+        child: Text(
+          message,
+          style: TextStyle(
+              fontStyle: FontStyle.italic,
+              color: Colors.black45,
+              fontWeight: FontWeight.w800,
+              fontSize: 25),
         ),
       );
     }
