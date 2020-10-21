@@ -8,6 +8,7 @@ import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_item_detai
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dart';
+import 'package:j3enterprise/src/resources/shared/widgets/no_data_found.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
 
 class NewSalesOrderdetail extends StatefulWidget {
@@ -150,37 +151,55 @@ class _NewSalesOrderdetailState extends State<NewSalesOrderdetail> {
                 ),
               ),
             ),
-            ExpansionTile(
-              title: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Grand Total:",
-                    style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
-                  ),
-                  Text(
-                    "\$20,000",
-                    style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
-                  ),
-                ],
-              ),
-              children: [
-                buildGrandTotalListTile('Subtotal:', "\$17,000.00"),
-                buildGrandTotalListTile('Deposit:', "\$0.00"),
-                buildGrandTotalListTile('Discount:', "\$0.00"),
-                buildGrandTotalListTile('Shipping:', "\$450.00"),
-                buildGrandTotalListTile('Tax:', "\$2,550.00"),
-                buildGrandTotalListTile('Item Count:', "4"),
-                buildGrandTotalListTile('Grand Total:', "\$20,000.00"),
-              ],
-            ),
+         buildBottomSheet()
           ],
         ),
       ),
     );
   }
+ buildBottomSheet(){
+    return StreamBuilder(
+      stream: widget.salesOrderDetailTempDao.transactionTotal('1001010011', 'Pending'),
+      builder: (context,snapshot){
+        if(snapshot.hasData){
+        List<SalesOrderDetailTempData> totalData=snapshot.data;
 
+             return ExpansionTile(
+               title: Row(
+                 crossAxisAlignment: CrossAxisAlignment.start,
+                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                 children: [
+                   Text(
+                     "Grand Total:",
+                     style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
+                   ),
+                   Text(
+                     totalData.isNotEmpty?'\$ ${totalData[0].subTotal.toString()}':'\$0',
+                     style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
+                   ),
+                 ],
+               ),
+               children:[
+                 buildGrandTotalListTile('Subtotal:', totalData.isNotEmpty?'\$ ${totalData[0].subTotal.toString()}':'\$0'),
+                 buildGrandTotalListTile('Deposit:',totalData.isNotEmpty?'\$ ${0}':'\$0'),
+                 buildGrandTotalListTile('Discount:', totalData.isNotEmpty?'\$ ${totalData[0].lineDiscountTotal.toString()}':'\$0'),
+                 buildGrandTotalListTile('Shipping:',totalData.isNotEmpty? '\$ ${totalData[0].shippingTotal.toString()}':'\$0'),
+                 buildGrandTotalListTile('Tax:', totalData.isNotEmpty?'\$ ${totalData[0].taxTotal.toString()}':'\$0'),
+                 buildGrandTotalListTile('Item Count:',totalData.isNotEmpty? '\$ ${0}':'\$0'),
+                 buildGrandTotalListTile('Grand Total:', totalData.isNotEmpty?'\$ ${totalData[0].subTotal.toString()}':'\$0'),
+
+               ]
+
+
+             );
+
+
+        }
+        return BuildProgressIndicator();
+      },
+    );
+
+ }
   buildSearchSreeen() {
     return StreamBuilder(
       stream: widget.itemsDao.watchItemsWithPricesJoin(searchText, false),

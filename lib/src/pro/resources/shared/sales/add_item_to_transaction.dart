@@ -255,22 +255,22 @@ class AddItemToTransaction {
       }
 
       //Check for discount
-      calculateDiscount.getDiscount(
-          itemId,
-          uom,
-          customerId,
-          tempSalesOrderNo,
-          tempTransactionStatus,
-          itemGroup,
-          itemCode,
-          itemName,
-          category,
-          territory,
-          partner,
-          priceList,
-          itemPrice,
-          quantity,
-          uom);
+      // calculateDiscount.getDiscount(
+      //     itemId,
+      //     uom,
+      //     customerId,
+      //     tempSalesOrderNo,
+      //     tempTransactionStatus,
+      //     itemGroup,
+      //     itemCode,
+      //     itemName,
+      //     category,
+      //     territory,
+      //     partner,
+      //     priceList,
+      //     itemPrice,
+      //     quantity,
+      //     uom);
 
       //Calculate Tax
       if (taxGroup != null) {
