@@ -177,19 +177,19 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
                      style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
                    ),
                    Text(
-                     totalData.isNotEmpty?'\$ ${totalData[0].subTotal.toString()}':'\$0',
+                     totalData.isNotEmpty?'\$ ${totalData[0].grandTotal.toString()}':'\$0',
                      style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
                    ),
                  ],
                ),
                children:[
                  buildGrandTotalListTile('Subtotal:', totalData.isNotEmpty?'\$ ${totalData[0].subTotal.toString()}':'\$0'),
-                 buildGrandTotalListTile('Deposit:',totalData.isNotEmpty?'\$ ${0}':'\$0'),
+                 buildGrandTotalListTile('Deposit:',totalData.isNotEmpty?'\$ ${totalData[0].depositTotal.toString()}':'\$0'),
                  buildGrandTotalListTile('Discount:', totalData.isNotEmpty?'\$ ${totalData[0].lineDiscountTotal.toString()}':'\$0'),
                  buildGrandTotalListTile('Shipping:',totalData.isNotEmpty? '\$ ${totalData[0].shippingTotal.toString()}':'\$0'),
                  buildGrandTotalListTile('Tax:', totalData.isNotEmpty?'\$ ${totalData[0].taxTotal.toString()}':'\$0'),
-                 buildGrandTotalListTile('Item Count:',totalData.isNotEmpty? '\$ ${0}':'\$0'),
-                 buildGrandTotalListTile('Grand Total:', totalData.isNotEmpty?'\$ ${totalData[0].subTotal.toString()}':'\$0'),
+                 buildGrandTotalListTile('Item Count:',totalData.isNotEmpty? '\$ ${totalData[0].itemCount.toString()}':'\$0'),
+                 buildGrandTotalListTile('Grand Total:', totalData.isNotEmpty?'\$ ${totalData[0].grandTotal.toString()}':'\$0'),
 
                ]
 
