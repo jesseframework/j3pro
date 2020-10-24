@@ -24,9 +24,15 @@ class JourneyPlanPage extends StatefulWidget {
   _JourneyPlanPageState createState() => _JourneyPlanPageState();
 }
 
+<<<<<<< HEAD:lib/src/pro/ui/service_activities/journey_plan_page.dart
 class _JourneyPlanPageState extends State<JourneyPlanPage> {
+||||||| merged common ancestors:lib/src/pro/ui/service_activities/service_activities_page.dart
+class _ServiceActivitiesPageState extends State<ServiceActivitiesPage> {
+=======
+class _ServiceActivitiesPageState extends State<ServiceActivitiesPage> {
 
 
+>>>>>>> JF #250 counter is fixed:lib/src/pro/ui/service_activities/service_activities_page.dart
   String userName;
   @override
   void didChangeDependencies() async {
@@ -40,6 +46,43 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD:lib/src/pro/ui/service_activities/journey_plan_page.dart
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(AppLocalization.of(context)
+                  .translate('journey_plan_appbar_title') ??
+              "Journey Plan"),
+        ),
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      height: 35,
+                      child: ListFilter(
+                          placeholder: 'Search', onFilterChanged: (search) {}),
+||||||| merged common ancestors:lib/src/pro/ui/service_activities/service_activities_page.dart
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(AppLocalization.of(context)
+                  .translate('service_activities_appbar_title') ??
+              "Service Activities"),
+        ),
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      height: 35,
+                      child: ListFilter(
+                          placeholder: 'Search', onFilterChanged: (search) {}),
+=======
 
     return  BlocProvider(
         create: (context)=>SalesOrderBloc(),
@@ -47,8 +90,8 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
       child: Scaffold(
           appBar: AppBar(
             title: Text(AppLocalization.of(context)
-                  .translate('journey_plan_appbar_title') ??
-              "Journey Plan"),
+                    .translate('service_activities_appbar_title') ??
+                "Service Activities"),
           ),
           body: Column(
             children: [
@@ -62,6 +105,7 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
                         child: ListFilter(
                             placeholder: 'Search', onFilterChanged: (search) {}),
                       ),
+>>>>>>> JF #250 counter is fixed:lib/src/pro/ui/service_activities/service_activities_page.dart
                     ),
                   ],
                 ),

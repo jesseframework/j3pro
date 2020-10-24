@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/items/item_master_crud.dart';
@@ -33,6 +34,7 @@ class _NewSalesOrderdetailState extends State<NewSalesOrderdetail> {
 
   String searchText = '';
   bool searchFoused = false;
+  int itemCount=0;
 
   @override
   void initState() {
@@ -51,26 +53,41 @@ class _NewSalesOrderdetailState extends State<NewSalesOrderdetail> {
               "New Sales Order Detail"),
           actions: [
             InkWell(
+              onTap: () {
+                Navigator.push(
+                    context, SizeRoute(page: SalesOrderCheckOutPage()));
+              },
               child: Row(
                 children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context, SizeRoute(page: SalesOrderCheckOutPage()));
-                    },
-                    child: Text(
-                      "Checkout",
-                      style: TextStyle(fontSize: 20),
-                    ),
+                  Text(
+                    "Checkout",
+                    style: TextStyle(fontSize: 20),
                   ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Icon(Icons.shopping_cart)
+    StreamBuilder(
+    stream: widget.salesOrderDetailTempDao.transactionTotal('1001010011', 'Pending'),
+    builder: (context,snapshot){
+    if(snapshot.hasData) {
+      List<SalesOrderDetailTempData> totalData = snapshot.data;
+      return Badge(
+          badgeContent: Text(totalData[0].itemCount.toString()),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 8),
+            child: Icon(Icons.shopping_cart),
+          ));
+    }
+    return Badge(
+        badgeContent: Text(itemCount.toString()),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4,vertical: 4),
+          child: Icon(Icons.shopping_cart),
+        ));
+    }),
+
+                  SizedBox(width: 5,)
                 ],
               ),
             ),
-            IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
+            Icon(Icons.more_vert),
           ],
         ),
         body: Column(
@@ -143,7 +160,7 @@ class _NewSalesOrderdetailState extends State<NewSalesOrderdetail> {
               child: AnimatedSwitcher(
                 duration: Duration(milliseconds: 300),
                 child: searchFoused == true
-                    ? buildSearchSreeen()
+                    ? buildSearchScreeen()
                     : buildItemList(),
                 transitionBuilder: (widget, animation) => ScaleTransition(
                   scale: animation,
@@ -163,6 +180,9 @@ class _NewSalesOrderdetailState extends State<NewSalesOrderdetail> {
       builder: (context,snapshot){
         if(snapshot.hasData){
         List<SalesOrderDetailTempData> totalData=snapshot.data;
+        // setState(() {
+        //   itemCount=totalData[0].itemCount.toInt();
+        // });
 
              return ExpansionTile(
                title: Row(
@@ -200,7 +220,8 @@ class _NewSalesOrderdetailState extends State<NewSalesOrderdetail> {
     );
 
  }
-  buildSearchSreeen() {
+  buildSearchScreeen() {
+
     return StreamBuilder(
       stream: widget.itemsDao.watchItemsWithPricesJoin(searchText, false),
       builder: (context, snapshot) {
@@ -479,6 +500,7 @@ class _NewSalesOrderdetailState extends State<NewSalesOrderdetail> {
                             child: SizedBox(
                                 width: 35, height: 35, child: Icon(Icons.add)),
                             onTap: () {
+                              print(salesOderBloc.getCusID);
                               BlocProvider.of<SalesOrderBloc>(context).add(
                                   AddItemButtonPress(
                                       searchText: searchText,

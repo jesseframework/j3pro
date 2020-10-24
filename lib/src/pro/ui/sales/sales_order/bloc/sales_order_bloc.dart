@@ -15,6 +15,18 @@ part 'sales_order_event.dart';
 part 'sales_order_state.dart';
 
 class SalesOrderBloc extends Bloc<SalesOrderEvent, SalesOrderState> {
+
+String customerId='';
+
+
+void setId({String cusID}){
+  customerId=cusID;
+
+}
+get getCusID=>customerId;
+
+
+
   static final _log = Logger('SalesOrderBloc');
   var db;
   TempNumberLogsDao tempNumberLogsDao;
@@ -133,3 +145,4 @@ class SalesOrderBloc extends Bloc<SalesOrderEvent, SalesOrderState> {
     }
   }
 }
+final salesOderBloc= SalesOrderBloc();
