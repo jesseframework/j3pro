@@ -29,9 +29,9 @@ class AddItemToTransaction {
   String stockUOM;
   String uom;
   String defaultWarehouse;
-  String inventoryCycleNumber;
-  String transactionNumber;
-  String transactionStatus;
+  // String inventoryCycleNumber;
+  // String transactionNumber;
+  // String transactionStatus;
   String priceList;
   String standardPriceList;
   String customerId;
@@ -168,7 +168,7 @@ class AddItemToTransaction {
             await inventoryItemsDao.getAllInventoryByCode(itemCode);
         if (trackInventory != null && trackInventory.length > 0) {
           var addInvItem = await addItemToWarehouse.addItemToWarehouse(itemCode,
-              itemName, stockUOM, defaultWarehouse, inventoryCycleNumber);
+              itemName, stockUOM, defaultWarehouse, tempInventoryCycle);
           if (addInvItem == "Success") {
             result =
                 "Item is now added to your warehouse. Please try selling item againg";
@@ -209,16 +209,16 @@ class AddItemToTransaction {
 
       //Update Quantity on Line Item
       var onRegister = await salesOrderDetailTempDao.getAllSalesOrderForUpdate(
-          transactionNumber, transactionStatus, itemId, uom);
+          tempSalesOrderNo, tempTransactionStatus, itemId, uom);
       if (onRegister.length > 0 && onRegister != null) {
         var lineUpdate = new SalesOrderDetailTempCompanion(
-          quantity: moor.Value(quantity),
+          quantity: moor.Value(quantity + onRegister.single.quantity),
           shippingTotal: moor.Value(0),
-          listPrice: moor.Value(0),
-          subTotal: moor.Value(lineSubTotal),
+          listPrice: moor.Value(itemPrice),
+          subTotal: moor.Value(itemPrice * (quantity + onRegister.single.quantity)),
         );
         salesOrderDetailTempDao.updateLineItem(
-            lineUpdate, transactionNumber, transactionStatus, itemId, uom);
+            lineUpdate, tempSalesOrderNo, tempTransactionStatus, itemId, uom);
       } else {
         //Add New Line
         var newLine = new SalesOrderDetailTempCompanion(
@@ -238,7 +238,7 @@ class AddItemToTransaction {
             quantity: moor.Value(quantity),
             shippingTotal: moor.Value(0),
             unitPrice: moor.Value(itemPrice),
-            listPrice: moor.Value(0),
+            listPrice: moor.Value(itemPrice),
             costPrice: moor.Value(0),
             conversionFactor: moor.Value(conversionFactor),
             discountAmount: moor.Value(0),
@@ -259,7 +259,7 @@ class AddItemToTransaction {
           itemId,
           uom,
           customerId,
-          transactionNumber,
+          tempSalesOrderNo,
           tempTransactionStatus,
           itemGroup,
           itemCode,
@@ -276,7 +276,7 @@ class AddItemToTransaction {
       if (taxGroup != null) {
         calculateTax.getTotalTax(
             searchText,
-            transactionNumber,
+            tempSalesOrderNo,
             tempTransactionStatus,
             uom,
             tenantId,

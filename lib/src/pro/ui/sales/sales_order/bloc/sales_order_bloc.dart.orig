@@ -3,17 +3,11 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-<<<<<<< HEAD
-||||||| merged common ancestors
-import 'package:j3enterprise/src/pro/resources/shared/sales/add_item_to_transaction.dart';
-=======
 import 'package:j3enterprise/src/database/crud/business_rule/business_rule_crud.dart';
 import 'package:j3enterprise/src/database/crud/business_rule/non_global_business_rule_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/series_number/temp_number_log_crud.dart';
-import 'package:j3enterprise/src/pro/resources/shared/sales/add_item_to_transaction.dart';
 import 'package:j3enterprise/src/resources/shared/preferences/user_share_data.dart';
->>>>>>> JG # Add code in bloc for add item
 import 'package:logging/logging.dart';
 
 part 'sales_order_event.dart';
@@ -21,16 +15,7 @@ part 'sales_order_state.dart';
 
 class SalesOrderBloc extends Bloc<SalesOrderEvent, SalesOrderState> {
   static final _log = Logger('SalesOrderBloc');
-<<<<<<< HEAD
-  SalesOrderBloc();
-||||||| merged common ancestors
-  AddItemToTransaction _addItemToTransaction;
-  SalesOrderBloc(){
-    _addItemToTransaction=AddItemToTransaction();
-  }
-=======
   var db;
-  AddItemToTransaction _addItemToTransaction;
   TempNumberLogsDao tempNumberLogsDao;
   BusinessRuleDao businessRuleDao;
   NonGlobalBusinessRuleDao nonGlobalBusinessRuleDao;
@@ -44,8 +29,6 @@ class SalesOrderBloc extends Bloc<SalesOrderEvent, SalesOrderState> {
     nonGlobalBusinessRuleDao = new NonGlobalBusinessRuleDao(db);
 
     userSharedData = new UserSharedData();
-  }
->>>>>>> JG # Add code in bloc for add item
 
   @override
   SalesOrderState get initialState => SalesOrderInitial();
@@ -54,14 +37,6 @@ class SalesOrderBloc extends Bloc<SalesOrderEvent, SalesOrderState> {
   Stream<SalesOrderState> mapEventToState(
     SalesOrderEvent event,
   ) async* {
-<<<<<<< HEAD
-||||||| merged common ancestors
-    if(event is AddItemButtonPress){
-    _addItemToTransaction.getItem(
-      , searchText, tempSalesOrderNo, tempTransactionStatus, tempInventoryCycle, tempDaySessionNumber, deliveryDate, currency, exchangeRate, tenantId, userName, userId);
-    }
-    
-=======
     _log.finest("decelear varable for temp number");
     String tempSalesOrderNo = "";
     String tempInventoryCycle = "";
@@ -72,13 +47,14 @@ class SalesOrderBloc extends Bloc<SalesOrderEvent, SalesOrderState> {
     DateTime deliveryDate;
     String currency = "";
     double exchangeRate = 0;
-    int tenantId = 0;
+    String customerId = "";
 
     mapDevicePref = await userSharedData.getUserSharedPref();
     String userName = mapDevicePref['userName'];
     String userId = mapDevicePref['userId'];
     String deviceID = mapDevicePref['deviceID'];
     String screen = mapDevicePref['screen'];
+    String tenantId = mapDevicePref['tenantId'];
 
     var temNumbers = await tempNumberLogsDao.getAllSeriesNumberByType();
     for (var numbs in temNumbers) {
@@ -130,7 +106,7 @@ class SalesOrderBloc extends Bloc<SalesOrderEvent, SalesOrderState> {
       } else {
         setQty = 1;
       }
-      _addItemToTransaction.getItem(
+      var result = _addItemToTransaction.getItem(
           setQty,
           getItemNumber,
           tempSalesOrderNo,
@@ -140,12 +116,20 @@ class SalesOrderBloc extends Bloc<SalesOrderEvent, SalesOrderState> {
           deliveryDate,
           currency,
           exchangeRate,
-          tenantId,
+          int.tryParse(tenantId),
           userName,
           int.tryParse(userId));
+<<<<<<< HEAD
+||||||| merged common ancestors
     }
+=======
 
+      if (result != null) {
+        print(result);
+      }
+    }
 >>>>>>> JG # Add code in bloc for add item
+
     _log.finest('Bloc SalesOrder mapEventToState call');
     try {} catch (e) {
       _log.shout(e, StackTrace.current);

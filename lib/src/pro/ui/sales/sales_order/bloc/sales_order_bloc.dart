@@ -7,6 +7,7 @@ import 'package:j3enterprise/src/database/crud/business_rule/business_rule_crud.
 import 'package:j3enterprise/src/database/crud/business_rule/non_global_business_rule_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/series_number/temp_number_log_crud.dart';
+import 'package:j3enterprise/src/pro/resources/shared/sales/add_item_to_transaction.dart';
 import 'package:j3enterprise/src/resources/shared/preferences/user_share_data.dart';
 import 'package:logging/logging.dart';
 
@@ -47,13 +48,14 @@ class SalesOrderBloc extends Bloc<SalesOrderEvent, SalesOrderState> {
     DateTime deliveryDate;
     String currency = "";
     double exchangeRate = 0;
-    int tenantId = 0;
+    String customerId = "";
 
     mapDevicePref = await userSharedData.getUserSharedPref();
     String userName = mapDevicePref['userName'];
     String userId = mapDevicePref['userId'];
     String deviceID = mapDevicePref['deviceID'];
     String screen = mapDevicePref['screen'];
+    String tenantId = mapDevicePref['tenantId'];
 
     var temNumbers = await tempNumberLogsDao.getAllSeriesNumberByType();
     for (var numbs in temNumbers) {
@@ -105,7 +107,7 @@ class SalesOrderBloc extends Bloc<SalesOrderEvent, SalesOrderState> {
       } else {
         setQty = 1;
       }
-      _addItemToTransaction.getItem(
+      var result = _addItemToTransaction.getItem(
           setQty,
           getItemNumber,
           tempSalesOrderNo,
@@ -115,9 +117,13 @@ class SalesOrderBloc extends Bloc<SalesOrderEvent, SalesOrderState> {
           deliveryDate,
           currency,
           exchangeRate,
-          tenantId,
+          int.tryParse(tenantId),
           userName,
           int.tryParse(userId));
+
+      if (result != null) {
+        print(result);
+      }
 
     _log.finest('Bloc SalesOrder mapEventToState call');
     try {} catch (e) {
