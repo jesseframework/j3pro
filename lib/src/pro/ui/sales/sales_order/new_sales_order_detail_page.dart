@@ -9,21 +9,21 @@ import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
 
-class SalesOrderItemPage extends StatefulWidget {
+class NewSalesOrderdetail extends StatefulWidget {
   static final route = '/SalesOrderItemPage';
   var db;
 
   ItemsDao itemsDao;
 
-  SalesOrderItemPage() {
+  NewSalesOrderdetail() {
     db = AppDatabase();
     itemsDao = ItemsDao(db);
   }
   @override
-  _SalesOrderItemPageState createState() => _SalesOrderItemPageState();
+  _NewSalesOrderdetailState createState() => _NewSalesOrderdetailState();
 }
 
-class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
+class _NewSalesOrderdetailState extends State<NewSalesOrderdetail> {
   TextEditingController controller = TextEditingController(text: '1');
 
   String searchText = '';
@@ -42,8 +42,8 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
       body: Scaffold(
         appBar: AppBar(
           title: Text(AppLocalization.of(context)
-                  .translate('sales_order_appbar_title') ??
-              "Sales Order"),
+                  .translate('new_sales_order_detail_appbar_title') ??
+              "New Sales Order Detail"),
           actions: [
             InkWell(
               child: Row(
@@ -350,7 +350,10 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
                                     width: 35,
                                     height: 35,
                                     child: Icon(Icons.add)),
-                                onTap: () {},
+                                onTap: () {
+                                  
+
+                                },
                               ),
                             ),
                           ),
