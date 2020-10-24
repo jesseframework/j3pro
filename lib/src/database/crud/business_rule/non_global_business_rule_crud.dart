@@ -33,6 +33,18 @@ class NonGlobalBusinessRuleDao extends DatabaseAccessor<AppDatabase>
     return (select(db.businessRule).get());
   }
 
+   Future<NonGlobalBusinessRuleData> getSingleNonGlobalBusinessRule(String parentCode,
+      String code, String userName, String deviceId, String screen) {
+    return (select(db.nonGlobalBusinessRule)
+          ..where((u) =>
+              u.code.equals(code) &
+              u.parentCode.equals(parentCode) &
+              (u.userName.like(userName) |
+                  u.deviceId.like(deviceId) |
+                  u.screen.like(screen))))
+        .getSingle();
+  }
+
   Stream<List<NonGlobalBusinessRuleData>> watchAllNonGlobalBussinessRule(
       String parentCode) {
     return (select(db.nonGlobalBusinessRule)

@@ -89,6 +89,8 @@ class CalculateDiscount {
       minPurchaseOfItemOnRegister = e.single.subTotal;
     });
 
+    //qty.map((e) => e.single.quantity).listen(print, onError: (e, s) => print('Got error $e at $s'));
+
     salesOrderDetailTempDao
         .qtyOfItemGroupOnRegister(
             transactionNumber, itemGroup, uom, transactionStatus)

@@ -90,7 +90,13 @@ class _NewSalesOrderdetailState extends State<NewSalesOrderdetail> {
                           width: 35,
                           child: TextField(
                             textAlignVertical: TextAlignVertical.center,
+<<<<<<< HEAD:lib/src/pro/ui/sales/sales_order/new_sales_order_detail_page.dart
+                            // controller: controller,
+||||||| merged common ancestors:lib/src/pro/ui/sales/sales_order/seles_order_item_page.dart
+                             controller: _qtyController,
+=======
                             controller: _qtyController,
+>>>>>>> JG # Add code in bloc for add item:lib/src/pro/ui/sales/sales_order/seles_order_item_page.dart
                             textAlign: TextAlign.center,
                             decoration: new InputDecoration(
                               contentPadding: EdgeInsets.only(
@@ -197,113 +203,36 @@ class _NewSalesOrderdetailState extends State<NewSalesOrderdetail> {
                       : Theme.of(context).cardColor.withOpacity(0.1),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                            textAlign: TextAlign.center,
-                            decoration: new InputDecoration(
-                              contentPadding: EdgeInsets.only(
-                                bottom: 25 / 2, // HERE THE IMPORTANT PART
-                              ),
-                              border: new OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                  borderSide:
-                                      new BorderSide(color: Colors.teal)),
-                            ),
-                          )),
-                    ),
-                    Expanded(
-                      child: Container(
-                        child: ListFilter(
-                          placeholder: 'Search',
-                          onFilterChanged: (search) {
-                            setState(() {
-                              searchText = search;
-                            });
-                          },
-                          function: (value) {
-                            setState(() {
-                              if (searchFoused != value) {
-                                searchFoused = value;
-                              }
-                              print(searchFoused);
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: InkWell(
-                        child: Image.asset('images/bar_code.png'),
-                        onTap: () {},
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: AnimatedSwitcher(
-                duration: Duration(milliseconds: 300),
-                child: searchFoused == true
-                    ? buildSearchSreeen()
-                    : buildItemList(),
-                transitionBuilder: (widget, animation) => ScaleTransition(
-                  scale: animation,
-                  child: widget,
-                ),
-              ),
-            ),
-            ExpansionTile(
-              title: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Grand Total:",
-                    style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
-                  ),
-                  Text(
-                    "\$20,000",
-                    style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
-                  ),
-                ],
-              ),
-              children: [
-                buildGrandTotalListTile('Subtotal:', "\$17,000.00"),
-                buildGrandTotalListTile('Deposit:', "\$0.00"),
-                buildGrandTotalListTile('Discount:', "\$0.00"),
-                buildGrandTotalListTile('Shipping:', "\$450.00"),
-                buildGrandTotalListTile('Tax:', "\$2,550.00"),
-                buildGrandTotalListTile('Item Count:', "4"),
-                buildGrandTotalListTile('Grand Total:', "\$20,000.00"),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  buildSearchSreeen() {
-    return StreamBuilder(
-      stream: widget.itemsDao.watchItemsWithPricesJoin(searchText, false),
-      builder: (context, snapshot) {
-        print(snapshot.data);
-        if (snapshot.hasData) {
-          List<ItemsWithPrices> itemsWithPrices = snapshot.data;
-
-          return ListView.builder(
-            key: UniqueKey(),
-            itemCount: itemsWithPrices.length,
-            itemBuilder: (context, index) {
-              return ExpansionTile(
-                tilePadding: EdgeInsets.zero,
-                title: Container(
-                  color: (index % 2 == 0)
-                      ? Theme.of(context).primaryColor.withOpacity(0.1)
-                      : Theme.of(context).cardColor.withOpacity(0.1),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+<<<<<<< HEAD:lib/src/pro/ui/sales/sales_order/new_sales_order_detail_page.dart
                     child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              bottom: 12,
+                            ),
+                            child: Hero(
+                              transitionOnUserGestures: true,
+                              tag: 'mask$index',
+                              child: Container(
+                                alignment: Alignment.topCenter,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage('images/mask.png')),
+                                    borderRadius: BorderRadius.circular(5)),
+                                height: 84,
+                                width: 84,
+||||||| merged common ancestors:lib/src/pro/ui/sales/sales_order/seles_order_item_page.dart
+                    child: ListTile(
+                        
+                title:  Text(
+                                itemsWithPrices[index].item.itemName,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                     ),
+=======
+                    child: ListTile(
                       title: Text(
                         itemsWithPrices[index].item.itemName,
                         style: TextStyle(
@@ -323,7 +252,22 @@ class _NewSalesOrderdetailState extends State<NewSalesOrderdetail> {
                           width: 84,
                         ),
                       ),
+                      subtitle: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              itemsWithPrices[index].item.itemCode,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+>>>>>>> JG # Add code in bloc for add item:lib/src/pro/ui/sales/sales_order/seles_order_item_page.dart
+                              ),
+                            ),
                           ),
+<<<<<<< HEAD:lib/src/pro/ui/sales/sales_order/new_sales_order_detail_page.dart
                           Expanded(
                             child: Container(
                               margin: EdgeInsets.only(left: 10),
@@ -434,20 +378,109 @@ class _NewSalesOrderdetailState extends State<NewSalesOrderdetail> {
                                       ),
                                       Flexible(
                                         child: Text(
+                                          '${itemsWithPrices[index].price.itemPrice.toString()}\$',
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                      Container()
+                                    ],
+                                  ),
+                                ],
+||||||| merged common ancestors:lib/src/pro/ui/sales/sales_order/seles_order_item_page.dart
+                          
+                          
+                          subtitle: Row(
+                            mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  itemsWithPrices[index].item.itemCode,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              Flexible(
+                                  child: Text(
+                                '${itemsWithPrices[index].item.itemGroup}\n${itemsWithPrices[index].item.category}',
+                                overflow: TextOverflow.ellipsis,
+                              )),
+                             
+                              Column(
+                                children: [
+                                  Text(
+                                    '${itemsWithPrices[index].price.itemPrice.toString()}\$',
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                     Text(itemsWithPrices[index].item.uom),
+                                ],
+=======
+                          Flexible(
+                              child: Text(
+                            '${itemsWithPrices[index].item.itemGroup}\n${itemsWithPrices[index].item.category}',
+                            overflow: TextOverflow.ellipsis,
+                          )),
+                          Column(
+                            children: [
+                              Text(
                                 '${itemsWithPrices[index].price.itemPrice.toString()}\$',
                                 overflow: TextOverflow.ellipsis,
+>>>>>>> JG # Add code in bloc for add item:lib/src/pro/ui/sales/sales_order/seles_order_item_page.dart
                               ),
+<<<<<<< HEAD:lib/src/pro/ui/sales/sales_order/new_sales_order_detail_page.dart
+                            ),
+||||||| merged common ancestors:lib/src/pro/ui/sales/sales_order/seles_order_item_page.dart
+                              Container()
+                            ],
+=======
                               Text(itemsWithPrices[index].item.uom),
                             ],
+>>>>>>> JG # Add code in bloc for add item:lib/src/pro/ui/sales/sales_order/seles_order_item_page.dart
                           ),
+<<<<<<< HEAD:lib/src/pro/ui/sales/sales_order/new_sales_order_detail_page.dart
+                          ClipOval(
+                            child: Material(
+                              color: Colors.green, // button color
+                              child: InkWell(
+                                splashColor: Theme.of(context)
+                                    .primaryColor, // inkwell color
+                                child: SizedBox(
+                                    width: 35,
+                                    height: 35,
+                                    child: Icon(Icons.add)),
+                                onTap: () {
+                                  
+
+                                },
+                              ),
+                            ),
+||||||| merged common ancestors:lib/src/pro/ui/sales/sales_order/seles_order_item_page.dart
+                          trailing: ClipOval(
+                            child: Material(
+                              color: Colors.green, // button color
+                              child: InkWell(
+                                splashColor: Theme.of(context)
+                                    .primaryColor, // inkwell color
+                                child: SizedBox(
+                                    width: 35,
+                                    height: 35,
+                                    child: Icon(Icons.add)),
+                                onTap: () {
+                                  BlocProvider.of<SalesOrderBloc>(context).add(AddItemButtonPress(searchText: searchText,itemNumber: itemsWithPrices[index].item.itemCode,setQty:int.parse(_qtyController.text.toString() ,
+                                   ) ));
+                                },
+                              ),
+                            ),
+=======
                           Container()
                         ],
                       ),
                       trailing: ClipOval(
-                              ),
-                            ),
-                          ),
-                          ClipOval(
                         child: Material(
                           color: Colors.green, // button color
                           child: InkWell(
@@ -465,10 +498,17 @@ class _NewSalesOrderdetailState extends State<NewSalesOrderdetail> {
                                         _qtyController.text.toString(),
                                       )));
                             },
+>>>>>>> JG # Add code in bloc for add item:lib/src/pro/ui/sales/sales_order/seles_order_item_page.dart
                           ),
+<<<<<<< HEAD:lib/src/pro/ui/sales/sales_order/new_sales_order_detail_page.dart
+                        ]),
+||||||| merged common ancestors:lib/src/pro/ui/sales/sales_order/seles_order_item_page.dart
+                        ),
+=======
                         ),
                       ),
                     ),
+>>>>>>> JG # Add code in bloc for add item:lib/src/pro/ui/sales/sales_order/seles_order_item_page.dart
                   ),
                 ),
                 children: [
@@ -709,7 +749,12 @@ class _NewSalesOrderdetailState extends State<NewSalesOrderdetail> {
                               height: 35,
                               width: 35,
                               child: TextField(
+<<<<<<< HEAD:lib/src/pro/ui/sales/sales_order/new_sales_order_detail_page.dart
                                 controller: controller,
+||||||| merged common ancestors:lib/src/pro/ui/sales/sales_order/seles_order_item_page.dart
+                               
+=======
+>>>>>>> JG # Add code in bloc for add item:lib/src/pro/ui/sales/sales_order/seles_order_item_page.dart
                                 textAlignVertical: TextAlignVertical.center,
                                 // controller: controller,
                                 textAlign: TextAlign.center,

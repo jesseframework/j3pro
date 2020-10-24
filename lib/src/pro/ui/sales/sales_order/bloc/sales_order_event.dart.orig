@@ -8,9 +8,16 @@ abstract class SalesOrderEvent extends Equatable {
 
 }
 
+<<<<<<< HEAD
 class AddItemToSalesOrderButtonPress extends SalesOrderEvent {
+  final int setQty;
+||||||| merged common ancestors
+class AddItemButtonPress extends SalesOrderEvent {
+  final int setQty;
+=======
 class AddItemButtonPress extends SalesOrderEvent {
   final double setQty;
+>>>>>>> JG # Add code in bloc for add item
   final String searchText;
   const AddItemToSalesOrderButtonPress(
       {@required this.searchText, @required this.setQty});
