@@ -42,7 +42,11 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
               t.salesUOM.equals(salesUom)))
         .write(
       SalesOrderDetailTempCompanion(
-          listPrice: tempOrder.listPrice, subTotal: tempOrder.subTotal),
+          listPrice: tempOrder.listPrice,
+          subTotal: tempOrder.subTotal,
+          lineDiscountTotal: tempOrder.lineDiscountTotal,
+          discountAmount: tempOrder.discountAmount,
+          discountPercentage: tempOrder.discountPercentage),
     );
   }
 
@@ -60,7 +64,10 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
               t.salesUOM.equals(salesUom)))
         .write(
       SalesOrderDetailTempCompanion(
-          listPrice: tempOrder.listPrice, subTotal: tempOrder.subTotal, quantity: tempOrder.quantity),
+          listPrice: tempOrder.listPrice,
+          subTotal: tempOrder.subTotal,
+          shippingTotal: tempOrder.shippingTotal,
+          quantity: tempOrder.quantity),
     );
   }
 
@@ -94,6 +101,23 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
               t.transactionNumber.equals(transactionNumber) &
               t.transactionStatus.equals(transactionStatus)))
         .watch();
+  }
+
+  Future updateInvoiceGrandTotal(
+      SalesOrderDetailTempCompanion tempOrder,
+      String transactionNumber,
+      String transactionStatus,
+      int itemId,
+      String salesUom) {
+    return (update(db.salesOrderDetailTemp)
+          ..where((t) =>
+              t.transactionNumber.equals(transactionNumber) &
+              t.transactionStatus.equals(transactionStatus) &
+              t.itemId.equals(itemId) &
+              t.salesUOM.equals(salesUom)))
+        .write(
+      SalesOrderDetailTempCompanion(grandTotal: tempOrder.grandTotal),
+    );
   }
 
   Future insertSalesOrderDetail(
@@ -217,7 +241,9 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
         ' sum(tax_total) as tax_total, '
         ' sum(line_discount_total) as line_discount_total, '
         ' sum(shipping_total) as shipping_total, '
-        ' count(*) as itemcount, '
+        ' sum(grand_total) as grand_total, '
+        ' sum(deposit_total) as deposit_total, '
+        ' count(*) as item_count, '
         ' transaction_number '
         ' FROM '
         ' sales_order_detail_temp '

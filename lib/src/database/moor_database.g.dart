@@ -9939,6 +9939,10 @@ class SalesOrderHeaderData extends DataClass
   final String discountType;
   final double discountPercentage;
   final double discountAmount;
+  final double latitude;
+  final double longitude;
+  final DateTime transactionStart;
+  final DateTime transactionEnd;
   SalesOrderHeaderData(
       {this.tenantId,
       @required this.userName,
@@ -9970,7 +9974,11 @@ class SalesOrderHeaderData extends DataClass
       @required this.grandTotal,
       @required this.discountType,
       @required this.discountPercentage,
-      @required this.discountAmount});
+      @required this.discountAmount,
+      this.latitude,
+      this.longitude,
+      this.transactionStart,
+      this.transactionEnd});
   factory SalesOrderHeaderData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -10041,6 +10049,14 @@ class SalesOrderHeaderData extends DataClass
           data['${effectivePrefix}discount_percentage']),
       discountAmount: doubleType
           .mapFromDatabaseResponse(data['${effectivePrefix}discount_amount']),
+      latitude: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}latitude']),
+      longitude: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}longitude']),
+      transactionStart: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}transaction_start']),
+      transactionEnd: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}transaction_end']),
     );
   }
   @override
@@ -10139,6 +10155,18 @@ class SalesOrderHeaderData extends DataClass
     if (!nullToAbsent || discountAmount != null) {
       map['discount_amount'] = Variable<double>(discountAmount);
     }
+    if (!nullToAbsent || latitude != null) {
+      map['latitude'] = Variable<double>(latitude);
+    }
+    if (!nullToAbsent || longitude != null) {
+      map['longitude'] = Variable<double>(longitude);
+    }
+    if (!nullToAbsent || transactionStart != null) {
+      map['transaction_start'] = Variable<DateTime>(transactionStart);
+    }
+    if (!nullToAbsent || transactionEnd != null) {
+      map['transaction_end'] = Variable<DateTime>(transactionEnd);
+    }
     return map;
   }
 
@@ -10233,6 +10261,18 @@ class SalesOrderHeaderData extends DataClass
       discountAmount: discountAmount == null && nullToAbsent
           ? const Value.absent()
           : Value(discountAmount),
+      latitude: latitude == null && nullToAbsent
+          ? const Value.absent()
+          : Value(latitude),
+      longitude: longitude == null && nullToAbsent
+          ? const Value.absent()
+          : Value(longitude),
+      transactionStart: transactionStart == null && nullToAbsent
+          ? const Value.absent()
+          : Value(transactionStart),
+      transactionEnd: transactionEnd == null && nullToAbsent
+          ? const Value.absent()
+          : Value(transactionEnd),
     );
   }
 
@@ -10275,6 +10315,10 @@ class SalesOrderHeaderData extends DataClass
       discountPercentage:
           serializer.fromJson<double>(json['discountPercentage']),
       discountAmount: serializer.fromJson<double>(json['discountAmount']),
+      latitude: serializer.fromJson<double>(json['latitude']),
+      longitude: serializer.fromJson<double>(json['longitude']),
+      transactionStart: serializer.fromJson<DateTime>(json['transactionStart']),
+      transactionEnd: serializer.fromJson<DateTime>(json['transactionEnd']),
     );
   }
   @override
@@ -10312,6 +10356,10 @@ class SalesOrderHeaderData extends DataClass
       'discountType': serializer.toJson<String>(discountType),
       'discountPercentage': serializer.toJson<double>(discountPercentage),
       'discountAmount': serializer.toJson<double>(discountAmount),
+      'latitude': serializer.toJson<double>(latitude),
+      'longitude': serializer.toJson<double>(longitude),
+      'transactionStart': serializer.toJson<DateTime>(transactionStart),
+      'transactionEnd': serializer.toJson<DateTime>(transactionEnd),
     };
   }
 
@@ -10346,7 +10394,11 @@ class SalesOrderHeaderData extends DataClass
           double grandTotal,
           String discountType,
           double discountPercentage,
-          double discountAmount}) =>
+          double discountAmount,
+          double latitude,
+          double longitude,
+          DateTime transactionStart,
+          DateTime transactionEnd}) =>
       SalesOrderHeaderData(
         tenantId: tenantId ?? this.tenantId,
         userName: userName ?? this.userName,
@@ -10379,6 +10431,10 @@ class SalesOrderHeaderData extends DataClass
         discountType: discountType ?? this.discountType,
         discountPercentage: discountPercentage ?? this.discountPercentage,
         discountAmount: discountAmount ?? this.discountAmount,
+        latitude: latitude ?? this.latitude,
+        longitude: longitude ?? this.longitude,
+        transactionStart: transactionStart ?? this.transactionStart,
+        transactionEnd: transactionEnd ?? this.transactionEnd,
       );
   @override
   String toString() {
@@ -10413,7 +10469,11 @@ class SalesOrderHeaderData extends DataClass
           ..write('grandTotal: $grandTotal, ')
           ..write('discountType: $discountType, ')
           ..write('discountPercentage: $discountPercentage, ')
-          ..write('discountAmount: $discountAmount')
+          ..write('discountAmount: $discountAmount, ')
+          ..write('latitude: $latitude, ')
+          ..write('longitude: $longitude, ')
+          ..write('transactionStart: $transactionStart, ')
+          ..write('transactionEnd: $transactionEnd')
           ..write(')'))
         .toString();
   }
@@ -10461,7 +10521,7 @@ class SalesOrderHeaderData extends DataClass
                                                                               .hashCode,
                                                                           $mrjc(
                                                                               billingAddressName.hashCode,
-                                                                              $mrjc(shippingAddressName.hashCode, $mrjc(yourInitial.hashCode, $mrjc(subTotal.hashCode, $mrjc(taxTotal.hashCode, $mrjc(depositTotal.hashCode, $mrjc(discountTotal.hashCode, $mrjc(shippingTotal.hashCode, $mrjc(itemCount.hashCode, $mrjc(grandTotal.hashCode, $mrjc(discountType.hashCode, $mrjc(discountPercentage.hashCode, discountAmount.hashCode)))))))))))))))))))))))))))))));
+                                                                              $mrjc(shippingAddressName.hashCode, $mrjc(yourInitial.hashCode, $mrjc(subTotal.hashCode, $mrjc(taxTotal.hashCode, $mrjc(depositTotal.hashCode, $mrjc(discountTotal.hashCode, $mrjc(shippingTotal.hashCode, $mrjc(itemCount.hashCode, $mrjc(grandTotal.hashCode, $mrjc(discountType.hashCode, $mrjc(discountPercentage.hashCode, $mrjc(discountAmount.hashCode, $mrjc(latitude.hashCode, $mrjc(longitude.hashCode, $mrjc(transactionStart.hashCode, transactionEnd.hashCode)))))))))))))))))))))))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -10496,7 +10556,11 @@ class SalesOrderHeaderData extends DataClass
           other.grandTotal == this.grandTotal &&
           other.discountType == this.discountType &&
           other.discountPercentage == this.discountPercentage &&
-          other.discountAmount == this.discountAmount);
+          other.discountAmount == this.discountAmount &&
+          other.latitude == this.latitude &&
+          other.longitude == this.longitude &&
+          other.transactionStart == this.transactionStart &&
+          other.transactionEnd == this.transactionEnd);
 }
 
 class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
@@ -10531,6 +10595,10 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
   final Value<String> discountType;
   final Value<double> discountPercentage;
   final Value<double> discountAmount;
+  final Value<double> latitude;
+  final Value<double> longitude;
+  final Value<DateTime> transactionStart;
+  final Value<DateTime> transactionEnd;
   const SalesOrderHeaderCompanion({
     this.tenantId = const Value.absent(),
     this.userName = const Value.absent(),
@@ -10563,6 +10631,10 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
     this.discountType = const Value.absent(),
     this.discountPercentage = const Value.absent(),
     this.discountAmount = const Value.absent(),
+    this.latitude = const Value.absent(),
+    this.longitude = const Value.absent(),
+    this.transactionStart = const Value.absent(),
+    this.transactionEnd = const Value.absent(),
   });
   SalesOrderHeaderCompanion.insert({
     this.tenantId = const Value.absent(),
@@ -10596,6 +10668,10 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
     @required String discountType,
     @required double discountPercentage,
     @required double discountAmount,
+    this.latitude = const Value.absent(),
+    this.longitude = const Value.absent(),
+    this.transactionStart = const Value.absent(),
+    this.transactionEnd = const Value.absent(),
   })  : userName = Value(userName),
         userId = Value(userId),
         transactionNumber = Value(transactionNumber),
@@ -10650,6 +10726,10 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
     Expression<String> discountType,
     Expression<double> discountPercentage,
     Expression<double> discountAmount,
+    Expression<double> latitude,
+    Expression<double> longitude,
+    Expression<DateTime> transactionStart,
+    Expression<DateTime> transactionEnd,
   }) {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
@@ -10686,6 +10766,10 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
       if (discountType != null) 'discount_type': discountType,
       if (discountPercentage != null) 'discount_percentage': discountPercentage,
       if (discountAmount != null) 'discount_amount': discountAmount,
+      if (latitude != null) 'latitude': latitude,
+      if (longitude != null) 'longitude': longitude,
+      if (transactionStart != null) 'transaction_start': transactionStart,
+      if (transactionEnd != null) 'transaction_end': transactionEnd,
     });
   }
 
@@ -10720,7 +10804,11 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
       Value<double> grandTotal,
       Value<String> discountType,
       Value<double> discountPercentage,
-      Value<double> discountAmount}) {
+      Value<double> discountAmount,
+      Value<double> latitude,
+      Value<double> longitude,
+      Value<DateTime> transactionStart,
+      Value<DateTime> transactionEnd}) {
     return SalesOrderHeaderCompanion(
       tenantId: tenantId ?? this.tenantId,
       userName: userName ?? this.userName,
@@ -10753,6 +10841,10 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
       discountType: discountType ?? this.discountType,
       discountPercentage: discountPercentage ?? this.discountPercentage,
       discountAmount: discountAmount ?? this.discountAmount,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+      transactionStart: transactionStart ?? this.transactionStart,
+      transactionEnd: transactionEnd ?? this.transactionEnd,
     );
   }
 
@@ -10854,6 +10946,18 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
     if (discountAmount.present) {
       map['discount_amount'] = Variable<double>(discountAmount.value);
     }
+    if (latitude.present) {
+      map['latitude'] = Variable<double>(latitude.value);
+    }
+    if (longitude.present) {
+      map['longitude'] = Variable<double>(longitude.value);
+    }
+    if (transactionStart.present) {
+      map['transaction_start'] = Variable<DateTime>(transactionStart.value);
+    }
+    if (transactionEnd.present) {
+      map['transaction_end'] = Variable<DateTime>(transactionEnd.value);
+    }
     return map;
   }
 
@@ -10890,7 +10994,11 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
           ..write('grandTotal: $grandTotal, ')
           ..write('discountType: $discountType, ')
           ..write('discountPercentage: $discountPercentage, ')
-          ..write('discountAmount: $discountAmount')
+          ..write('discountAmount: $discountAmount, ')
+          ..write('latitude: $latitude, ')
+          ..write('longitude: $longitude, ')
+          ..write('transactionStart: $transactionStart, ')
+          ..write('transactionEnd: $transactionEnd')
           ..write(')'))
         .toString();
   }
@@ -11307,6 +11415,58 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
     );
   }
 
+  final VerificationMeta _latitudeMeta = const VerificationMeta('latitude');
+  GeneratedRealColumn _latitude;
+  @override
+  GeneratedRealColumn get latitude => _latitude ??= _constructLatitude();
+  GeneratedRealColumn _constructLatitude() {
+    return GeneratedRealColumn(
+      'latitude',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _longitudeMeta = const VerificationMeta('longitude');
+  GeneratedRealColumn _longitude;
+  @override
+  GeneratedRealColumn get longitude => _longitude ??= _constructLongitude();
+  GeneratedRealColumn _constructLongitude() {
+    return GeneratedRealColumn(
+      'longitude',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _transactionStartMeta =
+      const VerificationMeta('transactionStart');
+  GeneratedDateTimeColumn _transactionStart;
+  @override
+  GeneratedDateTimeColumn get transactionStart =>
+      _transactionStart ??= _constructTransactionStart();
+  GeneratedDateTimeColumn _constructTransactionStart() {
+    return GeneratedDateTimeColumn(
+      'transaction_start',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _transactionEndMeta =
+      const VerificationMeta('transactionEnd');
+  GeneratedDateTimeColumn _transactionEnd;
+  @override
+  GeneratedDateTimeColumn get transactionEnd =>
+      _transactionEnd ??= _constructTransactionEnd();
+  GeneratedDateTimeColumn _constructTransactionEnd() {
+    return GeneratedDateTimeColumn(
+      'transaction_end',
+      $tableName,
+      true,
+    );
+  }
+
   @override
   List<GeneratedColumn> get $columns => [
         tenantId,
@@ -11339,7 +11499,11 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
         grandTotal,
         discountType,
         discountPercentage,
-        discountAmount
+        discountAmount,
+        latitude,
+        longitude,
+        transactionStart,
+        transactionEnd
       ];
   @override
   $SalesOrderHeaderTable get asDslTable => this;
@@ -11560,6 +11724,26 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
     } else if (isInserting) {
       context.missing(_discountAmountMeta);
     }
+    if (data.containsKey('latitude')) {
+      context.handle(_latitudeMeta,
+          latitude.isAcceptableOrUnknown(data['latitude'], _latitudeMeta));
+    }
+    if (data.containsKey('longitude')) {
+      context.handle(_longitudeMeta,
+          longitude.isAcceptableOrUnknown(data['longitude'], _longitudeMeta));
+    }
+    if (data.containsKey('transaction_start')) {
+      context.handle(
+          _transactionStartMeta,
+          transactionStart.isAcceptableOrUnknown(
+              data['transaction_start'], _transactionStartMeta));
+    }
+    if (data.containsKey('transaction_end')) {
+      context.handle(
+          _transactionEndMeta,
+          transactionEnd.isAcceptableOrUnknown(
+              data['transaction_end'], _transactionEndMeta));
+    }
     return context;
   }
 
@@ -11610,6 +11794,10 @@ class SalesOrderDetailData extends DataClass
   final double listPrice;
   final double quantity;
   final double subTotal;
+  final double grandTotal;
+  final int itemCount;
+  final double depositTotal;
+  final int lineId;
   final double taxTotal;
   final double shippingTotal;
   final double conversionFactor;
@@ -11645,6 +11833,10 @@ class SalesOrderDetailData extends DataClass
       @required this.listPrice,
       @required this.quantity,
       @required this.subTotal,
+      @required this.grandTotal,
+      @required this.itemCount,
+      @required this.depositTotal,
+      this.lineId,
       @required this.taxTotal,
       @required this.shippingTotal,
       @required this.conversionFactor});
@@ -11718,6 +11910,14 @@ class SalesOrderDetailData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}quantity']),
       subTotal: doubleType
           .mapFromDatabaseResponse(data['${effectivePrefix}sub_total']),
+      grandTotal: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}grand_total']),
+      itemCount:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}item_count']),
+      depositTotal: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}deposit_total']),
+      lineId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}line_id']),
       taxTotal: doubleType
           .mapFromDatabaseResponse(data['${effectivePrefix}tax_total']),
       shippingTotal: doubleType
@@ -11822,6 +12022,18 @@ class SalesOrderDetailData extends DataClass
     if (!nullToAbsent || subTotal != null) {
       map['sub_total'] = Variable<double>(subTotal);
     }
+    if (!nullToAbsent || grandTotal != null) {
+      map['grand_total'] = Variable<double>(grandTotal);
+    }
+    if (!nullToAbsent || itemCount != null) {
+      map['item_count'] = Variable<int>(itemCount);
+    }
+    if (!nullToAbsent || depositTotal != null) {
+      map['deposit_total'] = Variable<double>(depositTotal);
+    }
+    if (!nullToAbsent || lineId != null) {
+      map['line_id'] = Variable<int>(lineId);
+    }
     if (!nullToAbsent || taxTotal != null) {
       map['tax_total'] = Variable<double>(taxTotal);
     }
@@ -11925,6 +12137,17 @@ class SalesOrderDetailData extends DataClass
       subTotal: subTotal == null && nullToAbsent
           ? const Value.absent()
           : Value(subTotal),
+      grandTotal: grandTotal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(grandTotal),
+      itemCount: itemCount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(itemCount),
+      depositTotal: depositTotal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(depositTotal),
+      lineId:
+          lineId == null && nullToAbsent ? const Value.absent() : Value(lineId),
       taxTotal: taxTotal == null && nullToAbsent
           ? const Value.absent()
           : Value(taxTotal),
@@ -11974,6 +12197,10 @@ class SalesOrderDetailData extends DataClass
       listPrice: serializer.fromJson<double>(json['listPrice']),
       quantity: serializer.fromJson<double>(json['quantity']),
       subTotal: serializer.fromJson<double>(json['subTotal']),
+      grandTotal: serializer.fromJson<double>(json['grandTotal']),
+      itemCount: serializer.fromJson<int>(json['itemCount']),
+      depositTotal: serializer.fromJson<double>(json['depositTotal']),
+      lineId: serializer.fromJson<int>(json['lineId']),
       taxTotal: serializer.fromJson<double>(json['taxTotal']),
       shippingTotal: serializer.fromJson<double>(json['shippingTotal']),
       conversionFactor: serializer.fromJson<double>(json['conversionFactor']),
@@ -12014,6 +12241,10 @@ class SalesOrderDetailData extends DataClass
       'listPrice': serializer.toJson<double>(listPrice),
       'quantity': serializer.toJson<double>(quantity),
       'subTotal': serializer.toJson<double>(subTotal),
+      'grandTotal': serializer.toJson<double>(grandTotal),
+      'itemCount': serializer.toJson<int>(itemCount),
+      'depositTotal': serializer.toJson<double>(depositTotal),
+      'lineId': serializer.toJson<int>(lineId),
       'taxTotal': serializer.toJson<double>(taxTotal),
       'shippingTotal': serializer.toJson<double>(shippingTotal),
       'conversionFactor': serializer.toJson<double>(conversionFactor),
@@ -12052,6 +12283,10 @@ class SalesOrderDetailData extends DataClass
           double listPrice,
           double quantity,
           double subTotal,
+          double grandTotal,
+          int itemCount,
+          double depositTotal,
+          int lineId,
           double taxTotal,
           double shippingTotal,
           double conversionFactor}) =>
@@ -12087,6 +12322,10 @@ class SalesOrderDetailData extends DataClass
         listPrice: listPrice ?? this.listPrice,
         quantity: quantity ?? this.quantity,
         subTotal: subTotal ?? this.subTotal,
+        grandTotal: grandTotal ?? this.grandTotal,
+        itemCount: itemCount ?? this.itemCount,
+        depositTotal: depositTotal ?? this.depositTotal,
+        lineId: lineId ?? this.lineId,
         taxTotal: taxTotal ?? this.taxTotal,
         shippingTotal: shippingTotal ?? this.shippingTotal,
         conversionFactor: conversionFactor ?? this.conversionFactor,
@@ -12125,6 +12364,10 @@ class SalesOrderDetailData extends DataClass
           ..write('listPrice: $listPrice, ')
           ..write('quantity: $quantity, ')
           ..write('subTotal: $subTotal, ')
+          ..write('grandTotal: $grandTotal, ')
+          ..write('itemCount: $itemCount, ')
+          ..write('depositTotal: $depositTotal, ')
+          ..write('lineId: $lineId, ')
           ..write('taxTotal: $taxTotal, ')
           ..write('shippingTotal: $shippingTotal, ')
           ..write('conversionFactor: $conversionFactor')
@@ -12175,7 +12418,7 @@ class SalesOrderDetailData extends DataClass
                                                                               .hashCode,
                                                                           $mrjc(
                                                                               stockUOM.hashCode,
-                                                                              $mrjc(taxGroup.hashCode, $mrjc(warehouse.hashCode, $mrjc(discountType.hashCode, $mrjc(discountPercentage.hashCode, $mrjc(discountAmount.hashCode, $mrjc(lineDiscountTotal.hashCode, $mrjc(taxIndicator.hashCode, $mrjc(unitPrice.hashCode, $mrjc(costPrice.hashCode, $mrjc(listPrice.hashCode, $mrjc(quantity.hashCode, $mrjc(subTotal.hashCode, $mrjc(taxTotal.hashCode, $mrjc(shippingTotal.hashCode, conversionFactor.hashCode))))))))))))))))))))))))))))))))));
+                                                                              $mrjc(taxGroup.hashCode, $mrjc(warehouse.hashCode, $mrjc(discountType.hashCode, $mrjc(discountPercentage.hashCode, $mrjc(discountAmount.hashCode, $mrjc(lineDiscountTotal.hashCode, $mrjc(taxIndicator.hashCode, $mrjc(unitPrice.hashCode, $mrjc(costPrice.hashCode, $mrjc(listPrice.hashCode, $mrjc(quantity.hashCode, $mrjc(subTotal.hashCode, $mrjc(grandTotal.hashCode, $mrjc(itemCount.hashCode, $mrjc(depositTotal.hashCode, $mrjc(lineId.hashCode, $mrjc(taxTotal.hashCode, $mrjc(shippingTotal.hashCode, conversionFactor.hashCode))))))))))))))))))))))))))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -12211,6 +12454,10 @@ class SalesOrderDetailData extends DataClass
           other.listPrice == this.listPrice &&
           other.quantity == this.quantity &&
           other.subTotal == this.subTotal &&
+          other.grandTotal == this.grandTotal &&
+          other.itemCount == this.itemCount &&
+          other.depositTotal == this.depositTotal &&
+          other.lineId == this.lineId &&
           other.taxTotal == this.taxTotal &&
           other.shippingTotal == this.shippingTotal &&
           other.conversionFactor == this.conversionFactor);
@@ -12248,6 +12495,10 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
   final Value<double> listPrice;
   final Value<double> quantity;
   final Value<double> subTotal;
+  final Value<double> grandTotal;
+  final Value<int> itemCount;
+  final Value<double> depositTotal;
+  final Value<int> lineId;
   final Value<double> taxTotal;
   final Value<double> shippingTotal;
   final Value<double> conversionFactor;
@@ -12283,6 +12534,10 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
     this.listPrice = const Value.absent(),
     this.quantity = const Value.absent(),
     this.subTotal = const Value.absent(),
+    this.grandTotal = const Value.absent(),
+    this.itemCount = const Value.absent(),
+    this.depositTotal = const Value.absent(),
+    this.lineId = const Value.absent(),
     this.taxTotal = const Value.absent(),
     this.shippingTotal = const Value.absent(),
     this.conversionFactor = const Value.absent(),
@@ -12319,6 +12574,10 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
     @required double listPrice,
     @required double quantity,
     @required double subTotal,
+    @required double grandTotal,
+    @required int itemCount,
+    @required double depositTotal,
+    this.lineId = const Value.absent(),
     @required double taxTotal,
     @required double shippingTotal,
     @required double conversionFactor,
@@ -12349,6 +12608,9 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
         listPrice = Value(listPrice),
         quantity = Value(quantity),
         subTotal = Value(subTotal),
+        grandTotal = Value(grandTotal),
+        itemCount = Value(itemCount),
+        depositTotal = Value(depositTotal),
         taxTotal = Value(taxTotal),
         shippingTotal = Value(shippingTotal),
         conversionFactor = Value(conversionFactor);
@@ -12384,6 +12646,10 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
     Expression<double> listPrice,
     Expression<double> quantity,
     Expression<double> subTotal,
+    Expression<double> grandTotal,
+    Expression<int> itemCount,
+    Expression<double> depositTotal,
+    Expression<int> lineId,
     Expression<double> taxTotal,
     Expression<double> shippingTotal,
     Expression<double> conversionFactor,
@@ -12421,6 +12687,10 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
       if (listPrice != null) 'list_price': listPrice,
       if (quantity != null) 'quantity': quantity,
       if (subTotal != null) 'sub_total': subTotal,
+      if (grandTotal != null) 'grand_total': grandTotal,
+      if (itemCount != null) 'item_count': itemCount,
+      if (depositTotal != null) 'deposit_total': depositTotal,
+      if (lineId != null) 'line_id': lineId,
       if (taxTotal != null) 'tax_total': taxTotal,
       if (shippingTotal != null) 'shipping_total': shippingTotal,
       if (conversionFactor != null) 'conversion_factor': conversionFactor,
@@ -12459,6 +12729,10 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
       Value<double> listPrice,
       Value<double> quantity,
       Value<double> subTotal,
+      Value<double> grandTotal,
+      Value<int> itemCount,
+      Value<double> depositTotal,
+      Value<int> lineId,
       Value<double> taxTotal,
       Value<double> shippingTotal,
       Value<double> conversionFactor}) {
@@ -12494,6 +12768,10 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
       listPrice: listPrice ?? this.listPrice,
       quantity: quantity ?? this.quantity,
       subTotal: subTotal ?? this.subTotal,
+      grandTotal: grandTotal ?? this.grandTotal,
+      itemCount: itemCount ?? this.itemCount,
+      depositTotal: depositTotal ?? this.depositTotal,
+      lineId: lineId ?? this.lineId,
       taxTotal: taxTotal ?? this.taxTotal,
       shippingTotal: shippingTotal ?? this.shippingTotal,
       conversionFactor: conversionFactor ?? this.conversionFactor,
@@ -12597,6 +12875,18 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
     if (subTotal.present) {
       map['sub_total'] = Variable<double>(subTotal.value);
     }
+    if (grandTotal.present) {
+      map['grand_total'] = Variable<double>(grandTotal.value);
+    }
+    if (itemCount.present) {
+      map['item_count'] = Variable<int>(itemCount.value);
+    }
+    if (depositTotal.present) {
+      map['deposit_total'] = Variable<double>(depositTotal.value);
+    }
+    if (lineId.present) {
+      map['line_id'] = Variable<int>(lineId.value);
+    }
     if (taxTotal.present) {
       map['tax_total'] = Variable<double>(taxTotal.value);
     }
@@ -12643,6 +12933,10 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
           ..write('listPrice: $listPrice, ')
           ..write('quantity: $quantity, ')
           ..write('subTotal: $subTotal, ')
+          ..write('grandTotal: $grandTotal, ')
+          ..write('itemCount: $itemCount, ')
+          ..write('depositTotal: $depositTotal, ')
+          ..write('lineId: $lineId, ')
           ..write('taxTotal: $taxTotal, ')
           ..write('shippingTotal: $shippingTotal, ')
           ..write('conversionFactor: $conversionFactor')
@@ -13052,6 +13346,56 @@ class $SalesOrderDetailTable extends SalesOrderDetail
     );
   }
 
+  final VerificationMeta _grandTotalMeta = const VerificationMeta('grandTotal');
+  GeneratedRealColumn _grandTotal;
+  @override
+  GeneratedRealColumn get grandTotal => _grandTotal ??= _constructGrandTotal();
+  GeneratedRealColumn _constructGrandTotal() {
+    return GeneratedRealColumn(
+      'grand_total',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _itemCountMeta = const VerificationMeta('itemCount');
+  GeneratedIntColumn _itemCount;
+  @override
+  GeneratedIntColumn get itemCount => _itemCount ??= _constructItemCount();
+  GeneratedIntColumn _constructItemCount() {
+    return GeneratedIntColumn(
+      'item_count',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _depositTotalMeta =
+      const VerificationMeta('depositTotal');
+  GeneratedRealColumn _depositTotal;
+  @override
+  GeneratedRealColumn get depositTotal =>
+      _depositTotal ??= _constructDepositTotal();
+  GeneratedRealColumn _constructDepositTotal() {
+    return GeneratedRealColumn(
+      'deposit_total',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _lineIdMeta = const VerificationMeta('lineId');
+  GeneratedIntColumn _lineId;
+  @override
+  GeneratedIntColumn get lineId => _lineId ??= _constructLineId();
+  GeneratedIntColumn _constructLineId() {
+    return GeneratedIntColumn(
+      'line_id',
+      $tableName,
+      true,
+    );
+  }
+
   final VerificationMeta _taxTotalMeta = const VerificationMeta('taxTotal');
   GeneratedRealColumn _taxTotal;
   @override
@@ -13125,6 +13469,10 @@ class $SalesOrderDetailTable extends SalesOrderDetail
         listPrice,
         quantity,
         subTotal,
+        grandTotal,
+        itemCount,
+        depositTotal,
+        lineId,
         taxTotal,
         shippingTotal,
         conversionFactor
@@ -13342,6 +13690,32 @@ class $SalesOrderDetailTable extends SalesOrderDetail
     } else if (isInserting) {
       context.missing(_subTotalMeta);
     }
+    if (data.containsKey('grand_total')) {
+      context.handle(
+          _grandTotalMeta,
+          grandTotal.isAcceptableOrUnknown(
+              data['grand_total'], _grandTotalMeta));
+    } else if (isInserting) {
+      context.missing(_grandTotalMeta);
+    }
+    if (data.containsKey('item_count')) {
+      context.handle(_itemCountMeta,
+          itemCount.isAcceptableOrUnknown(data['item_count'], _itemCountMeta));
+    } else if (isInserting) {
+      context.missing(_itemCountMeta);
+    }
+    if (data.containsKey('deposit_total')) {
+      context.handle(
+          _depositTotalMeta,
+          depositTotal.isAcceptableOrUnknown(
+              data['deposit_total'], _depositTotalMeta));
+    } else if (isInserting) {
+      context.missing(_depositTotalMeta);
+    }
+    if (data.containsKey('line_id')) {
+      context.handle(_lineIdMeta,
+          lineId.isAcceptableOrUnknown(data['line_id'], _lineIdMeta));
+    }
     if (data.containsKey('tax_total')) {
       context.handle(_taxTotalMeta,
           taxTotal.isAcceptableOrUnknown(data['tax_total'], _taxTotalMeta));
@@ -13414,6 +13788,10 @@ class SalesOrderDetailTempData extends DataClass
   final double listPrice;
   final double quantity;
   final double subTotal;
+  final double grandTotal;
+  final int itemCount;
+  final double depositTotal;
+  final int lineId;
   final double taxTotal;
   final double shippingTotal;
   final double conversionFactor;
@@ -13449,6 +13827,10 @@ class SalesOrderDetailTempData extends DataClass
       this.listPrice,
       @required this.quantity,
       @required this.subTotal,
+      @required this.grandTotal,
+      this.itemCount,
+      this.depositTotal,
+      this.lineId,
       this.taxTotal,
       @required this.shippingTotal,
       this.conversionFactor});
@@ -13522,6 +13904,14 @@ class SalesOrderDetailTempData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}quantity']),
       subTotal: doubleType
           .mapFromDatabaseResponse(data['${effectivePrefix}sub_total']),
+      grandTotal: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}grand_total']),
+      itemCount:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}item_count']),
+      depositTotal: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}deposit_total']),
+      lineId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}line_id']),
       taxTotal: doubleType
           .mapFromDatabaseResponse(data['${effectivePrefix}tax_total']),
       shippingTotal: doubleType
@@ -13626,6 +14016,18 @@ class SalesOrderDetailTempData extends DataClass
     if (!nullToAbsent || subTotal != null) {
       map['sub_total'] = Variable<double>(subTotal);
     }
+    if (!nullToAbsent || grandTotal != null) {
+      map['grand_total'] = Variable<double>(grandTotal);
+    }
+    if (!nullToAbsent || itemCount != null) {
+      map['item_count'] = Variable<int>(itemCount);
+    }
+    if (!nullToAbsent || depositTotal != null) {
+      map['deposit_total'] = Variable<double>(depositTotal);
+    }
+    if (!nullToAbsent || lineId != null) {
+      map['line_id'] = Variable<int>(lineId);
+    }
     if (!nullToAbsent || taxTotal != null) {
       map['tax_total'] = Variable<double>(taxTotal);
     }
@@ -13729,6 +14131,17 @@ class SalesOrderDetailTempData extends DataClass
       subTotal: subTotal == null && nullToAbsent
           ? const Value.absent()
           : Value(subTotal),
+      grandTotal: grandTotal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(grandTotal),
+      itemCount: itemCount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(itemCount),
+      depositTotal: depositTotal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(depositTotal),
+      lineId:
+          lineId == null && nullToAbsent ? const Value.absent() : Value(lineId),
       taxTotal: taxTotal == null && nullToAbsent
           ? const Value.absent()
           : Value(taxTotal),
@@ -13778,6 +14191,10 @@ class SalesOrderDetailTempData extends DataClass
       listPrice: serializer.fromJson<double>(json['listPrice']),
       quantity: serializer.fromJson<double>(json['quantity']),
       subTotal: serializer.fromJson<double>(json['subTotal']),
+      grandTotal: serializer.fromJson<double>(json['grandTotal']),
+      itemCount: serializer.fromJson<int>(json['itemCount']),
+      depositTotal: serializer.fromJson<double>(json['depositTotal']),
+      lineId: serializer.fromJson<int>(json['lineId']),
       taxTotal: serializer.fromJson<double>(json['taxTotal']),
       shippingTotal: serializer.fromJson<double>(json['shippingTotal']),
       conversionFactor: serializer.fromJson<double>(json['conversionFactor']),
@@ -13818,6 +14235,10 @@ class SalesOrderDetailTempData extends DataClass
       'listPrice': serializer.toJson<double>(listPrice),
       'quantity': serializer.toJson<double>(quantity),
       'subTotal': serializer.toJson<double>(subTotal),
+      'grandTotal': serializer.toJson<double>(grandTotal),
+      'itemCount': serializer.toJson<int>(itemCount),
+      'depositTotal': serializer.toJson<double>(depositTotal),
+      'lineId': serializer.toJson<int>(lineId),
       'taxTotal': serializer.toJson<double>(taxTotal),
       'shippingTotal': serializer.toJson<double>(shippingTotal),
       'conversionFactor': serializer.toJson<double>(conversionFactor),
@@ -13856,6 +14277,10 @@ class SalesOrderDetailTempData extends DataClass
           double listPrice,
           double quantity,
           double subTotal,
+          double grandTotal,
+          int itemCount,
+          double depositTotal,
+          int lineId,
           double taxTotal,
           double shippingTotal,
           double conversionFactor}) =>
@@ -13891,6 +14316,10 @@ class SalesOrderDetailTempData extends DataClass
         listPrice: listPrice ?? this.listPrice,
         quantity: quantity ?? this.quantity,
         subTotal: subTotal ?? this.subTotal,
+        grandTotal: grandTotal ?? this.grandTotal,
+        itemCount: itemCount ?? this.itemCount,
+        depositTotal: depositTotal ?? this.depositTotal,
+        lineId: lineId ?? this.lineId,
         taxTotal: taxTotal ?? this.taxTotal,
         shippingTotal: shippingTotal ?? this.shippingTotal,
         conversionFactor: conversionFactor ?? this.conversionFactor,
@@ -13929,6 +14358,10 @@ class SalesOrderDetailTempData extends DataClass
           ..write('listPrice: $listPrice, ')
           ..write('quantity: $quantity, ')
           ..write('subTotal: $subTotal, ')
+          ..write('grandTotal: $grandTotal, ')
+          ..write('itemCount: $itemCount, ')
+          ..write('depositTotal: $depositTotal, ')
+          ..write('lineId: $lineId, ')
           ..write('taxTotal: $taxTotal, ')
           ..write('shippingTotal: $shippingTotal, ')
           ..write('conversionFactor: $conversionFactor')
@@ -13979,7 +14412,7 @@ class SalesOrderDetailTempData extends DataClass
                                                                               .hashCode,
                                                                           $mrjc(
                                                                               stockUOM.hashCode,
-                                                                              $mrjc(taxGroup.hashCode, $mrjc(warehouse.hashCode, $mrjc(discountType.hashCode, $mrjc(discountPercentage.hashCode, $mrjc(discountAmount.hashCode, $mrjc(lineDiscountTotal.hashCode, $mrjc(taxIndicator.hashCode, $mrjc(unitPrice.hashCode, $mrjc(costPrice.hashCode, $mrjc(listPrice.hashCode, $mrjc(quantity.hashCode, $mrjc(subTotal.hashCode, $mrjc(taxTotal.hashCode, $mrjc(shippingTotal.hashCode, conversionFactor.hashCode))))))))))))))))))))))))))))))))));
+                                                                              $mrjc(taxGroup.hashCode, $mrjc(warehouse.hashCode, $mrjc(discountType.hashCode, $mrjc(discountPercentage.hashCode, $mrjc(discountAmount.hashCode, $mrjc(lineDiscountTotal.hashCode, $mrjc(taxIndicator.hashCode, $mrjc(unitPrice.hashCode, $mrjc(costPrice.hashCode, $mrjc(listPrice.hashCode, $mrjc(quantity.hashCode, $mrjc(subTotal.hashCode, $mrjc(grandTotal.hashCode, $mrjc(itemCount.hashCode, $mrjc(depositTotal.hashCode, $mrjc(lineId.hashCode, $mrjc(taxTotal.hashCode, $mrjc(shippingTotal.hashCode, conversionFactor.hashCode))))))))))))))))))))))))))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -14015,6 +14448,10 @@ class SalesOrderDetailTempData extends DataClass
           other.listPrice == this.listPrice &&
           other.quantity == this.quantity &&
           other.subTotal == this.subTotal &&
+          other.grandTotal == this.grandTotal &&
+          other.itemCount == this.itemCount &&
+          other.depositTotal == this.depositTotal &&
+          other.lineId == this.lineId &&
           other.taxTotal == this.taxTotal &&
           other.shippingTotal == this.shippingTotal &&
           other.conversionFactor == this.conversionFactor);
@@ -14053,6 +14490,10 @@ class SalesOrderDetailTempCompanion
   final Value<double> listPrice;
   final Value<double> quantity;
   final Value<double> subTotal;
+  final Value<double> grandTotal;
+  final Value<int> itemCount;
+  final Value<double> depositTotal;
+  final Value<int> lineId;
   final Value<double> taxTotal;
   final Value<double> shippingTotal;
   final Value<double> conversionFactor;
@@ -14088,6 +14529,10 @@ class SalesOrderDetailTempCompanion
     this.listPrice = const Value.absent(),
     this.quantity = const Value.absent(),
     this.subTotal = const Value.absent(),
+    this.grandTotal = const Value.absent(),
+    this.itemCount = const Value.absent(),
+    this.depositTotal = const Value.absent(),
+    this.lineId = const Value.absent(),
     this.taxTotal = const Value.absent(),
     this.shippingTotal = const Value.absent(),
     this.conversionFactor = const Value.absent(),
@@ -14124,6 +14569,10 @@ class SalesOrderDetailTempCompanion
     this.listPrice = const Value.absent(),
     @required double quantity,
     @required double subTotal,
+    @required double grandTotal,
+    this.itemCount = const Value.absent(),
+    this.depositTotal = const Value.absent(),
+    this.lineId = const Value.absent(),
     this.taxTotal = const Value.absent(),
     @required double shippingTotal,
     this.conversionFactor = const Value.absent(),
@@ -14136,6 +14585,7 @@ class SalesOrderDetailTempCompanion
         unitPrice = Value(unitPrice),
         quantity = Value(quantity),
         subTotal = Value(subTotal),
+        grandTotal = Value(grandTotal),
         shippingTotal = Value(shippingTotal);
   static Insertable<SalesOrderDetailTempData> custom({
     Expression<int> tenantId,
@@ -14169,6 +14619,10 @@ class SalesOrderDetailTempCompanion
     Expression<double> listPrice,
     Expression<double> quantity,
     Expression<double> subTotal,
+    Expression<double> grandTotal,
+    Expression<int> itemCount,
+    Expression<double> depositTotal,
+    Expression<int> lineId,
     Expression<double> taxTotal,
     Expression<double> shippingTotal,
     Expression<double> conversionFactor,
@@ -14206,6 +14660,10 @@ class SalesOrderDetailTempCompanion
       if (listPrice != null) 'list_price': listPrice,
       if (quantity != null) 'quantity': quantity,
       if (subTotal != null) 'sub_total': subTotal,
+      if (grandTotal != null) 'grand_total': grandTotal,
+      if (itemCount != null) 'item_count': itemCount,
+      if (depositTotal != null) 'deposit_total': depositTotal,
+      if (lineId != null) 'line_id': lineId,
       if (taxTotal != null) 'tax_total': taxTotal,
       if (shippingTotal != null) 'shipping_total': shippingTotal,
       if (conversionFactor != null) 'conversion_factor': conversionFactor,
@@ -14244,6 +14702,10 @@ class SalesOrderDetailTempCompanion
       Value<double> listPrice,
       Value<double> quantity,
       Value<double> subTotal,
+      Value<double> grandTotal,
+      Value<int> itemCount,
+      Value<double> depositTotal,
+      Value<int> lineId,
       Value<double> taxTotal,
       Value<double> shippingTotal,
       Value<double> conversionFactor}) {
@@ -14279,6 +14741,10 @@ class SalesOrderDetailTempCompanion
       listPrice: listPrice ?? this.listPrice,
       quantity: quantity ?? this.quantity,
       subTotal: subTotal ?? this.subTotal,
+      grandTotal: grandTotal ?? this.grandTotal,
+      itemCount: itemCount ?? this.itemCount,
+      depositTotal: depositTotal ?? this.depositTotal,
+      lineId: lineId ?? this.lineId,
       taxTotal: taxTotal ?? this.taxTotal,
       shippingTotal: shippingTotal ?? this.shippingTotal,
       conversionFactor: conversionFactor ?? this.conversionFactor,
@@ -14382,6 +14848,18 @@ class SalesOrderDetailTempCompanion
     if (subTotal.present) {
       map['sub_total'] = Variable<double>(subTotal.value);
     }
+    if (grandTotal.present) {
+      map['grand_total'] = Variable<double>(grandTotal.value);
+    }
+    if (itemCount.present) {
+      map['item_count'] = Variable<int>(itemCount.value);
+    }
+    if (depositTotal.present) {
+      map['deposit_total'] = Variable<double>(depositTotal.value);
+    }
+    if (lineId.present) {
+      map['line_id'] = Variable<int>(lineId.value);
+    }
     if (taxTotal.present) {
       map['tax_total'] = Variable<double>(taxTotal.value);
     }
@@ -14428,6 +14906,10 @@ class SalesOrderDetailTempCompanion
           ..write('listPrice: $listPrice, ')
           ..write('quantity: $quantity, ')
           ..write('subTotal: $subTotal, ')
+          ..write('grandTotal: $grandTotal, ')
+          ..write('itemCount: $itemCount, ')
+          ..write('depositTotal: $depositTotal, ')
+          ..write('lineId: $lineId, ')
           ..write('taxTotal: $taxTotal, ')
           ..write('shippingTotal: $shippingTotal, ')
           ..write('conversionFactor: $conversionFactor')
@@ -14837,6 +15319,56 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     );
   }
 
+  final VerificationMeta _grandTotalMeta = const VerificationMeta('grandTotal');
+  GeneratedRealColumn _grandTotal;
+  @override
+  GeneratedRealColumn get grandTotal => _grandTotal ??= _constructGrandTotal();
+  GeneratedRealColumn _constructGrandTotal() {
+    return GeneratedRealColumn(
+      'grand_total',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _itemCountMeta = const VerificationMeta('itemCount');
+  GeneratedIntColumn _itemCount;
+  @override
+  GeneratedIntColumn get itemCount => _itemCount ??= _constructItemCount();
+  GeneratedIntColumn _constructItemCount() {
+    return GeneratedIntColumn(
+      'item_count',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _depositTotalMeta =
+      const VerificationMeta('depositTotal');
+  GeneratedRealColumn _depositTotal;
+  @override
+  GeneratedRealColumn get depositTotal =>
+      _depositTotal ??= _constructDepositTotal();
+  GeneratedRealColumn _constructDepositTotal() {
+    return GeneratedRealColumn(
+      'deposit_total',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lineIdMeta = const VerificationMeta('lineId');
+  GeneratedIntColumn _lineId;
+  @override
+  GeneratedIntColumn get lineId => _lineId ??= _constructLineId();
+  GeneratedIntColumn _constructLineId() {
+    return GeneratedIntColumn(
+      'line_id',
+      $tableName,
+      true,
+    );
+  }
+
   final VerificationMeta _taxTotalMeta = const VerificationMeta('taxTotal');
   GeneratedRealColumn _taxTotal;
   @override
@@ -14910,6 +15442,10 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
         listPrice,
         quantity,
         subTotal,
+        grandTotal,
+        itemCount,
+        depositTotal,
+        lineId,
         taxTotal,
         shippingTotal,
         conversionFactor
@@ -15090,6 +15626,28 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
           subTotal.isAcceptableOrUnknown(data['sub_total'], _subTotalMeta));
     } else if (isInserting) {
       context.missing(_subTotalMeta);
+    }
+    if (data.containsKey('grand_total')) {
+      context.handle(
+          _grandTotalMeta,
+          grandTotal.isAcceptableOrUnknown(
+              data['grand_total'], _grandTotalMeta));
+    } else if (isInserting) {
+      context.missing(_grandTotalMeta);
+    }
+    if (data.containsKey('item_count')) {
+      context.handle(_itemCountMeta,
+          itemCount.isAcceptableOrUnknown(data['item_count'], _itemCountMeta));
+    }
+    if (data.containsKey('deposit_total')) {
+      context.handle(
+          _depositTotalMeta,
+          depositTotal.isAcceptableOrUnknown(
+              data['deposit_total'], _depositTotalMeta));
+    }
+    if (data.containsKey('line_id')) {
+      context.handle(_lineIdMeta,
+          lineId.isAcceptableOrUnknown(data['line_id'], _lineIdMeta));
     }
     if (data.containsKey('tax_total')) {
       context.handle(_taxTotalMeta,

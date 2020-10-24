@@ -10,6 +10,7 @@ import 'package:j3enterprise/src/pro/database/crud/series_number/temp_number_log
 import 'package:j3enterprise/src/pro/database/crud/warehouse/inventory_items_crud.dart';
 import 'package:j3enterprise/src/pro/resources/shared/sales/calculate_discount.dart';
 import 'package:j3enterprise/src/pro/resources/shared/sales/calculate_tax.dart';
+import 'package:j3enterprise/src/pro/resources/shared/sales/calculate_total.dart';
 import 'package:j3enterprise/src/pro/resources/shared/warehouse/add_item_to_warehouse.dart';
 import 'package:j3enterprise/src/pro/resources/shared/warehouse/check_inventory.dart';
 import 'package:j3enterprise/src/resources/shared/utils/date_formating.dart';
@@ -34,7 +35,7 @@ class AddItemToTransaction {
   // String transactionStatus;
   String priceList;
   String standardPriceList;
-  String customerId;
+
   double itemPrice;
   double sellingDeposit;
   double deposit;
@@ -58,6 +59,7 @@ class AddItemToTransaction {
   double percentageOff;
   double accumalatedPurchase;
   double listPrice;
+  double registerQuantityTotal;
 
   String className = "Add Item To Transaction";
   var db;
@@ -80,6 +82,7 @@ class AddItemToTransaction {
   CheckInventory checkInventory;
   CalculateDiscount calculateDiscount;
   CalculateTax calculateTax;
+  CalculateTotal calculateTotal;
 
   AddItemToTransaction() {
     db = AppDatabase();
@@ -98,6 +101,7 @@ class AddItemToTransaction {
     checkInventory = new CheckInventory();
     calculateDiscount = new CalculateDiscount();
     calculateTax = new CalculateTax();
+    calculateTotal = new CalculateTotal();
     //itemMasterRepository = new ItemMasterRepository();
 
     //Regular Class
@@ -116,7 +120,8 @@ class AddItemToTransaction {
       double exchangeRate,
       int tenantId,
       String userName,
-      int userId) async {
+      int userId,
+      String customerId) async {
     //Get Quantity from POS. If quantity is set used set quantity if quantity is not set assign 1 to quantity
 
     _log.finest("$className setting quantity");
@@ -203,24 +208,60 @@ class AddItemToTransaction {
         return result;
       }
 
-      //Line SubTotal Calculation
-      //ToDo Calculate return price, return deposit, deposit and selling deposit
-      lineSubTotal = itemPrice * quantity;
-
       //Update Quantity on Line Item
       var onRegister = await salesOrderDetailTempDao.getAllSalesOrderForUpdate(
           tempSalesOrderNo, tempTransactionStatus, itemId, uom);
       if (onRegister.length > 0 && onRegister != null) {
+        registerQuantityTotal = onRegister.single.quantity;
         var lineUpdate = new SalesOrderDetailTempCompanion(
           quantity: moor.Value(quantity + onRegister.single.quantity),
           shippingTotal: moor.Value(0),
           listPrice: moor.Value(itemPrice),
-          subTotal: moor.Value(itemPrice * (quantity + onRegister.single.quantity)),
+          subTotal:
+              moor.Value((quantity + onRegister.single.quantity) * itemPrice),
         );
-        salesOrderDetailTempDao.updateLineItem(
+        await salesOrderDetailTempDao.updateLineItem(
             lineUpdate, tempSalesOrderNo, tempTransactionStatus, itemId, uom);
+
+        //Check for discount
+        await calculateDiscount.getDiscount(
+            itemId,
+            uom,
+            customerId,
+            tempSalesOrderNo,
+            tempTransactionStatus,
+            itemGroup,
+            itemCode,
+            itemName,
+            category,
+            territory,
+            partner,
+            priceList,
+            itemPrice,
+            quantity + registerQuantityTotal,
+            uom);
+
+        //Calculate Tax
+        if (taxGroup != null) {
+          await calculateTax.getTotalTax(
+              searchText,
+              tempSalesOrderNo,
+              tempTransactionStatus,
+              uom,
+              tenantId,
+              userName,
+              userId,
+              itemId,
+              customerId,
+              taxGroup,
+              salesDate,
+              (quantity + onRegister.single.quantity) * itemPrice);
+        }
       } else {
         //Add New Line
+        //Line SubTotal Calculation
+        //ToDo Calculate return price, return deposit, deposit and selling deposit
+        lineSubTotal = itemPrice * quantity;
         var newLine = new SalesOrderDetailTempCompanion(
             transactionNumber: moor.Value(tempSalesOrderNo),
             inventoryCycleNumber: moor.Value(tempInventoryCycle),
@@ -244,6 +285,10 @@ class AddItemToTransaction {
             discountAmount: moor.Value(0),
             lineDiscountTotal: moor.Value(0),
             subTotal: moor.Value(lineSubTotal),
+            grandTotal: moor.Value(0),
+            itemCount: moor.Value(0),
+            depositTotal: moor.Value(0),
+            lineId: moor.Value(0),
             taxTotal: moor.Value(0),
             upcCode: moor.Value(upcCode),
             salesUOM: moor.Value(uom),
@@ -251,43 +296,52 @@ class AddItemToTransaction {
             transactionStatus: moor.Value(tempTransactionStatus),
             category: moor.Value(category));
 
-        salesOrderDetailTempDao.insertSalesOrderDetail(newLine);
-      }
+        await salesOrderDetailTempDao.insertSalesOrderDetail(newLine);
 
-      //Check for discount
-      // calculateDiscount.getDiscount(
-      //     itemId,
-      //     uom,
-      //     customerId,
-      //     tempSalesOrderNo,
-      //     tempTransactionStatus,
-      //     itemGroup,
-      //     itemCode,
-      //     itemName,
-      //     category,
-      //     territory,
-      //     partner,
-      //     priceList,
-      //     itemPrice,
-      //     quantity,
-      //     uom);
-
-      //Calculate Tax
-      if (taxGroup != null) {
-        calculateTax.getTotalTax(
-            searchText,
+        //Check for discount
+        await calculateDiscount.getDiscount(
+            itemId,
+            uom,
+            customerId,
             tempSalesOrderNo,
             tempTransactionStatus,
-            uom,
-            tenantId,
-            userName,
-            userId,
-            itemId,
-            customerId,
-            taxGroup,
-            salesDate,
-            lineSubTotal);
+            itemGroup,
+            itemCode,
+            itemName,
+            category,
+            territory,
+            partner,
+            priceList,
+            itemPrice,
+            quantity,
+            uom);
+
+        //Calculate Tax
+        if (taxGroup != null) {
+          await calculateTax.getTotalTax(
+              searchText,
+              tempSalesOrderNo,
+              tempTransactionStatus,
+              uom,
+              tenantId,
+              userName,
+              userId,
+              itemId,
+              customerId,
+              taxGroup,
+              salesDate,
+              lineSubTotal);
+        }
       }
+
+      await calculateTotal.getTotal(
+          tempSalesOrderNo, tempTransactionStatus, itemId, uom);
+
+      //Clean up transaction for next item
+      registerQuantityTotal = 0;
+      quantity = 0;
+
+      result = "Item Add Success";
 
       //ToDo Check if code execute successfull
     } else {

@@ -48,7 +48,7 @@ class SalesOrderBloc extends Bloc<SalesOrderEvent, SalesOrderState> {
     DateTime deliveryDate;
     String currency = "";
     double exchangeRate = 0;
-    String customerId = "";
+    String customerId = "1000101";
 
     mapDevicePref = await userSharedData.getUserSharedPref();
     String userName = mapDevicePref['userName'];
@@ -107,7 +107,7 @@ class SalesOrderBloc extends Bloc<SalesOrderEvent, SalesOrderState> {
       } else {
         setQty = 1;
       }
-      var result = _addItemToTransaction.getItem(
+      var result = await _addItemToTransaction.getItem(
           setQty,
           getItemNumber,
           tempSalesOrderNo,
@@ -119,7 +119,8 @@ class SalesOrderBloc extends Bloc<SalesOrderEvent, SalesOrderState> {
           exchangeRate,
           int.tryParse(tenantId),
           userName,
-          int.tryParse(userId));
+          int.tryParse(userId),
+          customerId);
 
       if (result != null) {
         print(result);

@@ -34,6 +34,10 @@ class SalesOrderHeader extends Table implements MustHaveTenant, MultiUser {
   RealColumn get discountAmount => real()();
   TextColumn get userName => text()();
   IntColumn get userId => integer()();
+  RealColumn get latitude => real().nullable()();
+  RealColumn get longitude => real().nullable()();
+  DateTimeColumn get transactionStart => dateTime().nullable()();
+  DateTimeColumn get transactionEnd => dateTime().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};

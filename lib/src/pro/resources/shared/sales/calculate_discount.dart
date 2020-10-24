@@ -85,11 +85,10 @@ class CalculateDiscount {
     salesOrderDetailTempDao
         .qtyOfItemOnRegister(transactionNumber, itemId, uom, transactionStatus)
         .listen((e) {
-          if(e.length > 0){
-            numOfItemOnRegister = e.single.quantity;
-            minPurchaseOfItemOnRegister = e.single.subTotal;
-          }
-
+      if (e.isNotEmpty) {
+        numOfItemOnRegister = e.single.quantity;
+        minPurchaseOfItemOnRegister = e.single.subTotal;
+      }
     });
 
     //qty.map((e) => e.single.quantity).listen(print, onError: (e, s) => print('Got error $e at $s'));
@@ -98,7 +97,7 @@ class CalculateDiscount {
         .qtyOfItemGroupOnRegister(
             transactionNumber, itemGroup, uom, transactionStatus)
         .listen((e) {
-      if(e.length > 0) {
+      if (e.isNotEmpty) {
         numOfItemGroupOnRegister = e.single.quantity;
         minPurchaseOfItemGroupOnRegister = e.single.subTotal;
       }
@@ -108,7 +107,7 @@ class CalculateDiscount {
         .qtyOfBrandOnRegister(
             transactionNumber, category, uom, transactionStatus)
         .listen((e) {
-      if(e.length > 0) {
+      if (e.isNotEmpty) {
         numOfcategoryOnRegister = e.single.quantity;
         minPurchaseOfBrandOnRegister = e.single.subTotal;
       }
@@ -116,49 +115,49 @@ class CalculateDiscount {
 
     bool isActive = true;
 
-    itemPricingRuleDao
-        .getAllDiscount(
-            itemCode,
-            itemGroup,
-            itemName,
-            category,
-            customerGroup,
-            customerId,
-            territory,
-            partner,
-            priceList,
-            validFrom,
-            validTo,
-            isActive,
-            numOfItemOnRegister,
-            numOfItemGroupOnRegister,
-            numOfAllItemsOnRegister,
-            numOfcategoryOnRegister)
-        .listen((e) {
-      amountOff = e.single.discountPercentage;
-      priceOrDiscount = e.single.priceOrDiscount;
-    });
+    var isDiscount = await itemPricingRuleDao.getAllDiscount(
+        itemCode,
+        itemGroup,
+        itemName,
+        category,
+        customerGroup,
+        customerId,
+        territory,
+        partner,
+        priceList,
+        validFrom,
+        validTo,
+        isActive,
+        numOfItemOnRegister,
+        numOfItemGroupOnRegister,
+        numOfAllItemsOnRegister,
+        numOfcategoryOnRegister);
 
-    if (priceOrDiscount == "Discount Percentage") {
-      discountAmount = amountOff / 100 * unitPrice;
-      listPrice = unitPrice - discountAmount;
-      lineSubTotal = quantity * listPrice;
-    } else {
-      listPrice = unitPrice - amountOff;
-      lineSubTotal = quantity * listPrice;
-      discountAmount = amountOff;
+    if (isDiscount.length > 0) {
+      amountOff = isDiscount.single.discountPercentage;
+      priceOrDiscount = isDiscount.single.priceOrDiscount;
+
+      if (priceOrDiscount == "Percentage") {
+        discountAmount = amountOff / 100 * unitPrice;
+        listPrice = unitPrice - discountAmount;
+        lineSubTotal = quantity * listPrice;
+      } else {
+        listPrice = unitPrice - amountOff;
+        lineSubTotal = quantity * listPrice;
+        discountAmount = amountOff;
+      }
+
+      //Now Update the list price and call recalcualte
+      //ToDo line discount amount is added however must be able ot recalcuale with other discount apply to the line
+      var tempOrder = new SalesOrderDetailTempCompanion(
+          listPrice: moor.Value(listPrice),
+          subTotal: moor.Value(lineSubTotal),
+          discountPercentage: moor.Value(amountOff),
+          discountAmount: moor.Value(discountAmount),
+          lineDiscountTotal: moor.Value(discountAmount));
+
+      await salesOrderDetailTempDao.updateInvoiceTotal(
+          tempOrder, transactionNumber, transactionStatus, itemId, salesUom);
     }
-
-    //Now Update the list price and call recalcualte
-    //ToDo line discount amount is added however must be able ot recalcuale with other discount apply to the line
-    var tempOrder = new SalesOrderDetailTempCompanion(
-        listPrice: moor.Value(listPrice),
-        subTotal: moor.Value(lineSubTotal),
-        discountPercentage: moor.Value(amountOff),
-        discountAmount: moor.Value(discountAmount),
-        lineDiscountTotal: moor.Value(discountAmount));
-
-    salesOrderDetailTempDao.updateInvoiceTotal(
-        tempOrder, transactionNumber, transactionStatus, itemId, salesUom);
   }
 }
