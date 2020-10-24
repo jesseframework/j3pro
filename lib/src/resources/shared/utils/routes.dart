@@ -19,9 +19,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_item_detail_page.dart';
-import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_page.dart';
-import 'package:j3enterprise/src/pro/ui/sales/sales_order/seles_order_item_page.dart';
-import 'package:j3enterprise/src/pro/ui/service_activities/service_activities_page.dart';
+import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_information_page.dart';
+import 'package:j3enterprise/src/pro/ui/sales/sales_order/new_sales_order_detail_page.dart';
+import 'package:j3enterprise/src/pro/ui/service_activities/journey_plan_page.dart';
 import 'package:j3enterprise/src/ui/about/about.dart';
 import 'package:j3enterprise/src/ui/background_jobs/backgroundjobs_pages.dart';
 import 'package:j3enterprise/src/ui/bussiness_rule/bussiness_rule_page.dart';
@@ -36,14 +36,14 @@ final routes = {
   SalesOrderItemDetailPage.route: (BuildContext context) =>
       SalesOrderItemDetailPage(),
   BackgroundJobsPage.route: (BuildContext context) => BackgroundJobsPage(),
-  SalesOrderItemPage.route: (BuildContext context) => SalesOrderItemPage(),
-  SalesOrderPage.route: (BuildContext context) => SalesOrderPage(),
+  NewSalesOrderdetail.route: (BuildContext context) => NewSalesOrderdetail(),
+  SalesOrderInformationPage.route: (BuildContext context) => SalesOrderInformationPage(),
   CommunicationPage.route: (BuildContext context) => CommunicationPage(),
   BussinessRulePage.route: (BuildContext context) => BussinessRulePage(),
-  ServiceActivitiesPage.route: (BuildContext context) =>
-      ServiceActivitiesPage(),
+  JourneyPlanPage.route: (BuildContext context) =>
+      JourneyPlanPage(),
   PreferencesPage.route: (BuildContext context) => PreferencesPage(),
-  SalesOrderPage.route: (BuildContext context) => SalesOrderPage(),
+  SalesOrderInformationPage.route: (BuildContext context) => SalesOrderInformationPage(),
   SplashPage.route: (BuildContext context) => SplashPage(),
   LoginPage.route: (BuildContext context) => LoginPage(),
   HomePage.route: (BuildContext context) => HomePage(),

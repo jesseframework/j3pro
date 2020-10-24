@@ -10,19 +10,19 @@ import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
 
-class ServiceActivitiesPage extends StatefulWidget {
+class JourneyPlanPage extends StatefulWidget {
   static final route = '/servies_activites';
   var db;
   JourneyPlanDao journeyPlanDao;
-  ServiceActivitiesPage() {
+  JourneyPlanPage() {
     db = AppDatabase();
     journeyPlanDao = JourneyPlanDao(db);
   }
   @override
-  _ServiceActivitiesPageState createState() => _ServiceActivitiesPageState();
+  _JourneyPlanPageState createState() => _JourneyPlanPageState();
 }
 
-class _ServiceActivitiesPageState extends State<ServiceActivitiesPage> {
+class _JourneyPlanPageState extends State<JourneyPlanPage> {
   String userName;
   @override
   void didChangeDependencies() async {
@@ -39,8 +39,8 @@ class _ServiceActivitiesPageState extends State<ServiceActivitiesPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text(AppLocalization.of(context)
-                  .translate('service_activities_appbar_title') ??
-              "Service Activities"),
+                  .translate('journey_plan_appbar_title') ??
+              "Journey Plan"),
         ),
         body: Column(
           children: [
