@@ -3,27 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/customer/address_crud.dart';
 import 'package:j3enterprise/src/pro/models/sales/fullfillment/jounery_with_address.dart';
-import 'package:j3enterprise/src/pro/ui/sales/sales_order/new_sales_order_detail_page.dart';
+import 'package:j3enterprise/src/pro/ui/sales/sales_order/seles_order_item_page.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/dialog.dart';
 
-class SalesOrderInformationPage extends StatefulWidget {
+class SalesOrderPage extends StatefulWidget {
   static final route = '/SalesOrderPage';
   var db;
 
   AddressDao addressDao;
 
-  SalesOrderInformationPage() {
+  SalesOrderPage() {
     db = AppDatabase();
     addressDao = AddressDao(db);
   }
   @override
-  _SalesOrderInformationPageState createState() => _SalesOrderInformationPageState();
+  _SalesOrderPageState createState() => _SalesOrderPageState();
 }
 
-class _SalesOrderInformationPageState extends State<SalesOrderInformationPage> {
+class _SalesOrderPageState extends State<SalesOrderPage> {
   TextEditingController _textFieldController = TextEditingController();
   JourneyWithAddress journeyWithAddress;
   Addres primaryAddress;
@@ -33,13 +33,13 @@ class _SalesOrderInformationPageState extends State<SalesOrderInformationPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            AppLocalization.of(context).translate('sales_order_information_appbar_title') ??
-                "Sales Order Information"),
+            AppLocalization.of(context).translate('sales_order_appbar_title') ??
+                "Sales Order"),
         actions: [
           InkWell(
             onTap: () {
               Navigator.push(
-                  context, EnterExitRoute(enterPage: NewSalesOrderdetail()));
+                  context, EnterExitRoute(enterPage: SalesOrderItemPage()));
             },
             child: Row(
               children: [
