@@ -12,23 +12,23 @@ import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dar
 import 'package:j3enterprise/src/resources/shared/widgets/no_data_found.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
 
-class NewSalesOrderdetail extends StatefulWidget {
+class SalesOrderItemPage  extends StatefulWidget {
   static final route = '/SalesOrderItemPage';
   var db;
 
   ItemsDao itemsDao;
   SalesOrderDetailTempDao salesOrderDetailTempDao;
 
-  NewSalesOrderdetail() {
+  SalesOrderItemPage() {
     db = AppDatabase();
     itemsDao = ItemsDao(db);
     salesOrderDetailTempDao = SalesOrderDetailTempDao(db);
   }
   @override
-  _NewSalesOrderdetailState createState() => _NewSalesOrderdetailState();
+  _SalesOrderItemPageState  createState() => _SalesOrderItemPageState ();
 }
 
-class _NewSalesOrderdetailState extends State<NewSalesOrderdetail> {
+class _SalesOrderItemPageState  extends State<NewSalesOrderdetail> {
   TextEditingController controller = TextEditingController(text: '1');
 
 
@@ -49,8 +49,8 @@ class _NewSalesOrderdetailState extends State<NewSalesOrderdetail> {
       body: Scaffold(
         appBar: AppBar(
           title: Text(AppLocalization.of(context)
-                  .translate('new_sales_order_detail_appbar_title') ??
-              "New Sales Order Detail"),
+                  .translate('sales_order_appbar_title') ??
+              "Sales Order"),
           actions: [
             InkWell(
               onTap: () {
