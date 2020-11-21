@@ -41,7 +41,7 @@ class _AboutState extends State<About> {
             IconButton(
                 icon: Icon(Icons.more_vert),
                 onPressed: () {
-                  ShowSnakBar('khi', 'jgh');
+
                 })
           ],
           title:

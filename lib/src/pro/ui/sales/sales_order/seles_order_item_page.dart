@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/items/item_master_crud.dart';
@@ -8,10 +12,10 @@ import 'package:j3enterprise/src/pro/models/items/ItemsWithPrices.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/bloc/sales_order_bloc.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_checkout_page.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_item_detail_page.dart';
+import 'package:j3enterprise/src/pro/utils/show_flushbar.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dart';
-import 'package:j3enterprise/src/resources/shared/widgets/no_data_found.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
 
 class SalesOrderItemPage extends StatefulWidget {
@@ -32,14 +36,21 @@ class SalesOrderItemPage extends StatefulWidget {
 
 class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
   TextEditingController _qtyController = TextEditingController(text: '1');
-
-
+  List<ItemsWithPrices> itemsWithPrices = List<ItemsWithPrices>();
+  ScrollController _controller;
+  List<ItemsWithPrices> pageData = List<ItemsWithPrices>();
   String searchText = '';
   bool searchFoused = false;
-  int itemCount=0;
+  int itemCount = 0;
+  bool toggleList = true;
+
+  bool _hasMore = true;
 
   @override
   void initState() {
+    _controller = ScrollController();
+    _controller.addListener(_scrollListener);
+
     super.initState();
   }
 
@@ -51,8 +62,8 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
       body: Scaffold(
         appBar: AppBar(
           title: Text(AppLocalization.of(context)
-                  .translate('sales_order_appbar_title') ??
-              "Sales Order"),
+                  .translate('new_ales_order_detail_appbar_title') ??
+              "New Sales Order Detail"),
           actions: [
             InkWell(
               onTap: () {
@@ -65,27 +76,33 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
                     "Checkout",
                     style: TextStyle(fontSize: 20),
                   ),
-    StreamBuilder(
-    stream: widget.salesOrderDetailTempDao.transactionTotal('1001010011', 'Pending'),
-    builder: (context,snapshot){
-    if(snapshot.hasData) {
-      List<SalesOrderDetailTempData> totalData = snapshot.data;
-      return Badge(
-          badgeContent: Text(totalData[0].itemCount.toString()),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 8),
-            child: Icon(Icons.shopping_cart),
-          ));
-    }
-    return Badge(
-        badgeContent: Text(itemCount.toString()),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4,vertical: 4),
-          child: Icon(Icons.shopping_cart),
-        ));
-    }),
-
-                  SizedBox(width: 5,)
+                  StreamBuilder(
+                      stream: widget.salesOrderDetailTempDao
+                          .transactionTotal('1001010011', 'Pending'),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          List<SalesOrderDetailTempData> totalData =
+                              snapshot.data;
+                          return Badge(
+                              badgeContent:
+                                  Text(totalData[0].itemCount.toString()),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 8),
+                                child: Icon(Icons.shopping_cart),
+                              ));
+                        }
+                        return Badge(
+                            badgeContent: Text(itemCount.toString()),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 4, vertical: 4),
+                              child: Icon(Icons.shopping_cart),
+                            ));
+                      }),
+                  SizedBox(
+                    width: 5,
+                  )
                 ],
               ),
             ),
@@ -148,11 +165,184 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
                         ),
                       ),
                     ),
+                    searchFoused
+                        ? Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: Container(
+                              width: 80,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 1.5,
+                                      color: Theme.of(context).iconTheme.color),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          toggleList = false;
+                                        });
+                                      },
+                                      child: Container(
+                                        color: toggleList == true
+                                            ? Theme.of(context)
+                                                .scaffoldBackgroundColor
+                                            : Theme.of(context)
+                                                .primaryColorLight,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Container(
+                                                height: 1.5,
+                                                color: Theme.of(context)
+                                                    .iconTheme
+                                                    .color,
+                                              ),
+                                              Container(
+                                                height: 1.5,
+                                                color: Theme.of(context)
+                                                    .iconTheme
+                                                    .color,
+                                              ),
+                                              Container(
+                                                height: 1.5,
+                                                color: Theme.of(context)
+                                                    .iconTheme
+                                                    .color,
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 1,
+                                    color: Theme.of(context).iconTheme.color,
+                                  ),
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          toggleList = true;
+                                        });
+                                      },
+                                      child: Container(
+                                        color: toggleList == true
+                                            ? Theme.of(context)
+                                                .primaryColorLight
+                                            : Theme.of(context)
+                                                .scaffoldBackgroundColor,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 7, vertical: 4),
+                                          child: Column(
+                                            children: [
+                                              Expanded(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Container(
+                                                      height: 10,
+                                                      width: 10,
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .iconTheme
+                                                                  .color,
+                                                              width: 1.5),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(2)),
+                                                    ),
+                                                    Container(
+                                                      height: 10,
+                                                      width: 10,
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .iconTheme
+                                                                  .color,
+                                                              width: 1.5),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(2)),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Container(
+                                                      height: 10,
+                                                      width: 10,
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .iconTheme
+                                                                  .color,
+                                                              width: 1.5),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(2)),
+                                                    ),
+                                                    Container(
+                                                      height: 10,
+                                                      width: 10,
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .iconTheme
+                                                                  .color,
+                                                              width: 1.5),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(2)),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        : Container(),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: InkWell(
-                        child: Image.asset('images/bar_code.png'),
-                        onTap: () {},
+                        child: Container(
+                            width: 60,
+                            child: Image.asset('images/bar_code.png')),
+                        onTap: () async {
+                          if (Platform.isAndroid || Platform.isIOS) {
+                            String barcodeScanRes =
+                                await FlutterBarcodeScanner.scanBarcode(
+                                    "#ff6666",
+                                    "Cancel",
+                                    false,
+                                    ScanMode.DEFAULT);
+                          }
+                        },
                       ),
                     )
                   ],
@@ -171,220 +361,414 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
                 ),
               ),
             ),
-         buildBottomSheet()
+            buildBottomSheet()
           ],
         ),
       ),
     );
   }
- buildBottomSheet(){
+
+  buildBottomSheet() {
     return StreamBuilder(
-      stream: widget.salesOrderDetailTempDao.transactionTotal('1001010011', 'Pending'),
-      builder: (context,snapshot){
-        if(snapshot.hasData){
-        List<SalesOrderDetailTempData> totalData=snapshot.data;
-        // setState(() {
-        //   itemCount=totalData[0].itemCount.toInt();
-        // });
+      stream: widget.salesOrderDetailTempDao
+          .transactionTotal('1001010011', 'Pending'),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<SalesOrderDetailTempData> totalData = snapshot.data;
+          // setState(() {
+          //   itemCount=totalData[0].itemCount.toInt();
+          // });
 
-             return ExpansionTile(
-               title: Row(
-                 crossAxisAlignment: CrossAxisAlignment.start,
-                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                 children: [
-                   Text(
-                     "Grand Total:",
-                     style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
-                   ),
-                   Text(
-                     totalData.isNotEmpty?'\$ ${totalData[0].grandTotal.toString()}':'\$0',
-                     style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
-                   ),
-                 ],
-               ),
-               children:[
-                 buildGrandTotalListTile('Subtotal:', totalData.isNotEmpty?'\$ ${totalData[0].subTotal.toString()}':'\$0'),
-                 buildGrandTotalListTile('Deposit:',totalData.isNotEmpty?'\$ ${totalData[0].depositTotal.toString()}':'\$0'),
-                 buildGrandTotalListTile('Discount:', totalData.isNotEmpty?'\$ ${totalData[0].lineDiscountTotal.toString()}':'\$0'),
-                 buildGrandTotalListTile('Shipping:',totalData.isNotEmpty? '\$ ${totalData[0].shippingTotal.toString()}':'\$0'),
-                 buildGrandTotalListTile('Tax:', totalData.isNotEmpty?'\$ ${totalData[0].taxTotal.toString()}':'\$0'),
-                 buildGrandTotalListTile('Item Count:',totalData.isNotEmpty? '\$ ${totalData[0].itemCount.toString()}':'\$0'),
-                 buildGrandTotalListTile('Grand Total:', totalData.isNotEmpty?'\$ ${totalData[0].grandTotal.toString()}':'\$0'),
-
-               ]
-
-
-             );
-
-
+          return Container(
+            color: Theme.of(context).cardColor,
+            child: ExpansionTile(
+                title: Container(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Grand Total:",
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        totalData.isNotEmpty
+                            ? '\$ ${totalData[0].grandTotal.toString()}'
+                            : '\$0',
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+                children: [
+                  buildGrandTotalListTile(
+                      'Subtotal:',
+                      totalData.isNotEmpty
+                          ? '\$ ${totalData[0].subTotal.toString()}'
+                          : '\$0'),
+                  buildGrandTotalListTile(
+                      'Deposit:',
+                      totalData.isNotEmpty
+                          ? '\$ ${totalData[0].depositTotal.toString()}'
+                          : '\$0'),
+                  buildGrandTotalListTile(
+                      'Discount:',
+                      totalData.isNotEmpty
+                          ? '\$ ${totalData[0].lineDiscountTotal.toString()}'
+                          : '\$0'),
+                  buildGrandTotalListTile(
+                      'Shipping:',
+                      totalData.isNotEmpty
+                          ? '\$ ${totalData[0].shippingTotal.toString()}'
+                          : '\$0'),
+                  buildGrandTotalListTile(
+                      'Tax:',
+                      totalData.isNotEmpty
+                          ? '\$ ${totalData[0].taxTotal.toString()}'
+                          : '\$0'),
+                  buildGrandTotalListTile(
+                      'Item Count:',
+                      totalData.isNotEmpty
+                          ? '\$ ${totalData[0].itemCount.toString()}'
+                          : '\$0'),
+                  buildGrandTotalListTile(
+                      'Grand Total:',
+                      totalData.isNotEmpty
+                          ? '\$ ${totalData[0].grandTotal.toString()}'
+                          : '\$0'),
+                ]),
+          );
         }
         return BuildProgressIndicator();
       },
     );
+  }
 
- }
   buildSearchScreeen() {
-
     return StreamBuilder(
       stream: widget.itemsDao.watchItemsWithPricesJoin(searchText, false),
       builder: (context, snapshot) {
-        print(snapshot.data);
+        print(snapshot.hasData);
         if (snapshot.hasData) {
-          List<ItemsWithPrices> itemsWithPrices = snapshot.data;
+          itemsWithPrices = snapshot.data;
 
-          return ListView.builder(
-            key: UniqueKey(),
-            itemCount: itemsWithPrices.length,
-            itemBuilder: (context, index) {
-              return ExpansionTile(
-                tilePadding: EdgeInsets.zero,
-                title: Container(
-                  color: (index % 2 == 0)
-                      ? Theme.of(context).primaryColor.withOpacity(0.1)
-                      : Theme.of(context).cardColor.withOpacity(0.1),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListTile(
-                      title: Text(
-                        itemsWithPrices[index].item.itemName,
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                      leading: Hero(
-                        transitionOnUserGestures: true,
-                        tag: 'mask$index',
-                        child: Container(
-                          alignment: Alignment.topCenter,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage('images/mask.png')),
-                              borderRadius: BorderRadius.circular(5)),
-                          height: 84,
-                          width: 84,
-                        ),
-                      ),
-                      subtitle: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              itemsWithPrices[index].item.itemCode,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          Flexible(
-                              child: Text(
-                            '${itemsWithPrices[index].item.itemGroup}\n${itemsWithPrices[index].item.category}',
-                            overflow: TextOverflow.ellipsis,
-                          )),
-                          Column(
-                            children: [
-                              Text(
-                                '${itemsWithPrices[index].price.itemPrice.toString()}\$',
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              Text(itemsWithPrices[index].item.uom),
-                            ],
-                          ),
-                          Container()
-                        ],
-                      ),
-                      trailing: ClipOval(
-                        child: Material(
-                          color: Colors.green, // button color
-                          child: InkWell(
-                            splashColor:
-                                Theme.of(context).primaryColor, // inkwell color
-                            child: SizedBox(
-                                width: 35, height: 35, child: Icon(Icons.add)),
-                            onTap: () {
-                              print(salesOderBloc.getCusID);
-                              BlocProvider.of<SalesOrderBloc>(context).add(
-                                  AddItemButtonPress(
-                                      searchText: searchText,
-                                      itemNumber:
-                                          itemsWithPrices[index].item.itemCode,
-                                      setQty: double.parse(
-                                        _qtyController.text.toString(),
-                                      )));
-                            },
-                          ),
-                        ),
-                      ),
+          return toggleList
+              ? Center(
+                  child: SingleChildScrollView(
+                    controller: _controller,
+                    child: Center(
+                      child: Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.start,
+                          direction: Axis.horizontal,
+                          children: List.generate(
+                              _hasMore &&
+                                      pageData.length < itemsWithPrices.length
+                                  ? pageData.length + 1
+                                  : pageData.length,
+                              (index) => index >= pageData.length
+                                  ? circularbar()
+                                  : Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        height: 250,
+                                        width: 170,
+                                        child: Card(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.stretch,
+                                            children: [
+                                              Hero(
+                                                transitionOnUserGestures: true,
+                                                tag: 'mask${index}',
+                                                child: Container(
+                                                  alignment:
+                                                      Alignment.topCenter,
+                                                  decoration: BoxDecoration(
+                                                      image: DecorationImage(
+                                                          image: AssetImage(
+                                                              'images/mask.png')),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5)),
+                                                  height: 84,
+                                                  width: 84,
+                                                ),
+                                              ),
+                                              Flexible(
+                                                child: Text(
+                                                  itemsWithPrices[index]
+                                                      .item
+                                                      .itemName,
+                                                  maxLines: 2,
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                  ),
+                                                ),
+                                              ),
+                                              Text(
+                                                itemsWithPrices[index]
+                                                    .item
+                                                    .itemCode,
+                                                overflow: TextOverflow.ellipsis,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                              Text(
+                                                "IN STOCK: 18",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.green),
+                                              ),
+                                              Text(
+                                                '${itemsWithPrices[index].price.itemPrice.toString()}\$',
+                                                overflow: TextOverflow.ellipsis,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              Divider(
+                                                color: Theme.of(context)
+                                                    .scaffoldBackgroundColor,
+                                              ),
+                                              InkWell(
+                                                onTap: () async {
+                                                  try {
+                                                    BlocProvider.of<
+                                                                SalesOrderBloc>(
+                                                            context)
+                                                        .add(AddItemButtonPress(
+                                                            searchText:
+                                                                searchText,
+                                                            itemNumber:
+                                                                itemsWithPrices[
+                                                                        index]
+                                                                    .item
+                                                                    .itemCode,
+                                                            setQty:
+                                                                double.parse(
+                                                              _qtyController
+                                                                  .text
+                                                                  .toString(),
+                                                            )));
+                                                    showSnackBar(
+                                                      context: context,
+                                                      value:
+                                                          "${itemsWithPrices[index].item.itemName} is saved",
+                                                    );
+                                                  } catch (e) {
+                                                    showSnackBar(
+                                                        context: context,
+                                                        value:
+                                                            "Item is not saved please try again");
+                                                  }
+                                                },
+                                                child: Text(
+                                                  "Add",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Colors.green),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ))),
                     ),
                   ),
-                ),
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(),
-                    child: Container(
-                      color: (index % 2 == 0)
-                          ? Theme.of(context).primaryColor.withOpacity(0.1)
-                          : Theme.of(context).cardColor.withOpacity(0.1),
-                      //  height: 150,
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
+                )
+              : ListView.builder(
+                  key: UniqueKey(),
+                  itemCount: itemsWithPrices.length,
+                  itemBuilder: (context, index) {
+                    return ExpansionTile(
+                      tilePadding: EdgeInsets.zero,
+                      title: Container(
+                        color: (index % 2 == 0)
+                            ? Theme.of(context).primaryColor.withOpacity(0.1)
+                            : Theme.of(context).cardColor.withOpacity(0.1),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListTile(
+                            title: Flexible(
+                              child: Text(
+                                itemsWithPrices[index].item.itemName,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                            leading: Hero(
+                              transitionOnUserGestures: true,
+                              tag: 'mask$index',
+                              child: Container(
+                                alignment: Alignment.topCenter,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage('images/mask.png')),
+                                    borderRadius: BorderRadius.circular(5)),
+                                height: 84,
+                                width: 84,
+                              ),
+                            ),
+                            subtitle: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
+                                Flexible(
+                                  child: Text(
+                                    itemsWithPrices[index].item.itemCode,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                Flexible(
+                                    child: Text(
+                                  '${itemsWithPrices[index].item.itemGroup}\n${itemsWithPrices[index].item.category}',
+                                  overflow: TextOverflow.ellipsis,
+                                )),
                                 Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "Covid-19 N95 Face Masks",
+                                      '${itemsWithPrices[index].price.itemPrice.toString()}\$',
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
                                     ),
-                                    Text(
-                                      "ITEM-0001",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
+                                    Text(itemsWithPrices[index].item.uom),
                                   ],
                                 ),
+                                Container()
                               ],
                             ),
-                            Expanded(
+                            trailing: ClipOval(
+                              child: Material(
+                                color: Colors.green, // button color
+                                child: InkWell(
+                                  splashColor: Theme.of(context)
+                                      .primaryColor, // inkwell color
+                                  child: SizedBox(
+                                      width: 35,
+                                      height: 35,
+                                      child: Icon(Icons.add)),
+                                  onTap: () {
+                                    try {
+                                      BlocProvider.of<SalesOrderBloc>(context)
+                                          .add(AddItemButtonPress(
+                                              searchText: searchText,
+                                              itemNumber: itemsWithPrices[index]
+                                                  .item
+                                                  .itemCode,
+                                              setQty: double.parse(
+                                                _qtyController.text.toString(),
+                                              )));
+                                      showSnackBar(
+                                        context: context,
+                                        value:
+                                            "${itemsWithPrices[index].item.itemName} is saved",
+                                      );
+                                    } catch (e) {
+                                      showSnackBar(
+                                          context: context,
+                                          value:
+                                              "Item is not saved please try again");
+                                    }
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(),
+                          child: Container(
+                            color: (index % 2 == 0)
+                                ? Theme.of(context)
+                                    .primaryColor
+                                    .withOpacity(0.1)
+                                : Theme.of(context).cardColor.withOpacity(0.1),
+                            //  height: 150,
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
                               child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Column(
-                                    children: [Text('Each'), Text('1')],
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Covid-19 N95 Face Masks",
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            "ITEM-0001",
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                  Column(
-                                    children: [Text('Books'), Text('Studies')],
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Column(
+                                          children: [Text('Each'), Text('1')],
+                                        ),
+                                        Column(
+                                          children: [
+                                            Text('Books'),
+                                            Text('Studies')
+                                          ],
+                                        ),
+                                        Text('1000.00')
+                                      ],
+                                    ),
                                   ),
-                                  Text('1000.00')
                                 ],
                               ),
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
-          );
+                      ],
+                    );
+                  },
+                );
         }
         return BuildProgressIndicator();
       },
@@ -458,7 +842,6 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
                                       Text(
                                         salesOrderDetailTempData[index]
                                             .description,
-                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.normal),
@@ -624,6 +1007,44 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
         return BuildProgressIndicator();
       },
     );
+  }
+
+  _scrollListener() {
+    if (_controller.offset >= _controller.position.maxScrollExtent &&
+        !_controller.position.outOfRange) {
+      setState(() {
+        _hasMore = true;
+      });
+    }
+    if (_controller.offset <= _controller.position.minScrollExtent &&
+        !_controller.position.outOfRange) {
+      setState(() {
+        print('h the top');
+      });
+    }
+  }
+
+  Widget circularbar() {
+    _loadMore();
+    return Container(
+      height: 250,
+      child: Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+
+  void _loadMore() {
+    Future.delayed(const Duration(milliseconds: 300), () {
+      int preLenght = pageData.length + 20;
+
+      for (int i = pageData.length; pageData.length < preLenght; i++) {
+        pageData.add(itemsWithPrices[i]);
+      }
+      setState(() {
+        _hasMore = false;
+      });
+    });
   }
 
   buildGrandTotalListTile(String title, String amount) {
