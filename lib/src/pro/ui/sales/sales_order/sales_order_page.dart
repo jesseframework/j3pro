@@ -127,7 +127,7 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
                             ),
                             DropdownSearch(
 
-
+                              mode: Mode.MENU,
                               label: 'Contact',
                               selectedItem: addres[0].phoneNumber,
                               showSearchBox: false,
@@ -202,7 +202,7 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
                                 heading: 'PO Number',
                                 title: 'HJK-00001',
                                 trailingWidget: Icon(Icons.edit),
-                                callback: () {}),
+                                callback: (value) {}),
                             SizedBox(
                               height: 15,
                             ),
@@ -241,29 +241,107 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
                                     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                   
+                                 
                                   Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      buildSalesOrderCardRowTile(
-                                          heading: 'Currency',
-                                          title: 'JMD',
-                                          trailingWidget:
-                                              Icon(Icons.arrow_drop_down),
-                                          callback: () {}),
-                                      SizedBox(
-                                        height: 15,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            width: 200,
+                                            child: DropdownSearch(
+                                            mode: Mode.MENU,
+                              // labelStyle: TextStyle(
+                              //     color: Theme.of(context).textSelectionColor,
+                              //     fontWeight: FontWeight.w600,
+                              //     fontSize: 12),
+                              label: 'Currency',
+                              selectedItem: 'USD',
+                              showSearchBox: false,
+                              items: [
+                                'USD',
+                                'Contract',
+                                'Cash Sales',
+                                'Rush Order',
+                                'Free of Charge Delivery',
+                                'Returns',
+                                'Consignment Order',
+                                'Credit Memo Request',
+                                'Debit Memo Request',
+                                'Pick Up Order',
+                                'Ullage Order ',
+                              ],
+                              onChanged: (value) async {
+                                // await widget
+                                //     .businessRuleDao
+                                //     .updateBussinessRule(
+                                //     businessRuleData
+                                //         .copyWith(
+                                //         value:
+                                //         value));
+                              },
+                              // autofocus: true,
+                              // backgroundColor: Theme.of(context).cardColor,
+                            ),
+                                          ),
+                                         
+                                          // buildSalesOrderCardRowTile(
+                                          //     heading: 'Currency',
+                                          //     title: 'JMD',
+                                          //     trailingWidget:
+                                          //         Icon(Icons.arrow_drop_down),
+                                          //     callback: () {}),
+                                          SizedBox(
+                                            height: 15,
+                                          ),
+                                           Container(
+                                            width: 200,
+                                            child: DropdownSearch(
+                                            mode: Mode.MENU,
+                              // labelStyle: TextStyle(
+                              //     color: Theme.of(context).textSelectionColor,
+                              //     fontWeight: FontWeight.w600,
+                              //     fontSize: 12),
+                              label: 'Discount Type',
+                              selectedItem:'Percentage',
+                              showSearchBox: false,
+                              items: [
+                                'USD',
+                                'Contract',
+                                'Cash Sales',
+                                'Rush Order',
+                                'Free of Charge Delivery',
+                                'Returns',
+                                'Consignment Order',
+                                'Credit Memo Request',
+                                'Debit Memo Request',
+                                'Pick Up Order',
+                                'Ullage Order ',
+                              ],
+                              onChanged: (value) async {
+                                // await widget
+                                //     .businessRuleDao
+                                //     .updateBussinessRule(
+                                //     businessRuleData
+                                //         .copyWith(
+                                //         value:
+                                //         value));
+                              },
+                              // autofocus: true,
+                              // backgroundColor: Theme.of(context).cardColor,
+                            ),
+                                           )
+                                          // buildSalesOrderCardRowTile(
+                                          //     heading: 'Discount Type',
+                                          //     title: 'Percentage',
+                                          //     trailingWidget:
+                                          //         Icon(Icons.arrow_drop_down),
+                                          //     callback: () {}),
+                                        ],
                                       ),
-                                      buildSalesOrderCardRowTile(
-                                          heading: 'Discount Type',
-                                          title: 'Percentage',
-                                          trailingWidget:
-                                              Icon(Icons.arrow_drop_down),
-                                          callback: () {}),
-                                    ],
-                                  ),
+                                 
                                   Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -343,7 +421,11 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
             Flexible(
               child: Text(
                 title,
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                style: TextStyle(
+                  fontWeight: FontWeight.w600, 
+                  fontSize: 16,
+                  color: Colors.grey[600],
+                  ),
               ),
             ),
             InkWell(

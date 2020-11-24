@@ -21,7 +21,7 @@ import 'package:barcode_keyboard_listener/barcode_keyboard_listener.dart';
 
 class SalesOrderItemPage extends StatefulWidget {
   static final route = '/SalesOrderItemPage';
-  var db;  
+  var db;
 
   ItemsDao itemsDao;
   SalesOrderDetailTempDao salesOrderDetailTempDao;
@@ -73,7 +73,7 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
     });
   }
 
-  void _setScanButtonKeyCode(){
+  void _setScanButtonKeyCode() {
     setState(() {
       if (_barcodeListener != null) {
         _barcodeListener.dispose();
@@ -81,7 +81,8 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
       }
 
       _scanButtonKeyCode = int.parse(_tecScanKeyCode.text);
-      _barcodeListener = BarcodeListener(_onScan, _scanButtonKeyCode, _onKeyPress);
+      _barcodeListener =
+          BarcodeListener(_onScan, _scanButtonKeyCode, _onKeyPress);
     });
   }
 
@@ -95,13 +96,13 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
     final widgetList = List<Widget>();
 
     widgetList.addAll([
-      Text('Press the scan button, its code will appear in the text field below'),
+      Text(
+          'Press the scan button, its code will appear in the text field below'),
       TextField(
         controller: _tecScanKeyCode,
-        decoration: InputDecoration( suffix: IconButton(
-            icon: Icon(Icons.check),
-            onPressed: _setScanButtonKeyCode
-        )),
+        decoration: InputDecoration(
+            suffix: IconButton(
+                icon: Icon(Icons.check), onPressed: _setScanButtonKeyCode)),
       )
     ]);
     return Scaffold(
@@ -128,9 +129,10 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
                       stream: widget.salesOrderDetailTempDao
                           .transactionTotal('1001010011', 'Pending'),
                       builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          List<SalesOrderDetailTempData> totalData =
+                         List<SalesOrderDetailTempData> totalData =
                               snapshot.data;
+                        if (snapshot.hasData&& totalData.isNotEmpty ) {
+                         
                           return Badge(
                               badgeContent:
                                   Text(totalData[0].itemCount.toString()),
@@ -1096,8 +1098,9 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
   }
 
   buildGrandTotalListTile(String title, String amount) {
-    return ListTile(
-      title: Row(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal:18,vertical: 5),
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
