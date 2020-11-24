@@ -47,8 +47,8 @@ class _ServiceActivitiesPageState extends State<ServiceActivitiesPage> {
       child: Scaffold(
           appBar: AppBar(
             title: Text(AppLocalization.of(context)
-                    .translate('service_activities_appbar_title') ??
-                "Service Activities"),
+                    .translate('journey_plan_appbar_title') ??
+                "Journey Plan"),
           ),
           body: Column(
             children: [

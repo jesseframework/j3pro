@@ -1,7 +1,6 @@
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/models/items/ItemsWithPrices.dart';
 import 'package:j3enterprise/src/pro/models/items/item_master_model.dart';
-import 'package:j3enterprise/src/pro/models/items/item_prices_model.dart';
 import 'package:moor/moor.dart';
 
 part 'item_master_crud.g.dart';
@@ -50,11 +49,13 @@ class ItemsDao extends DatabaseAccessor<AppDatabase> with _$ItemsDaoMixin {
   }
 
 //ToDo can be remove using
-  Stream<List<ItemsWithPrices>> watchItemsWithPricesJoin(String searchText, bool isDelete) {
+  Stream<List<ItemsWithPrices>> watchItemsWithPricesJoin(
+      String searchText, bool isDelete) {
     final query = select(db.items).join([
       leftOuterJoin(
           db.itemsPrices, db.items.id.equalsExp(db.itemsPrices.itemId)),
-    ])..where(db.items.itemName.contains(searchText) |
+    ])
+      ..where(db.items.itemName.contains(searchText) |
           db.items.itemCode.contains(searchText) |
           db.items.description.contains(searchText) &
               db.items.isDeleted.equals(isDelete));
@@ -67,8 +68,7 @@ class ItemsDao extends DatabaseAccessor<AppDatabase> with _$ItemsDaoMixin {
     });
   }
 
-  Stream<List<ItemsWithPrices>> watchitemsWithprices(
-      String searchText) {
+  Stream<List<ItemsWithPrices>> watchitemsWithprices(String searchText) {
     return customSelect(
         ' SELECT '
         ' i.item_name, '

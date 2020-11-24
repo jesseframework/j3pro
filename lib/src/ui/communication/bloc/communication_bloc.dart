@@ -73,7 +73,7 @@ class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
       // set the success state
       //yield CommunicationSuccess();
       yield CommunicationUpdateuccess(data: event.data);
-       ShowSnakBar("Success", "Communication Update");
+      ShowSnakBar("Success", "Communication Update");
     }
 
     if (event is UpdateERPCommunicationButtonPressed) {
@@ -101,7 +101,6 @@ class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
 
       // set the success state
       yield CommunicationLoadSuccess(data: data);
-     
     }
   }
 }

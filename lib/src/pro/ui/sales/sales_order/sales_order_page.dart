@@ -33,8 +33,8 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            AppLocalization.of(context).translate('sales_order_appbar_title') ??
-                "Sales Order"),
+            AppLocalization.of(context).translate('sales_order_information_appbar_title') ??
+            'Sales Order Information'),
         actions: [
           InkWell(
             onTap: () {
@@ -126,10 +126,8 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
                               height: 15,
                             ),
                             DropdownSearch(
-                              // labelStyle: TextStyle(
-                              //     fontWeight: FontWeight.w600,
-                              //     color: Theme.of(context).textSelectionColor,
-                              //     fontSize: 12),
+
+
                               label: 'Contact',
                               selectedItem: addres[0].phoneNumber,
                               showSearchBox: false,
@@ -335,7 +333,7 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
           heading,
           style: TextStyle(
               fontWeight: FontWeight.w600,
-              color: Theme.of(context).textSelectionColor,
+              color: Colors.grey,
               fontSize: 12),
         ),
         Row(
@@ -379,7 +377,7 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
           heading,
           style: TextStyle(
               fontWeight: FontWeight.w600,
-              color: Theme.of(context).textSelectionColor,
+              color: Colors.grey,
               fontSize: 12),
         ),
         Row(
