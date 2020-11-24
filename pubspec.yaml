@@ -38,6 +38,7 @@ dependencies:
   google_fonts: ^1.1.0
   chopper: ^3.0.0
   flutter_simple_treeview: ^2.0.1
+  barcode_keyboard_listener: ^0.0.1
  
 
 
@@ -78,6 +79,7 @@ dependencies:
   overlay_support: ^1.0.4
   shamsi_date: ^0.8.1
   random_string_one: ^1.0.2
+  twilio_flutter: ^0.0.5
 dev_dependencies:
   flutter_test:
     sdk: flutter

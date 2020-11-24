@@ -13,10 +13,11 @@ import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/no_data_found.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
+import 'package:barcode_keyboard_listener/barcode_keyboard_listener.dart';
 
 class SalesOrderItemPage extends StatefulWidget {
   static final route = '/SalesOrderItemPage';
-  var db;
+  var db;  
 
   ItemsDao itemsDao;
   SalesOrderDetailTempDao salesOrderDetailTempDao;
@@ -38,13 +39,60 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
   bool searchFoused = false;
   int itemCount=0;
 
+  BarcodeListener _barcodeListener;
+  final _tecScanKeyCode = TextEditingController();
+  int _scanButtonKeyCode;
+  String _scanResult = '';
+
   @override
   void initState() {
     super.initState();
+    _barcodeListener = BarcodeListener(null, null, _onKeyPress);
   }
+
+  void _onScan(String barcode) async {
+    setState(() {
+      _scanResult = barcode;
+    });
+  }
+
+  void _onKeyPress(int keyCode) async {
+    setState(() {
+      _tecScanKeyCode.text = keyCode.toString();
+    });
+  }
+
+  void _setScanButtonKeyCode(){
+    setState(() {
+      if (_barcodeListener != null) {
+        _barcodeListener.dispose();
+        _barcodeListener = null;
+      }
+
+      _scanButtonKeyCode = int.parse(_tecScanKeyCode.text);
+      _barcodeListener = BarcodeListener(_onScan, _scanButtonKeyCode, _onKeyPress);
+    });
+  }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
+    final widgetList = List<Widget>();
+
+    widgetList.addAll([
+      Text('Press the scan button, its code will appear in the text field below'),
+      TextField(
+        controller: _tecScanKeyCode,
+        decoration: InputDecoration( suffix: IconButton(
+            icon: Icon(Icons.check),
+            onPressed: _setScanButtonKeyCode
+        )),
+      )
+    ]);
     return Scaffold(
       //ToDO put translation
 

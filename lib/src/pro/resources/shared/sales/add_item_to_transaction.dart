@@ -11,6 +11,7 @@ import 'package:j3enterprise/src/pro/database/crud/warehouse/inventory_items_cru
 import 'package:j3enterprise/src/pro/resources/shared/sales/calculate_discount.dart';
 import 'package:j3enterprise/src/pro/resources/shared/sales/calculate_tax.dart';
 import 'package:j3enterprise/src/pro/resources/shared/sales/calculate_total.dart';
+import 'package:j3enterprise/src/pro/resources/shared/sales/transfer_inventory.dart';
 import 'package:j3enterprise/src/pro/resources/shared/warehouse/add_item_to_warehouse.dart';
 import 'package:j3enterprise/src/pro/resources/shared/warehouse/check_inventory.dart';
 import 'package:j3enterprise/src/resources/shared/utils/date_formating.dart';
@@ -83,6 +84,7 @@ class AddItemToTransaction {
   CalculateDiscount calculateDiscount;
   CalculateTax calculateTax;
   CalculateTotal calculateTotal;
+  TransferInventory transferInventory;
 
   AddItemToTransaction() {
     db = AppDatabase();
@@ -336,6 +338,21 @@ class AddItemToTransaction {
 
       await calculateTotal.getTotal(
           tempSalesOrderNo, tempTransactionStatus, itemId, uom);
+
+      // transferInventory.transferStock(
+      //     tenantId,
+      //     itemCode,
+      //     itemName,
+      //     itemId,
+      //     description,
+      //     itemGroup,
+      //     stockUOM,
+      //     transactionNumber,
+      //     qtyMove,
+      //     conversionFactor,
+      //     itemPrice,
+      //     'Order',
+      //     'Standard Order');
 
       //Clean up transaction for next item
       registerQuantityTotal = 0;

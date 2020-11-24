@@ -24,4 +24,12 @@ class SalesOrderDetailDao extends DatabaseAccessor<AppDatabase>
       into(db.salesOrderDetail).insert(salesOrderDetailData);
 
   Future deleteAllSalesOrderDetail() => delete(db.salesOrderDetail).go();
+
+  Future postSalesOrderData(SalesOrderDetailCompanion salesOrderDetailCompanion,
+      SalesOrderHeaderCompanion salesOrderHeaderCompanion) {
+    return transaction(() async {
+      await into(db.salesOrderDetail).insert(salesOrderDetailCompanion);
+      await into(db.salesOrderHeader).insert(salesOrderHeaderCompanion);
+    });
+  }
 }

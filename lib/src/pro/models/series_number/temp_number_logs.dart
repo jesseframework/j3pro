@@ -2,7 +2,7 @@ import 'package:j3enterprise/src/resources/shared/extension/must_have_tenant.dar
 import 'package:moor/moor.dart';
 
 class TempNumberLogs extends Table implements MustHaveTenant {
-  IntColumn get id => integer()();
+  IntColumn get id => integer().autoIncrement()();
   IntColumn get tenantId => integer().nullable()();
   TextColumn get nextSeriesNumber => text().nullable()();
   TextColumn get lastSeriesNumber => text().nullable()();
@@ -11,5 +11,5 @@ class TempNumberLogs extends Table implements MustHaveTenant {
   TextColumn get typeOfNumber => text().nullable()();
 
   @override
-  Set<Column> get primaryKey => {id};
+  Set<Column> get primaryKey => {typeOfNumber};
 }

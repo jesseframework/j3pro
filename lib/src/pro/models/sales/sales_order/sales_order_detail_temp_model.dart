@@ -3,7 +3,7 @@ import 'package:j3enterprise/src/resources/shared/extension/must_have_tenant.dar
 import 'package:moor/moor.dart';
 
 class SalesOrderDetailTemp extends Table implements MustHaveTenant, MultiUser {
-  IntColumn get id => integer()();
+  IntColumn get id => integer().autoIncrement()();
   TextColumn get transactionNumber => text()();
   TextColumn get inventoryCycleNumber => text().nullable()();
   TextColumn get daySessionNumber => text().nullable()();

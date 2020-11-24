@@ -1935,8 +1935,8 @@ class SalesOrderDetailData extends DataClass
       @required this.quantity,
       @required this.subTotal,
       @required this.grandTotal,
-      @required this.itemCount,
-      @required this.depositTotal,
+      this.itemCount,
+      this.depositTotal,
       this.lineId,
       @required this.taxTotal,
       @required this.shippingTotal,
@@ -2676,8 +2676,8 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
     @required double quantity,
     @required double subTotal,
     @required double grandTotal,
-    @required int itemCount,
-    @required double depositTotal,
+    this.itemCount = const Value.absent(),
+    this.depositTotal = const Value.absent(),
     this.lineId = const Value.absent(),
     @required double taxTotal,
     @required double shippingTotal,
@@ -2710,8 +2710,6 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
         quantity = Value(quantity),
         subTotal = Value(subTotal),
         grandTotal = Value(grandTotal),
-        itemCount = Value(itemCount),
-        depositTotal = Value(depositTotal),
         taxTotal = Value(taxTotal),
         shippingTotal = Value(shippingTotal),
         conversionFactor = Value(conversionFactor);
@@ -3467,7 +3465,7 @@ class $SalesOrderDetailTable extends SalesOrderDetail
     return GeneratedIntColumn(
       'item_count',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -3481,7 +3479,7 @@ class $SalesOrderDetailTable extends SalesOrderDetail
     return GeneratedRealColumn(
       'deposit_total',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -3802,16 +3800,12 @@ class $SalesOrderDetailTable extends SalesOrderDetail
     if (data.containsKey('item_count')) {
       context.handle(_itemCountMeta,
           itemCount.isAcceptableOrUnknown(data['item_count'], _itemCountMeta));
-    } else if (isInserting) {
-      context.missing(_itemCountMeta);
     }
     if (data.containsKey('deposit_total')) {
       context.handle(
           _depositTotalMeta,
           depositTotal.isAcceptableOrUnknown(
               data['deposit_total'], _depositTotalMeta));
-    } else if (isInserting) {
-      context.missing(_depositTotalMeta);
     }
     if (data.containsKey('line_id')) {
       context.handle(_lineIdMeta,

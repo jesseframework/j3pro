@@ -26,7 +26,7 @@ class TempNumberLogsDao extends DatabaseAccessor<AppDatabase>
         .get();
   }
 
-  Future<void> createOrUpdateTempNumber(TempNumberLog tempNumberLog) {
+  Future<void> createOrUpdateTempNumber(TempNumberLogsCompanion tempNumberLog) {
     return into(db.tempNumberLogs).insertOnConflictUpdate(tempNumberLog);
   }
 

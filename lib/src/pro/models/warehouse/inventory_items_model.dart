@@ -9,10 +9,12 @@ class InventoryItems extends Table implements MustHaveTenant, FullAudited {
   TextColumn get itemName => text().nullable()();
   TextColumn get uom => text().nullable()();
   TextColumn get defaultWarehouse => text().nullable()();
-  RealColumn get qtyOnHand => real()();
-  RealColumn get qtyAdjust => real()();
-  RealColumn get qtySold => real()();
-  RealColumn get qtyCount => real()();
+  RealColumn get quantityOnHand => real()();
+  RealColumn get quantityAvailable => real()();
+  RealColumn get quantityAdjust => real()();
+  RealColumn get quantitySoldOnInvoice => real()();
+  RealColumn get quantitySoldOnOrder => real()();
+  RealColumn get quantityCount => real()();
   TextColumn get inventoryCycleNumber => text()();
   IntColumn get createUserId => integer().nullable()();
   DateTimeColumn get creationTime => dateTime().nullable()();

@@ -10,6 +10,17 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
   final AppDatabase db;
   SalesOrderDetailTempDao(this.db) : super(db);
 
+  
+  Future updateCreateFullAudit(SalesOrderDetailTempCompanion sodtc, int id, String transactionNumber) {
+    return (update(db.salesOrderDetailTemp)
+          ..where((t) => t.transactionNumber.equals(transactionNumber) & t.id.equals(id)))
+        .write(
+      SalesOrderDetailTempCompanion(
+         ),
+    );
+  }
+
+
   Future<List<SalesOrderDetailTempData>> getAllSalesOrderDetail() {
     return (select(db.salesOrderDetailTemp).get());
   }
@@ -101,6 +112,17 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
               t.transactionNumber.equals(transactionNumber) &
               t.transactionStatus.equals(transactionStatus)))
         .watch();
+  }
+
+   Future<List<SalesOrderDetailTempData>> getAllSalesOrderDetailTemp(
+      String transactionNumber, String transactionStatus) {
+    return (select(db.salesOrderDetailTemp)
+          ..orderBy(
+              [(t) => OrderingTerm(expression: t.id, mode: OrderingMode.desc)])
+          ..where((t) =>
+              t.transactionNumber.equals(transactionNumber) &
+              t.transactionStatus.equals(transactionStatus)))
+        .get();
   }
 
   Future updateInvoiceGrandTotal(

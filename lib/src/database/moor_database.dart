@@ -33,6 +33,8 @@ import 'package:j3enterprise/src/models/preference_model.dart';
 import 'package:j3enterprise/src/models/tenant_model.dart';
 import 'package:j3enterprise/src/models/user_model.dart';
 import 'package:j3enterprise/src/pro/models/account/sales_tax/sales_tax_model.dart';
+import 'package:j3enterprise/src/pro/models/clock/clock_in_model.dart';
+import 'package:j3enterprise/src/pro/models/clock/money_deposit_model.dart';
 import 'package:j3enterprise/src/pro/models/customer/address_model.dart';
 import 'package:j3enterprise/src/pro/models/customer/contact_model.dart';
 import 'package:j3enterprise/src/pro/models/customer/customer_master_model.dart';
@@ -52,6 +54,7 @@ import 'package:j3enterprise/src/pro/models/sales/sales_order/sales_order_header
 import 'package:j3enterprise/src/pro/models/series_number/series_number_model.dart';
 import 'package:j3enterprise/src/pro/models/series_number/temp_number_logs.dart';
 import 'package:j3enterprise/src/pro/models/warehouse/inventory_items_model.dart';
+import 'package:j3enterprise/src/pro/models/warehouse/inventory_transaction_model.dart';
 import 'package:j3enterprise/src/resources/shared/utils/date_formating.dart';
 import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
@@ -92,7 +95,10 @@ part 'moor_database.g.dart';
   StockUnitOfMeasure,
   JourneyPlan,
   UPCCode,
-  InventoryItems
+  InventoryItems,
+  InventoryTransaction,
+  MoneyDeposit,
+  ClockIn
 ])
 class AppDatabase extends _$AppDatabase {
   static AppDatabase _db = _constructDb();

@@ -11834,8 +11834,8 @@ class SalesOrderDetailData extends DataClass
       @required this.quantity,
       @required this.subTotal,
       @required this.grandTotal,
-      @required this.itemCount,
-      @required this.depositTotal,
+      this.itemCount,
+      this.depositTotal,
       this.lineId,
       @required this.taxTotal,
       @required this.shippingTotal,
@@ -12575,8 +12575,8 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
     @required double quantity,
     @required double subTotal,
     @required double grandTotal,
-    @required int itemCount,
-    @required double depositTotal,
+    this.itemCount = const Value.absent(),
+    this.depositTotal = const Value.absent(),
     this.lineId = const Value.absent(),
     @required double taxTotal,
     @required double shippingTotal,
@@ -12609,8 +12609,6 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
         quantity = Value(quantity),
         subTotal = Value(subTotal),
         grandTotal = Value(grandTotal),
-        itemCount = Value(itemCount),
-        depositTotal = Value(depositTotal),
         taxTotal = Value(taxTotal),
         shippingTotal = Value(shippingTotal),
         conversionFactor = Value(conversionFactor);
@@ -13366,7 +13364,7 @@ class $SalesOrderDetailTable extends SalesOrderDetail
     return GeneratedIntColumn(
       'item_count',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -13380,7 +13378,7 @@ class $SalesOrderDetailTable extends SalesOrderDetail
     return GeneratedRealColumn(
       'deposit_total',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -13701,16 +13699,12 @@ class $SalesOrderDetailTable extends SalesOrderDetail
     if (data.containsKey('item_count')) {
       context.handle(_itemCountMeta,
           itemCount.isAcceptableOrUnknown(data['item_count'], _itemCountMeta));
-    } else if (isInserting) {
-      context.missing(_itemCountMeta);
     }
     if (data.containsKey('deposit_total')) {
       context.handle(
           _depositTotalMeta,
           depositTotal.isAcceptableOrUnknown(
               data['deposit_total'], _depositTotalMeta));
-    } else if (isInserting) {
-      context.missing(_depositTotalMeta);
     }
     if (data.containsKey('line_id')) {
       context.handle(_lineIdMeta,
@@ -33361,6 +33355,3407 @@ class $InventoryItemsTable extends InventoryItems
   }
 }
 
+class InventoryTransactionData extends DataClass
+    implements Insertable<InventoryTransactionData> {
+  final int tenantId;
+  final int id;
+  final String itemCode;
+  final String itemName;
+  final String itemId;
+  final String description;
+  final String itemGroup;
+  final String stockUom;
+  final String salesUom;
+  final String transactionNumber;
+  final double qtyMove;
+  final double qtyMoveConvert;
+  final double conversionFactor;
+  final double costPrice;
+  final double itemPrice;
+  final String transactionType;
+  final String reasonCode;
+  final String inventoryCycle;
+  final String toWarehouse;
+  final String fromWarehouse;
+  InventoryTransactionData(
+      {this.tenantId,
+      @required this.id,
+      this.itemCode,
+      this.itemName,
+      this.itemId,
+      this.description,
+      this.itemGroup,
+      this.stockUom,
+      this.salesUom,
+      this.transactionNumber,
+      @required this.qtyMove,
+      @required this.qtyMoveConvert,
+      @required this.conversionFactor,
+      @required this.costPrice,
+      @required this.itemPrice,
+      this.transactionType,
+      this.reasonCode,
+      this.inventoryCycle,
+      this.toWarehouse,
+      this.fromWarehouse});
+  factory InventoryTransactionData.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final doubleType = db.typeSystem.forDartType<double>();
+    return InventoryTransactionData(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      itemCode: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}item_code']),
+      itemName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}item_name']),
+      itemId:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
+      description: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}description']),
+      itemGroup: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}item_group']),
+      stockUom: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}stock_uom']),
+      salesUom: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}sales_uom']),
+      transactionNumber: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}transaction_number']),
+      qtyMove: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}qty_move']),
+      qtyMoveConvert: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}qty_move_convert']),
+      conversionFactor: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}conversion_factor']),
+      costPrice: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}cost_price']),
+      itemPrice: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}item_price']),
+      transactionType: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}transaction_type']),
+      reasonCode: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}reason_code']),
+      inventoryCycle: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}inventory_cycle']),
+      toWarehouse: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}to_warehouse']),
+      fromWarehouse: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}from_warehouse']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || itemCode != null) {
+      map['item_code'] = Variable<String>(itemCode);
+    }
+    if (!nullToAbsent || itemName != null) {
+      map['item_name'] = Variable<String>(itemName);
+    }
+    if (!nullToAbsent || itemId != null) {
+      map['item_id'] = Variable<String>(itemId);
+    }
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    if (!nullToAbsent || itemGroup != null) {
+      map['item_group'] = Variable<String>(itemGroup);
+    }
+    if (!nullToAbsent || stockUom != null) {
+      map['stock_uom'] = Variable<String>(stockUom);
+    }
+    if (!nullToAbsent || salesUom != null) {
+      map['sales_uom'] = Variable<String>(salesUom);
+    }
+    if (!nullToAbsent || transactionNumber != null) {
+      map['transaction_number'] = Variable<String>(transactionNumber);
+    }
+    if (!nullToAbsent || qtyMove != null) {
+      map['qty_move'] = Variable<double>(qtyMove);
+    }
+    if (!nullToAbsent || qtyMoveConvert != null) {
+      map['qty_move_convert'] = Variable<double>(qtyMoveConvert);
+    }
+    if (!nullToAbsent || conversionFactor != null) {
+      map['conversion_factor'] = Variable<double>(conversionFactor);
+    }
+    if (!nullToAbsent || costPrice != null) {
+      map['cost_price'] = Variable<double>(costPrice);
+    }
+    if (!nullToAbsent || itemPrice != null) {
+      map['item_price'] = Variable<double>(itemPrice);
+    }
+    if (!nullToAbsent || transactionType != null) {
+      map['transaction_type'] = Variable<String>(transactionType);
+    }
+    if (!nullToAbsent || reasonCode != null) {
+      map['reason_code'] = Variable<String>(reasonCode);
+    }
+    if (!nullToAbsent || inventoryCycle != null) {
+      map['inventory_cycle'] = Variable<String>(inventoryCycle);
+    }
+    if (!nullToAbsent || toWarehouse != null) {
+      map['to_warehouse'] = Variable<String>(toWarehouse);
+    }
+    if (!nullToAbsent || fromWarehouse != null) {
+      map['from_warehouse'] = Variable<String>(fromWarehouse);
+    }
+    return map;
+  }
+
+  InventoryTransactionCompanion toCompanion(bool nullToAbsent) {
+    return InventoryTransactionCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      itemCode: itemCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(itemCode),
+      itemName: itemName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(itemName),
+      itemId:
+          itemId == null && nullToAbsent ? const Value.absent() : Value(itemId),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      itemGroup: itemGroup == null && nullToAbsent
+          ? const Value.absent()
+          : Value(itemGroup),
+      stockUom: stockUom == null && nullToAbsent
+          ? const Value.absent()
+          : Value(stockUom),
+      salesUom: salesUom == null && nullToAbsent
+          ? const Value.absent()
+          : Value(salesUom),
+      transactionNumber: transactionNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(transactionNumber),
+      qtyMove: qtyMove == null && nullToAbsent
+          ? const Value.absent()
+          : Value(qtyMove),
+      qtyMoveConvert: qtyMoveConvert == null && nullToAbsent
+          ? const Value.absent()
+          : Value(qtyMoveConvert),
+      conversionFactor: conversionFactor == null && nullToAbsent
+          ? const Value.absent()
+          : Value(conversionFactor),
+      costPrice: costPrice == null && nullToAbsent
+          ? const Value.absent()
+          : Value(costPrice),
+      itemPrice: itemPrice == null && nullToAbsent
+          ? const Value.absent()
+          : Value(itemPrice),
+      transactionType: transactionType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(transactionType),
+      reasonCode: reasonCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(reasonCode),
+      inventoryCycle: inventoryCycle == null && nullToAbsent
+          ? const Value.absent()
+          : Value(inventoryCycle),
+      toWarehouse: toWarehouse == null && nullToAbsent
+          ? const Value.absent()
+          : Value(toWarehouse),
+      fromWarehouse: fromWarehouse == null && nullToAbsent
+          ? const Value.absent()
+          : Value(fromWarehouse),
+    );
+  }
+
+  factory InventoryTransactionData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return InventoryTransactionData(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      id: serializer.fromJson<int>(json['id']),
+      itemCode: serializer.fromJson<String>(json['itemCode']),
+      itemName: serializer.fromJson<String>(json['itemName']),
+      itemId: serializer.fromJson<String>(json['itemId']),
+      description: serializer.fromJson<String>(json['description']),
+      itemGroup: serializer.fromJson<String>(json['itemGroup']),
+      stockUom: serializer.fromJson<String>(json['stockUom']),
+      salesUom: serializer.fromJson<String>(json['salesUom']),
+      transactionNumber: serializer.fromJson<String>(json['transactionNumber']),
+      qtyMove: serializer.fromJson<double>(json['qtyMove']),
+      qtyMoveConvert: serializer.fromJson<double>(json['qtyMoveConvert']),
+      conversionFactor: serializer.fromJson<double>(json['conversionFactor']),
+      costPrice: serializer.fromJson<double>(json['costPrice']),
+      itemPrice: serializer.fromJson<double>(json['itemPrice']),
+      transactionType: serializer.fromJson<String>(json['transactionType']),
+      reasonCode: serializer.fromJson<String>(json['reasonCode']),
+      inventoryCycle: serializer.fromJson<String>(json['inventoryCycle']),
+      toWarehouse: serializer.fromJson<String>(json['toWarehouse']),
+      fromWarehouse: serializer.fromJson<String>(json['fromWarehouse']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'id': serializer.toJson<int>(id),
+      'itemCode': serializer.toJson<String>(itemCode),
+      'itemName': serializer.toJson<String>(itemName),
+      'itemId': serializer.toJson<String>(itemId),
+      'description': serializer.toJson<String>(description),
+      'itemGroup': serializer.toJson<String>(itemGroup),
+      'stockUom': serializer.toJson<String>(stockUom),
+      'salesUom': serializer.toJson<String>(salesUom),
+      'transactionNumber': serializer.toJson<String>(transactionNumber),
+      'qtyMove': serializer.toJson<double>(qtyMove),
+      'qtyMoveConvert': serializer.toJson<double>(qtyMoveConvert),
+      'conversionFactor': serializer.toJson<double>(conversionFactor),
+      'costPrice': serializer.toJson<double>(costPrice),
+      'itemPrice': serializer.toJson<double>(itemPrice),
+      'transactionType': serializer.toJson<String>(transactionType),
+      'reasonCode': serializer.toJson<String>(reasonCode),
+      'inventoryCycle': serializer.toJson<String>(inventoryCycle),
+      'toWarehouse': serializer.toJson<String>(toWarehouse),
+      'fromWarehouse': serializer.toJson<String>(fromWarehouse),
+    };
+  }
+
+  InventoryTransactionData copyWith(
+          {int tenantId,
+          int id,
+          String itemCode,
+          String itemName,
+          String itemId,
+          String description,
+          String itemGroup,
+          String stockUom,
+          String salesUom,
+          String transactionNumber,
+          double qtyMove,
+          double qtyMoveConvert,
+          double conversionFactor,
+          double costPrice,
+          double itemPrice,
+          String transactionType,
+          String reasonCode,
+          String inventoryCycle,
+          String toWarehouse,
+          String fromWarehouse}) =>
+      InventoryTransactionData(
+        tenantId: tenantId ?? this.tenantId,
+        id: id ?? this.id,
+        itemCode: itemCode ?? this.itemCode,
+        itemName: itemName ?? this.itemName,
+        itemId: itemId ?? this.itemId,
+        description: description ?? this.description,
+        itemGroup: itemGroup ?? this.itemGroup,
+        stockUom: stockUom ?? this.stockUom,
+        salesUom: salesUom ?? this.salesUom,
+        transactionNumber: transactionNumber ?? this.transactionNumber,
+        qtyMove: qtyMove ?? this.qtyMove,
+        qtyMoveConvert: qtyMoveConvert ?? this.qtyMoveConvert,
+        conversionFactor: conversionFactor ?? this.conversionFactor,
+        costPrice: costPrice ?? this.costPrice,
+        itemPrice: itemPrice ?? this.itemPrice,
+        transactionType: transactionType ?? this.transactionType,
+        reasonCode: reasonCode ?? this.reasonCode,
+        inventoryCycle: inventoryCycle ?? this.inventoryCycle,
+        toWarehouse: toWarehouse ?? this.toWarehouse,
+        fromWarehouse: fromWarehouse ?? this.fromWarehouse,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('InventoryTransactionData(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('itemCode: $itemCode, ')
+          ..write('itemName: $itemName, ')
+          ..write('itemId: $itemId, ')
+          ..write('description: $description, ')
+          ..write('itemGroup: $itemGroup, ')
+          ..write('stockUom: $stockUom, ')
+          ..write('salesUom: $salesUom, ')
+          ..write('transactionNumber: $transactionNumber, ')
+          ..write('qtyMove: $qtyMove, ')
+          ..write('qtyMoveConvert: $qtyMoveConvert, ')
+          ..write('conversionFactor: $conversionFactor, ')
+          ..write('costPrice: $costPrice, ')
+          ..write('itemPrice: $itemPrice, ')
+          ..write('transactionType: $transactionType, ')
+          ..write('reasonCode: $reasonCode, ')
+          ..write('inventoryCycle: $inventoryCycle, ')
+          ..write('toWarehouse: $toWarehouse, ')
+          ..write('fromWarehouse: $fromWarehouse')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode,
+      $mrjc(
+          id.hashCode,
+          $mrjc(
+              itemCode.hashCode,
+              $mrjc(
+                  itemName.hashCode,
+                  $mrjc(
+                      itemId.hashCode,
+                      $mrjc(
+                          description.hashCode,
+                          $mrjc(
+                              itemGroup.hashCode,
+                              $mrjc(
+                                  stockUom.hashCode,
+                                  $mrjc(
+                                      salesUom.hashCode,
+                                      $mrjc(
+                                          transactionNumber.hashCode,
+                                          $mrjc(
+                                              qtyMove.hashCode,
+                                              $mrjc(
+                                                  qtyMoveConvert.hashCode,
+                                                  $mrjc(
+                                                      conversionFactor.hashCode,
+                                                      $mrjc(
+                                                          costPrice.hashCode,
+                                                          $mrjc(
+                                                              itemPrice
+                                                                  .hashCode,
+                                                              $mrjc(
+                                                                  transactionType
+                                                                      .hashCode,
+                                                                  $mrjc(
+                                                                      reasonCode
+                                                                          .hashCode,
+                                                                      $mrjc(
+                                                                          inventoryCycle
+                                                                              .hashCode,
+                                                                          $mrjc(
+                                                                              toWarehouse.hashCode,
+                                                                              fromWarehouse.hashCode))))))))))))))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is InventoryTransactionData &&
+          other.tenantId == this.tenantId &&
+          other.id == this.id &&
+          other.itemCode == this.itemCode &&
+          other.itemName == this.itemName &&
+          other.itemId == this.itemId &&
+          other.description == this.description &&
+          other.itemGroup == this.itemGroup &&
+          other.stockUom == this.stockUom &&
+          other.salesUom == this.salesUom &&
+          other.transactionNumber == this.transactionNumber &&
+          other.qtyMove == this.qtyMove &&
+          other.qtyMoveConvert == this.qtyMoveConvert &&
+          other.conversionFactor == this.conversionFactor &&
+          other.costPrice == this.costPrice &&
+          other.itemPrice == this.itemPrice &&
+          other.transactionType == this.transactionType &&
+          other.reasonCode == this.reasonCode &&
+          other.inventoryCycle == this.inventoryCycle &&
+          other.toWarehouse == this.toWarehouse &&
+          other.fromWarehouse == this.fromWarehouse);
+}
+
+class InventoryTransactionCompanion
+    extends UpdateCompanion<InventoryTransactionData> {
+  final Value<int> tenantId;
+  final Value<int> id;
+  final Value<String> itemCode;
+  final Value<String> itemName;
+  final Value<String> itemId;
+  final Value<String> description;
+  final Value<String> itemGroup;
+  final Value<String> stockUom;
+  final Value<String> salesUom;
+  final Value<String> transactionNumber;
+  final Value<double> qtyMove;
+  final Value<double> qtyMoveConvert;
+  final Value<double> conversionFactor;
+  final Value<double> costPrice;
+  final Value<double> itemPrice;
+  final Value<String> transactionType;
+  final Value<String> reasonCode;
+  final Value<String> inventoryCycle;
+  final Value<String> toWarehouse;
+  final Value<String> fromWarehouse;
+  const InventoryTransactionCompanion({
+    this.tenantId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.itemCode = const Value.absent(),
+    this.itemName = const Value.absent(),
+    this.itemId = const Value.absent(),
+    this.description = const Value.absent(),
+    this.itemGroup = const Value.absent(),
+    this.stockUom = const Value.absent(),
+    this.salesUom = const Value.absent(),
+    this.transactionNumber = const Value.absent(),
+    this.qtyMove = const Value.absent(),
+    this.qtyMoveConvert = const Value.absent(),
+    this.conversionFactor = const Value.absent(),
+    this.costPrice = const Value.absent(),
+    this.itemPrice = const Value.absent(),
+    this.transactionType = const Value.absent(),
+    this.reasonCode = const Value.absent(),
+    this.inventoryCycle = const Value.absent(),
+    this.toWarehouse = const Value.absent(),
+    this.fromWarehouse = const Value.absent(),
+  });
+  InventoryTransactionCompanion.insert({
+    this.tenantId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.itemCode = const Value.absent(),
+    this.itemName = const Value.absent(),
+    this.itemId = const Value.absent(),
+    this.description = const Value.absent(),
+    this.itemGroup = const Value.absent(),
+    this.stockUom = const Value.absent(),
+    this.salesUom = const Value.absent(),
+    this.transactionNumber = const Value.absent(),
+    @required double qtyMove,
+    @required double qtyMoveConvert,
+    @required double conversionFactor,
+    @required double costPrice,
+    @required double itemPrice,
+    this.transactionType = const Value.absent(),
+    this.reasonCode = const Value.absent(),
+    this.inventoryCycle = const Value.absent(),
+    this.toWarehouse = const Value.absent(),
+    this.fromWarehouse = const Value.absent(),
+  })  : qtyMove = Value(qtyMove),
+        qtyMoveConvert = Value(qtyMoveConvert),
+        conversionFactor = Value(conversionFactor),
+        costPrice = Value(costPrice),
+        itemPrice = Value(itemPrice);
+  static Insertable<InventoryTransactionData> custom({
+    Expression<int> tenantId,
+    Expression<int> id,
+    Expression<String> itemCode,
+    Expression<String> itemName,
+    Expression<String> itemId,
+    Expression<String> description,
+    Expression<String> itemGroup,
+    Expression<String> stockUom,
+    Expression<String> salesUom,
+    Expression<String> transactionNumber,
+    Expression<double> qtyMove,
+    Expression<double> qtyMoveConvert,
+    Expression<double> conversionFactor,
+    Expression<double> costPrice,
+    Expression<double> itemPrice,
+    Expression<String> transactionType,
+    Expression<String> reasonCode,
+    Expression<String> inventoryCycle,
+    Expression<String> toWarehouse,
+    Expression<String> fromWarehouse,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (id != null) 'id': id,
+      if (itemCode != null) 'item_code': itemCode,
+      if (itemName != null) 'item_name': itemName,
+      if (itemId != null) 'item_id': itemId,
+      if (description != null) 'description': description,
+      if (itemGroup != null) 'item_group': itemGroup,
+      if (stockUom != null) 'stock_uom': stockUom,
+      if (salesUom != null) 'sales_uom': salesUom,
+      if (transactionNumber != null) 'transaction_number': transactionNumber,
+      if (qtyMove != null) 'qty_move': qtyMove,
+      if (qtyMoveConvert != null) 'qty_move_convert': qtyMoveConvert,
+      if (conversionFactor != null) 'conversion_factor': conversionFactor,
+      if (costPrice != null) 'cost_price': costPrice,
+      if (itemPrice != null) 'item_price': itemPrice,
+      if (transactionType != null) 'transaction_type': transactionType,
+      if (reasonCode != null) 'reason_code': reasonCode,
+      if (inventoryCycle != null) 'inventory_cycle': inventoryCycle,
+      if (toWarehouse != null) 'to_warehouse': toWarehouse,
+      if (fromWarehouse != null) 'from_warehouse': fromWarehouse,
+    });
+  }
+
+  InventoryTransactionCompanion copyWith(
+      {Value<int> tenantId,
+      Value<int> id,
+      Value<String> itemCode,
+      Value<String> itemName,
+      Value<String> itemId,
+      Value<String> description,
+      Value<String> itemGroup,
+      Value<String> stockUom,
+      Value<String> salesUom,
+      Value<String> transactionNumber,
+      Value<double> qtyMove,
+      Value<double> qtyMoveConvert,
+      Value<double> conversionFactor,
+      Value<double> costPrice,
+      Value<double> itemPrice,
+      Value<String> transactionType,
+      Value<String> reasonCode,
+      Value<String> inventoryCycle,
+      Value<String> toWarehouse,
+      Value<String> fromWarehouse}) {
+    return InventoryTransactionCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      id: id ?? this.id,
+      itemCode: itemCode ?? this.itemCode,
+      itemName: itemName ?? this.itemName,
+      itemId: itemId ?? this.itemId,
+      description: description ?? this.description,
+      itemGroup: itemGroup ?? this.itemGroup,
+      stockUom: stockUom ?? this.stockUom,
+      salesUom: salesUom ?? this.salesUom,
+      transactionNumber: transactionNumber ?? this.transactionNumber,
+      qtyMove: qtyMove ?? this.qtyMove,
+      qtyMoveConvert: qtyMoveConvert ?? this.qtyMoveConvert,
+      conversionFactor: conversionFactor ?? this.conversionFactor,
+      costPrice: costPrice ?? this.costPrice,
+      itemPrice: itemPrice ?? this.itemPrice,
+      transactionType: transactionType ?? this.transactionType,
+      reasonCode: reasonCode ?? this.reasonCode,
+      inventoryCycle: inventoryCycle ?? this.inventoryCycle,
+      toWarehouse: toWarehouse ?? this.toWarehouse,
+      fromWarehouse: fromWarehouse ?? this.fromWarehouse,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (itemCode.present) {
+      map['item_code'] = Variable<String>(itemCode.value);
+    }
+    if (itemName.present) {
+      map['item_name'] = Variable<String>(itemName.value);
+    }
+    if (itemId.present) {
+      map['item_id'] = Variable<String>(itemId.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (itemGroup.present) {
+      map['item_group'] = Variable<String>(itemGroup.value);
+    }
+    if (stockUom.present) {
+      map['stock_uom'] = Variable<String>(stockUom.value);
+    }
+    if (salesUom.present) {
+      map['sales_uom'] = Variable<String>(salesUom.value);
+    }
+    if (transactionNumber.present) {
+      map['transaction_number'] = Variable<String>(transactionNumber.value);
+    }
+    if (qtyMove.present) {
+      map['qty_move'] = Variable<double>(qtyMove.value);
+    }
+    if (qtyMoveConvert.present) {
+      map['qty_move_convert'] = Variable<double>(qtyMoveConvert.value);
+    }
+    if (conversionFactor.present) {
+      map['conversion_factor'] = Variable<double>(conversionFactor.value);
+    }
+    if (costPrice.present) {
+      map['cost_price'] = Variable<double>(costPrice.value);
+    }
+    if (itemPrice.present) {
+      map['item_price'] = Variable<double>(itemPrice.value);
+    }
+    if (transactionType.present) {
+      map['transaction_type'] = Variable<String>(transactionType.value);
+    }
+    if (reasonCode.present) {
+      map['reason_code'] = Variable<String>(reasonCode.value);
+    }
+    if (inventoryCycle.present) {
+      map['inventory_cycle'] = Variable<String>(inventoryCycle.value);
+    }
+    if (toWarehouse.present) {
+      map['to_warehouse'] = Variable<String>(toWarehouse.value);
+    }
+    if (fromWarehouse.present) {
+      map['from_warehouse'] = Variable<String>(fromWarehouse.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('InventoryTransactionCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('itemCode: $itemCode, ')
+          ..write('itemName: $itemName, ')
+          ..write('itemId: $itemId, ')
+          ..write('description: $description, ')
+          ..write('itemGroup: $itemGroup, ')
+          ..write('stockUom: $stockUom, ')
+          ..write('salesUom: $salesUom, ')
+          ..write('transactionNumber: $transactionNumber, ')
+          ..write('qtyMove: $qtyMove, ')
+          ..write('qtyMoveConvert: $qtyMoveConvert, ')
+          ..write('conversionFactor: $conversionFactor, ')
+          ..write('costPrice: $costPrice, ')
+          ..write('itemPrice: $itemPrice, ')
+          ..write('transactionType: $transactionType, ')
+          ..write('reasonCode: $reasonCode, ')
+          ..write('inventoryCycle: $inventoryCycle, ')
+          ..write('toWarehouse: $toWarehouse, ')
+          ..write('fromWarehouse: $fromWarehouse')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $InventoryTransactionTable extends InventoryTransaction
+    with TableInfo<$InventoryTransactionTable, InventoryTransactionData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $InventoryTransactionTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _itemCodeMeta = const VerificationMeta('itemCode');
+  GeneratedTextColumn _itemCode;
+  @override
+  GeneratedTextColumn get itemCode => _itemCode ??= _constructItemCode();
+  GeneratedTextColumn _constructItemCode() {
+    return GeneratedTextColumn(
+      'item_code',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _itemNameMeta = const VerificationMeta('itemName');
+  GeneratedTextColumn _itemName;
+  @override
+  GeneratedTextColumn get itemName => _itemName ??= _constructItemName();
+  GeneratedTextColumn _constructItemName() {
+    return GeneratedTextColumn(
+      'item_name',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
+  GeneratedTextColumn _itemId;
+  @override
+  GeneratedTextColumn get itemId => _itemId ??= _constructItemId();
+  GeneratedTextColumn _constructItemId() {
+    return GeneratedTextColumn(
+      'item_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  GeneratedTextColumn _description;
+  @override
+  GeneratedTextColumn get description =>
+      _description ??= _constructDescription();
+  GeneratedTextColumn _constructDescription() {
+    return GeneratedTextColumn(
+      'description',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _itemGroupMeta = const VerificationMeta('itemGroup');
+  GeneratedTextColumn _itemGroup;
+  @override
+  GeneratedTextColumn get itemGroup => _itemGroup ??= _constructItemGroup();
+  GeneratedTextColumn _constructItemGroup() {
+    return GeneratedTextColumn(
+      'item_group',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _stockUomMeta = const VerificationMeta('stockUom');
+  GeneratedTextColumn _stockUom;
+  @override
+  GeneratedTextColumn get stockUom => _stockUom ??= _constructStockUom();
+  GeneratedTextColumn _constructStockUom() {
+    return GeneratedTextColumn(
+      'stock_uom',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _salesUomMeta = const VerificationMeta('salesUom');
+  GeneratedTextColumn _salesUom;
+  @override
+  GeneratedTextColumn get salesUom => _salesUom ??= _constructSalesUom();
+  GeneratedTextColumn _constructSalesUom() {
+    return GeneratedTextColumn(
+      'sales_uom',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _transactionNumberMeta =
+      const VerificationMeta('transactionNumber');
+  GeneratedTextColumn _transactionNumber;
+  @override
+  GeneratedTextColumn get transactionNumber =>
+      _transactionNumber ??= _constructTransactionNumber();
+  GeneratedTextColumn _constructTransactionNumber() {
+    return GeneratedTextColumn(
+      'transaction_number',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _qtyMoveMeta = const VerificationMeta('qtyMove');
+  GeneratedRealColumn _qtyMove;
+  @override
+  GeneratedRealColumn get qtyMove => _qtyMove ??= _constructQtyMove();
+  GeneratedRealColumn _constructQtyMove() {
+    return GeneratedRealColumn(
+      'qty_move',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _qtyMoveConvertMeta =
+      const VerificationMeta('qtyMoveConvert');
+  GeneratedRealColumn _qtyMoveConvert;
+  @override
+  GeneratedRealColumn get qtyMoveConvert =>
+      _qtyMoveConvert ??= _constructQtyMoveConvert();
+  GeneratedRealColumn _constructQtyMoveConvert() {
+    return GeneratedRealColumn(
+      'qty_move_convert',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _conversionFactorMeta =
+      const VerificationMeta('conversionFactor');
+  GeneratedRealColumn _conversionFactor;
+  @override
+  GeneratedRealColumn get conversionFactor =>
+      _conversionFactor ??= _constructConversionFactor();
+  GeneratedRealColumn _constructConversionFactor() {
+    return GeneratedRealColumn(
+      'conversion_factor',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _costPriceMeta = const VerificationMeta('costPrice');
+  GeneratedRealColumn _costPrice;
+  @override
+  GeneratedRealColumn get costPrice => _costPrice ??= _constructCostPrice();
+  GeneratedRealColumn _constructCostPrice() {
+    return GeneratedRealColumn(
+      'cost_price',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _itemPriceMeta = const VerificationMeta('itemPrice');
+  GeneratedRealColumn _itemPrice;
+  @override
+  GeneratedRealColumn get itemPrice => _itemPrice ??= _constructItemPrice();
+  GeneratedRealColumn _constructItemPrice() {
+    return GeneratedRealColumn(
+      'item_price',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _transactionTypeMeta =
+      const VerificationMeta('transactionType');
+  GeneratedTextColumn _transactionType;
+  @override
+  GeneratedTextColumn get transactionType =>
+      _transactionType ??= _constructTransactionType();
+  GeneratedTextColumn _constructTransactionType() {
+    return GeneratedTextColumn(
+      'transaction_type',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _reasonCodeMeta = const VerificationMeta('reasonCode');
+  GeneratedTextColumn _reasonCode;
+  @override
+  GeneratedTextColumn get reasonCode => _reasonCode ??= _constructReasonCode();
+  GeneratedTextColumn _constructReasonCode() {
+    return GeneratedTextColumn(
+      'reason_code',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _inventoryCycleMeta =
+      const VerificationMeta('inventoryCycle');
+  GeneratedTextColumn _inventoryCycle;
+  @override
+  GeneratedTextColumn get inventoryCycle =>
+      _inventoryCycle ??= _constructInventoryCycle();
+  GeneratedTextColumn _constructInventoryCycle() {
+    return GeneratedTextColumn(
+      'inventory_cycle',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _toWarehouseMeta =
+      const VerificationMeta('toWarehouse');
+  GeneratedTextColumn _toWarehouse;
+  @override
+  GeneratedTextColumn get toWarehouse =>
+      _toWarehouse ??= _constructToWarehouse();
+  GeneratedTextColumn _constructToWarehouse() {
+    return GeneratedTextColumn(
+      'to_warehouse',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _fromWarehouseMeta =
+      const VerificationMeta('fromWarehouse');
+  GeneratedTextColumn _fromWarehouse;
+  @override
+  GeneratedTextColumn get fromWarehouse =>
+      _fromWarehouse ??= _constructFromWarehouse();
+  GeneratedTextColumn _constructFromWarehouse() {
+    return GeneratedTextColumn(
+      'from_warehouse',
+      $tableName,
+      true,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        tenantId,
+        id,
+        itemCode,
+        itemName,
+        itemId,
+        description,
+        itemGroup,
+        stockUom,
+        salesUom,
+        transactionNumber,
+        qtyMove,
+        qtyMoveConvert,
+        conversionFactor,
+        costPrice,
+        itemPrice,
+        transactionType,
+        reasonCode,
+        inventoryCycle,
+        toWarehouse,
+        fromWarehouse
+      ];
+  @override
+  $InventoryTransactionTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'inventory_transaction';
+  @override
+  final String actualTableName = 'inventory_transaction';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<InventoryTransactionData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('item_code')) {
+      context.handle(_itemCodeMeta,
+          itemCode.isAcceptableOrUnknown(data['item_code'], _itemCodeMeta));
+    }
+    if (data.containsKey('item_name')) {
+      context.handle(_itemNameMeta,
+          itemName.isAcceptableOrUnknown(data['item_name'], _itemNameMeta));
+    }
+    if (data.containsKey('item_id')) {
+      context.handle(_itemIdMeta,
+          itemId.isAcceptableOrUnknown(data['item_id'], _itemIdMeta));
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description'], _descriptionMeta));
+    }
+    if (data.containsKey('item_group')) {
+      context.handle(_itemGroupMeta,
+          itemGroup.isAcceptableOrUnknown(data['item_group'], _itemGroupMeta));
+    }
+    if (data.containsKey('stock_uom')) {
+      context.handle(_stockUomMeta,
+          stockUom.isAcceptableOrUnknown(data['stock_uom'], _stockUomMeta));
+    }
+    if (data.containsKey('sales_uom')) {
+      context.handle(_salesUomMeta,
+          salesUom.isAcceptableOrUnknown(data['sales_uom'], _salesUomMeta));
+    }
+    if (data.containsKey('transaction_number')) {
+      context.handle(
+          _transactionNumberMeta,
+          transactionNumber.isAcceptableOrUnknown(
+              data['transaction_number'], _transactionNumberMeta));
+    }
+    if (data.containsKey('qty_move')) {
+      context.handle(_qtyMoveMeta,
+          qtyMove.isAcceptableOrUnknown(data['qty_move'], _qtyMoveMeta));
+    } else if (isInserting) {
+      context.missing(_qtyMoveMeta);
+    }
+    if (data.containsKey('qty_move_convert')) {
+      context.handle(
+          _qtyMoveConvertMeta,
+          qtyMoveConvert.isAcceptableOrUnknown(
+              data['qty_move_convert'], _qtyMoveConvertMeta));
+    } else if (isInserting) {
+      context.missing(_qtyMoveConvertMeta);
+    }
+    if (data.containsKey('conversion_factor')) {
+      context.handle(
+          _conversionFactorMeta,
+          conversionFactor.isAcceptableOrUnknown(
+              data['conversion_factor'], _conversionFactorMeta));
+    } else if (isInserting) {
+      context.missing(_conversionFactorMeta);
+    }
+    if (data.containsKey('cost_price')) {
+      context.handle(_costPriceMeta,
+          costPrice.isAcceptableOrUnknown(data['cost_price'], _costPriceMeta));
+    } else if (isInserting) {
+      context.missing(_costPriceMeta);
+    }
+    if (data.containsKey('item_price')) {
+      context.handle(_itemPriceMeta,
+          itemPrice.isAcceptableOrUnknown(data['item_price'], _itemPriceMeta));
+    } else if (isInserting) {
+      context.missing(_itemPriceMeta);
+    }
+    if (data.containsKey('transaction_type')) {
+      context.handle(
+          _transactionTypeMeta,
+          transactionType.isAcceptableOrUnknown(
+              data['transaction_type'], _transactionTypeMeta));
+    }
+    if (data.containsKey('reason_code')) {
+      context.handle(
+          _reasonCodeMeta,
+          reasonCode.isAcceptableOrUnknown(
+              data['reason_code'], _reasonCodeMeta));
+    }
+    if (data.containsKey('inventory_cycle')) {
+      context.handle(
+          _inventoryCycleMeta,
+          inventoryCycle.isAcceptableOrUnknown(
+              data['inventory_cycle'], _inventoryCycleMeta));
+    }
+    if (data.containsKey('to_warehouse')) {
+      context.handle(
+          _toWarehouseMeta,
+          toWarehouse.isAcceptableOrUnknown(
+              data['to_warehouse'], _toWarehouseMeta));
+    }
+    if (data.containsKey('from_warehouse')) {
+      context.handle(
+          _fromWarehouseMeta,
+          fromWarehouse.isAcceptableOrUnknown(
+              data['from_warehouse'], _fromWarehouseMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  InventoryTransactionData map(Map<String, dynamic> data,
+      {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return InventoryTransactionData.fromData(data, _db,
+        prefix: effectivePrefix);
+  }
+
+  @override
+  $InventoryTransactionTable createAlias(String alias) {
+    return $InventoryTransactionTable(_db, alias);
+  }
+}
+
+class MoneyDepositData extends DataClass
+    implements Insertable<MoneyDepositData> {
+  final int tenantId;
+  final int id;
+  final String clockInDaySessionId;
+  final String clockOutDaySessionId;
+  final String depositId;
+  final String type;
+  final DateTime startDate;
+  final DateTime endDate;
+  final String depositStatus;
+  final String userName;
+  final double denominator;
+  final String denominatorType;
+  final String depositDescription;
+  final double amount;
+  final String currency;
+  final double exchangeRate;
+  final double subTotal;
+  final double grandTotal;
+  MoneyDepositData(
+      {this.tenantId,
+      @required this.id,
+      this.clockInDaySessionId,
+      this.clockOutDaySessionId,
+      this.depositId,
+      this.type,
+      this.startDate,
+      this.endDate,
+      this.depositStatus,
+      this.userName,
+      this.denominator,
+      this.denominatorType,
+      this.depositDescription,
+      this.amount,
+      this.currency,
+      this.exchangeRate,
+      this.subTotal,
+      this.grandTotal});
+  factory MoneyDepositData.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final doubleType = db.typeSystem.forDartType<double>();
+    return MoneyDepositData(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      clockInDaySessionId: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}clock_in_day_session_id']),
+      clockOutDaySessionId: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}clock_out_day_session_id']),
+      depositId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}deposit_id']),
+      type: stringType.mapFromDatabaseResponse(data['${effectivePrefix}type']),
+      startDate: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}start_date']),
+      endDate: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}end_date']),
+      depositStatus: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}deposit_status']),
+      userName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}user_name']),
+      denominator: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}denominator']),
+      denominatorType: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}denominator_type']),
+      depositDescription: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}deposit_description']),
+      amount:
+          doubleType.mapFromDatabaseResponse(data['${effectivePrefix}amount']),
+      currency: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}currency']),
+      exchangeRate: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}exchange_rate']),
+      subTotal: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}sub_total']),
+      grandTotal: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}grand_total']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || clockInDaySessionId != null) {
+      map['clock_in_day_session_id'] = Variable<String>(clockInDaySessionId);
+    }
+    if (!nullToAbsent || clockOutDaySessionId != null) {
+      map['clock_out_day_session_id'] = Variable<String>(clockOutDaySessionId);
+    }
+    if (!nullToAbsent || depositId != null) {
+      map['deposit_id'] = Variable<String>(depositId);
+    }
+    if (!nullToAbsent || type != null) {
+      map['type'] = Variable<String>(type);
+    }
+    if (!nullToAbsent || startDate != null) {
+      map['start_date'] = Variable<DateTime>(startDate);
+    }
+    if (!nullToAbsent || endDate != null) {
+      map['end_date'] = Variable<DateTime>(endDate);
+    }
+    if (!nullToAbsent || depositStatus != null) {
+      map['deposit_status'] = Variable<String>(depositStatus);
+    }
+    if (!nullToAbsent || userName != null) {
+      map['user_name'] = Variable<String>(userName);
+    }
+    if (!nullToAbsent || denominator != null) {
+      map['denominator'] = Variable<double>(denominator);
+    }
+    if (!nullToAbsent || denominatorType != null) {
+      map['denominator_type'] = Variable<String>(denominatorType);
+    }
+    if (!nullToAbsent || depositDescription != null) {
+      map['deposit_description'] = Variable<String>(depositDescription);
+    }
+    if (!nullToAbsent || amount != null) {
+      map['amount'] = Variable<double>(amount);
+    }
+    if (!nullToAbsent || currency != null) {
+      map['currency'] = Variable<String>(currency);
+    }
+    if (!nullToAbsent || exchangeRate != null) {
+      map['exchange_rate'] = Variable<double>(exchangeRate);
+    }
+    if (!nullToAbsent || subTotal != null) {
+      map['sub_total'] = Variable<double>(subTotal);
+    }
+    if (!nullToAbsent || grandTotal != null) {
+      map['grand_total'] = Variable<double>(grandTotal);
+    }
+    return map;
+  }
+
+  MoneyDepositCompanion toCompanion(bool nullToAbsent) {
+    return MoneyDepositCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      clockInDaySessionId: clockInDaySessionId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(clockInDaySessionId),
+      clockOutDaySessionId: clockOutDaySessionId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(clockOutDaySessionId),
+      depositId: depositId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(depositId),
+      type: type == null && nullToAbsent ? const Value.absent() : Value(type),
+      startDate: startDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(startDate),
+      endDate: endDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(endDate),
+      depositStatus: depositStatus == null && nullToAbsent
+          ? const Value.absent()
+          : Value(depositStatus),
+      userName: userName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(userName),
+      denominator: denominator == null && nullToAbsent
+          ? const Value.absent()
+          : Value(denominator),
+      denominatorType: denominatorType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(denominatorType),
+      depositDescription: depositDescription == null && nullToAbsent
+          ? const Value.absent()
+          : Value(depositDescription),
+      amount:
+          amount == null && nullToAbsent ? const Value.absent() : Value(amount),
+      currency: currency == null && nullToAbsent
+          ? const Value.absent()
+          : Value(currency),
+      exchangeRate: exchangeRate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(exchangeRate),
+      subTotal: subTotal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(subTotal),
+      grandTotal: grandTotal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(grandTotal),
+    );
+  }
+
+  factory MoneyDepositData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return MoneyDepositData(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      id: serializer.fromJson<int>(json['id']),
+      clockInDaySessionId:
+          serializer.fromJson<String>(json['clockInDaySessionId']),
+      clockOutDaySessionId:
+          serializer.fromJson<String>(json['clockOutDaySessionId']),
+      depositId: serializer.fromJson<String>(json['depositId']),
+      type: serializer.fromJson<String>(json['type']),
+      startDate: serializer.fromJson<DateTime>(json['startDate']),
+      endDate: serializer.fromJson<DateTime>(json['endDate']),
+      depositStatus: serializer.fromJson<String>(json['depositStatus']),
+      userName: serializer.fromJson<String>(json['userName']),
+      denominator: serializer.fromJson<double>(json['denominator']),
+      denominatorType: serializer.fromJson<String>(json['denominatorType']),
+      depositDescription:
+          serializer.fromJson<String>(json['depositDescription']),
+      amount: serializer.fromJson<double>(json['amount']),
+      currency: serializer.fromJson<String>(json['currency']),
+      exchangeRate: serializer.fromJson<double>(json['exchangeRate']),
+      subTotal: serializer.fromJson<double>(json['subTotal']),
+      grandTotal: serializer.fromJson<double>(json['grandTotal']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'id': serializer.toJson<int>(id),
+      'clockInDaySessionId': serializer.toJson<String>(clockInDaySessionId),
+      'clockOutDaySessionId': serializer.toJson<String>(clockOutDaySessionId),
+      'depositId': serializer.toJson<String>(depositId),
+      'type': serializer.toJson<String>(type),
+      'startDate': serializer.toJson<DateTime>(startDate),
+      'endDate': serializer.toJson<DateTime>(endDate),
+      'depositStatus': serializer.toJson<String>(depositStatus),
+      'userName': serializer.toJson<String>(userName),
+      'denominator': serializer.toJson<double>(denominator),
+      'denominatorType': serializer.toJson<String>(denominatorType),
+      'depositDescription': serializer.toJson<String>(depositDescription),
+      'amount': serializer.toJson<double>(amount),
+      'currency': serializer.toJson<String>(currency),
+      'exchangeRate': serializer.toJson<double>(exchangeRate),
+      'subTotal': serializer.toJson<double>(subTotal),
+      'grandTotal': serializer.toJson<double>(grandTotal),
+    };
+  }
+
+  MoneyDepositData copyWith(
+          {int tenantId,
+          int id,
+          String clockInDaySessionId,
+          String clockOutDaySessionId,
+          String depositId,
+          String type,
+          DateTime startDate,
+          DateTime endDate,
+          String depositStatus,
+          String userName,
+          double denominator,
+          String denominatorType,
+          String depositDescription,
+          double amount,
+          String currency,
+          double exchangeRate,
+          double subTotal,
+          double grandTotal}) =>
+      MoneyDepositData(
+        tenantId: tenantId ?? this.tenantId,
+        id: id ?? this.id,
+        clockInDaySessionId: clockInDaySessionId ?? this.clockInDaySessionId,
+        clockOutDaySessionId: clockOutDaySessionId ?? this.clockOutDaySessionId,
+        depositId: depositId ?? this.depositId,
+        type: type ?? this.type,
+        startDate: startDate ?? this.startDate,
+        endDate: endDate ?? this.endDate,
+        depositStatus: depositStatus ?? this.depositStatus,
+        userName: userName ?? this.userName,
+        denominator: denominator ?? this.denominator,
+        denominatorType: denominatorType ?? this.denominatorType,
+        depositDescription: depositDescription ?? this.depositDescription,
+        amount: amount ?? this.amount,
+        currency: currency ?? this.currency,
+        exchangeRate: exchangeRate ?? this.exchangeRate,
+        subTotal: subTotal ?? this.subTotal,
+        grandTotal: grandTotal ?? this.grandTotal,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('MoneyDepositData(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('clockInDaySessionId: $clockInDaySessionId, ')
+          ..write('clockOutDaySessionId: $clockOutDaySessionId, ')
+          ..write('depositId: $depositId, ')
+          ..write('type: $type, ')
+          ..write('startDate: $startDate, ')
+          ..write('endDate: $endDate, ')
+          ..write('depositStatus: $depositStatus, ')
+          ..write('userName: $userName, ')
+          ..write('denominator: $denominator, ')
+          ..write('denominatorType: $denominatorType, ')
+          ..write('depositDescription: $depositDescription, ')
+          ..write('amount: $amount, ')
+          ..write('currency: $currency, ')
+          ..write('exchangeRate: $exchangeRate, ')
+          ..write('subTotal: $subTotal, ')
+          ..write('grandTotal: $grandTotal')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode,
+      $mrjc(
+          id.hashCode,
+          $mrjc(
+              clockInDaySessionId.hashCode,
+              $mrjc(
+                  clockOutDaySessionId.hashCode,
+                  $mrjc(
+                      depositId.hashCode,
+                      $mrjc(
+                          type.hashCode,
+                          $mrjc(
+                              startDate.hashCode,
+                              $mrjc(
+                                  endDate.hashCode,
+                                  $mrjc(
+                                      depositStatus.hashCode,
+                                      $mrjc(
+                                          userName.hashCode,
+                                          $mrjc(
+                                              denominator.hashCode,
+                                              $mrjc(
+                                                  denominatorType.hashCode,
+                                                  $mrjc(
+                                                      depositDescription
+                                                          .hashCode,
+                                                      $mrjc(
+                                                          amount.hashCode,
+                                                          $mrjc(
+                                                              currency.hashCode,
+                                                              $mrjc(
+                                                                  exchangeRate
+                                                                      .hashCode,
+                                                                  $mrjc(
+                                                                      subTotal
+                                                                          .hashCode,
+                                                                      grandTotal
+                                                                          .hashCode))))))))))))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is MoneyDepositData &&
+          other.tenantId == this.tenantId &&
+          other.id == this.id &&
+          other.clockInDaySessionId == this.clockInDaySessionId &&
+          other.clockOutDaySessionId == this.clockOutDaySessionId &&
+          other.depositId == this.depositId &&
+          other.type == this.type &&
+          other.startDate == this.startDate &&
+          other.endDate == this.endDate &&
+          other.depositStatus == this.depositStatus &&
+          other.userName == this.userName &&
+          other.denominator == this.denominator &&
+          other.denominatorType == this.denominatorType &&
+          other.depositDescription == this.depositDescription &&
+          other.amount == this.amount &&
+          other.currency == this.currency &&
+          other.exchangeRate == this.exchangeRate &&
+          other.subTotal == this.subTotal &&
+          other.grandTotal == this.grandTotal);
+}
+
+class MoneyDepositCompanion extends UpdateCompanion<MoneyDepositData> {
+  final Value<int> tenantId;
+  final Value<int> id;
+  final Value<String> clockInDaySessionId;
+  final Value<String> clockOutDaySessionId;
+  final Value<String> depositId;
+  final Value<String> type;
+  final Value<DateTime> startDate;
+  final Value<DateTime> endDate;
+  final Value<String> depositStatus;
+  final Value<String> userName;
+  final Value<double> denominator;
+  final Value<String> denominatorType;
+  final Value<String> depositDescription;
+  final Value<double> amount;
+  final Value<String> currency;
+  final Value<double> exchangeRate;
+  final Value<double> subTotal;
+  final Value<double> grandTotal;
+  const MoneyDepositCompanion({
+    this.tenantId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.clockInDaySessionId = const Value.absent(),
+    this.clockOutDaySessionId = const Value.absent(),
+    this.depositId = const Value.absent(),
+    this.type = const Value.absent(),
+    this.startDate = const Value.absent(),
+    this.endDate = const Value.absent(),
+    this.depositStatus = const Value.absent(),
+    this.userName = const Value.absent(),
+    this.denominator = const Value.absent(),
+    this.denominatorType = const Value.absent(),
+    this.depositDescription = const Value.absent(),
+    this.amount = const Value.absent(),
+    this.currency = const Value.absent(),
+    this.exchangeRate = const Value.absent(),
+    this.subTotal = const Value.absent(),
+    this.grandTotal = const Value.absent(),
+  });
+  MoneyDepositCompanion.insert({
+    this.tenantId = const Value.absent(),
+    @required int id,
+    this.clockInDaySessionId = const Value.absent(),
+    this.clockOutDaySessionId = const Value.absent(),
+    this.depositId = const Value.absent(),
+    this.type = const Value.absent(),
+    this.startDate = const Value.absent(),
+    this.endDate = const Value.absent(),
+    this.depositStatus = const Value.absent(),
+    this.userName = const Value.absent(),
+    this.denominator = const Value.absent(),
+    this.denominatorType = const Value.absent(),
+    this.depositDescription = const Value.absent(),
+    this.amount = const Value.absent(),
+    this.currency = const Value.absent(),
+    this.exchangeRate = const Value.absent(),
+    this.subTotal = const Value.absent(),
+    this.grandTotal = const Value.absent(),
+  }) : id = Value(id);
+  static Insertable<MoneyDepositData> custom({
+    Expression<int> tenantId,
+    Expression<int> id,
+    Expression<String> clockInDaySessionId,
+    Expression<String> clockOutDaySessionId,
+    Expression<String> depositId,
+    Expression<String> type,
+    Expression<DateTime> startDate,
+    Expression<DateTime> endDate,
+    Expression<String> depositStatus,
+    Expression<String> userName,
+    Expression<double> denominator,
+    Expression<String> denominatorType,
+    Expression<String> depositDescription,
+    Expression<double> amount,
+    Expression<String> currency,
+    Expression<double> exchangeRate,
+    Expression<double> subTotal,
+    Expression<double> grandTotal,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (id != null) 'id': id,
+      if (clockInDaySessionId != null)
+        'clock_in_day_session_id': clockInDaySessionId,
+      if (clockOutDaySessionId != null)
+        'clock_out_day_session_id': clockOutDaySessionId,
+      if (depositId != null) 'deposit_id': depositId,
+      if (type != null) 'type': type,
+      if (startDate != null) 'start_date': startDate,
+      if (endDate != null) 'end_date': endDate,
+      if (depositStatus != null) 'deposit_status': depositStatus,
+      if (userName != null) 'user_name': userName,
+      if (denominator != null) 'denominator': denominator,
+      if (denominatorType != null) 'denominator_type': denominatorType,
+      if (depositDescription != null) 'deposit_description': depositDescription,
+      if (amount != null) 'amount': amount,
+      if (currency != null) 'currency': currency,
+      if (exchangeRate != null) 'exchange_rate': exchangeRate,
+      if (subTotal != null) 'sub_total': subTotal,
+      if (grandTotal != null) 'grand_total': grandTotal,
+    });
+  }
+
+  MoneyDepositCompanion copyWith(
+      {Value<int> tenantId,
+      Value<int> id,
+      Value<String> clockInDaySessionId,
+      Value<String> clockOutDaySessionId,
+      Value<String> depositId,
+      Value<String> type,
+      Value<DateTime> startDate,
+      Value<DateTime> endDate,
+      Value<String> depositStatus,
+      Value<String> userName,
+      Value<double> denominator,
+      Value<String> denominatorType,
+      Value<String> depositDescription,
+      Value<double> amount,
+      Value<String> currency,
+      Value<double> exchangeRate,
+      Value<double> subTotal,
+      Value<double> grandTotal}) {
+    return MoneyDepositCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      id: id ?? this.id,
+      clockInDaySessionId: clockInDaySessionId ?? this.clockInDaySessionId,
+      clockOutDaySessionId: clockOutDaySessionId ?? this.clockOutDaySessionId,
+      depositId: depositId ?? this.depositId,
+      type: type ?? this.type,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+      depositStatus: depositStatus ?? this.depositStatus,
+      userName: userName ?? this.userName,
+      denominator: denominator ?? this.denominator,
+      denominatorType: denominatorType ?? this.denominatorType,
+      depositDescription: depositDescription ?? this.depositDescription,
+      amount: amount ?? this.amount,
+      currency: currency ?? this.currency,
+      exchangeRate: exchangeRate ?? this.exchangeRate,
+      subTotal: subTotal ?? this.subTotal,
+      grandTotal: grandTotal ?? this.grandTotal,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (clockInDaySessionId.present) {
+      map['clock_in_day_session_id'] =
+          Variable<String>(clockInDaySessionId.value);
+    }
+    if (clockOutDaySessionId.present) {
+      map['clock_out_day_session_id'] =
+          Variable<String>(clockOutDaySessionId.value);
+    }
+    if (depositId.present) {
+      map['deposit_id'] = Variable<String>(depositId.value);
+    }
+    if (type.present) {
+      map['type'] = Variable<String>(type.value);
+    }
+    if (startDate.present) {
+      map['start_date'] = Variable<DateTime>(startDate.value);
+    }
+    if (endDate.present) {
+      map['end_date'] = Variable<DateTime>(endDate.value);
+    }
+    if (depositStatus.present) {
+      map['deposit_status'] = Variable<String>(depositStatus.value);
+    }
+    if (userName.present) {
+      map['user_name'] = Variable<String>(userName.value);
+    }
+    if (denominator.present) {
+      map['denominator'] = Variable<double>(denominator.value);
+    }
+    if (denominatorType.present) {
+      map['denominator_type'] = Variable<String>(denominatorType.value);
+    }
+    if (depositDescription.present) {
+      map['deposit_description'] = Variable<String>(depositDescription.value);
+    }
+    if (amount.present) {
+      map['amount'] = Variable<double>(amount.value);
+    }
+    if (currency.present) {
+      map['currency'] = Variable<String>(currency.value);
+    }
+    if (exchangeRate.present) {
+      map['exchange_rate'] = Variable<double>(exchangeRate.value);
+    }
+    if (subTotal.present) {
+      map['sub_total'] = Variable<double>(subTotal.value);
+    }
+    if (grandTotal.present) {
+      map['grand_total'] = Variable<double>(grandTotal.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MoneyDepositCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('clockInDaySessionId: $clockInDaySessionId, ')
+          ..write('clockOutDaySessionId: $clockOutDaySessionId, ')
+          ..write('depositId: $depositId, ')
+          ..write('type: $type, ')
+          ..write('startDate: $startDate, ')
+          ..write('endDate: $endDate, ')
+          ..write('depositStatus: $depositStatus, ')
+          ..write('userName: $userName, ')
+          ..write('denominator: $denominator, ')
+          ..write('denominatorType: $denominatorType, ')
+          ..write('depositDescription: $depositDescription, ')
+          ..write('amount: $amount, ')
+          ..write('currency: $currency, ')
+          ..write('exchangeRate: $exchangeRate, ')
+          ..write('subTotal: $subTotal, ')
+          ..write('grandTotal: $grandTotal')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $MoneyDepositTable extends MoneyDeposit
+    with TableInfo<$MoneyDepositTable, MoneyDepositData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $MoneyDepositTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _clockInDaySessionIdMeta =
+      const VerificationMeta('clockInDaySessionId');
+  GeneratedTextColumn _clockInDaySessionId;
+  @override
+  GeneratedTextColumn get clockInDaySessionId =>
+      _clockInDaySessionId ??= _constructClockInDaySessionId();
+  GeneratedTextColumn _constructClockInDaySessionId() {
+    return GeneratedTextColumn(
+      'clock_in_day_session_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _clockOutDaySessionIdMeta =
+      const VerificationMeta('clockOutDaySessionId');
+  GeneratedTextColumn _clockOutDaySessionId;
+  @override
+  GeneratedTextColumn get clockOutDaySessionId =>
+      _clockOutDaySessionId ??= _constructClockOutDaySessionId();
+  GeneratedTextColumn _constructClockOutDaySessionId() {
+    return GeneratedTextColumn(
+      'clock_out_day_session_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _depositIdMeta = const VerificationMeta('depositId');
+  GeneratedTextColumn _depositId;
+  @override
+  GeneratedTextColumn get depositId => _depositId ??= _constructDepositId();
+  GeneratedTextColumn _constructDepositId() {
+    return GeneratedTextColumn(
+      'deposit_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _typeMeta = const VerificationMeta('type');
+  GeneratedTextColumn _type;
+  @override
+  GeneratedTextColumn get type => _type ??= _constructType();
+  GeneratedTextColumn _constructType() {
+    return GeneratedTextColumn(
+      'type',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _startDateMeta = const VerificationMeta('startDate');
+  GeneratedDateTimeColumn _startDate;
+  @override
+  GeneratedDateTimeColumn get startDate => _startDate ??= _constructStartDate();
+  GeneratedDateTimeColumn _constructStartDate() {
+    return GeneratedDateTimeColumn(
+      'start_date',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _endDateMeta = const VerificationMeta('endDate');
+  GeneratedDateTimeColumn _endDate;
+  @override
+  GeneratedDateTimeColumn get endDate => _endDate ??= _constructEndDate();
+  GeneratedDateTimeColumn _constructEndDate() {
+    return GeneratedDateTimeColumn(
+      'end_date',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _depositStatusMeta =
+      const VerificationMeta('depositStatus');
+  GeneratedTextColumn _depositStatus;
+  @override
+  GeneratedTextColumn get depositStatus =>
+      _depositStatus ??= _constructDepositStatus();
+  GeneratedTextColumn _constructDepositStatus() {
+    return GeneratedTextColumn(
+      'deposit_status',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _userNameMeta = const VerificationMeta('userName');
+  GeneratedTextColumn _userName;
+  @override
+  GeneratedTextColumn get userName => _userName ??= _constructUserName();
+  GeneratedTextColumn _constructUserName() {
+    return GeneratedTextColumn(
+      'user_name',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _denominatorMeta =
+      const VerificationMeta('denominator');
+  GeneratedRealColumn _denominator;
+  @override
+  GeneratedRealColumn get denominator =>
+      _denominator ??= _constructDenominator();
+  GeneratedRealColumn _constructDenominator() {
+    return GeneratedRealColumn(
+      'denominator',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _denominatorTypeMeta =
+      const VerificationMeta('denominatorType');
+  GeneratedTextColumn _denominatorType;
+  @override
+  GeneratedTextColumn get denominatorType =>
+      _denominatorType ??= _constructDenominatorType();
+  GeneratedTextColumn _constructDenominatorType() {
+    return GeneratedTextColumn(
+      'denominator_type',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _depositDescriptionMeta =
+      const VerificationMeta('depositDescription');
+  GeneratedTextColumn _depositDescription;
+  @override
+  GeneratedTextColumn get depositDescription =>
+      _depositDescription ??= _constructDepositDescription();
+  GeneratedTextColumn _constructDepositDescription() {
+    return GeneratedTextColumn(
+      'deposit_description',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _amountMeta = const VerificationMeta('amount');
+  GeneratedRealColumn _amount;
+  @override
+  GeneratedRealColumn get amount => _amount ??= _constructAmount();
+  GeneratedRealColumn _constructAmount() {
+    return GeneratedRealColumn(
+      'amount',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _currencyMeta = const VerificationMeta('currency');
+  GeneratedTextColumn _currency;
+  @override
+  GeneratedTextColumn get currency => _currency ??= _constructCurrency();
+  GeneratedTextColumn _constructCurrency() {
+    return GeneratedTextColumn(
+      'currency',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _exchangeRateMeta =
+      const VerificationMeta('exchangeRate');
+  GeneratedRealColumn _exchangeRate;
+  @override
+  GeneratedRealColumn get exchangeRate =>
+      _exchangeRate ??= _constructExchangeRate();
+  GeneratedRealColumn _constructExchangeRate() {
+    return GeneratedRealColumn(
+      'exchange_rate',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _subTotalMeta = const VerificationMeta('subTotal');
+  GeneratedRealColumn _subTotal;
+  @override
+  GeneratedRealColumn get subTotal => _subTotal ??= _constructSubTotal();
+  GeneratedRealColumn _constructSubTotal() {
+    return GeneratedRealColumn(
+      'sub_total',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _grandTotalMeta = const VerificationMeta('grandTotal');
+  GeneratedRealColumn _grandTotal;
+  @override
+  GeneratedRealColumn get grandTotal => _grandTotal ??= _constructGrandTotal();
+  GeneratedRealColumn _constructGrandTotal() {
+    return GeneratedRealColumn(
+      'grand_total',
+      $tableName,
+      true,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        tenantId,
+        id,
+        clockInDaySessionId,
+        clockOutDaySessionId,
+        depositId,
+        type,
+        startDate,
+        endDate,
+        depositStatus,
+        userName,
+        denominator,
+        denominatorType,
+        depositDescription,
+        amount,
+        currency,
+        exchangeRate,
+        subTotal,
+        grandTotal
+      ];
+  @override
+  $MoneyDepositTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'money_deposit';
+  @override
+  final String actualTableName = 'money_deposit';
+  @override
+  VerificationContext validateIntegrity(Insertable<MoneyDepositData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('clock_in_day_session_id')) {
+      context.handle(
+          _clockInDaySessionIdMeta,
+          clockInDaySessionId.isAcceptableOrUnknown(
+              data['clock_in_day_session_id'], _clockInDaySessionIdMeta));
+    }
+    if (data.containsKey('clock_out_day_session_id')) {
+      context.handle(
+          _clockOutDaySessionIdMeta,
+          clockOutDaySessionId.isAcceptableOrUnknown(
+              data['clock_out_day_session_id'], _clockOutDaySessionIdMeta));
+    }
+    if (data.containsKey('deposit_id')) {
+      context.handle(_depositIdMeta,
+          depositId.isAcceptableOrUnknown(data['deposit_id'], _depositIdMeta));
+    }
+    if (data.containsKey('type')) {
+      context.handle(
+          _typeMeta, type.isAcceptableOrUnknown(data['type'], _typeMeta));
+    }
+    if (data.containsKey('start_date')) {
+      context.handle(_startDateMeta,
+          startDate.isAcceptableOrUnknown(data['start_date'], _startDateMeta));
+    }
+    if (data.containsKey('end_date')) {
+      context.handle(_endDateMeta,
+          endDate.isAcceptableOrUnknown(data['end_date'], _endDateMeta));
+    }
+    if (data.containsKey('deposit_status')) {
+      context.handle(
+          _depositStatusMeta,
+          depositStatus.isAcceptableOrUnknown(
+              data['deposit_status'], _depositStatusMeta));
+    }
+    if (data.containsKey('user_name')) {
+      context.handle(_userNameMeta,
+          userName.isAcceptableOrUnknown(data['user_name'], _userNameMeta));
+    }
+    if (data.containsKey('denominator')) {
+      context.handle(
+          _denominatorMeta,
+          denominator.isAcceptableOrUnknown(
+              data['denominator'], _denominatorMeta));
+    }
+    if (data.containsKey('denominator_type')) {
+      context.handle(
+          _denominatorTypeMeta,
+          denominatorType.isAcceptableOrUnknown(
+              data['denominator_type'], _denominatorTypeMeta));
+    }
+    if (data.containsKey('deposit_description')) {
+      context.handle(
+          _depositDescriptionMeta,
+          depositDescription.isAcceptableOrUnknown(
+              data['deposit_description'], _depositDescriptionMeta));
+    }
+    if (data.containsKey('amount')) {
+      context.handle(_amountMeta,
+          amount.isAcceptableOrUnknown(data['amount'], _amountMeta));
+    }
+    if (data.containsKey('currency')) {
+      context.handle(_currencyMeta,
+          currency.isAcceptableOrUnknown(data['currency'], _currencyMeta));
+    }
+    if (data.containsKey('exchange_rate')) {
+      context.handle(
+          _exchangeRateMeta,
+          exchangeRate.isAcceptableOrUnknown(
+              data['exchange_rate'], _exchangeRateMeta));
+    }
+    if (data.containsKey('sub_total')) {
+      context.handle(_subTotalMeta,
+          subTotal.isAcceptableOrUnknown(data['sub_total'], _subTotalMeta));
+    }
+    if (data.containsKey('grand_total')) {
+      context.handle(
+          _grandTotalMeta,
+          grandTotal.isAcceptableOrUnknown(
+              data['grand_total'], _grandTotalMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  @override
+  MoneyDepositData map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return MoneyDepositData.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $MoneyDepositTable createAlias(String alias) {
+    return $MoneyDepositTable(_db, alias);
+  }
+}
+
+class ClockInData extends DataClass implements Insertable<ClockInData> {
+  final int tenantId;
+  final int id;
+  final String clockInDaySessionId;
+  final String clockOutDaySessionId;
+  final String inventoryCycleId;
+  final String fullName;
+  final DateTime startDate;
+  final DateTime endDate;
+  final DateTime warehouseName;
+  final String shiftName;
+  final String fleetNumber;
+  final String licensePlate;
+  final String userName;
+  final String sesionType;
+  final String sessionStatus;
+  final String deviceId;
+  final double depositAmount;
+  final double totalSales;
+  final double arPayment;
+  final double totalAmountDue;
+  final double balanceBroughtForward;
+  final double balanceAmount;
+  final String balanceText;
+  final double cashTransfer;
+  final double creditSales;
+  ClockInData(
+      {this.tenantId,
+      @required this.id,
+      this.clockInDaySessionId,
+      this.clockOutDaySessionId,
+      this.inventoryCycleId,
+      this.fullName,
+      this.startDate,
+      this.endDate,
+      this.warehouseName,
+      this.shiftName,
+      this.fleetNumber,
+      this.licensePlate,
+      this.userName,
+      this.sesionType,
+      this.sessionStatus,
+      this.deviceId,
+      this.depositAmount,
+      this.totalSales,
+      this.arPayment,
+      this.totalAmountDue,
+      this.balanceBroughtForward,
+      this.balanceAmount,
+      this.balanceText,
+      this.cashTransfer,
+      this.creditSales});
+  factory ClockInData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final doubleType = db.typeSystem.forDartType<double>();
+    return ClockInData(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      clockInDaySessionId: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}clock_in_day_session_id']),
+      clockOutDaySessionId: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}clock_out_day_session_id']),
+      inventoryCycleId: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}inventory_cycle_id']),
+      fullName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}full_name']),
+      startDate: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}start_date']),
+      endDate: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}end_date']),
+      warehouseName: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}warehouse_name']),
+      shiftName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}shift_name']),
+      fleetNumber: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}fleet_number']),
+      licensePlate: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}license_plate']),
+      userName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}user_name']),
+      sesionType: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}sesion_type']),
+      sessionStatus: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}session_status']),
+      deviceId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}device_id']),
+      depositAmount: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}deposit_amount']),
+      totalSales: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}total_sales']),
+      arPayment: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}ar_payment']),
+      totalAmountDue: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}total_amount_due']),
+      balanceBroughtForward: doubleType.mapFromDatabaseResponse(
+          data['${effectivePrefix}balance_brought_forward']),
+      balanceAmount: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}balance_amount']),
+      balanceText: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}balance_text']),
+      cashTransfer: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}cash_transfer']),
+      creditSales: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}credit_sales']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || clockInDaySessionId != null) {
+      map['clock_in_day_session_id'] = Variable<String>(clockInDaySessionId);
+    }
+    if (!nullToAbsent || clockOutDaySessionId != null) {
+      map['clock_out_day_session_id'] = Variable<String>(clockOutDaySessionId);
+    }
+    if (!nullToAbsent || inventoryCycleId != null) {
+      map['inventory_cycle_id'] = Variable<String>(inventoryCycleId);
+    }
+    if (!nullToAbsent || fullName != null) {
+      map['full_name'] = Variable<String>(fullName);
+    }
+    if (!nullToAbsent || startDate != null) {
+      map['start_date'] = Variable<DateTime>(startDate);
+    }
+    if (!nullToAbsent || endDate != null) {
+      map['end_date'] = Variable<DateTime>(endDate);
+    }
+    if (!nullToAbsent || warehouseName != null) {
+      map['warehouse_name'] = Variable<DateTime>(warehouseName);
+    }
+    if (!nullToAbsent || shiftName != null) {
+      map['shift_name'] = Variable<String>(shiftName);
+    }
+    if (!nullToAbsent || fleetNumber != null) {
+      map['fleet_number'] = Variable<String>(fleetNumber);
+    }
+    if (!nullToAbsent || licensePlate != null) {
+      map['license_plate'] = Variable<String>(licensePlate);
+    }
+    if (!nullToAbsent || userName != null) {
+      map['user_name'] = Variable<String>(userName);
+    }
+    if (!nullToAbsent || sesionType != null) {
+      map['sesion_type'] = Variable<String>(sesionType);
+    }
+    if (!nullToAbsent || sessionStatus != null) {
+      map['session_status'] = Variable<String>(sessionStatus);
+    }
+    if (!nullToAbsent || deviceId != null) {
+      map['device_id'] = Variable<String>(deviceId);
+    }
+    if (!nullToAbsent || depositAmount != null) {
+      map['deposit_amount'] = Variable<double>(depositAmount);
+    }
+    if (!nullToAbsent || totalSales != null) {
+      map['total_sales'] = Variable<double>(totalSales);
+    }
+    if (!nullToAbsent || arPayment != null) {
+      map['ar_payment'] = Variable<double>(arPayment);
+    }
+    if (!nullToAbsent || totalAmountDue != null) {
+      map['total_amount_due'] = Variable<double>(totalAmountDue);
+    }
+    if (!nullToAbsent || balanceBroughtForward != null) {
+      map['balance_brought_forward'] = Variable<double>(balanceBroughtForward);
+    }
+    if (!nullToAbsent || balanceAmount != null) {
+      map['balance_amount'] = Variable<double>(balanceAmount);
+    }
+    if (!nullToAbsent || balanceText != null) {
+      map['balance_text'] = Variable<String>(balanceText);
+    }
+    if (!nullToAbsent || cashTransfer != null) {
+      map['cash_transfer'] = Variable<double>(cashTransfer);
+    }
+    if (!nullToAbsent || creditSales != null) {
+      map['credit_sales'] = Variable<double>(creditSales);
+    }
+    return map;
+  }
+
+  ClockInCompanion toCompanion(bool nullToAbsent) {
+    return ClockInCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      clockInDaySessionId: clockInDaySessionId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(clockInDaySessionId),
+      clockOutDaySessionId: clockOutDaySessionId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(clockOutDaySessionId),
+      inventoryCycleId: inventoryCycleId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(inventoryCycleId),
+      fullName: fullName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(fullName),
+      startDate: startDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(startDate),
+      endDate: endDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(endDate),
+      warehouseName: warehouseName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(warehouseName),
+      shiftName: shiftName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(shiftName),
+      fleetNumber: fleetNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(fleetNumber),
+      licensePlate: licensePlate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(licensePlate),
+      userName: userName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(userName),
+      sesionType: sesionType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sesionType),
+      sessionStatus: sessionStatus == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sessionStatus),
+      deviceId: deviceId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deviceId),
+      depositAmount: depositAmount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(depositAmount),
+      totalSales: totalSales == null && nullToAbsent
+          ? const Value.absent()
+          : Value(totalSales),
+      arPayment: arPayment == null && nullToAbsent
+          ? const Value.absent()
+          : Value(arPayment),
+      totalAmountDue: totalAmountDue == null && nullToAbsent
+          ? const Value.absent()
+          : Value(totalAmountDue),
+      balanceBroughtForward: balanceBroughtForward == null && nullToAbsent
+          ? const Value.absent()
+          : Value(balanceBroughtForward),
+      balanceAmount: balanceAmount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(balanceAmount),
+      balanceText: balanceText == null && nullToAbsent
+          ? const Value.absent()
+          : Value(balanceText),
+      cashTransfer: cashTransfer == null && nullToAbsent
+          ? const Value.absent()
+          : Value(cashTransfer),
+      creditSales: creditSales == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creditSales),
+    );
+  }
+
+  factory ClockInData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return ClockInData(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      id: serializer.fromJson<int>(json['id']),
+      clockInDaySessionId:
+          serializer.fromJson<String>(json['clockInDaySessionId']),
+      clockOutDaySessionId:
+          serializer.fromJson<String>(json['clockOutDaySessionId']),
+      inventoryCycleId: serializer.fromJson<String>(json['inventoryCycleId']),
+      fullName: serializer.fromJson<String>(json['fullName']),
+      startDate: serializer.fromJson<DateTime>(json['startDate']),
+      endDate: serializer.fromJson<DateTime>(json['endDate']),
+      warehouseName: serializer.fromJson<DateTime>(json['warehouseName']),
+      shiftName: serializer.fromJson<String>(json['shiftName']),
+      fleetNumber: serializer.fromJson<String>(json['fleetNumber']),
+      licensePlate: serializer.fromJson<String>(json['licensePlate']),
+      userName: serializer.fromJson<String>(json['userName']),
+      sesionType: serializer.fromJson<String>(json['sesionType']),
+      sessionStatus: serializer.fromJson<String>(json['sessionStatus']),
+      deviceId: serializer.fromJson<String>(json['deviceId']),
+      depositAmount: serializer.fromJson<double>(json['depositAmount']),
+      totalSales: serializer.fromJson<double>(json['totalSales']),
+      arPayment: serializer.fromJson<double>(json['arPayment']),
+      totalAmountDue: serializer.fromJson<double>(json['totalAmountDue']),
+      balanceBroughtForward:
+          serializer.fromJson<double>(json['balanceBroughtForward']),
+      balanceAmount: serializer.fromJson<double>(json['balanceAmount']),
+      balanceText: serializer.fromJson<String>(json['balanceText']),
+      cashTransfer: serializer.fromJson<double>(json['cashTransfer']),
+      creditSales: serializer.fromJson<double>(json['creditSales']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'id': serializer.toJson<int>(id),
+      'clockInDaySessionId': serializer.toJson<String>(clockInDaySessionId),
+      'clockOutDaySessionId': serializer.toJson<String>(clockOutDaySessionId),
+      'inventoryCycleId': serializer.toJson<String>(inventoryCycleId),
+      'fullName': serializer.toJson<String>(fullName),
+      'startDate': serializer.toJson<DateTime>(startDate),
+      'endDate': serializer.toJson<DateTime>(endDate),
+      'warehouseName': serializer.toJson<DateTime>(warehouseName),
+      'shiftName': serializer.toJson<String>(shiftName),
+      'fleetNumber': serializer.toJson<String>(fleetNumber),
+      'licensePlate': serializer.toJson<String>(licensePlate),
+      'userName': serializer.toJson<String>(userName),
+      'sesionType': serializer.toJson<String>(sesionType),
+      'sessionStatus': serializer.toJson<String>(sessionStatus),
+      'deviceId': serializer.toJson<String>(deviceId),
+      'depositAmount': serializer.toJson<double>(depositAmount),
+      'totalSales': serializer.toJson<double>(totalSales),
+      'arPayment': serializer.toJson<double>(arPayment),
+      'totalAmountDue': serializer.toJson<double>(totalAmountDue),
+      'balanceBroughtForward': serializer.toJson<double>(balanceBroughtForward),
+      'balanceAmount': serializer.toJson<double>(balanceAmount),
+      'balanceText': serializer.toJson<String>(balanceText),
+      'cashTransfer': serializer.toJson<double>(cashTransfer),
+      'creditSales': serializer.toJson<double>(creditSales),
+    };
+  }
+
+  ClockInData copyWith(
+          {int tenantId,
+          int id,
+          String clockInDaySessionId,
+          String clockOutDaySessionId,
+          String inventoryCycleId,
+          String fullName,
+          DateTime startDate,
+          DateTime endDate,
+          DateTime warehouseName,
+          String shiftName,
+          String fleetNumber,
+          String licensePlate,
+          String userName,
+          String sesionType,
+          String sessionStatus,
+          String deviceId,
+          double depositAmount,
+          double totalSales,
+          double arPayment,
+          double totalAmountDue,
+          double balanceBroughtForward,
+          double balanceAmount,
+          String balanceText,
+          double cashTransfer,
+          double creditSales}) =>
+      ClockInData(
+        tenantId: tenantId ?? this.tenantId,
+        id: id ?? this.id,
+        clockInDaySessionId: clockInDaySessionId ?? this.clockInDaySessionId,
+        clockOutDaySessionId: clockOutDaySessionId ?? this.clockOutDaySessionId,
+        inventoryCycleId: inventoryCycleId ?? this.inventoryCycleId,
+        fullName: fullName ?? this.fullName,
+        startDate: startDate ?? this.startDate,
+        endDate: endDate ?? this.endDate,
+        warehouseName: warehouseName ?? this.warehouseName,
+        shiftName: shiftName ?? this.shiftName,
+        fleetNumber: fleetNumber ?? this.fleetNumber,
+        licensePlate: licensePlate ?? this.licensePlate,
+        userName: userName ?? this.userName,
+        sesionType: sesionType ?? this.sesionType,
+        sessionStatus: sessionStatus ?? this.sessionStatus,
+        deviceId: deviceId ?? this.deviceId,
+        depositAmount: depositAmount ?? this.depositAmount,
+        totalSales: totalSales ?? this.totalSales,
+        arPayment: arPayment ?? this.arPayment,
+        totalAmountDue: totalAmountDue ?? this.totalAmountDue,
+        balanceBroughtForward:
+            balanceBroughtForward ?? this.balanceBroughtForward,
+        balanceAmount: balanceAmount ?? this.balanceAmount,
+        balanceText: balanceText ?? this.balanceText,
+        cashTransfer: cashTransfer ?? this.cashTransfer,
+        creditSales: creditSales ?? this.creditSales,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('ClockInData(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('clockInDaySessionId: $clockInDaySessionId, ')
+          ..write('clockOutDaySessionId: $clockOutDaySessionId, ')
+          ..write('inventoryCycleId: $inventoryCycleId, ')
+          ..write('fullName: $fullName, ')
+          ..write('startDate: $startDate, ')
+          ..write('endDate: $endDate, ')
+          ..write('warehouseName: $warehouseName, ')
+          ..write('shiftName: $shiftName, ')
+          ..write('fleetNumber: $fleetNumber, ')
+          ..write('licensePlate: $licensePlate, ')
+          ..write('userName: $userName, ')
+          ..write('sesionType: $sesionType, ')
+          ..write('sessionStatus: $sessionStatus, ')
+          ..write('deviceId: $deviceId, ')
+          ..write('depositAmount: $depositAmount, ')
+          ..write('totalSales: $totalSales, ')
+          ..write('arPayment: $arPayment, ')
+          ..write('totalAmountDue: $totalAmountDue, ')
+          ..write('balanceBroughtForward: $balanceBroughtForward, ')
+          ..write('balanceAmount: $balanceAmount, ')
+          ..write('balanceText: $balanceText, ')
+          ..write('cashTransfer: $cashTransfer, ')
+          ..write('creditSales: $creditSales')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode,
+      $mrjc(
+          id.hashCode,
+          $mrjc(
+              clockInDaySessionId.hashCode,
+              $mrjc(
+                  clockOutDaySessionId.hashCode,
+                  $mrjc(
+                      inventoryCycleId.hashCode,
+                      $mrjc(
+                          fullName.hashCode,
+                          $mrjc(
+                              startDate.hashCode,
+                              $mrjc(
+                                  endDate.hashCode,
+                                  $mrjc(
+                                      warehouseName.hashCode,
+                                      $mrjc(
+                                          shiftName.hashCode,
+                                          $mrjc(
+                                              fleetNumber.hashCode,
+                                              $mrjc(
+                                                  licensePlate.hashCode,
+                                                  $mrjc(
+                                                      userName.hashCode,
+                                                      $mrjc(
+                                                          sesionType.hashCode,
+                                                          $mrjc(
+                                                              sessionStatus
+                                                                  .hashCode,
+                                                              $mrjc(
+                                                                  deviceId
+                                                                      .hashCode,
+                                                                  $mrjc(
+                                                                      depositAmount
+                                                                          .hashCode,
+                                                                      $mrjc(
+                                                                          totalSales
+                                                                              .hashCode,
+                                                                          $mrjc(
+                                                                              arPayment.hashCode,
+                                                                              $mrjc(totalAmountDue.hashCode, $mrjc(balanceBroughtForward.hashCode, $mrjc(balanceAmount.hashCode, $mrjc(balanceText.hashCode, $mrjc(cashTransfer.hashCode, creditSales.hashCode)))))))))))))))))))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is ClockInData &&
+          other.tenantId == this.tenantId &&
+          other.id == this.id &&
+          other.clockInDaySessionId == this.clockInDaySessionId &&
+          other.clockOutDaySessionId == this.clockOutDaySessionId &&
+          other.inventoryCycleId == this.inventoryCycleId &&
+          other.fullName == this.fullName &&
+          other.startDate == this.startDate &&
+          other.endDate == this.endDate &&
+          other.warehouseName == this.warehouseName &&
+          other.shiftName == this.shiftName &&
+          other.fleetNumber == this.fleetNumber &&
+          other.licensePlate == this.licensePlate &&
+          other.userName == this.userName &&
+          other.sesionType == this.sesionType &&
+          other.sessionStatus == this.sessionStatus &&
+          other.deviceId == this.deviceId &&
+          other.depositAmount == this.depositAmount &&
+          other.totalSales == this.totalSales &&
+          other.arPayment == this.arPayment &&
+          other.totalAmountDue == this.totalAmountDue &&
+          other.balanceBroughtForward == this.balanceBroughtForward &&
+          other.balanceAmount == this.balanceAmount &&
+          other.balanceText == this.balanceText &&
+          other.cashTransfer == this.cashTransfer &&
+          other.creditSales == this.creditSales);
+}
+
+class ClockInCompanion extends UpdateCompanion<ClockInData> {
+  final Value<int> tenantId;
+  final Value<int> id;
+  final Value<String> clockInDaySessionId;
+  final Value<String> clockOutDaySessionId;
+  final Value<String> inventoryCycleId;
+  final Value<String> fullName;
+  final Value<DateTime> startDate;
+  final Value<DateTime> endDate;
+  final Value<DateTime> warehouseName;
+  final Value<String> shiftName;
+  final Value<String> fleetNumber;
+  final Value<String> licensePlate;
+  final Value<String> userName;
+  final Value<String> sesionType;
+  final Value<String> sessionStatus;
+  final Value<String> deviceId;
+  final Value<double> depositAmount;
+  final Value<double> totalSales;
+  final Value<double> arPayment;
+  final Value<double> totalAmountDue;
+  final Value<double> balanceBroughtForward;
+  final Value<double> balanceAmount;
+  final Value<String> balanceText;
+  final Value<double> cashTransfer;
+  final Value<double> creditSales;
+  const ClockInCompanion({
+    this.tenantId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.clockInDaySessionId = const Value.absent(),
+    this.clockOutDaySessionId = const Value.absent(),
+    this.inventoryCycleId = const Value.absent(),
+    this.fullName = const Value.absent(),
+    this.startDate = const Value.absent(),
+    this.endDate = const Value.absent(),
+    this.warehouseName = const Value.absent(),
+    this.shiftName = const Value.absent(),
+    this.fleetNumber = const Value.absent(),
+    this.licensePlate = const Value.absent(),
+    this.userName = const Value.absent(),
+    this.sesionType = const Value.absent(),
+    this.sessionStatus = const Value.absent(),
+    this.deviceId = const Value.absent(),
+    this.depositAmount = const Value.absent(),
+    this.totalSales = const Value.absent(),
+    this.arPayment = const Value.absent(),
+    this.totalAmountDue = const Value.absent(),
+    this.balanceBroughtForward = const Value.absent(),
+    this.balanceAmount = const Value.absent(),
+    this.balanceText = const Value.absent(),
+    this.cashTransfer = const Value.absent(),
+    this.creditSales = const Value.absent(),
+  });
+  ClockInCompanion.insert({
+    this.tenantId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.clockInDaySessionId = const Value.absent(),
+    this.clockOutDaySessionId = const Value.absent(),
+    this.inventoryCycleId = const Value.absent(),
+    this.fullName = const Value.absent(),
+    this.startDate = const Value.absent(),
+    this.endDate = const Value.absent(),
+    this.warehouseName = const Value.absent(),
+    this.shiftName = const Value.absent(),
+    this.fleetNumber = const Value.absent(),
+    this.licensePlate = const Value.absent(),
+    this.userName = const Value.absent(),
+    this.sesionType = const Value.absent(),
+    this.sessionStatus = const Value.absent(),
+    this.deviceId = const Value.absent(),
+    this.depositAmount = const Value.absent(),
+    this.totalSales = const Value.absent(),
+    this.arPayment = const Value.absent(),
+    this.totalAmountDue = const Value.absent(),
+    this.balanceBroughtForward = const Value.absent(),
+    this.balanceAmount = const Value.absent(),
+    this.balanceText = const Value.absent(),
+    this.cashTransfer = const Value.absent(),
+    this.creditSales = const Value.absent(),
+  });
+  static Insertable<ClockInData> custom({
+    Expression<int> tenantId,
+    Expression<int> id,
+    Expression<String> clockInDaySessionId,
+    Expression<String> clockOutDaySessionId,
+    Expression<String> inventoryCycleId,
+    Expression<String> fullName,
+    Expression<DateTime> startDate,
+    Expression<DateTime> endDate,
+    Expression<DateTime> warehouseName,
+    Expression<String> shiftName,
+    Expression<String> fleetNumber,
+    Expression<String> licensePlate,
+    Expression<String> userName,
+    Expression<String> sesionType,
+    Expression<String> sessionStatus,
+    Expression<String> deviceId,
+    Expression<double> depositAmount,
+    Expression<double> totalSales,
+    Expression<double> arPayment,
+    Expression<double> totalAmountDue,
+    Expression<double> balanceBroughtForward,
+    Expression<double> balanceAmount,
+    Expression<String> balanceText,
+    Expression<double> cashTransfer,
+    Expression<double> creditSales,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (id != null) 'id': id,
+      if (clockInDaySessionId != null)
+        'clock_in_day_session_id': clockInDaySessionId,
+      if (clockOutDaySessionId != null)
+        'clock_out_day_session_id': clockOutDaySessionId,
+      if (inventoryCycleId != null) 'inventory_cycle_id': inventoryCycleId,
+      if (fullName != null) 'full_name': fullName,
+      if (startDate != null) 'start_date': startDate,
+      if (endDate != null) 'end_date': endDate,
+      if (warehouseName != null) 'warehouse_name': warehouseName,
+      if (shiftName != null) 'shift_name': shiftName,
+      if (fleetNumber != null) 'fleet_number': fleetNumber,
+      if (licensePlate != null) 'license_plate': licensePlate,
+      if (userName != null) 'user_name': userName,
+      if (sesionType != null) 'sesion_type': sesionType,
+      if (sessionStatus != null) 'session_status': sessionStatus,
+      if (deviceId != null) 'device_id': deviceId,
+      if (depositAmount != null) 'deposit_amount': depositAmount,
+      if (totalSales != null) 'total_sales': totalSales,
+      if (arPayment != null) 'ar_payment': arPayment,
+      if (totalAmountDue != null) 'total_amount_due': totalAmountDue,
+      if (balanceBroughtForward != null)
+        'balance_brought_forward': balanceBroughtForward,
+      if (balanceAmount != null) 'balance_amount': balanceAmount,
+      if (balanceText != null) 'balance_text': balanceText,
+      if (cashTransfer != null) 'cash_transfer': cashTransfer,
+      if (creditSales != null) 'credit_sales': creditSales,
+    });
+  }
+
+  ClockInCompanion copyWith(
+      {Value<int> tenantId,
+      Value<int> id,
+      Value<String> clockInDaySessionId,
+      Value<String> clockOutDaySessionId,
+      Value<String> inventoryCycleId,
+      Value<String> fullName,
+      Value<DateTime> startDate,
+      Value<DateTime> endDate,
+      Value<DateTime> warehouseName,
+      Value<String> shiftName,
+      Value<String> fleetNumber,
+      Value<String> licensePlate,
+      Value<String> userName,
+      Value<String> sesionType,
+      Value<String> sessionStatus,
+      Value<String> deviceId,
+      Value<double> depositAmount,
+      Value<double> totalSales,
+      Value<double> arPayment,
+      Value<double> totalAmountDue,
+      Value<double> balanceBroughtForward,
+      Value<double> balanceAmount,
+      Value<String> balanceText,
+      Value<double> cashTransfer,
+      Value<double> creditSales}) {
+    return ClockInCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      id: id ?? this.id,
+      clockInDaySessionId: clockInDaySessionId ?? this.clockInDaySessionId,
+      clockOutDaySessionId: clockOutDaySessionId ?? this.clockOutDaySessionId,
+      inventoryCycleId: inventoryCycleId ?? this.inventoryCycleId,
+      fullName: fullName ?? this.fullName,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+      warehouseName: warehouseName ?? this.warehouseName,
+      shiftName: shiftName ?? this.shiftName,
+      fleetNumber: fleetNumber ?? this.fleetNumber,
+      licensePlate: licensePlate ?? this.licensePlate,
+      userName: userName ?? this.userName,
+      sesionType: sesionType ?? this.sesionType,
+      sessionStatus: sessionStatus ?? this.sessionStatus,
+      deviceId: deviceId ?? this.deviceId,
+      depositAmount: depositAmount ?? this.depositAmount,
+      totalSales: totalSales ?? this.totalSales,
+      arPayment: arPayment ?? this.arPayment,
+      totalAmountDue: totalAmountDue ?? this.totalAmountDue,
+      balanceBroughtForward:
+          balanceBroughtForward ?? this.balanceBroughtForward,
+      balanceAmount: balanceAmount ?? this.balanceAmount,
+      balanceText: balanceText ?? this.balanceText,
+      cashTransfer: cashTransfer ?? this.cashTransfer,
+      creditSales: creditSales ?? this.creditSales,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (clockInDaySessionId.present) {
+      map['clock_in_day_session_id'] =
+          Variable<String>(clockInDaySessionId.value);
+    }
+    if (clockOutDaySessionId.present) {
+      map['clock_out_day_session_id'] =
+          Variable<String>(clockOutDaySessionId.value);
+    }
+    if (inventoryCycleId.present) {
+      map['inventory_cycle_id'] = Variable<String>(inventoryCycleId.value);
+    }
+    if (fullName.present) {
+      map['full_name'] = Variable<String>(fullName.value);
+    }
+    if (startDate.present) {
+      map['start_date'] = Variable<DateTime>(startDate.value);
+    }
+    if (endDate.present) {
+      map['end_date'] = Variable<DateTime>(endDate.value);
+    }
+    if (warehouseName.present) {
+      map['warehouse_name'] = Variable<DateTime>(warehouseName.value);
+    }
+    if (shiftName.present) {
+      map['shift_name'] = Variable<String>(shiftName.value);
+    }
+    if (fleetNumber.present) {
+      map['fleet_number'] = Variable<String>(fleetNumber.value);
+    }
+    if (licensePlate.present) {
+      map['license_plate'] = Variable<String>(licensePlate.value);
+    }
+    if (userName.present) {
+      map['user_name'] = Variable<String>(userName.value);
+    }
+    if (sesionType.present) {
+      map['sesion_type'] = Variable<String>(sesionType.value);
+    }
+    if (sessionStatus.present) {
+      map['session_status'] = Variable<String>(sessionStatus.value);
+    }
+    if (deviceId.present) {
+      map['device_id'] = Variable<String>(deviceId.value);
+    }
+    if (depositAmount.present) {
+      map['deposit_amount'] = Variable<double>(depositAmount.value);
+    }
+    if (totalSales.present) {
+      map['total_sales'] = Variable<double>(totalSales.value);
+    }
+    if (arPayment.present) {
+      map['ar_payment'] = Variable<double>(arPayment.value);
+    }
+    if (totalAmountDue.present) {
+      map['total_amount_due'] = Variable<double>(totalAmountDue.value);
+    }
+    if (balanceBroughtForward.present) {
+      map['balance_brought_forward'] =
+          Variable<double>(balanceBroughtForward.value);
+    }
+    if (balanceAmount.present) {
+      map['balance_amount'] = Variable<double>(balanceAmount.value);
+    }
+    if (balanceText.present) {
+      map['balance_text'] = Variable<String>(balanceText.value);
+    }
+    if (cashTransfer.present) {
+      map['cash_transfer'] = Variable<double>(cashTransfer.value);
+    }
+    if (creditSales.present) {
+      map['credit_sales'] = Variable<double>(creditSales.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ClockInCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('clockInDaySessionId: $clockInDaySessionId, ')
+          ..write('clockOutDaySessionId: $clockOutDaySessionId, ')
+          ..write('inventoryCycleId: $inventoryCycleId, ')
+          ..write('fullName: $fullName, ')
+          ..write('startDate: $startDate, ')
+          ..write('endDate: $endDate, ')
+          ..write('warehouseName: $warehouseName, ')
+          ..write('shiftName: $shiftName, ')
+          ..write('fleetNumber: $fleetNumber, ')
+          ..write('licensePlate: $licensePlate, ')
+          ..write('userName: $userName, ')
+          ..write('sesionType: $sesionType, ')
+          ..write('sessionStatus: $sessionStatus, ')
+          ..write('deviceId: $deviceId, ')
+          ..write('depositAmount: $depositAmount, ')
+          ..write('totalSales: $totalSales, ')
+          ..write('arPayment: $arPayment, ')
+          ..write('totalAmountDue: $totalAmountDue, ')
+          ..write('balanceBroughtForward: $balanceBroughtForward, ')
+          ..write('balanceAmount: $balanceAmount, ')
+          ..write('balanceText: $balanceText, ')
+          ..write('cashTransfer: $cashTransfer, ')
+          ..write('creditSales: $creditSales')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ClockInTable extends ClockIn with TableInfo<$ClockInTable, ClockInData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $ClockInTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _clockInDaySessionIdMeta =
+      const VerificationMeta('clockInDaySessionId');
+  GeneratedTextColumn _clockInDaySessionId;
+  @override
+  GeneratedTextColumn get clockInDaySessionId =>
+      _clockInDaySessionId ??= _constructClockInDaySessionId();
+  GeneratedTextColumn _constructClockInDaySessionId() {
+    return GeneratedTextColumn(
+      'clock_in_day_session_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _clockOutDaySessionIdMeta =
+      const VerificationMeta('clockOutDaySessionId');
+  GeneratedTextColumn _clockOutDaySessionId;
+  @override
+  GeneratedTextColumn get clockOutDaySessionId =>
+      _clockOutDaySessionId ??= _constructClockOutDaySessionId();
+  GeneratedTextColumn _constructClockOutDaySessionId() {
+    return GeneratedTextColumn(
+      'clock_out_day_session_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _inventoryCycleIdMeta =
+      const VerificationMeta('inventoryCycleId');
+  GeneratedTextColumn _inventoryCycleId;
+  @override
+  GeneratedTextColumn get inventoryCycleId =>
+      _inventoryCycleId ??= _constructInventoryCycleId();
+  GeneratedTextColumn _constructInventoryCycleId() {
+    return GeneratedTextColumn(
+      'inventory_cycle_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _fullNameMeta = const VerificationMeta('fullName');
+  GeneratedTextColumn _fullName;
+  @override
+  GeneratedTextColumn get fullName => _fullName ??= _constructFullName();
+  GeneratedTextColumn _constructFullName() {
+    return GeneratedTextColumn(
+      'full_name',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _startDateMeta = const VerificationMeta('startDate');
+  GeneratedDateTimeColumn _startDate;
+  @override
+  GeneratedDateTimeColumn get startDate => _startDate ??= _constructStartDate();
+  GeneratedDateTimeColumn _constructStartDate() {
+    return GeneratedDateTimeColumn(
+      'start_date',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _endDateMeta = const VerificationMeta('endDate');
+  GeneratedDateTimeColumn _endDate;
+  @override
+  GeneratedDateTimeColumn get endDate => _endDate ??= _constructEndDate();
+  GeneratedDateTimeColumn _constructEndDate() {
+    return GeneratedDateTimeColumn(
+      'end_date',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _warehouseNameMeta =
+      const VerificationMeta('warehouseName');
+  GeneratedDateTimeColumn _warehouseName;
+  @override
+  GeneratedDateTimeColumn get warehouseName =>
+      _warehouseName ??= _constructWarehouseName();
+  GeneratedDateTimeColumn _constructWarehouseName() {
+    return GeneratedDateTimeColumn(
+      'warehouse_name',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _shiftNameMeta = const VerificationMeta('shiftName');
+  GeneratedTextColumn _shiftName;
+  @override
+  GeneratedTextColumn get shiftName => _shiftName ??= _constructShiftName();
+  GeneratedTextColumn _constructShiftName() {
+    return GeneratedTextColumn(
+      'shift_name',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _fleetNumberMeta =
+      const VerificationMeta('fleetNumber');
+  GeneratedTextColumn _fleetNumber;
+  @override
+  GeneratedTextColumn get fleetNumber =>
+      _fleetNumber ??= _constructFleetNumber();
+  GeneratedTextColumn _constructFleetNumber() {
+    return GeneratedTextColumn(
+      'fleet_number',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _licensePlateMeta =
+      const VerificationMeta('licensePlate');
+  GeneratedTextColumn _licensePlate;
+  @override
+  GeneratedTextColumn get licensePlate =>
+      _licensePlate ??= _constructLicensePlate();
+  GeneratedTextColumn _constructLicensePlate() {
+    return GeneratedTextColumn(
+      'license_plate',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _userNameMeta = const VerificationMeta('userName');
+  GeneratedTextColumn _userName;
+  @override
+  GeneratedTextColumn get userName => _userName ??= _constructUserName();
+  GeneratedTextColumn _constructUserName() {
+    return GeneratedTextColumn(
+      'user_name',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _sesionTypeMeta = const VerificationMeta('sesionType');
+  GeneratedTextColumn _sesionType;
+  @override
+  GeneratedTextColumn get sesionType => _sesionType ??= _constructSesionType();
+  GeneratedTextColumn _constructSesionType() {
+    return GeneratedTextColumn(
+      'sesion_type',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _sessionStatusMeta =
+      const VerificationMeta('sessionStatus');
+  GeneratedTextColumn _sessionStatus;
+  @override
+  GeneratedTextColumn get sessionStatus =>
+      _sessionStatus ??= _constructSessionStatus();
+  GeneratedTextColumn _constructSessionStatus() {
+    return GeneratedTextColumn(
+      'session_status',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deviceIdMeta = const VerificationMeta('deviceId');
+  GeneratedTextColumn _deviceId;
+  @override
+  GeneratedTextColumn get deviceId => _deviceId ??= _constructDeviceId();
+  GeneratedTextColumn _constructDeviceId() {
+    return GeneratedTextColumn(
+      'device_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _depositAmountMeta =
+      const VerificationMeta('depositAmount');
+  GeneratedRealColumn _depositAmount;
+  @override
+  GeneratedRealColumn get depositAmount =>
+      _depositAmount ??= _constructDepositAmount();
+  GeneratedRealColumn _constructDepositAmount() {
+    return GeneratedRealColumn(
+      'deposit_amount',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _totalSalesMeta = const VerificationMeta('totalSales');
+  GeneratedRealColumn _totalSales;
+  @override
+  GeneratedRealColumn get totalSales => _totalSales ??= _constructTotalSales();
+  GeneratedRealColumn _constructTotalSales() {
+    return GeneratedRealColumn(
+      'total_sales',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _arPaymentMeta = const VerificationMeta('arPayment');
+  GeneratedRealColumn _arPayment;
+  @override
+  GeneratedRealColumn get arPayment => _arPayment ??= _constructArPayment();
+  GeneratedRealColumn _constructArPayment() {
+    return GeneratedRealColumn(
+      'ar_payment',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _totalAmountDueMeta =
+      const VerificationMeta('totalAmountDue');
+  GeneratedRealColumn _totalAmountDue;
+  @override
+  GeneratedRealColumn get totalAmountDue =>
+      _totalAmountDue ??= _constructTotalAmountDue();
+  GeneratedRealColumn _constructTotalAmountDue() {
+    return GeneratedRealColumn(
+      'total_amount_due',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _balanceBroughtForwardMeta =
+      const VerificationMeta('balanceBroughtForward');
+  GeneratedRealColumn _balanceBroughtForward;
+  @override
+  GeneratedRealColumn get balanceBroughtForward =>
+      _balanceBroughtForward ??= _constructBalanceBroughtForward();
+  GeneratedRealColumn _constructBalanceBroughtForward() {
+    return GeneratedRealColumn(
+      'balance_brought_forward',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _balanceAmountMeta =
+      const VerificationMeta('balanceAmount');
+  GeneratedRealColumn _balanceAmount;
+  @override
+  GeneratedRealColumn get balanceAmount =>
+      _balanceAmount ??= _constructBalanceAmount();
+  GeneratedRealColumn _constructBalanceAmount() {
+    return GeneratedRealColumn(
+      'balance_amount',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _balanceTextMeta =
+      const VerificationMeta('balanceText');
+  GeneratedTextColumn _balanceText;
+  @override
+  GeneratedTextColumn get balanceText =>
+      _balanceText ??= _constructBalanceText();
+  GeneratedTextColumn _constructBalanceText() {
+    return GeneratedTextColumn(
+      'balance_text',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _cashTransferMeta =
+      const VerificationMeta('cashTransfer');
+  GeneratedRealColumn _cashTransfer;
+  @override
+  GeneratedRealColumn get cashTransfer =>
+      _cashTransfer ??= _constructCashTransfer();
+  GeneratedRealColumn _constructCashTransfer() {
+    return GeneratedRealColumn(
+      'cash_transfer',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creditSalesMeta =
+      const VerificationMeta('creditSales');
+  GeneratedRealColumn _creditSales;
+  @override
+  GeneratedRealColumn get creditSales =>
+      _creditSales ??= _constructCreditSales();
+  GeneratedRealColumn _constructCreditSales() {
+    return GeneratedRealColumn(
+      'credit_sales',
+      $tableName,
+      true,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        tenantId,
+        id,
+        clockInDaySessionId,
+        clockOutDaySessionId,
+        inventoryCycleId,
+        fullName,
+        startDate,
+        endDate,
+        warehouseName,
+        shiftName,
+        fleetNumber,
+        licensePlate,
+        userName,
+        sesionType,
+        sessionStatus,
+        deviceId,
+        depositAmount,
+        totalSales,
+        arPayment,
+        totalAmountDue,
+        balanceBroughtForward,
+        balanceAmount,
+        balanceText,
+        cashTransfer,
+        creditSales
+      ];
+  @override
+  $ClockInTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'clock_in';
+  @override
+  final String actualTableName = 'clock_in';
+  @override
+  VerificationContext validateIntegrity(Insertable<ClockInData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('clock_in_day_session_id')) {
+      context.handle(
+          _clockInDaySessionIdMeta,
+          clockInDaySessionId.isAcceptableOrUnknown(
+              data['clock_in_day_session_id'], _clockInDaySessionIdMeta));
+    }
+    if (data.containsKey('clock_out_day_session_id')) {
+      context.handle(
+          _clockOutDaySessionIdMeta,
+          clockOutDaySessionId.isAcceptableOrUnknown(
+              data['clock_out_day_session_id'], _clockOutDaySessionIdMeta));
+    }
+    if (data.containsKey('inventory_cycle_id')) {
+      context.handle(
+          _inventoryCycleIdMeta,
+          inventoryCycleId.isAcceptableOrUnknown(
+              data['inventory_cycle_id'], _inventoryCycleIdMeta));
+    }
+    if (data.containsKey('full_name')) {
+      context.handle(_fullNameMeta,
+          fullName.isAcceptableOrUnknown(data['full_name'], _fullNameMeta));
+    }
+    if (data.containsKey('start_date')) {
+      context.handle(_startDateMeta,
+          startDate.isAcceptableOrUnknown(data['start_date'], _startDateMeta));
+    }
+    if (data.containsKey('end_date')) {
+      context.handle(_endDateMeta,
+          endDate.isAcceptableOrUnknown(data['end_date'], _endDateMeta));
+    }
+    if (data.containsKey('warehouse_name')) {
+      context.handle(
+          _warehouseNameMeta,
+          warehouseName.isAcceptableOrUnknown(
+              data['warehouse_name'], _warehouseNameMeta));
+    }
+    if (data.containsKey('shift_name')) {
+      context.handle(_shiftNameMeta,
+          shiftName.isAcceptableOrUnknown(data['shift_name'], _shiftNameMeta));
+    }
+    if (data.containsKey('fleet_number')) {
+      context.handle(
+          _fleetNumberMeta,
+          fleetNumber.isAcceptableOrUnknown(
+              data['fleet_number'], _fleetNumberMeta));
+    }
+    if (data.containsKey('license_plate')) {
+      context.handle(
+          _licensePlateMeta,
+          licensePlate.isAcceptableOrUnknown(
+              data['license_plate'], _licensePlateMeta));
+    }
+    if (data.containsKey('user_name')) {
+      context.handle(_userNameMeta,
+          userName.isAcceptableOrUnknown(data['user_name'], _userNameMeta));
+    }
+    if (data.containsKey('sesion_type')) {
+      context.handle(
+          _sesionTypeMeta,
+          sesionType.isAcceptableOrUnknown(
+              data['sesion_type'], _sesionTypeMeta));
+    }
+    if (data.containsKey('session_status')) {
+      context.handle(
+          _sessionStatusMeta,
+          sessionStatus.isAcceptableOrUnknown(
+              data['session_status'], _sessionStatusMeta));
+    }
+    if (data.containsKey('device_id')) {
+      context.handle(_deviceIdMeta,
+          deviceId.isAcceptableOrUnknown(data['device_id'], _deviceIdMeta));
+    }
+    if (data.containsKey('deposit_amount')) {
+      context.handle(
+          _depositAmountMeta,
+          depositAmount.isAcceptableOrUnknown(
+              data['deposit_amount'], _depositAmountMeta));
+    }
+    if (data.containsKey('total_sales')) {
+      context.handle(
+          _totalSalesMeta,
+          totalSales.isAcceptableOrUnknown(
+              data['total_sales'], _totalSalesMeta));
+    }
+    if (data.containsKey('ar_payment')) {
+      context.handle(_arPaymentMeta,
+          arPayment.isAcceptableOrUnknown(data['ar_payment'], _arPaymentMeta));
+    }
+    if (data.containsKey('total_amount_due')) {
+      context.handle(
+          _totalAmountDueMeta,
+          totalAmountDue.isAcceptableOrUnknown(
+              data['total_amount_due'], _totalAmountDueMeta));
+    }
+    if (data.containsKey('balance_brought_forward')) {
+      context.handle(
+          _balanceBroughtForwardMeta,
+          balanceBroughtForward.isAcceptableOrUnknown(
+              data['balance_brought_forward'], _balanceBroughtForwardMeta));
+    }
+    if (data.containsKey('balance_amount')) {
+      context.handle(
+          _balanceAmountMeta,
+          balanceAmount.isAcceptableOrUnknown(
+              data['balance_amount'], _balanceAmountMeta));
+    }
+    if (data.containsKey('balance_text')) {
+      context.handle(
+          _balanceTextMeta,
+          balanceText.isAcceptableOrUnknown(
+              data['balance_text'], _balanceTextMeta));
+    }
+    if (data.containsKey('cash_transfer')) {
+      context.handle(
+          _cashTransferMeta,
+          cashTransfer.isAcceptableOrUnknown(
+              data['cash_transfer'], _cashTransferMeta));
+    }
+    if (data.containsKey('credit_sales')) {
+      context.handle(
+          _creditSalesMeta,
+          creditSales.isAcceptableOrUnknown(
+              data['credit_sales'], _creditSalesMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ClockInData map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return ClockInData.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $ClockInTable createAlias(String alias) {
+    return $ClockInTable(_db, alias);
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $UsersTable _users;
@@ -33444,6 +36839,14 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $InventoryItemsTable _inventoryItems;
   $InventoryItemsTable get inventoryItems =>
       _inventoryItems ??= $InventoryItemsTable(this);
+  $InventoryTransactionTable _inventoryTransaction;
+  $InventoryTransactionTable get inventoryTransaction =>
+      _inventoryTransaction ??= $InventoryTransactionTable(this);
+  $MoneyDepositTable _moneyDeposit;
+  $MoneyDepositTable get moneyDeposit =>
+      _moneyDeposit ??= $MoneyDepositTable(this);
+  $ClockInTable _clockIn;
+  $ClockInTable get clockIn => _clockIn ??= $ClockInTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
@@ -33479,6 +36882,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         stockUnitOfMeasure,
         journeyPlan,
         uPCCode,
-        inventoryItems
+        inventoryItems,
+        inventoryTransaction,
+        moneyDeposit,
+        clockIn
       ];
 }
