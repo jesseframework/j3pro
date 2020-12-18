@@ -14958,11 +14958,8 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
   @override
   GeneratedIntColumn get id => _id ??= _constructId();
   GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn(
-      'id',
-      $tableName,
-      false,
-    );
+    return GeneratedIntColumn('id', $tableName, false,
+        hasAutoIncrement: true, declaredAsPrimaryKey: true);
   }
 
   final VerificationMeta _transactionNumberMeta =
@@ -16954,13 +16951,14 @@ class TempNumberLogsCompanion extends UpdateCompanion<TempNumberLog> {
   });
   TempNumberLogsCompanion.insert({
     this.tenantId = const Value.absent(),
-    this.id = const Value.absent(),
+    @required int id,
     this.nextSeriesNumber = const Value.absent(),
     this.lastSeriesNumber = const Value.absent(),
     @required DateTime lastUsageDate,
     this.userName = const Value.absent(),
     this.typeOfNumber = const Value.absent(),
-  }) : lastUsageDate = Value(lastUsageDate);
+  })  : id = Value(id),
+        lastUsageDate = Value(lastUsageDate);
   static Insertable<TempNumberLog> custom({
     Expression<int> tenantId,
     Expression<int> id,
@@ -17064,11 +17062,8 @@ class $TempNumberLogsTable extends TempNumberLogs
   @override
   GeneratedIntColumn get id => _id ??= _constructId();
   GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn(
-      'id',
-      $tableName,
-      false,
-    );
+    return GeneratedIntColumn('id', $tableName, false,
+        hasAutoIncrement: true, declaredAsPrimaryKey: true);
   }
 
   final VerificationMeta _nextSeriesNumberMeta =
@@ -17166,6 +17161,8 @@ class $TempNumberLogsTable extends TempNumberLogs
     }
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
     }
     if (data.containsKey('next_series_number')) {
       context.handle(
@@ -17201,7 +17198,7 @@ class $TempNumberLogsTable extends TempNumberLogs
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => {typeOfNumber};
   @override
   TempNumberLog map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -17216,15 +17213,6 @@ class $TempNumberLogsTable extends TempNumberLogs
 
 class CustomerData extends DataClass implements Insertable<CustomerData> {
   final int tenantId;
-  final DateTime creationTime;
-  final DateTime deleteTime;
-  final int createUserId;
-  final String creatorUser;
-  final String lastModifierUser;
-  final int lastModifierUserId;
-  final int deleteUserId;
-  final String deleterUserId;
-  final bool isDeleted;
   final int id;
   final String customerId;
   final String customerName;
@@ -17245,7 +17233,7 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
   final String discountType;
   final double discountPercentage;
   final double discountAmount;
-  final double enableHeaderDiscount;
+  final bool enableHeaderDiscount;
   final double accumulatedPurchase;
   final DateTime validFrom;
   final DateTime validTo;
@@ -17253,15 +17241,6 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
   final String taxGroup;
   CustomerData(
       {this.tenantId,
-      this.creationTime,
-      this.deleteTime,
-      this.createUserId,
-      this.creatorUser,
-      this.lastModifierUser,
-      this.lastModifierUserId,
-      this.deleteUserId,
-      this.deleterUserId,
-      @required this.isDeleted,
       @required this.id,
       @required this.customerId,
       @required this.customerName,
@@ -17292,31 +17271,13 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
-    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final stringType = db.typeSystem.forDartType<String>();
-    final boolType = db.typeSystem.forDartType<bool>();
     final doubleType = db.typeSystem.forDartType<double>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     return CustomerData(
       tenantId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
-      creationTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
-      deleteTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
-      createUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
-      creatorUser: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
-      lastModifierUser: stringType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user']),
-      lastModifierUserId: intType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user_id']),
-      deleteUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
-      deleterUserId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
-      isDeleted: boolType
-          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       customerId: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}customer_id']),
@@ -17356,7 +17317,7 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
           data['${effectivePrefix}discount_percentage']),
       discountAmount: doubleType
           .mapFromDatabaseResponse(data['${effectivePrefix}discount_amount']),
-      enableHeaderDiscount: doubleType.mapFromDatabaseResponse(
+      enableHeaderDiscount: boolType.mapFromDatabaseResponse(
           data['${effectivePrefix}enable_header_discount']),
       accumulatedPurchase: doubleType.mapFromDatabaseResponse(
           data['${effectivePrefix}accumulated_purchase']),
@@ -17375,33 +17336,6 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
       map['tenant_id'] = Variable<int>(tenantId);
-    }
-    if (!nullToAbsent || creationTime != null) {
-      map['creation_time'] = Variable<DateTime>(creationTime);
-    }
-    if (!nullToAbsent || deleteTime != null) {
-      map['delete_time'] = Variable<DateTime>(deleteTime);
-    }
-    if (!nullToAbsent || createUserId != null) {
-      map['create_user_id'] = Variable<int>(createUserId);
-    }
-    if (!nullToAbsent || creatorUser != null) {
-      map['creator_user'] = Variable<String>(creatorUser);
-    }
-    if (!nullToAbsent || lastModifierUser != null) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser);
-    }
-    if (!nullToAbsent || lastModifierUserId != null) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
-    }
-    if (!nullToAbsent || deleteUserId != null) {
-      map['delete_user_id'] = Variable<int>(deleteUserId);
-    }
-    if (!nullToAbsent || deleterUserId != null) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId);
-    }
-    if (!nullToAbsent || isDeleted != null) {
-      map['is_deleted'] = Variable<bool>(isDeleted);
     }
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int>(id);
@@ -17464,7 +17398,7 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
       map['discount_amount'] = Variable<double>(discountAmount);
     }
     if (!nullToAbsent || enableHeaderDiscount != null) {
-      map['enable_header_discount'] = Variable<double>(enableHeaderDiscount);
+      map['enable_header_discount'] = Variable<bool>(enableHeaderDiscount);
     }
     if (!nullToAbsent || accumulatedPurchase != null) {
       map['accumulated_purchase'] = Variable<double>(accumulatedPurchase);
@@ -17489,33 +17423,6 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
       tenantId: tenantId == null && nullToAbsent
           ? const Value.absent()
           : Value(tenantId),
-      creationTime: creationTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creationTime),
-      deleteTime: deleteTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteTime),
-      createUserId: createUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(createUserId),
-      creatorUser: creatorUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creatorUser),
-      lastModifierUser: lastModifierUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUser),
-      lastModifierUserId: lastModifierUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUserId),
-      deleteUserId: deleteUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteUserId),
-      deleterUserId: deleterUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleterUserId),
-      isDeleted: isDeleted == null && nullToAbsent
-          ? const Value.absent()
-          : Value(isDeleted),
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       customerId: customerId == null && nullToAbsent
           ? const Value.absent()
@@ -17599,15 +17506,6 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return CustomerData(
       tenantId: serializer.fromJson<int>(json['tenantId']),
-      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
-      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
-      createUserId: serializer.fromJson<int>(json['createUserId']),
-      creatorUser: serializer.fromJson<String>(json['creatorUser']),
-      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
-      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
-      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
-      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
-      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
       id: serializer.fromJson<int>(json['id']),
       customerId: serializer.fromJson<String>(json['customerId']),
       customerName: serializer.fromJson<String>(json['customerName']),
@@ -17632,7 +17530,7 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
           serializer.fromJson<double>(json['discountPercentage']),
       discountAmount: serializer.fromJson<double>(json['discountAmount']),
       enableHeaderDiscount:
-          serializer.fromJson<double>(json['enableHeaderDiscount']),
+          serializer.fromJson<bool>(json['enableHeaderDiscount']),
       accumulatedPurchase:
           serializer.fromJson<double>(json['accumulatedPurchase']),
       validFrom: serializer.fromJson<DateTime>(json['validFrom']),
@@ -17646,15 +17544,6 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'tenantId': serializer.toJson<int>(tenantId),
-      'creationTime': serializer.toJson<DateTime>(creationTime),
-      'deleteTime': serializer.toJson<DateTime>(deleteTime),
-      'createUserId': serializer.toJson<int>(createUserId),
-      'creatorUser': serializer.toJson<String>(creatorUser),
-      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
-      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
-      'deleteUserId': serializer.toJson<int>(deleteUserId),
-      'deleterUserId': serializer.toJson<String>(deleterUserId),
-      'isDeleted': serializer.toJson<bool>(isDeleted),
       'id': serializer.toJson<int>(id),
       'customerId': serializer.toJson<String>(customerId),
       'customerName': serializer.toJson<String>(customerName),
@@ -17675,7 +17564,7 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
       'discountType': serializer.toJson<String>(discountType),
       'discountPercentage': serializer.toJson<double>(discountPercentage),
       'discountAmount': serializer.toJson<double>(discountAmount),
-      'enableHeaderDiscount': serializer.toJson<double>(enableHeaderDiscount),
+      'enableHeaderDiscount': serializer.toJson<bool>(enableHeaderDiscount),
       'accumulatedPurchase': serializer.toJson<double>(accumulatedPurchase),
       'validFrom': serializer.toJson<DateTime>(validFrom),
       'validTo': serializer.toJson<DateTime>(validTo),
@@ -17686,15 +17575,6 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
 
   CustomerData copyWith(
           {int tenantId,
-          DateTime creationTime,
-          DateTime deleteTime,
-          int createUserId,
-          String creatorUser,
-          String lastModifierUser,
-          int lastModifierUserId,
-          int deleteUserId,
-          String deleterUserId,
-          bool isDeleted,
           int id,
           String customerId,
           String customerName,
@@ -17715,7 +17595,7 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
           String discountType,
           double discountPercentage,
           double discountAmount,
-          double enableHeaderDiscount,
+          bool enableHeaderDiscount,
           double accumulatedPurchase,
           DateTime validFrom,
           DateTime validTo,
@@ -17723,15 +17603,6 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
           String taxGroup}) =>
       CustomerData(
         tenantId: tenantId ?? this.tenantId,
-        creationTime: creationTime ?? this.creationTime,
-        deleteTime: deleteTime ?? this.deleteTime,
-        createUserId: createUserId ?? this.createUserId,
-        creatorUser: creatorUser ?? this.creatorUser,
-        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-        deleteUserId: deleteUserId ?? this.deleteUserId,
-        deleterUserId: deleterUserId ?? this.deleterUserId,
-        isDeleted: isDeleted ?? this.isDeleted,
         id: id ?? this.id,
         customerId: customerId ?? this.customerId,
         customerName: customerName ?? this.customerName,
@@ -17763,15 +17634,6 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
   String toString() {
     return (StringBuffer('CustomerData(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('customerId: $customerId, ')
           ..write('customerName: $customerName, ')
@@ -17806,60 +17668,53 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
   int get hashCode => $mrjf($mrjc(
       tenantId.hashCode,
       $mrjc(
-          creationTime.hashCode,
+          id.hashCode,
           $mrjc(
-              deleteTime.hashCode,
+              customerId.hashCode,
               $mrjc(
-                  createUserId.hashCode,
+                  customerName.hashCode,
                   $mrjc(
-                      creatorUser.hashCode,
+                      companyName.hashCode,
                       $mrjc(
-                          lastModifierUser.hashCode,
+                          customerType.hashCode,
                           $mrjc(
-                              lastModifierUserId.hashCode,
+                              customerGroup.hashCode,
                               $mrjc(
-                                  deleteUserId.hashCode,
+                                  customerTerritory.hashCode,
                                   $mrjc(
-                                      deleterUserId.hashCode,
+                                      defaultCurrency.hashCode,
                                       $mrjc(
-                                          isDeleted.hashCode,
+                                          paymentTerms.hashCode,
                                           $mrjc(
-                                              id.hashCode,
+                                              language.hashCode,
                                               $mrjc(
-                                                  customerId.hashCode,
+                                                  creditLimit.hashCode,
                                                   $mrjc(
-                                                      customerName.hashCode,
+                                                      billingAddressName
+                                                          .hashCode,
                                                       $mrjc(
-                                                          companyName.hashCode,
+                                                          shippingAddressName
+                                                              .hashCode,
                                                           $mrjc(
-                                                              customerType
+                                                              contactName
                                                                   .hashCode,
                                                               $mrjc(
-                                                                  customerGroup
+                                                                  priceList
                                                                       .hashCode,
                                                                   $mrjc(
-                                                                      customerTerritory
+                                                                      minQuantity
                                                                           .hashCode,
                                                                       $mrjc(
-                                                                          defaultCurrency
+                                                                          maxQuantity
                                                                               .hashCode,
                                                                           $mrjc(
-                                                                              paymentTerms.hashCode,
-                                                                              $mrjc(language.hashCode, $mrjc(creditLimit.hashCode, $mrjc(billingAddressName.hashCode, $mrjc(shippingAddressName.hashCode, $mrjc(contactName.hashCode, $mrjc(priceList.hashCode, $mrjc(minQuantity.hashCode, $mrjc(maxQuantity.hashCode, $mrjc(discountType.hashCode, $mrjc(discountPercentage.hashCode, $mrjc(discountAmount.hashCode, $mrjc(enableHeaderDiscount.hashCode, $mrjc(accumulatedPurchase.hashCode, $mrjc(validFrom.hashCode, $mrjc(validTo.hashCode, $mrjc(taxId.hashCode, taxGroup.hashCode))))))))))))))))))))))))))))))))))));
+                                                                              discountType.hashCode,
+                                                                              $mrjc(discountPercentage.hashCode, $mrjc(discountAmount.hashCode, $mrjc(enableHeaderDiscount.hashCode, $mrjc(accumulatedPurchase.hashCode, $mrjc(validFrom.hashCode, $mrjc(validTo.hashCode, $mrjc(taxId.hashCode, taxGroup.hashCode)))))))))))))))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is CustomerData &&
           other.tenantId == this.tenantId &&
-          other.creationTime == this.creationTime &&
-          other.deleteTime == this.deleteTime &&
-          other.createUserId == this.createUserId &&
-          other.creatorUser == this.creatorUser &&
-          other.lastModifierUser == this.lastModifierUser &&
-          other.lastModifierUserId == this.lastModifierUserId &&
-          other.deleteUserId == this.deleteUserId &&
-          other.deleterUserId == this.deleterUserId &&
-          other.isDeleted == this.isDeleted &&
           other.id == this.id &&
           other.customerId == this.customerId &&
           other.customerName == this.customerName &&
@@ -17890,15 +17745,6 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
 
 class CustomerCompanion extends UpdateCompanion<CustomerData> {
   final Value<int> tenantId;
-  final Value<DateTime> creationTime;
-  final Value<DateTime> deleteTime;
-  final Value<int> createUserId;
-  final Value<String> creatorUser;
-  final Value<String> lastModifierUser;
-  final Value<int> lastModifierUserId;
-  final Value<int> deleteUserId;
-  final Value<String> deleterUserId;
-  final Value<bool> isDeleted;
   final Value<int> id;
   final Value<String> customerId;
   final Value<String> customerName;
@@ -17919,7 +17765,7 @@ class CustomerCompanion extends UpdateCompanion<CustomerData> {
   final Value<String> discountType;
   final Value<double> discountPercentage;
   final Value<double> discountAmount;
-  final Value<double> enableHeaderDiscount;
+  final Value<bool> enableHeaderDiscount;
   final Value<double> accumulatedPurchase;
   final Value<DateTime> validFrom;
   final Value<DateTime> validTo;
@@ -17927,15 +17773,6 @@ class CustomerCompanion extends UpdateCompanion<CustomerData> {
   final Value<String> taxGroup;
   const CustomerCompanion({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     this.customerId = const Value.absent(),
     this.customerName = const Value.absent(),
@@ -17965,15 +17802,6 @@ class CustomerCompanion extends UpdateCompanion<CustomerData> {
   });
   CustomerCompanion.insert({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     @required String customerId,
     @required String customerName,
@@ -17994,7 +17822,7 @@ class CustomerCompanion extends UpdateCompanion<CustomerData> {
     @required String discountType,
     @required double discountPercentage,
     @required double discountAmount,
-    @required double enableHeaderDiscount,
+    this.enableHeaderDiscount = const Value.absent(),
     @required double accumulatedPurchase,
     @required DateTime validFrom,
     @required DateTime validTo,
@@ -18015,7 +17843,6 @@ class CustomerCompanion extends UpdateCompanion<CustomerData> {
         discountType = Value(discountType),
         discountPercentage = Value(discountPercentage),
         discountAmount = Value(discountAmount),
-        enableHeaderDiscount = Value(enableHeaderDiscount),
         accumulatedPurchase = Value(accumulatedPurchase),
         validFrom = Value(validFrom),
         validTo = Value(validTo),
@@ -18023,15 +17850,6 @@ class CustomerCompanion extends UpdateCompanion<CustomerData> {
         taxGroup = Value(taxGroup);
   static Insertable<CustomerData> custom({
     Expression<int> tenantId,
-    Expression<DateTime> creationTime,
-    Expression<DateTime> deleteTime,
-    Expression<int> createUserId,
-    Expression<String> creatorUser,
-    Expression<String> lastModifierUser,
-    Expression<int> lastModifierUserId,
-    Expression<int> deleteUserId,
-    Expression<String> deleterUserId,
-    Expression<bool> isDeleted,
     Expression<int> id,
     Expression<String> customerId,
     Expression<String> customerName,
@@ -18052,7 +17870,7 @@ class CustomerCompanion extends UpdateCompanion<CustomerData> {
     Expression<String> discountType,
     Expression<double> discountPercentage,
     Expression<double> discountAmount,
-    Expression<double> enableHeaderDiscount,
+    Expression<bool> enableHeaderDiscount,
     Expression<double> accumulatedPurchase,
     Expression<DateTime> validFrom,
     Expression<DateTime> validTo,
@@ -18061,16 +17879,6 @@ class CustomerCompanion extends UpdateCompanion<CustomerData> {
   }) {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
-      if (creationTime != null) 'creation_time': creationTime,
-      if (deleteTime != null) 'delete_time': deleteTime,
-      if (createUserId != null) 'create_user_id': createUserId,
-      if (creatorUser != null) 'creator_user': creatorUser,
-      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
-      if (lastModifierUserId != null)
-        'last_modifier_user_id': lastModifierUserId,
-      if (deleteUserId != null) 'delete_user_id': deleteUserId,
-      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
-      if (isDeleted != null) 'is_deleted': isDeleted,
       if (id != null) 'id': id,
       if (customerId != null) 'customer_id': customerId,
       if (customerName != null) 'customer_name': customerName,
@@ -18106,15 +17914,6 @@ class CustomerCompanion extends UpdateCompanion<CustomerData> {
 
   CustomerCompanion copyWith(
       {Value<int> tenantId,
-      Value<DateTime> creationTime,
-      Value<DateTime> deleteTime,
-      Value<int> createUserId,
-      Value<String> creatorUser,
-      Value<String> lastModifierUser,
-      Value<int> lastModifierUserId,
-      Value<int> deleteUserId,
-      Value<String> deleterUserId,
-      Value<bool> isDeleted,
       Value<int> id,
       Value<String> customerId,
       Value<String> customerName,
@@ -18135,7 +17934,7 @@ class CustomerCompanion extends UpdateCompanion<CustomerData> {
       Value<String> discountType,
       Value<double> discountPercentage,
       Value<double> discountAmount,
-      Value<double> enableHeaderDiscount,
+      Value<bool> enableHeaderDiscount,
       Value<double> accumulatedPurchase,
       Value<DateTime> validFrom,
       Value<DateTime> validTo,
@@ -18143,15 +17942,6 @@ class CustomerCompanion extends UpdateCompanion<CustomerData> {
       Value<String> taxGroup}) {
     return CustomerCompanion(
       tenantId: tenantId ?? this.tenantId,
-      creationTime: creationTime ?? this.creationTime,
-      deleteTime: deleteTime ?? this.deleteTime,
-      createUserId: createUserId ?? this.createUserId,
-      creatorUser: creatorUser ?? this.creatorUser,
-      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-      deleteUserId: deleteUserId ?? this.deleteUserId,
-      deleterUserId: deleterUserId ?? this.deleterUserId,
-      isDeleted: isDeleted ?? this.isDeleted,
       id: id ?? this.id,
       customerId: customerId ?? this.customerId,
       customerName: customerName ?? this.customerName,
@@ -18186,33 +17976,6 @@ class CustomerCompanion extends UpdateCompanion<CustomerData> {
     final map = <String, Expression>{};
     if (tenantId.present) {
       map['tenant_id'] = Variable<int>(tenantId.value);
-    }
-    if (creationTime.present) {
-      map['creation_time'] = Variable<DateTime>(creationTime.value);
-    }
-    if (deleteTime.present) {
-      map['delete_time'] = Variable<DateTime>(deleteTime.value);
-    }
-    if (createUserId.present) {
-      map['create_user_id'] = Variable<int>(createUserId.value);
-    }
-    if (creatorUser.present) {
-      map['creator_user'] = Variable<String>(creatorUser.value);
-    }
-    if (lastModifierUser.present) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
-    }
-    if (lastModifierUserId.present) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
-    }
-    if (deleteUserId.present) {
-      map['delete_user_id'] = Variable<int>(deleteUserId.value);
-    }
-    if (deleterUserId.present) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
-    }
-    if (isDeleted.present) {
-      map['is_deleted'] = Variable<bool>(isDeleted.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -18277,7 +18040,7 @@ class CustomerCompanion extends UpdateCompanion<CustomerData> {
     }
     if (enableHeaderDiscount.present) {
       map['enable_header_discount'] =
-          Variable<double>(enableHeaderDiscount.value);
+          Variable<bool>(enableHeaderDiscount.value);
     }
     if (accumulatedPurchase.present) {
       map['accumulated_purchase'] = Variable<double>(accumulatedPurchase.value);
@@ -18301,15 +18064,6 @@ class CustomerCompanion extends UpdateCompanion<CustomerData> {
   String toString() {
     return (StringBuffer('CustomerCompanion(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('customerId: $customerId, ')
           ..write('customerName: $customerName, ')
@@ -18356,126 +18110,6 @@ class $CustomerTable extends Customer
       $tableName,
       true,
     );
-  }
-
-  final VerificationMeta _creationTimeMeta =
-      const VerificationMeta('creationTime');
-  GeneratedDateTimeColumn _creationTime;
-  @override
-  GeneratedDateTimeColumn get creationTime =>
-      _creationTime ??= _constructCreationTime();
-  GeneratedDateTimeColumn _constructCreationTime() {
-    return GeneratedDateTimeColumn(
-      'creation_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
-  GeneratedDateTimeColumn _deleteTime;
-  @override
-  GeneratedDateTimeColumn get deleteTime =>
-      _deleteTime ??= _constructDeleteTime();
-  GeneratedDateTimeColumn _constructDeleteTime() {
-    return GeneratedDateTimeColumn(
-      'delete_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _createUserIdMeta =
-      const VerificationMeta('createUserId');
-  GeneratedIntColumn _createUserId;
-  @override
-  GeneratedIntColumn get createUserId =>
-      _createUserId ??= _constructCreateUserId();
-  GeneratedIntColumn _constructCreateUserId() {
-    return GeneratedIntColumn(
-      'create_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _creatorUserMeta =
-      const VerificationMeta('creatorUser');
-  GeneratedTextColumn _creatorUser;
-  @override
-  GeneratedTextColumn get creatorUser =>
-      _creatorUser ??= _constructCreatorUser();
-  GeneratedTextColumn _constructCreatorUser() {
-    return GeneratedTextColumn(
-      'creator_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserMeta =
-      const VerificationMeta('lastModifierUser');
-  GeneratedTextColumn _lastModifierUser;
-  @override
-  GeneratedTextColumn get lastModifierUser =>
-      _lastModifierUser ??= _constructLastModifierUser();
-  GeneratedTextColumn _constructLastModifierUser() {
-    return GeneratedTextColumn(
-      'last_modifier_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserIdMeta =
-      const VerificationMeta('lastModifierUserId');
-  GeneratedIntColumn _lastModifierUserId;
-  @override
-  GeneratedIntColumn get lastModifierUserId =>
-      _lastModifierUserId ??= _constructLastModifierUserId();
-  GeneratedIntColumn _constructLastModifierUserId() {
-    return GeneratedIntColumn(
-      'last_modifier_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteUserIdMeta =
-      const VerificationMeta('deleteUserId');
-  GeneratedIntColumn _deleteUserId;
-  @override
-  GeneratedIntColumn get deleteUserId =>
-      _deleteUserId ??= _constructDeleteUserId();
-  GeneratedIntColumn _constructDeleteUserId() {
-    return GeneratedIntColumn(
-      'delete_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleterUserIdMeta =
-      const VerificationMeta('deleterUserId');
-  GeneratedTextColumn _deleterUserId;
-  @override
-  GeneratedTextColumn get deleterUserId =>
-      _deleterUserId ??= _constructDeleterUserId();
-  GeneratedTextColumn _constructDeleterUserId() {
-    return GeneratedTextColumn(
-      'deleter_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
-  GeneratedBoolColumn _isDeleted;
-  @override
-  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
-  GeneratedBoolColumn _constructIsDeleted() {
-    return GeneratedBoolColumn('is_deleted', $tableName, false,
-        defaultValue: Constant(false));
   }
 
   final VerificationMeta _idMeta = const VerificationMeta('id');
@@ -18752,16 +18386,13 @@ class $CustomerTable extends Customer
 
   final VerificationMeta _enableHeaderDiscountMeta =
       const VerificationMeta('enableHeaderDiscount');
-  GeneratedRealColumn _enableHeaderDiscount;
+  GeneratedBoolColumn _enableHeaderDiscount;
   @override
-  GeneratedRealColumn get enableHeaderDiscount =>
+  GeneratedBoolColumn get enableHeaderDiscount =>
       _enableHeaderDiscount ??= _constructEnableHeaderDiscount();
-  GeneratedRealColumn _constructEnableHeaderDiscount() {
-    return GeneratedRealColumn(
-      'enable_header_discount',
-      $tableName,
-      false,
-    );
+  GeneratedBoolColumn _constructEnableHeaderDiscount() {
+    return GeneratedBoolColumn('enable_header_discount', $tableName, false,
+        defaultValue: Constant(false));
   }
 
   final VerificationMeta _accumulatedPurchaseMeta =
@@ -18829,15 +18460,6 @@ class $CustomerTable extends Customer
   @override
   List<GeneratedColumn> get $columns => [
         tenantId,
-        creationTime,
-        deleteTime,
-        createUserId,
-        creatorUser,
-        lastModifierUser,
-        lastModifierUserId,
-        deleteUserId,
-        deleterUserId,
-        isDeleted,
         id,
         customerId,
         customerName,
@@ -18879,58 +18501,6 @@ class $CustomerTable extends Customer
     if (data.containsKey('tenant_id')) {
       context.handle(_tenantIdMeta,
           tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
-    }
-    if (data.containsKey('creation_time')) {
-      context.handle(
-          _creationTimeMeta,
-          creationTime.isAcceptableOrUnknown(
-              data['creation_time'], _creationTimeMeta));
-    }
-    if (data.containsKey('delete_time')) {
-      context.handle(
-          _deleteTimeMeta,
-          deleteTime.isAcceptableOrUnknown(
-              data['delete_time'], _deleteTimeMeta));
-    }
-    if (data.containsKey('create_user_id')) {
-      context.handle(
-          _createUserIdMeta,
-          createUserId.isAcceptableOrUnknown(
-              data['create_user_id'], _createUserIdMeta));
-    }
-    if (data.containsKey('creator_user')) {
-      context.handle(
-          _creatorUserMeta,
-          creatorUser.isAcceptableOrUnknown(
-              data['creator_user'], _creatorUserMeta));
-    }
-    if (data.containsKey('last_modifier_user')) {
-      context.handle(
-          _lastModifierUserMeta,
-          lastModifierUser.isAcceptableOrUnknown(
-              data['last_modifier_user'], _lastModifierUserMeta));
-    }
-    if (data.containsKey('last_modifier_user_id')) {
-      context.handle(
-          _lastModifierUserIdMeta,
-          lastModifierUserId.isAcceptableOrUnknown(
-              data['last_modifier_user_id'], _lastModifierUserIdMeta));
-    }
-    if (data.containsKey('delete_user_id')) {
-      context.handle(
-          _deleteUserIdMeta,
-          deleteUserId.isAcceptableOrUnknown(
-              data['delete_user_id'], _deleteUserIdMeta));
-    }
-    if (data.containsKey('deleter_user_id')) {
-      context.handle(
-          _deleterUserIdMeta,
-          deleterUserId.isAcceptableOrUnknown(
-              data['deleter_user_id'], _deleterUserIdMeta));
-    }
-    if (data.containsKey('is_deleted')) {
-      context.handle(_isDeletedMeta,
-          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
     }
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
@@ -19080,8 +18650,6 @@ class $CustomerTable extends Customer
           _enableHeaderDiscountMeta,
           enableHeaderDiscount.isAcceptableOrUnknown(
               data['enable_header_discount'], _enableHeaderDiscountMeta));
-    } else if (isInserting) {
-      context.missing(_enableHeaderDiscountMeta);
     }
     if (data.containsKey('accumulated_purchase')) {
       context.handle(
@@ -19134,15 +18702,6 @@ class $CustomerTable extends Customer
 
 class Addres extends DataClass implements Insertable<Addres> {
   final int tenantId;
-  final DateTime creationTime;
-  final DateTime deleteTime;
-  final int createUserId;
-  final String creatorUser;
-  final String lastModifierUser;
-  final int lastModifierUserId;
-  final int deleteUserId;
-  final String deleterUserId;
-  final bool isDeleted;
   final int id;
   final String customerId;
   final String addressTitle;
@@ -19161,17 +18720,9 @@ class Addres extends DataClass implements Insertable<Addres> {
   final bool isShippingAddress;
   final double latitude;
   final double longitude;
+  final bool isDeleted;
   Addres(
       {this.tenantId,
-      this.creationTime,
-      this.deleteTime,
-      this.createUserId,
-      this.creatorUser,
-      this.lastModifierUser,
-      this.lastModifierUserId,
-      this.deleteUserId,
-      this.deleterUserId,
-      @required this.isDeleted,
       @required this.id,
       @required this.customerId,
       @required this.addressTitle,
@@ -19189,36 +18740,18 @@ class Addres extends DataClass implements Insertable<Addres> {
       @required this.isPrimaryAddress,
       @required this.isShippingAddress,
       @required this.latitude,
-      @required this.longitude});
+      @required this.longitude,
+      @required this.isDeleted});
   factory Addres.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
-    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final stringType = db.typeSystem.forDartType<String>();
     final boolType = db.typeSystem.forDartType<bool>();
     final doubleType = db.typeSystem.forDartType<double>();
     return Addres(
       tenantId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
-      creationTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
-      deleteTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
-      createUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
-      creatorUser: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
-      lastModifierUser: stringType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user']),
-      lastModifierUserId: intType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user_id']),
-      deleteUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
-      deleterUserId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
-      isDeleted: boolType
-          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       customerId: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}customer_id']),
@@ -19253,6 +18786,8 @@ class Addres extends DataClass implements Insertable<Addres> {
           .mapFromDatabaseResponse(data['${effectivePrefix}latitude']),
       longitude: doubleType
           .mapFromDatabaseResponse(data['${effectivePrefix}longitude']),
+      isDeleted: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
     );
   }
   @override
@@ -19260,33 +18795,6 @@ class Addres extends DataClass implements Insertable<Addres> {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
       map['tenant_id'] = Variable<int>(tenantId);
-    }
-    if (!nullToAbsent || creationTime != null) {
-      map['creation_time'] = Variable<DateTime>(creationTime);
-    }
-    if (!nullToAbsent || deleteTime != null) {
-      map['delete_time'] = Variable<DateTime>(deleteTime);
-    }
-    if (!nullToAbsent || createUserId != null) {
-      map['create_user_id'] = Variable<int>(createUserId);
-    }
-    if (!nullToAbsent || creatorUser != null) {
-      map['creator_user'] = Variable<String>(creatorUser);
-    }
-    if (!nullToAbsent || lastModifierUser != null) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser);
-    }
-    if (!nullToAbsent || lastModifierUserId != null) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
-    }
-    if (!nullToAbsent || deleteUserId != null) {
-      map['delete_user_id'] = Variable<int>(deleteUserId);
-    }
-    if (!nullToAbsent || deleterUserId != null) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId);
-    }
-    if (!nullToAbsent || isDeleted != null) {
-      map['is_deleted'] = Variable<bool>(isDeleted);
     }
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int>(id);
@@ -19342,6 +18850,9 @@ class Addres extends DataClass implements Insertable<Addres> {
     if (!nullToAbsent || longitude != null) {
       map['longitude'] = Variable<double>(longitude);
     }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
     return map;
   }
 
@@ -19350,33 +18861,6 @@ class Addres extends DataClass implements Insertable<Addres> {
       tenantId: tenantId == null && nullToAbsent
           ? const Value.absent()
           : Value(tenantId),
-      creationTime: creationTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creationTime),
-      deleteTime: deleteTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteTime),
-      createUserId: createUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(createUserId),
-      creatorUser: creatorUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creatorUser),
-      lastModifierUser: lastModifierUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUser),
-      lastModifierUserId: lastModifierUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUserId),
-      deleteUserId: deleteUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteUserId),
-      deleterUserId: deleterUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleterUserId),
-      isDeleted: isDeleted == null && nullToAbsent
-          ? const Value.absent()
-          : Value(isDeleted),
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       customerId: customerId == null && nullToAbsent
           ? const Value.absent()
@@ -19426,6 +18910,9 @@ class Addres extends DataClass implements Insertable<Addres> {
       longitude: longitude == null && nullToAbsent
           ? const Value.absent()
           : Value(longitude),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
     );
   }
 
@@ -19434,15 +18921,6 @@ class Addres extends DataClass implements Insertable<Addres> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return Addres(
       tenantId: serializer.fromJson<int>(json['tenantId']),
-      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
-      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
-      createUserId: serializer.fromJson<int>(json['createUserId']),
-      creatorUser: serializer.fromJson<String>(json['creatorUser']),
-      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
-      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
-      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
-      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
-      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
       id: serializer.fromJson<int>(json['id']),
       customerId: serializer.fromJson<String>(json['customerId']),
       addressTitle: serializer.fromJson<String>(json['addressTitle']),
@@ -19462,6 +18940,7 @@ class Addres extends DataClass implements Insertable<Addres> {
       isShippingAddress: serializer.fromJson<bool>(json['isShippingAddress']),
       latitude: serializer.fromJson<double>(json['latitude']),
       longitude: serializer.fromJson<double>(json['longitude']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
     );
   }
   @override
@@ -19469,15 +18948,6 @@ class Addres extends DataClass implements Insertable<Addres> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'tenantId': serializer.toJson<int>(tenantId),
-      'creationTime': serializer.toJson<DateTime>(creationTime),
-      'deleteTime': serializer.toJson<DateTime>(deleteTime),
-      'createUserId': serializer.toJson<int>(createUserId),
-      'creatorUser': serializer.toJson<String>(creatorUser),
-      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
-      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
-      'deleteUserId': serializer.toJson<int>(deleteUserId),
-      'deleterUserId': serializer.toJson<String>(deleterUserId),
-      'isDeleted': serializer.toJson<bool>(isDeleted),
       'id': serializer.toJson<int>(id),
       'customerId': serializer.toJson<String>(customerId),
       'addressTitle': serializer.toJson<String>(addressTitle),
@@ -19496,20 +18966,12 @@ class Addres extends DataClass implements Insertable<Addres> {
       'isShippingAddress': serializer.toJson<bool>(isShippingAddress),
       'latitude': serializer.toJson<double>(latitude),
       'longitude': serializer.toJson<double>(longitude),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
     };
   }
 
   Addres copyWith(
           {int tenantId,
-          DateTime creationTime,
-          DateTime deleteTime,
-          int createUserId,
-          String creatorUser,
-          String lastModifierUser,
-          int lastModifierUserId,
-          int deleteUserId,
-          String deleterUserId,
-          bool isDeleted,
           int id,
           String customerId,
           String addressTitle,
@@ -19527,18 +18989,10 @@ class Addres extends DataClass implements Insertable<Addres> {
           bool isPrimaryAddress,
           bool isShippingAddress,
           double latitude,
-          double longitude}) =>
+          double longitude,
+          bool isDeleted}) =>
       Addres(
         tenantId: tenantId ?? this.tenantId,
-        creationTime: creationTime ?? this.creationTime,
-        deleteTime: deleteTime ?? this.deleteTime,
-        createUserId: createUserId ?? this.createUserId,
-        creatorUser: creatorUser ?? this.creatorUser,
-        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-        deleteUserId: deleteUserId ?? this.deleteUserId,
-        deleterUserId: deleterUserId ?? this.deleterUserId,
-        isDeleted: isDeleted ?? this.isDeleted,
         id: id ?? this.id,
         customerId: customerId ?? this.customerId,
         addressTitle: addressTitle ?? this.addressTitle,
@@ -19557,20 +19011,12 @@ class Addres extends DataClass implements Insertable<Addres> {
         isShippingAddress: isShippingAddress ?? this.isShippingAddress,
         latitude: latitude ?? this.latitude,
         longitude: longitude ?? this.longitude,
+        isDeleted: isDeleted ?? this.isDeleted,
       );
   @override
   String toString() {
     return (StringBuffer('Addres(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('customerId: $customerId, ')
           ..write('addressTitle: $addressTitle, ')
@@ -19588,7 +19034,8 @@ class Addres extends DataClass implements Insertable<Addres> {
           ..write('isPrimaryAddress: $isPrimaryAddress, ')
           ..write('isShippingAddress: $isShippingAddress, ')
           ..write('latitude: $latitude, ')
-          ..write('longitude: $longitude')
+          ..write('longitude: $longitude, ')
+          ..write('isDeleted: $isDeleted')
           ..write(')'))
         .toString();
   }
@@ -19597,60 +19044,51 @@ class Addres extends DataClass implements Insertable<Addres> {
   int get hashCode => $mrjf($mrjc(
       tenantId.hashCode,
       $mrjc(
-          creationTime.hashCode,
+          id.hashCode,
           $mrjc(
-              deleteTime.hashCode,
+              customerId.hashCode,
               $mrjc(
-                  createUserId.hashCode,
+                  addressTitle.hashCode,
                   $mrjc(
-                      creatorUser.hashCode,
+                      addressType.hashCode,
                       $mrjc(
-                          lastModifierUser.hashCode,
+                          addressLine1.hashCode,
                           $mrjc(
-                              lastModifierUserId.hashCode,
+                              addressLine2.hashCode,
                               $mrjc(
-                                  deleteUserId.hashCode,
+                                  city.hashCode,
                                   $mrjc(
-                                      deleterUserId.hashCode,
+                                      state.hashCode,
                                       $mrjc(
-                                          isDeleted.hashCode,
+                                          apartment.hashCode,
                                           $mrjc(
-                                              id.hashCode,
+                                              country.hashCode,
                                               $mrjc(
-                                                  customerId.hashCode,
+                                                  zipCode.hashCode,
                                                   $mrjc(
-                                                      addressTitle.hashCode,
+                                                      contactPerson.hashCode,
                                                       $mrjc(
-                                                          addressType.hashCode,
+                                                          phoneNumber.hashCode,
                                                           $mrjc(
-                                                              addressLine1
+                                                              isYourCompanyAddress
                                                                   .hashCode,
                                                               $mrjc(
-                                                                  addressLine2
+                                                                  isPrimaryAddress
                                                                       .hashCode,
                                                                   $mrjc(
-                                                                      city
+                                                                      isShippingAddress
                                                                           .hashCode,
                                                                       $mrjc(
-                                                                          state
+                                                                          latitude
                                                                               .hashCode,
                                                                           $mrjc(
-                                                                              apartment.hashCode,
-                                                                              $mrjc(country.hashCode, $mrjc(zipCode.hashCode, $mrjc(contactPerson.hashCode, $mrjc(phoneNumber.hashCode, $mrjc(isYourCompanyAddress.hashCode, $mrjc(isPrimaryAddress.hashCode, $mrjc(isShippingAddress.hashCode, $mrjc(latitude.hashCode, longitude.hashCode))))))))))))))))))))))))))));
+                                                                              longitude.hashCode,
+                                                                              isDeleted.hashCode))))))))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is Addres &&
           other.tenantId == this.tenantId &&
-          other.creationTime == this.creationTime &&
-          other.deleteTime == this.deleteTime &&
-          other.createUserId == this.createUserId &&
-          other.creatorUser == this.creatorUser &&
-          other.lastModifierUser == this.lastModifierUser &&
-          other.lastModifierUserId == this.lastModifierUserId &&
-          other.deleteUserId == this.deleteUserId &&
-          other.deleterUserId == this.deleterUserId &&
-          other.isDeleted == this.isDeleted &&
           other.id == this.id &&
           other.customerId == this.customerId &&
           other.addressTitle == this.addressTitle &&
@@ -19668,20 +19106,12 @@ class Addres extends DataClass implements Insertable<Addres> {
           other.isPrimaryAddress == this.isPrimaryAddress &&
           other.isShippingAddress == this.isShippingAddress &&
           other.latitude == this.latitude &&
-          other.longitude == this.longitude);
+          other.longitude == this.longitude &&
+          other.isDeleted == this.isDeleted);
 }
 
 class AddressCompanion extends UpdateCompanion<Addres> {
   final Value<int> tenantId;
-  final Value<DateTime> creationTime;
-  final Value<DateTime> deleteTime;
-  final Value<int> createUserId;
-  final Value<String> creatorUser;
-  final Value<String> lastModifierUser;
-  final Value<int> lastModifierUserId;
-  final Value<int> deleteUserId;
-  final Value<String> deleterUserId;
-  final Value<bool> isDeleted;
   final Value<int> id;
   final Value<String> customerId;
   final Value<String> addressTitle;
@@ -19700,17 +19130,9 @@ class AddressCompanion extends UpdateCompanion<Addres> {
   final Value<bool> isShippingAddress;
   final Value<double> latitude;
   final Value<double> longitude;
+  final Value<bool> isDeleted;
   const AddressCompanion({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     this.customerId = const Value.absent(),
     this.addressTitle = const Value.absent(),
@@ -19729,18 +19151,10 @@ class AddressCompanion extends UpdateCompanion<Addres> {
     this.isShippingAddress = const Value.absent(),
     this.latitude = const Value.absent(),
     this.longitude = const Value.absent(),
+    this.isDeleted = const Value.absent(),
   });
   AddressCompanion.insert({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     @required String customerId,
     @required String addressTitle,
@@ -19759,6 +19173,7 @@ class AddressCompanion extends UpdateCompanion<Addres> {
     this.isShippingAddress = const Value.absent(),
     @required double latitude,
     @required double longitude,
+    this.isDeleted = const Value.absent(),
   })  : customerId = Value(customerId),
         addressTitle = Value(addressTitle),
         addressType = Value(addressType),
@@ -19775,15 +19190,6 @@ class AddressCompanion extends UpdateCompanion<Addres> {
         longitude = Value(longitude);
   static Insertable<Addres> custom({
     Expression<int> tenantId,
-    Expression<DateTime> creationTime,
-    Expression<DateTime> deleteTime,
-    Expression<int> createUserId,
-    Expression<String> creatorUser,
-    Expression<String> lastModifierUser,
-    Expression<int> lastModifierUserId,
-    Expression<int> deleteUserId,
-    Expression<String> deleterUserId,
-    Expression<bool> isDeleted,
     Expression<int> id,
     Expression<String> customerId,
     Expression<String> addressTitle,
@@ -19802,19 +19208,10 @@ class AddressCompanion extends UpdateCompanion<Addres> {
     Expression<bool> isShippingAddress,
     Expression<double> latitude,
     Expression<double> longitude,
+    Expression<bool> isDeleted,
   }) {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
-      if (creationTime != null) 'creation_time': creationTime,
-      if (deleteTime != null) 'delete_time': deleteTime,
-      if (createUserId != null) 'create_user_id': createUserId,
-      if (creatorUser != null) 'creator_user': creatorUser,
-      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
-      if (lastModifierUserId != null)
-        'last_modifier_user_id': lastModifierUserId,
-      if (deleteUserId != null) 'delete_user_id': deleteUserId,
-      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
-      if (isDeleted != null) 'is_deleted': isDeleted,
       if (id != null) 'id': id,
       if (customerId != null) 'customer_id': customerId,
       if (addressTitle != null) 'address_title': addressTitle,
@@ -19834,20 +19231,12 @@ class AddressCompanion extends UpdateCompanion<Addres> {
       if (isShippingAddress != null) 'is_shipping_address': isShippingAddress,
       if (latitude != null) 'latitude': latitude,
       if (longitude != null) 'longitude': longitude,
+      if (isDeleted != null) 'is_deleted': isDeleted,
     });
   }
 
   AddressCompanion copyWith(
       {Value<int> tenantId,
-      Value<DateTime> creationTime,
-      Value<DateTime> deleteTime,
-      Value<int> createUserId,
-      Value<String> creatorUser,
-      Value<String> lastModifierUser,
-      Value<int> lastModifierUserId,
-      Value<int> deleteUserId,
-      Value<String> deleterUserId,
-      Value<bool> isDeleted,
       Value<int> id,
       Value<String> customerId,
       Value<String> addressTitle,
@@ -19865,18 +19254,10 @@ class AddressCompanion extends UpdateCompanion<Addres> {
       Value<bool> isPrimaryAddress,
       Value<bool> isShippingAddress,
       Value<double> latitude,
-      Value<double> longitude}) {
+      Value<double> longitude,
+      Value<bool> isDeleted}) {
     return AddressCompanion(
       tenantId: tenantId ?? this.tenantId,
-      creationTime: creationTime ?? this.creationTime,
-      deleteTime: deleteTime ?? this.deleteTime,
-      createUserId: createUserId ?? this.createUserId,
-      creatorUser: creatorUser ?? this.creatorUser,
-      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-      deleteUserId: deleteUserId ?? this.deleteUserId,
-      deleterUserId: deleterUserId ?? this.deleterUserId,
-      isDeleted: isDeleted ?? this.isDeleted,
       id: id ?? this.id,
       customerId: customerId ?? this.customerId,
       addressTitle: addressTitle ?? this.addressTitle,
@@ -19895,6 +19276,7 @@ class AddressCompanion extends UpdateCompanion<Addres> {
       isShippingAddress: isShippingAddress ?? this.isShippingAddress,
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
+      isDeleted: isDeleted ?? this.isDeleted,
     );
   }
 
@@ -19903,33 +19285,6 @@ class AddressCompanion extends UpdateCompanion<Addres> {
     final map = <String, Expression>{};
     if (tenantId.present) {
       map['tenant_id'] = Variable<int>(tenantId.value);
-    }
-    if (creationTime.present) {
-      map['creation_time'] = Variable<DateTime>(creationTime.value);
-    }
-    if (deleteTime.present) {
-      map['delete_time'] = Variable<DateTime>(deleteTime.value);
-    }
-    if (createUserId.present) {
-      map['create_user_id'] = Variable<int>(createUserId.value);
-    }
-    if (creatorUser.present) {
-      map['creator_user'] = Variable<String>(creatorUser.value);
-    }
-    if (lastModifierUser.present) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
-    }
-    if (lastModifierUserId.present) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
-    }
-    if (deleteUserId.present) {
-      map['delete_user_id'] = Variable<int>(deleteUserId.value);
-    }
-    if (deleterUserId.present) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
-    }
-    if (isDeleted.present) {
-      map['is_deleted'] = Variable<bool>(isDeleted.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -19986,6 +19341,9 @@ class AddressCompanion extends UpdateCompanion<Addres> {
     if (longitude.present) {
       map['longitude'] = Variable<double>(longitude.value);
     }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
     return map;
   }
 
@@ -19993,15 +19351,6 @@ class AddressCompanion extends UpdateCompanion<Addres> {
   String toString() {
     return (StringBuffer('AddressCompanion(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('customerId: $customerId, ')
           ..write('addressTitle: $addressTitle, ')
@@ -20019,7 +19368,8 @@ class AddressCompanion extends UpdateCompanion<Addres> {
           ..write('isPrimaryAddress: $isPrimaryAddress, ')
           ..write('isShippingAddress: $isShippingAddress, ')
           ..write('latitude: $latitude, ')
-          ..write('longitude: $longitude')
+          ..write('longitude: $longitude, ')
+          ..write('isDeleted: $isDeleted')
           ..write(')'))
         .toString();
   }
@@ -20039,126 +19389,6 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
       $tableName,
       true,
     );
-  }
-
-  final VerificationMeta _creationTimeMeta =
-      const VerificationMeta('creationTime');
-  GeneratedDateTimeColumn _creationTime;
-  @override
-  GeneratedDateTimeColumn get creationTime =>
-      _creationTime ??= _constructCreationTime();
-  GeneratedDateTimeColumn _constructCreationTime() {
-    return GeneratedDateTimeColumn(
-      'creation_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
-  GeneratedDateTimeColumn _deleteTime;
-  @override
-  GeneratedDateTimeColumn get deleteTime =>
-      _deleteTime ??= _constructDeleteTime();
-  GeneratedDateTimeColumn _constructDeleteTime() {
-    return GeneratedDateTimeColumn(
-      'delete_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _createUserIdMeta =
-      const VerificationMeta('createUserId');
-  GeneratedIntColumn _createUserId;
-  @override
-  GeneratedIntColumn get createUserId =>
-      _createUserId ??= _constructCreateUserId();
-  GeneratedIntColumn _constructCreateUserId() {
-    return GeneratedIntColumn(
-      'create_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _creatorUserMeta =
-      const VerificationMeta('creatorUser');
-  GeneratedTextColumn _creatorUser;
-  @override
-  GeneratedTextColumn get creatorUser =>
-      _creatorUser ??= _constructCreatorUser();
-  GeneratedTextColumn _constructCreatorUser() {
-    return GeneratedTextColumn(
-      'creator_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserMeta =
-      const VerificationMeta('lastModifierUser');
-  GeneratedTextColumn _lastModifierUser;
-  @override
-  GeneratedTextColumn get lastModifierUser =>
-      _lastModifierUser ??= _constructLastModifierUser();
-  GeneratedTextColumn _constructLastModifierUser() {
-    return GeneratedTextColumn(
-      'last_modifier_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserIdMeta =
-      const VerificationMeta('lastModifierUserId');
-  GeneratedIntColumn _lastModifierUserId;
-  @override
-  GeneratedIntColumn get lastModifierUserId =>
-      _lastModifierUserId ??= _constructLastModifierUserId();
-  GeneratedIntColumn _constructLastModifierUserId() {
-    return GeneratedIntColumn(
-      'last_modifier_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteUserIdMeta =
-      const VerificationMeta('deleteUserId');
-  GeneratedIntColumn _deleteUserId;
-  @override
-  GeneratedIntColumn get deleteUserId =>
-      _deleteUserId ??= _constructDeleteUserId();
-  GeneratedIntColumn _constructDeleteUserId() {
-    return GeneratedIntColumn(
-      'delete_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleterUserIdMeta =
-      const VerificationMeta('deleterUserId');
-  GeneratedTextColumn _deleterUserId;
-  @override
-  GeneratedTextColumn get deleterUserId =>
-      _deleterUserId ??= _constructDeleterUserId();
-  GeneratedTextColumn _constructDeleterUserId() {
-    return GeneratedTextColumn(
-      'deleter_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
-  GeneratedBoolColumn _isDeleted;
-  @override
-  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
-  GeneratedBoolColumn _constructIsDeleted() {
-    return GeneratedBoolColumn('is_deleted', $tableName, false,
-        defaultValue: Constant(false));
   }
 
   final VerificationMeta _idMeta = const VerificationMeta('id');
@@ -20386,18 +19616,18 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
     );
   }
 
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  GeneratedBoolColumn _isDeleted;
+  @override
+  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
+  GeneratedBoolColumn _constructIsDeleted() {
+    return GeneratedBoolColumn('is_deleted', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
   @override
   List<GeneratedColumn> get $columns => [
         tenantId,
-        creationTime,
-        deleteTime,
-        createUserId,
-        creatorUser,
-        lastModifierUser,
-        lastModifierUserId,
-        deleteUserId,
-        deleterUserId,
-        isDeleted,
         id,
         customerId,
         addressTitle,
@@ -20415,7 +19645,8 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
         isPrimaryAddress,
         isShippingAddress,
         latitude,
-        longitude
+        longitude,
+        isDeleted
       ];
   @override
   $AddressTable get asDslTable => this;
@@ -20431,58 +19662,6 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
     if (data.containsKey('tenant_id')) {
       context.handle(_tenantIdMeta,
           tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
-    }
-    if (data.containsKey('creation_time')) {
-      context.handle(
-          _creationTimeMeta,
-          creationTime.isAcceptableOrUnknown(
-              data['creation_time'], _creationTimeMeta));
-    }
-    if (data.containsKey('delete_time')) {
-      context.handle(
-          _deleteTimeMeta,
-          deleteTime.isAcceptableOrUnknown(
-              data['delete_time'], _deleteTimeMeta));
-    }
-    if (data.containsKey('create_user_id')) {
-      context.handle(
-          _createUserIdMeta,
-          createUserId.isAcceptableOrUnknown(
-              data['create_user_id'], _createUserIdMeta));
-    }
-    if (data.containsKey('creator_user')) {
-      context.handle(
-          _creatorUserMeta,
-          creatorUser.isAcceptableOrUnknown(
-              data['creator_user'], _creatorUserMeta));
-    }
-    if (data.containsKey('last_modifier_user')) {
-      context.handle(
-          _lastModifierUserMeta,
-          lastModifierUser.isAcceptableOrUnknown(
-              data['last_modifier_user'], _lastModifierUserMeta));
-    }
-    if (data.containsKey('last_modifier_user_id')) {
-      context.handle(
-          _lastModifierUserIdMeta,
-          lastModifierUserId.isAcceptableOrUnknown(
-              data['last_modifier_user_id'], _lastModifierUserIdMeta));
-    }
-    if (data.containsKey('delete_user_id')) {
-      context.handle(
-          _deleteUserIdMeta,
-          deleteUserId.isAcceptableOrUnknown(
-              data['delete_user_id'], _deleteUserIdMeta));
-    }
-    if (data.containsKey('deleter_user_id')) {
-      context.handle(
-          _deleterUserIdMeta,
-          deleterUserId.isAcceptableOrUnknown(
-              data['deleter_user_id'], _deleterUserIdMeta));
-    }
-    if (data.containsKey('is_deleted')) {
-      context.handle(_isDeletedMeta,
-          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
     }
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
@@ -20603,6 +19782,10 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
     } else if (isInserting) {
       context.missing(_longitudeMeta);
     }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
+    }
     return context;
   }
 
@@ -20622,15 +19805,6 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
 
 class ContactData extends DataClass implements Insertable<ContactData> {
   final int tenantId;
-  final DateTime creationTime;
-  final DateTime deleteTime;
-  final int createUserId;
-  final String creatorUser;
-  final String lastModifierUser;
-  final int lastModifierUserId;
-  final int deleteUserId;
-  final String deleterUserId;
-  final bool isDeleted;
   final int id;
   final String contactTitle;
   final String customerId;
@@ -20644,15 +19818,6 @@ class ContactData extends DataClass implements Insertable<ContactData> {
   final String userName;
   ContactData(
       {this.tenantId,
-      this.creationTime,
-      this.deleteTime,
-      this.createUserId,
-      this.creatorUser,
-      this.lastModifierUser,
-      this.lastModifierUserId,
-      this.deleteUserId,
-      this.deleterUserId,
-      @required this.isDeleted,
       @required this.id,
       @required this.contactTitle,
       @required this.customerId,
@@ -20668,30 +19833,11 @@ class ContactData extends DataClass implements Insertable<ContactData> {
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
-    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final stringType = db.typeSystem.forDartType<String>();
     final boolType = db.typeSystem.forDartType<bool>();
     return ContactData(
       tenantId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
-      creationTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
-      deleteTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
-      createUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
-      creatorUser: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
-      lastModifierUser: stringType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user']),
-      lastModifierUserId: intType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user_id']),
-      deleteUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
-      deleterUserId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
-      isDeleted: boolType
-          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       contactTitle: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}contact_title']),
@@ -20720,33 +19866,6 @@ class ContactData extends DataClass implements Insertable<ContactData> {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
       map['tenant_id'] = Variable<int>(tenantId);
-    }
-    if (!nullToAbsent || creationTime != null) {
-      map['creation_time'] = Variable<DateTime>(creationTime);
-    }
-    if (!nullToAbsent || deleteTime != null) {
-      map['delete_time'] = Variable<DateTime>(deleteTime);
-    }
-    if (!nullToAbsent || createUserId != null) {
-      map['create_user_id'] = Variable<int>(createUserId);
-    }
-    if (!nullToAbsent || creatorUser != null) {
-      map['creator_user'] = Variable<String>(creatorUser);
-    }
-    if (!nullToAbsent || lastModifierUser != null) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser);
-    }
-    if (!nullToAbsent || lastModifierUserId != null) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
-    }
-    if (!nullToAbsent || deleteUserId != null) {
-      map['delete_user_id'] = Variable<int>(deleteUserId);
-    }
-    if (!nullToAbsent || deleterUserId != null) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId);
-    }
-    if (!nullToAbsent || isDeleted != null) {
-      map['is_deleted'] = Variable<bool>(isDeleted);
     }
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int>(id);
@@ -20789,33 +19908,6 @@ class ContactData extends DataClass implements Insertable<ContactData> {
       tenantId: tenantId == null && nullToAbsent
           ? const Value.absent()
           : Value(tenantId),
-      creationTime: creationTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creationTime),
-      deleteTime: deleteTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteTime),
-      createUserId: createUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(createUserId),
-      creatorUser: creatorUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creatorUser),
-      lastModifierUser: lastModifierUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUser),
-      lastModifierUserId: lastModifierUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUserId),
-      deleteUserId: deleteUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteUserId),
-      deleterUserId: deleterUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleterUserId),
-      isDeleted: isDeleted == null && nullToAbsent
-          ? const Value.absent()
-          : Value(isDeleted),
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       contactTitle: contactTitle == null && nullToAbsent
           ? const Value.absent()
@@ -20855,15 +19947,6 @@ class ContactData extends DataClass implements Insertable<ContactData> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return ContactData(
       tenantId: serializer.fromJson<int>(json['tenantId']),
-      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
-      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
-      createUserId: serializer.fromJson<int>(json['createUserId']),
-      creatorUser: serializer.fromJson<String>(json['creatorUser']),
-      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
-      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
-      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
-      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
-      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
       id: serializer.fromJson<int>(json['id']),
       contactTitle: serializer.fromJson<String>(json['contactTitle']),
       customerId: serializer.fromJson<String>(json['customerId']),
@@ -20883,15 +19966,6 @@ class ContactData extends DataClass implements Insertable<ContactData> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'tenantId': serializer.toJson<int>(tenantId),
-      'creationTime': serializer.toJson<DateTime>(creationTime),
-      'deleteTime': serializer.toJson<DateTime>(deleteTime),
-      'createUserId': serializer.toJson<int>(createUserId),
-      'creatorUser': serializer.toJson<String>(creatorUser),
-      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
-      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
-      'deleteUserId': serializer.toJson<int>(deleteUserId),
-      'deleterUserId': serializer.toJson<String>(deleterUserId),
-      'isDeleted': serializer.toJson<bool>(isDeleted),
       'id': serializer.toJson<int>(id),
       'contactTitle': serializer.toJson<String>(contactTitle),
       'customerId': serializer.toJson<String>(customerId),
@@ -20908,15 +19982,6 @@ class ContactData extends DataClass implements Insertable<ContactData> {
 
   ContactData copyWith(
           {int tenantId,
-          DateTime creationTime,
-          DateTime deleteTime,
-          int createUserId,
-          String creatorUser,
-          String lastModifierUser,
-          int lastModifierUserId,
-          int deleteUserId,
-          String deleterUserId,
-          bool isDeleted,
           int id,
           String contactTitle,
           String customerId,
@@ -20930,15 +19995,6 @@ class ContactData extends DataClass implements Insertable<ContactData> {
           String userName}) =>
       ContactData(
         tenantId: tenantId ?? this.tenantId,
-        creationTime: creationTime ?? this.creationTime,
-        deleteTime: deleteTime ?? this.deleteTime,
-        createUserId: createUserId ?? this.createUserId,
-        creatorUser: creatorUser ?? this.creatorUser,
-        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-        deleteUserId: deleteUserId ?? this.deleteUserId,
-        deleterUserId: deleterUserId ?? this.deleterUserId,
-        isDeleted: isDeleted ?? this.isDeleted,
         id: id ?? this.id,
         contactTitle: contactTitle ?? this.contactTitle,
         customerId: customerId ?? this.customerId,
@@ -20955,15 +20011,6 @@ class ContactData extends DataClass implements Insertable<ContactData> {
   String toString() {
     return (StringBuffer('ContactData(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('contactTitle: $contactTitle, ')
           ..write('customerId: $customerId, ')
@@ -20983,61 +20030,30 @@ class ContactData extends DataClass implements Insertable<ContactData> {
   int get hashCode => $mrjf($mrjc(
       tenantId.hashCode,
       $mrjc(
-          creationTime.hashCode,
+          id.hashCode,
           $mrjc(
-              deleteTime.hashCode,
+              contactTitle.hashCode,
               $mrjc(
-                  createUserId.hashCode,
+                  customerId.hashCode,
                   $mrjc(
-                      creatorUser.hashCode,
+                      contactPerson.hashCode,
                       $mrjc(
-                          lastModifierUser.hashCode,
+                          workNumber.hashCode,
                           $mrjc(
-                              lastModifierUserId.hashCode,
+                              cellNumber.hashCode,
                               $mrjc(
-                                  deleteUserId.hashCode,
+                                  whatappNumber.hashCode,
                                   $mrjc(
-                                      deleterUserId.hashCode,
+                                      isYourCompanyContact.hashCode,
                                       $mrjc(
-                                          isDeleted.hashCode,
-                                          $mrjc(
-                                              id.hashCode,
-                                              $mrjc(
-                                                  contactTitle.hashCode,
-                                                  $mrjc(
-                                                      customerId.hashCode,
-                                                      $mrjc(
-                                                          contactPerson
-                                                              .hashCode,
-                                                          $mrjc(
-                                                              workNumber
-                                                                  .hashCode,
-                                                              $mrjc(
-                                                                  cellNumber
-                                                                      .hashCode,
-                                                                  $mrjc(
-                                                                      whatappNumber
-                                                                          .hashCode,
-                                                                      $mrjc(
-                                                                          isYourCompanyContact
-                                                                              .hashCode,
-                                                                          $mrjc(
-                                                                              isPrimaryContact.hashCode,
-                                                                              $mrjc(isUserContact.hashCode, userName.hashCode)))))))))))))))))))));
+                                          isPrimaryContact.hashCode,
+                                          $mrjc(isUserContact.hashCode,
+                                              userName.hashCode))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is ContactData &&
           other.tenantId == this.tenantId &&
-          other.creationTime == this.creationTime &&
-          other.deleteTime == this.deleteTime &&
-          other.createUserId == this.createUserId &&
-          other.creatorUser == this.creatorUser &&
-          other.lastModifierUser == this.lastModifierUser &&
-          other.lastModifierUserId == this.lastModifierUserId &&
-          other.deleteUserId == this.deleteUserId &&
-          other.deleterUserId == this.deleterUserId &&
-          other.isDeleted == this.isDeleted &&
           other.id == this.id &&
           other.contactTitle == this.contactTitle &&
           other.customerId == this.customerId &&
@@ -21053,15 +20069,6 @@ class ContactData extends DataClass implements Insertable<ContactData> {
 
 class ContactCompanion extends UpdateCompanion<ContactData> {
   final Value<int> tenantId;
-  final Value<DateTime> creationTime;
-  final Value<DateTime> deleteTime;
-  final Value<int> createUserId;
-  final Value<String> creatorUser;
-  final Value<String> lastModifierUser;
-  final Value<int> lastModifierUserId;
-  final Value<int> deleteUserId;
-  final Value<String> deleterUserId;
-  final Value<bool> isDeleted;
   final Value<int> id;
   final Value<String> contactTitle;
   final Value<String> customerId;
@@ -21075,15 +20082,6 @@ class ContactCompanion extends UpdateCompanion<ContactData> {
   final Value<String> userName;
   const ContactCompanion({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     this.contactTitle = const Value.absent(),
     this.customerId = const Value.absent(),
@@ -21098,15 +20096,6 @@ class ContactCompanion extends UpdateCompanion<ContactData> {
   });
   ContactCompanion.insert({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     @required String contactTitle,
     @required String customerId,
@@ -21127,15 +20116,6 @@ class ContactCompanion extends UpdateCompanion<ContactData> {
         userName = Value(userName);
   static Insertable<ContactData> custom({
     Expression<int> tenantId,
-    Expression<DateTime> creationTime,
-    Expression<DateTime> deleteTime,
-    Expression<int> createUserId,
-    Expression<String> creatorUser,
-    Expression<String> lastModifierUser,
-    Expression<int> lastModifierUserId,
-    Expression<int> deleteUserId,
-    Expression<String> deleterUserId,
-    Expression<bool> isDeleted,
     Expression<int> id,
     Expression<String> contactTitle,
     Expression<String> customerId,
@@ -21150,16 +20130,6 @@ class ContactCompanion extends UpdateCompanion<ContactData> {
   }) {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
-      if (creationTime != null) 'creation_time': creationTime,
-      if (deleteTime != null) 'delete_time': deleteTime,
-      if (createUserId != null) 'create_user_id': createUserId,
-      if (creatorUser != null) 'creator_user': creatorUser,
-      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
-      if (lastModifierUserId != null)
-        'last_modifier_user_id': lastModifierUserId,
-      if (deleteUserId != null) 'delete_user_id': deleteUserId,
-      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
-      if (isDeleted != null) 'is_deleted': isDeleted,
       if (id != null) 'id': id,
       if (contactTitle != null) 'contact_title': contactTitle,
       if (customerId != null) 'customer_id': customerId,
@@ -21177,15 +20147,6 @@ class ContactCompanion extends UpdateCompanion<ContactData> {
 
   ContactCompanion copyWith(
       {Value<int> tenantId,
-      Value<DateTime> creationTime,
-      Value<DateTime> deleteTime,
-      Value<int> createUserId,
-      Value<String> creatorUser,
-      Value<String> lastModifierUser,
-      Value<int> lastModifierUserId,
-      Value<int> deleteUserId,
-      Value<String> deleterUserId,
-      Value<bool> isDeleted,
       Value<int> id,
       Value<String> contactTitle,
       Value<String> customerId,
@@ -21199,15 +20160,6 @@ class ContactCompanion extends UpdateCompanion<ContactData> {
       Value<String> userName}) {
     return ContactCompanion(
       tenantId: tenantId ?? this.tenantId,
-      creationTime: creationTime ?? this.creationTime,
-      deleteTime: deleteTime ?? this.deleteTime,
-      createUserId: createUserId ?? this.createUserId,
-      creatorUser: creatorUser ?? this.creatorUser,
-      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-      deleteUserId: deleteUserId ?? this.deleteUserId,
-      deleterUserId: deleterUserId ?? this.deleterUserId,
-      isDeleted: isDeleted ?? this.isDeleted,
       id: id ?? this.id,
       contactTitle: contactTitle ?? this.contactTitle,
       customerId: customerId ?? this.customerId,
@@ -21227,33 +20179,6 @@ class ContactCompanion extends UpdateCompanion<ContactData> {
     final map = <String, Expression>{};
     if (tenantId.present) {
       map['tenant_id'] = Variable<int>(tenantId.value);
-    }
-    if (creationTime.present) {
-      map['creation_time'] = Variable<DateTime>(creationTime.value);
-    }
-    if (deleteTime.present) {
-      map['delete_time'] = Variable<DateTime>(deleteTime.value);
-    }
-    if (createUserId.present) {
-      map['create_user_id'] = Variable<int>(createUserId.value);
-    }
-    if (creatorUser.present) {
-      map['creator_user'] = Variable<String>(creatorUser.value);
-    }
-    if (lastModifierUser.present) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
-    }
-    if (lastModifierUserId.present) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
-    }
-    if (deleteUserId.present) {
-      map['delete_user_id'] = Variable<int>(deleteUserId.value);
-    }
-    if (deleterUserId.present) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
-    }
-    if (isDeleted.present) {
-      map['is_deleted'] = Variable<bool>(isDeleted.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -21296,15 +20221,6 @@ class ContactCompanion extends UpdateCompanion<ContactData> {
   String toString() {
     return (StringBuffer('ContactCompanion(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('contactTitle: $contactTitle, ')
           ..write('customerId: $customerId, ')
@@ -21335,126 +20251,6 @@ class $ContactTable extends Contact with TableInfo<$ContactTable, ContactData> {
       $tableName,
       true,
     );
-  }
-
-  final VerificationMeta _creationTimeMeta =
-      const VerificationMeta('creationTime');
-  GeneratedDateTimeColumn _creationTime;
-  @override
-  GeneratedDateTimeColumn get creationTime =>
-      _creationTime ??= _constructCreationTime();
-  GeneratedDateTimeColumn _constructCreationTime() {
-    return GeneratedDateTimeColumn(
-      'creation_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
-  GeneratedDateTimeColumn _deleteTime;
-  @override
-  GeneratedDateTimeColumn get deleteTime =>
-      _deleteTime ??= _constructDeleteTime();
-  GeneratedDateTimeColumn _constructDeleteTime() {
-    return GeneratedDateTimeColumn(
-      'delete_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _createUserIdMeta =
-      const VerificationMeta('createUserId');
-  GeneratedIntColumn _createUserId;
-  @override
-  GeneratedIntColumn get createUserId =>
-      _createUserId ??= _constructCreateUserId();
-  GeneratedIntColumn _constructCreateUserId() {
-    return GeneratedIntColumn(
-      'create_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _creatorUserMeta =
-      const VerificationMeta('creatorUser');
-  GeneratedTextColumn _creatorUser;
-  @override
-  GeneratedTextColumn get creatorUser =>
-      _creatorUser ??= _constructCreatorUser();
-  GeneratedTextColumn _constructCreatorUser() {
-    return GeneratedTextColumn(
-      'creator_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserMeta =
-      const VerificationMeta('lastModifierUser');
-  GeneratedTextColumn _lastModifierUser;
-  @override
-  GeneratedTextColumn get lastModifierUser =>
-      _lastModifierUser ??= _constructLastModifierUser();
-  GeneratedTextColumn _constructLastModifierUser() {
-    return GeneratedTextColumn(
-      'last_modifier_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserIdMeta =
-      const VerificationMeta('lastModifierUserId');
-  GeneratedIntColumn _lastModifierUserId;
-  @override
-  GeneratedIntColumn get lastModifierUserId =>
-      _lastModifierUserId ??= _constructLastModifierUserId();
-  GeneratedIntColumn _constructLastModifierUserId() {
-    return GeneratedIntColumn(
-      'last_modifier_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteUserIdMeta =
-      const VerificationMeta('deleteUserId');
-  GeneratedIntColumn _deleteUserId;
-  @override
-  GeneratedIntColumn get deleteUserId =>
-      _deleteUserId ??= _constructDeleteUserId();
-  GeneratedIntColumn _constructDeleteUserId() {
-    return GeneratedIntColumn(
-      'delete_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleterUserIdMeta =
-      const VerificationMeta('deleterUserId');
-  GeneratedTextColumn _deleterUserId;
-  @override
-  GeneratedTextColumn get deleterUserId =>
-      _deleterUserId ??= _constructDeleterUserId();
-  GeneratedTextColumn _constructDeleterUserId() {
-    return GeneratedTextColumn(
-      'deleter_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
-  GeneratedBoolColumn _isDeleted;
-  @override
-  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
-  GeneratedBoolColumn _constructIsDeleted() {
-    return GeneratedBoolColumn('is_deleted', $tableName, false,
-        defaultValue: Constant(false));
   }
 
   final VerificationMeta _idMeta = const VerificationMeta('id');
@@ -21595,15 +20391,6 @@ class $ContactTable extends Contact with TableInfo<$ContactTable, ContactData> {
   @override
   List<GeneratedColumn> get $columns => [
         tenantId,
-        creationTime,
-        deleteTime,
-        createUserId,
-        creatorUser,
-        lastModifierUser,
-        lastModifierUserId,
-        deleteUserId,
-        deleterUserId,
-        isDeleted,
         id,
         contactTitle,
         customerId,
@@ -21630,58 +20417,6 @@ class $ContactTable extends Contact with TableInfo<$ContactTable, ContactData> {
     if (data.containsKey('tenant_id')) {
       context.handle(_tenantIdMeta,
           tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
-    }
-    if (data.containsKey('creation_time')) {
-      context.handle(
-          _creationTimeMeta,
-          creationTime.isAcceptableOrUnknown(
-              data['creation_time'], _creationTimeMeta));
-    }
-    if (data.containsKey('delete_time')) {
-      context.handle(
-          _deleteTimeMeta,
-          deleteTime.isAcceptableOrUnknown(
-              data['delete_time'], _deleteTimeMeta));
-    }
-    if (data.containsKey('create_user_id')) {
-      context.handle(
-          _createUserIdMeta,
-          createUserId.isAcceptableOrUnknown(
-              data['create_user_id'], _createUserIdMeta));
-    }
-    if (data.containsKey('creator_user')) {
-      context.handle(
-          _creatorUserMeta,
-          creatorUser.isAcceptableOrUnknown(
-              data['creator_user'], _creatorUserMeta));
-    }
-    if (data.containsKey('last_modifier_user')) {
-      context.handle(
-          _lastModifierUserMeta,
-          lastModifierUser.isAcceptableOrUnknown(
-              data['last_modifier_user'], _lastModifierUserMeta));
-    }
-    if (data.containsKey('last_modifier_user_id')) {
-      context.handle(
-          _lastModifierUserIdMeta,
-          lastModifierUserId.isAcceptableOrUnknown(
-              data['last_modifier_user_id'], _lastModifierUserIdMeta));
-    }
-    if (data.containsKey('delete_user_id')) {
-      context.handle(
-          _deleteUserIdMeta,
-          deleteUserId.isAcceptableOrUnknown(
-              data['delete_user_id'], _deleteUserIdMeta));
-    }
-    if (data.containsKey('deleter_user_id')) {
-      context.handle(
-          _deleterUserIdMeta,
-          deleterUserId.isAcceptableOrUnknown(
-              data['deleter_user_id'], _deleterUserIdMeta));
-    }
-    if (data.containsKey('is_deleted')) {
-      context.handle(_isDeletedMeta,
-          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
     }
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
@@ -21777,15 +20512,6 @@ class $ContactTable extends Contact with TableInfo<$ContactTable, ContactData> {
 
 class Item extends DataClass implements Insertable<Item> {
   final int tenantId;
-  final DateTime creationTime;
-  final DateTime deleteTime;
-  final int createUserId;
-  final String creatorUser;
-  final String lastModifierUser;
-  final int lastModifierUserId;
-  final int deleteUserId;
-  final String deleterUserId;
-  final bool isDeleted;
   final int id;
   final String description;
   final String itemCode;
@@ -21801,17 +20527,9 @@ class Item extends DataClass implements Insertable<Item> {
   final DateTime retiredDate;
   final bool hasVariant;
   final String defaultWarehouse;
+  final bool isDeleted;
   Item(
       {this.tenantId,
-      this.creationTime,
-      this.deleteTime,
-      this.createUserId,
-      this.creatorUser,
-      this.lastModifierUser,
-      this.lastModifierUserId,
-      this.deleteUserId,
-      this.deleterUserId,
-      @required this.isDeleted,
       @required this.id,
       this.description,
       this.itemCode,
@@ -21826,35 +20544,18 @@ class Item extends DataClass implements Insertable<Item> {
       @required this.isRetired,
       this.retiredDate,
       @required this.hasVariant,
-      this.defaultWarehouse});
+      this.defaultWarehouse,
+      @required this.isDeleted});
   factory Item.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
-    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final stringType = db.typeSystem.forDartType<String>();
     final boolType = db.typeSystem.forDartType<bool>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     return Item(
       tenantId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
-      creationTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
-      deleteTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
-      createUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
-      creatorUser: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
-      lastModifierUser: stringType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user']),
-      lastModifierUserId: intType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user_id']),
-      deleteUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
-      deleterUserId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
-      isDeleted: boolType
-          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       description: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}description']),
@@ -21883,6 +20584,8 @@ class Item extends DataClass implements Insertable<Item> {
           .mapFromDatabaseResponse(data['${effectivePrefix}has_variant']),
       defaultWarehouse: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}default_warehouse']),
+      isDeleted: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
     );
   }
   @override
@@ -21890,33 +20593,6 @@ class Item extends DataClass implements Insertable<Item> {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
       map['tenant_id'] = Variable<int>(tenantId);
-    }
-    if (!nullToAbsent || creationTime != null) {
-      map['creation_time'] = Variable<DateTime>(creationTime);
-    }
-    if (!nullToAbsent || deleteTime != null) {
-      map['delete_time'] = Variable<DateTime>(deleteTime);
-    }
-    if (!nullToAbsent || createUserId != null) {
-      map['create_user_id'] = Variable<int>(createUserId);
-    }
-    if (!nullToAbsent || creatorUser != null) {
-      map['creator_user'] = Variable<String>(creatorUser);
-    }
-    if (!nullToAbsent || lastModifierUser != null) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser);
-    }
-    if (!nullToAbsent || lastModifierUserId != null) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
-    }
-    if (!nullToAbsent || deleteUserId != null) {
-      map['delete_user_id'] = Variable<int>(deleteUserId);
-    }
-    if (!nullToAbsent || deleterUserId != null) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId);
-    }
-    if (!nullToAbsent || isDeleted != null) {
-      map['is_deleted'] = Variable<bool>(isDeleted);
     }
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int>(id);
@@ -21963,6 +20639,9 @@ class Item extends DataClass implements Insertable<Item> {
     if (!nullToAbsent || defaultWarehouse != null) {
       map['default_warehouse'] = Variable<String>(defaultWarehouse);
     }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
     return map;
   }
 
@@ -21971,33 +20650,6 @@ class Item extends DataClass implements Insertable<Item> {
       tenantId: tenantId == null && nullToAbsent
           ? const Value.absent()
           : Value(tenantId),
-      creationTime: creationTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creationTime),
-      deleteTime: deleteTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteTime),
-      createUserId: createUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(createUserId),
-      creatorUser: creatorUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creatorUser),
-      lastModifierUser: lastModifierUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUser),
-      lastModifierUserId: lastModifierUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUserId),
-      deleteUserId: deleteUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteUserId),
-      deleterUserId: deleterUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleterUserId),
-      isDeleted: isDeleted == null && nullToAbsent
-          ? const Value.absent()
-          : Value(isDeleted),
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       description: description == null && nullToAbsent
           ? const Value.absent()
@@ -22039,6 +20691,9 @@ class Item extends DataClass implements Insertable<Item> {
       defaultWarehouse: defaultWarehouse == null && nullToAbsent
           ? const Value.absent()
           : Value(defaultWarehouse),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
     );
   }
 
@@ -22047,15 +20702,6 @@ class Item extends DataClass implements Insertable<Item> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return Item(
       tenantId: serializer.fromJson<int>(json['tenantId']),
-      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
-      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
-      createUserId: serializer.fromJson<int>(json['createUserId']),
-      creatorUser: serializer.fromJson<String>(json['creatorUser']),
-      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
-      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
-      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
-      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
-      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
       id: serializer.fromJson<int>(json['id']),
       description: serializer.fromJson<String>(json['description']),
       itemCode: serializer.fromJson<String>(json['itemCode']),
@@ -22072,6 +20718,7 @@ class Item extends DataClass implements Insertable<Item> {
       retiredDate: serializer.fromJson<DateTime>(json['retiredDate']),
       hasVariant: serializer.fromJson<bool>(json['hasVariant']),
       defaultWarehouse: serializer.fromJson<String>(json['defaultWarehouse']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
     );
   }
   @override
@@ -22079,15 +20726,6 @@ class Item extends DataClass implements Insertable<Item> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'tenantId': serializer.toJson<int>(tenantId),
-      'creationTime': serializer.toJson<DateTime>(creationTime),
-      'deleteTime': serializer.toJson<DateTime>(deleteTime),
-      'createUserId': serializer.toJson<int>(createUserId),
-      'creatorUser': serializer.toJson<String>(creatorUser),
-      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
-      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
-      'deleteUserId': serializer.toJson<int>(deleteUserId),
-      'deleterUserId': serializer.toJson<String>(deleterUserId),
-      'isDeleted': serializer.toJson<bool>(isDeleted),
       'id': serializer.toJson<int>(id),
       'description': serializer.toJson<String>(description),
       'itemCode': serializer.toJson<String>(itemCode),
@@ -22103,20 +20741,12 @@ class Item extends DataClass implements Insertable<Item> {
       'retiredDate': serializer.toJson<DateTime>(retiredDate),
       'hasVariant': serializer.toJson<bool>(hasVariant),
       'defaultWarehouse': serializer.toJson<String>(defaultWarehouse),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
     };
   }
 
   Item copyWith(
           {int tenantId,
-          DateTime creationTime,
-          DateTime deleteTime,
-          int createUserId,
-          String creatorUser,
-          String lastModifierUser,
-          int lastModifierUserId,
-          int deleteUserId,
-          String deleterUserId,
-          bool isDeleted,
           int id,
           String description,
           String itemCode,
@@ -22131,18 +20761,10 @@ class Item extends DataClass implements Insertable<Item> {
           bool isRetired,
           DateTime retiredDate,
           bool hasVariant,
-          String defaultWarehouse}) =>
+          String defaultWarehouse,
+          bool isDeleted}) =>
       Item(
         tenantId: tenantId ?? this.tenantId,
-        creationTime: creationTime ?? this.creationTime,
-        deleteTime: deleteTime ?? this.deleteTime,
-        createUserId: createUserId ?? this.createUserId,
-        creatorUser: creatorUser ?? this.creatorUser,
-        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-        deleteUserId: deleteUserId ?? this.deleteUserId,
-        deleterUserId: deleterUserId ?? this.deleterUserId,
-        isDeleted: isDeleted ?? this.isDeleted,
         id: id ?? this.id,
         description: description ?? this.description,
         itemCode: itemCode ?? this.itemCode,
@@ -22159,20 +20781,12 @@ class Item extends DataClass implements Insertable<Item> {
         retiredDate: retiredDate ?? this.retiredDate,
         hasVariant: hasVariant ?? this.hasVariant,
         defaultWarehouse: defaultWarehouse ?? this.defaultWarehouse,
+        isDeleted: isDeleted ?? this.isDeleted,
       );
   @override
   String toString() {
     return (StringBuffer('Item(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('description: $description, ')
           ..write('itemCode: $itemCode, ')
@@ -22187,7 +20801,8 @@ class Item extends DataClass implements Insertable<Item> {
           ..write('isRetired: $isRetired, ')
           ..write('retiredDate: $retiredDate, ')
           ..write('hasVariant: $hasVariant, ')
-          ..write('defaultWarehouse: $defaultWarehouse')
+          ..write('defaultWarehouse: $defaultWarehouse, ')
+          ..write('isDeleted: $isDeleted')
           ..write(')'))
         .toString();
   }
@@ -22196,60 +20811,44 @@ class Item extends DataClass implements Insertable<Item> {
   int get hashCode => $mrjf($mrjc(
       tenantId.hashCode,
       $mrjc(
-          creationTime.hashCode,
+          id.hashCode,
           $mrjc(
-              deleteTime.hashCode,
+              description.hashCode,
               $mrjc(
-                  createUserId.hashCode,
+                  itemCode.hashCode,
                   $mrjc(
-                      creatorUser.hashCode,
+                      itemName.hashCode,
                       $mrjc(
-                          lastModifierUser.hashCode,
+                          itemGroup.hashCode,
                           $mrjc(
-                              lastModifierUserId.hashCode,
+                              taxGroup.hashCode,
                               $mrjc(
-                                  deleteUserId.hashCode,
+                                  uom.hashCode,
                                   $mrjc(
-                                      deleterUserId.hashCode,
+                                      trackInventory.hashCode,
                                       $mrjc(
-                                          isDeleted.hashCode,
+                                          category.hashCode,
                                           $mrjc(
-                                              id.hashCode,
+                                              isProductBundleParent.hashCode,
                                               $mrjc(
-                                                  description.hashCode,
+                                                  isQuickMenue.hashCode,
                                                   $mrjc(
-                                                      itemCode.hashCode,
+                                                      isRetired.hashCode,
                                                       $mrjc(
-                                                          itemName.hashCode,
+                                                          retiredDate.hashCode,
                                                           $mrjc(
-                                                              itemGroup
+                                                              hasVariant
                                                                   .hashCode,
                                                               $mrjc(
-                                                                  taxGroup
+                                                                  defaultWarehouse
                                                                       .hashCode,
-                                                                  $mrjc(
-                                                                      uom
-                                                                          .hashCode,
-                                                                      $mrjc(
-                                                                          trackInventory
-                                                                              .hashCode,
-                                                                          $mrjc(
-                                                                              category.hashCode,
-                                                                              $mrjc(isProductBundleParent.hashCode, $mrjc(isQuickMenue.hashCode, $mrjc(isRetired.hashCode, $mrjc(retiredDate.hashCode, $mrjc(hasVariant.hashCode, defaultWarehouse.hashCode)))))))))))))))))))))))));
+                                                                  isDeleted
+                                                                      .hashCode)))))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is Item &&
           other.tenantId == this.tenantId &&
-          other.creationTime == this.creationTime &&
-          other.deleteTime == this.deleteTime &&
-          other.createUserId == this.createUserId &&
-          other.creatorUser == this.creatorUser &&
-          other.lastModifierUser == this.lastModifierUser &&
-          other.lastModifierUserId == this.lastModifierUserId &&
-          other.deleteUserId == this.deleteUserId &&
-          other.deleterUserId == this.deleterUserId &&
-          other.isDeleted == this.isDeleted &&
           other.id == this.id &&
           other.description == this.description &&
           other.itemCode == this.itemCode &&
@@ -22264,20 +20863,12 @@ class Item extends DataClass implements Insertable<Item> {
           other.isRetired == this.isRetired &&
           other.retiredDate == this.retiredDate &&
           other.hasVariant == this.hasVariant &&
-          other.defaultWarehouse == this.defaultWarehouse);
+          other.defaultWarehouse == this.defaultWarehouse &&
+          other.isDeleted == this.isDeleted);
 }
 
 class ItemsCompanion extends UpdateCompanion<Item> {
   final Value<int> tenantId;
-  final Value<DateTime> creationTime;
-  final Value<DateTime> deleteTime;
-  final Value<int> createUserId;
-  final Value<String> creatorUser;
-  final Value<String> lastModifierUser;
-  final Value<int> lastModifierUserId;
-  final Value<int> deleteUserId;
-  final Value<String> deleterUserId;
-  final Value<bool> isDeleted;
   final Value<int> id;
   final Value<String> description;
   final Value<String> itemCode;
@@ -22293,17 +20884,9 @@ class ItemsCompanion extends UpdateCompanion<Item> {
   final Value<DateTime> retiredDate;
   final Value<bool> hasVariant;
   final Value<String> defaultWarehouse;
+  final Value<bool> isDeleted;
   const ItemsCompanion({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     this.description = const Value.absent(),
     this.itemCode = const Value.absent(),
@@ -22319,18 +20902,10 @@ class ItemsCompanion extends UpdateCompanion<Item> {
     this.retiredDate = const Value.absent(),
     this.hasVariant = const Value.absent(),
     this.defaultWarehouse = const Value.absent(),
+    this.isDeleted = const Value.absent(),
   });
   ItemsCompanion.insert({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     this.description = const Value.absent(),
     this.itemCode = const Value.absent(),
@@ -22346,18 +20921,10 @@ class ItemsCompanion extends UpdateCompanion<Item> {
     this.retiredDate = const Value.absent(),
     this.hasVariant = const Value.absent(),
     this.defaultWarehouse = const Value.absent(),
+    this.isDeleted = const Value.absent(),
   });
   static Insertable<Item> custom({
     Expression<int> tenantId,
-    Expression<DateTime> creationTime,
-    Expression<DateTime> deleteTime,
-    Expression<int> createUserId,
-    Expression<String> creatorUser,
-    Expression<String> lastModifierUser,
-    Expression<int> lastModifierUserId,
-    Expression<int> deleteUserId,
-    Expression<String> deleterUserId,
-    Expression<bool> isDeleted,
     Expression<int> id,
     Expression<String> description,
     Expression<String> itemCode,
@@ -22373,19 +20940,10 @@ class ItemsCompanion extends UpdateCompanion<Item> {
     Expression<DateTime> retiredDate,
     Expression<bool> hasVariant,
     Expression<String> defaultWarehouse,
+    Expression<bool> isDeleted,
   }) {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
-      if (creationTime != null) 'creation_time': creationTime,
-      if (deleteTime != null) 'delete_time': deleteTime,
-      if (createUserId != null) 'create_user_id': createUserId,
-      if (creatorUser != null) 'creator_user': creatorUser,
-      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
-      if (lastModifierUserId != null)
-        'last_modifier_user_id': lastModifierUserId,
-      if (deleteUserId != null) 'delete_user_id': deleteUserId,
-      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
-      if (isDeleted != null) 'is_deleted': isDeleted,
       if (id != null) 'id': id,
       if (description != null) 'description': description,
       if (itemCode != null) 'item_code': itemCode,
@@ -22402,20 +20960,12 @@ class ItemsCompanion extends UpdateCompanion<Item> {
       if (retiredDate != null) 'retired_date': retiredDate,
       if (hasVariant != null) 'has_variant': hasVariant,
       if (defaultWarehouse != null) 'default_warehouse': defaultWarehouse,
+      if (isDeleted != null) 'is_deleted': isDeleted,
     });
   }
 
   ItemsCompanion copyWith(
       {Value<int> tenantId,
-      Value<DateTime> creationTime,
-      Value<DateTime> deleteTime,
-      Value<int> createUserId,
-      Value<String> creatorUser,
-      Value<String> lastModifierUser,
-      Value<int> lastModifierUserId,
-      Value<int> deleteUserId,
-      Value<String> deleterUserId,
-      Value<bool> isDeleted,
       Value<int> id,
       Value<String> description,
       Value<String> itemCode,
@@ -22430,18 +20980,10 @@ class ItemsCompanion extends UpdateCompanion<Item> {
       Value<bool> isRetired,
       Value<DateTime> retiredDate,
       Value<bool> hasVariant,
-      Value<String> defaultWarehouse}) {
+      Value<String> defaultWarehouse,
+      Value<bool> isDeleted}) {
     return ItemsCompanion(
       tenantId: tenantId ?? this.tenantId,
-      creationTime: creationTime ?? this.creationTime,
-      deleteTime: deleteTime ?? this.deleteTime,
-      createUserId: createUserId ?? this.createUserId,
-      creatorUser: creatorUser ?? this.creatorUser,
-      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-      deleteUserId: deleteUserId ?? this.deleteUserId,
-      deleterUserId: deleterUserId ?? this.deleterUserId,
-      isDeleted: isDeleted ?? this.isDeleted,
       id: id ?? this.id,
       description: description ?? this.description,
       itemCode: itemCode ?? this.itemCode,
@@ -22458,6 +21000,7 @@ class ItemsCompanion extends UpdateCompanion<Item> {
       retiredDate: retiredDate ?? this.retiredDate,
       hasVariant: hasVariant ?? this.hasVariant,
       defaultWarehouse: defaultWarehouse ?? this.defaultWarehouse,
+      isDeleted: isDeleted ?? this.isDeleted,
     );
   }
 
@@ -22466,33 +21009,6 @@ class ItemsCompanion extends UpdateCompanion<Item> {
     final map = <String, Expression>{};
     if (tenantId.present) {
       map['tenant_id'] = Variable<int>(tenantId.value);
-    }
-    if (creationTime.present) {
-      map['creation_time'] = Variable<DateTime>(creationTime.value);
-    }
-    if (deleteTime.present) {
-      map['delete_time'] = Variable<DateTime>(deleteTime.value);
-    }
-    if (createUserId.present) {
-      map['create_user_id'] = Variable<int>(createUserId.value);
-    }
-    if (creatorUser.present) {
-      map['creator_user'] = Variable<String>(creatorUser.value);
-    }
-    if (lastModifierUser.present) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
-    }
-    if (lastModifierUserId.present) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
-    }
-    if (deleteUserId.present) {
-      map['delete_user_id'] = Variable<int>(deleteUserId.value);
-    }
-    if (deleterUserId.present) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
-    }
-    if (isDeleted.present) {
-      map['is_deleted'] = Variable<bool>(isDeleted.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -22540,6 +21056,9 @@ class ItemsCompanion extends UpdateCompanion<Item> {
     if (defaultWarehouse.present) {
       map['default_warehouse'] = Variable<String>(defaultWarehouse.value);
     }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
     return map;
   }
 
@@ -22547,15 +21066,6 @@ class ItemsCompanion extends UpdateCompanion<Item> {
   String toString() {
     return (StringBuffer('ItemsCompanion(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('description: $description, ')
           ..write('itemCode: $itemCode, ')
@@ -22570,7 +21080,8 @@ class ItemsCompanion extends UpdateCompanion<Item> {
           ..write('isRetired: $isRetired, ')
           ..write('retiredDate: $retiredDate, ')
           ..write('hasVariant: $hasVariant, ')
-          ..write('defaultWarehouse: $defaultWarehouse')
+          ..write('defaultWarehouse: $defaultWarehouse, ')
+          ..write('isDeleted: $isDeleted')
           ..write(')'))
         .toString();
   }
@@ -22590,126 +21101,6 @@ class $ItemsTable extends Items with TableInfo<$ItemsTable, Item> {
       $tableName,
       true,
     );
-  }
-
-  final VerificationMeta _creationTimeMeta =
-      const VerificationMeta('creationTime');
-  GeneratedDateTimeColumn _creationTime;
-  @override
-  GeneratedDateTimeColumn get creationTime =>
-      _creationTime ??= _constructCreationTime();
-  GeneratedDateTimeColumn _constructCreationTime() {
-    return GeneratedDateTimeColumn(
-      'creation_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
-  GeneratedDateTimeColumn _deleteTime;
-  @override
-  GeneratedDateTimeColumn get deleteTime =>
-      _deleteTime ??= _constructDeleteTime();
-  GeneratedDateTimeColumn _constructDeleteTime() {
-    return GeneratedDateTimeColumn(
-      'delete_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _createUserIdMeta =
-      const VerificationMeta('createUserId');
-  GeneratedIntColumn _createUserId;
-  @override
-  GeneratedIntColumn get createUserId =>
-      _createUserId ??= _constructCreateUserId();
-  GeneratedIntColumn _constructCreateUserId() {
-    return GeneratedIntColumn(
-      'create_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _creatorUserMeta =
-      const VerificationMeta('creatorUser');
-  GeneratedTextColumn _creatorUser;
-  @override
-  GeneratedTextColumn get creatorUser =>
-      _creatorUser ??= _constructCreatorUser();
-  GeneratedTextColumn _constructCreatorUser() {
-    return GeneratedTextColumn(
-      'creator_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserMeta =
-      const VerificationMeta('lastModifierUser');
-  GeneratedTextColumn _lastModifierUser;
-  @override
-  GeneratedTextColumn get lastModifierUser =>
-      _lastModifierUser ??= _constructLastModifierUser();
-  GeneratedTextColumn _constructLastModifierUser() {
-    return GeneratedTextColumn(
-      'last_modifier_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserIdMeta =
-      const VerificationMeta('lastModifierUserId');
-  GeneratedIntColumn _lastModifierUserId;
-  @override
-  GeneratedIntColumn get lastModifierUserId =>
-      _lastModifierUserId ??= _constructLastModifierUserId();
-  GeneratedIntColumn _constructLastModifierUserId() {
-    return GeneratedIntColumn(
-      'last_modifier_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteUserIdMeta =
-      const VerificationMeta('deleteUserId');
-  GeneratedIntColumn _deleteUserId;
-  @override
-  GeneratedIntColumn get deleteUserId =>
-      _deleteUserId ??= _constructDeleteUserId();
-  GeneratedIntColumn _constructDeleteUserId() {
-    return GeneratedIntColumn(
-      'delete_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleterUserIdMeta =
-      const VerificationMeta('deleterUserId');
-  GeneratedTextColumn _deleterUserId;
-  @override
-  GeneratedTextColumn get deleterUserId =>
-      _deleterUserId ??= _constructDeleterUserId();
-  GeneratedTextColumn _constructDeleterUserId() {
-    return GeneratedTextColumn(
-      'deleter_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
-  GeneratedBoolColumn _isDeleted;
-  @override
-  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
-  GeneratedBoolColumn _constructIsDeleted() {
-    return GeneratedBoolColumn('is_deleted', $tableName, false,
-        defaultValue: Constant(false));
   }
 
   final VerificationMeta _idMeta = const VerificationMeta('id');
@@ -22889,18 +21280,18 @@ class $ItemsTable extends Items with TableInfo<$ItemsTable, Item> {
     );
   }
 
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  GeneratedBoolColumn _isDeleted;
+  @override
+  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
+  GeneratedBoolColumn _constructIsDeleted() {
+    return GeneratedBoolColumn('is_deleted', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
   @override
   List<GeneratedColumn> get $columns => [
         tenantId,
-        creationTime,
-        deleteTime,
-        createUserId,
-        creatorUser,
-        lastModifierUser,
-        lastModifierUserId,
-        deleteUserId,
-        deleterUserId,
-        isDeleted,
         id,
         description,
         itemCode,
@@ -22915,7 +21306,8 @@ class $ItemsTable extends Items with TableInfo<$ItemsTable, Item> {
         isRetired,
         retiredDate,
         hasVariant,
-        defaultWarehouse
+        defaultWarehouse,
+        isDeleted
       ];
   @override
   $ItemsTable get asDslTable => this;
@@ -22931,58 +21323,6 @@ class $ItemsTable extends Items with TableInfo<$ItemsTable, Item> {
     if (data.containsKey('tenant_id')) {
       context.handle(_tenantIdMeta,
           tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
-    }
-    if (data.containsKey('creation_time')) {
-      context.handle(
-          _creationTimeMeta,
-          creationTime.isAcceptableOrUnknown(
-              data['creation_time'], _creationTimeMeta));
-    }
-    if (data.containsKey('delete_time')) {
-      context.handle(
-          _deleteTimeMeta,
-          deleteTime.isAcceptableOrUnknown(
-              data['delete_time'], _deleteTimeMeta));
-    }
-    if (data.containsKey('create_user_id')) {
-      context.handle(
-          _createUserIdMeta,
-          createUserId.isAcceptableOrUnknown(
-              data['create_user_id'], _createUserIdMeta));
-    }
-    if (data.containsKey('creator_user')) {
-      context.handle(
-          _creatorUserMeta,
-          creatorUser.isAcceptableOrUnknown(
-              data['creator_user'], _creatorUserMeta));
-    }
-    if (data.containsKey('last_modifier_user')) {
-      context.handle(
-          _lastModifierUserMeta,
-          lastModifierUser.isAcceptableOrUnknown(
-              data['last_modifier_user'], _lastModifierUserMeta));
-    }
-    if (data.containsKey('last_modifier_user_id')) {
-      context.handle(
-          _lastModifierUserIdMeta,
-          lastModifierUserId.isAcceptableOrUnknown(
-              data['last_modifier_user_id'], _lastModifierUserIdMeta));
-    }
-    if (data.containsKey('delete_user_id')) {
-      context.handle(
-          _deleteUserIdMeta,
-          deleteUserId.isAcceptableOrUnknown(
-              data['delete_user_id'], _deleteUserIdMeta));
-    }
-    if (data.containsKey('deleter_user_id')) {
-      context.handle(
-          _deleterUserIdMeta,
-          deleterUserId.isAcceptableOrUnknown(
-              data['deleter_user_id'], _deleterUserIdMeta));
-    }
-    if (data.containsKey('is_deleted')) {
-      context.handle(_isDeletedMeta,
-          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
     }
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
@@ -23057,6 +21397,10 @@ class $ItemsTable extends Items with TableInfo<$ItemsTable, Item> {
           defaultWarehouse.isAcceptableOrUnknown(
               data['default_warehouse'], _defaultWarehouseMeta));
     }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
+    }
     return context;
   }
 
@@ -23076,15 +21420,6 @@ class $ItemsTable extends Items with TableInfo<$ItemsTable, Item> {
 
 class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
   final int tenantId;
-  final DateTime creationTime;
-  final DateTime deleteTime;
-  final int createUserId;
-  final String creatorUser;
-  final String lastModifierUser;
-  final int lastModifierUserId;
-  final int deleteUserId;
-  final String deleterUserId;
-  final bool isDeleted;
   final int id;
   final int itemId;
   final String itemCode;
@@ -23107,15 +21442,6 @@ class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
   final DateTime validTo;
   ItemsPrice(
       {this.tenantId,
-      this.creationTime,
-      this.deleteTime,
-      this.createUserId,
-      this.creatorUser,
-      this.lastModifierUser,
-      this.lastModifierUserId,
-      this.deleteUserId,
-      this.deleterUserId,
-      @required this.isDeleted,
       @required this.id,
       @required this.itemId,
       this.itemCode,
@@ -23140,31 +21466,13 @@ class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
-    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final stringType = db.typeSystem.forDartType<String>();
-    final boolType = db.typeSystem.forDartType<bool>();
     final doubleType = db.typeSystem.forDartType<double>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     return ItemsPrice(
       tenantId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
-      creationTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
-      deleteTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
-      createUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
-      creatorUser: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
-      lastModifierUser: stringType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user']),
-      lastModifierUserId: intType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user_id']),
-      deleteUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
-      deleterUserId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
-      isDeleted: boolType
-          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       itemId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
@@ -23210,33 +21518,6 @@ class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
       map['tenant_id'] = Variable<int>(tenantId);
-    }
-    if (!nullToAbsent || creationTime != null) {
-      map['creation_time'] = Variable<DateTime>(creationTime);
-    }
-    if (!nullToAbsent || deleteTime != null) {
-      map['delete_time'] = Variable<DateTime>(deleteTime);
-    }
-    if (!nullToAbsent || createUserId != null) {
-      map['create_user_id'] = Variable<int>(createUserId);
-    }
-    if (!nullToAbsent || creatorUser != null) {
-      map['creator_user'] = Variable<String>(creatorUser);
-    }
-    if (!nullToAbsent || lastModifierUser != null) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser);
-    }
-    if (!nullToAbsent || lastModifierUserId != null) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
-    }
-    if (!nullToAbsent || deleteUserId != null) {
-      map['delete_user_id'] = Variable<int>(deleteUserId);
-    }
-    if (!nullToAbsent || deleterUserId != null) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId);
-    }
-    if (!nullToAbsent || isDeleted != null) {
-      map['is_deleted'] = Variable<bool>(isDeleted);
     }
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int>(id);
@@ -23306,33 +21587,6 @@ class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
       tenantId: tenantId == null && nullToAbsent
           ? const Value.absent()
           : Value(tenantId),
-      creationTime: creationTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creationTime),
-      deleteTime: deleteTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteTime),
-      createUserId: createUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(createUserId),
-      creatorUser: creatorUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creatorUser),
-      lastModifierUser: lastModifierUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUser),
-      lastModifierUserId: lastModifierUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUserId),
-      deleteUserId: deleteUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteUserId),
-      deleterUserId: deleterUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleterUserId),
-      isDeleted: isDeleted == null && nullToAbsent
-          ? const Value.absent()
-          : Value(isDeleted),
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       itemId:
           itemId == null && nullToAbsent ? const Value.absent() : Value(itemId),
@@ -23396,15 +21650,6 @@ class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return ItemsPrice(
       tenantId: serializer.fromJson<int>(json['tenantId']),
-      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
-      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
-      createUserId: serializer.fromJson<int>(json['createUserId']),
-      creatorUser: serializer.fromJson<String>(json['creatorUser']),
-      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
-      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
-      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
-      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
-      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
       id: serializer.fromJson<int>(json['id']),
       itemId: serializer.fromJson<int>(json['itemId']),
       itemCode: serializer.fromJson<String>(json['itemCode']),
@@ -23432,15 +21677,6 @@ class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'tenantId': serializer.toJson<int>(tenantId),
-      'creationTime': serializer.toJson<DateTime>(creationTime),
-      'deleteTime': serializer.toJson<DateTime>(deleteTime),
-      'createUserId': serializer.toJson<int>(createUserId),
-      'creatorUser': serializer.toJson<String>(creatorUser),
-      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
-      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
-      'deleteUserId': serializer.toJson<int>(deleteUserId),
-      'deleterUserId': serializer.toJson<String>(deleterUserId),
-      'isDeleted': serializer.toJson<bool>(isDeleted),
       'id': serializer.toJson<int>(id),
       'itemId': serializer.toJson<int>(itemId),
       'itemCode': serializer.toJson<String>(itemCode),
@@ -23466,15 +21702,6 @@ class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
 
   ItemsPrice copyWith(
           {int tenantId,
-          DateTime creationTime,
-          DateTime deleteTime,
-          int createUserId,
-          String creatorUser,
-          String lastModifierUser,
-          int lastModifierUserId,
-          int deleteUserId,
-          String deleterUserId,
-          bool isDeleted,
           int id,
           int itemId,
           String itemCode,
@@ -23497,15 +21724,6 @@ class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
           DateTime validTo}) =>
       ItemsPrice(
         tenantId: tenantId ?? this.tenantId,
-        creationTime: creationTime ?? this.creationTime,
-        deleteTime: deleteTime ?? this.deleteTime,
-        createUserId: createUserId ?? this.createUserId,
-        creatorUser: creatorUser ?? this.creatorUser,
-        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-        deleteUserId: deleteUserId ?? this.deleteUserId,
-        deleterUserId: deleterUserId ?? this.deleterUserId,
-        isDeleted: isDeleted ?? this.isDeleted,
         id: id ?? this.id,
         itemId: itemId ?? this.itemId,
         itemCode: itemCode ?? this.itemCode,
@@ -23531,15 +21749,6 @@ class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
   String toString() {
     return (StringBuffer('ItemsPrice(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('itemId: $itemId, ')
           ..write('itemCode: $itemCode, ')
@@ -23568,59 +21777,50 @@ class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
   int get hashCode => $mrjf($mrjc(
       tenantId.hashCode,
       $mrjc(
-          creationTime.hashCode,
+          id.hashCode,
           $mrjc(
-              deleteTime.hashCode,
+              itemId.hashCode,
               $mrjc(
-                  createUserId.hashCode,
+                  itemCode.hashCode,
                   $mrjc(
-                      creatorUser.hashCode,
+                      priceList.hashCode,
                       $mrjc(
-                          lastModifierUser.hashCode,
+                          itemName.hashCode,
                           $mrjc(
-                              lastModifierUserId.hashCode,
+                              itemPrice.hashCode,
                               $mrjc(
-                                  deleteUserId.hashCode,
+                                  returnPrice.hashCode,
                                   $mrjc(
-                                      deleterUserId.hashCode,
+                                      deposit.hashCode,
                                       $mrjc(
-                                          isDeleted.hashCode,
+                                          shippingCost.hashCode,
                                           $mrjc(
-                                              id.hashCode,
+                                              sellingDeposit.hashCode,
                                               $mrjc(
-                                                  itemId.hashCode,
+                                                  returnDeposit.hashCode,
                                                   $mrjc(
-                                                      itemCode.hashCode,
+                                                      conversionFactor.hashCode,
                                                       $mrjc(
-                                                          priceList.hashCode,
+                                                          actualPoints.hashCode,
                                                           $mrjc(
-                                                              itemName.hashCode,
+                                                              uom.hashCode,
                                                               $mrjc(
-                                                                  itemPrice
+                                                                  currency
                                                                       .hashCode,
                                                                   $mrjc(
-                                                                      returnPrice
+                                                                      pricingScheduleNo
                                                                           .hashCode,
                                                                       $mrjc(
-                                                                          deposit
+                                                                          isActive
                                                                               .hashCode,
                                                                           $mrjc(
-                                                                              shippingCost.hashCode,
-                                                                              $mrjc(sellingDeposit.hashCode, $mrjc(returnDeposit.hashCode, $mrjc(conversionFactor.hashCode, $mrjc(actualPoints.hashCode, $mrjc(uom.hashCode, $mrjc(currency.hashCode, $mrjc(pricingScheduleNo.hashCode, $mrjc(isActive.hashCode, $mrjc(isDiscountEnable.hashCode, $mrjc(validFrom.hashCode, validTo.hashCode))))))))))))))))))))))))))))));
+                                                                              isDiscountEnable.hashCode,
+                                                                              $mrjc(validFrom.hashCode, validTo.hashCode)))))))))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is ItemsPrice &&
           other.tenantId == this.tenantId &&
-          other.creationTime == this.creationTime &&
-          other.deleteTime == this.deleteTime &&
-          other.createUserId == this.createUserId &&
-          other.creatorUser == this.creatorUser &&
-          other.lastModifierUser == this.lastModifierUser &&
-          other.lastModifierUserId == this.lastModifierUserId &&
-          other.deleteUserId == this.deleteUserId &&
-          other.deleterUserId == this.deleterUserId &&
-          other.isDeleted == this.isDeleted &&
           other.id == this.id &&
           other.itemId == this.itemId &&
           other.itemCode == this.itemCode &&
@@ -23645,15 +21845,6 @@ class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
 
 class ItemsPricesCompanion extends UpdateCompanion<ItemsPrice> {
   final Value<int> tenantId;
-  final Value<DateTime> creationTime;
-  final Value<DateTime> deleteTime;
-  final Value<int> createUserId;
-  final Value<String> creatorUser;
-  final Value<String> lastModifierUser;
-  final Value<int> lastModifierUserId;
-  final Value<int> deleteUserId;
-  final Value<String> deleterUserId;
-  final Value<bool> isDeleted;
   final Value<int> id;
   final Value<int> itemId;
   final Value<String> itemCode;
@@ -23676,15 +21867,6 @@ class ItemsPricesCompanion extends UpdateCompanion<ItemsPrice> {
   final Value<DateTime> validTo;
   const ItemsPricesCompanion({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     this.itemId = const Value.absent(),
     this.itemCode = const Value.absent(),
@@ -23708,15 +21890,6 @@ class ItemsPricesCompanion extends UpdateCompanion<ItemsPrice> {
   });
   ItemsPricesCompanion.insert({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     @required int itemId,
     this.itemCode = const Value.absent(),
@@ -23749,15 +21922,6 @@ class ItemsPricesCompanion extends UpdateCompanion<ItemsPrice> {
         pricingScheduleNo = Value(pricingScheduleNo);
   static Insertable<ItemsPrice> custom({
     Expression<int> tenantId,
-    Expression<DateTime> creationTime,
-    Expression<DateTime> deleteTime,
-    Expression<int> createUserId,
-    Expression<String> creatorUser,
-    Expression<String> lastModifierUser,
-    Expression<int> lastModifierUserId,
-    Expression<int> deleteUserId,
-    Expression<String> deleterUserId,
-    Expression<bool> isDeleted,
     Expression<int> id,
     Expression<int> itemId,
     Expression<String> itemCode,
@@ -23781,16 +21945,6 @@ class ItemsPricesCompanion extends UpdateCompanion<ItemsPrice> {
   }) {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
-      if (creationTime != null) 'creation_time': creationTime,
-      if (deleteTime != null) 'delete_time': deleteTime,
-      if (createUserId != null) 'create_user_id': createUserId,
-      if (creatorUser != null) 'creator_user': creatorUser,
-      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
-      if (lastModifierUserId != null)
-        'last_modifier_user_id': lastModifierUserId,
-      if (deleteUserId != null) 'delete_user_id': deleteUserId,
-      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
-      if (isDeleted != null) 'is_deleted': isDeleted,
       if (id != null) 'id': id,
       if (itemId != null) 'item_id': itemId,
       if (itemCode != null) 'item_code': itemCode,
@@ -23816,15 +21970,6 @@ class ItemsPricesCompanion extends UpdateCompanion<ItemsPrice> {
 
   ItemsPricesCompanion copyWith(
       {Value<int> tenantId,
-      Value<DateTime> creationTime,
-      Value<DateTime> deleteTime,
-      Value<int> createUserId,
-      Value<String> creatorUser,
-      Value<String> lastModifierUser,
-      Value<int> lastModifierUserId,
-      Value<int> deleteUserId,
-      Value<String> deleterUserId,
-      Value<bool> isDeleted,
       Value<int> id,
       Value<int> itemId,
       Value<String> itemCode,
@@ -23847,15 +21992,6 @@ class ItemsPricesCompanion extends UpdateCompanion<ItemsPrice> {
       Value<DateTime> validTo}) {
     return ItemsPricesCompanion(
       tenantId: tenantId ?? this.tenantId,
-      creationTime: creationTime ?? this.creationTime,
-      deleteTime: deleteTime ?? this.deleteTime,
-      createUserId: createUserId ?? this.createUserId,
-      creatorUser: creatorUser ?? this.creatorUser,
-      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-      deleteUserId: deleteUserId ?? this.deleteUserId,
-      deleterUserId: deleterUserId ?? this.deleterUserId,
-      isDeleted: isDeleted ?? this.isDeleted,
       id: id ?? this.id,
       itemId: itemId ?? this.itemId,
       itemCode: itemCode ?? this.itemCode,
@@ -23884,33 +22020,6 @@ class ItemsPricesCompanion extends UpdateCompanion<ItemsPrice> {
     final map = <String, Expression>{};
     if (tenantId.present) {
       map['tenant_id'] = Variable<int>(tenantId.value);
-    }
-    if (creationTime.present) {
-      map['creation_time'] = Variable<DateTime>(creationTime.value);
-    }
-    if (deleteTime.present) {
-      map['delete_time'] = Variable<DateTime>(deleteTime.value);
-    }
-    if (createUserId.present) {
-      map['create_user_id'] = Variable<int>(createUserId.value);
-    }
-    if (creatorUser.present) {
-      map['creator_user'] = Variable<String>(creatorUser.value);
-    }
-    if (lastModifierUser.present) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
-    }
-    if (lastModifierUserId.present) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
-    }
-    if (deleteUserId.present) {
-      map['delete_user_id'] = Variable<int>(deleteUserId.value);
-    }
-    if (deleterUserId.present) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
-    }
-    if (isDeleted.present) {
-      map['is_deleted'] = Variable<bool>(isDeleted.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -23979,15 +22088,6 @@ class ItemsPricesCompanion extends UpdateCompanion<ItemsPrice> {
   String toString() {
     return (StringBuffer('ItemsPricesCompanion(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('itemId: $itemId, ')
           ..write('itemCode: $itemCode, ')
@@ -24028,126 +22128,6 @@ class $ItemsPricesTable extends ItemsPrices
       $tableName,
       true,
     );
-  }
-
-  final VerificationMeta _creationTimeMeta =
-      const VerificationMeta('creationTime');
-  GeneratedDateTimeColumn _creationTime;
-  @override
-  GeneratedDateTimeColumn get creationTime =>
-      _creationTime ??= _constructCreationTime();
-  GeneratedDateTimeColumn _constructCreationTime() {
-    return GeneratedDateTimeColumn(
-      'creation_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
-  GeneratedDateTimeColumn _deleteTime;
-  @override
-  GeneratedDateTimeColumn get deleteTime =>
-      _deleteTime ??= _constructDeleteTime();
-  GeneratedDateTimeColumn _constructDeleteTime() {
-    return GeneratedDateTimeColumn(
-      'delete_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _createUserIdMeta =
-      const VerificationMeta('createUserId');
-  GeneratedIntColumn _createUserId;
-  @override
-  GeneratedIntColumn get createUserId =>
-      _createUserId ??= _constructCreateUserId();
-  GeneratedIntColumn _constructCreateUserId() {
-    return GeneratedIntColumn(
-      'create_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _creatorUserMeta =
-      const VerificationMeta('creatorUser');
-  GeneratedTextColumn _creatorUser;
-  @override
-  GeneratedTextColumn get creatorUser =>
-      _creatorUser ??= _constructCreatorUser();
-  GeneratedTextColumn _constructCreatorUser() {
-    return GeneratedTextColumn(
-      'creator_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserMeta =
-      const VerificationMeta('lastModifierUser');
-  GeneratedTextColumn _lastModifierUser;
-  @override
-  GeneratedTextColumn get lastModifierUser =>
-      _lastModifierUser ??= _constructLastModifierUser();
-  GeneratedTextColumn _constructLastModifierUser() {
-    return GeneratedTextColumn(
-      'last_modifier_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserIdMeta =
-      const VerificationMeta('lastModifierUserId');
-  GeneratedIntColumn _lastModifierUserId;
-  @override
-  GeneratedIntColumn get lastModifierUserId =>
-      _lastModifierUserId ??= _constructLastModifierUserId();
-  GeneratedIntColumn _constructLastModifierUserId() {
-    return GeneratedIntColumn(
-      'last_modifier_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteUserIdMeta =
-      const VerificationMeta('deleteUserId');
-  GeneratedIntColumn _deleteUserId;
-  @override
-  GeneratedIntColumn get deleteUserId =>
-      _deleteUserId ??= _constructDeleteUserId();
-  GeneratedIntColumn _constructDeleteUserId() {
-    return GeneratedIntColumn(
-      'delete_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleterUserIdMeta =
-      const VerificationMeta('deleterUserId');
-  GeneratedTextColumn _deleterUserId;
-  @override
-  GeneratedTextColumn get deleterUserId =>
-      _deleterUserId ??= _constructDeleterUserId();
-  GeneratedTextColumn _constructDeleterUserId() {
-    return GeneratedTextColumn(
-      'deleter_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
-  GeneratedBoolColumn _isDeleted;
-  @override
-  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
-  GeneratedBoolColumn _constructIsDeleted() {
-    return GeneratedBoolColumn('is_deleted', $tableName, false,
-        defaultValue: Constant(false));
   }
 
   final VerificationMeta _idMeta = const VerificationMeta('id');
@@ -24403,15 +22383,6 @@ class $ItemsPricesTable extends ItemsPrices
   @override
   List<GeneratedColumn> get $columns => [
         tenantId,
-        creationTime,
-        deleteTime,
-        createUserId,
-        creatorUser,
-        lastModifierUser,
-        lastModifierUserId,
-        deleteUserId,
-        deleterUserId,
-        isDeleted,
         id,
         itemId,
         itemCode,
@@ -24447,58 +22418,6 @@ class $ItemsPricesTable extends ItemsPrices
     if (data.containsKey('tenant_id')) {
       context.handle(_tenantIdMeta,
           tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
-    }
-    if (data.containsKey('creation_time')) {
-      context.handle(
-          _creationTimeMeta,
-          creationTime.isAcceptableOrUnknown(
-              data['creation_time'], _creationTimeMeta));
-    }
-    if (data.containsKey('delete_time')) {
-      context.handle(
-          _deleteTimeMeta,
-          deleteTime.isAcceptableOrUnknown(
-              data['delete_time'], _deleteTimeMeta));
-    }
-    if (data.containsKey('create_user_id')) {
-      context.handle(
-          _createUserIdMeta,
-          createUserId.isAcceptableOrUnknown(
-              data['create_user_id'], _createUserIdMeta));
-    }
-    if (data.containsKey('creator_user')) {
-      context.handle(
-          _creatorUserMeta,
-          creatorUser.isAcceptableOrUnknown(
-              data['creator_user'], _creatorUserMeta));
-    }
-    if (data.containsKey('last_modifier_user')) {
-      context.handle(
-          _lastModifierUserMeta,
-          lastModifierUser.isAcceptableOrUnknown(
-              data['last_modifier_user'], _lastModifierUserMeta));
-    }
-    if (data.containsKey('last_modifier_user_id')) {
-      context.handle(
-          _lastModifierUserIdMeta,
-          lastModifierUserId.isAcceptableOrUnknown(
-              data['last_modifier_user_id'], _lastModifierUserIdMeta));
-    }
-    if (data.containsKey('delete_user_id')) {
-      context.handle(
-          _deleteUserIdMeta,
-          deleteUserId.isAcceptableOrUnknown(
-              data['delete_user_id'], _deleteUserIdMeta));
-    }
-    if (data.containsKey('deleter_user_id')) {
-      context.handle(
-          _deleterUserIdMeta,
-          deleterUserId.isAcceptableOrUnknown(
-              data['deleter_user_id'], _deleterUserIdMeta));
-    }
-    if (data.containsKey('is_deleted')) {
-      context.handle(_isDeletedMeta,
-          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
     }
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
@@ -24635,15 +22554,6 @@ class $ItemsPricesTable extends ItemsPrices
 class ItemPricingRuleData extends DataClass
     implements Insertable<ItemPricingRuleData> {
   final int tenantId;
-  final DateTime creationTime;
-  final DateTime deleteTime;
-  final int createUserId;
-  final String creatorUser;
-  final String lastModifierUser;
-  final int lastModifierUserId;
-  final int deleteUserId;
-  final String deleterUserId;
-  final bool isDeleted;
   final int id;
   final int itemId;
   final String itemCode;
@@ -24668,15 +22578,6 @@ class ItemPricingRuleData extends DataClass
   final DateTime validTo;
   ItemPricingRuleData(
       {this.tenantId,
-      this.creationTime,
-      this.deleteTime,
-      this.createUserId,
-      this.creatorUser,
-      this.lastModifierUser,
-      this.lastModifierUserId,
-      this.deleteUserId,
-      this.deleterUserId,
-      @required this.isDeleted,
       @required this.id,
       @required this.itemId,
       this.itemCode,
@@ -24704,31 +22605,13 @@ class ItemPricingRuleData extends DataClass
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
-    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final stringType = db.typeSystem.forDartType<String>();
-    final boolType = db.typeSystem.forDartType<bool>();
     final doubleType = db.typeSystem.forDartType<double>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     return ItemPricingRuleData(
       tenantId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
-      creationTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
-      deleteTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
-      createUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
-      creatorUser: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
-      lastModifierUser: stringType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user']),
-      lastModifierUserId: intType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user_id']),
-      deleteUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
-      deleterUserId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
-      isDeleted: boolType
-          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       itemId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
@@ -24778,33 +22661,6 @@ class ItemPricingRuleData extends DataClass
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
       map['tenant_id'] = Variable<int>(tenantId);
-    }
-    if (!nullToAbsent || creationTime != null) {
-      map['creation_time'] = Variable<DateTime>(creationTime);
-    }
-    if (!nullToAbsent || deleteTime != null) {
-      map['delete_time'] = Variable<DateTime>(deleteTime);
-    }
-    if (!nullToAbsent || createUserId != null) {
-      map['create_user_id'] = Variable<int>(createUserId);
-    }
-    if (!nullToAbsent || creatorUser != null) {
-      map['creator_user'] = Variable<String>(creatorUser);
-    }
-    if (!nullToAbsent || lastModifierUser != null) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser);
-    }
-    if (!nullToAbsent || lastModifierUserId != null) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
-    }
-    if (!nullToAbsent || deleteUserId != null) {
-      map['delete_user_id'] = Variable<int>(deleteUserId);
-    }
-    if (!nullToAbsent || deleterUserId != null) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId);
-    }
-    if (!nullToAbsent || isDeleted != null) {
-      map['is_deleted'] = Variable<bool>(isDeleted);
     }
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int>(id);
@@ -24880,33 +22736,6 @@ class ItemPricingRuleData extends DataClass
       tenantId: tenantId == null && nullToAbsent
           ? const Value.absent()
           : Value(tenantId),
-      creationTime: creationTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creationTime),
-      deleteTime: deleteTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteTime),
-      createUserId: createUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(createUserId),
-      creatorUser: creatorUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creatorUser),
-      lastModifierUser: lastModifierUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUser),
-      lastModifierUserId: lastModifierUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUserId),
-      deleteUserId: deleteUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteUserId),
-      deleterUserId: deleterUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleterUserId),
-      isDeleted: isDeleted == null && nullToAbsent
-          ? const Value.absent()
-          : Value(isDeleted),
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       itemId:
           itemId == null && nullToAbsent ? const Value.absent() : Value(itemId),
@@ -24974,15 +22803,6 @@ class ItemPricingRuleData extends DataClass
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return ItemPricingRuleData(
       tenantId: serializer.fromJson<int>(json['tenantId']),
-      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
-      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
-      createUserId: serializer.fromJson<int>(json['createUserId']),
-      creatorUser: serializer.fromJson<String>(json['creatorUser']),
-      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
-      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
-      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
-      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
-      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
       id: serializer.fromJson<int>(json['id']),
       itemId: serializer.fromJson<int>(json['itemId']),
       itemCode: serializer.fromJson<String>(json['itemCode']),
@@ -25013,15 +22833,6 @@ class ItemPricingRuleData extends DataClass
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'tenantId': serializer.toJson<int>(tenantId),
-      'creationTime': serializer.toJson<DateTime>(creationTime),
-      'deleteTime': serializer.toJson<DateTime>(deleteTime),
-      'createUserId': serializer.toJson<int>(createUserId),
-      'creatorUser': serializer.toJson<String>(creatorUser),
-      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
-      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
-      'deleteUserId': serializer.toJson<int>(deleteUserId),
-      'deleterUserId': serializer.toJson<String>(deleterUserId),
-      'isDeleted': serializer.toJson<bool>(isDeleted),
       'id': serializer.toJson<int>(id),
       'itemId': serializer.toJson<int>(itemId),
       'itemCode': serializer.toJson<String>(itemCode),
@@ -25049,15 +22860,6 @@ class ItemPricingRuleData extends DataClass
 
   ItemPricingRuleData copyWith(
           {int tenantId,
-          DateTime creationTime,
-          DateTime deleteTime,
-          int createUserId,
-          String creatorUser,
-          String lastModifierUser,
-          int lastModifierUserId,
-          int deleteUserId,
-          String deleterUserId,
-          bool isDeleted,
           int id,
           int itemId,
           String itemCode,
@@ -25082,15 +22884,6 @@ class ItemPricingRuleData extends DataClass
           DateTime validTo}) =>
       ItemPricingRuleData(
         tenantId: tenantId ?? this.tenantId,
-        creationTime: creationTime ?? this.creationTime,
-        deleteTime: deleteTime ?? this.deleteTime,
-        createUserId: createUserId ?? this.createUserId,
-        creatorUser: creatorUser ?? this.creatorUser,
-        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-        deleteUserId: deleteUserId ?? this.deleteUserId,
-        deleterUserId: deleterUserId ?? this.deleterUserId,
-        isDeleted: isDeleted ?? this.isDeleted,
         id: id ?? this.id,
         itemId: itemId ?? this.itemId,
         itemCode: itemCode ?? this.itemCode,
@@ -25118,15 +22911,6 @@ class ItemPricingRuleData extends DataClass
   String toString() {
     return (StringBuffer('ItemPricingRuleData(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('itemId: $itemId, ')
           ..write('itemCode: $itemCode, ')
@@ -25157,60 +22941,50 @@ class ItemPricingRuleData extends DataClass
   int get hashCode => $mrjf($mrjc(
       tenantId.hashCode,
       $mrjc(
-          creationTime.hashCode,
+          id.hashCode,
           $mrjc(
-              deleteTime.hashCode,
+              itemId.hashCode,
               $mrjc(
-                  createUserId.hashCode,
+                  itemCode.hashCode,
                   $mrjc(
-                      creatorUser.hashCode,
+                      priceList.hashCode,
                       $mrjc(
-                          lastModifierUser.hashCode,
+                          customerId.hashCode,
                           $mrjc(
-                              lastModifierUserId.hashCode,
+                              minQuantity.hashCode,
                               $mrjc(
-                                  deleteUserId.hashCode,
+                                  maxQuantity.hashCode,
                                   $mrjc(
-                                      deleterUserId.hashCode,
+                                      price.hashCode,
                                       $mrjc(
-                                          isDeleted.hashCode,
+                                          discountPercentage.hashCode,
                                           $mrjc(
-                                              id.hashCode,
+                                              uom.hashCode,
                                               $mrjc(
-                                                  itemId.hashCode,
+                                                  priceOrDiscount.hashCode,
                                                   $mrjc(
-                                                      itemCode.hashCode,
+                                                      customerGroup.hashCode,
                                                       $mrjc(
-                                                          priceList.hashCode,
+                                                          itemGroup.hashCode,
                                                           $mrjc(
-                                                              customerId
-                                                                  .hashCode,
+                                                              category.hashCode,
                                                               $mrjc(
-                                                                  minQuantity
+                                                                  applicableFor
                                                                       .hashCode,
                                                                   $mrjc(
-                                                                      maxQuantity
+                                                                      applyOn
                                                                           .hashCode,
                                                                       $mrjc(
-                                                                          price
+                                                                          title
                                                                               .hashCode,
                                                                           $mrjc(
-                                                                              discountPercentage.hashCode,
-                                                                              $mrjc(uom.hashCode, $mrjc(priceOrDiscount.hashCode, $mrjc(customerGroup.hashCode, $mrjc(itemGroup.hashCode, $mrjc(category.hashCode, $mrjc(applicableFor.hashCode, $mrjc(applyOn.hashCode, $mrjc(title.hashCode, $mrjc(ruleName.hashCode, $mrjc(isActive.hashCode, $mrjc(isDiscountEnable.hashCode, $mrjc(validFrom.hashCode, validTo.hashCode))))))))))))))))))))))))))))))));
+                                                                              ruleName.hashCode,
+                                                                              $mrjc(isActive.hashCode, $mrjc(isDiscountEnable.hashCode, $mrjc(validFrom.hashCode, validTo.hashCode)))))))))))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is ItemPricingRuleData &&
           other.tenantId == this.tenantId &&
-          other.creationTime == this.creationTime &&
-          other.deleteTime == this.deleteTime &&
-          other.createUserId == this.createUserId &&
-          other.creatorUser == this.creatorUser &&
-          other.lastModifierUser == this.lastModifierUser &&
-          other.lastModifierUserId == this.lastModifierUserId &&
-          other.deleteUserId == this.deleteUserId &&
-          other.deleterUserId == this.deleterUserId &&
-          other.isDeleted == this.isDeleted &&
           other.id == this.id &&
           other.itemId == this.itemId &&
           other.itemCode == this.itemCode &&
@@ -25237,15 +23011,6 @@ class ItemPricingRuleData extends DataClass
 
 class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
   final Value<int> tenantId;
-  final Value<DateTime> creationTime;
-  final Value<DateTime> deleteTime;
-  final Value<int> createUserId;
-  final Value<String> creatorUser;
-  final Value<String> lastModifierUser;
-  final Value<int> lastModifierUserId;
-  final Value<int> deleteUserId;
-  final Value<String> deleterUserId;
-  final Value<bool> isDeleted;
   final Value<int> id;
   final Value<int> itemId;
   final Value<String> itemCode;
@@ -25270,15 +23035,6 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
   final Value<DateTime> validTo;
   const ItemPricingRuleCompanion({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     this.itemId = const Value.absent(),
     this.itemCode = const Value.absent(),
@@ -25304,15 +23060,6 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
   });
   ItemPricingRuleCompanion.insert({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     @required int itemId,
     this.itemCode = const Value.absent(),
@@ -25342,15 +23089,6 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
         discountPercentage = Value(discountPercentage);
   static Insertable<ItemPricingRuleData> custom({
     Expression<int> tenantId,
-    Expression<DateTime> creationTime,
-    Expression<DateTime> deleteTime,
-    Expression<int> createUserId,
-    Expression<String> creatorUser,
-    Expression<String> lastModifierUser,
-    Expression<int> lastModifierUserId,
-    Expression<int> deleteUserId,
-    Expression<String> deleterUserId,
-    Expression<bool> isDeleted,
     Expression<int> id,
     Expression<int> itemId,
     Expression<String> itemCode,
@@ -25376,16 +23114,6 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
   }) {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
-      if (creationTime != null) 'creation_time': creationTime,
-      if (deleteTime != null) 'delete_time': deleteTime,
-      if (createUserId != null) 'create_user_id': createUserId,
-      if (creatorUser != null) 'creator_user': creatorUser,
-      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
-      if (lastModifierUserId != null)
-        'last_modifier_user_id': lastModifierUserId,
-      if (deleteUserId != null) 'delete_user_id': deleteUserId,
-      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
-      if (isDeleted != null) 'is_deleted': isDeleted,
       if (id != null) 'id': id,
       if (itemId != null) 'item_id': itemId,
       if (itemCode != null) 'item_code': itemCode,
@@ -25413,15 +23141,6 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
 
   ItemPricingRuleCompanion copyWith(
       {Value<int> tenantId,
-      Value<DateTime> creationTime,
-      Value<DateTime> deleteTime,
-      Value<int> createUserId,
-      Value<String> creatorUser,
-      Value<String> lastModifierUser,
-      Value<int> lastModifierUserId,
-      Value<int> deleteUserId,
-      Value<String> deleterUserId,
-      Value<bool> isDeleted,
       Value<int> id,
       Value<int> itemId,
       Value<String> itemCode,
@@ -25446,15 +23165,6 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
       Value<DateTime> validTo}) {
     return ItemPricingRuleCompanion(
       tenantId: tenantId ?? this.tenantId,
-      creationTime: creationTime ?? this.creationTime,
-      deleteTime: deleteTime ?? this.deleteTime,
-      createUserId: createUserId ?? this.createUserId,
-      creatorUser: creatorUser ?? this.creatorUser,
-      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-      deleteUserId: deleteUserId ?? this.deleteUserId,
-      deleterUserId: deleterUserId ?? this.deleterUserId,
-      isDeleted: isDeleted ?? this.isDeleted,
       id: id ?? this.id,
       itemId: itemId ?? this.itemId,
       itemCode: itemCode ?? this.itemCode,
@@ -25485,33 +23195,6 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
     final map = <String, Expression>{};
     if (tenantId.present) {
       map['tenant_id'] = Variable<int>(tenantId.value);
-    }
-    if (creationTime.present) {
-      map['creation_time'] = Variable<DateTime>(creationTime.value);
-    }
-    if (deleteTime.present) {
-      map['delete_time'] = Variable<DateTime>(deleteTime.value);
-    }
-    if (createUserId.present) {
-      map['create_user_id'] = Variable<int>(createUserId.value);
-    }
-    if (creatorUser.present) {
-      map['creator_user'] = Variable<String>(creatorUser.value);
-    }
-    if (lastModifierUser.present) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
-    }
-    if (lastModifierUserId.present) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
-    }
-    if (deleteUserId.present) {
-      map['delete_user_id'] = Variable<int>(deleteUserId.value);
-    }
-    if (deleterUserId.present) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
-    }
-    if (isDeleted.present) {
-      map['is_deleted'] = Variable<bool>(isDeleted.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -25586,15 +23269,6 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
   String toString() {
     return (StringBuffer('ItemPricingRuleCompanion(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('itemId: $itemId, ')
           ..write('itemCode: $itemCode, ')
@@ -25637,126 +23311,6 @@ class $ItemPricingRuleTable extends ItemPricingRule
       $tableName,
       true,
     );
-  }
-
-  final VerificationMeta _creationTimeMeta =
-      const VerificationMeta('creationTime');
-  GeneratedDateTimeColumn _creationTime;
-  @override
-  GeneratedDateTimeColumn get creationTime =>
-      _creationTime ??= _constructCreationTime();
-  GeneratedDateTimeColumn _constructCreationTime() {
-    return GeneratedDateTimeColumn(
-      'creation_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
-  GeneratedDateTimeColumn _deleteTime;
-  @override
-  GeneratedDateTimeColumn get deleteTime =>
-      _deleteTime ??= _constructDeleteTime();
-  GeneratedDateTimeColumn _constructDeleteTime() {
-    return GeneratedDateTimeColumn(
-      'delete_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _createUserIdMeta =
-      const VerificationMeta('createUserId');
-  GeneratedIntColumn _createUserId;
-  @override
-  GeneratedIntColumn get createUserId =>
-      _createUserId ??= _constructCreateUserId();
-  GeneratedIntColumn _constructCreateUserId() {
-    return GeneratedIntColumn(
-      'create_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _creatorUserMeta =
-      const VerificationMeta('creatorUser');
-  GeneratedTextColumn _creatorUser;
-  @override
-  GeneratedTextColumn get creatorUser =>
-      _creatorUser ??= _constructCreatorUser();
-  GeneratedTextColumn _constructCreatorUser() {
-    return GeneratedTextColumn(
-      'creator_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserMeta =
-      const VerificationMeta('lastModifierUser');
-  GeneratedTextColumn _lastModifierUser;
-  @override
-  GeneratedTextColumn get lastModifierUser =>
-      _lastModifierUser ??= _constructLastModifierUser();
-  GeneratedTextColumn _constructLastModifierUser() {
-    return GeneratedTextColumn(
-      'last_modifier_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserIdMeta =
-      const VerificationMeta('lastModifierUserId');
-  GeneratedIntColumn _lastModifierUserId;
-  @override
-  GeneratedIntColumn get lastModifierUserId =>
-      _lastModifierUserId ??= _constructLastModifierUserId();
-  GeneratedIntColumn _constructLastModifierUserId() {
-    return GeneratedIntColumn(
-      'last_modifier_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteUserIdMeta =
-      const VerificationMeta('deleteUserId');
-  GeneratedIntColumn _deleteUserId;
-  @override
-  GeneratedIntColumn get deleteUserId =>
-      _deleteUserId ??= _constructDeleteUserId();
-  GeneratedIntColumn _constructDeleteUserId() {
-    return GeneratedIntColumn(
-      'delete_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleterUserIdMeta =
-      const VerificationMeta('deleterUserId');
-  GeneratedTextColumn _deleterUserId;
-  @override
-  GeneratedTextColumn get deleterUserId =>
-      _deleterUserId ??= _constructDeleterUserId();
-  GeneratedTextColumn _constructDeleterUserId() {
-    return GeneratedTextColumn(
-      'deleter_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
-  GeneratedBoolColumn _isDeleted;
-  @override
-  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
-  GeneratedBoolColumn _constructIsDeleted() {
-    return GeneratedBoolColumn('is_deleted', $tableName, false,
-        defaultValue: Constant(false));
   }
 
   final VerificationMeta _idMeta = const VerificationMeta('id');
@@ -26034,15 +23588,6 @@ class $ItemPricingRuleTable extends ItemPricingRule
   @override
   List<GeneratedColumn> get $columns => [
         tenantId,
-        creationTime,
-        deleteTime,
-        createUserId,
-        creatorUser,
-        lastModifierUser,
-        lastModifierUserId,
-        deleteUserId,
-        deleterUserId,
-        isDeleted,
         id,
         itemId,
         itemCode,
@@ -26081,58 +23626,6 @@ class $ItemPricingRuleTable extends ItemPricingRule
     if (data.containsKey('tenant_id')) {
       context.handle(_tenantIdMeta,
           tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
-    }
-    if (data.containsKey('creation_time')) {
-      context.handle(
-          _creationTimeMeta,
-          creationTime.isAcceptableOrUnknown(
-              data['creation_time'], _creationTimeMeta));
-    }
-    if (data.containsKey('delete_time')) {
-      context.handle(
-          _deleteTimeMeta,
-          deleteTime.isAcceptableOrUnknown(
-              data['delete_time'], _deleteTimeMeta));
-    }
-    if (data.containsKey('create_user_id')) {
-      context.handle(
-          _createUserIdMeta,
-          createUserId.isAcceptableOrUnknown(
-              data['create_user_id'], _createUserIdMeta));
-    }
-    if (data.containsKey('creator_user')) {
-      context.handle(
-          _creatorUserMeta,
-          creatorUser.isAcceptableOrUnknown(
-              data['creator_user'], _creatorUserMeta));
-    }
-    if (data.containsKey('last_modifier_user')) {
-      context.handle(
-          _lastModifierUserMeta,
-          lastModifierUser.isAcceptableOrUnknown(
-              data['last_modifier_user'], _lastModifierUserMeta));
-    }
-    if (data.containsKey('last_modifier_user_id')) {
-      context.handle(
-          _lastModifierUserIdMeta,
-          lastModifierUserId.isAcceptableOrUnknown(
-              data['last_modifier_user_id'], _lastModifierUserIdMeta));
-    }
-    if (data.containsKey('delete_user_id')) {
-      context.handle(
-          _deleteUserIdMeta,
-          deleteUserId.isAcceptableOrUnknown(
-              data['delete_user_id'], _deleteUserIdMeta));
-    }
-    if (data.containsKey('deleter_user_id')) {
-      context.handle(
-          _deleterUserIdMeta,
-          deleterUserId.isAcceptableOrUnknown(
-              data['deleter_user_id'], _deleterUserIdMeta));
-    }
-    if (data.containsKey('is_deleted')) {
-      context.handle(_isDeletedMeta,
-          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
     }
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
@@ -26266,30 +23759,12 @@ class $ItemPricingRuleTable extends ItemPricingRule
 
 class Categore extends DataClass implements Insertable<Categore> {
   final int tenantId;
-  final DateTime creationTime;
-  final DateTime deleteTime;
-  final int createUserId;
-  final String creatorUser;
-  final String lastModifierUser;
-  final int lastModifierUserId;
-  final int deleteUserId;
-  final String deleterUserId;
-  final bool isDeleted;
   final int id;
   final int itemId;
   final String parentCategory;
   final String category;
   Categore(
       {this.tenantId,
-      this.creationTime,
-      this.deleteTime,
-      this.createUserId,
-      this.creatorUser,
-      this.lastModifierUser,
-      this.lastModifierUserId,
-      this.deleteUserId,
-      this.deleterUserId,
-      @required this.isDeleted,
       @required this.id,
       @required this.itemId,
       this.parentCategory,
@@ -26298,30 +23773,10 @@ class Categore extends DataClass implements Insertable<Categore> {
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
-    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final stringType = db.typeSystem.forDartType<String>();
-    final boolType = db.typeSystem.forDartType<bool>();
     return Categore(
       tenantId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
-      creationTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
-      deleteTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
-      createUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
-      creatorUser: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
-      lastModifierUser: stringType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user']),
-      lastModifierUserId: intType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user_id']),
-      deleteUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
-      deleterUserId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
-      isDeleted: boolType
-          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       itemId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
@@ -26336,33 +23791,6 @@ class Categore extends DataClass implements Insertable<Categore> {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
       map['tenant_id'] = Variable<int>(tenantId);
-    }
-    if (!nullToAbsent || creationTime != null) {
-      map['creation_time'] = Variable<DateTime>(creationTime);
-    }
-    if (!nullToAbsent || deleteTime != null) {
-      map['delete_time'] = Variable<DateTime>(deleteTime);
-    }
-    if (!nullToAbsent || createUserId != null) {
-      map['create_user_id'] = Variable<int>(createUserId);
-    }
-    if (!nullToAbsent || creatorUser != null) {
-      map['creator_user'] = Variable<String>(creatorUser);
-    }
-    if (!nullToAbsent || lastModifierUser != null) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser);
-    }
-    if (!nullToAbsent || lastModifierUserId != null) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
-    }
-    if (!nullToAbsent || deleteUserId != null) {
-      map['delete_user_id'] = Variable<int>(deleteUserId);
-    }
-    if (!nullToAbsent || deleterUserId != null) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId);
-    }
-    if (!nullToAbsent || isDeleted != null) {
-      map['is_deleted'] = Variable<bool>(isDeleted);
     }
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int>(id);
@@ -26384,33 +23812,6 @@ class Categore extends DataClass implements Insertable<Categore> {
       tenantId: tenantId == null && nullToAbsent
           ? const Value.absent()
           : Value(tenantId),
-      creationTime: creationTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creationTime),
-      deleteTime: deleteTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteTime),
-      createUserId: createUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(createUserId),
-      creatorUser: creatorUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creatorUser),
-      lastModifierUser: lastModifierUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUser),
-      lastModifierUserId: lastModifierUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUserId),
-      deleteUserId: deleteUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteUserId),
-      deleterUserId: deleterUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleterUserId),
-      isDeleted: isDeleted == null && nullToAbsent
-          ? const Value.absent()
-          : Value(isDeleted),
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       itemId:
           itemId == null && nullToAbsent ? const Value.absent() : Value(itemId),
@@ -26428,15 +23829,6 @@ class Categore extends DataClass implements Insertable<Categore> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return Categore(
       tenantId: serializer.fromJson<int>(json['tenantId']),
-      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
-      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
-      createUserId: serializer.fromJson<int>(json['createUserId']),
-      creatorUser: serializer.fromJson<String>(json['creatorUser']),
-      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
-      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
-      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
-      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
-      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
       id: serializer.fromJson<int>(json['id']),
       itemId: serializer.fromJson<int>(json['itemId']),
       parentCategory: serializer.fromJson<String>(json['parentCategory']),
@@ -26448,15 +23840,6 @@ class Categore extends DataClass implements Insertable<Categore> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'tenantId': serializer.toJson<int>(tenantId),
-      'creationTime': serializer.toJson<DateTime>(creationTime),
-      'deleteTime': serializer.toJson<DateTime>(deleteTime),
-      'createUserId': serializer.toJson<int>(createUserId),
-      'creatorUser': serializer.toJson<String>(creatorUser),
-      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
-      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
-      'deleteUserId': serializer.toJson<int>(deleteUserId),
-      'deleterUserId': serializer.toJson<String>(deleterUserId),
-      'isDeleted': serializer.toJson<bool>(isDeleted),
       'id': serializer.toJson<int>(id),
       'itemId': serializer.toJson<int>(itemId),
       'parentCategory': serializer.toJson<String>(parentCategory),
@@ -26466,30 +23849,12 @@ class Categore extends DataClass implements Insertable<Categore> {
 
   Categore copyWith(
           {int tenantId,
-          DateTime creationTime,
-          DateTime deleteTime,
-          int createUserId,
-          String creatorUser,
-          String lastModifierUser,
-          int lastModifierUserId,
-          int deleteUserId,
-          String deleterUserId,
-          bool isDeleted,
           int id,
           int itemId,
           String parentCategory,
           String category}) =>
       Categore(
         tenantId: tenantId ?? this.tenantId,
-        creationTime: creationTime ?? this.creationTime,
-        deleteTime: deleteTime ?? this.deleteTime,
-        createUserId: createUserId ?? this.createUserId,
-        creatorUser: creatorUser ?? this.creatorUser,
-        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-        deleteUserId: deleteUserId ?? this.deleteUserId,
-        deleterUserId: deleterUserId ?? this.deleterUserId,
-        isDeleted: isDeleted ?? this.isDeleted,
         id: id ?? this.id,
         itemId: itemId ?? this.itemId,
         parentCategory: parentCategory ?? this.parentCategory,
@@ -26499,15 +23864,6 @@ class Categore extends DataClass implements Insertable<Categore> {
   String toString() {
     return (StringBuffer('Categore(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('itemId: $itemId, ')
           ..write('parentCategory: $parentCategory, ')
@@ -26520,45 +23876,14 @@ class Categore extends DataClass implements Insertable<Categore> {
   int get hashCode => $mrjf($mrjc(
       tenantId.hashCode,
       $mrjc(
-          creationTime.hashCode,
-          $mrjc(
-              deleteTime.hashCode,
-              $mrjc(
-                  createUserId.hashCode,
-                  $mrjc(
-                      creatorUser.hashCode,
-                      $mrjc(
-                          lastModifierUser.hashCode,
-                          $mrjc(
-                              lastModifierUserId.hashCode,
-                              $mrjc(
-                                  deleteUserId.hashCode,
-                                  $mrjc(
-                                      deleterUserId.hashCode,
-                                      $mrjc(
-                                          isDeleted.hashCode,
-                                          $mrjc(
-                                              id.hashCode,
-                                              $mrjc(
-                                                  itemId.hashCode,
-                                                  $mrjc(
-                                                      parentCategory.hashCode,
-                                                      category
-                                                          .hashCode))))))))))))));
+          id.hashCode,
+          $mrjc(itemId.hashCode,
+              $mrjc(parentCategory.hashCode, category.hashCode)))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is Categore &&
           other.tenantId == this.tenantId &&
-          other.creationTime == this.creationTime &&
-          other.deleteTime == this.deleteTime &&
-          other.createUserId == this.createUserId &&
-          other.creatorUser == this.creatorUser &&
-          other.lastModifierUser == this.lastModifierUser &&
-          other.lastModifierUserId == this.lastModifierUserId &&
-          other.deleteUserId == this.deleteUserId &&
-          other.deleterUserId == this.deleterUserId &&
-          other.isDeleted == this.isDeleted &&
           other.id == this.id &&
           other.itemId == this.itemId &&
           other.parentCategory == this.parentCategory &&
@@ -26567,30 +23892,12 @@ class Categore extends DataClass implements Insertable<Categore> {
 
 class CategoresCompanion extends UpdateCompanion<Categore> {
   final Value<int> tenantId;
-  final Value<DateTime> creationTime;
-  final Value<DateTime> deleteTime;
-  final Value<int> createUserId;
-  final Value<String> creatorUser;
-  final Value<String> lastModifierUser;
-  final Value<int> lastModifierUserId;
-  final Value<int> deleteUserId;
-  final Value<String> deleterUserId;
-  final Value<bool> isDeleted;
   final Value<int> id;
   final Value<int> itemId;
   final Value<String> parentCategory;
   final Value<String> category;
   const CategoresCompanion({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     this.itemId = const Value.absent(),
     this.parentCategory = const Value.absent(),
@@ -26598,15 +23905,6 @@ class CategoresCompanion extends UpdateCompanion<Categore> {
   });
   CategoresCompanion.insert({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     @required int itemId,
     this.parentCategory = const Value.absent(),
@@ -26614,15 +23912,6 @@ class CategoresCompanion extends UpdateCompanion<Categore> {
   }) : itemId = Value(itemId);
   static Insertable<Categore> custom({
     Expression<int> tenantId,
-    Expression<DateTime> creationTime,
-    Expression<DateTime> deleteTime,
-    Expression<int> createUserId,
-    Expression<String> creatorUser,
-    Expression<String> lastModifierUser,
-    Expression<int> lastModifierUserId,
-    Expression<int> deleteUserId,
-    Expression<String> deleterUserId,
-    Expression<bool> isDeleted,
     Expression<int> id,
     Expression<int> itemId,
     Expression<String> parentCategory,
@@ -26630,16 +23919,6 @@ class CategoresCompanion extends UpdateCompanion<Categore> {
   }) {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
-      if (creationTime != null) 'creation_time': creationTime,
-      if (deleteTime != null) 'delete_time': deleteTime,
-      if (createUserId != null) 'create_user_id': createUserId,
-      if (creatorUser != null) 'creator_user': creatorUser,
-      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
-      if (lastModifierUserId != null)
-        'last_modifier_user_id': lastModifierUserId,
-      if (deleteUserId != null) 'delete_user_id': deleteUserId,
-      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
-      if (isDeleted != null) 'is_deleted': isDeleted,
       if (id != null) 'id': id,
       if (itemId != null) 'item_id': itemId,
       if (parentCategory != null) 'parent_category': parentCategory,
@@ -26649,30 +23928,12 @@ class CategoresCompanion extends UpdateCompanion<Categore> {
 
   CategoresCompanion copyWith(
       {Value<int> tenantId,
-      Value<DateTime> creationTime,
-      Value<DateTime> deleteTime,
-      Value<int> createUserId,
-      Value<String> creatorUser,
-      Value<String> lastModifierUser,
-      Value<int> lastModifierUserId,
-      Value<int> deleteUserId,
-      Value<String> deleterUserId,
-      Value<bool> isDeleted,
       Value<int> id,
       Value<int> itemId,
       Value<String> parentCategory,
       Value<String> category}) {
     return CategoresCompanion(
       tenantId: tenantId ?? this.tenantId,
-      creationTime: creationTime ?? this.creationTime,
-      deleteTime: deleteTime ?? this.deleteTime,
-      createUserId: createUserId ?? this.createUserId,
-      creatorUser: creatorUser ?? this.creatorUser,
-      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-      deleteUserId: deleteUserId ?? this.deleteUserId,
-      deleterUserId: deleterUserId ?? this.deleterUserId,
-      isDeleted: isDeleted ?? this.isDeleted,
       id: id ?? this.id,
       itemId: itemId ?? this.itemId,
       parentCategory: parentCategory ?? this.parentCategory,
@@ -26685,33 +23946,6 @@ class CategoresCompanion extends UpdateCompanion<Categore> {
     final map = <String, Expression>{};
     if (tenantId.present) {
       map['tenant_id'] = Variable<int>(tenantId.value);
-    }
-    if (creationTime.present) {
-      map['creation_time'] = Variable<DateTime>(creationTime.value);
-    }
-    if (deleteTime.present) {
-      map['delete_time'] = Variable<DateTime>(deleteTime.value);
-    }
-    if (createUserId.present) {
-      map['create_user_id'] = Variable<int>(createUserId.value);
-    }
-    if (creatorUser.present) {
-      map['creator_user'] = Variable<String>(creatorUser.value);
-    }
-    if (lastModifierUser.present) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
-    }
-    if (lastModifierUserId.present) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
-    }
-    if (deleteUserId.present) {
-      map['delete_user_id'] = Variable<int>(deleteUserId.value);
-    }
-    if (deleterUserId.present) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
-    }
-    if (isDeleted.present) {
-      map['is_deleted'] = Variable<bool>(isDeleted.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -26732,15 +23966,6 @@ class CategoresCompanion extends UpdateCompanion<Categore> {
   String toString() {
     return (StringBuffer('CategoresCompanion(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('itemId: $itemId, ')
           ..write('parentCategory: $parentCategory, ')
@@ -26765,126 +23990,6 @@ class $CategoresTable extends Categores
       $tableName,
       true,
     );
-  }
-
-  final VerificationMeta _creationTimeMeta =
-      const VerificationMeta('creationTime');
-  GeneratedDateTimeColumn _creationTime;
-  @override
-  GeneratedDateTimeColumn get creationTime =>
-      _creationTime ??= _constructCreationTime();
-  GeneratedDateTimeColumn _constructCreationTime() {
-    return GeneratedDateTimeColumn(
-      'creation_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
-  GeneratedDateTimeColumn _deleteTime;
-  @override
-  GeneratedDateTimeColumn get deleteTime =>
-      _deleteTime ??= _constructDeleteTime();
-  GeneratedDateTimeColumn _constructDeleteTime() {
-    return GeneratedDateTimeColumn(
-      'delete_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _createUserIdMeta =
-      const VerificationMeta('createUserId');
-  GeneratedIntColumn _createUserId;
-  @override
-  GeneratedIntColumn get createUserId =>
-      _createUserId ??= _constructCreateUserId();
-  GeneratedIntColumn _constructCreateUserId() {
-    return GeneratedIntColumn(
-      'create_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _creatorUserMeta =
-      const VerificationMeta('creatorUser');
-  GeneratedTextColumn _creatorUser;
-  @override
-  GeneratedTextColumn get creatorUser =>
-      _creatorUser ??= _constructCreatorUser();
-  GeneratedTextColumn _constructCreatorUser() {
-    return GeneratedTextColumn(
-      'creator_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserMeta =
-      const VerificationMeta('lastModifierUser');
-  GeneratedTextColumn _lastModifierUser;
-  @override
-  GeneratedTextColumn get lastModifierUser =>
-      _lastModifierUser ??= _constructLastModifierUser();
-  GeneratedTextColumn _constructLastModifierUser() {
-    return GeneratedTextColumn(
-      'last_modifier_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserIdMeta =
-      const VerificationMeta('lastModifierUserId');
-  GeneratedIntColumn _lastModifierUserId;
-  @override
-  GeneratedIntColumn get lastModifierUserId =>
-      _lastModifierUserId ??= _constructLastModifierUserId();
-  GeneratedIntColumn _constructLastModifierUserId() {
-    return GeneratedIntColumn(
-      'last_modifier_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteUserIdMeta =
-      const VerificationMeta('deleteUserId');
-  GeneratedIntColumn _deleteUserId;
-  @override
-  GeneratedIntColumn get deleteUserId =>
-      _deleteUserId ??= _constructDeleteUserId();
-  GeneratedIntColumn _constructDeleteUserId() {
-    return GeneratedIntColumn(
-      'delete_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleterUserIdMeta =
-      const VerificationMeta('deleterUserId');
-  GeneratedTextColumn _deleterUserId;
-  @override
-  GeneratedTextColumn get deleterUserId =>
-      _deleterUserId ??= _constructDeleterUserId();
-  GeneratedTextColumn _constructDeleterUserId() {
-    return GeneratedTextColumn(
-      'deleter_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
-  GeneratedBoolColumn _isDeleted;
-  @override
-  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
-  GeneratedBoolColumn _constructIsDeleted() {
-    return GeneratedBoolColumn('is_deleted', $tableName, false,
-        defaultValue: Constant(false));
   }
 
   final VerificationMeta _idMeta = const VerificationMeta('id');
@@ -26938,22 +24043,8 @@ class $CategoresTable extends Categores
   }
 
   @override
-  List<GeneratedColumn> get $columns => [
-        tenantId,
-        creationTime,
-        deleteTime,
-        createUserId,
-        creatorUser,
-        lastModifierUser,
-        lastModifierUserId,
-        deleteUserId,
-        deleterUserId,
-        isDeleted,
-        id,
-        itemId,
-        parentCategory,
-        category
-      ];
+  List<GeneratedColumn> get $columns =>
+      [tenantId, id, itemId, parentCategory, category];
   @override
   $CategoresTable get asDslTable => this;
   @override
@@ -26968,58 +24059,6 @@ class $CategoresTable extends Categores
     if (data.containsKey('tenant_id')) {
       context.handle(_tenantIdMeta,
           tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
-    }
-    if (data.containsKey('creation_time')) {
-      context.handle(
-          _creationTimeMeta,
-          creationTime.isAcceptableOrUnknown(
-              data['creation_time'], _creationTimeMeta));
-    }
-    if (data.containsKey('delete_time')) {
-      context.handle(
-          _deleteTimeMeta,
-          deleteTime.isAcceptableOrUnknown(
-              data['delete_time'], _deleteTimeMeta));
-    }
-    if (data.containsKey('create_user_id')) {
-      context.handle(
-          _createUserIdMeta,
-          createUserId.isAcceptableOrUnknown(
-              data['create_user_id'], _createUserIdMeta));
-    }
-    if (data.containsKey('creator_user')) {
-      context.handle(
-          _creatorUserMeta,
-          creatorUser.isAcceptableOrUnknown(
-              data['creator_user'], _creatorUserMeta));
-    }
-    if (data.containsKey('last_modifier_user')) {
-      context.handle(
-          _lastModifierUserMeta,
-          lastModifierUser.isAcceptableOrUnknown(
-              data['last_modifier_user'], _lastModifierUserMeta));
-    }
-    if (data.containsKey('last_modifier_user_id')) {
-      context.handle(
-          _lastModifierUserIdMeta,
-          lastModifierUserId.isAcceptableOrUnknown(
-              data['last_modifier_user_id'], _lastModifierUserIdMeta));
-    }
-    if (data.containsKey('delete_user_id')) {
-      context.handle(
-          _deleteUserIdMeta,
-          deleteUserId.isAcceptableOrUnknown(
-              data['delete_user_id'], _deleteUserIdMeta));
-    }
-    if (data.containsKey('deleter_user_id')) {
-      context.handle(
-          _deleterUserIdMeta,
-          deleterUserId.isAcceptableOrUnknown(
-              data['deleter_user_id'], _deleterUserIdMeta));
-    }
-    if (data.containsKey('is_deleted')) {
-      context.handle(_isDeletedMeta,
-          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
     }
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
@@ -27059,30 +24098,12 @@ class $CategoresTable extends Categores
 
 class ItemGroup extends DataClass implements Insertable<ItemGroup> {
   final int tenantId;
-  final DateTime creationTime;
-  final DateTime deleteTime;
-  final int createUserId;
-  final String creatorUser;
-  final String lastModifierUser;
-  final int lastModifierUserId;
-  final int deleteUserId;
-  final String deleterUserId;
-  final bool isDeleted;
   final int id;
   final int itemId;
   final String parentGroup;
   final String group;
   ItemGroup(
       {this.tenantId,
-      this.creationTime,
-      this.deleteTime,
-      this.createUserId,
-      this.creatorUser,
-      this.lastModifierUser,
-      this.lastModifierUserId,
-      this.deleteUserId,
-      this.deleterUserId,
-      @required this.isDeleted,
       @required this.id,
       @required this.itemId,
       this.parentGroup,
@@ -27091,30 +24112,10 @@ class ItemGroup extends DataClass implements Insertable<ItemGroup> {
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
-    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final stringType = db.typeSystem.forDartType<String>();
-    final boolType = db.typeSystem.forDartType<bool>();
     return ItemGroup(
       tenantId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
-      creationTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
-      deleteTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
-      createUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
-      creatorUser: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
-      lastModifierUser: stringType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user']),
-      lastModifierUserId: intType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user_id']),
-      deleteUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
-      deleterUserId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
-      isDeleted: boolType
-          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       itemId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
@@ -27129,33 +24130,6 @@ class ItemGroup extends DataClass implements Insertable<ItemGroup> {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
       map['tenant_id'] = Variable<int>(tenantId);
-    }
-    if (!nullToAbsent || creationTime != null) {
-      map['creation_time'] = Variable<DateTime>(creationTime);
-    }
-    if (!nullToAbsent || deleteTime != null) {
-      map['delete_time'] = Variable<DateTime>(deleteTime);
-    }
-    if (!nullToAbsent || createUserId != null) {
-      map['create_user_id'] = Variable<int>(createUserId);
-    }
-    if (!nullToAbsent || creatorUser != null) {
-      map['creator_user'] = Variable<String>(creatorUser);
-    }
-    if (!nullToAbsent || lastModifierUser != null) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser);
-    }
-    if (!nullToAbsent || lastModifierUserId != null) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
-    }
-    if (!nullToAbsent || deleteUserId != null) {
-      map['delete_user_id'] = Variable<int>(deleteUserId);
-    }
-    if (!nullToAbsent || deleterUserId != null) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId);
-    }
-    if (!nullToAbsent || isDeleted != null) {
-      map['is_deleted'] = Variable<bool>(isDeleted);
     }
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int>(id);
@@ -27177,33 +24151,6 @@ class ItemGroup extends DataClass implements Insertable<ItemGroup> {
       tenantId: tenantId == null && nullToAbsent
           ? const Value.absent()
           : Value(tenantId),
-      creationTime: creationTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creationTime),
-      deleteTime: deleteTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteTime),
-      createUserId: createUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(createUserId),
-      creatorUser: creatorUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creatorUser),
-      lastModifierUser: lastModifierUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUser),
-      lastModifierUserId: lastModifierUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUserId),
-      deleteUserId: deleteUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteUserId),
-      deleterUserId: deleterUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleterUserId),
-      isDeleted: isDeleted == null && nullToAbsent
-          ? const Value.absent()
-          : Value(isDeleted),
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       itemId:
           itemId == null && nullToAbsent ? const Value.absent() : Value(itemId),
@@ -27220,15 +24167,6 @@ class ItemGroup extends DataClass implements Insertable<ItemGroup> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return ItemGroup(
       tenantId: serializer.fromJson<int>(json['tenantId']),
-      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
-      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
-      createUserId: serializer.fromJson<int>(json['createUserId']),
-      creatorUser: serializer.fromJson<String>(json['creatorUser']),
-      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
-      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
-      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
-      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
-      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
       id: serializer.fromJson<int>(json['id']),
       itemId: serializer.fromJson<int>(json['itemId']),
       parentGroup: serializer.fromJson<String>(json['parentGroup']),
@@ -27240,15 +24178,6 @@ class ItemGroup extends DataClass implements Insertable<ItemGroup> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'tenantId': serializer.toJson<int>(tenantId),
-      'creationTime': serializer.toJson<DateTime>(creationTime),
-      'deleteTime': serializer.toJson<DateTime>(deleteTime),
-      'createUserId': serializer.toJson<int>(createUserId),
-      'creatorUser': serializer.toJson<String>(creatorUser),
-      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
-      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
-      'deleteUserId': serializer.toJson<int>(deleteUserId),
-      'deleterUserId': serializer.toJson<String>(deleterUserId),
-      'isDeleted': serializer.toJson<bool>(isDeleted),
       'id': serializer.toJson<int>(id),
       'itemId': serializer.toJson<int>(itemId),
       'parentGroup': serializer.toJson<String>(parentGroup),
@@ -27258,30 +24187,12 @@ class ItemGroup extends DataClass implements Insertable<ItemGroup> {
 
   ItemGroup copyWith(
           {int tenantId,
-          DateTime creationTime,
-          DateTime deleteTime,
-          int createUserId,
-          String creatorUser,
-          String lastModifierUser,
-          int lastModifierUserId,
-          int deleteUserId,
-          String deleterUserId,
-          bool isDeleted,
           int id,
           int itemId,
           String parentGroup,
           String group}) =>
       ItemGroup(
         tenantId: tenantId ?? this.tenantId,
-        creationTime: creationTime ?? this.creationTime,
-        deleteTime: deleteTime ?? this.deleteTime,
-        createUserId: createUserId ?? this.createUserId,
-        creatorUser: creatorUser ?? this.creatorUser,
-        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-        deleteUserId: deleteUserId ?? this.deleteUserId,
-        deleterUserId: deleterUserId ?? this.deleterUserId,
-        isDeleted: isDeleted ?? this.isDeleted,
         id: id ?? this.id,
         itemId: itemId ?? this.itemId,
         parentGroup: parentGroup ?? this.parentGroup,
@@ -27291,15 +24202,6 @@ class ItemGroup extends DataClass implements Insertable<ItemGroup> {
   String toString() {
     return (StringBuffer('ItemGroup(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('itemId: $itemId, ')
           ..write('parentGroup: $parentGroup, ')
@@ -27312,45 +24214,14 @@ class ItemGroup extends DataClass implements Insertable<ItemGroup> {
   int get hashCode => $mrjf($mrjc(
       tenantId.hashCode,
       $mrjc(
-          creationTime.hashCode,
+          id.hashCode,
           $mrjc(
-              deleteTime.hashCode,
-              $mrjc(
-                  createUserId.hashCode,
-                  $mrjc(
-                      creatorUser.hashCode,
-                      $mrjc(
-                          lastModifierUser.hashCode,
-                          $mrjc(
-                              lastModifierUserId.hashCode,
-                              $mrjc(
-                                  deleteUserId.hashCode,
-                                  $mrjc(
-                                      deleterUserId.hashCode,
-                                      $mrjc(
-                                          isDeleted.hashCode,
-                                          $mrjc(
-                                              id.hashCode,
-                                              $mrjc(
-                                                  itemId.hashCode,
-                                                  $mrjc(
-                                                      parentGroup.hashCode,
-                                                      group
-                                                          .hashCode))))))))))))));
+              itemId.hashCode, $mrjc(parentGroup.hashCode, group.hashCode)))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is ItemGroup &&
           other.tenantId == this.tenantId &&
-          other.creationTime == this.creationTime &&
-          other.deleteTime == this.deleteTime &&
-          other.createUserId == this.createUserId &&
-          other.creatorUser == this.creatorUser &&
-          other.lastModifierUser == this.lastModifierUser &&
-          other.lastModifierUserId == this.lastModifierUserId &&
-          other.deleteUserId == this.deleteUserId &&
-          other.deleterUserId == this.deleterUserId &&
-          other.isDeleted == this.isDeleted &&
           other.id == this.id &&
           other.itemId == this.itemId &&
           other.parentGroup == this.parentGroup &&
@@ -27359,30 +24230,12 @@ class ItemGroup extends DataClass implements Insertable<ItemGroup> {
 
 class ItemGroupsCompanion extends UpdateCompanion<ItemGroup> {
   final Value<int> tenantId;
-  final Value<DateTime> creationTime;
-  final Value<DateTime> deleteTime;
-  final Value<int> createUserId;
-  final Value<String> creatorUser;
-  final Value<String> lastModifierUser;
-  final Value<int> lastModifierUserId;
-  final Value<int> deleteUserId;
-  final Value<String> deleterUserId;
-  final Value<bool> isDeleted;
   final Value<int> id;
   final Value<int> itemId;
   final Value<String> parentGroup;
   final Value<String> group;
   const ItemGroupsCompanion({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     this.itemId = const Value.absent(),
     this.parentGroup = const Value.absent(),
@@ -27390,15 +24243,6 @@ class ItemGroupsCompanion extends UpdateCompanion<ItemGroup> {
   });
   ItemGroupsCompanion.insert({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     @required int itemId,
     this.parentGroup = const Value.absent(),
@@ -27406,15 +24250,6 @@ class ItemGroupsCompanion extends UpdateCompanion<ItemGroup> {
   }) : itemId = Value(itemId);
   static Insertable<ItemGroup> custom({
     Expression<int> tenantId,
-    Expression<DateTime> creationTime,
-    Expression<DateTime> deleteTime,
-    Expression<int> createUserId,
-    Expression<String> creatorUser,
-    Expression<String> lastModifierUser,
-    Expression<int> lastModifierUserId,
-    Expression<int> deleteUserId,
-    Expression<String> deleterUserId,
-    Expression<bool> isDeleted,
     Expression<int> id,
     Expression<int> itemId,
     Expression<String> parentGroup,
@@ -27422,16 +24257,6 @@ class ItemGroupsCompanion extends UpdateCompanion<ItemGroup> {
   }) {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
-      if (creationTime != null) 'creation_time': creationTime,
-      if (deleteTime != null) 'delete_time': deleteTime,
-      if (createUserId != null) 'create_user_id': createUserId,
-      if (creatorUser != null) 'creator_user': creatorUser,
-      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
-      if (lastModifierUserId != null)
-        'last_modifier_user_id': lastModifierUserId,
-      if (deleteUserId != null) 'delete_user_id': deleteUserId,
-      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
-      if (isDeleted != null) 'is_deleted': isDeleted,
       if (id != null) 'id': id,
       if (itemId != null) 'item_id': itemId,
       if (parentGroup != null) 'parent_group': parentGroup,
@@ -27441,30 +24266,12 @@ class ItemGroupsCompanion extends UpdateCompanion<ItemGroup> {
 
   ItemGroupsCompanion copyWith(
       {Value<int> tenantId,
-      Value<DateTime> creationTime,
-      Value<DateTime> deleteTime,
-      Value<int> createUserId,
-      Value<String> creatorUser,
-      Value<String> lastModifierUser,
-      Value<int> lastModifierUserId,
-      Value<int> deleteUserId,
-      Value<String> deleterUserId,
-      Value<bool> isDeleted,
       Value<int> id,
       Value<int> itemId,
       Value<String> parentGroup,
       Value<String> group}) {
     return ItemGroupsCompanion(
       tenantId: tenantId ?? this.tenantId,
-      creationTime: creationTime ?? this.creationTime,
-      deleteTime: deleteTime ?? this.deleteTime,
-      createUserId: createUserId ?? this.createUserId,
-      creatorUser: creatorUser ?? this.creatorUser,
-      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-      deleteUserId: deleteUserId ?? this.deleteUserId,
-      deleterUserId: deleterUserId ?? this.deleterUserId,
-      isDeleted: isDeleted ?? this.isDeleted,
       id: id ?? this.id,
       itemId: itemId ?? this.itemId,
       parentGroup: parentGroup ?? this.parentGroup,
@@ -27477,33 +24284,6 @@ class ItemGroupsCompanion extends UpdateCompanion<ItemGroup> {
     final map = <String, Expression>{};
     if (tenantId.present) {
       map['tenant_id'] = Variable<int>(tenantId.value);
-    }
-    if (creationTime.present) {
-      map['creation_time'] = Variable<DateTime>(creationTime.value);
-    }
-    if (deleteTime.present) {
-      map['delete_time'] = Variable<DateTime>(deleteTime.value);
-    }
-    if (createUserId.present) {
-      map['create_user_id'] = Variable<int>(createUserId.value);
-    }
-    if (creatorUser.present) {
-      map['creator_user'] = Variable<String>(creatorUser.value);
-    }
-    if (lastModifierUser.present) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
-    }
-    if (lastModifierUserId.present) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
-    }
-    if (deleteUserId.present) {
-      map['delete_user_id'] = Variable<int>(deleteUserId.value);
-    }
-    if (deleterUserId.present) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
-    }
-    if (isDeleted.present) {
-      map['is_deleted'] = Variable<bool>(isDeleted.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -27524,15 +24304,6 @@ class ItemGroupsCompanion extends UpdateCompanion<ItemGroup> {
   String toString() {
     return (StringBuffer('ItemGroupsCompanion(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('itemId: $itemId, ')
           ..write('parentGroup: $parentGroup, ')
@@ -27557,126 +24328,6 @@ class $ItemGroupsTable extends ItemGroups
       $tableName,
       true,
     );
-  }
-
-  final VerificationMeta _creationTimeMeta =
-      const VerificationMeta('creationTime');
-  GeneratedDateTimeColumn _creationTime;
-  @override
-  GeneratedDateTimeColumn get creationTime =>
-      _creationTime ??= _constructCreationTime();
-  GeneratedDateTimeColumn _constructCreationTime() {
-    return GeneratedDateTimeColumn(
-      'creation_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
-  GeneratedDateTimeColumn _deleteTime;
-  @override
-  GeneratedDateTimeColumn get deleteTime =>
-      _deleteTime ??= _constructDeleteTime();
-  GeneratedDateTimeColumn _constructDeleteTime() {
-    return GeneratedDateTimeColumn(
-      'delete_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _createUserIdMeta =
-      const VerificationMeta('createUserId');
-  GeneratedIntColumn _createUserId;
-  @override
-  GeneratedIntColumn get createUserId =>
-      _createUserId ??= _constructCreateUserId();
-  GeneratedIntColumn _constructCreateUserId() {
-    return GeneratedIntColumn(
-      'create_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _creatorUserMeta =
-      const VerificationMeta('creatorUser');
-  GeneratedTextColumn _creatorUser;
-  @override
-  GeneratedTextColumn get creatorUser =>
-      _creatorUser ??= _constructCreatorUser();
-  GeneratedTextColumn _constructCreatorUser() {
-    return GeneratedTextColumn(
-      'creator_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserMeta =
-      const VerificationMeta('lastModifierUser');
-  GeneratedTextColumn _lastModifierUser;
-  @override
-  GeneratedTextColumn get lastModifierUser =>
-      _lastModifierUser ??= _constructLastModifierUser();
-  GeneratedTextColumn _constructLastModifierUser() {
-    return GeneratedTextColumn(
-      'last_modifier_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserIdMeta =
-      const VerificationMeta('lastModifierUserId');
-  GeneratedIntColumn _lastModifierUserId;
-  @override
-  GeneratedIntColumn get lastModifierUserId =>
-      _lastModifierUserId ??= _constructLastModifierUserId();
-  GeneratedIntColumn _constructLastModifierUserId() {
-    return GeneratedIntColumn(
-      'last_modifier_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteUserIdMeta =
-      const VerificationMeta('deleteUserId');
-  GeneratedIntColumn _deleteUserId;
-  @override
-  GeneratedIntColumn get deleteUserId =>
-      _deleteUserId ??= _constructDeleteUserId();
-  GeneratedIntColumn _constructDeleteUserId() {
-    return GeneratedIntColumn(
-      'delete_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleterUserIdMeta =
-      const VerificationMeta('deleterUserId');
-  GeneratedTextColumn _deleterUserId;
-  @override
-  GeneratedTextColumn get deleterUserId =>
-      _deleterUserId ??= _constructDeleterUserId();
-  GeneratedTextColumn _constructDeleterUserId() {
-    return GeneratedTextColumn(
-      'deleter_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
-  GeneratedBoolColumn _isDeleted;
-  @override
-  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
-  GeneratedBoolColumn _constructIsDeleted() {
-    return GeneratedBoolColumn('is_deleted', $tableName, false,
-        defaultValue: Constant(false));
   }
 
   final VerificationMeta _idMeta = const VerificationMeta('id');
@@ -27730,22 +24381,8 @@ class $ItemGroupsTable extends ItemGroups
   }
 
   @override
-  List<GeneratedColumn> get $columns => [
-        tenantId,
-        creationTime,
-        deleteTime,
-        createUserId,
-        creatorUser,
-        lastModifierUser,
-        lastModifierUserId,
-        deleteUserId,
-        deleterUserId,
-        isDeleted,
-        id,
-        itemId,
-        parentGroup,
-        group
-      ];
+  List<GeneratedColumn> get $columns =>
+      [tenantId, id, itemId, parentGroup, group];
   @override
   $ItemGroupsTable get asDslTable => this;
   @override
@@ -27760,58 +24397,6 @@ class $ItemGroupsTable extends ItemGroups
     if (data.containsKey('tenant_id')) {
       context.handle(_tenantIdMeta,
           tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
-    }
-    if (data.containsKey('creation_time')) {
-      context.handle(
-          _creationTimeMeta,
-          creationTime.isAcceptableOrUnknown(
-              data['creation_time'], _creationTimeMeta));
-    }
-    if (data.containsKey('delete_time')) {
-      context.handle(
-          _deleteTimeMeta,
-          deleteTime.isAcceptableOrUnknown(
-              data['delete_time'], _deleteTimeMeta));
-    }
-    if (data.containsKey('create_user_id')) {
-      context.handle(
-          _createUserIdMeta,
-          createUserId.isAcceptableOrUnknown(
-              data['create_user_id'], _createUserIdMeta));
-    }
-    if (data.containsKey('creator_user')) {
-      context.handle(
-          _creatorUserMeta,
-          creatorUser.isAcceptableOrUnknown(
-              data['creator_user'], _creatorUserMeta));
-    }
-    if (data.containsKey('last_modifier_user')) {
-      context.handle(
-          _lastModifierUserMeta,
-          lastModifierUser.isAcceptableOrUnknown(
-              data['last_modifier_user'], _lastModifierUserMeta));
-    }
-    if (data.containsKey('last_modifier_user_id')) {
-      context.handle(
-          _lastModifierUserIdMeta,
-          lastModifierUserId.isAcceptableOrUnknown(
-              data['last_modifier_user_id'], _lastModifierUserIdMeta));
-    }
-    if (data.containsKey('delete_user_id')) {
-      context.handle(
-          _deleteUserIdMeta,
-          deleteUserId.isAcceptableOrUnknown(
-              data['delete_user_id'], _deleteUserIdMeta));
-    }
-    if (data.containsKey('deleter_user_id')) {
-      context.handle(
-          _deleterUserIdMeta,
-          deleterUserId.isAcceptableOrUnknown(
-              data['deleter_user_id'], _deleterUserIdMeta));
-    }
-    if (data.containsKey('is_deleted')) {
-      context.handle(_isDeletedMeta,
-          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
     }
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
@@ -27851,15 +24436,6 @@ class $ItemGroupsTable extends ItemGroups
 
 class PriceListData extends DataClass implements Insertable<PriceListData> {
   final int tenantId;
-  final DateTime creationTime;
-  final DateTime deleteTime;
-  final int createUserId;
-  final String creatorUser;
-  final String lastModifierUser;
-  final int lastModifierUserId;
-  final int deleteUserId;
-  final String deleterUserId;
-  final bool isDeleted;
   final int id;
   final String priceListName;
   final String currency;
@@ -27869,15 +24445,6 @@ class PriceListData extends DataClass implements Insertable<PriceListData> {
   final bool isPriceNotUOMDependency;
   PriceListData(
       {this.tenantId,
-      this.creationTime,
-      this.deleteTime,
-      this.createUserId,
-      this.creatorUser,
-      this.lastModifierUser,
-      this.lastModifierUserId,
-      this.deleteUserId,
-      this.deleterUserId,
-      @required this.isDeleted,
       @required this.id,
       @required this.priceListName,
       this.currency,
@@ -27890,30 +24457,11 @@ class PriceListData extends DataClass implements Insertable<PriceListData> {
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
-    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final stringType = db.typeSystem.forDartType<String>();
     final boolType = db.typeSystem.forDartType<bool>();
     return PriceListData(
       tenantId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
-      creationTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
-      deleteTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
-      createUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
-      creatorUser: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
-      lastModifierUser: stringType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user']),
-      lastModifierUserId: intType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user_id']),
-      deleteUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
-      deleterUserId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
-      isDeleted: boolType
-          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       priceListName: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}price_list_name']),
@@ -27934,33 +24482,6 @@ class PriceListData extends DataClass implements Insertable<PriceListData> {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
       map['tenant_id'] = Variable<int>(tenantId);
-    }
-    if (!nullToAbsent || creationTime != null) {
-      map['creation_time'] = Variable<DateTime>(creationTime);
-    }
-    if (!nullToAbsent || deleteTime != null) {
-      map['delete_time'] = Variable<DateTime>(deleteTime);
-    }
-    if (!nullToAbsent || createUserId != null) {
-      map['create_user_id'] = Variable<int>(createUserId);
-    }
-    if (!nullToAbsent || creatorUser != null) {
-      map['creator_user'] = Variable<String>(creatorUser);
-    }
-    if (!nullToAbsent || lastModifierUser != null) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser);
-    }
-    if (!nullToAbsent || lastModifierUserId != null) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
-    }
-    if (!nullToAbsent || deleteUserId != null) {
-      map['delete_user_id'] = Variable<int>(deleteUserId);
-    }
-    if (!nullToAbsent || deleterUserId != null) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId);
-    }
-    if (!nullToAbsent || isDeleted != null) {
-      map['is_deleted'] = Variable<bool>(isDeleted);
     }
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int>(id);
@@ -27992,33 +24513,6 @@ class PriceListData extends DataClass implements Insertable<PriceListData> {
       tenantId: tenantId == null && nullToAbsent
           ? const Value.absent()
           : Value(tenantId),
-      creationTime: creationTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creationTime),
-      deleteTime: deleteTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteTime),
-      createUserId: createUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(createUserId),
-      creatorUser: creatorUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creatorUser),
-      lastModifierUser: lastModifierUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUser),
-      lastModifierUserId: lastModifierUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUserId),
-      deleteUserId: deleteUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteUserId),
-      deleterUserId: deleterUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleterUserId),
-      isDeleted: isDeleted == null && nullToAbsent
-          ? const Value.absent()
-          : Value(isDeleted),
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       priceListName: priceListName == null && nullToAbsent
           ? const Value.absent()
@@ -28046,15 +24540,6 @@ class PriceListData extends DataClass implements Insertable<PriceListData> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return PriceListData(
       tenantId: serializer.fromJson<int>(json['tenantId']),
-      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
-      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
-      createUserId: serializer.fromJson<int>(json['createUserId']),
-      creatorUser: serializer.fromJson<String>(json['creatorUser']),
-      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
-      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
-      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
-      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
-      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
       id: serializer.fromJson<int>(json['id']),
       priceListName: serializer.fromJson<String>(json['priceListName']),
       currency: serializer.fromJson<String>(json['currency']),
@@ -28070,15 +24555,6 @@ class PriceListData extends DataClass implements Insertable<PriceListData> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'tenantId': serializer.toJson<int>(tenantId),
-      'creationTime': serializer.toJson<DateTime>(creationTime),
-      'deleteTime': serializer.toJson<DateTime>(deleteTime),
-      'createUserId': serializer.toJson<int>(createUserId),
-      'creatorUser': serializer.toJson<String>(creatorUser),
-      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
-      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
-      'deleteUserId': serializer.toJson<int>(deleteUserId),
-      'deleterUserId': serializer.toJson<String>(deleterUserId),
-      'isDeleted': serializer.toJson<bool>(isDeleted),
       'id': serializer.toJson<int>(id),
       'priceListName': serializer.toJson<String>(priceListName),
       'currency': serializer.toJson<String>(currency),
@@ -28092,15 +24568,6 @@ class PriceListData extends DataClass implements Insertable<PriceListData> {
 
   PriceListData copyWith(
           {int tenantId,
-          DateTime creationTime,
-          DateTime deleteTime,
-          int createUserId,
-          String creatorUser,
-          String lastModifierUser,
-          int lastModifierUserId,
-          int deleteUserId,
-          String deleterUserId,
-          bool isDeleted,
           int id,
           String priceListName,
           String currency,
@@ -28110,15 +24577,6 @@ class PriceListData extends DataClass implements Insertable<PriceListData> {
           bool isPriceNotUOMDependency}) =>
       PriceListData(
         tenantId: tenantId ?? this.tenantId,
-        creationTime: creationTime ?? this.creationTime,
-        deleteTime: deleteTime ?? this.deleteTime,
-        createUserId: createUserId ?? this.createUserId,
-        creatorUser: creatorUser ?? this.creatorUser,
-        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-        deleteUserId: deleteUserId ?? this.deleteUserId,
-        deleterUserId: deleterUserId ?? this.deleterUserId,
-        isDeleted: isDeleted ?? this.isDeleted,
         id: id ?? this.id,
         priceListName: priceListName ?? this.priceListName,
         currency: currency ?? this.currency,
@@ -28132,15 +24590,6 @@ class PriceListData extends DataClass implements Insertable<PriceListData> {
   String toString() {
     return (StringBuffer('PriceListData(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('priceListName: $priceListName, ')
           ..write('currency: $currency, ')
@@ -28156,52 +24605,22 @@ class PriceListData extends DataClass implements Insertable<PriceListData> {
   int get hashCode => $mrjf($mrjc(
       tenantId.hashCode,
       $mrjc(
-          creationTime.hashCode,
+          id.hashCode,
           $mrjc(
-              deleteTime.hashCode,
+              priceListName.hashCode,
               $mrjc(
-                  createUserId.hashCode,
+                  currency.hashCode,
                   $mrjc(
-                      creatorUser.hashCode,
+                      isActive.hashCode,
                       $mrjc(
-                          lastModifierUser.hashCode,
-                          $mrjc(
-                              lastModifierUserId.hashCode,
-                              $mrjc(
-                                  deleteUserId.hashCode,
-                                  $mrjc(
-                                      deleterUserId.hashCode,
-                                      $mrjc(
-                                          isDeleted.hashCode,
-                                          $mrjc(
-                                              id.hashCode,
-                                              $mrjc(
-                                                  priceListName.hashCode,
-                                                  $mrjc(
-                                                      currency.hashCode,
-                                                      $mrjc(
-                                                          isActive.hashCode,
-                                                          $mrjc(
-                                                              isBuying.hashCode,
-                                                              $mrjc(
-                                                                  isSelling
-                                                                      .hashCode,
-                                                                  isPriceNotUOMDependency
-                                                                      .hashCode)))))))))))))))));
+                          isBuying.hashCode,
+                          $mrjc(isSelling.hashCode,
+                              isPriceNotUOMDependency.hashCode))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is PriceListData &&
           other.tenantId == this.tenantId &&
-          other.creationTime == this.creationTime &&
-          other.deleteTime == this.deleteTime &&
-          other.createUserId == this.createUserId &&
-          other.creatorUser == this.creatorUser &&
-          other.lastModifierUser == this.lastModifierUser &&
-          other.lastModifierUserId == this.lastModifierUserId &&
-          other.deleteUserId == this.deleteUserId &&
-          other.deleterUserId == this.deleterUserId &&
-          other.isDeleted == this.isDeleted &&
           other.id == this.id &&
           other.priceListName == this.priceListName &&
           other.currency == this.currency &&
@@ -28213,15 +24632,6 @@ class PriceListData extends DataClass implements Insertable<PriceListData> {
 
 class PriceListCompanion extends UpdateCompanion<PriceListData> {
   final Value<int> tenantId;
-  final Value<DateTime> creationTime;
-  final Value<DateTime> deleteTime;
-  final Value<int> createUserId;
-  final Value<String> creatorUser;
-  final Value<String> lastModifierUser;
-  final Value<int> lastModifierUserId;
-  final Value<int> deleteUserId;
-  final Value<String> deleterUserId;
-  final Value<bool> isDeleted;
   final Value<int> id;
   final Value<String> priceListName;
   final Value<String> currency;
@@ -28231,15 +24641,6 @@ class PriceListCompanion extends UpdateCompanion<PriceListData> {
   final Value<bool> isPriceNotUOMDependency;
   const PriceListCompanion({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     this.priceListName = const Value.absent(),
     this.currency = const Value.absent(),
@@ -28250,15 +24651,6 @@ class PriceListCompanion extends UpdateCompanion<PriceListData> {
   });
   PriceListCompanion.insert({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     @required String priceListName,
     this.currency = const Value.absent(),
@@ -28269,15 +24661,6 @@ class PriceListCompanion extends UpdateCompanion<PriceListData> {
   }) : priceListName = Value(priceListName);
   static Insertable<PriceListData> custom({
     Expression<int> tenantId,
-    Expression<DateTime> creationTime,
-    Expression<DateTime> deleteTime,
-    Expression<int> createUserId,
-    Expression<String> creatorUser,
-    Expression<String> lastModifierUser,
-    Expression<int> lastModifierUserId,
-    Expression<int> deleteUserId,
-    Expression<String> deleterUserId,
-    Expression<bool> isDeleted,
     Expression<int> id,
     Expression<String> priceListName,
     Expression<String> currency,
@@ -28288,16 +24671,6 @@ class PriceListCompanion extends UpdateCompanion<PriceListData> {
   }) {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
-      if (creationTime != null) 'creation_time': creationTime,
-      if (deleteTime != null) 'delete_time': deleteTime,
-      if (createUserId != null) 'create_user_id': createUserId,
-      if (creatorUser != null) 'creator_user': creatorUser,
-      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
-      if (lastModifierUserId != null)
-        'last_modifier_user_id': lastModifierUserId,
-      if (deleteUserId != null) 'delete_user_id': deleteUserId,
-      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
-      if (isDeleted != null) 'is_deleted': isDeleted,
       if (id != null) 'id': id,
       if (priceListName != null) 'price_list_name': priceListName,
       if (currency != null) 'currency': currency,
@@ -28311,15 +24684,6 @@ class PriceListCompanion extends UpdateCompanion<PriceListData> {
 
   PriceListCompanion copyWith(
       {Value<int> tenantId,
-      Value<DateTime> creationTime,
-      Value<DateTime> deleteTime,
-      Value<int> createUserId,
-      Value<String> creatorUser,
-      Value<String> lastModifierUser,
-      Value<int> lastModifierUserId,
-      Value<int> deleteUserId,
-      Value<String> deleterUserId,
-      Value<bool> isDeleted,
       Value<int> id,
       Value<String> priceListName,
       Value<String> currency,
@@ -28329,15 +24693,6 @@ class PriceListCompanion extends UpdateCompanion<PriceListData> {
       Value<bool> isPriceNotUOMDependency}) {
     return PriceListCompanion(
       tenantId: tenantId ?? this.tenantId,
-      creationTime: creationTime ?? this.creationTime,
-      deleteTime: deleteTime ?? this.deleteTime,
-      createUserId: createUserId ?? this.createUserId,
-      creatorUser: creatorUser ?? this.creatorUser,
-      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-      deleteUserId: deleteUserId ?? this.deleteUserId,
-      deleterUserId: deleterUserId ?? this.deleterUserId,
-      isDeleted: isDeleted ?? this.isDeleted,
       id: id ?? this.id,
       priceListName: priceListName ?? this.priceListName,
       currency: currency ?? this.currency,
@@ -28354,33 +24709,6 @@ class PriceListCompanion extends UpdateCompanion<PriceListData> {
     final map = <String, Expression>{};
     if (tenantId.present) {
       map['tenant_id'] = Variable<int>(tenantId.value);
-    }
-    if (creationTime.present) {
-      map['creation_time'] = Variable<DateTime>(creationTime.value);
-    }
-    if (deleteTime.present) {
-      map['delete_time'] = Variable<DateTime>(deleteTime.value);
-    }
-    if (createUserId.present) {
-      map['create_user_id'] = Variable<int>(createUserId.value);
-    }
-    if (creatorUser.present) {
-      map['creator_user'] = Variable<String>(creatorUser.value);
-    }
-    if (lastModifierUser.present) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
-    }
-    if (lastModifierUserId.present) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
-    }
-    if (deleteUserId.present) {
-      map['delete_user_id'] = Variable<int>(deleteUserId.value);
-    }
-    if (deleterUserId.present) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
-    }
-    if (isDeleted.present) {
-      map['is_deleted'] = Variable<bool>(isDeleted.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -28411,15 +24739,6 @@ class PriceListCompanion extends UpdateCompanion<PriceListData> {
   String toString() {
     return (StringBuffer('PriceListCompanion(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('priceListName: $priceListName, ')
           ..write('currency: $currency, ')
@@ -28447,126 +24766,6 @@ class $PriceListTable extends PriceList
       $tableName,
       true,
     );
-  }
-
-  final VerificationMeta _creationTimeMeta =
-      const VerificationMeta('creationTime');
-  GeneratedDateTimeColumn _creationTime;
-  @override
-  GeneratedDateTimeColumn get creationTime =>
-      _creationTime ??= _constructCreationTime();
-  GeneratedDateTimeColumn _constructCreationTime() {
-    return GeneratedDateTimeColumn(
-      'creation_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
-  GeneratedDateTimeColumn _deleteTime;
-  @override
-  GeneratedDateTimeColumn get deleteTime =>
-      _deleteTime ??= _constructDeleteTime();
-  GeneratedDateTimeColumn _constructDeleteTime() {
-    return GeneratedDateTimeColumn(
-      'delete_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _createUserIdMeta =
-      const VerificationMeta('createUserId');
-  GeneratedIntColumn _createUserId;
-  @override
-  GeneratedIntColumn get createUserId =>
-      _createUserId ??= _constructCreateUserId();
-  GeneratedIntColumn _constructCreateUserId() {
-    return GeneratedIntColumn(
-      'create_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _creatorUserMeta =
-      const VerificationMeta('creatorUser');
-  GeneratedTextColumn _creatorUser;
-  @override
-  GeneratedTextColumn get creatorUser =>
-      _creatorUser ??= _constructCreatorUser();
-  GeneratedTextColumn _constructCreatorUser() {
-    return GeneratedTextColumn(
-      'creator_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserMeta =
-      const VerificationMeta('lastModifierUser');
-  GeneratedTextColumn _lastModifierUser;
-  @override
-  GeneratedTextColumn get lastModifierUser =>
-      _lastModifierUser ??= _constructLastModifierUser();
-  GeneratedTextColumn _constructLastModifierUser() {
-    return GeneratedTextColumn(
-      'last_modifier_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserIdMeta =
-      const VerificationMeta('lastModifierUserId');
-  GeneratedIntColumn _lastModifierUserId;
-  @override
-  GeneratedIntColumn get lastModifierUserId =>
-      _lastModifierUserId ??= _constructLastModifierUserId();
-  GeneratedIntColumn _constructLastModifierUserId() {
-    return GeneratedIntColumn(
-      'last_modifier_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteUserIdMeta =
-      const VerificationMeta('deleteUserId');
-  GeneratedIntColumn _deleteUserId;
-  @override
-  GeneratedIntColumn get deleteUserId =>
-      _deleteUserId ??= _constructDeleteUserId();
-  GeneratedIntColumn _constructDeleteUserId() {
-    return GeneratedIntColumn(
-      'delete_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleterUserIdMeta =
-      const VerificationMeta('deleterUserId');
-  GeneratedTextColumn _deleterUserId;
-  @override
-  GeneratedTextColumn get deleterUserId =>
-      _deleterUserId ??= _constructDeleterUserId();
-  GeneratedTextColumn _constructDeleterUserId() {
-    return GeneratedTextColumn(
-      'deleter_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
-  GeneratedBoolColumn _isDeleted;
-  @override
-  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
-  GeneratedBoolColumn _constructIsDeleted() {
-    return GeneratedBoolColumn('is_deleted', $tableName, false,
-        defaultValue: Constant(false));
   }
 
   final VerificationMeta _idMeta = const VerificationMeta('id');
@@ -28649,15 +24848,6 @@ class $PriceListTable extends PriceList
   @override
   List<GeneratedColumn> get $columns => [
         tenantId,
-        creationTime,
-        deleteTime,
-        createUserId,
-        creatorUser,
-        lastModifierUser,
-        lastModifierUserId,
-        deleteUserId,
-        deleterUserId,
-        isDeleted,
         id,
         priceListName,
         currency,
@@ -28680,58 +24870,6 @@ class $PriceListTable extends PriceList
     if (data.containsKey('tenant_id')) {
       context.handle(_tenantIdMeta,
           tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
-    }
-    if (data.containsKey('creation_time')) {
-      context.handle(
-          _creationTimeMeta,
-          creationTime.isAcceptableOrUnknown(
-              data['creation_time'], _creationTimeMeta));
-    }
-    if (data.containsKey('delete_time')) {
-      context.handle(
-          _deleteTimeMeta,
-          deleteTime.isAcceptableOrUnknown(
-              data['delete_time'], _deleteTimeMeta));
-    }
-    if (data.containsKey('create_user_id')) {
-      context.handle(
-          _createUserIdMeta,
-          createUserId.isAcceptableOrUnknown(
-              data['create_user_id'], _createUserIdMeta));
-    }
-    if (data.containsKey('creator_user')) {
-      context.handle(
-          _creatorUserMeta,
-          creatorUser.isAcceptableOrUnknown(
-              data['creator_user'], _creatorUserMeta));
-    }
-    if (data.containsKey('last_modifier_user')) {
-      context.handle(
-          _lastModifierUserMeta,
-          lastModifierUser.isAcceptableOrUnknown(
-              data['last_modifier_user'], _lastModifierUserMeta));
-    }
-    if (data.containsKey('last_modifier_user_id')) {
-      context.handle(
-          _lastModifierUserIdMeta,
-          lastModifierUserId.isAcceptableOrUnknown(
-              data['last_modifier_user_id'], _lastModifierUserIdMeta));
-    }
-    if (data.containsKey('delete_user_id')) {
-      context.handle(
-          _deleteUserIdMeta,
-          deleteUserId.isAcceptableOrUnknown(
-              data['delete_user_id'], _deleteUserIdMeta));
-    }
-    if (data.containsKey('deleter_user_id')) {
-      context.handle(
-          _deleterUserIdMeta,
-          deleterUserId.isAcceptableOrUnknown(
-              data['deleter_user_id'], _deleterUserIdMeta));
-    }
-    if (data.containsKey('is_deleted')) {
-      context.handle(_isDeletedMeta,
-          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
     }
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
@@ -28787,59 +24925,18 @@ class $PriceListTable extends PriceList
 class UnitOfMeasureData extends DataClass
     implements Insertable<UnitOfMeasureData> {
   final int tenantId;
-  final DateTime creationTime;
-  final DateTime deleteTime;
-  final int createUserId;
-  final String creatorUser;
-  final String lastModifierUser;
-  final int lastModifierUserId;
-  final int deleteUserId;
-  final String deleterUserId;
-  final bool isDeleted;
   final int id;
   final String uom;
-  UnitOfMeasureData(
-      {this.tenantId,
-      this.creationTime,
-      this.deleteTime,
-      this.createUserId,
-      this.creatorUser,
-      this.lastModifierUser,
-      this.lastModifierUserId,
-      this.deleteUserId,
-      this.deleterUserId,
-      @required this.isDeleted,
-      @required this.id,
-      this.uom});
+  UnitOfMeasureData({this.tenantId, @required this.id, this.uom});
   factory UnitOfMeasureData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
-    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final stringType = db.typeSystem.forDartType<String>();
-    final boolType = db.typeSystem.forDartType<bool>();
     return UnitOfMeasureData(
       tenantId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
-      creationTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
-      deleteTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
-      createUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
-      creatorUser: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
-      lastModifierUser: stringType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user']),
-      lastModifierUserId: intType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user_id']),
-      deleteUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
-      deleterUserId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
-      isDeleted: boolType
-          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       uom: stringType.mapFromDatabaseResponse(data['${effectivePrefix}uom']),
     );
@@ -28849,33 +24946,6 @@ class UnitOfMeasureData extends DataClass
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
       map['tenant_id'] = Variable<int>(tenantId);
-    }
-    if (!nullToAbsent || creationTime != null) {
-      map['creation_time'] = Variable<DateTime>(creationTime);
-    }
-    if (!nullToAbsent || deleteTime != null) {
-      map['delete_time'] = Variable<DateTime>(deleteTime);
-    }
-    if (!nullToAbsent || createUserId != null) {
-      map['create_user_id'] = Variable<int>(createUserId);
-    }
-    if (!nullToAbsent || creatorUser != null) {
-      map['creator_user'] = Variable<String>(creatorUser);
-    }
-    if (!nullToAbsent || lastModifierUser != null) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser);
-    }
-    if (!nullToAbsent || lastModifierUserId != null) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
-    }
-    if (!nullToAbsent || deleteUserId != null) {
-      map['delete_user_id'] = Variable<int>(deleteUserId);
-    }
-    if (!nullToAbsent || deleterUserId != null) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId);
-    }
-    if (!nullToAbsent || isDeleted != null) {
-      map['is_deleted'] = Variable<bool>(isDeleted);
     }
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int>(id);
@@ -28891,33 +24961,6 @@ class UnitOfMeasureData extends DataClass
       tenantId: tenantId == null && nullToAbsent
           ? const Value.absent()
           : Value(tenantId),
-      creationTime: creationTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creationTime),
-      deleteTime: deleteTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteTime),
-      createUserId: createUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(createUserId),
-      creatorUser: creatorUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creatorUser),
-      lastModifierUser: lastModifierUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUser),
-      lastModifierUserId: lastModifierUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUserId),
-      deleteUserId: deleteUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteUserId),
-      deleterUserId: deleterUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleterUserId),
-      isDeleted: isDeleted == null && nullToAbsent
-          ? const Value.absent()
-          : Value(isDeleted),
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       uom: uom == null && nullToAbsent ? const Value.absent() : Value(uom),
     );
@@ -28928,15 +24971,6 @@ class UnitOfMeasureData extends DataClass
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return UnitOfMeasureData(
       tenantId: serializer.fromJson<int>(json['tenantId']),
-      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
-      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
-      createUserId: serializer.fromJson<int>(json['createUserId']),
-      creatorUser: serializer.fromJson<String>(json['creatorUser']),
-      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
-      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
-      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
-      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
-      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
       id: serializer.fromJson<int>(json['id']),
       uom: serializer.fromJson<String>(json['uom']),
     );
@@ -28946,44 +24980,14 @@ class UnitOfMeasureData extends DataClass
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'tenantId': serializer.toJson<int>(tenantId),
-      'creationTime': serializer.toJson<DateTime>(creationTime),
-      'deleteTime': serializer.toJson<DateTime>(deleteTime),
-      'createUserId': serializer.toJson<int>(createUserId),
-      'creatorUser': serializer.toJson<String>(creatorUser),
-      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
-      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
-      'deleteUserId': serializer.toJson<int>(deleteUserId),
-      'deleterUserId': serializer.toJson<String>(deleterUserId),
-      'isDeleted': serializer.toJson<bool>(isDeleted),
       'id': serializer.toJson<int>(id),
       'uom': serializer.toJson<String>(uom),
     };
   }
 
-  UnitOfMeasureData copyWith(
-          {int tenantId,
-          DateTime creationTime,
-          DateTime deleteTime,
-          int createUserId,
-          String creatorUser,
-          String lastModifierUser,
-          int lastModifierUserId,
-          int deleteUserId,
-          String deleterUserId,
-          bool isDeleted,
-          int id,
-          String uom}) =>
+  UnitOfMeasureData copyWith({int tenantId, int id, String uom}) =>
       UnitOfMeasureData(
         tenantId: tenantId ?? this.tenantId,
-        creationTime: creationTime ?? this.creationTime,
-        deleteTime: deleteTime ?? this.deleteTime,
-        createUserId: createUserId ?? this.createUserId,
-        creatorUser: creatorUser ?? this.creatorUser,
-        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-        deleteUserId: deleteUserId ?? this.deleteUserId,
-        deleterUserId: deleterUserId ?? this.deleterUserId,
-        isDeleted: isDeleted ?? this.isDeleted,
         id: id ?? this.id,
         uom: uom ?? this.uom,
       );
@@ -28991,15 +24995,6 @@ class UnitOfMeasureData extends DataClass
   String toString() {
     return (StringBuffer('UnitOfMeasureData(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('uom: $uom')
           ..write(')'))
@@ -29007,142 +25002,47 @@ class UnitOfMeasureData extends DataClass
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(
-      tenantId.hashCode,
-      $mrjc(
-          creationTime.hashCode,
-          $mrjc(
-              deleteTime.hashCode,
-              $mrjc(
-                  createUserId.hashCode,
-                  $mrjc(
-                      creatorUser.hashCode,
-                      $mrjc(
-                          lastModifierUser.hashCode,
-                          $mrjc(
-                              lastModifierUserId.hashCode,
-                              $mrjc(
-                                  deleteUserId.hashCode,
-                                  $mrjc(
-                                      deleterUserId.hashCode,
-                                      $mrjc(
-                                          isDeleted.hashCode,
-                                          $mrjc(id.hashCode,
-                                              uom.hashCode))))))))))));
+  int get hashCode =>
+      $mrjf($mrjc(tenantId.hashCode, $mrjc(id.hashCode, uom.hashCode)));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is UnitOfMeasureData &&
           other.tenantId == this.tenantId &&
-          other.creationTime == this.creationTime &&
-          other.deleteTime == this.deleteTime &&
-          other.createUserId == this.createUserId &&
-          other.creatorUser == this.creatorUser &&
-          other.lastModifierUser == this.lastModifierUser &&
-          other.lastModifierUserId == this.lastModifierUserId &&
-          other.deleteUserId == this.deleteUserId &&
-          other.deleterUserId == this.deleterUserId &&
-          other.isDeleted == this.isDeleted &&
           other.id == this.id &&
           other.uom == this.uom);
 }
 
 class UnitOfMeasureCompanion extends UpdateCompanion<UnitOfMeasureData> {
   final Value<int> tenantId;
-  final Value<DateTime> creationTime;
-  final Value<DateTime> deleteTime;
-  final Value<int> createUserId;
-  final Value<String> creatorUser;
-  final Value<String> lastModifierUser;
-  final Value<int> lastModifierUserId;
-  final Value<int> deleteUserId;
-  final Value<String> deleterUserId;
-  final Value<bool> isDeleted;
   final Value<int> id;
   final Value<String> uom;
   const UnitOfMeasureCompanion({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     this.uom = const Value.absent(),
   });
   UnitOfMeasureCompanion.insert({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     this.uom = const Value.absent(),
   });
   static Insertable<UnitOfMeasureData> custom({
     Expression<int> tenantId,
-    Expression<DateTime> creationTime,
-    Expression<DateTime> deleteTime,
-    Expression<int> createUserId,
-    Expression<String> creatorUser,
-    Expression<String> lastModifierUser,
-    Expression<int> lastModifierUserId,
-    Expression<int> deleteUserId,
-    Expression<String> deleterUserId,
-    Expression<bool> isDeleted,
     Expression<int> id,
     Expression<String> uom,
   }) {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
-      if (creationTime != null) 'creation_time': creationTime,
-      if (deleteTime != null) 'delete_time': deleteTime,
-      if (createUserId != null) 'create_user_id': createUserId,
-      if (creatorUser != null) 'creator_user': creatorUser,
-      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
-      if (lastModifierUserId != null)
-        'last_modifier_user_id': lastModifierUserId,
-      if (deleteUserId != null) 'delete_user_id': deleteUserId,
-      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
-      if (isDeleted != null) 'is_deleted': isDeleted,
       if (id != null) 'id': id,
       if (uom != null) 'uom': uom,
     });
   }
 
   UnitOfMeasureCompanion copyWith(
-      {Value<int> tenantId,
-      Value<DateTime> creationTime,
-      Value<DateTime> deleteTime,
-      Value<int> createUserId,
-      Value<String> creatorUser,
-      Value<String> lastModifierUser,
-      Value<int> lastModifierUserId,
-      Value<int> deleteUserId,
-      Value<String> deleterUserId,
-      Value<bool> isDeleted,
-      Value<int> id,
-      Value<String> uom}) {
+      {Value<int> tenantId, Value<int> id, Value<String> uom}) {
     return UnitOfMeasureCompanion(
       tenantId: tenantId ?? this.tenantId,
-      creationTime: creationTime ?? this.creationTime,
-      deleteTime: deleteTime ?? this.deleteTime,
-      createUserId: createUserId ?? this.createUserId,
-      creatorUser: creatorUser ?? this.creatorUser,
-      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-      deleteUserId: deleteUserId ?? this.deleteUserId,
-      deleterUserId: deleterUserId ?? this.deleterUserId,
-      isDeleted: isDeleted ?? this.isDeleted,
       id: id ?? this.id,
       uom: uom ?? this.uom,
     );
@@ -29153,33 +25053,6 @@ class UnitOfMeasureCompanion extends UpdateCompanion<UnitOfMeasureData> {
     final map = <String, Expression>{};
     if (tenantId.present) {
       map['tenant_id'] = Variable<int>(tenantId.value);
-    }
-    if (creationTime.present) {
-      map['creation_time'] = Variable<DateTime>(creationTime.value);
-    }
-    if (deleteTime.present) {
-      map['delete_time'] = Variable<DateTime>(deleteTime.value);
-    }
-    if (createUserId.present) {
-      map['create_user_id'] = Variable<int>(createUserId.value);
-    }
-    if (creatorUser.present) {
-      map['creator_user'] = Variable<String>(creatorUser.value);
-    }
-    if (lastModifierUser.present) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
-    }
-    if (lastModifierUserId.present) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
-    }
-    if (deleteUserId.present) {
-      map['delete_user_id'] = Variable<int>(deleteUserId.value);
-    }
-    if (deleterUserId.present) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
-    }
-    if (isDeleted.present) {
-      map['is_deleted'] = Variable<bool>(isDeleted.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -29194,15 +25067,6 @@ class UnitOfMeasureCompanion extends UpdateCompanion<UnitOfMeasureData> {
   String toString() {
     return (StringBuffer('UnitOfMeasureCompanion(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('uom: $uom')
           ..write(')'))
@@ -29225,126 +25089,6 @@ class $UnitOfMeasureTable extends UnitOfMeasure
       $tableName,
       true,
     );
-  }
-
-  final VerificationMeta _creationTimeMeta =
-      const VerificationMeta('creationTime');
-  GeneratedDateTimeColumn _creationTime;
-  @override
-  GeneratedDateTimeColumn get creationTime =>
-      _creationTime ??= _constructCreationTime();
-  GeneratedDateTimeColumn _constructCreationTime() {
-    return GeneratedDateTimeColumn(
-      'creation_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
-  GeneratedDateTimeColumn _deleteTime;
-  @override
-  GeneratedDateTimeColumn get deleteTime =>
-      _deleteTime ??= _constructDeleteTime();
-  GeneratedDateTimeColumn _constructDeleteTime() {
-    return GeneratedDateTimeColumn(
-      'delete_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _createUserIdMeta =
-      const VerificationMeta('createUserId');
-  GeneratedIntColumn _createUserId;
-  @override
-  GeneratedIntColumn get createUserId =>
-      _createUserId ??= _constructCreateUserId();
-  GeneratedIntColumn _constructCreateUserId() {
-    return GeneratedIntColumn(
-      'create_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _creatorUserMeta =
-      const VerificationMeta('creatorUser');
-  GeneratedTextColumn _creatorUser;
-  @override
-  GeneratedTextColumn get creatorUser =>
-      _creatorUser ??= _constructCreatorUser();
-  GeneratedTextColumn _constructCreatorUser() {
-    return GeneratedTextColumn(
-      'creator_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserMeta =
-      const VerificationMeta('lastModifierUser');
-  GeneratedTextColumn _lastModifierUser;
-  @override
-  GeneratedTextColumn get lastModifierUser =>
-      _lastModifierUser ??= _constructLastModifierUser();
-  GeneratedTextColumn _constructLastModifierUser() {
-    return GeneratedTextColumn(
-      'last_modifier_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserIdMeta =
-      const VerificationMeta('lastModifierUserId');
-  GeneratedIntColumn _lastModifierUserId;
-  @override
-  GeneratedIntColumn get lastModifierUserId =>
-      _lastModifierUserId ??= _constructLastModifierUserId();
-  GeneratedIntColumn _constructLastModifierUserId() {
-    return GeneratedIntColumn(
-      'last_modifier_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteUserIdMeta =
-      const VerificationMeta('deleteUserId');
-  GeneratedIntColumn _deleteUserId;
-  @override
-  GeneratedIntColumn get deleteUserId =>
-      _deleteUserId ??= _constructDeleteUserId();
-  GeneratedIntColumn _constructDeleteUserId() {
-    return GeneratedIntColumn(
-      'delete_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleterUserIdMeta =
-      const VerificationMeta('deleterUserId');
-  GeneratedTextColumn _deleterUserId;
-  @override
-  GeneratedTextColumn get deleterUserId =>
-      _deleterUserId ??= _constructDeleterUserId();
-  GeneratedTextColumn _constructDeleterUserId() {
-    return GeneratedTextColumn(
-      'deleter_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
-  GeneratedBoolColumn _isDeleted;
-  @override
-  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
-  GeneratedBoolColumn _constructIsDeleted() {
-    return GeneratedBoolColumn('is_deleted', $tableName, false,
-        defaultValue: Constant(false));
   }
 
   final VerificationMeta _idMeta = const VerificationMeta('id');
@@ -29372,20 +25116,7 @@ class $UnitOfMeasureTable extends UnitOfMeasure
   }
 
   @override
-  List<GeneratedColumn> get $columns => [
-        tenantId,
-        creationTime,
-        deleteTime,
-        createUserId,
-        creatorUser,
-        lastModifierUser,
-        lastModifierUserId,
-        deleteUserId,
-        deleterUserId,
-        isDeleted,
-        id,
-        uom
-      ];
+  List<GeneratedColumn> get $columns => [tenantId, id, uom];
   @override
   $UnitOfMeasureTable get asDslTable => this;
   @override
@@ -29400,58 +25131,6 @@ class $UnitOfMeasureTable extends UnitOfMeasure
     if (data.containsKey('tenant_id')) {
       context.handle(_tenantIdMeta,
           tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
-    }
-    if (data.containsKey('creation_time')) {
-      context.handle(
-          _creationTimeMeta,
-          creationTime.isAcceptableOrUnknown(
-              data['creation_time'], _creationTimeMeta));
-    }
-    if (data.containsKey('delete_time')) {
-      context.handle(
-          _deleteTimeMeta,
-          deleteTime.isAcceptableOrUnknown(
-              data['delete_time'], _deleteTimeMeta));
-    }
-    if (data.containsKey('create_user_id')) {
-      context.handle(
-          _createUserIdMeta,
-          createUserId.isAcceptableOrUnknown(
-              data['create_user_id'], _createUserIdMeta));
-    }
-    if (data.containsKey('creator_user')) {
-      context.handle(
-          _creatorUserMeta,
-          creatorUser.isAcceptableOrUnknown(
-              data['creator_user'], _creatorUserMeta));
-    }
-    if (data.containsKey('last_modifier_user')) {
-      context.handle(
-          _lastModifierUserMeta,
-          lastModifierUser.isAcceptableOrUnknown(
-              data['last_modifier_user'], _lastModifierUserMeta));
-    }
-    if (data.containsKey('last_modifier_user_id')) {
-      context.handle(
-          _lastModifierUserIdMeta,
-          lastModifierUserId.isAcceptableOrUnknown(
-              data['last_modifier_user_id'], _lastModifierUserIdMeta));
-    }
-    if (data.containsKey('delete_user_id')) {
-      context.handle(
-          _deleteUserIdMeta,
-          deleteUserId.isAcceptableOrUnknown(
-              data['delete_user_id'], _deleteUserIdMeta));
-    }
-    if (data.containsKey('deleter_user_id')) {
-      context.handle(
-          _deleterUserIdMeta,
-          deleterUserId.isAcceptableOrUnknown(
-              data['deleter_user_id'], _deleterUserIdMeta));
-    }
-    if (data.containsKey('is_deleted')) {
-      context.handle(_isDeletedMeta,
-          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
     }
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
@@ -29480,65 +25159,65 @@ class $UnitOfMeasureTable extends UnitOfMeasure
 class StockUnitOfMeasureData extends DataClass
     implements Insertable<StockUnitOfMeasureData> {
   final int tenantId;
-  final DateTime creationTime;
-  final DateTime deleteTime;
-  final int createUserId;
-  final String creatorUser;
-  final String lastModifierUser;
-  final int lastModifierUserId;
-  final int deleteUserId;
-  final String deleterUserId;
-  final bool isDeleted;
   final int id;
   final int itemId;
   final String uom;
+  final int createUserId;
+  final DateTime creationTime;
+  final DateTime deleteTime;
+  final int deleteUserId;
+  final String creatorUser;
+  final String deleterUserId;
+  final bool isDeleted;
+  final String lastModifierUser;
+  final int lastModifierUserId;
   StockUnitOfMeasureData(
       {this.tenantId,
-      this.creationTime,
-      this.deleteTime,
-      this.createUserId,
-      this.creatorUser,
-      this.lastModifierUser,
-      this.lastModifierUserId,
-      this.deleteUserId,
-      this.deleterUserId,
-      @required this.isDeleted,
       @required this.id,
       @required this.itemId,
-      this.uom});
+      this.uom,
+      this.createUserId,
+      this.creationTime,
+      this.deleteTime,
+      this.deleteUserId,
+      this.creatorUser,
+      this.deleterUserId,
+      @required this.isDeleted,
+      this.lastModifierUser,
+      this.lastModifierUserId});
   factory StockUnitOfMeasureData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
-    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final stringType = db.typeSystem.forDartType<String>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final boolType = db.typeSystem.forDartType<bool>();
     return StockUnitOfMeasureData(
       tenantId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
-      creationTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
-      deleteTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
-      createUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
-      creatorUser: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
-      lastModifierUser: stringType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user']),
-      lastModifierUserId: intType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user_id']),
-      deleteUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
-      deleterUserId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
-      isDeleted: boolType
-          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       itemId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
       uom: stringType.mapFromDatabaseResponse(data['${effectivePrefix}uom']),
+      createUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
+      creationTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
+      deleteTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
+      deleteUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
+      creatorUser: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
+      deleterUserId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
+      isDeleted: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
+      lastModifierUser: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user']),
+      lastModifierUserId: intType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user_id']),
     );
   }
   @override
@@ -29546,33 +25225,6 @@ class StockUnitOfMeasureData extends DataClass
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
       map['tenant_id'] = Variable<int>(tenantId);
-    }
-    if (!nullToAbsent || creationTime != null) {
-      map['creation_time'] = Variable<DateTime>(creationTime);
-    }
-    if (!nullToAbsent || deleteTime != null) {
-      map['delete_time'] = Variable<DateTime>(deleteTime);
-    }
-    if (!nullToAbsent || createUserId != null) {
-      map['create_user_id'] = Variable<int>(createUserId);
-    }
-    if (!nullToAbsent || creatorUser != null) {
-      map['creator_user'] = Variable<String>(creatorUser);
-    }
-    if (!nullToAbsent || lastModifierUser != null) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser);
-    }
-    if (!nullToAbsent || lastModifierUserId != null) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
-    }
-    if (!nullToAbsent || deleteUserId != null) {
-      map['delete_user_id'] = Variable<int>(deleteUserId);
-    }
-    if (!nullToAbsent || deleterUserId != null) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId);
-    }
-    if (!nullToAbsent || isDeleted != null) {
-      map['is_deleted'] = Variable<bool>(isDeleted);
     }
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int>(id);
@@ -29583,6 +25235,33 @@ class StockUnitOfMeasureData extends DataClass
     if (!nullToAbsent || uom != null) {
       map['uom'] = Variable<String>(uom);
     }
+    if (!nullToAbsent || createUserId != null) {
+      map['create_user_id'] = Variable<int>(createUserId);
+    }
+    if (!nullToAbsent || creationTime != null) {
+      map['creation_time'] = Variable<DateTime>(creationTime);
+    }
+    if (!nullToAbsent || deleteTime != null) {
+      map['delete_time'] = Variable<DateTime>(deleteTime);
+    }
+    if (!nullToAbsent || deleteUserId != null) {
+      map['delete_user_id'] = Variable<int>(deleteUserId);
+    }
+    if (!nullToAbsent || creatorUser != null) {
+      map['creator_user'] = Variable<String>(creatorUser);
+    }
+    if (!nullToAbsent || deleterUserId != null) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId);
+    }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
+    if (!nullToAbsent || lastModifierUser != null) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser);
+    }
+    if (!nullToAbsent || lastModifierUserId != null) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
+    }
     return map;
   }
 
@@ -29591,37 +25270,37 @@ class StockUnitOfMeasureData extends DataClass
       tenantId: tenantId == null && nullToAbsent
           ? const Value.absent()
           : Value(tenantId),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      itemId:
+          itemId == null && nullToAbsent ? const Value.absent() : Value(itemId),
+      uom: uom == null && nullToAbsent ? const Value.absent() : Value(uom),
+      createUserId: createUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createUserId),
       creationTime: creationTime == null && nullToAbsent
           ? const Value.absent()
           : Value(creationTime),
       deleteTime: deleteTime == null && nullToAbsent
           ? const Value.absent()
           : Value(deleteTime),
-      createUserId: createUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(createUserId),
-      creatorUser: creatorUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creatorUser),
-      lastModifierUser: lastModifierUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUser),
-      lastModifierUserId: lastModifierUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUserId),
       deleteUserId: deleteUserId == null && nullToAbsent
           ? const Value.absent()
           : Value(deleteUserId),
+      creatorUser: creatorUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creatorUser),
       deleterUserId: deleterUserId == null && nullToAbsent
           ? const Value.absent()
           : Value(deleterUserId),
       isDeleted: isDeleted == null && nullToAbsent
           ? const Value.absent()
           : Value(isDeleted),
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      itemId:
-          itemId == null && nullToAbsent ? const Value.absent() : Value(itemId),
-      uom: uom == null && nullToAbsent ? const Value.absent() : Value(uom),
+      lastModifierUser: lastModifierUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUser),
+      lastModifierUserId: lastModifierUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUserId),
     );
   }
 
@@ -29630,18 +25309,18 @@ class StockUnitOfMeasureData extends DataClass
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return StockUnitOfMeasureData(
       tenantId: serializer.fromJson<int>(json['tenantId']),
-      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
-      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
-      createUserId: serializer.fromJson<int>(json['createUserId']),
-      creatorUser: serializer.fromJson<String>(json['creatorUser']),
-      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
-      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
-      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
-      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
-      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
       id: serializer.fromJson<int>(json['id']),
       itemId: serializer.fromJson<int>(json['itemId']),
       uom: serializer.fromJson<String>(json['uom']),
+      createUserId: serializer.fromJson<int>(json['createUserId']),
+      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
+      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
+      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
+      creatorUser: serializer.fromJson<String>(json['creatorUser']),
+      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
+      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
     );
   }
   @override
@@ -29649,66 +25328,66 @@ class StockUnitOfMeasureData extends DataClass
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'tenantId': serializer.toJson<int>(tenantId),
-      'creationTime': serializer.toJson<DateTime>(creationTime),
-      'deleteTime': serializer.toJson<DateTime>(deleteTime),
-      'createUserId': serializer.toJson<int>(createUserId),
-      'creatorUser': serializer.toJson<String>(creatorUser),
-      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
-      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
-      'deleteUserId': serializer.toJson<int>(deleteUserId),
-      'deleterUserId': serializer.toJson<String>(deleterUserId),
-      'isDeleted': serializer.toJson<bool>(isDeleted),
       'id': serializer.toJson<int>(id),
       'itemId': serializer.toJson<int>(itemId),
       'uom': serializer.toJson<String>(uom),
+      'createUserId': serializer.toJson<int>(createUserId),
+      'creationTime': serializer.toJson<DateTime>(creationTime),
+      'deleteTime': serializer.toJson<DateTime>(deleteTime),
+      'deleteUserId': serializer.toJson<int>(deleteUserId),
+      'creatorUser': serializer.toJson<String>(creatorUser),
+      'deleterUserId': serializer.toJson<String>(deleterUserId),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
+      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
     };
   }
 
   StockUnitOfMeasureData copyWith(
           {int tenantId,
-          DateTime creationTime,
-          DateTime deleteTime,
-          int createUserId,
-          String creatorUser,
-          String lastModifierUser,
-          int lastModifierUserId,
-          int deleteUserId,
-          String deleterUserId,
-          bool isDeleted,
           int id,
           int itemId,
-          String uom}) =>
+          String uom,
+          int createUserId,
+          DateTime creationTime,
+          DateTime deleteTime,
+          int deleteUserId,
+          String creatorUser,
+          String deleterUserId,
+          bool isDeleted,
+          String lastModifierUser,
+          int lastModifierUserId}) =>
       StockUnitOfMeasureData(
         tenantId: tenantId ?? this.tenantId,
-        creationTime: creationTime ?? this.creationTime,
-        deleteTime: deleteTime ?? this.deleteTime,
-        createUserId: createUserId ?? this.createUserId,
-        creatorUser: creatorUser ?? this.creatorUser,
-        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-        deleteUserId: deleteUserId ?? this.deleteUserId,
-        deleterUserId: deleterUserId ?? this.deleterUserId,
-        isDeleted: isDeleted ?? this.isDeleted,
         id: id ?? this.id,
         itemId: itemId ?? this.itemId,
         uom: uom ?? this.uom,
+        createUserId: createUserId ?? this.createUserId,
+        creationTime: creationTime ?? this.creationTime,
+        deleteTime: deleteTime ?? this.deleteTime,
+        deleteUserId: deleteUserId ?? this.deleteUserId,
+        creatorUser: creatorUser ?? this.creatorUser,
+        deleterUserId: deleterUserId ?? this.deleterUserId,
+        isDeleted: isDeleted ?? this.isDeleted,
+        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
       );
   @override
   String toString() {
     return (StringBuffer('StockUnitOfMeasureData(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('itemId: $itemId, ')
-          ..write('uom: $uom')
+          ..write('uom: $uom, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId')
           ..write(')'))
         .toString();
   }
@@ -29717,152 +25396,154 @@ class StockUnitOfMeasureData extends DataClass
   int get hashCode => $mrjf($mrjc(
       tenantId.hashCode,
       $mrjc(
-          creationTime.hashCode,
+          id.hashCode,
           $mrjc(
-              deleteTime.hashCode,
+              itemId.hashCode,
               $mrjc(
-                  createUserId.hashCode,
+                  uom.hashCode,
                   $mrjc(
-                      creatorUser.hashCode,
+                      createUserId.hashCode,
                       $mrjc(
-                          lastModifierUser.hashCode,
+                          creationTime.hashCode,
                           $mrjc(
-                              lastModifierUserId.hashCode,
+                              deleteTime.hashCode,
                               $mrjc(
                                   deleteUserId.hashCode,
                                   $mrjc(
-                                      deleterUserId.hashCode,
+                                      creatorUser.hashCode,
                                       $mrjc(
-                                          isDeleted.hashCode,
+                                          deleterUserId.hashCode,
                                           $mrjc(
-                                              id.hashCode,
-                                              $mrjc(itemId.hashCode,
-                                                  uom.hashCode)))))))))))));
+                                              isDeleted.hashCode,
+                                              $mrjc(
+                                                  lastModifierUser.hashCode,
+                                                  lastModifierUserId
+                                                      .hashCode)))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is StockUnitOfMeasureData &&
           other.tenantId == this.tenantId &&
-          other.creationTime == this.creationTime &&
-          other.deleteTime == this.deleteTime &&
-          other.createUserId == this.createUserId &&
-          other.creatorUser == this.creatorUser &&
-          other.lastModifierUser == this.lastModifierUser &&
-          other.lastModifierUserId == this.lastModifierUserId &&
-          other.deleteUserId == this.deleteUserId &&
-          other.deleterUserId == this.deleterUserId &&
-          other.isDeleted == this.isDeleted &&
           other.id == this.id &&
           other.itemId == this.itemId &&
-          other.uom == this.uom);
+          other.uom == this.uom &&
+          other.createUserId == this.createUserId &&
+          other.creationTime == this.creationTime &&
+          other.deleteTime == this.deleteTime &&
+          other.deleteUserId == this.deleteUserId &&
+          other.creatorUser == this.creatorUser &&
+          other.deleterUserId == this.deleterUserId &&
+          other.isDeleted == this.isDeleted &&
+          other.lastModifierUser == this.lastModifierUser &&
+          other.lastModifierUserId == this.lastModifierUserId);
 }
 
 class StockUnitOfMeasureCompanion
     extends UpdateCompanion<StockUnitOfMeasureData> {
   final Value<int> tenantId;
-  final Value<DateTime> creationTime;
-  final Value<DateTime> deleteTime;
-  final Value<int> createUserId;
-  final Value<String> creatorUser;
-  final Value<String> lastModifierUser;
-  final Value<int> lastModifierUserId;
-  final Value<int> deleteUserId;
-  final Value<String> deleterUserId;
-  final Value<bool> isDeleted;
   final Value<int> id;
   final Value<int> itemId;
   final Value<String> uom;
+  final Value<int> createUserId;
+  final Value<DateTime> creationTime;
+  final Value<DateTime> deleteTime;
+  final Value<int> deleteUserId;
+  final Value<String> creatorUser;
+  final Value<String> deleterUserId;
+  final Value<bool> isDeleted;
+  final Value<String> lastModifierUser;
+  final Value<int> lastModifierUserId;
   const StockUnitOfMeasureCompanion({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     this.itemId = const Value.absent(),
     this.uom = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
   });
   StockUnitOfMeasureCompanion.insert({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     @required int itemId,
     this.uom = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
   }) : itemId = Value(itemId);
   static Insertable<StockUnitOfMeasureData> custom({
     Expression<int> tenantId,
-    Expression<DateTime> creationTime,
-    Expression<DateTime> deleteTime,
-    Expression<int> createUserId,
-    Expression<String> creatorUser,
-    Expression<String> lastModifierUser,
-    Expression<int> lastModifierUserId,
-    Expression<int> deleteUserId,
-    Expression<String> deleterUserId,
-    Expression<bool> isDeleted,
     Expression<int> id,
     Expression<int> itemId,
     Expression<String> uom,
+    Expression<int> createUserId,
+    Expression<DateTime> creationTime,
+    Expression<DateTime> deleteTime,
+    Expression<int> deleteUserId,
+    Expression<String> creatorUser,
+    Expression<String> deleterUserId,
+    Expression<bool> isDeleted,
+    Expression<String> lastModifierUser,
+    Expression<int> lastModifierUserId,
   }) {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
-      if (creationTime != null) 'creation_time': creationTime,
-      if (deleteTime != null) 'delete_time': deleteTime,
-      if (createUserId != null) 'create_user_id': createUserId,
-      if (creatorUser != null) 'creator_user': creatorUser,
-      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
-      if (lastModifierUserId != null)
-        'last_modifier_user_id': lastModifierUserId,
-      if (deleteUserId != null) 'delete_user_id': deleteUserId,
-      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
-      if (isDeleted != null) 'is_deleted': isDeleted,
       if (id != null) 'id': id,
       if (itemId != null) 'item_id': itemId,
       if (uom != null) 'uom': uom,
+      if (createUserId != null) 'create_user_id': createUserId,
+      if (creationTime != null) 'creation_time': creationTime,
+      if (deleteTime != null) 'delete_time': deleteTime,
+      if (deleteUserId != null) 'delete_user_id': deleteUserId,
+      if (creatorUser != null) 'creator_user': creatorUser,
+      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
+      if (lastModifierUserId != null)
+        'last_modifier_user_id': lastModifierUserId,
     });
   }
 
   StockUnitOfMeasureCompanion copyWith(
       {Value<int> tenantId,
-      Value<DateTime> creationTime,
-      Value<DateTime> deleteTime,
-      Value<int> createUserId,
-      Value<String> creatorUser,
-      Value<String> lastModifierUser,
-      Value<int> lastModifierUserId,
-      Value<int> deleteUserId,
-      Value<String> deleterUserId,
-      Value<bool> isDeleted,
       Value<int> id,
       Value<int> itemId,
-      Value<String> uom}) {
+      Value<String> uom,
+      Value<int> createUserId,
+      Value<DateTime> creationTime,
+      Value<DateTime> deleteTime,
+      Value<int> deleteUserId,
+      Value<String> creatorUser,
+      Value<String> deleterUserId,
+      Value<bool> isDeleted,
+      Value<String> lastModifierUser,
+      Value<int> lastModifierUserId}) {
     return StockUnitOfMeasureCompanion(
       tenantId: tenantId ?? this.tenantId,
-      creationTime: creationTime ?? this.creationTime,
-      deleteTime: deleteTime ?? this.deleteTime,
-      createUserId: createUserId ?? this.createUserId,
-      creatorUser: creatorUser ?? this.creatorUser,
-      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-      deleteUserId: deleteUserId ?? this.deleteUserId,
-      deleterUserId: deleterUserId ?? this.deleterUserId,
-      isDeleted: isDeleted ?? this.isDeleted,
       id: id ?? this.id,
       itemId: itemId ?? this.itemId,
       uom: uom ?? this.uom,
+      createUserId: createUserId ?? this.createUserId,
+      creationTime: creationTime ?? this.creationTime,
+      deleteTime: deleteTime ?? this.deleteTime,
+      deleteUserId: deleteUserId ?? this.deleteUserId,
+      creatorUser: creatorUser ?? this.creatorUser,
+      deleterUserId: deleterUserId ?? this.deleterUserId,
+      isDeleted: isDeleted ?? this.isDeleted,
+      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
     );
   }
 
@@ -29871,33 +25552,6 @@ class StockUnitOfMeasureCompanion
     final map = <String, Expression>{};
     if (tenantId.present) {
       map['tenant_id'] = Variable<int>(tenantId.value);
-    }
-    if (creationTime.present) {
-      map['creation_time'] = Variable<DateTime>(creationTime.value);
-    }
-    if (deleteTime.present) {
-      map['delete_time'] = Variable<DateTime>(deleteTime.value);
-    }
-    if (createUserId.present) {
-      map['create_user_id'] = Variable<int>(createUserId.value);
-    }
-    if (creatorUser.present) {
-      map['creator_user'] = Variable<String>(creatorUser.value);
-    }
-    if (lastModifierUser.present) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
-    }
-    if (lastModifierUserId.present) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
-    }
-    if (deleteUserId.present) {
-      map['delete_user_id'] = Variable<int>(deleteUserId.value);
-    }
-    if (deleterUserId.present) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
-    }
-    if (isDeleted.present) {
-      map['is_deleted'] = Variable<bool>(isDeleted.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -29908,6 +25562,33 @@ class StockUnitOfMeasureCompanion
     if (uom.present) {
       map['uom'] = Variable<String>(uom.value);
     }
+    if (createUserId.present) {
+      map['create_user_id'] = Variable<int>(createUserId.value);
+    }
+    if (creationTime.present) {
+      map['creation_time'] = Variable<DateTime>(creationTime.value);
+    }
+    if (deleteTime.present) {
+      map['delete_time'] = Variable<DateTime>(deleteTime.value);
+    }
+    if (deleteUserId.present) {
+      map['delete_user_id'] = Variable<int>(deleteUserId.value);
+    }
+    if (creatorUser.present) {
+      map['creator_user'] = Variable<String>(creatorUser.value);
+    }
+    if (deleterUserId.present) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (lastModifierUser.present) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
+    }
+    if (lastModifierUserId.present) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
+    }
     return map;
   }
 
@@ -29915,18 +25596,18 @@ class StockUnitOfMeasureCompanion
   String toString() {
     return (StringBuffer('StockUnitOfMeasureCompanion(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('itemId: $itemId, ')
-          ..write('uom: $uom')
+          ..write('uom: $uom, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId')
           ..write(')'))
         .toString();
   }
@@ -29947,126 +25628,6 @@ class $StockUnitOfMeasureTable extends StockUnitOfMeasure
       $tableName,
       true,
     );
-  }
-
-  final VerificationMeta _creationTimeMeta =
-      const VerificationMeta('creationTime');
-  GeneratedDateTimeColumn _creationTime;
-  @override
-  GeneratedDateTimeColumn get creationTime =>
-      _creationTime ??= _constructCreationTime();
-  GeneratedDateTimeColumn _constructCreationTime() {
-    return GeneratedDateTimeColumn(
-      'creation_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
-  GeneratedDateTimeColumn _deleteTime;
-  @override
-  GeneratedDateTimeColumn get deleteTime =>
-      _deleteTime ??= _constructDeleteTime();
-  GeneratedDateTimeColumn _constructDeleteTime() {
-    return GeneratedDateTimeColumn(
-      'delete_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _createUserIdMeta =
-      const VerificationMeta('createUserId');
-  GeneratedIntColumn _createUserId;
-  @override
-  GeneratedIntColumn get createUserId =>
-      _createUserId ??= _constructCreateUserId();
-  GeneratedIntColumn _constructCreateUserId() {
-    return GeneratedIntColumn(
-      'create_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _creatorUserMeta =
-      const VerificationMeta('creatorUser');
-  GeneratedTextColumn _creatorUser;
-  @override
-  GeneratedTextColumn get creatorUser =>
-      _creatorUser ??= _constructCreatorUser();
-  GeneratedTextColumn _constructCreatorUser() {
-    return GeneratedTextColumn(
-      'creator_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserMeta =
-      const VerificationMeta('lastModifierUser');
-  GeneratedTextColumn _lastModifierUser;
-  @override
-  GeneratedTextColumn get lastModifierUser =>
-      _lastModifierUser ??= _constructLastModifierUser();
-  GeneratedTextColumn _constructLastModifierUser() {
-    return GeneratedTextColumn(
-      'last_modifier_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserIdMeta =
-      const VerificationMeta('lastModifierUserId');
-  GeneratedIntColumn _lastModifierUserId;
-  @override
-  GeneratedIntColumn get lastModifierUserId =>
-      _lastModifierUserId ??= _constructLastModifierUserId();
-  GeneratedIntColumn _constructLastModifierUserId() {
-    return GeneratedIntColumn(
-      'last_modifier_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteUserIdMeta =
-      const VerificationMeta('deleteUserId');
-  GeneratedIntColumn _deleteUserId;
-  @override
-  GeneratedIntColumn get deleteUserId =>
-      _deleteUserId ??= _constructDeleteUserId();
-  GeneratedIntColumn _constructDeleteUserId() {
-    return GeneratedIntColumn(
-      'delete_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleterUserIdMeta =
-      const VerificationMeta('deleterUserId');
-  GeneratedTextColumn _deleterUserId;
-  @override
-  GeneratedTextColumn get deleterUserId =>
-      _deleterUserId ??= _constructDeleterUserId();
-  GeneratedTextColumn _constructDeleterUserId() {
-    return GeneratedTextColumn(
-      'deleter_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
-  GeneratedBoolColumn _isDeleted;
-  @override
-  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
-  GeneratedBoolColumn _constructIsDeleted() {
-    return GeneratedBoolColumn('is_deleted', $tableName, false,
-        defaultValue: Constant(false));
   }
 
   final VerificationMeta _idMeta = const VerificationMeta('id');
@@ -30105,21 +25666,141 @@ class $StockUnitOfMeasureTable extends StockUnitOfMeasure
     );
   }
 
+  final VerificationMeta _createUserIdMeta =
+      const VerificationMeta('createUserId');
+  GeneratedIntColumn _createUserId;
+  @override
+  GeneratedIntColumn get createUserId =>
+      _createUserId ??= _constructCreateUserId();
+  GeneratedIntColumn _constructCreateUserId() {
+    return GeneratedIntColumn(
+      'create_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creationTimeMeta =
+      const VerificationMeta('creationTime');
+  GeneratedDateTimeColumn _creationTime;
+  @override
+  GeneratedDateTimeColumn get creationTime =>
+      _creationTime ??= _constructCreationTime();
+  GeneratedDateTimeColumn _constructCreationTime() {
+    return GeneratedDateTimeColumn(
+      'creation_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
+  GeneratedDateTimeColumn _deleteTime;
+  @override
+  GeneratedDateTimeColumn get deleteTime =>
+      _deleteTime ??= _constructDeleteTime();
+  GeneratedDateTimeColumn _constructDeleteTime() {
+    return GeneratedDateTimeColumn(
+      'delete_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteUserIdMeta =
+      const VerificationMeta('deleteUserId');
+  GeneratedIntColumn _deleteUserId;
+  @override
+  GeneratedIntColumn get deleteUserId =>
+      _deleteUserId ??= _constructDeleteUserId();
+  GeneratedIntColumn _constructDeleteUserId() {
+    return GeneratedIntColumn(
+      'delete_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creatorUserMeta =
+      const VerificationMeta('creatorUser');
+  GeneratedTextColumn _creatorUser;
+  @override
+  GeneratedTextColumn get creatorUser =>
+      _creatorUser ??= _constructCreatorUser();
+  GeneratedTextColumn _constructCreatorUser() {
+    return GeneratedTextColumn(
+      'creator_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleterUserIdMeta =
+      const VerificationMeta('deleterUserId');
+  GeneratedTextColumn _deleterUserId;
+  @override
+  GeneratedTextColumn get deleterUserId =>
+      _deleterUserId ??= _constructDeleterUserId();
+  GeneratedTextColumn _constructDeleterUserId() {
+    return GeneratedTextColumn(
+      'deleter_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  GeneratedBoolColumn _isDeleted;
+  @override
+  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
+  GeneratedBoolColumn _constructIsDeleted() {
+    return GeneratedBoolColumn('is_deleted', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _lastModifierUserMeta =
+      const VerificationMeta('lastModifierUser');
+  GeneratedTextColumn _lastModifierUser;
+  @override
+  GeneratedTextColumn get lastModifierUser =>
+      _lastModifierUser ??= _constructLastModifierUser();
+  GeneratedTextColumn _constructLastModifierUser() {
+    return GeneratedTextColumn(
+      'last_modifier_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserIdMeta =
+      const VerificationMeta('lastModifierUserId');
+  GeneratedIntColumn _lastModifierUserId;
+  @override
+  GeneratedIntColumn get lastModifierUserId =>
+      _lastModifierUserId ??= _constructLastModifierUserId();
+  GeneratedIntColumn _constructLastModifierUserId() {
+    return GeneratedIntColumn(
+      'last_modifier_user_id',
+      $tableName,
+      true,
+    );
+  }
+
   @override
   List<GeneratedColumn> get $columns => [
         tenantId,
-        creationTime,
-        deleteTime,
-        createUserId,
-        creatorUser,
-        lastModifierUser,
-        lastModifierUserId,
-        deleteUserId,
-        deleterUserId,
-        isDeleted,
         id,
         itemId,
-        uom
+        uom,
+        createUserId,
+        creationTime,
+        deleteTime,
+        deleteUserId,
+        creatorUser,
+        deleterUserId,
+        isDeleted,
+        lastModifierUser,
+        lastModifierUserId
       ];
   @override
   $StockUnitOfMeasureTable get asDslTable => this;
@@ -30137,58 +25818,6 @@ class $StockUnitOfMeasureTable extends StockUnitOfMeasure
       context.handle(_tenantIdMeta,
           tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
     }
-    if (data.containsKey('creation_time')) {
-      context.handle(
-          _creationTimeMeta,
-          creationTime.isAcceptableOrUnknown(
-              data['creation_time'], _creationTimeMeta));
-    }
-    if (data.containsKey('delete_time')) {
-      context.handle(
-          _deleteTimeMeta,
-          deleteTime.isAcceptableOrUnknown(
-              data['delete_time'], _deleteTimeMeta));
-    }
-    if (data.containsKey('create_user_id')) {
-      context.handle(
-          _createUserIdMeta,
-          createUserId.isAcceptableOrUnknown(
-              data['create_user_id'], _createUserIdMeta));
-    }
-    if (data.containsKey('creator_user')) {
-      context.handle(
-          _creatorUserMeta,
-          creatorUser.isAcceptableOrUnknown(
-              data['creator_user'], _creatorUserMeta));
-    }
-    if (data.containsKey('last_modifier_user')) {
-      context.handle(
-          _lastModifierUserMeta,
-          lastModifierUser.isAcceptableOrUnknown(
-              data['last_modifier_user'], _lastModifierUserMeta));
-    }
-    if (data.containsKey('last_modifier_user_id')) {
-      context.handle(
-          _lastModifierUserIdMeta,
-          lastModifierUserId.isAcceptableOrUnknown(
-              data['last_modifier_user_id'], _lastModifierUserIdMeta));
-    }
-    if (data.containsKey('delete_user_id')) {
-      context.handle(
-          _deleteUserIdMeta,
-          deleteUserId.isAcceptableOrUnknown(
-              data['delete_user_id'], _deleteUserIdMeta));
-    }
-    if (data.containsKey('deleter_user_id')) {
-      context.handle(
-          _deleterUserIdMeta,
-          deleterUserId.isAcceptableOrUnknown(
-              data['deleter_user_id'], _deleterUserIdMeta));
-    }
-    if (data.containsKey('is_deleted')) {
-      context.handle(_isDeletedMeta,
-          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
-    }
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     }
@@ -30201,6 +25830,58 @@ class $StockUnitOfMeasureTable extends StockUnitOfMeasure
     if (data.containsKey('uom')) {
       context.handle(
           _uomMeta, uom.isAcceptableOrUnknown(data['uom'], _uomMeta));
+    }
+    if (data.containsKey('create_user_id')) {
+      context.handle(
+          _createUserIdMeta,
+          createUserId.isAcceptableOrUnknown(
+              data['create_user_id'], _createUserIdMeta));
+    }
+    if (data.containsKey('creation_time')) {
+      context.handle(
+          _creationTimeMeta,
+          creationTime.isAcceptableOrUnknown(
+              data['creation_time'], _creationTimeMeta));
+    }
+    if (data.containsKey('delete_time')) {
+      context.handle(
+          _deleteTimeMeta,
+          deleteTime.isAcceptableOrUnknown(
+              data['delete_time'], _deleteTimeMeta));
+    }
+    if (data.containsKey('delete_user_id')) {
+      context.handle(
+          _deleteUserIdMeta,
+          deleteUserId.isAcceptableOrUnknown(
+              data['delete_user_id'], _deleteUserIdMeta));
+    }
+    if (data.containsKey('creator_user')) {
+      context.handle(
+          _creatorUserMeta,
+          creatorUser.isAcceptableOrUnknown(
+              data['creator_user'], _creatorUserMeta));
+    }
+    if (data.containsKey('deleter_user_id')) {
+      context.handle(
+          _deleterUserIdMeta,
+          deleterUserId.isAcceptableOrUnknown(
+              data['deleter_user_id'], _deleterUserIdMeta));
+    }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
+    }
+    if (data.containsKey('last_modifier_user')) {
+      context.handle(
+          _lastModifierUserMeta,
+          lastModifierUser.isAcceptableOrUnknown(
+              data['last_modifier_user'], _lastModifierUserMeta));
+    }
+    if (data.containsKey('last_modifier_user_id')) {
+      context.handle(
+          _lastModifierUserIdMeta,
+          lastModifierUserId.isAcceptableOrUnknown(
+              data['last_modifier_user_id'], _lastModifierUserIdMeta));
     }
     return context;
   }
@@ -30221,15 +25902,6 @@ class $StockUnitOfMeasureTable extends StockUnitOfMeasure
 
 class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
   final int tenantId;
-  final DateTime creationTime;
-  final DateTime deleteTime;
-  final int createUserId;
-  final String creatorUser;
-  final String lastModifierUser;
-  final int lastModifierUserId;
-  final int deleteUserId;
-  final String deleterUserId;
-  final bool isDeleted;
   final int id;
   final String customerId;
   final String customerName;
@@ -30243,17 +25915,9 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
   final DateTime expiryDate;
   final int weekNumber;
   final String weekDay;
+  final bool isDeleted;
   JourneyPlanData(
       {this.tenantId,
-      this.creationTime,
-      this.deleteTime,
-      this.createUserId,
-      this.creatorUser,
-      this.lastModifierUser,
-      this.lastModifierUserId,
-      this.deleteUserId,
-      this.deleterUserId,
-      @required this.isDeleted,
       @required this.id,
       @required this.customerId,
       @required this.customerName,
@@ -30266,36 +25930,19 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
       this.assignTo,
       this.expiryDate,
       this.weekNumber,
-      this.weekDay});
+      this.weekDay,
+      @required this.isDeleted});
   factory JourneyPlanData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
-    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final stringType = db.typeSystem.forDartType<String>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final boolType = db.typeSystem.forDartType<bool>();
     return JourneyPlanData(
       tenantId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
-      creationTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
-      deleteTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
-      createUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
-      creatorUser: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
-      lastModifierUser: stringType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user']),
-      lastModifierUserId: intType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user_id']),
-      deleteUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
-      deleterUserId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
-      isDeleted: boolType
-          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       customerId: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}customer_id']),
@@ -30321,6 +25968,8 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}week_number']),
       weekDay: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}week_day']),
+      isDeleted: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
     );
   }
   @override
@@ -30328,33 +25977,6 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
       map['tenant_id'] = Variable<int>(tenantId);
-    }
-    if (!nullToAbsent || creationTime != null) {
-      map['creation_time'] = Variable<DateTime>(creationTime);
-    }
-    if (!nullToAbsent || deleteTime != null) {
-      map['delete_time'] = Variable<DateTime>(deleteTime);
-    }
-    if (!nullToAbsent || createUserId != null) {
-      map['create_user_id'] = Variable<int>(createUserId);
-    }
-    if (!nullToAbsent || creatorUser != null) {
-      map['creator_user'] = Variable<String>(creatorUser);
-    }
-    if (!nullToAbsent || lastModifierUser != null) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser);
-    }
-    if (!nullToAbsent || lastModifierUserId != null) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
-    }
-    if (!nullToAbsent || deleteUserId != null) {
-      map['delete_user_id'] = Variable<int>(deleteUserId);
-    }
-    if (!nullToAbsent || deleterUserId != null) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId);
-    }
-    if (!nullToAbsent || isDeleted != null) {
-      map['is_deleted'] = Variable<bool>(isDeleted);
     }
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int>(id);
@@ -30395,6 +26017,9 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
     if (!nullToAbsent || weekDay != null) {
       map['week_day'] = Variable<String>(weekDay);
     }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
     return map;
   }
 
@@ -30403,33 +26028,6 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
       tenantId: tenantId == null && nullToAbsent
           ? const Value.absent()
           : Value(tenantId),
-      creationTime: creationTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creationTime),
-      deleteTime: deleteTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteTime),
-      createUserId: createUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(createUserId),
-      creatorUser: creatorUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creatorUser),
-      lastModifierUser: lastModifierUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUser),
-      lastModifierUserId: lastModifierUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUserId),
-      deleteUserId: deleteUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteUserId),
-      deleterUserId: deleterUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleterUserId),
-      isDeleted: isDeleted == null && nullToAbsent
-          ? const Value.absent()
-          : Value(isDeleted),
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       customerId: customerId == null && nullToAbsent
           ? const Value.absent()
@@ -30467,6 +26065,9 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
       weekDay: weekDay == null && nullToAbsent
           ? const Value.absent()
           : Value(weekDay),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
     );
   }
 
@@ -30475,15 +26076,6 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return JourneyPlanData(
       tenantId: serializer.fromJson<int>(json['tenantId']),
-      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
-      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
-      createUserId: serializer.fromJson<int>(json['createUserId']),
-      creatorUser: serializer.fromJson<String>(json['creatorUser']),
-      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
-      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
-      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
-      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
-      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
       id: serializer.fromJson<int>(json['id']),
       customerId: serializer.fromJson<String>(json['customerId']),
       customerName: serializer.fromJson<String>(json['customerName']),
@@ -30499,6 +26091,7 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
       expiryDate: serializer.fromJson<DateTime>(json['expiryDate']),
       weekNumber: serializer.fromJson<int>(json['weekNumber']),
       weekDay: serializer.fromJson<String>(json['weekDay']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
     );
   }
   @override
@@ -30506,15 +26099,6 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'tenantId': serializer.toJson<int>(tenantId),
-      'creationTime': serializer.toJson<DateTime>(creationTime),
-      'deleteTime': serializer.toJson<DateTime>(deleteTime),
-      'createUserId': serializer.toJson<int>(createUserId),
-      'creatorUser': serializer.toJson<String>(creatorUser),
-      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
-      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
-      'deleteUserId': serializer.toJson<int>(deleteUserId),
-      'deleterUserId': serializer.toJson<String>(deleterUserId),
-      'isDeleted': serializer.toJson<bool>(isDeleted),
       'id': serializer.toJson<int>(id),
       'customerId': serializer.toJson<String>(customerId),
       'customerName': serializer.toJson<String>(customerName),
@@ -30528,20 +26112,12 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
       'expiryDate': serializer.toJson<DateTime>(expiryDate),
       'weekNumber': serializer.toJson<int>(weekNumber),
       'weekDay': serializer.toJson<String>(weekDay),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
     };
   }
 
   JourneyPlanData copyWith(
           {int tenantId,
-          DateTime creationTime,
-          DateTime deleteTime,
-          int createUserId,
-          String creatorUser,
-          String lastModifierUser,
-          int lastModifierUserId,
-          int deleteUserId,
-          String deleterUserId,
-          bool isDeleted,
           int id,
           String customerId,
           String customerName,
@@ -30554,18 +26130,10 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
           String assignTo,
           DateTime expiryDate,
           int weekNumber,
-          String weekDay}) =>
+          String weekDay,
+          bool isDeleted}) =>
       JourneyPlanData(
         tenantId: tenantId ?? this.tenantId,
-        creationTime: creationTime ?? this.creationTime,
-        deleteTime: deleteTime ?? this.deleteTime,
-        createUserId: createUserId ?? this.createUserId,
-        creatorUser: creatorUser ?? this.creatorUser,
-        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-        deleteUserId: deleteUserId ?? this.deleteUserId,
-        deleterUserId: deleterUserId ?? this.deleterUserId,
-        isDeleted: isDeleted ?? this.isDeleted,
         id: id ?? this.id,
         customerId: customerId ?? this.customerId,
         customerName: customerName ?? this.customerName,
@@ -30579,20 +26147,12 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
         expiryDate: expiryDate ?? this.expiryDate,
         weekNumber: weekNumber ?? this.weekNumber,
         weekDay: weekDay ?? this.weekDay,
+        isDeleted: isDeleted ?? this.isDeleted,
       );
   @override
   String toString() {
     return (StringBuffer('JourneyPlanData(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('customerId: $customerId, ')
           ..write('customerName: $customerName, ')
@@ -30605,7 +26165,8 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
           ..write('assignTo: $assignTo, ')
           ..write('expiryDate: $expiryDate, ')
           ..write('weekNumber: $weekNumber, ')
-          ..write('weekDay: $weekDay')
+          ..write('weekDay: $weekDay, ')
+          ..write('isDeleted: $isDeleted')
           ..write(')'))
         .toString();
   }
@@ -30614,60 +26175,38 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
   int get hashCode => $mrjf($mrjc(
       tenantId.hashCode,
       $mrjc(
-          creationTime.hashCode,
+          id.hashCode,
           $mrjc(
-              deleteTime.hashCode,
+              customerId.hashCode,
               $mrjc(
-                  createUserId.hashCode,
+                  customerName.hashCode,
                   $mrjc(
-                      creatorUser.hashCode,
+                      companyName.hashCode,
                       $mrjc(
-                          lastModifierUser.hashCode,
+                          customerType.hashCode,
                           $mrjc(
-                              lastModifierUserId.hashCode,
+                              customerGroup.hashCode,
                               $mrjc(
-                                  deleteUserId.hashCode,
+                                  customerTerritory.hashCode,
                                   $mrjc(
-                                      deleterUserId.hashCode,
+                                      billingAddressName.hashCode,
                                       $mrjc(
-                                          isDeleted.hashCode,
+                                          shippingAddressName.hashCode,
                                           $mrjc(
-                                              id.hashCode,
+                                              assignTo.hashCode,
                                               $mrjc(
-                                                  customerId.hashCode,
+                                                  expiryDate.hashCode,
                                                   $mrjc(
-                                                      customerName.hashCode,
+                                                      weekNumber.hashCode,
                                                       $mrjc(
-                                                          companyName.hashCode,
-                                                          $mrjc(
-                                                              customerType
-                                                                  .hashCode,
-                                                              $mrjc(
-                                                                  customerGroup
-                                                                      .hashCode,
-                                                                  $mrjc(
-                                                                      customerTerritory
-                                                                          .hashCode,
-                                                                      $mrjc(
-                                                                          billingAddressName
-                                                                              .hashCode,
-                                                                          $mrjc(
-                                                                              shippingAddressName.hashCode,
-                                                                              $mrjc(assignTo.hashCode, $mrjc(expiryDate.hashCode, $mrjc(weekNumber.hashCode, weekDay.hashCode)))))))))))))))))))))));
+                                                          weekDay.hashCode,
+                                                          isDeleted
+                                                              .hashCode)))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is JourneyPlanData &&
           other.tenantId == this.tenantId &&
-          other.creationTime == this.creationTime &&
-          other.deleteTime == this.deleteTime &&
-          other.createUserId == this.createUserId &&
-          other.creatorUser == this.creatorUser &&
-          other.lastModifierUser == this.lastModifierUser &&
-          other.lastModifierUserId == this.lastModifierUserId &&
-          other.deleteUserId == this.deleteUserId &&
-          other.deleterUserId == this.deleterUserId &&
-          other.isDeleted == this.isDeleted &&
           other.id == this.id &&
           other.customerId == this.customerId &&
           other.customerName == this.customerName &&
@@ -30680,20 +26219,12 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
           other.assignTo == this.assignTo &&
           other.expiryDate == this.expiryDate &&
           other.weekNumber == this.weekNumber &&
-          other.weekDay == this.weekDay);
+          other.weekDay == this.weekDay &&
+          other.isDeleted == this.isDeleted);
 }
 
 class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
   final Value<int> tenantId;
-  final Value<DateTime> creationTime;
-  final Value<DateTime> deleteTime;
-  final Value<int> createUserId;
-  final Value<String> creatorUser;
-  final Value<String> lastModifierUser;
-  final Value<int> lastModifierUserId;
-  final Value<int> deleteUserId;
-  final Value<String> deleterUserId;
-  final Value<bool> isDeleted;
   final Value<int> id;
   final Value<String> customerId;
   final Value<String> customerName;
@@ -30707,17 +26238,9 @@ class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
   final Value<DateTime> expiryDate;
   final Value<int> weekNumber;
   final Value<String> weekDay;
+  final Value<bool> isDeleted;
   const JourneyPlanCompanion({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     this.customerId = const Value.absent(),
     this.customerName = const Value.absent(),
@@ -30731,18 +26254,10 @@ class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
     this.expiryDate = const Value.absent(),
     this.weekNumber = const Value.absent(),
     this.weekDay = const Value.absent(),
+    this.isDeleted = const Value.absent(),
   });
   JourneyPlanCompanion.insert({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     @required String customerId,
     @required String customerName,
@@ -30756,6 +26271,7 @@ class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
     this.expiryDate = const Value.absent(),
     this.weekNumber = const Value.absent(),
     this.weekDay = const Value.absent(),
+    this.isDeleted = const Value.absent(),
   })  : customerId = Value(customerId),
         customerName = Value(customerName),
         companyName = Value(companyName),
@@ -30764,15 +26280,6 @@ class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
         customerTerritory = Value(customerTerritory);
   static Insertable<JourneyPlanData> custom({
     Expression<int> tenantId,
-    Expression<DateTime> creationTime,
-    Expression<DateTime> deleteTime,
-    Expression<int> createUserId,
-    Expression<String> creatorUser,
-    Expression<String> lastModifierUser,
-    Expression<int> lastModifierUserId,
-    Expression<int> deleteUserId,
-    Expression<String> deleterUserId,
-    Expression<bool> isDeleted,
     Expression<int> id,
     Expression<String> customerId,
     Expression<String> customerName,
@@ -30786,19 +26293,10 @@ class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
     Expression<DateTime> expiryDate,
     Expression<int> weekNumber,
     Expression<String> weekDay,
+    Expression<bool> isDeleted,
   }) {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
-      if (creationTime != null) 'creation_time': creationTime,
-      if (deleteTime != null) 'delete_time': deleteTime,
-      if (createUserId != null) 'create_user_id': createUserId,
-      if (creatorUser != null) 'creator_user': creatorUser,
-      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
-      if (lastModifierUserId != null)
-        'last_modifier_user_id': lastModifierUserId,
-      if (deleteUserId != null) 'delete_user_id': deleteUserId,
-      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
-      if (isDeleted != null) 'is_deleted': isDeleted,
       if (id != null) 'id': id,
       if (customerId != null) 'customer_id': customerId,
       if (customerName != null) 'customer_name': customerName,
@@ -30814,20 +26312,12 @@ class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
       if (expiryDate != null) 'expiry_date': expiryDate,
       if (weekNumber != null) 'week_number': weekNumber,
       if (weekDay != null) 'week_day': weekDay,
+      if (isDeleted != null) 'is_deleted': isDeleted,
     });
   }
 
   JourneyPlanCompanion copyWith(
       {Value<int> tenantId,
-      Value<DateTime> creationTime,
-      Value<DateTime> deleteTime,
-      Value<int> createUserId,
-      Value<String> creatorUser,
-      Value<String> lastModifierUser,
-      Value<int> lastModifierUserId,
-      Value<int> deleteUserId,
-      Value<String> deleterUserId,
-      Value<bool> isDeleted,
       Value<int> id,
       Value<String> customerId,
       Value<String> customerName,
@@ -30840,18 +26330,10 @@ class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
       Value<String> assignTo,
       Value<DateTime> expiryDate,
       Value<int> weekNumber,
-      Value<String> weekDay}) {
+      Value<String> weekDay,
+      Value<bool> isDeleted}) {
     return JourneyPlanCompanion(
       tenantId: tenantId ?? this.tenantId,
-      creationTime: creationTime ?? this.creationTime,
-      deleteTime: deleteTime ?? this.deleteTime,
-      createUserId: createUserId ?? this.createUserId,
-      creatorUser: creatorUser ?? this.creatorUser,
-      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-      deleteUserId: deleteUserId ?? this.deleteUserId,
-      deleterUserId: deleterUserId ?? this.deleterUserId,
-      isDeleted: isDeleted ?? this.isDeleted,
       id: id ?? this.id,
       customerId: customerId ?? this.customerId,
       customerName: customerName ?? this.customerName,
@@ -30865,6 +26347,7 @@ class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
       expiryDate: expiryDate ?? this.expiryDate,
       weekNumber: weekNumber ?? this.weekNumber,
       weekDay: weekDay ?? this.weekDay,
+      isDeleted: isDeleted ?? this.isDeleted,
     );
   }
 
@@ -30873,33 +26356,6 @@ class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
     final map = <String, Expression>{};
     if (tenantId.present) {
       map['tenant_id'] = Variable<int>(tenantId.value);
-    }
-    if (creationTime.present) {
-      map['creation_time'] = Variable<DateTime>(creationTime.value);
-    }
-    if (deleteTime.present) {
-      map['delete_time'] = Variable<DateTime>(deleteTime.value);
-    }
-    if (createUserId.present) {
-      map['create_user_id'] = Variable<int>(createUserId.value);
-    }
-    if (creatorUser.present) {
-      map['creator_user'] = Variable<String>(creatorUser.value);
-    }
-    if (lastModifierUser.present) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
-    }
-    if (lastModifierUserId.present) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
-    }
-    if (deleteUserId.present) {
-      map['delete_user_id'] = Variable<int>(deleteUserId.value);
-    }
-    if (deleterUserId.present) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
-    }
-    if (isDeleted.present) {
-      map['is_deleted'] = Variable<bool>(isDeleted.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -30941,6 +26397,9 @@ class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
     if (weekDay.present) {
       map['week_day'] = Variable<String>(weekDay.value);
     }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
     return map;
   }
 
@@ -30948,15 +26407,6 @@ class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
   String toString() {
     return (StringBuffer('JourneyPlanCompanion(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('customerId: $customerId, ')
           ..write('customerName: $customerName, ')
@@ -30969,7 +26419,8 @@ class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
           ..write('assignTo: $assignTo, ')
           ..write('expiryDate: $expiryDate, ')
           ..write('weekNumber: $weekNumber, ')
-          ..write('weekDay: $weekDay')
+          ..write('weekDay: $weekDay, ')
+          ..write('isDeleted: $isDeleted')
           ..write(')'))
         .toString();
   }
@@ -30990,126 +26441,6 @@ class $JourneyPlanTable extends JourneyPlan
       $tableName,
       true,
     );
-  }
-
-  final VerificationMeta _creationTimeMeta =
-      const VerificationMeta('creationTime');
-  GeneratedDateTimeColumn _creationTime;
-  @override
-  GeneratedDateTimeColumn get creationTime =>
-      _creationTime ??= _constructCreationTime();
-  GeneratedDateTimeColumn _constructCreationTime() {
-    return GeneratedDateTimeColumn(
-      'creation_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
-  GeneratedDateTimeColumn _deleteTime;
-  @override
-  GeneratedDateTimeColumn get deleteTime =>
-      _deleteTime ??= _constructDeleteTime();
-  GeneratedDateTimeColumn _constructDeleteTime() {
-    return GeneratedDateTimeColumn(
-      'delete_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _createUserIdMeta =
-      const VerificationMeta('createUserId');
-  GeneratedIntColumn _createUserId;
-  @override
-  GeneratedIntColumn get createUserId =>
-      _createUserId ??= _constructCreateUserId();
-  GeneratedIntColumn _constructCreateUserId() {
-    return GeneratedIntColumn(
-      'create_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _creatorUserMeta =
-      const VerificationMeta('creatorUser');
-  GeneratedTextColumn _creatorUser;
-  @override
-  GeneratedTextColumn get creatorUser =>
-      _creatorUser ??= _constructCreatorUser();
-  GeneratedTextColumn _constructCreatorUser() {
-    return GeneratedTextColumn(
-      'creator_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserMeta =
-      const VerificationMeta('lastModifierUser');
-  GeneratedTextColumn _lastModifierUser;
-  @override
-  GeneratedTextColumn get lastModifierUser =>
-      _lastModifierUser ??= _constructLastModifierUser();
-  GeneratedTextColumn _constructLastModifierUser() {
-    return GeneratedTextColumn(
-      'last_modifier_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserIdMeta =
-      const VerificationMeta('lastModifierUserId');
-  GeneratedIntColumn _lastModifierUserId;
-  @override
-  GeneratedIntColumn get lastModifierUserId =>
-      _lastModifierUserId ??= _constructLastModifierUserId();
-  GeneratedIntColumn _constructLastModifierUserId() {
-    return GeneratedIntColumn(
-      'last_modifier_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteUserIdMeta =
-      const VerificationMeta('deleteUserId');
-  GeneratedIntColumn _deleteUserId;
-  @override
-  GeneratedIntColumn get deleteUserId =>
-      _deleteUserId ??= _constructDeleteUserId();
-  GeneratedIntColumn _constructDeleteUserId() {
-    return GeneratedIntColumn(
-      'delete_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleterUserIdMeta =
-      const VerificationMeta('deleterUserId');
-  GeneratedTextColumn _deleterUserId;
-  @override
-  GeneratedTextColumn get deleterUserId =>
-      _deleterUserId ??= _constructDeleterUserId();
-  GeneratedTextColumn _constructDeleterUserId() {
-    return GeneratedTextColumn(
-      'deleter_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
-  GeneratedBoolColumn _isDeleted;
-  @override
-  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
-  GeneratedBoolColumn _constructIsDeleted() {
-    return GeneratedBoolColumn('is_deleted', $tableName, false,
-        defaultValue: Constant(false));
   }
 
   final VerificationMeta _idMeta = const VerificationMeta('id');
@@ -31283,18 +26614,18 @@ class $JourneyPlanTable extends JourneyPlan
     );
   }
 
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  GeneratedBoolColumn _isDeleted;
+  @override
+  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
+  GeneratedBoolColumn _constructIsDeleted() {
+    return GeneratedBoolColumn('is_deleted', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
   @override
   List<GeneratedColumn> get $columns => [
         tenantId,
-        creationTime,
-        deleteTime,
-        createUserId,
-        creatorUser,
-        lastModifierUser,
-        lastModifierUserId,
-        deleteUserId,
-        deleterUserId,
-        isDeleted,
         id,
         customerId,
         customerName,
@@ -31307,7 +26638,8 @@ class $JourneyPlanTable extends JourneyPlan
         assignTo,
         expiryDate,
         weekNumber,
-        weekDay
+        weekDay,
+        isDeleted
       ];
   @override
   $JourneyPlanTable get asDslTable => this;
@@ -31323,58 +26655,6 @@ class $JourneyPlanTable extends JourneyPlan
     if (data.containsKey('tenant_id')) {
       context.handle(_tenantIdMeta,
           tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
-    }
-    if (data.containsKey('creation_time')) {
-      context.handle(
-          _creationTimeMeta,
-          creationTime.isAcceptableOrUnknown(
-              data['creation_time'], _creationTimeMeta));
-    }
-    if (data.containsKey('delete_time')) {
-      context.handle(
-          _deleteTimeMeta,
-          deleteTime.isAcceptableOrUnknown(
-              data['delete_time'], _deleteTimeMeta));
-    }
-    if (data.containsKey('create_user_id')) {
-      context.handle(
-          _createUserIdMeta,
-          createUserId.isAcceptableOrUnknown(
-              data['create_user_id'], _createUserIdMeta));
-    }
-    if (data.containsKey('creator_user')) {
-      context.handle(
-          _creatorUserMeta,
-          creatorUser.isAcceptableOrUnknown(
-              data['creator_user'], _creatorUserMeta));
-    }
-    if (data.containsKey('last_modifier_user')) {
-      context.handle(
-          _lastModifierUserMeta,
-          lastModifierUser.isAcceptableOrUnknown(
-              data['last_modifier_user'], _lastModifierUserMeta));
-    }
-    if (data.containsKey('last_modifier_user_id')) {
-      context.handle(
-          _lastModifierUserIdMeta,
-          lastModifierUserId.isAcceptableOrUnknown(
-              data['last_modifier_user_id'], _lastModifierUserIdMeta));
-    }
-    if (data.containsKey('delete_user_id')) {
-      context.handle(
-          _deleteUserIdMeta,
-          deleteUserId.isAcceptableOrUnknown(
-              data['delete_user_id'], _deleteUserIdMeta));
-    }
-    if (data.containsKey('deleter_user_id')) {
-      context.handle(
-          _deleterUserIdMeta,
-          deleterUserId.isAcceptableOrUnknown(
-              data['deleter_user_id'], _deleterUserIdMeta));
-    }
-    if (data.containsKey('is_deleted')) {
-      context.handle(_isDeletedMeta,
-          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
     }
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
@@ -31459,6 +26739,10 @@ class $JourneyPlanTable extends JourneyPlan
       context.handle(_weekDayMeta,
           weekDay.isAcceptableOrUnknown(data['week_day'], _weekDayMeta));
     }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
+    }
     return context;
   }
 
@@ -31478,30 +26762,12 @@ class $JourneyPlanTable extends JourneyPlan
 
 class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
   final int tenantId;
-  final DateTime creationTime;
-  final DateTime deleteTime;
-  final int createUserId;
-  final String creatorUser;
-  final String lastModifierUser;
-  final int lastModifierUserId;
-  final int deleteUserId;
-  final String deleterUserId;
-  final bool isDeleted;
   final int id;
   final String upcCode;
   final String codeType;
   final int itemId;
   UPCCodeData(
       {this.tenantId,
-      this.creationTime,
-      this.deleteTime,
-      this.createUserId,
-      this.creatorUser,
-      this.lastModifierUser,
-      this.lastModifierUserId,
-      this.deleteUserId,
-      this.deleterUserId,
-      @required this.isDeleted,
       @required this.id,
       this.upcCode,
       this.codeType,
@@ -31510,30 +26776,10 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
-    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final stringType = db.typeSystem.forDartType<String>();
-    final boolType = db.typeSystem.forDartType<bool>();
     return UPCCodeData(
       tenantId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
-      creationTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
-      deleteTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
-      createUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
-      creatorUser: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
-      lastModifierUser: stringType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user']),
-      lastModifierUserId: intType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user_id']),
-      deleteUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
-      deleterUserId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
-      isDeleted: boolType
-          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       upcCode: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}upc_code']),
@@ -31548,33 +26794,6 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
       map['tenant_id'] = Variable<int>(tenantId);
-    }
-    if (!nullToAbsent || creationTime != null) {
-      map['creation_time'] = Variable<DateTime>(creationTime);
-    }
-    if (!nullToAbsent || deleteTime != null) {
-      map['delete_time'] = Variable<DateTime>(deleteTime);
-    }
-    if (!nullToAbsent || createUserId != null) {
-      map['create_user_id'] = Variable<int>(createUserId);
-    }
-    if (!nullToAbsent || creatorUser != null) {
-      map['creator_user'] = Variable<String>(creatorUser);
-    }
-    if (!nullToAbsent || lastModifierUser != null) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser);
-    }
-    if (!nullToAbsent || lastModifierUserId != null) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
-    }
-    if (!nullToAbsent || deleteUserId != null) {
-      map['delete_user_id'] = Variable<int>(deleteUserId);
-    }
-    if (!nullToAbsent || deleterUserId != null) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId);
-    }
-    if (!nullToAbsent || isDeleted != null) {
-      map['is_deleted'] = Variable<bool>(isDeleted);
     }
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int>(id);
@@ -31596,33 +26815,6 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
       tenantId: tenantId == null && nullToAbsent
           ? const Value.absent()
           : Value(tenantId),
-      creationTime: creationTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creationTime),
-      deleteTime: deleteTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteTime),
-      createUserId: createUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(createUserId),
-      creatorUser: creatorUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creatorUser),
-      lastModifierUser: lastModifierUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUser),
-      lastModifierUserId: lastModifierUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUserId),
-      deleteUserId: deleteUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteUserId),
-      deleterUserId: deleterUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleterUserId),
-      isDeleted: isDeleted == null && nullToAbsent
-          ? const Value.absent()
-          : Value(isDeleted),
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       upcCode: upcCode == null && nullToAbsent
           ? const Value.absent()
@@ -31640,15 +26832,6 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return UPCCodeData(
       tenantId: serializer.fromJson<int>(json['tenantId']),
-      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
-      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
-      createUserId: serializer.fromJson<int>(json['createUserId']),
-      creatorUser: serializer.fromJson<String>(json['creatorUser']),
-      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
-      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
-      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
-      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
-      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
       id: serializer.fromJson<int>(json['id']),
       upcCode: serializer.fromJson<String>(json['upcCode']),
       codeType: serializer.fromJson<String>(json['codeType']),
@@ -31660,15 +26843,6 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'tenantId': serializer.toJson<int>(tenantId),
-      'creationTime': serializer.toJson<DateTime>(creationTime),
-      'deleteTime': serializer.toJson<DateTime>(deleteTime),
-      'createUserId': serializer.toJson<int>(createUserId),
-      'creatorUser': serializer.toJson<String>(creatorUser),
-      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
-      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
-      'deleteUserId': serializer.toJson<int>(deleteUserId),
-      'deleterUserId': serializer.toJson<String>(deleterUserId),
-      'isDeleted': serializer.toJson<bool>(isDeleted),
       'id': serializer.toJson<int>(id),
       'upcCode': serializer.toJson<String>(upcCode),
       'codeType': serializer.toJson<String>(codeType),
@@ -31678,30 +26852,12 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
 
   UPCCodeData copyWith(
           {int tenantId,
-          DateTime creationTime,
-          DateTime deleteTime,
-          int createUserId,
-          String creatorUser,
-          String lastModifierUser,
-          int lastModifierUserId,
-          int deleteUserId,
-          String deleterUserId,
-          bool isDeleted,
           int id,
           String upcCode,
           String codeType,
           int itemId}) =>
       UPCCodeData(
         tenantId: tenantId ?? this.tenantId,
-        creationTime: creationTime ?? this.creationTime,
-        deleteTime: deleteTime ?? this.deleteTime,
-        createUserId: createUserId ?? this.createUserId,
-        creatorUser: creatorUser ?? this.creatorUser,
-        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-        deleteUserId: deleteUserId ?? this.deleteUserId,
-        deleterUserId: deleterUserId ?? this.deleterUserId,
-        isDeleted: isDeleted ?? this.isDeleted,
         id: id ?? this.id,
         upcCode: upcCode ?? this.upcCode,
         codeType: codeType ?? this.codeType,
@@ -31711,15 +26867,6 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
   String toString() {
     return (StringBuffer('UPCCodeData(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('upcCode: $upcCode, ')
           ..write('codeType: $codeType, ')
@@ -31731,46 +26878,13 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
   @override
   int get hashCode => $mrjf($mrjc(
       tenantId.hashCode,
-      $mrjc(
-          creationTime.hashCode,
-          $mrjc(
-              deleteTime.hashCode,
-              $mrjc(
-                  createUserId.hashCode,
-                  $mrjc(
-                      creatorUser.hashCode,
-                      $mrjc(
-                          lastModifierUser.hashCode,
-                          $mrjc(
-                              lastModifierUserId.hashCode,
-                              $mrjc(
-                                  deleteUserId.hashCode,
-                                  $mrjc(
-                                      deleterUserId.hashCode,
-                                      $mrjc(
-                                          isDeleted.hashCode,
-                                          $mrjc(
-                                              id.hashCode,
-                                              $mrjc(
-                                                  upcCode.hashCode,
-                                                  $mrjc(
-                                                      codeType.hashCode,
-                                                      itemId
-                                                          .hashCode))))))))))))));
+      $mrjc(id.hashCode,
+          $mrjc(upcCode.hashCode, $mrjc(codeType.hashCode, itemId.hashCode)))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is UPCCodeData &&
           other.tenantId == this.tenantId &&
-          other.creationTime == this.creationTime &&
-          other.deleteTime == this.deleteTime &&
-          other.createUserId == this.createUserId &&
-          other.creatorUser == this.creatorUser &&
-          other.lastModifierUser == this.lastModifierUser &&
-          other.lastModifierUserId == this.lastModifierUserId &&
-          other.deleteUserId == this.deleteUserId &&
-          other.deleterUserId == this.deleterUserId &&
-          other.isDeleted == this.isDeleted &&
           other.id == this.id &&
           other.upcCode == this.upcCode &&
           other.codeType == this.codeType &&
@@ -31779,30 +26893,12 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
 
 class UPCCodeCompanion extends UpdateCompanion<UPCCodeData> {
   final Value<int> tenantId;
-  final Value<DateTime> creationTime;
-  final Value<DateTime> deleteTime;
-  final Value<int> createUserId;
-  final Value<String> creatorUser;
-  final Value<String> lastModifierUser;
-  final Value<int> lastModifierUserId;
-  final Value<int> deleteUserId;
-  final Value<String> deleterUserId;
-  final Value<bool> isDeleted;
   final Value<int> id;
   final Value<String> upcCode;
   final Value<String> codeType;
   final Value<int> itemId;
   const UPCCodeCompanion({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     this.upcCode = const Value.absent(),
     this.codeType = const Value.absent(),
@@ -31810,15 +26906,6 @@ class UPCCodeCompanion extends UpdateCompanion<UPCCodeData> {
   });
   UPCCodeCompanion.insert({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     this.upcCode = const Value.absent(),
     this.codeType = const Value.absent(),
@@ -31826,15 +26913,6 @@ class UPCCodeCompanion extends UpdateCompanion<UPCCodeData> {
   }) : itemId = Value(itemId);
   static Insertable<UPCCodeData> custom({
     Expression<int> tenantId,
-    Expression<DateTime> creationTime,
-    Expression<DateTime> deleteTime,
-    Expression<int> createUserId,
-    Expression<String> creatorUser,
-    Expression<String> lastModifierUser,
-    Expression<int> lastModifierUserId,
-    Expression<int> deleteUserId,
-    Expression<String> deleterUserId,
-    Expression<bool> isDeleted,
     Expression<int> id,
     Expression<String> upcCode,
     Expression<String> codeType,
@@ -31842,16 +26920,6 @@ class UPCCodeCompanion extends UpdateCompanion<UPCCodeData> {
   }) {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
-      if (creationTime != null) 'creation_time': creationTime,
-      if (deleteTime != null) 'delete_time': deleteTime,
-      if (createUserId != null) 'create_user_id': createUserId,
-      if (creatorUser != null) 'creator_user': creatorUser,
-      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
-      if (lastModifierUserId != null)
-        'last_modifier_user_id': lastModifierUserId,
-      if (deleteUserId != null) 'delete_user_id': deleteUserId,
-      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
-      if (isDeleted != null) 'is_deleted': isDeleted,
       if (id != null) 'id': id,
       if (upcCode != null) 'upc_code': upcCode,
       if (codeType != null) 'code_type': codeType,
@@ -31861,30 +26929,12 @@ class UPCCodeCompanion extends UpdateCompanion<UPCCodeData> {
 
   UPCCodeCompanion copyWith(
       {Value<int> tenantId,
-      Value<DateTime> creationTime,
-      Value<DateTime> deleteTime,
-      Value<int> createUserId,
-      Value<String> creatorUser,
-      Value<String> lastModifierUser,
-      Value<int> lastModifierUserId,
-      Value<int> deleteUserId,
-      Value<String> deleterUserId,
-      Value<bool> isDeleted,
       Value<int> id,
       Value<String> upcCode,
       Value<String> codeType,
       Value<int> itemId}) {
     return UPCCodeCompanion(
       tenantId: tenantId ?? this.tenantId,
-      creationTime: creationTime ?? this.creationTime,
-      deleteTime: deleteTime ?? this.deleteTime,
-      createUserId: createUserId ?? this.createUserId,
-      creatorUser: creatorUser ?? this.creatorUser,
-      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-      deleteUserId: deleteUserId ?? this.deleteUserId,
-      deleterUserId: deleterUserId ?? this.deleterUserId,
-      isDeleted: isDeleted ?? this.isDeleted,
       id: id ?? this.id,
       upcCode: upcCode ?? this.upcCode,
       codeType: codeType ?? this.codeType,
@@ -31897,33 +26947,6 @@ class UPCCodeCompanion extends UpdateCompanion<UPCCodeData> {
     final map = <String, Expression>{};
     if (tenantId.present) {
       map['tenant_id'] = Variable<int>(tenantId.value);
-    }
-    if (creationTime.present) {
-      map['creation_time'] = Variable<DateTime>(creationTime.value);
-    }
-    if (deleteTime.present) {
-      map['delete_time'] = Variable<DateTime>(deleteTime.value);
-    }
-    if (createUserId.present) {
-      map['create_user_id'] = Variable<int>(createUserId.value);
-    }
-    if (creatorUser.present) {
-      map['creator_user'] = Variable<String>(creatorUser.value);
-    }
-    if (lastModifierUser.present) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
-    }
-    if (lastModifierUserId.present) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
-    }
-    if (deleteUserId.present) {
-      map['delete_user_id'] = Variable<int>(deleteUserId.value);
-    }
-    if (deleterUserId.present) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
-    }
-    if (isDeleted.present) {
-      map['is_deleted'] = Variable<bool>(isDeleted.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -31944,15 +26967,6 @@ class UPCCodeCompanion extends UpdateCompanion<UPCCodeData> {
   String toString() {
     return (StringBuffer('UPCCodeCompanion(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('upcCode: $upcCode, ')
           ..write('codeType: $codeType, ')
@@ -31976,126 +26990,6 @@ class $UPCCodeTable extends UPCCode with TableInfo<$UPCCodeTable, UPCCodeData> {
       $tableName,
       true,
     );
-  }
-
-  final VerificationMeta _creationTimeMeta =
-      const VerificationMeta('creationTime');
-  GeneratedDateTimeColumn _creationTime;
-  @override
-  GeneratedDateTimeColumn get creationTime =>
-      _creationTime ??= _constructCreationTime();
-  GeneratedDateTimeColumn _constructCreationTime() {
-    return GeneratedDateTimeColumn(
-      'creation_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
-  GeneratedDateTimeColumn _deleteTime;
-  @override
-  GeneratedDateTimeColumn get deleteTime =>
-      _deleteTime ??= _constructDeleteTime();
-  GeneratedDateTimeColumn _constructDeleteTime() {
-    return GeneratedDateTimeColumn(
-      'delete_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _createUserIdMeta =
-      const VerificationMeta('createUserId');
-  GeneratedIntColumn _createUserId;
-  @override
-  GeneratedIntColumn get createUserId =>
-      _createUserId ??= _constructCreateUserId();
-  GeneratedIntColumn _constructCreateUserId() {
-    return GeneratedIntColumn(
-      'create_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _creatorUserMeta =
-      const VerificationMeta('creatorUser');
-  GeneratedTextColumn _creatorUser;
-  @override
-  GeneratedTextColumn get creatorUser =>
-      _creatorUser ??= _constructCreatorUser();
-  GeneratedTextColumn _constructCreatorUser() {
-    return GeneratedTextColumn(
-      'creator_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserMeta =
-      const VerificationMeta('lastModifierUser');
-  GeneratedTextColumn _lastModifierUser;
-  @override
-  GeneratedTextColumn get lastModifierUser =>
-      _lastModifierUser ??= _constructLastModifierUser();
-  GeneratedTextColumn _constructLastModifierUser() {
-    return GeneratedTextColumn(
-      'last_modifier_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserIdMeta =
-      const VerificationMeta('lastModifierUserId');
-  GeneratedIntColumn _lastModifierUserId;
-  @override
-  GeneratedIntColumn get lastModifierUserId =>
-      _lastModifierUserId ??= _constructLastModifierUserId();
-  GeneratedIntColumn _constructLastModifierUserId() {
-    return GeneratedIntColumn(
-      'last_modifier_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteUserIdMeta =
-      const VerificationMeta('deleteUserId');
-  GeneratedIntColumn _deleteUserId;
-  @override
-  GeneratedIntColumn get deleteUserId =>
-      _deleteUserId ??= _constructDeleteUserId();
-  GeneratedIntColumn _constructDeleteUserId() {
-    return GeneratedIntColumn(
-      'delete_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleterUserIdMeta =
-      const VerificationMeta('deleterUserId');
-  GeneratedTextColumn _deleterUserId;
-  @override
-  GeneratedTextColumn get deleterUserId =>
-      _deleterUserId ??= _constructDeleterUserId();
-  GeneratedTextColumn _constructDeleterUserId() {
-    return GeneratedTextColumn(
-      'deleter_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
-  GeneratedBoolColumn _isDeleted;
-  @override
-  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
-  GeneratedBoolColumn _constructIsDeleted() {
-    return GeneratedBoolColumn('is_deleted', $tableName, false,
-        defaultValue: Constant(false));
   }
 
   final VerificationMeta _idMeta = const VerificationMeta('id');
@@ -32147,22 +27041,8 @@ class $UPCCodeTable extends UPCCode with TableInfo<$UPCCodeTable, UPCCodeData> {
   }
 
   @override
-  List<GeneratedColumn> get $columns => [
-        tenantId,
-        creationTime,
-        deleteTime,
-        createUserId,
-        creatorUser,
-        lastModifierUser,
-        lastModifierUserId,
-        deleteUserId,
-        deleterUserId,
-        isDeleted,
-        id,
-        upcCode,
-        codeType,
-        itemId
-      ];
+  List<GeneratedColumn> get $columns =>
+      [tenantId, id, upcCode, codeType, itemId];
   @override
   $UPCCodeTable get asDslTable => this;
   @override
@@ -32177,58 +27057,6 @@ class $UPCCodeTable extends UPCCode with TableInfo<$UPCCodeTable, UPCCodeData> {
     if (data.containsKey('tenant_id')) {
       context.handle(_tenantIdMeta,
           tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
-    }
-    if (data.containsKey('creation_time')) {
-      context.handle(
-          _creationTimeMeta,
-          creationTime.isAcceptableOrUnknown(
-              data['creation_time'], _creationTimeMeta));
-    }
-    if (data.containsKey('delete_time')) {
-      context.handle(
-          _deleteTimeMeta,
-          deleteTime.isAcceptableOrUnknown(
-              data['delete_time'], _deleteTimeMeta));
-    }
-    if (data.containsKey('create_user_id')) {
-      context.handle(
-          _createUserIdMeta,
-          createUserId.isAcceptableOrUnknown(
-              data['create_user_id'], _createUserIdMeta));
-    }
-    if (data.containsKey('creator_user')) {
-      context.handle(
-          _creatorUserMeta,
-          creatorUser.isAcceptableOrUnknown(
-              data['creator_user'], _creatorUserMeta));
-    }
-    if (data.containsKey('last_modifier_user')) {
-      context.handle(
-          _lastModifierUserMeta,
-          lastModifierUser.isAcceptableOrUnknown(
-              data['last_modifier_user'], _lastModifierUserMeta));
-    }
-    if (data.containsKey('last_modifier_user_id')) {
-      context.handle(
-          _lastModifierUserIdMeta,
-          lastModifierUserId.isAcceptableOrUnknown(
-              data['last_modifier_user_id'], _lastModifierUserIdMeta));
-    }
-    if (data.containsKey('delete_user_id')) {
-      context.handle(
-          _deleteUserIdMeta,
-          deleteUserId.isAcceptableOrUnknown(
-              data['delete_user_id'], _deleteUserIdMeta));
-    }
-    if (data.containsKey('deleter_user_id')) {
-      context.handle(
-          _deleterUserIdMeta,
-          deleterUserId.isAcceptableOrUnknown(
-              data['deleter_user_id'], _deleterUserIdMeta));
-    }
-    if (data.containsKey('is_deleted')) {
-      context.handle(_isDeletedMeta,
-          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
     }
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
@@ -32266,76 +27094,42 @@ class $UPCCodeTable extends UPCCode with TableInfo<$UPCCodeTable, UPCCodeData> {
 
 class InventoryItem extends DataClass implements Insertable<InventoryItem> {
   final int tenantId;
-  final DateTime creationTime;
-  final DateTime deleteTime;
-  final int createUserId;
-  final String creatorUser;
-  final String lastModifierUser;
-  final int lastModifierUserId;
-  final int deleteUserId;
-  final String deleterUserId;
-  final bool isDeleted;
   final int id;
   final String itemCode;
   final String itemName;
   final String uom;
   final String defaultWarehouse;
-  final double qtyOnHand;
-  final double qtyAdjust;
-  final double qtySold;
-  final double qtyCount;
+  final double quantityOnHand;
+  final double quantityAvailable;
+  final double quantityAdjust;
+  final double quantitySoldOnInvoice;
+  final double quantitySoldOnOrder;
+  final double quantityCount;
   final String inventoryCycleNumber;
   InventoryItem(
       {this.tenantId,
-      this.creationTime,
-      this.deleteTime,
-      this.createUserId,
-      this.creatorUser,
-      this.lastModifierUser,
-      this.lastModifierUserId,
-      this.deleteUserId,
-      this.deleterUserId,
-      @required this.isDeleted,
       @required this.id,
       this.itemCode,
       this.itemName,
       this.uom,
       this.defaultWarehouse,
-      @required this.qtyOnHand,
-      @required this.qtyAdjust,
-      @required this.qtySold,
-      @required this.qtyCount,
+      @required this.quantityOnHand,
+      @required this.quantityAvailable,
+      @required this.quantityAdjust,
+      @required this.quantitySoldOnInvoice,
+      @required this.quantitySoldOnOrder,
+      @required this.quantityCount,
       @required this.inventoryCycleNumber});
   factory InventoryItem.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
-    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final stringType = db.typeSystem.forDartType<String>();
-    final boolType = db.typeSystem.forDartType<bool>();
     final doubleType = db.typeSystem.forDartType<double>();
     return InventoryItem(
       tenantId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
-      creationTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
-      deleteTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
-      createUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
-      creatorUser: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
-      lastModifierUser: stringType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user']),
-      lastModifierUserId: intType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user_id']),
-      deleteUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
-      deleterUserId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
-      isDeleted: boolType
-          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       itemCode: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}item_code']),
@@ -32344,14 +27138,18 @@ class InventoryItem extends DataClass implements Insertable<InventoryItem> {
       uom: stringType.mapFromDatabaseResponse(data['${effectivePrefix}uom']),
       defaultWarehouse: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}default_warehouse']),
-      qtyOnHand: doubleType
-          .mapFromDatabaseResponse(data['${effectivePrefix}qty_on_hand']),
-      qtyAdjust: doubleType
-          .mapFromDatabaseResponse(data['${effectivePrefix}qty_adjust']),
-      qtySold: doubleType
-          .mapFromDatabaseResponse(data['${effectivePrefix}qty_sold']),
-      qtyCount: doubleType
-          .mapFromDatabaseResponse(data['${effectivePrefix}qty_count']),
+      quantityOnHand: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}quantity_on_hand']),
+      quantityAvailable: doubleType.mapFromDatabaseResponse(
+          data['${effectivePrefix}quantity_available']),
+      quantityAdjust: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}quantity_adjust']),
+      quantitySoldOnInvoice: doubleType.mapFromDatabaseResponse(
+          data['${effectivePrefix}quantity_sold_on_invoice']),
+      quantitySoldOnOrder: doubleType.mapFromDatabaseResponse(
+          data['${effectivePrefix}quantity_sold_on_order']),
+      quantityCount: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}quantity_count']),
       inventoryCycleNumber: stringType.mapFromDatabaseResponse(
           data['${effectivePrefix}inventory_cycle_number']),
     );
@@ -32361,33 +27159,6 @@ class InventoryItem extends DataClass implements Insertable<InventoryItem> {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
       map['tenant_id'] = Variable<int>(tenantId);
-    }
-    if (!nullToAbsent || creationTime != null) {
-      map['creation_time'] = Variable<DateTime>(creationTime);
-    }
-    if (!nullToAbsent || deleteTime != null) {
-      map['delete_time'] = Variable<DateTime>(deleteTime);
-    }
-    if (!nullToAbsent || createUserId != null) {
-      map['create_user_id'] = Variable<int>(createUserId);
-    }
-    if (!nullToAbsent || creatorUser != null) {
-      map['creator_user'] = Variable<String>(creatorUser);
-    }
-    if (!nullToAbsent || lastModifierUser != null) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser);
-    }
-    if (!nullToAbsent || lastModifierUserId != null) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
-    }
-    if (!nullToAbsent || deleteUserId != null) {
-      map['delete_user_id'] = Variable<int>(deleteUserId);
-    }
-    if (!nullToAbsent || deleterUserId != null) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId);
-    }
-    if (!nullToAbsent || isDeleted != null) {
-      map['is_deleted'] = Variable<bool>(isDeleted);
     }
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int>(id);
@@ -32404,17 +27175,23 @@ class InventoryItem extends DataClass implements Insertable<InventoryItem> {
     if (!nullToAbsent || defaultWarehouse != null) {
       map['default_warehouse'] = Variable<String>(defaultWarehouse);
     }
-    if (!nullToAbsent || qtyOnHand != null) {
-      map['qty_on_hand'] = Variable<double>(qtyOnHand);
+    if (!nullToAbsent || quantityOnHand != null) {
+      map['quantity_on_hand'] = Variable<double>(quantityOnHand);
     }
-    if (!nullToAbsent || qtyAdjust != null) {
-      map['qty_adjust'] = Variable<double>(qtyAdjust);
+    if (!nullToAbsent || quantityAvailable != null) {
+      map['quantity_available'] = Variable<double>(quantityAvailable);
     }
-    if (!nullToAbsent || qtySold != null) {
-      map['qty_sold'] = Variable<double>(qtySold);
+    if (!nullToAbsent || quantityAdjust != null) {
+      map['quantity_adjust'] = Variable<double>(quantityAdjust);
     }
-    if (!nullToAbsent || qtyCount != null) {
-      map['qty_count'] = Variable<double>(qtyCount);
+    if (!nullToAbsent || quantitySoldOnInvoice != null) {
+      map['quantity_sold_on_invoice'] = Variable<double>(quantitySoldOnInvoice);
+    }
+    if (!nullToAbsent || quantitySoldOnOrder != null) {
+      map['quantity_sold_on_order'] = Variable<double>(quantitySoldOnOrder);
+    }
+    if (!nullToAbsent || quantityCount != null) {
+      map['quantity_count'] = Variable<double>(quantityCount);
     }
     if (!nullToAbsent || inventoryCycleNumber != null) {
       map['inventory_cycle_number'] = Variable<String>(inventoryCycleNumber);
@@ -32427,33 +27204,6 @@ class InventoryItem extends DataClass implements Insertable<InventoryItem> {
       tenantId: tenantId == null && nullToAbsent
           ? const Value.absent()
           : Value(tenantId),
-      creationTime: creationTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creationTime),
-      deleteTime: deleteTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteTime),
-      createUserId: createUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(createUserId),
-      creatorUser: creatorUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creatorUser),
-      lastModifierUser: lastModifierUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUser),
-      lastModifierUserId: lastModifierUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUserId),
-      deleteUserId: deleteUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteUserId),
-      deleterUserId: deleterUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleterUserId),
-      isDeleted: isDeleted == null && nullToAbsent
-          ? const Value.absent()
-          : Value(isDeleted),
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       itemCode: itemCode == null && nullToAbsent
           ? const Value.absent()
@@ -32465,18 +27215,24 @@ class InventoryItem extends DataClass implements Insertable<InventoryItem> {
       defaultWarehouse: defaultWarehouse == null && nullToAbsent
           ? const Value.absent()
           : Value(defaultWarehouse),
-      qtyOnHand: qtyOnHand == null && nullToAbsent
+      quantityOnHand: quantityOnHand == null && nullToAbsent
           ? const Value.absent()
-          : Value(qtyOnHand),
-      qtyAdjust: qtyAdjust == null && nullToAbsent
+          : Value(quantityOnHand),
+      quantityAvailable: quantityAvailable == null && nullToAbsent
           ? const Value.absent()
-          : Value(qtyAdjust),
-      qtySold: qtySold == null && nullToAbsent
+          : Value(quantityAvailable),
+      quantityAdjust: quantityAdjust == null && nullToAbsent
           ? const Value.absent()
-          : Value(qtySold),
-      qtyCount: qtyCount == null && nullToAbsent
+          : Value(quantityAdjust),
+      quantitySoldOnInvoice: quantitySoldOnInvoice == null && nullToAbsent
           ? const Value.absent()
-          : Value(qtyCount),
+          : Value(quantitySoldOnInvoice),
+      quantitySoldOnOrder: quantitySoldOnOrder == null && nullToAbsent
+          ? const Value.absent()
+          : Value(quantitySoldOnOrder),
+      quantityCount: quantityCount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(quantityCount),
       inventoryCycleNumber: inventoryCycleNumber == null && nullToAbsent
           ? const Value.absent()
           : Value(inventoryCycleNumber),
@@ -32488,24 +27244,19 @@ class InventoryItem extends DataClass implements Insertable<InventoryItem> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return InventoryItem(
       tenantId: serializer.fromJson<int>(json['tenantId']),
-      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
-      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
-      createUserId: serializer.fromJson<int>(json['createUserId']),
-      creatorUser: serializer.fromJson<String>(json['creatorUser']),
-      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
-      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
-      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
-      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
-      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
       id: serializer.fromJson<int>(json['id']),
       itemCode: serializer.fromJson<String>(json['itemCode']),
       itemName: serializer.fromJson<String>(json['itemName']),
       uom: serializer.fromJson<String>(json['uom']),
       defaultWarehouse: serializer.fromJson<String>(json['defaultWarehouse']),
-      qtyOnHand: serializer.fromJson<double>(json['qtyOnHand']),
-      qtyAdjust: serializer.fromJson<double>(json['qtyAdjust']),
-      qtySold: serializer.fromJson<double>(json['qtySold']),
-      qtyCount: serializer.fromJson<double>(json['qtyCount']),
+      quantityOnHand: serializer.fromJson<double>(json['quantityOnHand']),
+      quantityAvailable: serializer.fromJson<double>(json['quantityAvailable']),
+      quantityAdjust: serializer.fromJson<double>(json['quantityAdjust']),
+      quantitySoldOnInvoice:
+          serializer.fromJson<double>(json['quantitySoldOnInvoice']),
+      quantitySoldOnOrder:
+          serializer.fromJson<double>(json['quantitySoldOnOrder']),
+      quantityCount: serializer.fromJson<double>(json['quantityCount']),
       inventoryCycleNumber:
           serializer.fromJson<String>(json['inventoryCycleNumber']),
     );
@@ -32515,93 +27266,66 @@ class InventoryItem extends DataClass implements Insertable<InventoryItem> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'tenantId': serializer.toJson<int>(tenantId),
-      'creationTime': serializer.toJson<DateTime>(creationTime),
-      'deleteTime': serializer.toJson<DateTime>(deleteTime),
-      'createUserId': serializer.toJson<int>(createUserId),
-      'creatorUser': serializer.toJson<String>(creatorUser),
-      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
-      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
-      'deleteUserId': serializer.toJson<int>(deleteUserId),
-      'deleterUserId': serializer.toJson<String>(deleterUserId),
-      'isDeleted': serializer.toJson<bool>(isDeleted),
       'id': serializer.toJson<int>(id),
       'itemCode': serializer.toJson<String>(itemCode),
       'itemName': serializer.toJson<String>(itemName),
       'uom': serializer.toJson<String>(uom),
       'defaultWarehouse': serializer.toJson<String>(defaultWarehouse),
-      'qtyOnHand': serializer.toJson<double>(qtyOnHand),
-      'qtyAdjust': serializer.toJson<double>(qtyAdjust),
-      'qtySold': serializer.toJson<double>(qtySold),
-      'qtyCount': serializer.toJson<double>(qtyCount),
+      'quantityOnHand': serializer.toJson<double>(quantityOnHand),
+      'quantityAvailable': serializer.toJson<double>(quantityAvailable),
+      'quantityAdjust': serializer.toJson<double>(quantityAdjust),
+      'quantitySoldOnInvoice': serializer.toJson<double>(quantitySoldOnInvoice),
+      'quantitySoldOnOrder': serializer.toJson<double>(quantitySoldOnOrder),
+      'quantityCount': serializer.toJson<double>(quantityCount),
       'inventoryCycleNumber': serializer.toJson<String>(inventoryCycleNumber),
     };
   }
 
   InventoryItem copyWith(
           {int tenantId,
-          DateTime creationTime,
-          DateTime deleteTime,
-          int createUserId,
-          String creatorUser,
-          String lastModifierUser,
-          int lastModifierUserId,
-          int deleteUserId,
-          String deleterUserId,
-          bool isDeleted,
           int id,
           String itemCode,
           String itemName,
           String uom,
           String defaultWarehouse,
-          double qtyOnHand,
-          double qtyAdjust,
-          double qtySold,
-          double qtyCount,
+          double quantityOnHand,
+          double quantityAvailable,
+          double quantityAdjust,
+          double quantitySoldOnInvoice,
+          double quantitySoldOnOrder,
+          double quantityCount,
           String inventoryCycleNumber}) =>
       InventoryItem(
         tenantId: tenantId ?? this.tenantId,
-        creationTime: creationTime ?? this.creationTime,
-        deleteTime: deleteTime ?? this.deleteTime,
-        createUserId: createUserId ?? this.createUserId,
-        creatorUser: creatorUser ?? this.creatorUser,
-        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-        deleteUserId: deleteUserId ?? this.deleteUserId,
-        deleterUserId: deleterUserId ?? this.deleterUserId,
-        isDeleted: isDeleted ?? this.isDeleted,
         id: id ?? this.id,
         itemCode: itemCode ?? this.itemCode,
         itemName: itemName ?? this.itemName,
         uom: uom ?? this.uom,
         defaultWarehouse: defaultWarehouse ?? this.defaultWarehouse,
-        qtyOnHand: qtyOnHand ?? this.qtyOnHand,
-        qtyAdjust: qtyAdjust ?? this.qtyAdjust,
-        qtySold: qtySold ?? this.qtySold,
-        qtyCount: qtyCount ?? this.qtyCount,
+        quantityOnHand: quantityOnHand ?? this.quantityOnHand,
+        quantityAvailable: quantityAvailable ?? this.quantityAvailable,
+        quantityAdjust: quantityAdjust ?? this.quantityAdjust,
+        quantitySoldOnInvoice:
+            quantitySoldOnInvoice ?? this.quantitySoldOnInvoice,
+        quantitySoldOnOrder: quantitySoldOnOrder ?? this.quantitySoldOnOrder,
+        quantityCount: quantityCount ?? this.quantityCount,
         inventoryCycleNumber: inventoryCycleNumber ?? this.inventoryCycleNumber,
       );
   @override
   String toString() {
     return (StringBuffer('InventoryItem(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('itemCode: $itemCode, ')
           ..write('itemName: $itemName, ')
           ..write('uom: $uom, ')
           ..write('defaultWarehouse: $defaultWarehouse, ')
-          ..write('qtyOnHand: $qtyOnHand, ')
-          ..write('qtyAdjust: $qtyAdjust, ')
-          ..write('qtySold: $qtySold, ')
-          ..write('qtyCount: $qtyCount, ')
+          ..write('quantityOnHand: $quantityOnHand, ')
+          ..write('quantityAvailable: $quantityAvailable, ')
+          ..write('quantityAdjust: $quantityAdjust, ')
+          ..write('quantitySoldOnInvoice: $quantitySoldOnInvoice, ')
+          ..write('quantitySoldOnOrder: $quantitySoldOnOrder, ')
+          ..write('quantityCount: $quantityCount, ')
           ..write('inventoryCycleNumber: $inventoryCycleNumber')
           ..write(')'))
         .toString();
@@ -32611,184 +27335,128 @@ class InventoryItem extends DataClass implements Insertable<InventoryItem> {
   int get hashCode => $mrjf($mrjc(
       tenantId.hashCode,
       $mrjc(
-          creationTime.hashCode,
+          id.hashCode,
           $mrjc(
-              deleteTime.hashCode,
+              itemCode.hashCode,
               $mrjc(
-                  createUserId.hashCode,
+                  itemName.hashCode,
                   $mrjc(
-                      creatorUser.hashCode,
+                      uom.hashCode,
                       $mrjc(
-                          lastModifierUser.hashCode,
+                          defaultWarehouse.hashCode,
                           $mrjc(
-                              lastModifierUserId.hashCode,
+                              quantityOnHand.hashCode,
                               $mrjc(
-                                  deleteUserId.hashCode,
+                                  quantityAvailable.hashCode,
                                   $mrjc(
-                                      deleterUserId.hashCode,
+                                      quantityAdjust.hashCode,
                                       $mrjc(
-                                          isDeleted.hashCode,
+                                          quantitySoldOnInvoice.hashCode,
                                           $mrjc(
-                                              id.hashCode,
+                                              quantitySoldOnOrder.hashCode,
                                               $mrjc(
-                                                  itemCode.hashCode,
-                                                  $mrjc(
-                                                      itemName.hashCode,
-                                                      $mrjc(
-                                                          uom.hashCode,
-                                                          $mrjc(
-                                                              defaultWarehouse
-                                                                  .hashCode,
-                                                              $mrjc(
-                                                                  qtyOnHand
-                                                                      .hashCode,
-                                                                  $mrjc(
-                                                                      qtyAdjust
-                                                                          .hashCode,
-                                                                      $mrjc(
-                                                                          qtySold
-                                                                              .hashCode,
-                                                                          $mrjc(
-                                                                              qtyCount.hashCode,
-                                                                              inventoryCycleNumber.hashCode))))))))))))))))))));
+                                                  quantityCount.hashCode,
+                                                  inventoryCycleNumber
+                                                      .hashCode)))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is InventoryItem &&
           other.tenantId == this.tenantId &&
-          other.creationTime == this.creationTime &&
-          other.deleteTime == this.deleteTime &&
-          other.createUserId == this.createUserId &&
-          other.creatorUser == this.creatorUser &&
-          other.lastModifierUser == this.lastModifierUser &&
-          other.lastModifierUserId == this.lastModifierUserId &&
-          other.deleteUserId == this.deleteUserId &&
-          other.deleterUserId == this.deleterUserId &&
-          other.isDeleted == this.isDeleted &&
           other.id == this.id &&
           other.itemCode == this.itemCode &&
           other.itemName == this.itemName &&
           other.uom == this.uom &&
           other.defaultWarehouse == this.defaultWarehouse &&
-          other.qtyOnHand == this.qtyOnHand &&
-          other.qtyAdjust == this.qtyAdjust &&
-          other.qtySold == this.qtySold &&
-          other.qtyCount == this.qtyCount &&
+          other.quantityOnHand == this.quantityOnHand &&
+          other.quantityAvailable == this.quantityAvailable &&
+          other.quantityAdjust == this.quantityAdjust &&
+          other.quantitySoldOnInvoice == this.quantitySoldOnInvoice &&
+          other.quantitySoldOnOrder == this.quantitySoldOnOrder &&
+          other.quantityCount == this.quantityCount &&
           other.inventoryCycleNumber == this.inventoryCycleNumber);
 }
 
 class InventoryItemsCompanion extends UpdateCompanion<InventoryItem> {
   final Value<int> tenantId;
-  final Value<DateTime> creationTime;
-  final Value<DateTime> deleteTime;
-  final Value<int> createUserId;
-  final Value<String> creatorUser;
-  final Value<String> lastModifierUser;
-  final Value<int> lastModifierUserId;
-  final Value<int> deleteUserId;
-  final Value<String> deleterUserId;
-  final Value<bool> isDeleted;
   final Value<int> id;
   final Value<String> itemCode;
   final Value<String> itemName;
   final Value<String> uom;
   final Value<String> defaultWarehouse;
-  final Value<double> qtyOnHand;
-  final Value<double> qtyAdjust;
-  final Value<double> qtySold;
-  final Value<double> qtyCount;
+  final Value<double> quantityOnHand;
+  final Value<double> quantityAvailable;
+  final Value<double> quantityAdjust;
+  final Value<double> quantitySoldOnInvoice;
+  final Value<double> quantitySoldOnOrder;
+  final Value<double> quantityCount;
   final Value<String> inventoryCycleNumber;
   const InventoryItemsCompanion({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     this.itemCode = const Value.absent(),
     this.itemName = const Value.absent(),
     this.uom = const Value.absent(),
     this.defaultWarehouse = const Value.absent(),
-    this.qtyOnHand = const Value.absent(),
-    this.qtyAdjust = const Value.absent(),
-    this.qtySold = const Value.absent(),
-    this.qtyCount = const Value.absent(),
+    this.quantityOnHand = const Value.absent(),
+    this.quantityAvailable = const Value.absent(),
+    this.quantityAdjust = const Value.absent(),
+    this.quantitySoldOnInvoice = const Value.absent(),
+    this.quantitySoldOnOrder = const Value.absent(),
+    this.quantityCount = const Value.absent(),
     this.inventoryCycleNumber = const Value.absent(),
   });
   InventoryItemsCompanion.insert({
     this.tenantId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
     this.id = const Value.absent(),
     this.itemCode = const Value.absent(),
     this.itemName = const Value.absent(),
     this.uom = const Value.absent(),
     this.defaultWarehouse = const Value.absent(),
-    @required double qtyOnHand,
-    @required double qtyAdjust,
-    @required double qtySold,
-    @required double qtyCount,
+    @required double quantityOnHand,
+    @required double quantityAvailable,
+    @required double quantityAdjust,
+    @required double quantitySoldOnInvoice,
+    @required double quantitySoldOnOrder,
+    @required double quantityCount,
     @required String inventoryCycleNumber,
-  })  : qtyOnHand = Value(qtyOnHand),
-        qtyAdjust = Value(qtyAdjust),
-        qtySold = Value(qtySold),
-        qtyCount = Value(qtyCount),
+  })  : quantityOnHand = Value(quantityOnHand),
+        quantityAvailable = Value(quantityAvailable),
+        quantityAdjust = Value(quantityAdjust),
+        quantitySoldOnInvoice = Value(quantitySoldOnInvoice),
+        quantitySoldOnOrder = Value(quantitySoldOnOrder),
+        quantityCount = Value(quantityCount),
         inventoryCycleNumber = Value(inventoryCycleNumber);
   static Insertable<InventoryItem> custom({
     Expression<int> tenantId,
-    Expression<DateTime> creationTime,
-    Expression<DateTime> deleteTime,
-    Expression<int> createUserId,
-    Expression<String> creatorUser,
-    Expression<String> lastModifierUser,
-    Expression<int> lastModifierUserId,
-    Expression<int> deleteUserId,
-    Expression<String> deleterUserId,
-    Expression<bool> isDeleted,
     Expression<int> id,
     Expression<String> itemCode,
     Expression<String> itemName,
     Expression<String> uom,
     Expression<String> defaultWarehouse,
-    Expression<double> qtyOnHand,
-    Expression<double> qtyAdjust,
-    Expression<double> qtySold,
-    Expression<double> qtyCount,
+    Expression<double> quantityOnHand,
+    Expression<double> quantityAvailable,
+    Expression<double> quantityAdjust,
+    Expression<double> quantitySoldOnInvoice,
+    Expression<double> quantitySoldOnOrder,
+    Expression<double> quantityCount,
     Expression<String> inventoryCycleNumber,
   }) {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
-      if (creationTime != null) 'creation_time': creationTime,
-      if (deleteTime != null) 'delete_time': deleteTime,
-      if (createUserId != null) 'create_user_id': createUserId,
-      if (creatorUser != null) 'creator_user': creatorUser,
-      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
-      if (lastModifierUserId != null)
-        'last_modifier_user_id': lastModifierUserId,
-      if (deleteUserId != null) 'delete_user_id': deleteUserId,
-      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
-      if (isDeleted != null) 'is_deleted': isDeleted,
       if (id != null) 'id': id,
       if (itemCode != null) 'item_code': itemCode,
       if (itemName != null) 'item_name': itemName,
       if (uom != null) 'uom': uom,
       if (defaultWarehouse != null) 'default_warehouse': defaultWarehouse,
-      if (qtyOnHand != null) 'qty_on_hand': qtyOnHand,
-      if (qtyAdjust != null) 'qty_adjust': qtyAdjust,
-      if (qtySold != null) 'qty_sold': qtySold,
-      if (qtyCount != null) 'qty_count': qtyCount,
+      if (quantityOnHand != null) 'quantity_on_hand': quantityOnHand,
+      if (quantityAvailable != null) 'quantity_available': quantityAvailable,
+      if (quantityAdjust != null) 'quantity_adjust': quantityAdjust,
+      if (quantitySoldOnInvoice != null)
+        'quantity_sold_on_invoice': quantitySoldOnInvoice,
+      if (quantitySoldOnOrder != null)
+        'quantity_sold_on_order': quantitySoldOnOrder,
+      if (quantityCount != null) 'quantity_count': quantityCount,
       if (inventoryCycleNumber != null)
         'inventory_cycle_number': inventoryCycleNumber,
     });
@@ -32796,45 +27464,32 @@ class InventoryItemsCompanion extends UpdateCompanion<InventoryItem> {
 
   InventoryItemsCompanion copyWith(
       {Value<int> tenantId,
-      Value<DateTime> creationTime,
-      Value<DateTime> deleteTime,
-      Value<int> createUserId,
-      Value<String> creatorUser,
-      Value<String> lastModifierUser,
-      Value<int> lastModifierUserId,
-      Value<int> deleteUserId,
-      Value<String> deleterUserId,
-      Value<bool> isDeleted,
       Value<int> id,
       Value<String> itemCode,
       Value<String> itemName,
       Value<String> uom,
       Value<String> defaultWarehouse,
-      Value<double> qtyOnHand,
-      Value<double> qtyAdjust,
-      Value<double> qtySold,
-      Value<double> qtyCount,
+      Value<double> quantityOnHand,
+      Value<double> quantityAvailable,
+      Value<double> quantityAdjust,
+      Value<double> quantitySoldOnInvoice,
+      Value<double> quantitySoldOnOrder,
+      Value<double> quantityCount,
       Value<String> inventoryCycleNumber}) {
     return InventoryItemsCompanion(
       tenantId: tenantId ?? this.tenantId,
-      creationTime: creationTime ?? this.creationTime,
-      deleteTime: deleteTime ?? this.deleteTime,
-      createUserId: createUserId ?? this.createUserId,
-      creatorUser: creatorUser ?? this.creatorUser,
-      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-      deleteUserId: deleteUserId ?? this.deleteUserId,
-      deleterUserId: deleterUserId ?? this.deleterUserId,
-      isDeleted: isDeleted ?? this.isDeleted,
       id: id ?? this.id,
       itemCode: itemCode ?? this.itemCode,
       itemName: itemName ?? this.itemName,
       uom: uom ?? this.uom,
       defaultWarehouse: defaultWarehouse ?? this.defaultWarehouse,
-      qtyOnHand: qtyOnHand ?? this.qtyOnHand,
-      qtyAdjust: qtyAdjust ?? this.qtyAdjust,
-      qtySold: qtySold ?? this.qtySold,
-      qtyCount: qtyCount ?? this.qtyCount,
+      quantityOnHand: quantityOnHand ?? this.quantityOnHand,
+      quantityAvailable: quantityAvailable ?? this.quantityAvailable,
+      quantityAdjust: quantityAdjust ?? this.quantityAdjust,
+      quantitySoldOnInvoice:
+          quantitySoldOnInvoice ?? this.quantitySoldOnInvoice,
+      quantitySoldOnOrder: quantitySoldOnOrder ?? this.quantitySoldOnOrder,
+      quantityCount: quantityCount ?? this.quantityCount,
       inventoryCycleNumber: inventoryCycleNumber ?? this.inventoryCycleNumber,
     );
   }
@@ -32844,33 +27499,6 @@ class InventoryItemsCompanion extends UpdateCompanion<InventoryItem> {
     final map = <String, Expression>{};
     if (tenantId.present) {
       map['tenant_id'] = Variable<int>(tenantId.value);
-    }
-    if (creationTime.present) {
-      map['creation_time'] = Variable<DateTime>(creationTime.value);
-    }
-    if (deleteTime.present) {
-      map['delete_time'] = Variable<DateTime>(deleteTime.value);
-    }
-    if (createUserId.present) {
-      map['create_user_id'] = Variable<int>(createUserId.value);
-    }
-    if (creatorUser.present) {
-      map['creator_user'] = Variable<String>(creatorUser.value);
-    }
-    if (lastModifierUser.present) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
-    }
-    if (lastModifierUserId.present) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
-    }
-    if (deleteUserId.present) {
-      map['delete_user_id'] = Variable<int>(deleteUserId.value);
-    }
-    if (deleterUserId.present) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
-    }
-    if (isDeleted.present) {
-      map['is_deleted'] = Variable<bool>(isDeleted.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -32887,17 +27515,25 @@ class InventoryItemsCompanion extends UpdateCompanion<InventoryItem> {
     if (defaultWarehouse.present) {
       map['default_warehouse'] = Variable<String>(defaultWarehouse.value);
     }
-    if (qtyOnHand.present) {
-      map['qty_on_hand'] = Variable<double>(qtyOnHand.value);
+    if (quantityOnHand.present) {
+      map['quantity_on_hand'] = Variable<double>(quantityOnHand.value);
     }
-    if (qtyAdjust.present) {
-      map['qty_adjust'] = Variable<double>(qtyAdjust.value);
+    if (quantityAvailable.present) {
+      map['quantity_available'] = Variable<double>(quantityAvailable.value);
     }
-    if (qtySold.present) {
-      map['qty_sold'] = Variable<double>(qtySold.value);
+    if (quantityAdjust.present) {
+      map['quantity_adjust'] = Variable<double>(quantityAdjust.value);
     }
-    if (qtyCount.present) {
-      map['qty_count'] = Variable<double>(qtyCount.value);
+    if (quantitySoldOnInvoice.present) {
+      map['quantity_sold_on_invoice'] =
+          Variable<double>(quantitySoldOnInvoice.value);
+    }
+    if (quantitySoldOnOrder.present) {
+      map['quantity_sold_on_order'] =
+          Variable<double>(quantitySoldOnOrder.value);
+    }
+    if (quantityCount.present) {
+      map['quantity_count'] = Variable<double>(quantityCount.value);
     }
     if (inventoryCycleNumber.present) {
       map['inventory_cycle_number'] =
@@ -32910,24 +27546,17 @@ class InventoryItemsCompanion extends UpdateCompanion<InventoryItem> {
   String toString() {
     return (StringBuffer('InventoryItemsCompanion(')
           ..write('tenantId: $tenantId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
           ..write('id: $id, ')
           ..write('itemCode: $itemCode, ')
           ..write('itemName: $itemName, ')
           ..write('uom: $uom, ')
           ..write('defaultWarehouse: $defaultWarehouse, ')
-          ..write('qtyOnHand: $qtyOnHand, ')
-          ..write('qtyAdjust: $qtyAdjust, ')
-          ..write('qtySold: $qtySold, ')
-          ..write('qtyCount: $qtyCount, ')
+          ..write('quantityOnHand: $quantityOnHand, ')
+          ..write('quantityAvailable: $quantityAvailable, ')
+          ..write('quantityAdjust: $quantityAdjust, ')
+          ..write('quantitySoldOnInvoice: $quantitySoldOnInvoice, ')
+          ..write('quantitySoldOnOrder: $quantitySoldOnOrder, ')
+          ..write('quantityCount: $quantityCount, ')
           ..write('inventoryCycleNumber: $inventoryCycleNumber')
           ..write(')'))
         .toString();
@@ -32949,126 +27578,6 @@ class $InventoryItemsTable extends InventoryItems
       $tableName,
       true,
     );
-  }
-
-  final VerificationMeta _creationTimeMeta =
-      const VerificationMeta('creationTime');
-  GeneratedDateTimeColumn _creationTime;
-  @override
-  GeneratedDateTimeColumn get creationTime =>
-      _creationTime ??= _constructCreationTime();
-  GeneratedDateTimeColumn _constructCreationTime() {
-    return GeneratedDateTimeColumn(
-      'creation_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
-  GeneratedDateTimeColumn _deleteTime;
-  @override
-  GeneratedDateTimeColumn get deleteTime =>
-      _deleteTime ??= _constructDeleteTime();
-  GeneratedDateTimeColumn _constructDeleteTime() {
-    return GeneratedDateTimeColumn(
-      'delete_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _createUserIdMeta =
-      const VerificationMeta('createUserId');
-  GeneratedIntColumn _createUserId;
-  @override
-  GeneratedIntColumn get createUserId =>
-      _createUserId ??= _constructCreateUserId();
-  GeneratedIntColumn _constructCreateUserId() {
-    return GeneratedIntColumn(
-      'create_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _creatorUserMeta =
-      const VerificationMeta('creatorUser');
-  GeneratedTextColumn _creatorUser;
-  @override
-  GeneratedTextColumn get creatorUser =>
-      _creatorUser ??= _constructCreatorUser();
-  GeneratedTextColumn _constructCreatorUser() {
-    return GeneratedTextColumn(
-      'creator_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserMeta =
-      const VerificationMeta('lastModifierUser');
-  GeneratedTextColumn _lastModifierUser;
-  @override
-  GeneratedTextColumn get lastModifierUser =>
-      _lastModifierUser ??= _constructLastModifierUser();
-  GeneratedTextColumn _constructLastModifierUser() {
-    return GeneratedTextColumn(
-      'last_modifier_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserIdMeta =
-      const VerificationMeta('lastModifierUserId');
-  GeneratedIntColumn _lastModifierUserId;
-  @override
-  GeneratedIntColumn get lastModifierUserId =>
-      _lastModifierUserId ??= _constructLastModifierUserId();
-  GeneratedIntColumn _constructLastModifierUserId() {
-    return GeneratedIntColumn(
-      'last_modifier_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteUserIdMeta =
-      const VerificationMeta('deleteUserId');
-  GeneratedIntColumn _deleteUserId;
-  @override
-  GeneratedIntColumn get deleteUserId =>
-      _deleteUserId ??= _constructDeleteUserId();
-  GeneratedIntColumn _constructDeleteUserId() {
-    return GeneratedIntColumn(
-      'delete_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleterUserIdMeta =
-      const VerificationMeta('deleterUserId');
-  GeneratedTextColumn _deleterUserId;
-  @override
-  GeneratedTextColumn get deleterUserId =>
-      _deleterUserId ??= _constructDeleterUserId();
-  GeneratedTextColumn _constructDeleterUserId() {
-    return GeneratedTextColumn(
-      'deleter_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
-  GeneratedBoolColumn _isDeleted;
-  @override
-  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
-  GeneratedBoolColumn _constructIsDeleted() {
-    return GeneratedBoolColumn('is_deleted', $tableName, false,
-        defaultValue: Constant(false));
   }
 
   final VerificationMeta _idMeta = const VerificationMeta('id');
@@ -33133,49 +27642,85 @@ class $InventoryItemsTable extends InventoryItems
     );
   }
 
-  final VerificationMeta _qtyOnHandMeta = const VerificationMeta('qtyOnHand');
-  GeneratedRealColumn _qtyOnHand;
+  final VerificationMeta _quantityOnHandMeta =
+      const VerificationMeta('quantityOnHand');
+  GeneratedRealColumn _quantityOnHand;
   @override
-  GeneratedRealColumn get qtyOnHand => _qtyOnHand ??= _constructQtyOnHand();
-  GeneratedRealColumn _constructQtyOnHand() {
+  GeneratedRealColumn get quantityOnHand =>
+      _quantityOnHand ??= _constructQuantityOnHand();
+  GeneratedRealColumn _constructQuantityOnHand() {
     return GeneratedRealColumn(
-      'qty_on_hand',
+      'quantity_on_hand',
       $tableName,
       false,
     );
   }
 
-  final VerificationMeta _qtyAdjustMeta = const VerificationMeta('qtyAdjust');
-  GeneratedRealColumn _qtyAdjust;
+  final VerificationMeta _quantityAvailableMeta =
+      const VerificationMeta('quantityAvailable');
+  GeneratedRealColumn _quantityAvailable;
   @override
-  GeneratedRealColumn get qtyAdjust => _qtyAdjust ??= _constructQtyAdjust();
-  GeneratedRealColumn _constructQtyAdjust() {
+  GeneratedRealColumn get quantityAvailable =>
+      _quantityAvailable ??= _constructQuantityAvailable();
+  GeneratedRealColumn _constructQuantityAvailable() {
     return GeneratedRealColumn(
-      'qty_adjust',
+      'quantity_available',
       $tableName,
       false,
     );
   }
 
-  final VerificationMeta _qtySoldMeta = const VerificationMeta('qtySold');
-  GeneratedRealColumn _qtySold;
+  final VerificationMeta _quantityAdjustMeta =
+      const VerificationMeta('quantityAdjust');
+  GeneratedRealColumn _quantityAdjust;
   @override
-  GeneratedRealColumn get qtySold => _qtySold ??= _constructQtySold();
-  GeneratedRealColumn _constructQtySold() {
+  GeneratedRealColumn get quantityAdjust =>
+      _quantityAdjust ??= _constructQuantityAdjust();
+  GeneratedRealColumn _constructQuantityAdjust() {
     return GeneratedRealColumn(
-      'qty_sold',
+      'quantity_adjust',
       $tableName,
       false,
     );
   }
 
-  final VerificationMeta _qtyCountMeta = const VerificationMeta('qtyCount');
-  GeneratedRealColumn _qtyCount;
+  final VerificationMeta _quantitySoldOnInvoiceMeta =
+      const VerificationMeta('quantitySoldOnInvoice');
+  GeneratedRealColumn _quantitySoldOnInvoice;
   @override
-  GeneratedRealColumn get qtyCount => _qtyCount ??= _constructQtyCount();
-  GeneratedRealColumn _constructQtyCount() {
+  GeneratedRealColumn get quantitySoldOnInvoice =>
+      _quantitySoldOnInvoice ??= _constructQuantitySoldOnInvoice();
+  GeneratedRealColumn _constructQuantitySoldOnInvoice() {
     return GeneratedRealColumn(
-      'qty_count',
+      'quantity_sold_on_invoice',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _quantitySoldOnOrderMeta =
+      const VerificationMeta('quantitySoldOnOrder');
+  GeneratedRealColumn _quantitySoldOnOrder;
+  @override
+  GeneratedRealColumn get quantitySoldOnOrder =>
+      _quantitySoldOnOrder ??= _constructQuantitySoldOnOrder();
+  GeneratedRealColumn _constructQuantitySoldOnOrder() {
+    return GeneratedRealColumn(
+      'quantity_sold_on_order',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _quantityCountMeta =
+      const VerificationMeta('quantityCount');
+  GeneratedRealColumn _quantityCount;
+  @override
+  GeneratedRealColumn get quantityCount =>
+      _quantityCount ??= _constructQuantityCount();
+  GeneratedRealColumn _constructQuantityCount() {
+    return GeneratedRealColumn(
+      'quantity_count',
       $tableName,
       false,
     );
@@ -33198,24 +27743,17 @@ class $InventoryItemsTable extends InventoryItems
   @override
   List<GeneratedColumn> get $columns => [
         tenantId,
-        creationTime,
-        deleteTime,
-        createUserId,
-        creatorUser,
-        lastModifierUser,
-        lastModifierUserId,
-        deleteUserId,
-        deleterUserId,
-        isDeleted,
         id,
         itemCode,
         itemName,
         uom,
         defaultWarehouse,
-        qtyOnHand,
-        qtyAdjust,
-        qtySold,
-        qtyCount,
+        quantityOnHand,
+        quantityAvailable,
+        quantityAdjust,
+        quantitySoldOnInvoice,
+        quantitySoldOnOrder,
+        quantityCount,
         inventoryCycleNumber
       ];
   @override
@@ -33232,58 +27770,6 @@ class $InventoryItemsTable extends InventoryItems
     if (data.containsKey('tenant_id')) {
       context.handle(_tenantIdMeta,
           tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
-    }
-    if (data.containsKey('creation_time')) {
-      context.handle(
-          _creationTimeMeta,
-          creationTime.isAcceptableOrUnknown(
-              data['creation_time'], _creationTimeMeta));
-    }
-    if (data.containsKey('delete_time')) {
-      context.handle(
-          _deleteTimeMeta,
-          deleteTime.isAcceptableOrUnknown(
-              data['delete_time'], _deleteTimeMeta));
-    }
-    if (data.containsKey('create_user_id')) {
-      context.handle(
-          _createUserIdMeta,
-          createUserId.isAcceptableOrUnknown(
-              data['create_user_id'], _createUserIdMeta));
-    }
-    if (data.containsKey('creator_user')) {
-      context.handle(
-          _creatorUserMeta,
-          creatorUser.isAcceptableOrUnknown(
-              data['creator_user'], _creatorUserMeta));
-    }
-    if (data.containsKey('last_modifier_user')) {
-      context.handle(
-          _lastModifierUserMeta,
-          lastModifierUser.isAcceptableOrUnknown(
-              data['last_modifier_user'], _lastModifierUserMeta));
-    }
-    if (data.containsKey('last_modifier_user_id')) {
-      context.handle(
-          _lastModifierUserIdMeta,
-          lastModifierUserId.isAcceptableOrUnknown(
-              data['last_modifier_user_id'], _lastModifierUserIdMeta));
-    }
-    if (data.containsKey('delete_user_id')) {
-      context.handle(
-          _deleteUserIdMeta,
-          deleteUserId.isAcceptableOrUnknown(
-              data['delete_user_id'], _deleteUserIdMeta));
-    }
-    if (data.containsKey('deleter_user_id')) {
-      context.handle(
-          _deleterUserIdMeta,
-          deleterUserId.isAcceptableOrUnknown(
-              data['deleter_user_id'], _deleterUserIdMeta));
-    }
-    if (data.containsKey('is_deleted')) {
-      context.handle(_isDeletedMeta,
-          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
     }
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
@@ -33306,29 +27792,53 @@ class $InventoryItemsTable extends InventoryItems
           defaultWarehouse.isAcceptableOrUnknown(
               data['default_warehouse'], _defaultWarehouseMeta));
     }
-    if (data.containsKey('qty_on_hand')) {
-      context.handle(_qtyOnHandMeta,
-          qtyOnHand.isAcceptableOrUnknown(data['qty_on_hand'], _qtyOnHandMeta));
+    if (data.containsKey('quantity_on_hand')) {
+      context.handle(
+          _quantityOnHandMeta,
+          quantityOnHand.isAcceptableOrUnknown(
+              data['quantity_on_hand'], _quantityOnHandMeta));
     } else if (isInserting) {
-      context.missing(_qtyOnHandMeta);
+      context.missing(_quantityOnHandMeta);
     }
-    if (data.containsKey('qty_adjust')) {
-      context.handle(_qtyAdjustMeta,
-          qtyAdjust.isAcceptableOrUnknown(data['qty_adjust'], _qtyAdjustMeta));
+    if (data.containsKey('quantity_available')) {
+      context.handle(
+          _quantityAvailableMeta,
+          quantityAvailable.isAcceptableOrUnknown(
+              data['quantity_available'], _quantityAvailableMeta));
     } else if (isInserting) {
-      context.missing(_qtyAdjustMeta);
+      context.missing(_quantityAvailableMeta);
     }
-    if (data.containsKey('qty_sold')) {
-      context.handle(_qtySoldMeta,
-          qtySold.isAcceptableOrUnknown(data['qty_sold'], _qtySoldMeta));
+    if (data.containsKey('quantity_adjust')) {
+      context.handle(
+          _quantityAdjustMeta,
+          quantityAdjust.isAcceptableOrUnknown(
+              data['quantity_adjust'], _quantityAdjustMeta));
     } else if (isInserting) {
-      context.missing(_qtySoldMeta);
+      context.missing(_quantityAdjustMeta);
     }
-    if (data.containsKey('qty_count')) {
-      context.handle(_qtyCountMeta,
-          qtyCount.isAcceptableOrUnknown(data['qty_count'], _qtyCountMeta));
+    if (data.containsKey('quantity_sold_on_invoice')) {
+      context.handle(
+          _quantitySoldOnInvoiceMeta,
+          quantitySoldOnInvoice.isAcceptableOrUnknown(
+              data['quantity_sold_on_invoice'], _quantitySoldOnInvoiceMeta));
     } else if (isInserting) {
-      context.missing(_qtyCountMeta);
+      context.missing(_quantitySoldOnInvoiceMeta);
+    }
+    if (data.containsKey('quantity_sold_on_order')) {
+      context.handle(
+          _quantitySoldOnOrderMeta,
+          quantitySoldOnOrder.isAcceptableOrUnknown(
+              data['quantity_sold_on_order'], _quantitySoldOnOrderMeta));
+    } else if (isInserting) {
+      context.missing(_quantitySoldOnOrderMeta);
+    }
+    if (data.containsKey('quantity_count')) {
+      context.handle(
+          _quantityCountMeta,
+          quantityCount.isAcceptableOrUnknown(
+              data['quantity_count'], _quantityCountMeta));
+    } else if (isInserting) {
+      context.missing(_quantityCountMeta);
     }
     if (data.containsKey('inventory_cycle_number')) {
       context.handle(
@@ -33367,8 +27877,8 @@ class InventoryTransactionData extends DataClass
   final String stockUom;
   final String salesUom;
   final String transactionNumber;
-  final double qtyMove;
-  final double qtyMoveConvert;
+  final double quantityMove;
+  final double quantityMoveConvert;
   final double conversionFactor;
   final double costPrice;
   final double itemPrice;
@@ -33388,8 +27898,8 @@ class InventoryTransactionData extends DataClass
       this.stockUom,
       this.salesUom,
       this.transactionNumber,
-      @required this.qtyMove,
-      @required this.qtyMoveConvert,
+      @required this.quantityMove,
+      @required this.quantityMoveConvert,
       @required this.conversionFactor,
       @required this.costPrice,
       @required this.itemPrice,
@@ -33425,10 +27935,10 @@ class InventoryTransactionData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}sales_uom']),
       transactionNumber: stringType.mapFromDatabaseResponse(
           data['${effectivePrefix}transaction_number']),
-      qtyMove: doubleType
-          .mapFromDatabaseResponse(data['${effectivePrefix}qty_move']),
-      qtyMoveConvert: doubleType
-          .mapFromDatabaseResponse(data['${effectivePrefix}qty_move_convert']),
+      quantityMove: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}quantity_move']),
+      quantityMoveConvert: doubleType.mapFromDatabaseResponse(
+          data['${effectivePrefix}quantity_move_convert']),
       conversionFactor: doubleType
           .mapFromDatabaseResponse(data['${effectivePrefix}conversion_factor']),
       costPrice: doubleType
@@ -33480,11 +27990,11 @@ class InventoryTransactionData extends DataClass
     if (!nullToAbsent || transactionNumber != null) {
       map['transaction_number'] = Variable<String>(transactionNumber);
     }
-    if (!nullToAbsent || qtyMove != null) {
-      map['qty_move'] = Variable<double>(qtyMove);
+    if (!nullToAbsent || quantityMove != null) {
+      map['quantity_move'] = Variable<double>(quantityMove);
     }
-    if (!nullToAbsent || qtyMoveConvert != null) {
-      map['qty_move_convert'] = Variable<double>(qtyMoveConvert);
+    if (!nullToAbsent || quantityMoveConvert != null) {
+      map['quantity_move_convert'] = Variable<double>(quantityMoveConvert);
     }
     if (!nullToAbsent || conversionFactor != null) {
       map['conversion_factor'] = Variable<double>(conversionFactor);
@@ -33542,12 +28052,12 @@ class InventoryTransactionData extends DataClass
       transactionNumber: transactionNumber == null && nullToAbsent
           ? const Value.absent()
           : Value(transactionNumber),
-      qtyMove: qtyMove == null && nullToAbsent
+      quantityMove: quantityMove == null && nullToAbsent
           ? const Value.absent()
-          : Value(qtyMove),
-      qtyMoveConvert: qtyMoveConvert == null && nullToAbsent
+          : Value(quantityMove),
+      quantityMoveConvert: quantityMoveConvert == null && nullToAbsent
           ? const Value.absent()
-          : Value(qtyMoveConvert),
+          : Value(quantityMoveConvert),
       conversionFactor: conversionFactor == null && nullToAbsent
           ? const Value.absent()
           : Value(conversionFactor),
@@ -33589,8 +28099,9 @@ class InventoryTransactionData extends DataClass
       stockUom: serializer.fromJson<String>(json['stockUom']),
       salesUom: serializer.fromJson<String>(json['salesUom']),
       transactionNumber: serializer.fromJson<String>(json['transactionNumber']),
-      qtyMove: serializer.fromJson<double>(json['qtyMove']),
-      qtyMoveConvert: serializer.fromJson<double>(json['qtyMoveConvert']),
+      quantityMove: serializer.fromJson<double>(json['quantityMove']),
+      quantityMoveConvert:
+          serializer.fromJson<double>(json['quantityMoveConvert']),
       conversionFactor: serializer.fromJson<double>(json['conversionFactor']),
       costPrice: serializer.fromJson<double>(json['costPrice']),
       itemPrice: serializer.fromJson<double>(json['itemPrice']),
@@ -33615,8 +28126,8 @@ class InventoryTransactionData extends DataClass
       'stockUom': serializer.toJson<String>(stockUom),
       'salesUom': serializer.toJson<String>(salesUom),
       'transactionNumber': serializer.toJson<String>(transactionNumber),
-      'qtyMove': serializer.toJson<double>(qtyMove),
-      'qtyMoveConvert': serializer.toJson<double>(qtyMoveConvert),
+      'quantityMove': serializer.toJson<double>(quantityMove),
+      'quantityMoveConvert': serializer.toJson<double>(quantityMoveConvert),
       'conversionFactor': serializer.toJson<double>(conversionFactor),
       'costPrice': serializer.toJson<double>(costPrice),
       'itemPrice': serializer.toJson<double>(itemPrice),
@@ -33639,8 +28150,8 @@ class InventoryTransactionData extends DataClass
           String stockUom,
           String salesUom,
           String transactionNumber,
-          double qtyMove,
-          double qtyMoveConvert,
+          double quantityMove,
+          double quantityMoveConvert,
           double conversionFactor,
           double costPrice,
           double itemPrice,
@@ -33660,8 +28171,8 @@ class InventoryTransactionData extends DataClass
         stockUom: stockUom ?? this.stockUom,
         salesUom: salesUom ?? this.salesUom,
         transactionNumber: transactionNumber ?? this.transactionNumber,
-        qtyMove: qtyMove ?? this.qtyMove,
-        qtyMoveConvert: qtyMoveConvert ?? this.qtyMoveConvert,
+        quantityMove: quantityMove ?? this.quantityMove,
+        quantityMoveConvert: quantityMoveConvert ?? this.quantityMoveConvert,
         conversionFactor: conversionFactor ?? this.conversionFactor,
         costPrice: costPrice ?? this.costPrice,
         itemPrice: itemPrice ?? this.itemPrice,
@@ -33684,8 +28195,8 @@ class InventoryTransactionData extends DataClass
           ..write('stockUom: $stockUom, ')
           ..write('salesUom: $salesUom, ')
           ..write('transactionNumber: $transactionNumber, ')
-          ..write('qtyMove: $qtyMove, ')
-          ..write('qtyMoveConvert: $qtyMoveConvert, ')
+          ..write('quantityMove: $quantityMove, ')
+          ..write('quantityMoveConvert: $quantityMoveConvert, ')
           ..write('conversionFactor: $conversionFactor, ')
           ..write('costPrice: $costPrice, ')
           ..write('itemPrice: $itemPrice, ')
@@ -33720,9 +28231,9 @@ class InventoryTransactionData extends DataClass
                                       $mrjc(
                                           transactionNumber.hashCode,
                                           $mrjc(
-                                              qtyMove.hashCode,
+                                              quantityMove.hashCode,
                                               $mrjc(
-                                                  qtyMoveConvert.hashCode,
+                                                  quantityMoveConvert.hashCode,
                                                   $mrjc(
                                                       conversionFactor.hashCode,
                                                       $mrjc(
@@ -33756,8 +28267,8 @@ class InventoryTransactionData extends DataClass
           other.stockUom == this.stockUom &&
           other.salesUom == this.salesUom &&
           other.transactionNumber == this.transactionNumber &&
-          other.qtyMove == this.qtyMove &&
-          other.qtyMoveConvert == this.qtyMoveConvert &&
+          other.quantityMove == this.quantityMove &&
+          other.quantityMoveConvert == this.quantityMoveConvert &&
           other.conversionFactor == this.conversionFactor &&
           other.costPrice == this.costPrice &&
           other.itemPrice == this.itemPrice &&
@@ -33780,8 +28291,8 @@ class InventoryTransactionCompanion
   final Value<String> stockUom;
   final Value<String> salesUom;
   final Value<String> transactionNumber;
-  final Value<double> qtyMove;
-  final Value<double> qtyMoveConvert;
+  final Value<double> quantityMove;
+  final Value<double> quantityMoveConvert;
   final Value<double> conversionFactor;
   final Value<double> costPrice;
   final Value<double> itemPrice;
@@ -33801,8 +28312,8 @@ class InventoryTransactionCompanion
     this.stockUom = const Value.absent(),
     this.salesUom = const Value.absent(),
     this.transactionNumber = const Value.absent(),
-    this.qtyMove = const Value.absent(),
-    this.qtyMoveConvert = const Value.absent(),
+    this.quantityMove = const Value.absent(),
+    this.quantityMoveConvert = const Value.absent(),
     this.conversionFactor = const Value.absent(),
     this.costPrice = const Value.absent(),
     this.itemPrice = const Value.absent(),
@@ -33823,8 +28334,8 @@ class InventoryTransactionCompanion
     this.stockUom = const Value.absent(),
     this.salesUom = const Value.absent(),
     this.transactionNumber = const Value.absent(),
-    @required double qtyMove,
-    @required double qtyMoveConvert,
+    @required double quantityMove,
+    @required double quantityMoveConvert,
     @required double conversionFactor,
     @required double costPrice,
     @required double itemPrice,
@@ -33833,8 +28344,8 @@ class InventoryTransactionCompanion
     this.inventoryCycle = const Value.absent(),
     this.toWarehouse = const Value.absent(),
     this.fromWarehouse = const Value.absent(),
-  })  : qtyMove = Value(qtyMove),
-        qtyMoveConvert = Value(qtyMoveConvert),
+  })  : quantityMove = Value(quantityMove),
+        quantityMoveConvert = Value(quantityMoveConvert),
         conversionFactor = Value(conversionFactor),
         costPrice = Value(costPrice),
         itemPrice = Value(itemPrice);
@@ -33849,8 +28360,8 @@ class InventoryTransactionCompanion
     Expression<String> stockUom,
     Expression<String> salesUom,
     Expression<String> transactionNumber,
-    Expression<double> qtyMove,
-    Expression<double> qtyMoveConvert,
+    Expression<double> quantityMove,
+    Expression<double> quantityMoveConvert,
     Expression<double> conversionFactor,
     Expression<double> costPrice,
     Expression<double> itemPrice,
@@ -33871,8 +28382,9 @@ class InventoryTransactionCompanion
       if (stockUom != null) 'stock_uom': stockUom,
       if (salesUom != null) 'sales_uom': salesUom,
       if (transactionNumber != null) 'transaction_number': transactionNumber,
-      if (qtyMove != null) 'qty_move': qtyMove,
-      if (qtyMoveConvert != null) 'qty_move_convert': qtyMoveConvert,
+      if (quantityMove != null) 'quantity_move': quantityMove,
+      if (quantityMoveConvert != null)
+        'quantity_move_convert': quantityMoveConvert,
       if (conversionFactor != null) 'conversion_factor': conversionFactor,
       if (costPrice != null) 'cost_price': costPrice,
       if (itemPrice != null) 'item_price': itemPrice,
@@ -33895,8 +28407,8 @@ class InventoryTransactionCompanion
       Value<String> stockUom,
       Value<String> salesUom,
       Value<String> transactionNumber,
-      Value<double> qtyMove,
-      Value<double> qtyMoveConvert,
+      Value<double> quantityMove,
+      Value<double> quantityMoveConvert,
       Value<double> conversionFactor,
       Value<double> costPrice,
       Value<double> itemPrice,
@@ -33916,8 +28428,8 @@ class InventoryTransactionCompanion
       stockUom: stockUom ?? this.stockUom,
       salesUom: salesUom ?? this.salesUom,
       transactionNumber: transactionNumber ?? this.transactionNumber,
-      qtyMove: qtyMove ?? this.qtyMove,
-      qtyMoveConvert: qtyMoveConvert ?? this.qtyMoveConvert,
+      quantityMove: quantityMove ?? this.quantityMove,
+      quantityMoveConvert: quantityMoveConvert ?? this.quantityMoveConvert,
       conversionFactor: conversionFactor ?? this.conversionFactor,
       costPrice: costPrice ?? this.costPrice,
       itemPrice: itemPrice ?? this.itemPrice,
@@ -33962,11 +28474,12 @@ class InventoryTransactionCompanion
     if (transactionNumber.present) {
       map['transaction_number'] = Variable<String>(transactionNumber.value);
     }
-    if (qtyMove.present) {
-      map['qty_move'] = Variable<double>(qtyMove.value);
+    if (quantityMove.present) {
+      map['quantity_move'] = Variable<double>(quantityMove.value);
     }
-    if (qtyMoveConvert.present) {
-      map['qty_move_convert'] = Variable<double>(qtyMoveConvert.value);
+    if (quantityMoveConvert.present) {
+      map['quantity_move_convert'] =
+          Variable<double>(quantityMoveConvert.value);
     }
     if (conversionFactor.present) {
       map['conversion_factor'] = Variable<double>(conversionFactor.value);
@@ -34008,8 +28521,8 @@ class InventoryTransactionCompanion
           ..write('stockUom: $stockUom, ')
           ..write('salesUom: $salesUom, ')
           ..write('transactionNumber: $transactionNumber, ')
-          ..write('qtyMove: $qtyMove, ')
-          ..write('qtyMoveConvert: $qtyMoveConvert, ')
+          ..write('quantityMove: $quantityMove, ')
+          ..write('quantityMoveConvert: $quantityMoveConvert, ')
           ..write('conversionFactor: $conversionFactor, ')
           ..write('costPrice: $costPrice, ')
           ..write('itemPrice: $itemPrice, ')
@@ -34152,27 +28665,29 @@ class $InventoryTransactionTable extends InventoryTransaction
     );
   }
 
-  final VerificationMeta _qtyMoveMeta = const VerificationMeta('qtyMove');
-  GeneratedRealColumn _qtyMove;
+  final VerificationMeta _quantityMoveMeta =
+      const VerificationMeta('quantityMove');
+  GeneratedRealColumn _quantityMove;
   @override
-  GeneratedRealColumn get qtyMove => _qtyMove ??= _constructQtyMove();
-  GeneratedRealColumn _constructQtyMove() {
+  GeneratedRealColumn get quantityMove =>
+      _quantityMove ??= _constructQuantityMove();
+  GeneratedRealColumn _constructQuantityMove() {
     return GeneratedRealColumn(
-      'qty_move',
+      'quantity_move',
       $tableName,
       false,
     );
   }
 
-  final VerificationMeta _qtyMoveConvertMeta =
-      const VerificationMeta('qtyMoveConvert');
-  GeneratedRealColumn _qtyMoveConvert;
+  final VerificationMeta _quantityMoveConvertMeta =
+      const VerificationMeta('quantityMoveConvert');
+  GeneratedRealColumn _quantityMoveConvert;
   @override
-  GeneratedRealColumn get qtyMoveConvert =>
-      _qtyMoveConvert ??= _constructQtyMoveConvert();
-  GeneratedRealColumn _constructQtyMoveConvert() {
+  GeneratedRealColumn get quantityMoveConvert =>
+      _quantityMoveConvert ??= _constructQuantityMoveConvert();
+  GeneratedRealColumn _constructQuantityMoveConvert() {
     return GeneratedRealColumn(
-      'qty_move_convert',
+      'quantity_move_convert',
       $tableName,
       false,
     );
@@ -34296,8 +28811,8 @@ class $InventoryTransactionTable extends InventoryTransaction
         stockUom,
         salesUom,
         transactionNumber,
-        qtyMove,
-        qtyMoveConvert,
+        quantityMove,
+        quantityMoveConvert,
         conversionFactor,
         costPrice,
         itemPrice,
@@ -34362,19 +28877,21 @@ class $InventoryTransactionTable extends InventoryTransaction
           transactionNumber.isAcceptableOrUnknown(
               data['transaction_number'], _transactionNumberMeta));
     }
-    if (data.containsKey('qty_move')) {
-      context.handle(_qtyMoveMeta,
-          qtyMove.isAcceptableOrUnknown(data['qty_move'], _qtyMoveMeta));
-    } else if (isInserting) {
-      context.missing(_qtyMoveMeta);
-    }
-    if (data.containsKey('qty_move_convert')) {
+    if (data.containsKey('quantity_move')) {
       context.handle(
-          _qtyMoveConvertMeta,
-          qtyMoveConvert.isAcceptableOrUnknown(
-              data['qty_move_convert'], _qtyMoveConvertMeta));
+          _quantityMoveMeta,
+          quantityMove.isAcceptableOrUnknown(
+              data['quantity_move'], _quantityMoveMeta));
     } else if (isInserting) {
-      context.missing(_qtyMoveConvertMeta);
+      context.missing(_quantityMoveMeta);
+    }
+    if (data.containsKey('quantity_move_convert')) {
+      context.handle(
+          _quantityMoveConvertMeta,
+          quantityMoveConvert.isAcceptableOrUnknown(
+              data['quantity_move_convert'], _quantityMoveConvertMeta));
+    } else if (isInserting) {
+      context.missing(_quantityMoveConvertMeta);
     }
     if (data.containsKey('conversion_factor')) {
       context.handle(

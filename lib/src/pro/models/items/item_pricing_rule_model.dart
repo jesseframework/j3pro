@@ -2,7 +2,7 @@ import 'package:j3enterprise/src/resources/shared/extension/full_audited.dart';
 import 'package:j3enterprise/src/resources/shared/extension/must_have_tenant.dart';
 import 'package:moor/moor.dart';
 
-class ItemPricingRule extends Table implements MustHaveTenant, FullAudited {
+class ItemPricingRule extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
   IntColumn get itemId => integer()();
   IntColumn get tenantId => integer().nullable()();
@@ -27,16 +27,7 @@ class ItemPricingRule extends Table implements MustHaveTenant, FullAudited {
   DateTimeColumn get validFrom => dateTime().nullable()();
   DateTimeColumn get validTo => dateTime().nullable()();
 
-  IntColumn get createUserId => integer().nullable()();
-  DateTimeColumn get creationTime => dateTime().nullable()();
-  DateTimeColumn get deleteTime => dateTime().nullable()();
-  IntColumn get deleteUserId => integer().nullable()();
-  TextColumn get creatorUser => text().nullable()();
-  TextColumn get deleterUserId => text().nullable()();
-  BoolColumn get isDeleted => boolean().withDefault(Constant(false))();
-  TextColumn get lastModifierUser => text().nullable()();
-  IntColumn get lastModifierUserId => integer().nullable()();
-
+ 
   @override
   Set<Column> get primaryKey => {id};
 }

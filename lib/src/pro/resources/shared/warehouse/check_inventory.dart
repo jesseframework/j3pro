@@ -18,7 +18,7 @@ class CheckInventory {
 
   Future<double> checkInventoey(String itemCode) async {
     var isInStock = await inventoryItemsDao.getSingleInventoryByCode(itemCode);
-    return isInStock.qtyOnHand;
+    return isInStock.quantityOnHand;
   }
 
   //ToDo Add check inventory

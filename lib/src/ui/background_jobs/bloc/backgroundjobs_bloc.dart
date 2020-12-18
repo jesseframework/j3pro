@@ -25,6 +25,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
 import 'package:j3enterprise/src/database/crud/desktop/desktop_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/pro/resources/repositories/customer/address_repositories.dart';
+import 'package:j3enterprise/src/pro/resources/repositories/customer/contacts_repositories.dart';
+import 'package:j3enterprise/src/pro/resources/repositories/customer/customer_repositories.dart';
+import 'package:j3enterprise/src/pro/resources/repositories/sales/fullfillment/journey_plan_repositories.dart';
 import 'package:j3enterprise/src/resources/repositories/applogger_repositiry.dart';
 import 'package:j3enterprise/src/resources/repositories/business_rule_repositiry.dart';
 import 'package:j3enterprise/src/resources/repositories/mobile_desktop_repositiry.dart';
@@ -51,6 +55,10 @@ class BackgroundJobsBloc
   PreferenceRepository preferenceRepository;
   BusinessRuleRepository businessRuleRepository;
   MobileDesktopRepository mobileDesktopRepository;
+  CustomerRepository customerRepository;
+  JourneyPlanRepository journeyPlanRepository;
+  AddressRepository addressRepository;
+  ContactRepository contactRepository;
   DesktopDao desktopDao;
   UpdateBackgroundJobStatus updateBackgroundJobStatus;
   BackgroundJobsBloc() {
@@ -59,6 +67,10 @@ class BackgroundJobsBloc
     preferenceRepository = new PreferenceRepository();
     businessRuleRepository = new BusinessRuleRepository();
     mobileDesktopRepository = new MobileDesktopRepository();
+    customerRepository = new CustomerRepository();
+    journeyPlanRepository = new JourneyPlanRepository();
+    addressRepository = new AddressRepository();
+    contactRepository = new ContactRepository();
     updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
     backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
     desktopDao = new DesktopDao(db);
@@ -142,6 +154,61 @@ class BackgroundJobsBloc
               event.jobname,
               (Timer timer) async => await mobileDesktopRepository
                   .getMobileDesktopFromServer(event.jobname));
+        }
+
+        if (event.jobname == "Customer") {
+          scheduler.scheduleJobs(
+              event.syncFrequency,
+              event.jobname,
+              (Timer timer) async => await customerRepository
+                  .getCustomerFromServer(event.jobname));
+        }
+        if (event.jobname == "Journey Plan") {
+          scheduler.scheduleJobs(
+              event.syncFrequency,
+              event.jobname,
+              (Timer timer) async => await journeyPlanRepository
+                  .getJourneyPlanFromServer(event.jobname));
+        }
+
+        if (event.jobname == "Address") {
+          scheduler.scheduleJobs(
+              event.syncFrequency,
+              event.jobname,
+              (Timer timer) async =>
+                   addressRepository.getAddressFromServer(event.jobname));
+        }
+        if (event.jobname == "Contact") {
+          scheduler.scheduleJobs(
+              event.syncFrequency,
+              event.jobname,
+              (Timer timer) async =>
+                  await contactRepository.getContactFromServer(event.jobname));
+        }
+
+        if (event.jobname == "Customer All") {
+           scheduler.scheduleJobs(
+              event.syncFrequency,
+              event.jobname,
+              (Timer timer) async => await customerRepository
+                  .getCustomerFromServer(event.jobname));
+
+          scheduler.scheduleJobs(
+              event.syncFrequency,
+              event.jobname,
+              (Timer timer) async =>
+                  await contactRepository.getContactFromServer(event.jobname));         
+
+          scheduler.scheduleJobs(
+              event.syncFrequency,
+              event.jobname,
+              (Timer timer) async => await journeyPlanRepository.getJourneyPlanFromServer(event.jobname));
+
+                   scheduler.scheduleJobs(
+              event.syncFrequency,
+              event.jobname,
+              (Timer timer) async =>
+                  await addressRepository.getAddressFromServer(event.jobname));
         }
 
         yield BackgroundJobsSuccess(userMessage: userMessage);

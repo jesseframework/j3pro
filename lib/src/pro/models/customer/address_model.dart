@@ -2,7 +2,7 @@ import 'package:j3enterprise/src/resources/shared/extension/full_audited.dart';
 import 'package:j3enterprise/src/resources/shared/extension/must_have_tenant.dart';
 import 'package:moor/moor.dart';
 
-class Address extends Table implements MustHaveTenant, FullAudited {
+class Address extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
   IntColumn get tenantId => integer().nullable()();
   TextColumn get customerId => text()();
@@ -23,15 +23,8 @@ class Address extends Table implements MustHaveTenant, FullAudited {
   BoolColumn get isShippingAddress => boolean().withDefault(Constant(false))();
   RealColumn get latitude => real()();
   RealColumn get longitude => real()();
-  IntColumn get createUserId => integer().nullable()();
-  DateTimeColumn get creationTime => dateTime().nullable()();
-  DateTimeColumn get deleteTime => dateTime().nullable()();
-  IntColumn get deleteUserId => integer().nullable()();
-  TextColumn get creatorUser => text().nullable()();
-  TextColumn get deleterUserId => text().nullable()();
   BoolColumn get isDeleted => boolean().withDefault(Constant(false))();
-  TextColumn get lastModifierUser => text().nullable()();
-  IntColumn get lastModifierUserId => integer().nullable()();
+
 
   @override
   Set<Column> get primaryKey => {id};

@@ -24,10 +24,10 @@ class AddItemToWarehouse {
         itemName: moor.Value(itemName),
         uom: moor.Value(uom),
         defaultWarehouse: moor.Value(defaultWarehouse),
-        qtyOnHand: moor.Value(0),
-        qtyAdjust: moor.Value(0),
-        qtyCount: moor.Value(0),
-        qtySold: moor.Value(0),
+        quantityOnHand: moor.Value(0),
+        quantityAdjust: moor.Value(0),
+        quantityCount: moor.Value(0),
+        quantitySoldOnInvoice: moor.Value(0),
         inventoryCycleNumber: moor.Value(inventoryCycleNumber));
 
     await inventoryItemsDao.createOrUpdateInventoryItems(data);
