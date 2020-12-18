@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:badges/badges.dart';
+import 'package:barcode_keyboard_listener/barcode_keyboard_listener.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -17,7 +18,7 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
-import 'package:barcode_keyboard_listener/barcode_keyboard_listener.dart';
+ 
 
 class SalesOrderItemPage extends StatefulWidget {
   static final route = '/SalesOrderItemPage';

@@ -18,6 +18,8 @@
  */
 
 
+import 'dart:io';
+
 import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
@@ -63,7 +65,7 @@ class _SetupBackgroundPageState extends State<SetupBackgroundPage> {
               Navigator.pop(context);
             },
           ),
-          bottom: TabBar(
+          bottom: Platform.isAndroid || Platform.isIOS ?TabBar(
             tabs: [
               Tab(
                 icon: Icon(CustomIcons.wrench_solid),
@@ -78,7 +80,7 @@ class _SetupBackgroundPageState extends State<SetupBackgroundPage> {
                     'Device Serives',
               )
             ],
-          ),
+          ):null,
           title: Text(
               AppLocalization.of(context).translate('title_background_jobs') ??
                   'Background Jobs'),
@@ -96,14 +98,14 @@ class _SetupBackgroundPageState extends State<SetupBackgroundPage> {
             )
           ],
         ),
-        body: TabBarView(
+        body: Platform.isAndroid || Platform.isIOS ?TabBarView(
           children: [
             //Tab 1
             BackgroundFetchPage(),
             //Tab 2
             BackgroundJobsPage()
           ],
-        ),
+        ) : BackgroundJobsPage(),
       ),
     );
   }
