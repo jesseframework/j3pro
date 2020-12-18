@@ -28,6 +28,8 @@ import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/resources/repositories/customer/address_repositories.dart';
 import 'package:j3enterprise/src/pro/resources/repositories/customer/contacts_repositories.dart';
 import 'package:j3enterprise/src/pro/resources/repositories/customer/customer_repositories.dart';
+import 'package:j3enterprise/src/pro/resources/repositories/items/item_price_repositories.dart';
+import 'package:j3enterprise/src/pro/resources/repositories/items/items_master_repositories.dart';
 import 'package:j3enterprise/src/pro/resources/repositories/sales/fullfillment/journey_plan_repositories.dart';
 import 'package:j3enterprise/src/resources/repositories/applogger_repositiry.dart';
 import 'package:j3enterprise/src/resources/repositories/business_rule_repositiry.dart';
@@ -59,6 +61,8 @@ class BackgroundJobsBloc
   JourneyPlanRepository journeyPlanRepository;
   AddressRepository addressRepository;
   ContactRepository contactRepository;
+  ItemMasterRepository itemMasterRepository;
+  ItemPriceRepository itemPriceRepository;
   DesktopDao desktopDao;
   UpdateBackgroundJobStatus updateBackgroundJobStatus;
   BackgroundJobsBloc() {
@@ -71,6 +75,8 @@ class BackgroundJobsBloc
     journeyPlanRepository = new JourneyPlanRepository();
     addressRepository = new AddressRepository();
     contactRepository = new ContactRepository();
+    itemMasterRepository = new ItemMasterRepository();
+    itemPriceRepository = new ItemPriceRepository();
     updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
     backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
     desktopDao = new DesktopDao(db);
@@ -176,7 +182,7 @@ class BackgroundJobsBloc
               event.syncFrequency,
               event.jobname,
               (Timer timer) async =>
-                   addressRepository.getAddressFromServer(event.jobname));
+                  addressRepository.getAddressFromServer(event.jobname));
         }
         if (event.jobname == "Contact") {
           scheduler.scheduleJobs(
@@ -187,7 +193,7 @@ class BackgroundJobsBloc
         }
 
         if (event.jobname == "Customer All") {
-           scheduler.scheduleJobs(
+          scheduler.scheduleJobs(
               event.syncFrequency,
               event.jobname,
               (Timer timer) async => await customerRepository
@@ -197,18 +203,35 @@ class BackgroundJobsBloc
               event.syncFrequency,
               event.jobname,
               (Timer timer) async =>
-                  await contactRepository.getContactFromServer(event.jobname));         
+                  await contactRepository.getContactFromServer(event.jobname));
 
           scheduler.scheduleJobs(
               event.syncFrequency,
               event.jobname,
-              (Timer timer) async => await journeyPlanRepository.getJourneyPlanFromServer(event.jobname));
+              (Timer timer) async => await journeyPlanRepository
+                  .getJourneyPlanFromServer(event.jobname));
 
-                   scheduler.scheduleJobs(
+          scheduler.scheduleJobs(
               event.syncFrequency,
               event.jobname,
               (Timer timer) async =>
                   await addressRepository.getAddressFromServer(event.jobname));
+        }
+
+        if (event.jobname == "Items") {
+          scheduler.scheduleJobs(
+              event.syncFrequency,
+              event.jobname,
+              (Timer timer) async => await itemMasterRepository
+                  .getItemMasterFromServer(event.jobname));
+        }
+
+        if (event.jobname == "Item Price") {
+          scheduler.scheduleJobs(
+              event.syncFrequency,
+              event.jobname,
+              (Timer timer) async => await itemPriceRepository
+                  .getItemPriceFromServer(event.jobname));
         }
 
         yield BackgroundJobsSuccess(userMessage: userMessage);
