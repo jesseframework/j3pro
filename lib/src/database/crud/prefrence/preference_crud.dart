@@ -17,7 +17,8 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-import 'package:easy_localization/easy_localization.dart';
+ 
+import 'package:intl/intl.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/models/non_global_preference_setting.dart';
 import 'package:j3enterprise/src/models/preference_model.dart';

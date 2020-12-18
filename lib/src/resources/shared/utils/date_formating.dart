@@ -21,7 +21,9 @@
 
 //ToDo Add more date format from setting
 
-import 'package:easy_localization/easy_localization.dart';
+ 
+
+import 'package:intl/intl.dart';
 
 Future<String> formatDate(String dateToConvert) async {
   var now = DateTime.tryParse(dateToConvert);

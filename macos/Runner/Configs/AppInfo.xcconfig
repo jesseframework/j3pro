@@ -8,7 +8,7 @@
 PRODUCT_NAME = j3pro
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.j3enterprisecloud.j3enterprise.j3pro
+PRODUCT_BUNDLE_IDENTIFIER = com.j3enterprisecloud.j3pro
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2020 com.j3enterprisecloud.j3enterprise. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2020 com.j3enterprisecloud. All rights reserved.
