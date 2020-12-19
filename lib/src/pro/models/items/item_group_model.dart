@@ -4,7 +4,7 @@ import 'package:moor/moor.dart';
 
 class ItemGroups extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
-  IntColumn get itemId => integer()();
+  TextColumn get itemId => text().nullable()();
   TextColumn get parentGroup => text().nullable()();
   TextColumn get group => text().nullable()();
   IntColumn get tenantId => integer().nullable()();

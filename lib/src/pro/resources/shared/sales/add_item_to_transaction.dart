@@ -21,7 +21,7 @@ import 'package:moor/moor.dart' as moor;
 class AddItemToTransaction {
   double quantity;
   String result;
-  int itemId;
+  String itemId;
   String itemName;
   String itemCode;
   String itemDescription;
@@ -137,7 +137,7 @@ class AddItemToTransaction {
     if (item != null && item.length > 0) {
       result = "Item Found";
       //Assign Item values
-      itemId = item[0].id;
+      itemId = item[0].itemId;
       itemName = item[0].itemName;
       itemCode = item[0].itemCode;
       itemDescription = item[0].description;

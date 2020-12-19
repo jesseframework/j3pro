@@ -40,7 +40,7 @@ class Scheduler {
 
   List<TimerData> timers = [];
 
-  void cancel(String jobName) {
+  void cancel(String jobName) async {
     try {
       var x = timers.firstWhere((element) => element.name == jobName);
       if (x != null) {

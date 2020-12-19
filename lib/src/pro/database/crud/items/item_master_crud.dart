@@ -53,7 +53,7 @@ class ItemsDao extends DatabaseAccessor<AppDatabase> with _$ItemsDaoMixin {
       String searchText, bool isDelete) {
     final query = select(db.items).join([
       leftOuterJoin(
-          db.itemsPrices, db.items.id.equalsExp(db.itemsPrices.itemId)),
+          db.itemsPrices, db.items.itemId.equalsExp(db.itemsPrices.itemId)),
     ])
       ..where(db.items.itemName.contains(searchText) |
           db.items.itemCode.contains(searchText) |
@@ -79,7 +79,7 @@ class ItemsDao extends DatabaseAccessor<AppDatabase> with _$ItemsDaoMixin {
         ' i.uom, '
         ' p.item_price '
         ' FROM items i '
-        ' LEFT OUTER JOIN items_prices p on i.id = p.item_id '
+        ' LEFT OUTER JOIN items_prices p on i.item_id = p.item_id '
         ' WHERE '
         ' i.item_code LIKE ? or '
         ' i.item_name LIKE ? or '

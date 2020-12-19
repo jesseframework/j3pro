@@ -14,7 +14,7 @@ class SalesOrderDetail extends Table implements MustHaveTenant, MultiUser {
   TextColumn get userName => text()();
   IntColumn get userId => integer()();
   TextColumn get transactionStatus => text().nullable()();
-  IntColumn get itemId => integer()();
+  TextColumn get itemId => text().nullable()();
   TextColumn get itemCode => text()();
   TextColumn get upcCode => text()();
   TextColumn get description => text()();

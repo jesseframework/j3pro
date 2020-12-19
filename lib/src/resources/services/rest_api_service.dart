@@ -129,16 +129,16 @@ abstract class RestApiService extends ChopperService {
   @Get(path: '/services/app/PricingBundle/Get?MaxResultCount=30000')
   Future<Response> getPriceList();
 
-  @Post(path: '/services/app/PricingBundle/Create')
+  @Post(path: '/services/app/PricingMaster/Create')
   Future<Response> createPriceListInServer(@Body() Map<String, dynamic> body);
 
-  @Post(path: '/services/app/PricingBundle/Update')
+  @Post(path: '/services/app/PricingMaster/Update')
   Future<Response> updatePriceListInServer(@Body() Map<String, dynamic> body);
 
-  @Get(path: '/services/app/PricingBundle/GetAll?MaxResultCount=30000')
+  @Get(path: '/services/app/PricingMaster/GetAll?MaxResultCount=30000')
   Future<Response> getAllPrices();
 
-  @Get(path: '/services/app/PriceList/Get')
+  @Get(path: '/services/app/PricingMaster/Get')
   Future<Response> getPrice();
 
   @Post(path: '/services/app/PriceList/Create')

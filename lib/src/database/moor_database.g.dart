@@ -11774,7 +11774,7 @@ class SalesOrderDetailData extends DataClass
   final String currency;
   final double exchangeRate;
   final String transactionStatus;
-  final int itemId;
+  final String itemId;
   final String itemCode;
   final String upcCode;
   final String description;
@@ -11813,7 +11813,7 @@ class SalesOrderDetailData extends DataClass
       @required this.currency,
       @required this.exchangeRate,
       this.transactionStatus,
-      @required this.itemId,
+      this.itemId,
       @required this.itemCode,
       @required this.upcCode,
       @required this.description,
@@ -11871,7 +11871,7 @@ class SalesOrderDetailData extends DataClass
       transactionStatus: stringType.mapFromDatabaseResponse(
           data['${effectivePrefix}transaction_status']),
       itemId:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
       itemCode: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}item_code']),
       upcCode: stringType
@@ -11963,7 +11963,7 @@ class SalesOrderDetailData extends DataClass
       map['transaction_status'] = Variable<String>(transactionStatus);
     }
     if (!nullToAbsent || itemId != null) {
-      map['item_id'] = Variable<int>(itemId);
+      map['item_id'] = Variable<String>(itemId);
     }
     if (!nullToAbsent || itemCode != null) {
       map['item_code'] = Variable<String>(itemCode);
@@ -12176,7 +12176,7 @@ class SalesOrderDetailData extends DataClass
       currency: serializer.fromJson<String>(json['currency']),
       exchangeRate: serializer.fromJson<double>(json['exchangeRate']),
       transactionStatus: serializer.fromJson<String>(json['transactionStatus']),
-      itemId: serializer.fromJson<int>(json['itemId']),
+      itemId: serializer.fromJson<String>(json['itemId']),
       itemCode: serializer.fromJson<String>(json['itemCode']),
       upcCode: serializer.fromJson<String>(json['upcCode']),
       description: serializer.fromJson<String>(json['description']),
@@ -12221,7 +12221,7 @@ class SalesOrderDetailData extends DataClass
       'currency': serializer.toJson<String>(currency),
       'exchangeRate': serializer.toJson<double>(exchangeRate),
       'transactionStatus': serializer.toJson<String>(transactionStatus),
-      'itemId': serializer.toJson<int>(itemId),
+      'itemId': serializer.toJson<String>(itemId),
       'itemCode': serializer.toJson<String>(itemCode),
       'upcCode': serializer.toJson<String>(upcCode),
       'description': serializer.toJson<String>(description),
@@ -12263,7 +12263,7 @@ class SalesOrderDetailData extends DataClass
           String currency,
           double exchangeRate,
           String transactionStatus,
-          int itemId,
+          String itemId,
           String itemCode,
           String upcCode,
           String description,
@@ -12475,7 +12475,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
   final Value<String> currency;
   final Value<double> exchangeRate;
   final Value<String> transactionStatus;
-  final Value<int> itemId;
+  final Value<String> itemId;
   final Value<String> itemCode;
   final Value<String> upcCode;
   final Value<String> description;
@@ -12554,7 +12554,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
     @required String currency,
     @required double exchangeRate,
     this.transactionStatus = const Value.absent(),
-    @required int itemId,
+    this.itemId = const Value.absent(),
     @required String itemCode,
     @required String upcCode,
     @required String description,
@@ -12589,7 +12589,6 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
         deliveryDate = Value(deliveryDate),
         currency = Value(currency),
         exchangeRate = Value(exchangeRate),
-        itemId = Value(itemId),
         itemCode = Value(itemCode),
         upcCode = Value(upcCode),
         description = Value(description),
@@ -12624,7 +12623,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
     Expression<String> currency,
     Expression<double> exchangeRate,
     Expression<String> transactionStatus,
-    Expression<int> itemId,
+    Expression<String> itemId,
     Expression<String> itemCode,
     Expression<String> upcCode,
     Expression<String> description,
@@ -12707,7 +12706,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
       Value<String> currency,
       Value<double> exchangeRate,
       Value<String> transactionStatus,
-      Value<int> itemId,
+      Value<String> itemId,
       Value<String> itemCode,
       Value<String> upcCode,
       Value<String> description,
@@ -12814,7 +12813,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
       map['transaction_status'] = Variable<String>(transactionStatus.value);
     }
     if (itemId.present) {
-      map['item_id'] = Variable<int>(itemId.value);
+      map['item_id'] = Variable<String>(itemId.value);
     }
     if (itemCode.present) {
       map['item_code'] = Variable<String>(itemCode.value);
@@ -13093,14 +13092,14 @@ class $SalesOrderDetailTable extends SalesOrderDetail
   }
 
   final VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
-  GeneratedIntColumn _itemId;
+  GeneratedTextColumn _itemId;
   @override
-  GeneratedIntColumn get itemId => _itemId ??= _constructItemId();
-  GeneratedIntColumn _constructItemId() {
-    return GeneratedIntColumn(
+  GeneratedTextColumn get itemId => _itemId ??= _constructItemId();
+  GeneratedTextColumn _constructItemId() {
+    return GeneratedTextColumn(
       'item_id',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -13561,8 +13560,6 @@ class $SalesOrderDetailTable extends SalesOrderDetail
     if (data.containsKey('item_id')) {
       context.handle(_itemIdMeta,
           itemId.isAcceptableOrUnknown(data['item_id'], _itemIdMeta));
-    } else if (isInserting) {
-      context.missing(_itemIdMeta);
     }
     if (data.containsKey('item_code')) {
       context.handle(_itemCodeMeta,
@@ -13762,7 +13759,7 @@ class SalesOrderDetailTempData extends DataClass
   final String currency;
   final double exchangeRate;
   final String transactionStatus;
-  final int itemId;
+  final String itemId;
   final String itemCode;
   final String upcCode;
   final String description;
@@ -13801,7 +13798,7 @@ class SalesOrderDetailTempData extends DataClass
       this.currency,
       this.exchangeRate,
       this.transactionStatus,
-      @required this.itemId,
+      this.itemId,
       @required this.itemCode,
       this.upcCode,
       @required this.description,
@@ -13859,7 +13856,7 @@ class SalesOrderDetailTempData extends DataClass
       transactionStatus: stringType.mapFromDatabaseResponse(
           data['${effectivePrefix}transaction_status']),
       itemId:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
       itemCode: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}item_code']),
       upcCode: stringType
@@ -13951,7 +13948,7 @@ class SalesOrderDetailTempData extends DataClass
       map['transaction_status'] = Variable<String>(transactionStatus);
     }
     if (!nullToAbsent || itemId != null) {
-      map['item_id'] = Variable<int>(itemId);
+      map['item_id'] = Variable<String>(itemId);
     }
     if (!nullToAbsent || itemCode != null) {
       map['item_code'] = Variable<String>(itemCode);
@@ -14164,7 +14161,7 @@ class SalesOrderDetailTempData extends DataClass
       currency: serializer.fromJson<String>(json['currency']),
       exchangeRate: serializer.fromJson<double>(json['exchangeRate']),
       transactionStatus: serializer.fromJson<String>(json['transactionStatus']),
-      itemId: serializer.fromJson<int>(json['itemId']),
+      itemId: serializer.fromJson<String>(json['itemId']),
       itemCode: serializer.fromJson<String>(json['itemCode']),
       upcCode: serializer.fromJson<String>(json['upcCode']),
       description: serializer.fromJson<String>(json['description']),
@@ -14209,7 +14206,7 @@ class SalesOrderDetailTempData extends DataClass
       'currency': serializer.toJson<String>(currency),
       'exchangeRate': serializer.toJson<double>(exchangeRate),
       'transactionStatus': serializer.toJson<String>(transactionStatus),
-      'itemId': serializer.toJson<int>(itemId),
+      'itemId': serializer.toJson<String>(itemId),
       'itemCode': serializer.toJson<String>(itemCode),
       'upcCode': serializer.toJson<String>(upcCode),
       'description': serializer.toJson<String>(description),
@@ -14251,7 +14248,7 @@ class SalesOrderDetailTempData extends DataClass
           String currency,
           double exchangeRate,
           String transactionStatus,
-          int itemId,
+          String itemId,
           String itemCode,
           String upcCode,
           String description,
@@ -14464,7 +14461,7 @@ class SalesOrderDetailTempCompanion
   final Value<String> currency;
   final Value<double> exchangeRate;
   final Value<String> transactionStatus;
-  final Value<int> itemId;
+  final Value<String> itemId;
   final Value<String> itemCode;
   final Value<String> upcCode;
   final Value<String> description;
@@ -14543,7 +14540,7 @@ class SalesOrderDetailTempCompanion
     this.currency = const Value.absent(),
     this.exchangeRate = const Value.absent(),
     this.transactionStatus = const Value.absent(),
-    @required int itemId,
+    this.itemId = const Value.absent(),
     @required String itemCode,
     this.upcCode = const Value.absent(),
     @required String description,
@@ -14573,7 +14570,6 @@ class SalesOrderDetailTempCompanion
   })  : userName = Value(userName),
         userId = Value(userId),
         transactionNumber = Value(transactionNumber),
-        itemId = Value(itemId),
         itemCode = Value(itemCode),
         description = Value(description),
         unitPrice = Value(unitPrice),
@@ -14593,7 +14589,7 @@ class SalesOrderDetailTempCompanion
     Expression<String> currency,
     Expression<double> exchangeRate,
     Expression<String> transactionStatus,
-    Expression<int> itemId,
+    Expression<String> itemId,
     Expression<String> itemCode,
     Expression<String> upcCode,
     Expression<String> description,
@@ -14676,7 +14672,7 @@ class SalesOrderDetailTempCompanion
       Value<String> currency,
       Value<double> exchangeRate,
       Value<String> transactionStatus,
-      Value<int> itemId,
+      Value<String> itemId,
       Value<String> itemCode,
       Value<String> upcCode,
       Value<String> description,
@@ -14783,7 +14779,7 @@ class SalesOrderDetailTempCompanion
       map['transaction_status'] = Variable<String>(transactionStatus.value);
     }
     if (itemId.present) {
-      map['item_id'] = Variable<int>(itemId.value);
+      map['item_id'] = Variable<String>(itemId.value);
     }
     if (itemCode.present) {
       map['item_code'] = Variable<String>(itemCode.value);
@@ -15059,14 +15055,14 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
   }
 
   final VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
-  GeneratedIntColumn _itemId;
+  GeneratedTextColumn _itemId;
   @override
-  GeneratedIntColumn get itemId => _itemId ??= _constructItemId();
-  GeneratedIntColumn _constructItemId() {
-    return GeneratedIntColumn(
+  GeneratedTextColumn get itemId => _itemId ??= _constructItemId();
+  GeneratedTextColumn _constructItemId() {
+    return GeneratedTextColumn(
       'item_id',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -15517,8 +15513,6 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     if (data.containsKey('item_id')) {
       context.handle(_itemIdMeta,
           itemId.isAcceptableOrUnknown(data['item_id'], _itemIdMeta));
-    } else if (isInserting) {
-      context.missing(_itemIdMeta);
     }
     if (data.containsKey('item_code')) {
       context.handle(_itemCodeMeta,
@@ -20513,6 +20507,7 @@ class $ContactTable extends Contact with TableInfo<$ContactTable, ContactData> {
 class Item extends DataClass implements Insertable<Item> {
   final int tenantId;
   final int id;
+  final String itemId;
   final String description;
   final String itemCode;
   final String itemName;
@@ -20531,6 +20526,7 @@ class Item extends DataClass implements Insertable<Item> {
   Item(
       {this.tenantId,
       @required this.id,
+      @required this.itemId,
       this.description,
       this.itemCode,
       this.itemName,
@@ -20557,6 +20553,8 @@ class Item extends DataClass implements Insertable<Item> {
       tenantId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      itemId:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
       description: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}description']),
       itemCode: stringType
@@ -20596,6 +20594,9 @@ class Item extends DataClass implements Insertable<Item> {
     }
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || itemId != null) {
+      map['item_id'] = Variable<String>(itemId);
     }
     if (!nullToAbsent || description != null) {
       map['description'] = Variable<String>(description);
@@ -20651,6 +20652,8 @@ class Item extends DataClass implements Insertable<Item> {
           ? const Value.absent()
           : Value(tenantId),
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      itemId:
+          itemId == null && nullToAbsent ? const Value.absent() : Value(itemId),
       description: description == null && nullToAbsent
           ? const Value.absent()
           : Value(description),
@@ -20703,6 +20706,7 @@ class Item extends DataClass implements Insertable<Item> {
     return Item(
       tenantId: serializer.fromJson<int>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
+      itemId: serializer.fromJson<String>(json['itemId']),
       description: serializer.fromJson<String>(json['description']),
       itemCode: serializer.fromJson<String>(json['itemCode']),
       itemName: serializer.fromJson<String>(json['itemName']),
@@ -20727,6 +20731,7 @@ class Item extends DataClass implements Insertable<Item> {
     return <String, dynamic>{
       'tenantId': serializer.toJson<int>(tenantId),
       'id': serializer.toJson<int>(id),
+      'itemId': serializer.toJson<String>(itemId),
       'description': serializer.toJson<String>(description),
       'itemCode': serializer.toJson<String>(itemCode),
       'itemName': serializer.toJson<String>(itemName),
@@ -20748,6 +20753,7 @@ class Item extends DataClass implements Insertable<Item> {
   Item copyWith(
           {int tenantId,
           int id,
+          String itemId,
           String description,
           String itemCode,
           String itemName,
@@ -20766,6 +20772,7 @@ class Item extends DataClass implements Insertable<Item> {
       Item(
         tenantId: tenantId ?? this.tenantId,
         id: id ?? this.id,
+        itemId: itemId ?? this.itemId,
         description: description ?? this.description,
         itemCode: itemCode ?? this.itemCode,
         itemName: itemName ?? this.itemName,
@@ -20788,6 +20795,7 @@ class Item extends DataClass implements Insertable<Item> {
     return (StringBuffer('Item(')
           ..write('tenantId: $tenantId, ')
           ..write('id: $id, ')
+          ..write('itemId: $itemId, ')
           ..write('description: $description, ')
           ..write('itemCode: $itemCode, ')
           ..write('itemName: $itemName, ')
@@ -20813,43 +20821,48 @@ class Item extends DataClass implements Insertable<Item> {
       $mrjc(
           id.hashCode,
           $mrjc(
-              description.hashCode,
+              itemId.hashCode,
               $mrjc(
-                  itemCode.hashCode,
+                  description.hashCode,
                   $mrjc(
-                      itemName.hashCode,
+                      itemCode.hashCode,
                       $mrjc(
-                          itemGroup.hashCode,
+                          itemName.hashCode,
                           $mrjc(
-                              taxGroup.hashCode,
+                              itemGroup.hashCode,
                               $mrjc(
-                                  uom.hashCode,
+                                  taxGroup.hashCode,
                                   $mrjc(
-                                      trackInventory.hashCode,
+                                      uom.hashCode,
                                       $mrjc(
-                                          category.hashCode,
+                                          trackInventory.hashCode,
                                           $mrjc(
-                                              isProductBundleParent.hashCode,
+                                              category.hashCode,
                                               $mrjc(
-                                                  isQuickMenue.hashCode,
+                                                  isProductBundleParent
+                                                      .hashCode,
                                                   $mrjc(
-                                                      isRetired.hashCode,
+                                                      isQuickMenue.hashCode,
                                                       $mrjc(
-                                                          retiredDate.hashCode,
+                                                          isRetired.hashCode,
                                                           $mrjc(
-                                                              hasVariant
+                                                              retiredDate
                                                                   .hashCode,
                                                               $mrjc(
-                                                                  defaultWarehouse
+                                                                  hasVariant
                                                                       .hashCode,
-                                                                  isDeleted
-                                                                      .hashCode)))))))))))))))));
+                                                                  $mrjc(
+                                                                      defaultWarehouse
+                                                                          .hashCode,
+                                                                      isDeleted
+                                                                          .hashCode))))))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is Item &&
           other.tenantId == this.tenantId &&
           other.id == this.id &&
+          other.itemId == this.itemId &&
           other.description == this.description &&
           other.itemCode == this.itemCode &&
           other.itemName == this.itemName &&
@@ -20870,6 +20883,7 @@ class Item extends DataClass implements Insertable<Item> {
 class ItemsCompanion extends UpdateCompanion<Item> {
   final Value<int> tenantId;
   final Value<int> id;
+  final Value<String> itemId;
   final Value<String> description;
   final Value<String> itemCode;
   final Value<String> itemName;
@@ -20888,6 +20902,7 @@ class ItemsCompanion extends UpdateCompanion<Item> {
   const ItemsCompanion({
     this.tenantId = const Value.absent(),
     this.id = const Value.absent(),
+    this.itemId = const Value.absent(),
     this.description = const Value.absent(),
     this.itemCode = const Value.absent(),
     this.itemName = const Value.absent(),
@@ -20906,7 +20921,8 @@ class ItemsCompanion extends UpdateCompanion<Item> {
   });
   ItemsCompanion.insert({
     this.tenantId = const Value.absent(),
-    this.id = const Value.absent(),
+    @required int id,
+    @required String itemId,
     this.description = const Value.absent(),
     this.itemCode = const Value.absent(),
     this.itemName = const Value.absent(),
@@ -20922,10 +20938,12 @@ class ItemsCompanion extends UpdateCompanion<Item> {
     this.hasVariant = const Value.absent(),
     this.defaultWarehouse = const Value.absent(),
     this.isDeleted = const Value.absent(),
-  });
+  })  : id = Value(id),
+        itemId = Value(itemId);
   static Insertable<Item> custom({
     Expression<int> tenantId,
     Expression<int> id,
+    Expression<String> itemId,
     Expression<String> description,
     Expression<String> itemCode,
     Expression<String> itemName,
@@ -20945,6 +20963,7 @@ class ItemsCompanion extends UpdateCompanion<Item> {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
       if (id != null) 'id': id,
+      if (itemId != null) 'item_id': itemId,
       if (description != null) 'description': description,
       if (itemCode != null) 'item_code': itemCode,
       if (itemName != null) 'item_name': itemName,
@@ -20967,6 +20986,7 @@ class ItemsCompanion extends UpdateCompanion<Item> {
   ItemsCompanion copyWith(
       {Value<int> tenantId,
       Value<int> id,
+      Value<String> itemId,
       Value<String> description,
       Value<String> itemCode,
       Value<String> itemName,
@@ -20985,6 +21005,7 @@ class ItemsCompanion extends UpdateCompanion<Item> {
     return ItemsCompanion(
       tenantId: tenantId ?? this.tenantId,
       id: id ?? this.id,
+      itemId: itemId ?? this.itemId,
       description: description ?? this.description,
       itemCode: itemCode ?? this.itemCode,
       itemName: itemName ?? this.itemName,
@@ -21012,6 +21033,9 @@ class ItemsCompanion extends UpdateCompanion<Item> {
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
+    }
+    if (itemId.present) {
+      map['item_id'] = Variable<String>(itemId.value);
     }
     if (description.present) {
       map['description'] = Variable<String>(description.value);
@@ -21067,6 +21091,7 @@ class ItemsCompanion extends UpdateCompanion<Item> {
     return (StringBuffer('ItemsCompanion(')
           ..write('tenantId: $tenantId, ')
           ..write('id: $id, ')
+          ..write('itemId: $itemId, ')
           ..write('description: $description, ')
           ..write('itemCode: $itemCode, ')
           ..write('itemName: $itemName, ')
@@ -21110,6 +21135,18 @@ class $ItemsTable extends Items with TableInfo<$ItemsTable, Item> {
   GeneratedIntColumn _constructId() {
     return GeneratedIntColumn(
       'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
+  GeneratedTextColumn _itemId;
+  @override
+  GeneratedTextColumn get itemId => _itemId ??= _constructItemId();
+  GeneratedTextColumn _constructItemId() {
+    return GeneratedTextColumn(
+      'item_id',
       $tableName,
       false,
     );
@@ -21293,6 +21330,7 @@ class $ItemsTable extends Items with TableInfo<$ItemsTable, Item> {
   List<GeneratedColumn> get $columns => [
         tenantId,
         id,
+        itemId,
         description,
         itemCode,
         itemName,
@@ -21326,6 +21364,14 @@ class $ItemsTable extends Items with TableInfo<$ItemsTable, Item> {
     }
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('item_id')) {
+      context.handle(_itemIdMeta,
+          itemId.isAcceptableOrUnknown(data['item_id'], _itemIdMeta));
+    } else if (isInserting) {
+      context.missing(_itemIdMeta);
     }
     if (data.containsKey('description')) {
       context.handle(
@@ -21405,7 +21451,7 @@ class $ItemsTable extends Items with TableInfo<$ItemsTable, Item> {
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => {itemId};
   @override
   Item map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -21421,7 +21467,7 @@ class $ItemsTable extends Items with TableInfo<$ItemsTable, Item> {
 class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
   final int tenantId;
   final int id;
-  final int itemId;
+  final String itemId;
   final String itemCode;
   final String priceList;
   final String itemName;
@@ -21475,7 +21521,7 @@ class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       itemId:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
       itemCode: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}item_code']),
       priceList: stringType
@@ -21523,7 +21569,7 @@ class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
       map['id'] = Variable<int>(id);
     }
     if (!nullToAbsent || itemId != null) {
-      map['item_id'] = Variable<int>(itemId);
+      map['item_id'] = Variable<String>(itemId);
     }
     if (!nullToAbsent || itemCode != null) {
       map['item_code'] = Variable<String>(itemCode);
@@ -21651,7 +21697,7 @@ class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
     return ItemsPrice(
       tenantId: serializer.fromJson<int>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
-      itemId: serializer.fromJson<int>(json['itemId']),
+      itemId: serializer.fromJson<String>(json['itemId']),
       itemCode: serializer.fromJson<String>(json['itemCode']),
       priceList: serializer.fromJson<String>(json['priceList']),
       itemName: serializer.fromJson<String>(json['itemName']),
@@ -21678,7 +21724,7 @@ class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
     return <String, dynamic>{
       'tenantId': serializer.toJson<int>(tenantId),
       'id': serializer.toJson<int>(id),
-      'itemId': serializer.toJson<int>(itemId),
+      'itemId': serializer.toJson<String>(itemId),
       'itemCode': serializer.toJson<String>(itemCode),
       'priceList': serializer.toJson<String>(priceList),
       'itemName': serializer.toJson<String>(itemName),
@@ -21703,7 +21749,7 @@ class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
   ItemsPrice copyWith(
           {int tenantId,
           int id,
-          int itemId,
+          String itemId,
           String itemCode,
           String priceList,
           String itemName,
@@ -21846,7 +21892,7 @@ class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
 class ItemsPricesCompanion extends UpdateCompanion<ItemsPrice> {
   final Value<int> tenantId;
   final Value<int> id;
-  final Value<int> itemId;
+  final Value<String> itemId;
   final Value<String> itemCode;
   final Value<String> priceList;
   final Value<String> itemName;
@@ -21891,7 +21937,7 @@ class ItemsPricesCompanion extends UpdateCompanion<ItemsPrice> {
   ItemsPricesCompanion.insert({
     this.tenantId = const Value.absent(),
     this.id = const Value.absent(),
-    @required int itemId,
+    @required String itemId,
     this.itemCode = const Value.absent(),
     this.priceList = const Value.absent(),
     this.itemName = const Value.absent(),
@@ -21923,7 +21969,7 @@ class ItemsPricesCompanion extends UpdateCompanion<ItemsPrice> {
   static Insertable<ItemsPrice> custom({
     Expression<int> tenantId,
     Expression<int> id,
-    Expression<int> itemId,
+    Expression<String> itemId,
     Expression<String> itemCode,
     Expression<String> priceList,
     Expression<String> itemName,
@@ -21971,7 +22017,7 @@ class ItemsPricesCompanion extends UpdateCompanion<ItemsPrice> {
   ItemsPricesCompanion copyWith(
       {Value<int> tenantId,
       Value<int> id,
-      Value<int> itemId,
+      Value<String> itemId,
       Value<String> itemCode,
       Value<String> priceList,
       Value<String> itemName,
@@ -22025,7 +22071,7 @@ class ItemsPricesCompanion extends UpdateCompanion<ItemsPrice> {
       map['id'] = Variable<int>(id.value);
     }
     if (itemId.present) {
-      map['item_id'] = Variable<int>(itemId.value);
+      map['item_id'] = Variable<String>(itemId.value);
     }
     if (itemCode.present) {
       map['item_code'] = Variable<String>(itemCode.value);
@@ -22143,11 +22189,11 @@ class $ItemsPricesTable extends ItemsPrices
   }
 
   final VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
-  GeneratedIntColumn _itemId;
+  GeneratedTextColumn _itemId;
   @override
-  GeneratedIntColumn get itemId => _itemId ??= _constructItemId();
-  GeneratedIntColumn _constructItemId() {
-    return GeneratedIntColumn(
+  GeneratedTextColumn get itemId => _itemId ??= _constructItemId();
+  GeneratedTextColumn _constructItemId() {
+    return GeneratedTextColumn(
       'item_id',
       $tableName,
       false,
@@ -22555,7 +22601,7 @@ class ItemPricingRuleData extends DataClass
     implements Insertable<ItemPricingRuleData> {
   final int tenantId;
   final int id;
-  final int itemId;
+  final String itemId;
   final String itemCode;
   final String priceList;
   final String customerId;
@@ -22579,7 +22625,7 @@ class ItemPricingRuleData extends DataClass
   ItemPricingRuleData(
       {this.tenantId,
       @required this.id,
-      @required this.itemId,
+      this.itemId,
       this.itemCode,
       this.priceList,
       this.customerId,
@@ -22614,7 +22660,7 @@ class ItemPricingRuleData extends DataClass
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       itemId:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
       itemCode: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}item_code']),
       priceList: stringType
@@ -22666,7 +22712,7 @@ class ItemPricingRuleData extends DataClass
       map['id'] = Variable<int>(id);
     }
     if (!nullToAbsent || itemId != null) {
-      map['item_id'] = Variable<int>(itemId);
+      map['item_id'] = Variable<String>(itemId);
     }
     if (!nullToAbsent || itemCode != null) {
       map['item_code'] = Variable<String>(itemCode);
@@ -22804,7 +22850,7 @@ class ItemPricingRuleData extends DataClass
     return ItemPricingRuleData(
       tenantId: serializer.fromJson<int>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
-      itemId: serializer.fromJson<int>(json['itemId']),
+      itemId: serializer.fromJson<String>(json['itemId']),
       itemCode: serializer.fromJson<String>(json['itemCode']),
       priceList: serializer.fromJson<String>(json['priceList']),
       customerId: serializer.fromJson<String>(json['customerId']),
@@ -22834,7 +22880,7 @@ class ItemPricingRuleData extends DataClass
     return <String, dynamic>{
       'tenantId': serializer.toJson<int>(tenantId),
       'id': serializer.toJson<int>(id),
-      'itemId': serializer.toJson<int>(itemId),
+      'itemId': serializer.toJson<String>(itemId),
       'itemCode': serializer.toJson<String>(itemCode),
       'priceList': serializer.toJson<String>(priceList),
       'customerId': serializer.toJson<String>(customerId),
@@ -22861,7 +22907,7 @@ class ItemPricingRuleData extends DataClass
   ItemPricingRuleData copyWith(
           {int tenantId,
           int id,
-          int itemId,
+          String itemId,
           String itemCode,
           String priceList,
           String customerId,
@@ -23012,7 +23058,7 @@ class ItemPricingRuleData extends DataClass
 class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
   final Value<int> tenantId;
   final Value<int> id;
-  final Value<int> itemId;
+  final Value<String> itemId;
   final Value<String> itemCode;
   final Value<String> priceList;
   final Value<String> customerId;
@@ -23061,7 +23107,7 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
   ItemPricingRuleCompanion.insert({
     this.tenantId = const Value.absent(),
     this.id = const Value.absent(),
-    @required int itemId,
+    this.itemId = const Value.absent(),
     this.itemCode = const Value.absent(),
     this.priceList = const Value.absent(),
     this.customerId = const Value.absent(),
@@ -23082,15 +23128,14 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
     this.isDiscountEnable = const Value.absent(),
     this.validFrom = const Value.absent(),
     this.validTo = const Value.absent(),
-  })  : itemId = Value(itemId),
-        minQuantity = Value(minQuantity),
+  })  : minQuantity = Value(minQuantity),
         maxQuantity = Value(maxQuantity),
         price = Value(price),
         discountPercentage = Value(discountPercentage);
   static Insertable<ItemPricingRuleData> custom({
     Expression<int> tenantId,
     Expression<int> id,
-    Expression<int> itemId,
+    Expression<String> itemId,
     Expression<String> itemCode,
     Expression<String> priceList,
     Expression<String> customerId,
@@ -23142,7 +23187,7 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
   ItemPricingRuleCompanion copyWith(
       {Value<int> tenantId,
       Value<int> id,
-      Value<int> itemId,
+      Value<String> itemId,
       Value<String> itemCode,
       Value<String> priceList,
       Value<String> customerId,
@@ -23200,7 +23245,7 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
       map['id'] = Variable<int>(id.value);
     }
     if (itemId.present) {
-      map['item_id'] = Variable<int>(itemId.value);
+      map['item_id'] = Variable<String>(itemId.value);
     }
     if (itemCode.present) {
       map['item_code'] = Variable<String>(itemCode.value);
@@ -23326,14 +23371,14 @@ class $ItemPricingRuleTable extends ItemPricingRule
   }
 
   final VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
-  GeneratedIntColumn _itemId;
+  GeneratedTextColumn _itemId;
   @override
-  GeneratedIntColumn get itemId => _itemId ??= _constructItemId();
-  GeneratedIntColumn _constructItemId() {
-    return GeneratedIntColumn(
+  GeneratedTextColumn get itemId => _itemId ??= _constructItemId();
+  GeneratedTextColumn _constructItemId() {
+    return GeneratedTextColumn(
       'item_id',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -23633,8 +23678,6 @@ class $ItemPricingRuleTable extends ItemPricingRule
     if (data.containsKey('item_id')) {
       context.handle(_itemIdMeta,
           itemId.isAcceptableOrUnknown(data['item_id'], _itemIdMeta));
-    } else if (isInserting) {
-      context.missing(_itemIdMeta);
     }
     if (data.containsKey('item_code')) {
       context.handle(_itemCodeMeta,
@@ -23760,13 +23803,13 @@ class $ItemPricingRuleTable extends ItemPricingRule
 class Categore extends DataClass implements Insertable<Categore> {
   final int tenantId;
   final int id;
-  final int itemId;
+  final String itemId;
   final String parentCategory;
   final String category;
   Categore(
       {this.tenantId,
       @required this.id,
-      @required this.itemId,
+      this.itemId,
       this.parentCategory,
       this.category});
   factory Categore.fromData(Map<String, dynamic> data, GeneratedDatabase db,
@@ -23779,7 +23822,7 @@ class Categore extends DataClass implements Insertable<Categore> {
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       itemId:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
       parentCategory: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}parent_category']),
       category: stringType
@@ -23796,7 +23839,7 @@ class Categore extends DataClass implements Insertable<Categore> {
       map['id'] = Variable<int>(id);
     }
     if (!nullToAbsent || itemId != null) {
-      map['item_id'] = Variable<int>(itemId);
+      map['item_id'] = Variable<String>(itemId);
     }
     if (!nullToAbsent || parentCategory != null) {
       map['parent_category'] = Variable<String>(parentCategory);
@@ -23830,7 +23873,7 @@ class Categore extends DataClass implements Insertable<Categore> {
     return Categore(
       tenantId: serializer.fromJson<int>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
-      itemId: serializer.fromJson<int>(json['itemId']),
+      itemId: serializer.fromJson<String>(json['itemId']),
       parentCategory: serializer.fromJson<String>(json['parentCategory']),
       category: serializer.fromJson<String>(json['category']),
     );
@@ -23841,7 +23884,7 @@ class Categore extends DataClass implements Insertable<Categore> {
     return <String, dynamic>{
       'tenantId': serializer.toJson<int>(tenantId),
       'id': serializer.toJson<int>(id),
-      'itemId': serializer.toJson<int>(itemId),
+      'itemId': serializer.toJson<String>(itemId),
       'parentCategory': serializer.toJson<String>(parentCategory),
       'category': serializer.toJson<String>(category),
     };
@@ -23850,7 +23893,7 @@ class Categore extends DataClass implements Insertable<Categore> {
   Categore copyWith(
           {int tenantId,
           int id,
-          int itemId,
+          String itemId,
           String parentCategory,
           String category}) =>
       Categore(
@@ -23893,7 +23936,7 @@ class Categore extends DataClass implements Insertable<Categore> {
 class CategoresCompanion extends UpdateCompanion<Categore> {
   final Value<int> tenantId;
   final Value<int> id;
-  final Value<int> itemId;
+  final Value<String> itemId;
   final Value<String> parentCategory;
   final Value<String> category;
   const CategoresCompanion({
@@ -23906,14 +23949,14 @@ class CategoresCompanion extends UpdateCompanion<Categore> {
   CategoresCompanion.insert({
     this.tenantId = const Value.absent(),
     this.id = const Value.absent(),
-    @required int itemId,
+    this.itemId = const Value.absent(),
     this.parentCategory = const Value.absent(),
     this.category = const Value.absent(),
-  }) : itemId = Value(itemId);
+  });
   static Insertable<Categore> custom({
     Expression<int> tenantId,
     Expression<int> id,
-    Expression<int> itemId,
+    Expression<String> itemId,
     Expression<String> parentCategory,
     Expression<String> category,
   }) {
@@ -23929,7 +23972,7 @@ class CategoresCompanion extends UpdateCompanion<Categore> {
   CategoresCompanion copyWith(
       {Value<int> tenantId,
       Value<int> id,
-      Value<int> itemId,
+      Value<String> itemId,
       Value<String> parentCategory,
       Value<String> category}) {
     return CategoresCompanion(
@@ -23951,7 +23994,7 @@ class CategoresCompanion extends UpdateCompanion<Categore> {
       map['id'] = Variable<int>(id.value);
     }
     if (itemId.present) {
-      map['item_id'] = Variable<int>(itemId.value);
+      map['item_id'] = Variable<String>(itemId.value);
     }
     if (parentCategory.present) {
       map['parent_category'] = Variable<String>(parentCategory.value);
@@ -24005,14 +24048,14 @@ class $CategoresTable extends Categores
   }
 
   final VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
-  GeneratedIntColumn _itemId;
+  GeneratedTextColumn _itemId;
   @override
-  GeneratedIntColumn get itemId => _itemId ??= _constructItemId();
-  GeneratedIntColumn _constructItemId() {
-    return GeneratedIntColumn(
+  GeneratedTextColumn get itemId => _itemId ??= _constructItemId();
+  GeneratedTextColumn _constructItemId() {
+    return GeneratedTextColumn(
       'item_id',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -24066,8 +24109,6 @@ class $CategoresTable extends Categores
     if (data.containsKey('item_id')) {
       context.handle(_itemIdMeta,
           itemId.isAcceptableOrUnknown(data['item_id'], _itemIdMeta));
-    } else if (isInserting) {
-      context.missing(_itemIdMeta);
     }
     if (data.containsKey('parent_category')) {
       context.handle(
@@ -24099,13 +24140,13 @@ class $CategoresTable extends Categores
 class ItemGroup extends DataClass implements Insertable<ItemGroup> {
   final int tenantId;
   final int id;
-  final int itemId;
+  final String itemId;
   final String parentGroup;
   final String group;
   ItemGroup(
       {this.tenantId,
       @required this.id,
-      @required this.itemId,
+      this.itemId,
       this.parentGroup,
       this.group});
   factory ItemGroup.fromData(Map<String, dynamic> data, GeneratedDatabase db,
@@ -24118,7 +24159,7 @@ class ItemGroup extends DataClass implements Insertable<ItemGroup> {
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       itemId:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
       parentGroup: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}parent_group']),
       group:
@@ -24135,7 +24176,7 @@ class ItemGroup extends DataClass implements Insertable<ItemGroup> {
       map['id'] = Variable<int>(id);
     }
     if (!nullToAbsent || itemId != null) {
-      map['item_id'] = Variable<int>(itemId);
+      map['item_id'] = Variable<String>(itemId);
     }
     if (!nullToAbsent || parentGroup != null) {
       map['parent_group'] = Variable<String>(parentGroup);
@@ -24168,7 +24209,7 @@ class ItemGroup extends DataClass implements Insertable<ItemGroup> {
     return ItemGroup(
       tenantId: serializer.fromJson<int>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
-      itemId: serializer.fromJson<int>(json['itemId']),
+      itemId: serializer.fromJson<String>(json['itemId']),
       parentGroup: serializer.fromJson<String>(json['parentGroup']),
       group: serializer.fromJson<String>(json['group']),
     );
@@ -24179,7 +24220,7 @@ class ItemGroup extends DataClass implements Insertable<ItemGroup> {
     return <String, dynamic>{
       'tenantId': serializer.toJson<int>(tenantId),
       'id': serializer.toJson<int>(id),
-      'itemId': serializer.toJson<int>(itemId),
+      'itemId': serializer.toJson<String>(itemId),
       'parentGroup': serializer.toJson<String>(parentGroup),
       'group': serializer.toJson<String>(group),
     };
@@ -24188,7 +24229,7 @@ class ItemGroup extends DataClass implements Insertable<ItemGroup> {
   ItemGroup copyWith(
           {int tenantId,
           int id,
-          int itemId,
+          String itemId,
           String parentGroup,
           String group}) =>
       ItemGroup(
@@ -24231,7 +24272,7 @@ class ItemGroup extends DataClass implements Insertable<ItemGroup> {
 class ItemGroupsCompanion extends UpdateCompanion<ItemGroup> {
   final Value<int> tenantId;
   final Value<int> id;
-  final Value<int> itemId;
+  final Value<String> itemId;
   final Value<String> parentGroup;
   final Value<String> group;
   const ItemGroupsCompanion({
@@ -24244,14 +24285,14 @@ class ItemGroupsCompanion extends UpdateCompanion<ItemGroup> {
   ItemGroupsCompanion.insert({
     this.tenantId = const Value.absent(),
     this.id = const Value.absent(),
-    @required int itemId,
+    this.itemId = const Value.absent(),
     this.parentGroup = const Value.absent(),
     this.group = const Value.absent(),
-  }) : itemId = Value(itemId);
+  });
   static Insertable<ItemGroup> custom({
     Expression<int> tenantId,
     Expression<int> id,
-    Expression<int> itemId,
+    Expression<String> itemId,
     Expression<String> parentGroup,
     Expression<String> group,
   }) {
@@ -24267,7 +24308,7 @@ class ItemGroupsCompanion extends UpdateCompanion<ItemGroup> {
   ItemGroupsCompanion copyWith(
       {Value<int> tenantId,
       Value<int> id,
-      Value<int> itemId,
+      Value<String> itemId,
       Value<String> parentGroup,
       Value<String> group}) {
     return ItemGroupsCompanion(
@@ -24289,7 +24330,7 @@ class ItemGroupsCompanion extends UpdateCompanion<ItemGroup> {
       map['id'] = Variable<int>(id.value);
     }
     if (itemId.present) {
-      map['item_id'] = Variable<int>(itemId.value);
+      map['item_id'] = Variable<String>(itemId.value);
     }
     if (parentGroup.present) {
       map['parent_group'] = Variable<String>(parentGroup.value);
@@ -24343,14 +24384,14 @@ class $ItemGroupsTable extends ItemGroups
   }
 
   final VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
-  GeneratedIntColumn _itemId;
+  GeneratedTextColumn _itemId;
   @override
-  GeneratedIntColumn get itemId => _itemId ??= _constructItemId();
-  GeneratedIntColumn _constructItemId() {
-    return GeneratedIntColumn(
+  GeneratedTextColumn get itemId => _itemId ??= _constructItemId();
+  GeneratedTextColumn _constructItemId() {
+    return GeneratedTextColumn(
       'item_id',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -24404,8 +24445,6 @@ class $ItemGroupsTable extends ItemGroups
     if (data.containsKey('item_id')) {
       context.handle(_itemIdMeta,
           itemId.isAcceptableOrUnknown(data['item_id'], _itemIdMeta));
-    } else if (isInserting) {
-      context.missing(_itemIdMeta);
     }
     if (data.containsKey('parent_group')) {
       context.handle(
@@ -25160,7 +25199,7 @@ class StockUnitOfMeasureData extends DataClass
     implements Insertable<StockUnitOfMeasureData> {
   final int tenantId;
   final int id;
-  final int itemId;
+  final String itemId;
   final String uom;
   final int createUserId;
   final DateTime creationTime;
@@ -25174,7 +25213,7 @@ class StockUnitOfMeasureData extends DataClass
   StockUnitOfMeasureData(
       {this.tenantId,
       @required this.id,
-      @required this.itemId,
+      this.itemId,
       this.uom,
       this.createUserId,
       this.creationTime,
@@ -25198,7 +25237,7 @@ class StockUnitOfMeasureData extends DataClass
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       itemId:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
       uom: stringType.mapFromDatabaseResponse(data['${effectivePrefix}uom']),
       createUserId: intType
           .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
@@ -25230,7 +25269,7 @@ class StockUnitOfMeasureData extends DataClass
       map['id'] = Variable<int>(id);
     }
     if (!nullToAbsent || itemId != null) {
-      map['item_id'] = Variable<int>(itemId);
+      map['item_id'] = Variable<String>(itemId);
     }
     if (!nullToAbsent || uom != null) {
       map['uom'] = Variable<String>(uom);
@@ -25310,7 +25349,7 @@ class StockUnitOfMeasureData extends DataClass
     return StockUnitOfMeasureData(
       tenantId: serializer.fromJson<int>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
-      itemId: serializer.fromJson<int>(json['itemId']),
+      itemId: serializer.fromJson<String>(json['itemId']),
       uom: serializer.fromJson<String>(json['uom']),
       createUserId: serializer.fromJson<int>(json['createUserId']),
       creationTime: serializer.fromJson<DateTime>(json['creationTime']),
@@ -25329,7 +25368,7 @@ class StockUnitOfMeasureData extends DataClass
     return <String, dynamic>{
       'tenantId': serializer.toJson<int>(tenantId),
       'id': serializer.toJson<int>(id),
-      'itemId': serializer.toJson<int>(itemId),
+      'itemId': serializer.toJson<String>(itemId),
       'uom': serializer.toJson<String>(uom),
       'createUserId': serializer.toJson<int>(createUserId),
       'creationTime': serializer.toJson<DateTime>(creationTime),
@@ -25346,7 +25385,7 @@ class StockUnitOfMeasureData extends DataClass
   StockUnitOfMeasureData copyWith(
           {int tenantId,
           int id,
-          int itemId,
+          String itemId,
           String uom,
           int createUserId,
           DateTime creationTime,
@@ -25442,7 +25481,7 @@ class StockUnitOfMeasureCompanion
     extends UpdateCompanion<StockUnitOfMeasureData> {
   final Value<int> tenantId;
   final Value<int> id;
-  final Value<int> itemId;
+  final Value<String> itemId;
   final Value<String> uom;
   final Value<int> createUserId;
   final Value<DateTime> creationTime;
@@ -25471,7 +25510,7 @@ class StockUnitOfMeasureCompanion
   StockUnitOfMeasureCompanion.insert({
     this.tenantId = const Value.absent(),
     this.id = const Value.absent(),
-    @required int itemId,
+    this.itemId = const Value.absent(),
     this.uom = const Value.absent(),
     this.createUserId = const Value.absent(),
     this.creationTime = const Value.absent(),
@@ -25482,11 +25521,11 @@ class StockUnitOfMeasureCompanion
     this.isDeleted = const Value.absent(),
     this.lastModifierUser = const Value.absent(),
     this.lastModifierUserId = const Value.absent(),
-  }) : itemId = Value(itemId);
+  });
   static Insertable<StockUnitOfMeasureData> custom({
     Expression<int> tenantId,
     Expression<int> id,
-    Expression<int> itemId,
+    Expression<String> itemId,
     Expression<String> uom,
     Expression<int> createUserId,
     Expression<DateTime> creationTime,
@@ -25519,7 +25558,7 @@ class StockUnitOfMeasureCompanion
   StockUnitOfMeasureCompanion copyWith(
       {Value<int> tenantId,
       Value<int> id,
-      Value<int> itemId,
+      Value<String> itemId,
       Value<String> uom,
       Value<int> createUserId,
       Value<DateTime> creationTime,
@@ -25557,7 +25596,7 @@ class StockUnitOfMeasureCompanion
       map['id'] = Variable<int>(id.value);
     }
     if (itemId.present) {
-      map['item_id'] = Variable<int>(itemId.value);
+      map['item_id'] = Variable<String>(itemId.value);
     }
     if (uom.present) {
       map['uom'] = Variable<String>(uom.value);
@@ -25643,14 +25682,14 @@ class $StockUnitOfMeasureTable extends StockUnitOfMeasure
   }
 
   final VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
-  GeneratedIntColumn _itemId;
+  GeneratedTextColumn _itemId;
   @override
-  GeneratedIntColumn get itemId => _itemId ??= _constructItemId();
-  GeneratedIntColumn _constructItemId() {
-    return GeneratedIntColumn(
+  GeneratedTextColumn get itemId => _itemId ??= _constructItemId();
+  GeneratedTextColumn _constructItemId() {
+    return GeneratedTextColumn(
       'item_id',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -25824,8 +25863,6 @@ class $StockUnitOfMeasureTable extends StockUnitOfMeasure
     if (data.containsKey('item_id')) {
       context.handle(_itemIdMeta,
           itemId.isAcceptableOrUnknown(data['item_id'], _itemIdMeta));
-    } else if (isInserting) {
-      context.missing(_itemIdMeta);
     }
     if (data.containsKey('uom')) {
       context.handle(
@@ -26765,13 +26802,13 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
   final int id;
   final String upcCode;
   final String codeType;
-  final int itemId;
+  final String itemId;
   UPCCodeData(
       {this.tenantId,
       @required this.id,
       this.upcCode,
       this.codeType,
-      @required this.itemId});
+      this.itemId});
   factory UPCCodeData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -26786,7 +26823,7 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
       codeType: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}code_type']),
       itemId:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
     );
   }
   @override
@@ -26805,7 +26842,7 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
       map['code_type'] = Variable<String>(codeType);
     }
     if (!nullToAbsent || itemId != null) {
-      map['item_id'] = Variable<int>(itemId);
+      map['item_id'] = Variable<String>(itemId);
     }
     return map;
   }
@@ -26835,7 +26872,7 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
       id: serializer.fromJson<int>(json['id']),
       upcCode: serializer.fromJson<String>(json['upcCode']),
       codeType: serializer.fromJson<String>(json['codeType']),
-      itemId: serializer.fromJson<int>(json['itemId']),
+      itemId: serializer.fromJson<String>(json['itemId']),
     );
   }
   @override
@@ -26846,7 +26883,7 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
       'id': serializer.toJson<int>(id),
       'upcCode': serializer.toJson<String>(upcCode),
       'codeType': serializer.toJson<String>(codeType),
-      'itemId': serializer.toJson<int>(itemId),
+      'itemId': serializer.toJson<String>(itemId),
     };
   }
 
@@ -26855,7 +26892,7 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
           int id,
           String upcCode,
           String codeType,
-          int itemId}) =>
+          String itemId}) =>
       UPCCodeData(
         tenantId: tenantId ?? this.tenantId,
         id: id ?? this.id,
@@ -26896,7 +26933,7 @@ class UPCCodeCompanion extends UpdateCompanion<UPCCodeData> {
   final Value<int> id;
   final Value<String> upcCode;
   final Value<String> codeType;
-  final Value<int> itemId;
+  final Value<String> itemId;
   const UPCCodeCompanion({
     this.tenantId = const Value.absent(),
     this.id = const Value.absent(),
@@ -26909,14 +26946,14 @@ class UPCCodeCompanion extends UpdateCompanion<UPCCodeData> {
     this.id = const Value.absent(),
     this.upcCode = const Value.absent(),
     this.codeType = const Value.absent(),
-    @required int itemId,
-  }) : itemId = Value(itemId);
+    this.itemId = const Value.absent(),
+  });
   static Insertable<UPCCodeData> custom({
     Expression<int> tenantId,
     Expression<int> id,
     Expression<String> upcCode,
     Expression<String> codeType,
-    Expression<int> itemId,
+    Expression<String> itemId,
   }) {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
@@ -26932,7 +26969,7 @@ class UPCCodeCompanion extends UpdateCompanion<UPCCodeData> {
       Value<int> id,
       Value<String> upcCode,
       Value<String> codeType,
-      Value<int> itemId}) {
+      Value<String> itemId}) {
     return UPCCodeCompanion(
       tenantId: tenantId ?? this.tenantId,
       id: id ?? this.id,
@@ -26958,7 +26995,7 @@ class UPCCodeCompanion extends UpdateCompanion<UPCCodeData> {
       map['code_type'] = Variable<String>(codeType.value);
     }
     if (itemId.present) {
-      map['item_id'] = Variable<int>(itemId.value);
+      map['item_id'] = Variable<String>(itemId.value);
     }
     return map;
   }
@@ -27029,14 +27066,14 @@ class $UPCCodeTable extends UPCCode with TableInfo<$UPCCodeTable, UPCCodeData> {
   }
 
   final VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
-  GeneratedIntColumn _itemId;
+  GeneratedTextColumn _itemId;
   @override
-  GeneratedIntColumn get itemId => _itemId ??= _constructItemId();
-  GeneratedIntColumn _constructItemId() {
-    return GeneratedIntColumn(
+  GeneratedTextColumn get itemId => _itemId ??= _constructItemId();
+  GeneratedTextColumn _constructItemId() {
+    return GeneratedTextColumn(
       'item_id',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -27072,8 +27109,6 @@ class $UPCCodeTable extends UPCCode with TableInfo<$UPCCodeTable, UPCCodeData> {
     if (data.containsKey('item_id')) {
       context.handle(_itemIdMeta,
           itemId.isAcceptableOrUnknown(data['item_id'], _itemIdMeta));
-    } else if (isInserting) {
-      context.missing(_itemIdMeta);
     }
     return context;
   }

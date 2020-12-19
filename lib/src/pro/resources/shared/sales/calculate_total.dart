@@ -16,7 +16,7 @@ class CalculateTotal {
     salesOrderDetailTempDao = new SalesOrderDetailTempDao(db);
   }
   Future<void> getTotal(String tempSalesOrderNo, String tempTransactionStatus,
-      int itemId, String uom) async {
+      String itemId, String uom) async {
     var onRegister = await salesOrderDetailTempDao.getAllSalesOrderForUpdate(
         tempSalesOrderNo, tempTransactionStatus, itemId, uom);
     if (onRegister.length > 0 && onRegister != null) {

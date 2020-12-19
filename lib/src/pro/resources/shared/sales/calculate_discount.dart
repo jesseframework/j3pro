@@ -52,7 +52,7 @@ class CalculateDiscount {
   }
 
   Future<void> getDiscount(
-      int itemId,
+      String itemId,
       String uom,
       String customerId,
       String transactionNumber,

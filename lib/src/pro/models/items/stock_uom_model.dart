@@ -4,7 +4,7 @@ import 'package:moor/moor.dart';
 
 class StockUnitOfMeasure extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
-  IntColumn get itemId => integer()();
+  TextColumn get itemId => text().nullable()();
   TextColumn get uom => text().nullable()();
   IntColumn get tenantId => integer().nullable()();
   IntColumn get createUserId => integer().nullable()();

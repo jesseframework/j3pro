@@ -9,7 +9,7 @@ void main() {
     var db;
     db = AppDatabase();
     String itemCode = "Kid";
-    int itemId = 0;
+    String itemId = "0";
     List<ItemsWithPrices> result = new List<ItemsWithPrices>();
 
     ItemsDao items = new ItemsDao(db);

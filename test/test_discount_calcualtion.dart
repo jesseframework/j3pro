@@ -5,7 +5,7 @@ import 'package:j3enterprise/src/pro/database/crud/sales/sales_order/sales_order
 void main() {
   test('test discount calculation', () async {
     String transactionNumber = "101012020";
-    int itemId = 1;
+    String itemId = "1";
     String uom = "Each";
     String transactionStatus = "Post";
     double numOfItemOnRegister = 0;

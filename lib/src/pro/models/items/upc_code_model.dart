@@ -6,7 +6,7 @@ class UPCCode extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
   TextColumn get upcCode => text().nullable()();
   TextColumn get codeType => text().nullable()();
-  IntColumn get itemId => integer()();
+  TextColumn get itemId => text().nullable()();
   IntColumn get tenantId => integer().nullable()();
 
 

@@ -4,7 +4,7 @@ import 'package:moor/moor.dart';
 
 class Items extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
-  IntColumn get tenantId => integer().nullable()();
+  TextColumn get itemId => text()();  
   TextColumn get description => text().nullable()();
   TextColumn get itemCode => text().nullable()();
   TextColumn get itemName => text().nullable()();
@@ -20,8 +20,9 @@ class Items extends Table implements MustHaveTenant {
   BoolColumn get hasVariant => boolean().withDefault(Constant(false))();
   TextColumn get defaultWarehouse => text().nullable()();
   BoolColumn get isDeleted => boolean().withDefault(Constant(false))();
+  IntColumn get tenantId => integer().nullable()();
 
 
   @override
-  Set<Column> get primaryKey => {id};
+  Set<Column> get primaryKey => {itemId};
 }

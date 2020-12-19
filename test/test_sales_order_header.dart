@@ -6,7 +6,7 @@ import 'package:j3enterprise/src/pro/database/crud/sales/sales_order/sales_order
 void main() {
   test('stream order with header', () async {
     String transactionNumber = "900009911";
-    int itemId = 29;
+    String itemId = "29";
     String uom = "Each";
     String transactionStatus = "Post";
     var db;

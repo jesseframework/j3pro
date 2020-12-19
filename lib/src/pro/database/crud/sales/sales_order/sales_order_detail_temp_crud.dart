@@ -28,7 +28,7 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
   Future<List<SalesOrderDetailTempData>> getAllSalesOrderForUpdate(
       String transactionNumber,
       String transactionStatus,
-      int itemId,
+      String itemId,
       String salesUom) {
     return (select(db.salesOrderDetailTemp)
           ..where((t) =>
@@ -43,7 +43,7 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
       SalesOrderDetailTempCompanion tempOrder,
       String transactionNumber,
       String transactionStatus,
-      int itemId,
+      String itemId,
       String salesUom) {
     return (update(db.salesOrderDetailTemp)
           ..where((t) =>
@@ -65,7 +65,7 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
       SalesOrderDetailTempCompanion tempOrder,
       String transactionNumber,
       String transactionStatus,
-      int itemId,
+      String itemId,
       String salesUom) {
     return (update(db.salesOrderDetailTemp)
           ..where((t) =>
@@ -86,7 +86,7 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
       SalesOrderDetailTempCompanion tax,
       String transactionNumber,
       String transactionStatus,
-      int itemId,
+      String itemId,
       String salesUom) {
     return (update(db.salesOrderDetailTemp)
           ..where((t) =>
@@ -129,7 +129,7 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
       SalesOrderDetailTempCompanion tempOrder,
       String transactionNumber,
       String transactionStatus,
-      int itemId,
+      String itemId,
       String salesUom) {
     return (update(db.salesOrderDetailTemp)
           ..where((t) =>
@@ -152,7 +152,7 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
   //This section calculate discount
   Stream<List<SalesOrderDetailTempData>> qtyOfItemOnRegister(
       String transactionNumber,
-      int itemId,
+      String itemId,
       String uom,
       String transactionStatus) {
     return customSelect(
@@ -173,7 +173,7 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
         },
         variables: [
           Variable.withString(transactionNumber),
-          Variable.withInt(itemId),
+          Variable.withString(itemId),
           Variable.withString(uom),
           Variable.withString(transactionStatus)
         ]

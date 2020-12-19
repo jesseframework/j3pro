@@ -38,7 +38,7 @@ class CalculateTax {
       int tenantId,
       String userName,
       int userId,
-      int itemId,
+      String itemId,
       String customerId,
       String taxGroup,
       DateTime salesDate,

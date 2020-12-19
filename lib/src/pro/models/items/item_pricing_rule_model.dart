@@ -4,7 +4,7 @@ import 'package:moor/moor.dart';
 
 class ItemPricingRule extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
-  IntColumn get itemId => integer()();
+  TextColumn get itemId => text().nullable()();
   IntColumn get tenantId => integer().nullable()();
   TextColumn get itemCode => text().nullable()();
   TextColumn get priceList => text().nullable()();

@@ -1875,7 +1875,7 @@ class SalesOrderDetailData extends DataClass
   final String currency;
   final double exchangeRate;
   final String transactionStatus;
-  final int itemId;
+  final String itemId;
   final String itemCode;
   final String upcCode;
   final String description;
@@ -1914,7 +1914,7 @@ class SalesOrderDetailData extends DataClass
       @required this.currency,
       @required this.exchangeRate,
       this.transactionStatus,
-      @required this.itemId,
+      this.itemId,
       @required this.itemCode,
       @required this.upcCode,
       @required this.description,
@@ -1972,7 +1972,7 @@ class SalesOrderDetailData extends DataClass
       transactionStatus: stringType.mapFromDatabaseResponse(
           data['${effectivePrefix}transaction_status']),
       itemId:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
       itemCode: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}item_code']),
       upcCode: stringType
@@ -2064,7 +2064,7 @@ class SalesOrderDetailData extends DataClass
       map['transaction_status'] = Variable<String>(transactionStatus);
     }
     if (!nullToAbsent || itemId != null) {
-      map['item_id'] = Variable<int>(itemId);
+      map['item_id'] = Variable<String>(itemId);
     }
     if (!nullToAbsent || itemCode != null) {
       map['item_code'] = Variable<String>(itemCode);
@@ -2277,7 +2277,7 @@ class SalesOrderDetailData extends DataClass
       currency: serializer.fromJson<String>(json['currency']),
       exchangeRate: serializer.fromJson<double>(json['exchangeRate']),
       transactionStatus: serializer.fromJson<String>(json['transactionStatus']),
-      itemId: serializer.fromJson<int>(json['itemId']),
+      itemId: serializer.fromJson<String>(json['itemId']),
       itemCode: serializer.fromJson<String>(json['itemCode']),
       upcCode: serializer.fromJson<String>(json['upcCode']),
       description: serializer.fromJson<String>(json['description']),
@@ -2322,7 +2322,7 @@ class SalesOrderDetailData extends DataClass
       'currency': serializer.toJson<String>(currency),
       'exchangeRate': serializer.toJson<double>(exchangeRate),
       'transactionStatus': serializer.toJson<String>(transactionStatus),
-      'itemId': serializer.toJson<int>(itemId),
+      'itemId': serializer.toJson<String>(itemId),
       'itemCode': serializer.toJson<String>(itemCode),
       'upcCode': serializer.toJson<String>(upcCode),
       'description': serializer.toJson<String>(description),
@@ -2364,7 +2364,7 @@ class SalesOrderDetailData extends DataClass
           String currency,
           double exchangeRate,
           String transactionStatus,
-          int itemId,
+          String itemId,
           String itemCode,
           String upcCode,
           String description,
@@ -2576,7 +2576,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
   final Value<String> currency;
   final Value<double> exchangeRate;
   final Value<String> transactionStatus;
-  final Value<int> itemId;
+  final Value<String> itemId;
   final Value<String> itemCode;
   final Value<String> upcCode;
   final Value<String> description;
@@ -2655,7 +2655,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
     @required String currency,
     @required double exchangeRate,
     this.transactionStatus = const Value.absent(),
-    @required int itemId,
+    this.itemId = const Value.absent(),
     @required String itemCode,
     @required String upcCode,
     @required String description,
@@ -2690,7 +2690,6 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
         deliveryDate = Value(deliveryDate),
         currency = Value(currency),
         exchangeRate = Value(exchangeRate),
-        itemId = Value(itemId),
         itemCode = Value(itemCode),
         upcCode = Value(upcCode),
         description = Value(description),
@@ -2725,7 +2724,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
     Expression<String> currency,
     Expression<double> exchangeRate,
     Expression<String> transactionStatus,
-    Expression<int> itemId,
+    Expression<String> itemId,
     Expression<String> itemCode,
     Expression<String> upcCode,
     Expression<String> description,
@@ -2808,7 +2807,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
       Value<String> currency,
       Value<double> exchangeRate,
       Value<String> transactionStatus,
-      Value<int> itemId,
+      Value<String> itemId,
       Value<String> itemCode,
       Value<String> upcCode,
       Value<String> description,
@@ -2915,7 +2914,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
       map['transaction_status'] = Variable<String>(transactionStatus.value);
     }
     if (itemId.present) {
-      map['item_id'] = Variable<int>(itemId.value);
+      map['item_id'] = Variable<String>(itemId.value);
     }
     if (itemCode.present) {
       map['item_code'] = Variable<String>(itemCode.value);
@@ -3194,14 +3193,14 @@ class $SalesOrderDetailTable extends SalesOrderDetail
   }
 
   final VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
-  GeneratedIntColumn _itemId;
+  GeneratedTextColumn _itemId;
   @override
-  GeneratedIntColumn get itemId => _itemId ??= _constructItemId();
-  GeneratedIntColumn _constructItemId() {
-    return GeneratedIntColumn(
+  GeneratedTextColumn get itemId => _itemId ??= _constructItemId();
+  GeneratedTextColumn _constructItemId() {
+    return GeneratedTextColumn(
       'item_id',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -3662,8 +3661,6 @@ class $SalesOrderDetailTable extends SalesOrderDetail
     if (data.containsKey('item_id')) {
       context.handle(_itemIdMeta,
           itemId.isAcceptableOrUnknown(data['item_id'], _itemIdMeta));
-    } else if (isInserting) {
-      context.missing(_itemIdMeta);
     }
     if (data.containsKey('item_code')) {
       context.handle(_itemCodeMeta,

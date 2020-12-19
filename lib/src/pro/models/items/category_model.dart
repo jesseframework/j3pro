@@ -4,7 +4,7 @@ import 'package:moor/moor.dart';
 
 class Categores extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
-  IntColumn get itemId => integer()();
+  TextColumn get itemId => text().nullable()();
   TextColumn get parentCategory => text().nullable()();
   TextColumn get category => text().nullable()();
   IntColumn get tenantId => integer().nullable()();
