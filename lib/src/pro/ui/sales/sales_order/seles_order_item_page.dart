@@ -18,11 +18,10 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
- 
 
 class SalesOrderItemPage extends StatefulWidget {
   static final route = '/SalesOrderItemPage';
-  var db;  
+  var db;
 
   ItemsDao itemsDao;
   SalesOrderDetailTempDao salesOrderDetailTempDao;
@@ -74,7 +73,7 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
     });
   }
 
-  void _setScanButtonKeyCode(){
+  void _setScanButtonKeyCode() {
     setState(() {
       if (_barcodeListener != null) {
         _barcodeListener.dispose();
@@ -82,7 +81,8 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
       }
 
       _scanButtonKeyCode = int.parse(_tecScanKeyCode.text);
-      _barcodeListener = BarcodeListener(_onScan, _scanButtonKeyCode, _onKeyPress);
+      _barcodeListener =
+          BarcodeListener(_onScan, _scanButtonKeyCode, _onKeyPress);
     });
   }
 
@@ -96,13 +96,13 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
     final widgetList = List<Widget>();
 
     widgetList.addAll([
-      Text('Press the scan button, its code will appear in the text field below'),
+      Text(
+          'Press the scan button, its code will appear in the text field below'),
       TextField(
         controller: _tecScanKeyCode,
-        decoration: InputDecoration( suffix: IconButton(
-            icon: Icon(Icons.check),
-            onPressed: _setScanButtonKeyCode
-        )),
+        decoration: InputDecoration(
+            suffix: IconButton(
+                icon: Icon(Icons.check), onPressed: _setScanButtonKeyCode)),
       )
     ]);
     return Scaffold(
@@ -129,10 +129,12 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
                       stream: widget.salesOrderDetailTempDao
                           .transactionTotal('1001010011', 'Pending'),
                       builder: (context, snapshot) {
-                        if (snapshot.hasData) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.active) {
                           List<SalesOrderDetailTempData> totalData =
                               snapshot.data;
-                          return Badge(
+                          if (totalData.isNotEmpty) {
+                            return Badge(
                               badgeContent:
                                   Text(totalData[0].itemCount.toString()),
                               child: Padding(
@@ -140,6 +142,16 @@ class _SalesOrderItemPageState extends State<SalesOrderItemPage> {
                                     horizontal: 12, vertical: 8),
                                 child: Icon(Icons.shopping_cart),
                               ));
+                          }else{
+                            return Badge(
+                            badgeContent: Text(itemCount.toString()),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 4, vertical: 4),
+                              child: Icon(Icons.shopping_cart),
+                            ));
+                          }
+                          
                         }
                         return Badge(
                             badgeContent: Text(itemCount.toString()),
