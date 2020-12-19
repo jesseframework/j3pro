@@ -8,6 +8,7 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/dialog.dart';
+import 'package:shamsi_date/shamsi_date.dart';
 
 class SalesOrderPage extends StatefulWidget {
   static final route = '/SalesOrderPage';
@@ -27,13 +28,15 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
   TextEditingController _textFieldController = TextEditingController();
   JourneyWithAddress journeyWithAddress;
   Addres primaryAddress;
+  String poNumber = 'HJK-0001';
+  DateTime dateTime = DateTime.now();
   @override
   Widget build(BuildContext context) {
     journeyWithAddress = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-            AppLocalization.of(context).translate('sales_order_information_appbar_title') ??
+        title: Text(AppLocalization.of(context)
+                .translate('sales_order_information_appbar_title') ??
             'Sales Order Information'),
         actions: [
           InkWell(
@@ -62,13 +65,16 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
                 addressType: 'Shipping',
                 isDisable: false),
             builder: (context, snapshot) {
-              if (snapshot.hasData) {
+              if (snapshot.connectionState == ConnectionState.active) {
                 List<Addres> addres = snapshot.data;
-                addres.forEach((element) {
-                  if (element.isPrimaryAddress == true) {
-                    primaryAddress = element;
-                  }
-                });
+                if (addres.isNotEmpty) {
+                  addres.forEach((element) {
+                    if (element.isPrimaryAddress == true) {
+                      primaryAddress = element;
+                    }
+                  });
+                }
+
                 return Column(
                   children: [
                     Card(
@@ -95,11 +101,15 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
                                   //         Theme.of(context).textSelectionColor,
                                   //     fontSize: 12),
                                   label: "Shipping Address",
-                                  selectedItem: primaryAddress.addressLine1,
+                                  selectedItem: addres.isEmpty
+                                      ? 'No address found '
+                                      : primaryAddress.addressLine1,
                                   showSearchBox: true,
-                                  items: addres
-                                      .map((e) => e.addressLine1)
-                                      .toList(),
+                                  items: addres.isEmpty
+                                      ? null
+                                      : addres
+                                          .map((e) => e.addressLine1)
+                                          .toList(),
                                   onChanged: (value) async {
                                     // await widget
                                     //     .businessRuleDao
@@ -114,6 +124,7 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
                                       suffix: Container(
                                     height: 30,
                                     child: FloatingActionButton(
+                                      onPressed: () {},
                                       backgroundColor:
                                           Theme.of(context).accentColor,
                                       child: Icon(Icons.add),
@@ -126,15 +137,19 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
                               height: 15,
                             ),
                             DropdownSearch(
-
-
+                              mode: Mode.MENU,
+                              showSearchBox: true,
                               label: 'Contact',
-                              selectedItem: addres[0].phoneNumber,
-                              showSearchBox: false,
-                              items: addres
-                                  .map((e) =>
-                                      e.contactPerson + ' ' + e.phoneNumber)
-                                  .toList(),
+                              selectedItem: addres.isEmpty
+                                  ? 'No Contact Found'
+                                  : addres[0].phoneNumber,
+
+                              items: addres.isEmpty
+                                  ? null
+                                  : addres
+                                      .map((e) =>
+                                          e.contactPerson + ' ' + e.phoneNumber)
+                                      .toList(),
                               onChanged: (value) async {
                                 // await widget
                                 //     .businessRuleDao
@@ -144,6 +159,16 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
                                 //         value:
                                 //         value));
                               },
+                              searchBoxDecoration: InputDecoration(
+                                  suffix: Container(
+                                height: 30,
+                                child: FloatingActionButton(
+                                  onPressed: () {},
+                                  backgroundColor:
+                                      Theme.of(context).accentColor,
+                                  child: Icon(Icons.add),
+                                ),
+                              )),
                               // autofocus: true,
                             ),
                           ],
@@ -169,7 +194,7 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
                               //     fontSize: 12),
                               label: "Order Type",
                               selectedItem: 'Standard Order',
-                              showSearchBox: false,
+
                               items: [
                                 'Standard Order',
                                 'Contract',
@@ -192,6 +217,16 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
                                 //         value:
                                 //         value));
                               },
+                              searchBoxDecoration: InputDecoration(
+                                  suffix: Container(
+                                height: 30,
+                                child: FloatingActionButton(
+                                  onPressed: () {},
+                                  backgroundColor:
+                                      Theme.of(context).accentColor,
+                                  child: Icon(Icons.add),
+                                ),
+                              )),
                               // autofocus: true,
                               // backgroundColor: Theme.of(context).cardColor,
                             ),
@@ -200,25 +235,32 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
                             ),
                             buildSalesOrderCardTile(
                                 heading: 'PO Number',
-                                title: 'HJK-00001',
+                                title: poNumber,
                                 trailingWidget: Icon(Icons.edit),
-                                callback: () {}),
+                                callback: (value) {
+                                  setState(() {
+                                    poNumber = value;
+                                  });
+                                }),
                             SizedBox(
                               height: 15,
                             ),
                             buildSalesOrderCardTile(
                                 heading: 'Delivery Date',
-                                title: '14-7-2020',
+                                title:
+                                    '${dateTime.year}-${dateTime.month}-${dateTime.day}',
                                 trailingWidget: InkWell(
                                   child: Icon(Icons.date_range),
                                   onTap: () async {
-                                    var result = await showDatePicker(
+                                    DateTime result = await showDatePicker(
                                         context: context,
                                         initialDate: DateTime.now(),
                                         firstDate: DateTime(1970),
                                         lastDate: DateTime(2100));
 
-                                    setState(() {});
+                                    setState(() {
+                                      dateTime = result;
+                                    });
                                   },
                                 ),
                                 callback: (value) {
@@ -332,9 +374,7 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
         Text(
           heading,
           style: TextStyle(
-              fontWeight: FontWeight.w600,
-              color: Colors.grey,
-              fontSize: 12),
+              fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -376,9 +416,7 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
         Text(
           heading,
           style: TextStyle(
-              fontWeight: FontWeight.w600,
-              color: Colors.grey,
-              fontSize: 12),
+              fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

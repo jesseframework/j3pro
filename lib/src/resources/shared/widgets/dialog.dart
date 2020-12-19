@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 displayDialog(
     {BuildContext context,
     String title,
-    callBack,
+    Function callBack,
     TextEditingController textcontroller}) async {
   return showDialog(
       context: context,
@@ -24,7 +24,7 @@ displayDialog(
             FlatButton(
               child: Text('Save'),
               onPressed: () async {
-                await callBack({textcontroller.text});
+                await callBack(textcontroller.text.toString());
                 Navigator.of(context).pop();
               },
             )
