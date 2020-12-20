@@ -9311,6 +9311,7 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
 
 class DesktopData extends DataClass implements Insertable<DesktopData> {
   final int id;
+  final String featureCode;
   final String iconName;
   final String iconCode;
   final String iconColour;
@@ -9320,8 +9321,14 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
   final bool isFavorit;
   final String userPermission;
   final int tenantId;
+  final String tag;
+  final bool isDeleted;
+  final bool isFreeTrial;
+  final DateTime validFrom;
+  final DateTime validTo;
   DesktopData(
       {@required this.id,
+      @required this.featureCode,
       @required this.iconName,
       @required this.iconCode,
       @required this.iconColour,
@@ -9330,15 +9337,23 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
       @required this.iconGroup,
       @required this.isFavorit,
       @required this.userPermission,
-      this.tenantId});
+      this.tenantId,
+      @required this.tag,
+      @required this.isDeleted,
+      @required this.isFreeTrial,
+      this.validFrom,
+      this.validTo});
   factory DesktopData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
     final boolType = db.typeSystem.forDartType<bool>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     return DesktopData(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      featureCode: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}feature_code']),
       iconName: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}icon_name']),
       iconCode: stringType
@@ -9357,6 +9372,15 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}user_permission']),
       tenantId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      tag: stringType.mapFromDatabaseResponse(data['${effectivePrefix}tag']),
+      isDeleted: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
+      isFreeTrial: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_free_trial']),
+      validFrom: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}valid_from']),
+      validTo: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}valid_to']),
     );
   }
   @override
@@ -9364,6 +9388,9 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
     final map = <String, Expression>{};
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || featureCode != null) {
+      map['feature_code'] = Variable<String>(featureCode);
     }
     if (!nullToAbsent || iconName != null) {
       map['icon_name'] = Variable<String>(iconName);
@@ -9392,12 +9419,30 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
     if (!nullToAbsent || tenantId != null) {
       map['tenant_id'] = Variable<int>(tenantId);
     }
+    if (!nullToAbsent || tag != null) {
+      map['tag'] = Variable<String>(tag);
+    }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
+    if (!nullToAbsent || isFreeTrial != null) {
+      map['is_free_trial'] = Variable<bool>(isFreeTrial);
+    }
+    if (!nullToAbsent || validFrom != null) {
+      map['valid_from'] = Variable<DateTime>(validFrom);
+    }
+    if (!nullToAbsent || validTo != null) {
+      map['valid_to'] = Variable<DateTime>(validTo);
+    }
     return map;
   }
 
   DesktopCompanion toCompanion(bool nullToAbsent) {
     return DesktopCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      featureCode: featureCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(featureCode),
       iconName: iconName == null && nullToAbsent
           ? const Value.absent()
           : Value(iconName),
@@ -9425,6 +9470,19 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
       tenantId: tenantId == null && nullToAbsent
           ? const Value.absent()
           : Value(tenantId),
+      tag: tag == null && nullToAbsent ? const Value.absent() : Value(tag),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
+      isFreeTrial: isFreeTrial == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isFreeTrial),
+      validFrom: validFrom == null && nullToAbsent
+          ? const Value.absent()
+          : Value(validFrom),
+      validTo: validTo == null && nullToAbsent
+          ? const Value.absent()
+          : Value(validTo),
     );
   }
 
@@ -9433,6 +9491,7 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return DesktopData(
       id: serializer.fromJson<int>(json['id']),
+      featureCode: serializer.fromJson<String>(json['featureCode']),
       iconName: serializer.fromJson<String>(json['iconName']),
       iconCode: serializer.fromJson<String>(json['iconCode']),
       iconColour: serializer.fromJson<String>(json['iconColour']),
@@ -9442,6 +9501,11 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
       isFavorit: serializer.fromJson<bool>(json['isFavorit']),
       userPermission: serializer.fromJson<String>(json['userPermission']),
       tenantId: serializer.fromJson<int>(json['tenantId']),
+      tag: serializer.fromJson<String>(json['tag']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      isFreeTrial: serializer.fromJson<bool>(json['isFreeTrial']),
+      validFrom: serializer.fromJson<DateTime>(json['validFrom']),
+      validTo: serializer.fromJson<DateTime>(json['validTo']),
     );
   }
   @override
@@ -9449,6 +9513,7 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
+      'featureCode': serializer.toJson<String>(featureCode),
       'iconName': serializer.toJson<String>(iconName),
       'iconCode': serializer.toJson<String>(iconCode),
       'iconColour': serializer.toJson<String>(iconColour),
@@ -9458,11 +9523,17 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
       'isFavorit': serializer.toJson<bool>(isFavorit),
       'userPermission': serializer.toJson<String>(userPermission),
       'tenantId': serializer.toJson<int>(tenantId),
+      'tag': serializer.toJson<String>(tag),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'isFreeTrial': serializer.toJson<bool>(isFreeTrial),
+      'validFrom': serializer.toJson<DateTime>(validFrom),
+      'validTo': serializer.toJson<DateTime>(validTo),
     };
   }
 
   DesktopData copyWith(
           {int id,
+          String featureCode,
           String iconName,
           String iconCode,
           String iconColour,
@@ -9471,9 +9542,15 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
           String iconGroup,
           bool isFavorit,
           String userPermission,
-          int tenantId}) =>
+          int tenantId,
+          String tag,
+          bool isDeleted,
+          bool isFreeTrial,
+          DateTime validFrom,
+          DateTime validTo}) =>
       DesktopData(
         id: id ?? this.id,
+        featureCode: featureCode ?? this.featureCode,
         iconName: iconName ?? this.iconName,
         iconCode: iconCode ?? this.iconCode,
         iconColour: iconColour ?? this.iconColour,
@@ -9483,11 +9560,17 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
         isFavorit: isFavorit ?? this.isFavorit,
         userPermission: userPermission ?? this.userPermission,
         tenantId: tenantId ?? this.tenantId,
+        tag: tag ?? this.tag,
+        isDeleted: isDeleted ?? this.isDeleted,
+        isFreeTrial: isFreeTrial ?? this.isFreeTrial,
+        validFrom: validFrom ?? this.validFrom,
+        validTo: validTo ?? this.validTo,
       );
   @override
   String toString() {
     return (StringBuffer('DesktopData(')
           ..write('id: $id, ')
+          ..write('featureCode: $featureCode, ')
           ..write('iconName: $iconName, ')
           ..write('iconCode: $iconCode, ')
           ..write('iconColour: $iconColour, ')
@@ -9496,7 +9579,12 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
           ..write('iconGroup: $iconGroup, ')
           ..write('isFavorit: $isFavorit, ')
           ..write('userPermission: $userPermission, ')
-          ..write('tenantId: $tenantId')
+          ..write('tenantId: $tenantId, ')
+          ..write('tag: $tag, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('isFreeTrial: $isFreeTrial, ')
+          ..write('validFrom: $validFrom, ')
+          ..write('validTo: $validTo')
           ..write(')'))
         .toString();
   }
@@ -9505,26 +9593,42 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
   int get hashCode => $mrjf($mrjc(
       id.hashCode,
       $mrjc(
-          iconName.hashCode,
+          featureCode.hashCode,
           $mrjc(
-              iconCode.hashCode,
+              iconName.hashCode,
               $mrjc(
-                  iconColour.hashCode,
+                  iconCode.hashCode,
                   $mrjc(
-                      iconFamily.hashCode,
+                      iconColour.hashCode,
                       $mrjc(
-                          navigationRoute.hashCode,
+                          iconFamily.hashCode,
                           $mrjc(
-                              iconGroup.hashCode,
+                              navigationRoute.hashCode,
                               $mrjc(
-                                  isFavorit.hashCode,
-                                  $mrjc(userPermission.hashCode,
-                                      tenantId.hashCode))))))))));
+                                  iconGroup.hashCode,
+                                  $mrjc(
+                                      isFavorit.hashCode,
+                                      $mrjc(
+                                          userPermission.hashCode,
+                                          $mrjc(
+                                              tenantId.hashCode,
+                                              $mrjc(
+                                                  tag.hashCode,
+                                                  $mrjc(
+                                                      isDeleted.hashCode,
+                                                      $mrjc(
+                                                          isFreeTrial.hashCode,
+                                                          $mrjc(
+                                                              validFrom
+                                                                  .hashCode,
+                                                              validTo
+                                                                  .hashCode))))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is DesktopData &&
           other.id == this.id &&
+          other.featureCode == this.featureCode &&
           other.iconName == this.iconName &&
           other.iconCode == this.iconCode &&
           other.iconColour == this.iconColour &&
@@ -9533,11 +9637,17 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
           other.iconGroup == this.iconGroup &&
           other.isFavorit == this.isFavorit &&
           other.userPermission == this.userPermission &&
-          other.tenantId == this.tenantId);
+          other.tenantId == this.tenantId &&
+          other.tag == this.tag &&
+          other.isDeleted == this.isDeleted &&
+          other.isFreeTrial == this.isFreeTrial &&
+          other.validFrom == this.validFrom &&
+          other.validTo == this.validTo);
 }
 
 class DesktopCompanion extends UpdateCompanion<DesktopData> {
   final Value<int> id;
+  final Value<String> featureCode;
   final Value<String> iconName;
   final Value<String> iconCode;
   final Value<String> iconColour;
@@ -9547,8 +9657,14 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
   final Value<bool> isFavorit;
   final Value<String> userPermission;
   final Value<int> tenantId;
+  final Value<String> tag;
+  final Value<bool> isDeleted;
+  final Value<bool> isFreeTrial;
+  final Value<DateTime> validFrom;
+  final Value<DateTime> validTo;
   const DesktopCompanion({
     this.id = const Value.absent(),
+    this.featureCode = const Value.absent(),
     this.iconName = const Value.absent(),
     this.iconCode = const Value.absent(),
     this.iconColour = const Value.absent(),
@@ -9558,9 +9674,15 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
     this.isFavorit = const Value.absent(),
     this.userPermission = const Value.absent(),
     this.tenantId = const Value.absent(),
+    this.tag = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.isFreeTrial = const Value.absent(),
+    this.validFrom = const Value.absent(),
+    this.validTo = const Value.absent(),
   });
   DesktopCompanion.insert({
     this.id = const Value.absent(),
+    @required String featureCode,
     @required String iconName,
     @required String iconCode,
     @required String iconColour,
@@ -9570,15 +9692,23 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
     this.isFavorit = const Value.absent(),
     @required String userPermission,
     this.tenantId = const Value.absent(),
-  })  : iconName = Value(iconName),
+    @required String tag,
+    this.isDeleted = const Value.absent(),
+    this.isFreeTrial = const Value.absent(),
+    this.validFrom = const Value.absent(),
+    this.validTo = const Value.absent(),
+  })  : featureCode = Value(featureCode),
+        iconName = Value(iconName),
         iconCode = Value(iconCode),
         iconColour = Value(iconColour),
         iconFamily = Value(iconFamily),
         navigationRoute = Value(navigationRoute),
         iconGroup = Value(iconGroup),
-        userPermission = Value(userPermission);
+        userPermission = Value(userPermission),
+        tag = Value(tag);
   static Insertable<DesktopData> custom({
     Expression<int> id,
+    Expression<String> featureCode,
     Expression<String> iconName,
     Expression<String> iconCode,
     Expression<String> iconColour,
@@ -9588,9 +9718,15 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
     Expression<bool> isFavorit,
     Expression<String> userPermission,
     Expression<int> tenantId,
+    Expression<String> tag,
+    Expression<bool> isDeleted,
+    Expression<bool> isFreeTrial,
+    Expression<DateTime> validFrom,
+    Expression<DateTime> validTo,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
+      if (featureCode != null) 'feature_code': featureCode,
       if (iconName != null) 'icon_name': iconName,
       if (iconCode != null) 'icon_code': iconCode,
       if (iconColour != null) 'icon_colour': iconColour,
@@ -9600,11 +9736,17 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
       if (isFavorit != null) 'is_favorit': isFavorit,
       if (userPermission != null) 'user_permission': userPermission,
       if (tenantId != null) 'tenant_id': tenantId,
+      if (tag != null) 'tag': tag,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (isFreeTrial != null) 'is_free_trial': isFreeTrial,
+      if (validFrom != null) 'valid_from': validFrom,
+      if (validTo != null) 'valid_to': validTo,
     });
   }
 
   DesktopCompanion copyWith(
       {Value<int> id,
+      Value<String> featureCode,
       Value<String> iconName,
       Value<String> iconCode,
       Value<String> iconColour,
@@ -9613,9 +9755,15 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
       Value<String> iconGroup,
       Value<bool> isFavorit,
       Value<String> userPermission,
-      Value<int> tenantId}) {
+      Value<int> tenantId,
+      Value<String> tag,
+      Value<bool> isDeleted,
+      Value<bool> isFreeTrial,
+      Value<DateTime> validFrom,
+      Value<DateTime> validTo}) {
     return DesktopCompanion(
       id: id ?? this.id,
+      featureCode: featureCode ?? this.featureCode,
       iconName: iconName ?? this.iconName,
       iconCode: iconCode ?? this.iconCode,
       iconColour: iconColour ?? this.iconColour,
@@ -9625,6 +9773,11 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
       isFavorit: isFavorit ?? this.isFavorit,
       userPermission: userPermission ?? this.userPermission,
       tenantId: tenantId ?? this.tenantId,
+      tag: tag ?? this.tag,
+      isDeleted: isDeleted ?? this.isDeleted,
+      isFreeTrial: isFreeTrial ?? this.isFreeTrial,
+      validFrom: validFrom ?? this.validFrom,
+      validTo: validTo ?? this.validTo,
     );
   }
 
@@ -9633,6 +9786,9 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
     final map = <String, Expression>{};
     if (id.present) {
       map['id'] = Variable<int>(id.value);
+    }
+    if (featureCode.present) {
+      map['feature_code'] = Variable<String>(featureCode.value);
     }
     if (iconName.present) {
       map['icon_name'] = Variable<String>(iconName.value);
@@ -9661,6 +9817,21 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
     if (tenantId.present) {
       map['tenant_id'] = Variable<int>(tenantId.value);
     }
+    if (tag.present) {
+      map['tag'] = Variable<String>(tag.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (isFreeTrial.present) {
+      map['is_free_trial'] = Variable<bool>(isFreeTrial.value);
+    }
+    if (validFrom.present) {
+      map['valid_from'] = Variable<DateTime>(validFrom.value);
+    }
+    if (validTo.present) {
+      map['valid_to'] = Variable<DateTime>(validTo.value);
+    }
     return map;
   }
 
@@ -9668,6 +9839,7 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
   String toString() {
     return (StringBuffer('DesktopCompanion(')
           ..write('id: $id, ')
+          ..write('featureCode: $featureCode, ')
           ..write('iconName: $iconName, ')
           ..write('iconCode: $iconCode, ')
           ..write('iconColour: $iconColour, ')
@@ -9676,7 +9848,12 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
           ..write('iconGroup: $iconGroup, ')
           ..write('isFavorit: $isFavorit, ')
           ..write('userPermission: $userPermission, ')
-          ..write('tenantId: $tenantId')
+          ..write('tenantId: $tenantId, ')
+          ..write('tag: $tag, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('isFreeTrial: $isFreeTrial, ')
+          ..write('validFrom: $validFrom, ')
+          ..write('validTo: $validTo')
           ..write(')'))
         .toString();
   }
@@ -9691,8 +9868,25 @@ class $DesktopTable extends Desktop with TableInfo<$DesktopTable, DesktopData> {
   @override
   GeneratedIntColumn get id => _id ??= _constructId();
   GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn('id', $tableName, false,
-        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _featureCodeMeta =
+      const VerificationMeta('featureCode');
+  GeneratedTextColumn _featureCode;
+  @override
+  GeneratedTextColumn get featureCode =>
+      _featureCode ??= _constructFeatureCode();
+  GeneratedTextColumn _constructFeatureCode() {
+    return GeneratedTextColumn(
+      'feature_code',
+      $tableName,
+      false,
+    );
   }
 
   final VerificationMeta _iconNameMeta = const VerificationMeta('iconName');
@@ -9804,9 +9998,66 @@ class $DesktopTable extends Desktop with TableInfo<$DesktopTable, DesktopData> {
     );
   }
 
+  final VerificationMeta _tagMeta = const VerificationMeta('tag');
+  GeneratedTextColumn _tag;
+  @override
+  GeneratedTextColumn get tag => _tag ??= _constructTag();
+  GeneratedTextColumn _constructTag() {
+    return GeneratedTextColumn(
+      'tag',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  GeneratedBoolColumn _isDeleted;
+  @override
+  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
+  GeneratedBoolColumn _constructIsDeleted() {
+    return GeneratedBoolColumn('is_deleted', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _isFreeTrialMeta =
+      const VerificationMeta('isFreeTrial');
+  GeneratedBoolColumn _isFreeTrial;
+  @override
+  GeneratedBoolColumn get isFreeTrial =>
+      _isFreeTrial ??= _constructIsFreeTrial();
+  GeneratedBoolColumn _constructIsFreeTrial() {
+    return GeneratedBoolColumn('is_free_trial', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _validFromMeta = const VerificationMeta('validFrom');
+  GeneratedDateTimeColumn _validFrom;
+  @override
+  GeneratedDateTimeColumn get validFrom => _validFrom ??= _constructValidFrom();
+  GeneratedDateTimeColumn _constructValidFrom() {
+    return GeneratedDateTimeColumn(
+      'valid_from',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _validToMeta = const VerificationMeta('validTo');
+  GeneratedDateTimeColumn _validTo;
+  @override
+  GeneratedDateTimeColumn get validTo => _validTo ??= _constructValidTo();
+  GeneratedDateTimeColumn _constructValidTo() {
+    return GeneratedDateTimeColumn(
+      'valid_to',
+      $tableName,
+      true,
+    );
+  }
+
   @override
   List<GeneratedColumn> get $columns => [
         id,
+        featureCode,
         iconName,
         iconCode,
         iconColour,
@@ -9815,7 +10066,12 @@ class $DesktopTable extends Desktop with TableInfo<$DesktopTable, DesktopData> {
         iconGroup,
         isFavorit,
         userPermission,
-        tenantId
+        tenantId,
+        tag,
+        isDeleted,
+        isFreeTrial,
+        validFrom,
+        validTo
       ];
   @override
   $DesktopTable get asDslTable => this;
@@ -9830,6 +10086,14 @@ class $DesktopTable extends Desktop with TableInfo<$DesktopTable, DesktopData> {
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('feature_code')) {
+      context.handle(
+          _featureCodeMeta,
+          featureCode.isAcceptableOrUnknown(
+              data['feature_code'], _featureCodeMeta));
+    } else if (isInserting) {
+      context.missing(_featureCodeMeta);
     }
     if (data.containsKey('icon_name')) {
       context.handle(_iconNameMeta,
@@ -9888,6 +10152,30 @@ class $DesktopTable extends Desktop with TableInfo<$DesktopTable, DesktopData> {
     if (data.containsKey('tenant_id')) {
       context.handle(_tenantIdMeta,
           tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
+    if (data.containsKey('tag')) {
+      context.handle(
+          _tagMeta, tag.isAcceptableOrUnknown(data['tag'], _tagMeta));
+    } else if (isInserting) {
+      context.missing(_tagMeta);
+    }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
+    }
+    if (data.containsKey('is_free_trial')) {
+      context.handle(
+          _isFreeTrialMeta,
+          isFreeTrial.isAcceptableOrUnknown(
+              data['is_free_trial'], _isFreeTrialMeta));
+    }
+    if (data.containsKey('valid_from')) {
+      context.handle(_validFromMeta,
+          validFrom.isAcceptableOrUnknown(data['valid_from'], _validFromMeta));
+    }
+    if (data.containsKey('valid_to')) {
+      context.handle(_validToMeta,
+          validTo.isAcceptableOrUnknown(data['valid_to'], _validToMeta));
     }
     return context;
   }

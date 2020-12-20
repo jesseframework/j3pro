@@ -180,7 +180,7 @@ class _ActivitiesMenuPageState extends State<ActivitiesMenuPage> {
                   ),
                   child: StreamBuilder(
                       stream:
-                          widget.desktopDao.watchAllActivitiesMenu(searchText),
+                          widget.desktopDao.watchAllActivitiesMenu(searchText, false, searchText, ""),
                       builder: (context, snapshot) {
                         print(snapshot.data.toString());
                         if (snapshot.hasData) {

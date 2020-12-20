@@ -151,7 +151,7 @@ class AddItemToTransaction {
       uom = item[0].uom;
       //taxIndicator = item[0].tax
       priceList = "";
-      standardPriceList = "Standard Price List";
+      standardPriceList = "Standard Selling";
       DateTime retiredDate = item[0].retiredDate;
 
       var getCusTaxGroup = await customerDao.getAllCustomerById(customerId);
@@ -194,7 +194,7 @@ class AddItemToTransaction {
 
       //Get Price
       var price = await itemPriceDao.getItemPricesByCode(
-          itemCode, uom, priceList, standardPriceList);
+          itemId, uom, priceList, standardPriceList);
 
       if (price != null && price.length > 0 && price.length == 1) {
         priceList = price[0].priceList;

@@ -20,8 +20,8 @@
 import 'package:moor/moor.dart';
 
 class Desktop extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  //TextColumn get featureCode => text()();
+  IntColumn get id => integer()();
+  TextColumn get featureCode => text()();
   TextColumn get iconName => text()();
   TextColumn get iconCode => text()();
   TextColumn get iconColour => text()();
@@ -30,7 +30,12 @@ class Desktop extends Table {
   TextColumn get iconGroup => text()();
   BoolColumn get isFavorit => boolean().withDefault(Constant(false))();
   TextColumn get userPermission => text()();
-   IntColumn get tenantId => integer().nullable()();
+  IntColumn get tenantId => integer().nullable()();
+  TextColumn get tag => text()();
+  BoolColumn get isDeleted => boolean().withDefault(Constant(false))();
+  BoolColumn get isFreeTrial => boolean().withDefault(Constant(false))();
+  DateTimeColumn get validFrom => dateTime().nullable()();
+  DateTimeColumn get validTo => dateTime().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};

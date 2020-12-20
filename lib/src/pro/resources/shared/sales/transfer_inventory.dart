@@ -15,7 +15,7 @@ class TransferInventory {
     int tenantId,
     String itemCode,
     String itemName,
-    int itemId,
+    String itemId,
     String description,
     String itemGroup,
     String stockUOM,
@@ -30,7 +30,7 @@ class TransferInventory {
         tenantId: moor.Value(tenantId),
         itemCode: moor.Value(itemCode),
         itemName: moor.Value(itemName),
-        itemId: moor.Value(itemId.toString()), //ToDo Change Model to int
+        itemId: moor.Value(itemId), 
         description: moor.Value(description),
         itemGroup: moor.Value(itemGroup),
         stockUom: moor.Value(stockUOM),

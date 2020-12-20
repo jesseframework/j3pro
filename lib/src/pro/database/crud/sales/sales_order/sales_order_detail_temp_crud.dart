@@ -1,3 +1,4 @@
+import 'package:chopper/chopper.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/models/sales/sales_order/sales_order_detail_temp_model.dart';
 import 'package:moor/moor.dart';
@@ -10,16 +11,15 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
   final AppDatabase db;
   SalesOrderDetailTempDao(this.db) : super(db);
 
-  
-  Future updateCreateFullAudit(SalesOrderDetailTempCompanion sodtc, int id, String transactionNumber) {
+  Future updateCreateFullAudit(
+      SalesOrderDetailTempCompanion sodtc, int id, String transactionNumber) {
     return (update(db.salesOrderDetailTemp)
-          ..where((t) => t.transactionNumber.equals(transactionNumber) & t.id.equals(id)))
+          ..where((t) =>
+              t.transactionNumber.equals(transactionNumber) & t.id.equals(id)))
         .write(
-      SalesOrderDetailTempCompanion(
-         ),
+      SalesOrderDetailTempCompanion(),
     );
   }
-
 
   Future<List<SalesOrderDetailTempData>> getAllSalesOrderDetail() {
     return (select(db.salesOrderDetailTemp).get());
@@ -103,6 +103,44 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
     );
   }
 
+  Future increaseLineItemQuantity(
+      SalesOrderDetailTempCompanion qty,
+      String transactionNumber,
+      String transactionStatus,
+      String itemId,
+      String salesUom) {
+    return (update(db.salesOrderDetailTemp)
+          ..where((t) =>
+              t.transactionNumber.equals(transactionNumber) &
+              t.transactionStatus.equals(transactionStatus) &
+              t.itemId.equals(itemId) &
+              t.salesUOM.equals(salesUom)))
+        .write(
+      SalesOrderDetailTempCompanion(
+        quantity: qty.quantity,
+      ),
+    );
+  }
+
+  Future decreaseLineItemQuantity(
+      SalesOrderDetailTempCompanion qty,
+      String transactionNumber,
+      String transactionStatus,
+      String itemId,
+      String salesUom) {
+    return (update(db.salesOrderDetailTemp)
+          ..where((t) =>
+              t.transactionNumber.equals(transactionNumber) &
+              t.transactionStatus.equals(transactionStatus) &
+              t.itemId.equals(itemId) &
+              t.salesUOM.equals(salesUom)))
+        .write(
+      SalesOrderDetailTempCompanion(
+        quantity: qty.quantity,
+      ),
+    );
+  }
+
   Stream<List<SalesOrderDetailTempData>> watchAllSalesOrderDetail(
       String transactionNumber, String transactionStatus) {
     return (select(db.salesOrderDetailTemp)
@@ -114,7 +152,7 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
         .watch();
   }
 
-   Future<List<SalesOrderDetailTempData>> getAllSalesOrderDetailTemp(
+  Future<List<SalesOrderDetailTempData>> getAllSalesOrderDetailTemp(
       String transactionNumber, String transactionStatus) {
     return (select(db.salesOrderDetailTemp)
           ..orderBy(
@@ -148,6 +186,23 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
 
   Future deleteAllSalesOrderTempDetail() =>
       delete(db.salesOrderDetailTemp).go();
+
+  Future deleteLineItem(
+      String itemId, String uom, String transactionNo, int lineId) {
+    return (delete(db.salesOrderDetailTemp)
+          ..where((t) =>
+              t.id.equals(lineId) &
+              t.itemId.equals(itemId) &
+              t.salesUOM.equals(uom) &
+              t.transactionNumber.equals(transactionNo)))
+        .go();
+  }
+
+  Future deleteLineItemAfterPost(String transactionNo) {
+    return (delete(db.salesOrderDetailTemp)
+          ..where((t) => t.transactionNumber.equals(transactionNo)))
+        .go();
+  }
 
   //This section calculate discount
   Stream<List<SalesOrderDetailTempData>> qtyOfItemOnRegister(

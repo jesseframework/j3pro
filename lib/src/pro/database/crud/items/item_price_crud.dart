@@ -20,10 +20,10 @@ class ItemPriceDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future<List<ItemsPrice>> getItemPricesByCode(
-      String itemCode, String uom, String priceList, String standardPriceList) {
+      String itemId, String uom, String priceList, String standardPriceList) {
     return (select(db.itemsPrices)
           ..where((t) =>
-              t.itemCode.equals(itemCode) &
+              t.itemId.equals(itemId) &
               t.uom.contains(uom) &
               (t.priceList.contains(priceList) |
                   t.priceList.equals(standardPriceList))))

@@ -36,11 +36,26 @@ class DesktopDao extends DatabaseAccessor<AppDatabase> with _$DesktopDaoMixin {
     return into(db.desktop).insertOnConflictUpdate(desktopData);
   }
 
-  Stream<List<DesktopData>> watchAllBusinessRule(String functionName) {
-    return (select(db.desktop)..where((t) => t.iconName.contains(functionName))).watch();
+  Stream<List<DesktopData>> watchAllDesktop(
+    String functionName,
+    bool isDelete,
+    String featureCode,
+    String userPermission) {
+    return (select(db.desktop)..where((t) => 
+            t.iconName.contains(functionName) &
+             t.isDeleted.equals(isDelete) &
+             t.featureCode.contains(featureCode) &
+             t.userPermission.contains(userPermission))).watch();
   }
- Stream<List<DesktopData>> watchAllActivitiesMenu(String functionName) {
-    return (select(db.desktop)..where((t) => t.iconGroup.equals(functionName))).watch();
+ Stream<List<DesktopData>> watchAllActivitiesMenu( 
+   String functionName,
+    bool isDelete,
+    String featureCode,
+    String userPermission) {
+    return (select(db.desktop)..where((t) => 
+            t.iconGroup.equals(functionName) &
+             t.isDeleted.equals(isDelete) &           
+             t.userPermission.contains(userPermission))).watch();
   }
   Future insertBusinessRule(DesktopData desktopData) =>
       into(db.desktop).insert(desktopData);
