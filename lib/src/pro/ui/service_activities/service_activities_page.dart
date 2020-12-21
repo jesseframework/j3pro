@@ -25,8 +25,6 @@ class ServiceActivitiesPage extends StatefulWidget {
 }
 
 class _ServiceActivitiesPageState extends State<ServiceActivitiesPage> {
-
-
   String userName;
   @override
   void didChangeDependencies() async {
@@ -40,10 +38,8 @@ class _ServiceActivitiesPageState extends State<ServiceActivitiesPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    return  BlocProvider(
-        create: (context)=>SalesOrderBloc(),
-
+    return BlocProvider(
+      create: (context) => SalesOrderBloc(),
       child: Scaffold(
           appBar: AppBar(
             title: Text(AppLocalization.of(context)
@@ -53,14 +49,16 @@ class _ServiceActivitiesPageState extends State<ServiceActivitiesPage> {
           body: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 child: Row(
                   children: [
                     Expanded(
                       child: Container(
                         height: 35,
                         child: ListFilter(
-                            placeholder: 'Search', onFilterChanged: (search) {}),
+                            placeholder: 'Search',
+                            onFilterChanged: (search) {}),
                       ),
                     ),
                   ],
@@ -127,7 +125,7 @@ class _ServiceActivitiesPageState extends State<ServiceActivitiesPage> {
               ),
               StreamBuilder(
                 stream: widget.journeyPlanDao
-                    .watchJourneyWithAddressJoin('admin', 'Billing', false),
+                    .watchJourneyWithAddressJoin('admin', 'Billing', false, ""),
                 //  future: widget.journeyPlanDao.getAllJourneyPlanData(),
                 builder: (context, snapshot) {
                   print(snapshot.data.toString());
@@ -146,8 +144,8 @@ class _ServiceActivitiesPageState extends State<ServiceActivitiesPage> {
                           itemCount: journeyWithAddressData.length,
                           itemBuilder: (context, index) {
                             return InkWell(
-                              onTap: ()async {
-                                salesOderBloc.setId(cusID: journeyWithAddressData[index].jplan.customerId);
+                              onTap: () async {
+                                //salesOderBloc.setId(cusID: journeyWithAddressData[index].jplan.customerId);
                                 Navigator.push(
                                     context,
                                     EnterExitRoute(
@@ -199,8 +197,7 @@ class _ServiceActivitiesPageState extends State<ServiceActivitiesPage> {
                 },
               )
             ],
-          )
-      ),
+          )),
     );
   }
 }

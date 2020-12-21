@@ -7,7 +7,21 @@ abstract class SalesOrderState extends Equatable {
   List<Object> get props => [];
 }
 
-class SalesOrderInitial extends SalesOrderState {}
+class SalesOrderInitial extends SalesOrderState {
+   
+}
+
+class SalesOrderLoad extends SalesOrderState {
+   final String transactionNo;
+
+  const SalesOrderLoad({@required this.transactionNo});
+
+  @override
+  List<Object> get props => [transactionNo];
+
+  @override
+  String toString() => 'SalesOrderLoad { data: $transactionNo }';
+}
 
 class SalesOrderItemFound extends SalesOrderState {}
 

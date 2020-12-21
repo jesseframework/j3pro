@@ -18,6 +18,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/sales_order_add_item_page.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_item_detail_page.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_page.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/seles_order_item_page.dart';
@@ -33,19 +34,18 @@ import 'package:j3enterprise/src/ui/splash/splash_page.dart';
 
 final routes = {
   //OfflineLoginPage.route: (BuildContext context) => OfflineLoginPage(),
-  SalesOrderItemDetailPage.route: (BuildContext context) =>
-      SalesOrderItemDetailPage(),
+  SalesOrderItemDetailPage.route: (BuildContext context) =>SalesOrderItemDetailPage(),
   BackgroundJobsPage.route: (BuildContext context) => BackgroundJobsPage(),
   SalesOrderItemPage.route: (BuildContext context) => SalesOrderItemPage(),
   SalesOrderPage.route: (BuildContext context) => SalesOrderPage(),
   CommunicationPage.route: (BuildContext context) => CommunicationPage(),
   BussinessRulePage.route: (BuildContext context) => BussinessRulePage(),
-  ServiceActivitiesPage.route: (BuildContext context) =>
-      ServiceActivitiesPage(),
+  ServiceActivitiesPage.route: (BuildContext context) =>ServiceActivitiesPage(),
   PreferencesPage.route: (BuildContext context) => PreferencesPage(),
   SalesOrderPage.route: (BuildContext context) => SalesOrderPage(),
   SplashPage.route: (BuildContext context) => SplashPage(),
   LoginPage.route: (BuildContext context) => LoginPage(),
   HomePage.route: (BuildContext context) => HomePage(),
   About.route: (BuildContext context) => About(),
+  SalesOrderAddItemPage.route: (BuildContext context) => SalesOrderAddItemPage(),
 };

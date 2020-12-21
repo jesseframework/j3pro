@@ -24,7 +24,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
-import 'package:j3enterprise/src/pro/ui/sales/sales_order/bloc/sales_order_bloc.dart';
 import 'package:j3enterprise/src/resources/services/background_fetch_service.dart';
 import 'package:j3enterprise/src/resources/services/firebase_message_wrapper.dart';
 import 'package:j3enterprise/src/resources/services/init_services.dart';
@@ -136,9 +135,7 @@ class _AppState extends State<App> {
             BlocProvider<AuthenticationBloc>(
               create: (context) => AuthenticationBloc()..add(AppStarted()),
             ),
-            BlocProvider<SalesOrderBloc>(
-              create: (context) => SalesOrderBloc(),
-            ),
+
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
