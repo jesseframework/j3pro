@@ -17,21 +17,12 @@ class _SalesOrderAddItemPageState extends State<SalesOrderAddItemPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) {
-          return AddItemBloc();
-        },
-        child: Scaffold(
-          body: RefreshIndicator(
-            onRefresh: () async {
-              return Duration(milliseconds: 3000);
-            },
-            child: BlocProvider(
-              create: (context) {
-                return AddItemBloc();
-              },
-              child: SalesOrderAddItemForm(),
-            ),
-          ),
-        ));
+      create: (context) {
+        return AddItemBloc();
+      },
+      child: Scaffold(
+        body: SalesOrderAddItemForm(),
+      ),
+    );
   }
 }

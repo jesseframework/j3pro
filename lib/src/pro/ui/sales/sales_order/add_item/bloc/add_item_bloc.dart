@@ -15,13 +15,42 @@ part 'add_item_event.dart';
 part 'add_item_state.dart';
 
 class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
-  String customerId = '';
+  String tempSalesOrderNo = "";
+  String tempInventoryCycle = "";
+  String tempDaySessionNumber = "";
+  String tempTransactionStatus = "Pending";
+  String getItemNumber = "";
+  double setQty = 0;
+  DateTime deliveryDate;
+  String currency = "";
+  double exchangeRate = 0;
+  String customerId = "1000101";
 
   void setId({String cusID}) {
     customerId = cusID;
   }
 
   get getCusID => customerId;
+
+  void setOrderNumber() async {
+    
+   var temNumbers = await tempNumberLogsDao.getAllSeriesNumberByType();
+    for (var numbs in temNumbers) {
+      if (numbs.typeOfNumber == "Sales Order") {
+        tempSalesOrderNo = numbs.nextSeriesNumber;
+      }
+
+      if (numbs.typeOfNumber == "Inventory Cycle") {
+        tempInventoryCycle = numbs.nextSeriesNumber;
+      }
+
+      if (numbs.typeOfNumber == "Clock Out") {
+        tempDaySessionNumber = numbs.nextSeriesNumber;
+      }
+    }
+  }
+
+  get getOderNumber => tempSalesOrderNo;
 
   static final _log = Logger('SalesOrderBloc');
   var db;
@@ -32,6 +61,7 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
   UserSharedData userSharedData;
   Map<String, String> mapDevicePref = Map();
   AddItemBloc() {
+     
     db = AppDatabase();
     _addItemToTransaction = new AddItemToTransaction();
     tempNumberLogsDao = new TempNumberLogsDao(db);
@@ -49,17 +79,21 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
     AddItemEvent event,
   ) async* {
     yield AddItemLoading();
+    var temNumbers = await tempNumberLogsDao.getAllSeriesNumberByType();
+    for (var numbs in temNumbers) {
+      if (numbs.typeOfNumber == "Sales Order") {
+        tempSalesOrderNo = numbs.nextSeriesNumber;
+      }
+
+      if (numbs.typeOfNumber == "Inventory Cycle") {
+        tempInventoryCycle = numbs.nextSeriesNumber;
+      }
+
+      if (numbs.typeOfNumber == "Clock Out") {
+        tempDaySessionNumber = numbs.nextSeriesNumber;
+      }
+    }
     _log.finest("decelear varable for temp number");
-    String tempSalesOrderNo = "";
-    String tempInventoryCycle = "";
-    String tempDaySessionNumber = "";
-    String tempTransactionStatus = "Pending";
-    String getItemNumber = "";
-    double setQty = 0;
-    DateTime deliveryDate;
-    String currency = "";
-    double exchangeRate = 0;
-    String customerId = "1000101";
 
     mapDevicePref = await userSharedData.getUserSharedPref();
     String userName = mapDevicePref['userName'];
@@ -68,24 +102,11 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
     String screen = mapDevicePref['screen'];
     String tenantId = mapDevicePref['tenantId'];
     if (state is AddItemLoading) {
-      var temNumbers = await tempNumberLogsDao.getAllSeriesNumberByType();
-      for (var numbs in temNumbers) {
-        if (numbs.typeOfNumber == "Sales Order") {
-          tempSalesOrderNo = numbs.nextSeriesNumber;
-        }
-
-        if (numbs.typeOfNumber == "Inventory Cycle") {
-          tempInventoryCycle = numbs.nextSeriesNumber;
-        }
-
-        if (numbs.typeOfNumber == "Clock Out") {
-          tempDaySessionNumber = numbs.nextSeriesNumber;
-        }
-      }
       yield GetTransactionNumber(transactionNo: tempSalesOrderNo);
       //yield AddItemLoad(transactionNo: tempSalesOrderNo);
     }
 
+    
     //Business Rule for delivery date
     var setDeliveryDate =
         await businessRuleDao.getSingleBusinessRule('SETDDDATE');
@@ -142,3 +163,4 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
     }
   }
 }
+ final  addItemBloc=AddItemBloc();
