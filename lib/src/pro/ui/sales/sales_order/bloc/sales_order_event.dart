@@ -23,4 +23,17 @@ class AddItemButtonPress extends SalesOrderEvent {
       'AddItemToSalesOrderButtonPress { searchText: $searchText, '
       'setQty: $setQty,' 'itemNuber:$itemNumber';
 }
+class GetTransactionNumber extends SalesOrderEvent {
+   final String transactionNo;
+
+  GetTransactionNumber({@required this.transactionNo});
+
+  @override
+  List<Object> get props => [transactionNo];
+
+  @override
+  String toString() =>
+      'GetTransactionNumber {transactionNo: $transactionNo}';
+  
+}
  
