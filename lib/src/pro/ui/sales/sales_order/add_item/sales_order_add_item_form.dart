@@ -44,20 +44,18 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
   bool searchFoused = false;
   int itemCount = 0;
   bool toggleList = true;
-  String _transactionNo = '';
-
   bool _hasMore = true;
-
   BarcodeListener _barcodeListener;
   final _tecScanKeyCode = TextEditingController();
   int _scanButtonKeyCode;
   String _scanResult = '';
+  String number;
 
   @override
   void initState() {
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
-
+    number = addItemBloc.tempSalesOrderNo;
     super.initState();
     _barcodeListener = BarcodeListener(null, null, _onKeyPress);
   }
@@ -88,41 +86,12 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
     });
   }
 
-  void _ontransaction(String transaction) async {
-    setState(() {
-      _transactionNo = transaction;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) {
-        return AddItemBloc();
-      },
-      child: BlocConsumer<AddItemBloc, AddItemState>(
-        listener: (context, state) {
-          if (state is GetTransactionNumber) {
-            _ontransaction(state.transactionNo);
-          }
-        },
-        buildWhen: (previous, current) {
-          var wasLoading = previous is AddItemLoad;
-          return wasLoading;
-        },
-        builder: (context, state) {
-          var bloc = BlocProvider.of<AddItemBloc>(context);
-//          if (state is AddItemInitial) {
-//            BlocProvider.of<AddItemBloc>(context)
-//                .add(GetTransactioNumberEvent());
-//          }
-          return _additemForm(bloc);
-        },
-      ),
-    );
+    return _additemForm();
   }
 
-  Widget _additemForm(AddItemBloc bloc) {
+  Widget _additemForm() {
     final widgetList = List<Widget>();
     widgetList.addAll([
       Text(
@@ -153,8 +122,9 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                 ),
                 StreamBuilder(
                     stream: widget.salesOrderDetailTempDao
-                        .transactionTotal(_transactionNo, 'Pending'),
+                        .transactionTotal(number, 'Pending'),
                     builder: (context, snapshot) {
+                      print(number);
                       if (snapshot.connectionState == ConnectionState.active) {
                         List<SalesOrderDetailTempData> totalData =
                             snapshot.data;
@@ -446,8 +416,8 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
 
   buildBottomSheet() {
     return StreamBuilder(
-      stream: widget.salesOrderDetailTempDao
-          .transactionTotal(_transactionNo, 'Pending'),
+      stream:
+          widget.salesOrderDetailTempDao.transactionTotal(number, 'Pending'),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<SalesOrderDetailTempData> totalData = snapshot.data;
@@ -529,7 +499,6 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
         print(snapshot.hasData);
         if (snapshot.hasData) {
           itemsWithPrices = snapshot.data;
-
           return toggleList
               ? Center(
                   child: SingleChildScrollView(
@@ -854,7 +823,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
   buildItemList() {
     return StreamBuilder(
       stream: widget.salesOrderDetailTempDao
-          .watchAllSalesOrderDetail(_transactionNo, 'Pending'),
+          .watchAllSalesOrderDetail(number, 'Pending'),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<SalesOrderDetailTempData> salesOrderDetailTempData =
@@ -892,58 +861,50 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Hero(
-                                    transitionOnUserGestures: true,
-                                    tag: 'mask$index',
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                              image: AssetImage(
-                                                  'images/mask.png')),
-                                          borderRadius:
-                                              BorderRadius.circular(5)),
-                                      height: 42,
-                                      width: 42,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        salesOrderDetailTempData[index]
-                                            .description,
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            "SKU: ${salesOrderDetailTempData[index].itemCode}",
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w600,
+                                  Expanded(
+                                                                      child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          child: Text(
+                                            salesOrderDetailTempData[index]
+                                           .description,
+                                           softWrap: false,
+                                           overflow: TextOverflow.ellipsis,
+                                           
+                                           maxLines: 2,
+                                           style: TextStyle(
+                                             
+                                           fontSize: 20,
+                                           fontWeight: FontWeight.normal),
                                             ),
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            "IN STOCK: 18",
-                                            style: TextStyle(
-                                                fontSize: 16,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "SKU: ${salesOrderDetailTempData[index].itemCode}",
+                                              style: TextStyle(
+                                                fontSize: 12,
                                                 fontWeight: FontWeight.w600,
-                                                color: Colors.green),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              "IN STOCK: 18",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.green),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),

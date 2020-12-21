@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:j3enterprise/src/database/crud/desktop/desktop_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/models/sales/fullfillment/jounery_with_address.dart';
+import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/bloc/add_item_bloc.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 
 class ActivitiesMenuPage extends StatefulWidget {
@@ -33,6 +33,11 @@ class _ActivitiesMenuPageState extends State<ActivitiesMenuPage> {
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 10.4746,
   );
+  @override
+  void initState() {
+    addItemBloc.setOrderNumber();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,8 +184,8 @@ class _ActivitiesMenuPageState extends State<ActivitiesMenuPage> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: StreamBuilder(
-                      stream:
-                          widget.desktopDao.watchAllActivitiesMenu(searchText, false, searchText, ""),
+                      stream: widget.desktopDao.watchAllActivitiesMenu(
+                          searchText, false, searchText, ""),
                       builder: (context, snapshot) {
                         print(snapshot.data.toString());
                         if (snapshot.hasData) {
@@ -193,7 +198,8 @@ class _ActivitiesMenuPageState extends State<ActivitiesMenuPage> {
                                       children: [
                                         ...prefData.map((e) {
                                           return InkWell(
-                                              onTap: () {
+                                              onTap: () async {
+                                                addItemBloc.setOrderNumber();
                                                 Navigator.pushNamed(
                                                     context, e.navigationRoute,
                                                     arguments: widget
