@@ -22,6 +22,7 @@ import 'package:moor/moor.dart';
 class Desktop extends Table {
   IntColumn get id => integer()();
   TextColumn get featureCode => text()();
+  TextColumn get showInLocation => text()();
   TextColumn get iconName => text()();
   TextColumn get iconCode => text()();
   TextColumn get iconColour => text()();

@@ -149,7 +149,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       StreamBuilder(
-                          stream: widget.desktopDao.watchAllDesktop(searchText, false, searchText, ""),                              
+                          stream: widget.desktopDao.watchAllDesktop(searchText, false, searchText, "","home_page"),                              
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               List<DesktopData> prefData = snapshot.data;

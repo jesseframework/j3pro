@@ -73,4 +73,5 @@ class CustomIcons {
   static const IconData eye = IconData(0xe80c, fontFamily: _kFontFam);
   static const IconData eye_off = IconData(0xe80d, fontFamily: _kFontFam);
   static const IconData pushpin = IconData(0xe832, fontFamily: _kFontFam);
+  
 }

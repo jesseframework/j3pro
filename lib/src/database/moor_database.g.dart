@@ -9312,6 +9312,7 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
 class DesktopData extends DataClass implements Insertable<DesktopData> {
   final int id;
   final String featureCode;
+  final String showInLocation;
   final String iconName;
   final String iconCode;
   final String iconColour;
@@ -9329,6 +9330,7 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
   DesktopData(
       {@required this.id,
       @required this.featureCode,
+      @required this.showInLocation,
       @required this.iconName,
       @required this.iconCode,
       @required this.iconColour,
@@ -9354,6 +9356,8 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       featureCode: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}feature_code']),
+      showInLocation: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}show_in_location']),
       iconName: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}icon_name']),
       iconCode: stringType
@@ -9391,6 +9395,9 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
     }
     if (!nullToAbsent || featureCode != null) {
       map['feature_code'] = Variable<String>(featureCode);
+    }
+    if (!nullToAbsent || showInLocation != null) {
+      map['show_in_location'] = Variable<String>(showInLocation);
     }
     if (!nullToAbsent || iconName != null) {
       map['icon_name'] = Variable<String>(iconName);
@@ -9443,6 +9450,9 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
       featureCode: featureCode == null && nullToAbsent
           ? const Value.absent()
           : Value(featureCode),
+      showInLocation: showInLocation == null && nullToAbsent
+          ? const Value.absent()
+          : Value(showInLocation),
       iconName: iconName == null && nullToAbsent
           ? const Value.absent()
           : Value(iconName),
@@ -9492,6 +9502,7 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
     return DesktopData(
       id: serializer.fromJson<int>(json['id']),
       featureCode: serializer.fromJson<String>(json['featureCode']),
+      showInLocation: serializer.fromJson<String>(json['showInLocation']),
       iconName: serializer.fromJson<String>(json['iconName']),
       iconCode: serializer.fromJson<String>(json['iconCode']),
       iconColour: serializer.fromJson<String>(json['iconColour']),
@@ -9514,6 +9525,7 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'featureCode': serializer.toJson<String>(featureCode),
+      'showInLocation': serializer.toJson<String>(showInLocation),
       'iconName': serializer.toJson<String>(iconName),
       'iconCode': serializer.toJson<String>(iconCode),
       'iconColour': serializer.toJson<String>(iconColour),
@@ -9534,6 +9546,7 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
   DesktopData copyWith(
           {int id,
           String featureCode,
+          String showInLocation,
           String iconName,
           String iconCode,
           String iconColour,
@@ -9551,6 +9564,7 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
       DesktopData(
         id: id ?? this.id,
         featureCode: featureCode ?? this.featureCode,
+        showInLocation: showInLocation ?? this.showInLocation,
         iconName: iconName ?? this.iconName,
         iconCode: iconCode ?? this.iconCode,
         iconColour: iconColour ?? this.iconColour,
@@ -9571,6 +9585,7 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
     return (StringBuffer('DesktopData(')
           ..write('id: $id, ')
           ..write('featureCode: $featureCode, ')
+          ..write('showInLocation: $showInLocation, ')
           ..write('iconName: $iconName, ')
           ..write('iconCode: $iconCode, ')
           ..write('iconColour: $iconColour, ')
@@ -9595,40 +9610,44 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
       $mrjc(
           featureCode.hashCode,
           $mrjc(
-              iconName.hashCode,
+              showInLocation.hashCode,
               $mrjc(
-                  iconCode.hashCode,
+                  iconName.hashCode,
                   $mrjc(
-                      iconColour.hashCode,
+                      iconCode.hashCode,
                       $mrjc(
-                          iconFamily.hashCode,
+                          iconColour.hashCode,
                           $mrjc(
-                              navigationRoute.hashCode,
+                              iconFamily.hashCode,
                               $mrjc(
-                                  iconGroup.hashCode,
+                                  navigationRoute.hashCode,
                                   $mrjc(
-                                      isFavorit.hashCode,
+                                      iconGroup.hashCode,
                                       $mrjc(
-                                          userPermission.hashCode,
+                                          isFavorit.hashCode,
                                           $mrjc(
-                                              tenantId.hashCode,
+                                              userPermission.hashCode,
                                               $mrjc(
-                                                  tag.hashCode,
+                                                  tenantId.hashCode,
                                                   $mrjc(
-                                                      isDeleted.hashCode,
+                                                      tag.hashCode,
                                                       $mrjc(
-                                                          isFreeTrial.hashCode,
+                                                          isDeleted.hashCode,
                                                           $mrjc(
-                                                              validFrom
+                                                              isFreeTrial
                                                                   .hashCode,
-                                                              validTo
-                                                                  .hashCode))))))))))))))));
+                                                              $mrjc(
+                                                                  validFrom
+                                                                      .hashCode,
+                                                                  validTo
+                                                                      .hashCode)))))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is DesktopData &&
           other.id == this.id &&
           other.featureCode == this.featureCode &&
+          other.showInLocation == this.showInLocation &&
           other.iconName == this.iconName &&
           other.iconCode == this.iconCode &&
           other.iconColour == this.iconColour &&
@@ -9648,6 +9667,7 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
 class DesktopCompanion extends UpdateCompanion<DesktopData> {
   final Value<int> id;
   final Value<String> featureCode;
+  final Value<String> showInLocation;
   final Value<String> iconName;
   final Value<String> iconCode;
   final Value<String> iconColour;
@@ -9665,6 +9685,7 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
   const DesktopCompanion({
     this.id = const Value.absent(),
     this.featureCode = const Value.absent(),
+    this.showInLocation = const Value.absent(),
     this.iconName = const Value.absent(),
     this.iconCode = const Value.absent(),
     this.iconColour = const Value.absent(),
@@ -9683,6 +9704,7 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
   DesktopCompanion.insert({
     this.id = const Value.absent(),
     @required String featureCode,
+    @required String showInLocation,
     @required String iconName,
     @required String iconCode,
     @required String iconColour,
@@ -9698,6 +9720,7 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
     this.validFrom = const Value.absent(),
     this.validTo = const Value.absent(),
   })  : featureCode = Value(featureCode),
+        showInLocation = Value(showInLocation),
         iconName = Value(iconName),
         iconCode = Value(iconCode),
         iconColour = Value(iconColour),
@@ -9709,6 +9732,7 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
   static Insertable<DesktopData> custom({
     Expression<int> id,
     Expression<String> featureCode,
+    Expression<String> showInLocation,
     Expression<String> iconName,
     Expression<String> iconCode,
     Expression<String> iconColour,
@@ -9727,6 +9751,7 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (featureCode != null) 'feature_code': featureCode,
+      if (showInLocation != null) 'show_in_location': showInLocation,
       if (iconName != null) 'icon_name': iconName,
       if (iconCode != null) 'icon_code': iconCode,
       if (iconColour != null) 'icon_colour': iconColour,
@@ -9747,6 +9772,7 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
   DesktopCompanion copyWith(
       {Value<int> id,
       Value<String> featureCode,
+      Value<String> showInLocation,
       Value<String> iconName,
       Value<String> iconCode,
       Value<String> iconColour,
@@ -9764,6 +9790,7 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
     return DesktopCompanion(
       id: id ?? this.id,
       featureCode: featureCode ?? this.featureCode,
+      showInLocation: showInLocation ?? this.showInLocation,
       iconName: iconName ?? this.iconName,
       iconCode: iconCode ?? this.iconCode,
       iconColour: iconColour ?? this.iconColour,
@@ -9789,6 +9816,9 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
     }
     if (featureCode.present) {
       map['feature_code'] = Variable<String>(featureCode.value);
+    }
+    if (showInLocation.present) {
+      map['show_in_location'] = Variable<String>(showInLocation.value);
     }
     if (iconName.present) {
       map['icon_name'] = Variable<String>(iconName.value);
@@ -9840,6 +9870,7 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
     return (StringBuffer('DesktopCompanion(')
           ..write('id: $id, ')
           ..write('featureCode: $featureCode, ')
+          ..write('showInLocation: $showInLocation, ')
           ..write('iconName: $iconName, ')
           ..write('iconCode: $iconCode, ')
           ..write('iconColour: $iconColour, ')
@@ -9884,6 +9915,20 @@ class $DesktopTable extends Desktop with TableInfo<$DesktopTable, DesktopData> {
   GeneratedTextColumn _constructFeatureCode() {
     return GeneratedTextColumn(
       'feature_code',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _showInLocationMeta =
+      const VerificationMeta('showInLocation');
+  GeneratedTextColumn _showInLocation;
+  @override
+  GeneratedTextColumn get showInLocation =>
+      _showInLocation ??= _constructShowInLocation();
+  GeneratedTextColumn _constructShowInLocation() {
+    return GeneratedTextColumn(
+      'show_in_location',
       $tableName,
       false,
     );
@@ -10058,6 +10103,7 @@ class $DesktopTable extends Desktop with TableInfo<$DesktopTable, DesktopData> {
   List<GeneratedColumn> get $columns => [
         id,
         featureCode,
+        showInLocation,
         iconName,
         iconCode,
         iconColour,
@@ -10094,6 +10140,14 @@ class $DesktopTable extends Desktop with TableInfo<$DesktopTable, DesktopData> {
               data['feature_code'], _featureCodeMeta));
     } else if (isInserting) {
       context.missing(_featureCodeMeta);
+    }
+    if (data.containsKey('show_in_location')) {
+      context.handle(
+          _showInLocationMeta,
+          showInLocation.isAcceptableOrUnknown(
+              data['show_in_location'], _showInLocationMeta));
+    } else if (isInserting) {
+      context.missing(_showInLocationMeta);
     }
     if (data.containsKey('icon_name')) {
       context.handle(_iconNameMeta,

@@ -4,6 +4,7 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/text_field_nullable.dart';
 
 class AddItemPage extends StatefulWidget {
+  
   @override
   _AddItemPageState createState() => _AddItemPageState();
 }

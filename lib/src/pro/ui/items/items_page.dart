@@ -6,6 +6,7 @@ import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
 
 class ItemsPage extends StatelessWidget {
+  static final route = '/itempage';
   @override
   Widget build(BuildContext context) {
     return Scaffold(

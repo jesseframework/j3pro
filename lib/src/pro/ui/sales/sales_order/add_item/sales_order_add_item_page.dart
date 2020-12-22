@@ -13,7 +13,7 @@ class SalesOrderAddItemPage extends StatefulWidget {
 }
 
 class _SalesOrderAddItemPageState extends State<SalesOrderAddItemPage> {
-  @override
+  
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

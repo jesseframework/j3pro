@@ -18,10 +18,14 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:j3enterprise/src/pro/ui/customer/customer_list_page.dart';
+import 'package:j3enterprise/src/pro/ui/items/items_page.dart';
+import 'package:j3enterprise/src/pro/ui/journey_plan/journey_plan_page.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/sales_order_add_item_page.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_item_detail_page.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_page.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/seles_order_item_page.dart';
+import 'package:j3enterprise/src/pro/ui/service_activities/activities_menu_page.dart';
 import 'package:j3enterprise/src/pro/ui/service_activities/service_activities_page.dart';
 import 'package:j3enterprise/src/ui/about/about.dart';
 import 'package:j3enterprise/src/ui/background_jobs/backgroundjobs_pages.dart';
@@ -48,4 +52,9 @@ final routes = {
   HomePage.route: (BuildContext context) => HomePage(),
   About.route: (BuildContext context) => About(),
   SalesOrderAddItemPage.route: (BuildContext context) => SalesOrderAddItemPage(),
+  JourneyPlanPage.route: (BuildContext context) => JourneyPlanPage(),
+  ActivitiesMenuPage.route: (BuildContext context) => ActivitiesMenuPage(),
+  CustomerListPage.route: (BuildContext context) => CustomerListPage(),
+  ItemsPage.route: (BuildContext context) => ItemsPage(),
+  
 };

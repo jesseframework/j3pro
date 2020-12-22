@@ -40,12 +40,14 @@ class DesktopDao extends DatabaseAccessor<AppDatabase> with _$DesktopDaoMixin {
     String functionName,
     bool isDelete,
     String featureCode,
-    String userPermission) {
+    String userPermission,
+    String showInLoaction) {
     return (select(db.desktop)..where((t) => 
             t.iconName.contains(functionName) &
              t.isDeleted.equals(isDelete) &
              t.featureCode.contains(featureCode) &
-             t.userPermission.contains(userPermission))).watch();
+             t.userPermission.contains(userPermission) &
+             t.showInLocation.equals(showInLoaction))).watch();
   }
  Stream<List<DesktopData>> watchAllActivitiesMenu( 
    String functionName,
