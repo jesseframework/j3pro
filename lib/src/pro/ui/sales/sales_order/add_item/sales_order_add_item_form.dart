@@ -862,7 +862,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Expanded(
-                                                                      child: Column(
+                                    child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       mainAxisAlignment:
@@ -871,16 +871,14 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                         Container(
                                           child: Text(
                                             salesOrderDetailTempData[index]
-                                           .description,
-                                           softWrap: false,
-                                           overflow: TextOverflow.ellipsis,
-                                           
-                                           maxLines: 2,
-                                           style: TextStyle(
-                                             
-                                           fontSize: 20,
-                                           fontWeight: FontWeight.normal),
-                                            ),
+                                                .description,
+                                            softWrap: false,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.normal),
+                                          ),
                                         ),
                                         Row(
                                           children: [
@@ -892,14 +890,13 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 10,
+                                              width: 12,
                                             ),
                                             Text(
-                                              "IN STOCK: 18",
+                                              "UOM: ${salesOrderDetailTempData[index].salesUOM}",
                                               style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.green),
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w600),
                                             ),
                                           ],
                                         ),
@@ -982,12 +979,12 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                 width: 25,
                                 height: 25,
                                 child: FloatingActionButton(
-                                  backgroundColor: Colors.red,
-                                  heroTag: 'Decrement$index',
+                                  backgroundColor: Colors.green,
+                                  heroTag: 'Increment$index',
                                   onPressed: () {},
                                   elevation: 2,
-                                  tooltip: 'Decrement',
-                                  child: Icon(Icons.remove),
+                                  tooltip: 'Increment',
+                                  child: Icon(Icons.add),
                                 ),
                               ),
                               Padding(
@@ -1022,12 +1019,12 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                 width: 25,
                                 height: 25,
                                 child: FloatingActionButton(
-                                  backgroundColor: Colors.green,
-                                  heroTag: 'Increment$index',
+                                  backgroundColor: Colors.red,
+                                  heroTag: 'Decrement$index',
                                   onPressed: () {},
                                   elevation: 25,
-                                  tooltip: 'Increment',
-                                  child: Icon(Icons.add),
+                                  tooltip: 'Decrement',
+                                  child: Icon(Icons.remove),
                                 ),
                               ),
                             ],

@@ -7,6 +7,7 @@ import 'package:j3enterprise/src/database/crud/business_rule/non_global_business
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/series_number/temp_number_log_crud.dart';
 import 'package:j3enterprise/src/pro/resources/shared/sales/add_item_to_transaction.dart';
+import 'package:j3enterprise/src/pro/resources/shared/utils/temp_serial_number_logic.dart';
 import 'package:j3enterprise/src/resources/shared/preferences/user_share_data.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
@@ -31,44 +32,34 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
   }
 
   get getCusID => customerId;
-
-  void setOrderNumber() async {
-    
-   var temNumbers = await tempNumberLogsDao.getAllSeriesNumberByType();
-    for (var numbs in temNumbers) {
-      if (numbs.typeOfNumber == "Sales Order") {
-        tempSalesOrderNo = numbs.nextSeriesNumber;
-      }
-
-      if (numbs.typeOfNumber == "Inventory Cycle") {
-        tempInventoryCycle = numbs.nextSeriesNumber;
-      }
-
-      if (numbs.typeOfNumber == "Clock Out") {
-        tempDaySessionNumber = numbs.nextSeriesNumber;
-      }
-    }
-  }
-
   get getOderNumber => tempSalesOrderNo;
 
   static final _log = Logger('SalesOrderBloc');
   var db;
   AddItemToTransaction _addItemToTransaction;
   TempNumberLogsDao tempNumberLogsDao;
+  TempSerialNumberReader tempSerialNumberReader;
   BusinessRuleDao businessRuleDao;
   NonGlobalBusinessRuleDao nonGlobalBusinessRuleDao;
   UserSharedData userSharedData;
   Map<String, String> mapDevicePref = Map();
   AddItemBloc() {
-     
     db = AppDatabase();
+    tempSerialNumberReader = new TempSerialNumberReader();
     _addItemToTransaction = new AddItemToTransaction();
     tempNumberLogsDao = new TempNumberLogsDao(db);
     businessRuleDao = new BusinessRuleDao(db);
     nonGlobalBusinessRuleDao = new NonGlobalBusinessRuleDao(db);
-
     userSharedData = new UserSharedData();
+  }
+
+  void setOrderNumber() async {
+    tempSalesOrderNo =
+        await tempSerialNumberReader.getTempNumber("Sales Order");
+    tempInventoryCycle =
+        await tempSerialNumberReader.getTempNumber("Inventory Cycle");
+    tempDaySessionNumber =
+        await tempSerialNumberReader.getTempNumber("Clock Out");
   }
 
   @override
@@ -79,20 +70,13 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
     AddItemEvent event,
   ) async* {
     yield AddItemLoading();
-    var temNumbers = await tempNumberLogsDao.getAllSeriesNumberByType();
-    for (var numbs in temNumbers) {
-      if (numbs.typeOfNumber == "Sales Order") {
-        tempSalesOrderNo = numbs.nextSeriesNumber;
-      }
+    tempSalesOrderNo =
+        await tempSerialNumberReader.getTempNumber("Sales Order");
+    tempInventoryCycle =
+        await tempSerialNumberReader.getTempNumber("Inventory Cycle");
+    tempDaySessionNumber =
+        await tempSerialNumberReader.getTempNumber("Clock Out");
 
-      if (numbs.typeOfNumber == "Inventory Cycle") {
-        tempInventoryCycle = numbs.nextSeriesNumber;
-      }
-
-      if (numbs.typeOfNumber == "Clock Out") {
-        tempDaySessionNumber = numbs.nextSeriesNumber;
-      }
-    }
     _log.finest("decelear varable for temp number");
 
     mapDevicePref = await userSharedData.getUserSharedPref();
@@ -106,7 +90,6 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
       //yield AddItemLoad(transactionNo: tempSalesOrderNo);
     }
 
-    
     //Business Rule for delivery date
     var setDeliveryDate =
         await businessRuleDao.getSingleBusinessRule('SETDDDATE');
@@ -163,4 +146,5 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
     }
   }
 }
- final  addItemBloc=AddItemBloc();
+
+final addItemBloc = AddItemBloc();

@@ -21,9 +21,14 @@ class TempNumberLogsDao extends DatabaseAccessor<AppDatabase>
         .watch();
   }
 
-  Future<List<TempNumberLog>> getAllSeriesNumberByType() {
-    return (select(db.tempNumberLogs))          
+  Future<List<TempNumberLog>> getAllTempNumberLogsByType(String typeOfNumber) {
+    return (select(db.tempNumberLogs)
+          ..where((t) => t.typeOfNumber.equals(typeOfNumber)))
         .get();
+  }
+
+  Future<List<TempNumberLog>> getAllSeriesNumberByType() {
+    return (select(db.tempNumberLogs)).get();
   }
 
   Future<void> createOrUpdateTempNumber(TempNumberLogsCompanion tempNumberLog) {
