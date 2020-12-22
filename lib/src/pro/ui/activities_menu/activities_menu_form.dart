@@ -10,13 +10,14 @@ import 'package:j3enterprise/src/pro/models/sales/fullfillment/jounery_with_addr
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/bloc/add_item_bloc.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 
-class ActivitiesMenuForm extends StatefulWidget {  
+class ActivitiesMenuForm extends StatefulWidget {
   var db;
   DesktopDao desktopDao;
   JourneyWithAddress journeyWithAddress;
   ActivitiesMenuForm({this.journeyWithAddress}) {
     db = AppDatabase();
     desktopDao = DesktopDao(db);
+    
   }
 
   @override

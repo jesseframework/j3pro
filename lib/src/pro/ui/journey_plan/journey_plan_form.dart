@@ -5,19 +5,20 @@ import 'package:j3enterprise/main.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/sales/fullfillment/journey_plan_crud.dart';
 import 'package:j3enterprise/src/pro/models/sales/fullfillment/jounery_with_address.dart';
+import 'package:j3enterprise/src/pro/ui/activities_menu/activities_menu_page.dart';
 import 'package:j3enterprise/src/pro/ui/journey_plan/bloc/journey_plan_bloc.dart';
-import 'package:j3enterprise/src/pro/ui/service_activities/activities_menu_page.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
 
-class JourneyPlanForm extends StatefulWidget {  
+class JourneyPlanForm extends StatefulWidget {
   var db;
   JourneyPlanDao journeyPlanDao;
-  JourneyPlanForm(){
-     db = AppDatabase();
+  JourneyWithAddress journeyWithAddress;
+  JourneyPlanForm(this.journeyWithAddress) {
+    db = AppDatabase();
     journeyPlanDao = JourneyPlanDao(db);
   }
 
@@ -26,7 +27,7 @@ class JourneyPlanForm extends StatefulWidget {
 }
 
 class _JourneyPlanFormState extends State<JourneyPlanForm> {
-   String userName;
+  String userName;
   @override
   void didChangeDependencies() async {
     await getIt<UserRepository>().getUserSharedPref().then((value) {
@@ -36,9 +37,10 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
     });
     super.didChangeDependencies();
   }
-  @override  
+
+  @override
   Widget build(BuildContext context) {
-   return BlocProvider(
+    return BlocProvider(
       create: (context) => JourneyPlanBloc(),
       child: Scaffold(
           appBar: AppBar(
