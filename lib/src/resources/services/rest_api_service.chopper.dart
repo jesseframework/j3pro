@@ -168,6 +168,27 @@ class _$RestApiService extends RestApiService {
   }
 
   @override
+  Future<Response<dynamic>> getAllIsalestax() {
+    final $url = '/api/services/app/SalesTax/GetAll?MaxResultCount=30000';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> getAllCurrency() {
+    final $url = '/api/services/app/Currency/GetAll?MaxResultCount=30000';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> getAllExchangeRate() {
+    final $url = '/api/services/app/ExchangeRate/GetAll?MaxResultCount=30000';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<dynamic>> getItemById() {
     final $url = '/api/services/app/Item/Get?MaxResultCount=30000';
     final $request = Request('GET', $url, client.baseUrl);

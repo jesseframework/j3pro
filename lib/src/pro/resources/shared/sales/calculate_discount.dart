@@ -154,7 +154,8 @@ class CalculateDiscount {
           subTotal: moor.Value(lineSubTotal),
           discountPercentage: moor.Value(amountOff),
           discountAmount: moor.Value(discountAmount),
-          lineDiscountTotal: moor.Value(discountAmount));
+          lineDiscountTotal: moor.Value(discountAmount),
+          discountType:  moor.Value(priceOrDiscount));
 
       await salesOrderDetailTempDao.updateInvoiceTotal(
           tempOrder, transactionNumber, transactionStatus, itemId, salesUom);

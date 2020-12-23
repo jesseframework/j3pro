@@ -28,6 +28,7 @@ class JourneyPlanForm extends StatefulWidget {
 
 class _JourneyPlanFormState extends State<JourneyPlanForm> {
   String userName;
+  String searchText = '';
   @override
   void didChangeDependencies() async {
     await getIt<UserRepository>().getUserSharedPref().then((value) {
@@ -60,7 +61,11 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
                         height: 35,
                         child: ListFilter(
                             placeholder: 'Search',
-                            onFilterChanged: (search) {}),
+                            onFilterChanged: (search) {
+                              setState(() {
+                                searchText = search;
+                              });
+                            }),
                       ),
                     ),
                   ],
@@ -126,8 +131,8 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
                 ],
               ),
               StreamBuilder(
-                stream: widget.journeyPlanDao
-                    .watchJourneyWithAddressJoin('admin', 'Billing', false, ""),
+                stream: widget.journeyPlanDao.watchJourneyWithAddressJoin(
+                    'admin', 'Billing', false, searchText),
                 //  future: widget.journeyPlanDao.getAllJourneyPlanData(),
                 builder: (context, snapshot) {
                   print(snapshot.data.toString());
@@ -157,7 +162,13 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
                                     )));
                               },
                               child: Container(
-                                color: Theme.of(context).cardColor,
+                                color: (index % 2 == 0)
+                                    ? Theme.of(context)
+                                        .primaryColor
+                                        .withOpacity(0.1)
+                                    : Theme.of(context)
+                                        .cardColor
+                                        .withOpacity(0.1),
                                 child: ListTile(
                                   leading: Icon(
                                     Icons.image,

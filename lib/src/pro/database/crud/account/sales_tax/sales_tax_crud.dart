@@ -1,6 +1,5 @@
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/models/account/sales_tax/sales_tax_model.dart';
-import 'package:j3enterprise/src/pro/models/series_number/series_number_model.dart';
 
 import 'package:moor/moor.dart';
 
@@ -23,5 +22,9 @@ class SalesTaxDao extends DatabaseAccessor<AppDatabase>
               t.taxAccount.equals(taxGroup) &
               t.effectiveDate.isSmallerOrEqualValue(salesDate)))
         .get();
+  }
+
+   Future<void> createOrUpdateSaleTax(SalesTaxData salesTaxData) {
+    return into(db.salesTax).insertOnConflictUpdate(salesTaxData);
   }
 }

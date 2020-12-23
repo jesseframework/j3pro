@@ -25,11 +25,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
 import 'package:j3enterprise/src/database/crud/desktop/desktop_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/pro/resources/repositories/account/sales_tax/sales_tax_repositories.dart';
 import 'package:j3enterprise/src/pro/resources/repositories/customer/address_repositories.dart';
 import 'package:j3enterprise/src/pro/resources/repositories/customer/contacts_repositories.dart';
 import 'package:j3enterprise/src/pro/resources/repositories/customer/customer_repositories.dart';
 import 'package:j3enterprise/src/pro/resources/repositories/items/item_price_repositories.dart';
 import 'package:j3enterprise/src/pro/resources/repositories/items/items_master_repositories.dart';
+import 'package:j3enterprise/src/pro/resources/repositories/items/pricing_rule_repositories.dart';
 import 'package:j3enterprise/src/pro/resources/repositories/sales/fullfillment/journey_plan_repositories.dart';
 import 'package:j3enterprise/src/resources/repositories/applogger_repositiry.dart';
 import 'package:j3enterprise/src/resources/repositories/business_rule_repositiry.dart';
@@ -63,6 +65,8 @@ class BackgroundJobsBloc
   ContactRepository contactRepository;
   ItemMasterRepository itemMasterRepository;
   ItemPriceRepository itemPriceRepository;
+  PricingRuleRepository pricingRuleRepository;
+  SalesTaxRepository salesTaxRepository;
   DesktopDao desktopDao;
   UpdateBackgroundJobStatus updateBackgroundJobStatus;
   BackgroundJobsBloc() {
@@ -77,6 +81,8 @@ class BackgroundJobsBloc
     contactRepository = new ContactRepository();
     itemMasterRepository = new ItemMasterRepository();
     itemPriceRepository = new ItemPriceRepository();
+    salesTaxRepository = new SalesTaxRepository();
+    pricingRuleRepository = new PricingRuleRepository();
     updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
     backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
     desktopDao = new DesktopDao(db);
@@ -232,6 +238,22 @@ class BackgroundJobsBloc
               event.jobname,
               (Timer timer) async => await itemPriceRepository
                   .getItemPriceFromServer(event.jobname));
+        }
+
+        if (event.jobname == "Item Pricing Rule") {
+          scheduler.scheduleJobs(
+              event.syncFrequency,
+              event.jobname,
+              (Timer timer) async => await pricingRuleRepository
+                  .getPricingRuleFromServer(event.jobname));
+        }
+
+        if (event.jobname == "Sales Tax") {
+          scheduler.scheduleJobs(
+              event.syncFrequency,
+              event.jobname,
+              (Timer timer) async => await salesTaxRepository
+                  .getSalesTaxFromServer(event.jobname));
         }
 
         yield BackgroundJobsSuccess(userMessage: userMessage);

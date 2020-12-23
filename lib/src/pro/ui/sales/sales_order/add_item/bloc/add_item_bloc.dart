@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:j3enterprise/src/database/crud/business_rule/business_rule_crud.dart';
 import 'package:j3enterprise/src/database/crud/business_rule/non_global_business_rule_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/pro/database/crud/customer/customer_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/series_number/temp_number_log_crud.dart';
 import 'package:j3enterprise/src/pro/resources/shared/sales/add_item_to_transaction.dart';
 import 'package:j3enterprise/src/pro/resources/shared/utils/temp_serial_number_logic.dart';
@@ -25,7 +26,7 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
   DateTime deliveryDate;
   String currency = "";
   double exchangeRate = 0;
-  String customerId = "1000101";
+  String customerId = "CS10001";
 
   void setId({String cusID}) {
     customerId = cusID;
@@ -40,14 +41,17 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
   TempNumberLogsDao tempNumberLogsDao;
   TempSerialNumberReader tempSerialNumberReader;
   BusinessRuleDao businessRuleDao;
+  CustomerDao customerDao;
   NonGlobalBusinessRuleDao nonGlobalBusinessRuleDao;
   UserSharedData userSharedData;
   Map<String, String> mapDevicePref = Map();
   AddItemBloc() {
     db = AppDatabase();
+
     tempSerialNumberReader = new TempSerialNumberReader();
     _addItemToTransaction = new AddItemToTransaction();
     tempNumberLogsDao = new TempNumberLogsDao(db);
+    customerDao = new CustomerDao(db);
     businessRuleDao = new BusinessRuleDao(db);
     nonGlobalBusinessRuleDao = new NonGlobalBusinessRuleDao(db);
     userSharedData = new UserSharedData();
@@ -70,6 +74,7 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
     AddItemEvent event,
   ) async* {
     yield AddItemLoading();
+    _log.finest("get temp number from database");
     tempSalesOrderNo =
         await tempSerialNumberReader.getTempNumber("Sales Order");
     tempInventoryCycle =
@@ -77,7 +82,11 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
     tempDaySessionNumber =
         await tempSerialNumberReader.getTempNumber("Clock Out");
 
-    _log.finest("decelear varable for temp number");
+    _log.finest("get customer by customer number");
+    var cust = await customerDao.getAllCustomerById(customerId);
+    if (cust.length > 0) {
+      currency = cust[0].defaultCurrency;
+    }
 
     mapDevicePref = await userSharedData.getUserSharedPref();
     String userName = mapDevicePref['userName'];
@@ -87,7 +96,6 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
     String tenantId = mapDevicePref['tenantId'];
     if (state is AddItemLoading) {
       yield GetTransactionNumber(transactionNo: tempSalesOrderNo);
-      //yield AddItemLoad(transactionNo: tempSalesOrderNo);
     }
 
     //Business Rule for delivery date

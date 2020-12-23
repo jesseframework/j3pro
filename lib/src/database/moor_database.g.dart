@@ -22943,6 +22943,7 @@ class ItemPricingRuleData extends DataClass
     implements Insertable<ItemPricingRuleData> {
   final int tenantId;
   final int id;
+  final int priority;
   final String itemId;
   final String itemCode;
   final String priceList;
@@ -22961,12 +22962,14 @@ class ItemPricingRuleData extends DataClass
   final String title;
   final String ruleName;
   final bool isActive;
+  final bool isDeleted;
   final bool isDiscountEnable;
   final DateTime validFrom;
   final DateTime validTo;
   ItemPricingRuleData(
       {this.tenantId,
       @required this.id,
+      @required this.priority,
       this.itemId,
       this.itemCode,
       this.priceList,
@@ -22985,6 +22988,7 @@ class ItemPricingRuleData extends DataClass
       this.title,
       this.ruleName,
       @required this.isActive,
+      @required this.isDeleted,
       @required this.isDiscountEnable,
       this.validFrom,
       this.validTo});
@@ -23001,6 +23005,8 @@ class ItemPricingRuleData extends DataClass
       tenantId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      priority:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}priority']),
       itemId:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
       itemCode: stringType
@@ -23036,6 +23042,8 @@ class ItemPricingRuleData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}rule_name']),
       isActive:
           boolType.mapFromDatabaseResponse(data['${effectivePrefix}is_active']),
+      isDeleted: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
       isDiscountEnable: boolType.mapFromDatabaseResponse(
           data['${effectivePrefix}is_discount_enable']),
       validFrom: dateTimeType
@@ -23052,6 +23060,9 @@ class ItemPricingRuleData extends DataClass
     }
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || priority != null) {
+      map['priority'] = Variable<int>(priority);
     }
     if (!nullToAbsent || itemId != null) {
       map['item_id'] = Variable<String>(itemId);
@@ -23107,6 +23118,9 @@ class ItemPricingRuleData extends DataClass
     if (!nullToAbsent || isActive != null) {
       map['is_active'] = Variable<bool>(isActive);
     }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
     if (!nullToAbsent || isDiscountEnable != null) {
       map['is_discount_enable'] = Variable<bool>(isDiscountEnable);
     }
@@ -23125,6 +23139,9 @@ class ItemPricingRuleData extends DataClass
           ? const Value.absent()
           : Value(tenantId),
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      priority: priority == null && nullToAbsent
+          ? const Value.absent()
+          : Value(priority),
       itemId:
           itemId == null && nullToAbsent ? const Value.absent() : Value(itemId),
       itemCode: itemCode == null && nullToAbsent
@@ -23174,6 +23191,9 @@ class ItemPricingRuleData extends DataClass
       isActive: isActive == null && nullToAbsent
           ? const Value.absent()
           : Value(isActive),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
       isDiscountEnable: isDiscountEnable == null && nullToAbsent
           ? const Value.absent()
           : Value(isDiscountEnable),
@@ -23192,6 +23212,7 @@ class ItemPricingRuleData extends DataClass
     return ItemPricingRuleData(
       tenantId: serializer.fromJson<int>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
+      priority: serializer.fromJson<int>(json['priority']),
       itemId: serializer.fromJson<String>(json['itemId']),
       itemCode: serializer.fromJson<String>(json['itemCode']),
       priceList: serializer.fromJson<String>(json['priceList']),
@@ -23211,6 +23232,7 @@ class ItemPricingRuleData extends DataClass
       title: serializer.fromJson<String>(json['title']),
       ruleName: serializer.fromJson<String>(json['ruleName']),
       isActive: serializer.fromJson<bool>(json['isActive']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
       isDiscountEnable: serializer.fromJson<bool>(json['isDiscountEnable']),
       validFrom: serializer.fromJson<DateTime>(json['validFrom']),
       validTo: serializer.fromJson<DateTime>(json['validTo']),
@@ -23222,6 +23244,7 @@ class ItemPricingRuleData extends DataClass
     return <String, dynamic>{
       'tenantId': serializer.toJson<int>(tenantId),
       'id': serializer.toJson<int>(id),
+      'priority': serializer.toJson<int>(priority),
       'itemId': serializer.toJson<String>(itemId),
       'itemCode': serializer.toJson<String>(itemCode),
       'priceList': serializer.toJson<String>(priceList),
@@ -23240,6 +23263,7 @@ class ItemPricingRuleData extends DataClass
       'title': serializer.toJson<String>(title),
       'ruleName': serializer.toJson<String>(ruleName),
       'isActive': serializer.toJson<bool>(isActive),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
       'isDiscountEnable': serializer.toJson<bool>(isDiscountEnable),
       'validFrom': serializer.toJson<DateTime>(validFrom),
       'validTo': serializer.toJson<DateTime>(validTo),
@@ -23249,6 +23273,7 @@ class ItemPricingRuleData extends DataClass
   ItemPricingRuleData copyWith(
           {int tenantId,
           int id,
+          int priority,
           String itemId,
           String itemCode,
           String priceList,
@@ -23267,12 +23292,14 @@ class ItemPricingRuleData extends DataClass
           String title,
           String ruleName,
           bool isActive,
+          bool isDeleted,
           bool isDiscountEnable,
           DateTime validFrom,
           DateTime validTo}) =>
       ItemPricingRuleData(
         tenantId: tenantId ?? this.tenantId,
         id: id ?? this.id,
+        priority: priority ?? this.priority,
         itemId: itemId ?? this.itemId,
         itemCode: itemCode ?? this.itemCode,
         priceList: priceList ?? this.priceList,
@@ -23291,6 +23318,7 @@ class ItemPricingRuleData extends DataClass
         title: title ?? this.title,
         ruleName: ruleName ?? this.ruleName,
         isActive: isActive ?? this.isActive,
+        isDeleted: isDeleted ?? this.isDeleted,
         isDiscountEnable: isDiscountEnable ?? this.isDiscountEnable,
         validFrom: validFrom ?? this.validFrom,
         validTo: validTo ?? this.validTo,
@@ -23300,6 +23328,7 @@ class ItemPricingRuleData extends DataClass
     return (StringBuffer('ItemPricingRuleData(')
           ..write('tenantId: $tenantId, ')
           ..write('id: $id, ')
+          ..write('priority: $priority, ')
           ..write('itemId: $itemId, ')
           ..write('itemCode: $itemCode, ')
           ..write('priceList: $priceList, ')
@@ -23318,6 +23347,7 @@ class ItemPricingRuleData extends DataClass
           ..write('title: $title, ')
           ..write('ruleName: $ruleName, ')
           ..write('isActive: $isActive, ')
+          ..write('isDeleted: $isDeleted, ')
           ..write('isDiscountEnable: $isDiscountEnable, ')
           ..write('validFrom: $validFrom, ')
           ..write('validTo: $validTo')
@@ -23331,49 +23361,52 @@ class ItemPricingRuleData extends DataClass
       $mrjc(
           id.hashCode,
           $mrjc(
-              itemId.hashCode,
+              priority.hashCode,
               $mrjc(
-                  itemCode.hashCode,
+                  itemId.hashCode,
                   $mrjc(
-                      priceList.hashCode,
+                      itemCode.hashCode,
                       $mrjc(
-                          customerId.hashCode,
+                          priceList.hashCode,
                           $mrjc(
-                              minQuantity.hashCode,
+                              customerId.hashCode,
                               $mrjc(
-                                  maxQuantity.hashCode,
+                                  minQuantity.hashCode,
                                   $mrjc(
-                                      price.hashCode,
+                                      maxQuantity.hashCode,
                                       $mrjc(
-                                          discountPercentage.hashCode,
+                                          price.hashCode,
                                           $mrjc(
-                                              uom.hashCode,
+                                              discountPercentage.hashCode,
                                               $mrjc(
-                                                  priceOrDiscount.hashCode,
+                                                  uom.hashCode,
                                                   $mrjc(
-                                                      customerGroup.hashCode,
+                                                      priceOrDiscount.hashCode,
                                                       $mrjc(
-                                                          itemGroup.hashCode,
+                                                          customerGroup
+                                                              .hashCode,
                                                           $mrjc(
-                                                              category.hashCode,
+                                                              itemGroup
+                                                                  .hashCode,
                                                               $mrjc(
-                                                                  applicableFor
+                                                                  category
                                                                       .hashCode,
                                                                   $mrjc(
-                                                                      applyOn
+                                                                      applicableFor
                                                                           .hashCode,
                                                                       $mrjc(
-                                                                          title
+                                                                          applyOn
                                                                               .hashCode,
                                                                           $mrjc(
-                                                                              ruleName.hashCode,
-                                                                              $mrjc(isActive.hashCode, $mrjc(isDiscountEnable.hashCode, $mrjc(validFrom.hashCode, validTo.hashCode)))))))))))))))))))))));
+                                                                              title.hashCode,
+                                                                              $mrjc(ruleName.hashCode, $mrjc(isActive.hashCode, $mrjc(isDeleted.hashCode, $mrjc(isDiscountEnable.hashCode, $mrjc(validFrom.hashCode, validTo.hashCode)))))))))))))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is ItemPricingRuleData &&
           other.tenantId == this.tenantId &&
           other.id == this.id &&
+          other.priority == this.priority &&
           other.itemId == this.itemId &&
           other.itemCode == this.itemCode &&
           other.priceList == this.priceList &&
@@ -23392,6 +23425,7 @@ class ItemPricingRuleData extends DataClass
           other.title == this.title &&
           other.ruleName == this.ruleName &&
           other.isActive == this.isActive &&
+          other.isDeleted == this.isDeleted &&
           other.isDiscountEnable == this.isDiscountEnable &&
           other.validFrom == this.validFrom &&
           other.validTo == this.validTo);
@@ -23400,6 +23434,7 @@ class ItemPricingRuleData extends DataClass
 class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
   final Value<int> tenantId;
   final Value<int> id;
+  final Value<int> priority;
   final Value<String> itemId;
   final Value<String> itemCode;
   final Value<String> priceList;
@@ -23418,12 +23453,14 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
   final Value<String> title;
   final Value<String> ruleName;
   final Value<bool> isActive;
+  final Value<bool> isDeleted;
   final Value<bool> isDiscountEnable;
   final Value<DateTime> validFrom;
   final Value<DateTime> validTo;
   const ItemPricingRuleCompanion({
     this.tenantId = const Value.absent(),
     this.id = const Value.absent(),
+    this.priority = const Value.absent(),
     this.itemId = const Value.absent(),
     this.itemCode = const Value.absent(),
     this.priceList = const Value.absent(),
@@ -23442,6 +23479,7 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
     this.title = const Value.absent(),
     this.ruleName = const Value.absent(),
     this.isActive = const Value.absent(),
+    this.isDeleted = const Value.absent(),
     this.isDiscountEnable = const Value.absent(),
     this.validFrom = const Value.absent(),
     this.validTo = const Value.absent(),
@@ -23449,6 +23487,7 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
   ItemPricingRuleCompanion.insert({
     this.tenantId = const Value.absent(),
     this.id = const Value.absent(),
+    @required int priority,
     this.itemId = const Value.absent(),
     this.itemCode = const Value.absent(),
     this.priceList = const Value.absent(),
@@ -23467,16 +23506,19 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
     this.title = const Value.absent(),
     this.ruleName = const Value.absent(),
     this.isActive = const Value.absent(),
+    this.isDeleted = const Value.absent(),
     this.isDiscountEnable = const Value.absent(),
     this.validFrom = const Value.absent(),
     this.validTo = const Value.absent(),
-  })  : minQuantity = Value(minQuantity),
+  })  : priority = Value(priority),
+        minQuantity = Value(minQuantity),
         maxQuantity = Value(maxQuantity),
         price = Value(price),
         discountPercentage = Value(discountPercentage);
   static Insertable<ItemPricingRuleData> custom({
     Expression<int> tenantId,
     Expression<int> id,
+    Expression<int> priority,
     Expression<String> itemId,
     Expression<String> itemCode,
     Expression<String> priceList,
@@ -23495,6 +23537,7 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
     Expression<String> title,
     Expression<String> ruleName,
     Expression<bool> isActive,
+    Expression<bool> isDeleted,
     Expression<bool> isDiscountEnable,
     Expression<DateTime> validFrom,
     Expression<DateTime> validTo,
@@ -23502,6 +23545,7 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
       if (id != null) 'id': id,
+      if (priority != null) 'priority': priority,
       if (itemId != null) 'item_id': itemId,
       if (itemCode != null) 'item_code': itemCode,
       if (priceList != null) 'price_list': priceList,
@@ -23520,6 +23564,7 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
       if (title != null) 'title': title,
       if (ruleName != null) 'rule_name': ruleName,
       if (isActive != null) 'is_active': isActive,
+      if (isDeleted != null) 'is_deleted': isDeleted,
       if (isDiscountEnable != null) 'is_discount_enable': isDiscountEnable,
       if (validFrom != null) 'valid_from': validFrom,
       if (validTo != null) 'valid_to': validTo,
@@ -23529,6 +23574,7 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
   ItemPricingRuleCompanion copyWith(
       {Value<int> tenantId,
       Value<int> id,
+      Value<int> priority,
       Value<String> itemId,
       Value<String> itemCode,
       Value<String> priceList,
@@ -23547,12 +23593,14 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
       Value<String> title,
       Value<String> ruleName,
       Value<bool> isActive,
+      Value<bool> isDeleted,
       Value<bool> isDiscountEnable,
       Value<DateTime> validFrom,
       Value<DateTime> validTo}) {
     return ItemPricingRuleCompanion(
       tenantId: tenantId ?? this.tenantId,
       id: id ?? this.id,
+      priority: priority ?? this.priority,
       itemId: itemId ?? this.itemId,
       itemCode: itemCode ?? this.itemCode,
       priceList: priceList ?? this.priceList,
@@ -23571,6 +23619,7 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
       title: title ?? this.title,
       ruleName: ruleName ?? this.ruleName,
       isActive: isActive ?? this.isActive,
+      isDeleted: isDeleted ?? this.isDeleted,
       isDiscountEnable: isDiscountEnable ?? this.isDiscountEnable,
       validFrom: validFrom ?? this.validFrom,
       validTo: validTo ?? this.validTo,
@@ -23585,6 +23634,9 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
+    }
+    if (priority.present) {
+      map['priority'] = Variable<int>(priority.value);
     }
     if (itemId.present) {
       map['item_id'] = Variable<String>(itemId.value);
@@ -23640,6 +23692,9 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
     if (isActive.present) {
       map['is_active'] = Variable<bool>(isActive.value);
     }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
     if (isDiscountEnable.present) {
       map['is_discount_enable'] = Variable<bool>(isDiscountEnable.value);
     }
@@ -23657,6 +23712,7 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
     return (StringBuffer('ItemPricingRuleCompanion(')
           ..write('tenantId: $tenantId, ')
           ..write('id: $id, ')
+          ..write('priority: $priority, ')
           ..write('itemId: $itemId, ')
           ..write('itemCode: $itemCode, ')
           ..write('priceList: $priceList, ')
@@ -23675,6 +23731,7 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
           ..write('title: $title, ')
           ..write('ruleName: $ruleName, ')
           ..write('isActive: $isActive, ')
+          ..write('isDeleted: $isDeleted, ')
           ..write('isDiscountEnable: $isDiscountEnable, ')
           ..write('validFrom: $validFrom, ')
           ..write('validTo: $validTo')
@@ -23707,6 +23764,18 @@ class $ItemPricingRuleTable extends ItemPricingRule
   GeneratedIntColumn _constructId() {
     return GeneratedIntColumn(
       'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _priorityMeta = const VerificationMeta('priority');
+  GeneratedIntColumn _priority;
+  @override
+  GeneratedIntColumn get priority => _priority ??= _constructPriority();
+  GeneratedIntColumn _constructPriority() {
+    return GeneratedIntColumn(
+      'priority',
       $tableName,
       false,
     );
@@ -23937,6 +24006,15 @@ class $ItemPricingRuleTable extends ItemPricingRule
         defaultValue: Constant(false));
   }
 
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  GeneratedBoolColumn _isDeleted;
+  @override
+  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
+  GeneratedBoolColumn _constructIsDeleted() {
+    return GeneratedBoolColumn('is_deleted', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
   final VerificationMeta _isDiscountEnableMeta =
       const VerificationMeta('isDiscountEnable');
   GeneratedBoolColumn _isDiscountEnable;
@@ -23976,6 +24054,7 @@ class $ItemPricingRuleTable extends ItemPricingRule
   List<GeneratedColumn> get $columns => [
         tenantId,
         id,
+        priority,
         itemId,
         itemCode,
         priceList,
@@ -23994,6 +24073,7 @@ class $ItemPricingRuleTable extends ItemPricingRule
         title,
         ruleName,
         isActive,
+        isDeleted,
         isDiscountEnable,
         validFrom,
         validTo
@@ -24016,6 +24096,12 @@ class $ItemPricingRuleTable extends ItemPricingRule
     }
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('priority')) {
+      context.handle(_priorityMeta,
+          priority.isAcceptableOrUnknown(data['priority'], _priorityMeta));
+    } else if (isInserting) {
+      context.missing(_priorityMeta);
     }
     if (data.containsKey('item_id')) {
       context.handle(_itemIdMeta,
@@ -24110,6 +24196,10 @@ class $ItemPricingRuleTable extends ItemPricingRule
     if (data.containsKey('is_active')) {
       context.handle(_isActiveMeta,
           isActive.isAcceptableOrUnknown(data['is_active'], _isActiveMeta));
+    }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
     }
     if (data.containsKey('is_discount_enable')) {
       context.handle(
@@ -31650,6 +31740,1092 @@ class $ClockInTable extends ClockIn with TableInfo<$ClockInTable, ClockInData> {
   }
 }
 
+class SystemCurrencyData extends DataClass
+    implements Insertable<SystemCurrencyData> {
+  final int tenantId;
+  final int id;
+  final String currencyName;
+  final String fraction;
+  final String numberFormat;
+  final String symbol;
+  final double smallestCurrencyFractionValue;
+  final DateTime effectiveDate;
+  final bool isActive;
+  final bool isDeleted;
+  SystemCurrencyData(
+      {this.tenantId,
+      @required this.id,
+      this.currencyName,
+      this.fraction,
+      this.numberFormat,
+      this.symbol,
+      this.smallestCurrencyFractionValue,
+      @required this.effectiveDate,
+      @required this.isActive,
+      @required this.isDeleted});
+  factory SystemCurrencyData.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final doubleType = db.typeSystem.forDartType<double>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    return SystemCurrencyData(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      currencyName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}currency_name']),
+      fraction: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}fraction']),
+      numberFormat: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}number_format']),
+      symbol:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}symbol']),
+      smallestCurrencyFractionValue: doubleType.mapFromDatabaseResponse(
+          data['${effectivePrefix}smallest_currency_fraction_value']),
+      effectiveDate: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}effective_date']),
+      isActive:
+          boolType.mapFromDatabaseResponse(data['${effectivePrefix}is_active']),
+      isDeleted: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || currencyName != null) {
+      map['currency_name'] = Variable<String>(currencyName);
+    }
+    if (!nullToAbsent || fraction != null) {
+      map['fraction'] = Variable<String>(fraction);
+    }
+    if (!nullToAbsent || numberFormat != null) {
+      map['number_format'] = Variable<String>(numberFormat);
+    }
+    if (!nullToAbsent || symbol != null) {
+      map['symbol'] = Variable<String>(symbol);
+    }
+    if (!nullToAbsent || smallestCurrencyFractionValue != null) {
+      map['smallest_currency_fraction_value'] =
+          Variable<double>(smallestCurrencyFractionValue);
+    }
+    if (!nullToAbsent || effectiveDate != null) {
+      map['effective_date'] = Variable<DateTime>(effectiveDate);
+    }
+    if (!nullToAbsent || isActive != null) {
+      map['is_active'] = Variable<bool>(isActive);
+    }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
+    return map;
+  }
+
+  SystemCurrencyCompanion toCompanion(bool nullToAbsent) {
+    return SystemCurrencyCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      currencyName: currencyName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(currencyName),
+      fraction: fraction == null && nullToAbsent
+          ? const Value.absent()
+          : Value(fraction),
+      numberFormat: numberFormat == null && nullToAbsent
+          ? const Value.absent()
+          : Value(numberFormat),
+      symbol:
+          symbol == null && nullToAbsent ? const Value.absent() : Value(symbol),
+      smallestCurrencyFractionValue:
+          smallestCurrencyFractionValue == null && nullToAbsent
+              ? const Value.absent()
+              : Value(smallestCurrencyFractionValue),
+      effectiveDate: effectiveDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(effectiveDate),
+      isActive: isActive == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isActive),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
+    );
+  }
+
+  factory SystemCurrencyData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return SystemCurrencyData(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      id: serializer.fromJson<int>(json['id']),
+      currencyName: serializer.fromJson<String>(json['currencyName']),
+      fraction: serializer.fromJson<String>(json['fraction']),
+      numberFormat: serializer.fromJson<String>(json['numberFormat']),
+      symbol: serializer.fromJson<String>(json['symbol']),
+      smallestCurrencyFractionValue:
+          serializer.fromJson<double>(json['smallestCurrencyFractionValue']),
+      effectiveDate: serializer.fromJson<DateTime>(json['effectiveDate']),
+      isActive: serializer.fromJson<bool>(json['isActive']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'id': serializer.toJson<int>(id),
+      'currencyName': serializer.toJson<String>(currencyName),
+      'fraction': serializer.toJson<String>(fraction),
+      'numberFormat': serializer.toJson<String>(numberFormat),
+      'symbol': serializer.toJson<String>(symbol),
+      'smallestCurrencyFractionValue':
+          serializer.toJson<double>(smallestCurrencyFractionValue),
+      'effectiveDate': serializer.toJson<DateTime>(effectiveDate),
+      'isActive': serializer.toJson<bool>(isActive),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+    };
+  }
+
+  SystemCurrencyData copyWith(
+          {int tenantId,
+          int id,
+          String currencyName,
+          String fraction,
+          String numberFormat,
+          String symbol,
+          double smallestCurrencyFractionValue,
+          DateTime effectiveDate,
+          bool isActive,
+          bool isDeleted}) =>
+      SystemCurrencyData(
+        tenantId: tenantId ?? this.tenantId,
+        id: id ?? this.id,
+        currencyName: currencyName ?? this.currencyName,
+        fraction: fraction ?? this.fraction,
+        numberFormat: numberFormat ?? this.numberFormat,
+        symbol: symbol ?? this.symbol,
+        smallestCurrencyFractionValue:
+            smallestCurrencyFractionValue ?? this.smallestCurrencyFractionValue,
+        effectiveDate: effectiveDate ?? this.effectiveDate,
+        isActive: isActive ?? this.isActive,
+        isDeleted: isDeleted ?? this.isDeleted,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('SystemCurrencyData(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('currencyName: $currencyName, ')
+          ..write('fraction: $fraction, ')
+          ..write('numberFormat: $numberFormat, ')
+          ..write('symbol: $symbol, ')
+          ..write(
+              'smallestCurrencyFractionValue: $smallestCurrencyFractionValue, ')
+          ..write('effectiveDate: $effectiveDate, ')
+          ..write('isActive: $isActive, ')
+          ..write('isDeleted: $isDeleted')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode,
+      $mrjc(
+          id.hashCode,
+          $mrjc(
+              currencyName.hashCode,
+              $mrjc(
+                  fraction.hashCode,
+                  $mrjc(
+                      numberFormat.hashCode,
+                      $mrjc(
+                          symbol.hashCode,
+                          $mrjc(
+                              smallestCurrencyFractionValue.hashCode,
+                              $mrjc(
+                                  effectiveDate.hashCode,
+                                  $mrjc(isActive.hashCode,
+                                      isDeleted.hashCode))))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is SystemCurrencyData &&
+          other.tenantId == this.tenantId &&
+          other.id == this.id &&
+          other.currencyName == this.currencyName &&
+          other.fraction == this.fraction &&
+          other.numberFormat == this.numberFormat &&
+          other.symbol == this.symbol &&
+          other.smallestCurrencyFractionValue ==
+              this.smallestCurrencyFractionValue &&
+          other.effectiveDate == this.effectiveDate &&
+          other.isActive == this.isActive &&
+          other.isDeleted == this.isDeleted);
+}
+
+class SystemCurrencyCompanion extends UpdateCompanion<SystemCurrencyData> {
+  final Value<int> tenantId;
+  final Value<int> id;
+  final Value<String> currencyName;
+  final Value<String> fraction;
+  final Value<String> numberFormat;
+  final Value<String> symbol;
+  final Value<double> smallestCurrencyFractionValue;
+  final Value<DateTime> effectiveDate;
+  final Value<bool> isActive;
+  final Value<bool> isDeleted;
+  const SystemCurrencyCompanion({
+    this.tenantId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.currencyName = const Value.absent(),
+    this.fraction = const Value.absent(),
+    this.numberFormat = const Value.absent(),
+    this.symbol = const Value.absent(),
+    this.smallestCurrencyFractionValue = const Value.absent(),
+    this.effectiveDate = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+  });
+  SystemCurrencyCompanion.insert({
+    this.tenantId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.currencyName = const Value.absent(),
+    this.fraction = const Value.absent(),
+    this.numberFormat = const Value.absent(),
+    this.symbol = const Value.absent(),
+    this.smallestCurrencyFractionValue = const Value.absent(),
+    @required DateTime effectiveDate,
+    this.isActive = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+  }) : effectiveDate = Value(effectiveDate);
+  static Insertable<SystemCurrencyData> custom({
+    Expression<int> tenantId,
+    Expression<int> id,
+    Expression<String> currencyName,
+    Expression<String> fraction,
+    Expression<String> numberFormat,
+    Expression<String> symbol,
+    Expression<double> smallestCurrencyFractionValue,
+    Expression<DateTime> effectiveDate,
+    Expression<bool> isActive,
+    Expression<bool> isDeleted,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (id != null) 'id': id,
+      if (currencyName != null) 'currency_name': currencyName,
+      if (fraction != null) 'fraction': fraction,
+      if (numberFormat != null) 'number_format': numberFormat,
+      if (symbol != null) 'symbol': symbol,
+      if (smallestCurrencyFractionValue != null)
+        'smallest_currency_fraction_value': smallestCurrencyFractionValue,
+      if (effectiveDate != null) 'effective_date': effectiveDate,
+      if (isActive != null) 'is_active': isActive,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+    });
+  }
+
+  SystemCurrencyCompanion copyWith(
+      {Value<int> tenantId,
+      Value<int> id,
+      Value<String> currencyName,
+      Value<String> fraction,
+      Value<String> numberFormat,
+      Value<String> symbol,
+      Value<double> smallestCurrencyFractionValue,
+      Value<DateTime> effectiveDate,
+      Value<bool> isActive,
+      Value<bool> isDeleted}) {
+    return SystemCurrencyCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      id: id ?? this.id,
+      currencyName: currencyName ?? this.currencyName,
+      fraction: fraction ?? this.fraction,
+      numberFormat: numberFormat ?? this.numberFormat,
+      symbol: symbol ?? this.symbol,
+      smallestCurrencyFractionValue:
+          smallestCurrencyFractionValue ?? this.smallestCurrencyFractionValue,
+      effectiveDate: effectiveDate ?? this.effectiveDate,
+      isActive: isActive ?? this.isActive,
+      isDeleted: isDeleted ?? this.isDeleted,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (currencyName.present) {
+      map['currency_name'] = Variable<String>(currencyName.value);
+    }
+    if (fraction.present) {
+      map['fraction'] = Variable<String>(fraction.value);
+    }
+    if (numberFormat.present) {
+      map['number_format'] = Variable<String>(numberFormat.value);
+    }
+    if (symbol.present) {
+      map['symbol'] = Variable<String>(symbol.value);
+    }
+    if (smallestCurrencyFractionValue.present) {
+      map['smallest_currency_fraction_value'] =
+          Variable<double>(smallestCurrencyFractionValue.value);
+    }
+    if (effectiveDate.present) {
+      map['effective_date'] = Variable<DateTime>(effectiveDate.value);
+    }
+    if (isActive.present) {
+      map['is_active'] = Variable<bool>(isActive.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SystemCurrencyCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('currencyName: $currencyName, ')
+          ..write('fraction: $fraction, ')
+          ..write('numberFormat: $numberFormat, ')
+          ..write('symbol: $symbol, ')
+          ..write(
+              'smallestCurrencyFractionValue: $smallestCurrencyFractionValue, ')
+          ..write('effectiveDate: $effectiveDate, ')
+          ..write('isActive: $isActive, ')
+          ..write('isDeleted: $isDeleted')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $SystemCurrencyTable extends SystemCurrency
+    with TableInfo<$SystemCurrencyTable, SystemCurrencyData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $SystemCurrencyTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn('id', $tableName, false,
+        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+  }
+
+  final VerificationMeta _currencyNameMeta =
+      const VerificationMeta('currencyName');
+  GeneratedTextColumn _currencyName;
+  @override
+  GeneratedTextColumn get currencyName =>
+      _currencyName ??= _constructCurrencyName();
+  GeneratedTextColumn _constructCurrencyName() {
+    return GeneratedTextColumn(
+      'currency_name',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _fractionMeta = const VerificationMeta('fraction');
+  GeneratedTextColumn _fraction;
+  @override
+  GeneratedTextColumn get fraction => _fraction ??= _constructFraction();
+  GeneratedTextColumn _constructFraction() {
+    return GeneratedTextColumn(
+      'fraction',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _numberFormatMeta =
+      const VerificationMeta('numberFormat');
+  GeneratedTextColumn _numberFormat;
+  @override
+  GeneratedTextColumn get numberFormat =>
+      _numberFormat ??= _constructNumberFormat();
+  GeneratedTextColumn _constructNumberFormat() {
+    return GeneratedTextColumn(
+      'number_format',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _symbolMeta = const VerificationMeta('symbol');
+  GeneratedTextColumn _symbol;
+  @override
+  GeneratedTextColumn get symbol => _symbol ??= _constructSymbol();
+  GeneratedTextColumn _constructSymbol() {
+    return GeneratedTextColumn(
+      'symbol',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _smallestCurrencyFractionValueMeta =
+      const VerificationMeta('smallestCurrencyFractionValue');
+  GeneratedRealColumn _smallestCurrencyFractionValue;
+  @override
+  GeneratedRealColumn get smallestCurrencyFractionValue =>
+      _smallestCurrencyFractionValue ??=
+          _constructSmallestCurrencyFractionValue();
+  GeneratedRealColumn _constructSmallestCurrencyFractionValue() {
+    return GeneratedRealColumn(
+      'smallest_currency_fraction_value',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _effectiveDateMeta =
+      const VerificationMeta('effectiveDate');
+  GeneratedDateTimeColumn _effectiveDate;
+  @override
+  GeneratedDateTimeColumn get effectiveDate =>
+      _effectiveDate ??= _constructEffectiveDate();
+  GeneratedDateTimeColumn _constructEffectiveDate() {
+    return GeneratedDateTimeColumn(
+      'effective_date',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _isActiveMeta = const VerificationMeta('isActive');
+  GeneratedBoolColumn _isActive;
+  @override
+  GeneratedBoolColumn get isActive => _isActive ??= _constructIsActive();
+  GeneratedBoolColumn _constructIsActive() {
+    return GeneratedBoolColumn('is_active', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  GeneratedBoolColumn _isDeleted;
+  @override
+  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
+  GeneratedBoolColumn _constructIsDeleted() {
+    return GeneratedBoolColumn('is_deleted', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        tenantId,
+        id,
+        currencyName,
+        fraction,
+        numberFormat,
+        symbol,
+        smallestCurrencyFractionValue,
+        effectiveDate,
+        isActive,
+        isDeleted
+      ];
+  @override
+  $SystemCurrencyTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'system_currency';
+  @override
+  final String actualTableName = 'system_currency';
+  @override
+  VerificationContext validateIntegrity(Insertable<SystemCurrencyData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('currency_name')) {
+      context.handle(
+          _currencyNameMeta,
+          currencyName.isAcceptableOrUnknown(
+              data['currency_name'], _currencyNameMeta));
+    }
+    if (data.containsKey('fraction')) {
+      context.handle(_fractionMeta,
+          fraction.isAcceptableOrUnknown(data['fraction'], _fractionMeta));
+    }
+    if (data.containsKey('number_format')) {
+      context.handle(
+          _numberFormatMeta,
+          numberFormat.isAcceptableOrUnknown(
+              data['number_format'], _numberFormatMeta));
+    }
+    if (data.containsKey('symbol')) {
+      context.handle(_symbolMeta,
+          symbol.isAcceptableOrUnknown(data['symbol'], _symbolMeta));
+    }
+    if (data.containsKey('smallest_currency_fraction_value')) {
+      context.handle(
+          _smallestCurrencyFractionValueMeta,
+          smallestCurrencyFractionValue.isAcceptableOrUnknown(
+              data['smallest_currency_fraction_value'],
+              _smallestCurrencyFractionValueMeta));
+    }
+    if (data.containsKey('effective_date')) {
+      context.handle(
+          _effectiveDateMeta,
+          effectiveDate.isAcceptableOrUnknown(
+              data['effective_date'], _effectiveDateMeta));
+    } else if (isInserting) {
+      context.missing(_effectiveDateMeta);
+    }
+    if (data.containsKey('is_active')) {
+      context.handle(_isActiveMeta,
+          isActive.isAcceptableOrUnknown(data['is_active'], _isActiveMeta));
+    }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  SystemCurrencyData map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return SystemCurrencyData.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $SystemCurrencyTable createAlias(String alias) {
+    return $SystemCurrencyTable(_db, alias);
+  }
+}
+
+class ExchangeRateData extends DataClass
+    implements Insertable<ExchangeRateData> {
+  final int tenantId;
+  final int id;
+  final String toCurrency;
+  final String fromCurrency;
+  final double exchangeRate;
+  final DateTime effectiveDate;
+  final bool isActive;
+  final bool isDeleted;
+  ExchangeRateData(
+      {this.tenantId,
+      @required this.id,
+      this.toCurrency,
+      this.fromCurrency,
+      this.exchangeRate,
+      @required this.effectiveDate,
+      @required this.isActive,
+      @required this.isDeleted});
+  factory ExchangeRateData.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final doubleType = db.typeSystem.forDartType<double>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    return ExchangeRateData(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      toCurrency: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}to_currency']),
+      fromCurrency: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}from_currency']),
+      exchangeRate: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}exchange_rate']),
+      effectiveDate: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}effective_date']),
+      isActive:
+          boolType.mapFromDatabaseResponse(data['${effectivePrefix}is_active']),
+      isDeleted: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || toCurrency != null) {
+      map['to_currency'] = Variable<String>(toCurrency);
+    }
+    if (!nullToAbsent || fromCurrency != null) {
+      map['from_currency'] = Variable<String>(fromCurrency);
+    }
+    if (!nullToAbsent || exchangeRate != null) {
+      map['exchange_rate'] = Variable<double>(exchangeRate);
+    }
+    if (!nullToAbsent || effectiveDate != null) {
+      map['effective_date'] = Variable<DateTime>(effectiveDate);
+    }
+    if (!nullToAbsent || isActive != null) {
+      map['is_active'] = Variable<bool>(isActive);
+    }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
+    return map;
+  }
+
+  ExchangeRateCompanion toCompanion(bool nullToAbsent) {
+    return ExchangeRateCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      toCurrency: toCurrency == null && nullToAbsent
+          ? const Value.absent()
+          : Value(toCurrency),
+      fromCurrency: fromCurrency == null && nullToAbsent
+          ? const Value.absent()
+          : Value(fromCurrency),
+      exchangeRate: exchangeRate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(exchangeRate),
+      effectiveDate: effectiveDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(effectiveDate),
+      isActive: isActive == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isActive),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
+    );
+  }
+
+  factory ExchangeRateData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return ExchangeRateData(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      id: serializer.fromJson<int>(json['id']),
+      toCurrency: serializer.fromJson<String>(json['toCurrency']),
+      fromCurrency: serializer.fromJson<String>(json['fromCurrency']),
+      exchangeRate: serializer.fromJson<double>(json['exchangeRate']),
+      effectiveDate: serializer.fromJson<DateTime>(json['effectiveDate']),
+      isActive: serializer.fromJson<bool>(json['isActive']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'id': serializer.toJson<int>(id),
+      'toCurrency': serializer.toJson<String>(toCurrency),
+      'fromCurrency': serializer.toJson<String>(fromCurrency),
+      'exchangeRate': serializer.toJson<double>(exchangeRate),
+      'effectiveDate': serializer.toJson<DateTime>(effectiveDate),
+      'isActive': serializer.toJson<bool>(isActive),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+    };
+  }
+
+  ExchangeRateData copyWith(
+          {int tenantId,
+          int id,
+          String toCurrency,
+          String fromCurrency,
+          double exchangeRate,
+          DateTime effectiveDate,
+          bool isActive,
+          bool isDeleted}) =>
+      ExchangeRateData(
+        tenantId: tenantId ?? this.tenantId,
+        id: id ?? this.id,
+        toCurrency: toCurrency ?? this.toCurrency,
+        fromCurrency: fromCurrency ?? this.fromCurrency,
+        exchangeRate: exchangeRate ?? this.exchangeRate,
+        effectiveDate: effectiveDate ?? this.effectiveDate,
+        isActive: isActive ?? this.isActive,
+        isDeleted: isDeleted ?? this.isDeleted,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('ExchangeRateData(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('toCurrency: $toCurrency, ')
+          ..write('fromCurrency: $fromCurrency, ')
+          ..write('exchangeRate: $exchangeRate, ')
+          ..write('effectiveDate: $effectiveDate, ')
+          ..write('isActive: $isActive, ')
+          ..write('isDeleted: $isDeleted')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode,
+      $mrjc(
+          id.hashCode,
+          $mrjc(
+              toCurrency.hashCode,
+              $mrjc(
+                  fromCurrency.hashCode,
+                  $mrjc(
+                      exchangeRate.hashCode,
+                      $mrjc(effectiveDate.hashCode,
+                          $mrjc(isActive.hashCode, isDeleted.hashCode))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is ExchangeRateData &&
+          other.tenantId == this.tenantId &&
+          other.id == this.id &&
+          other.toCurrency == this.toCurrency &&
+          other.fromCurrency == this.fromCurrency &&
+          other.exchangeRate == this.exchangeRate &&
+          other.effectiveDate == this.effectiveDate &&
+          other.isActive == this.isActive &&
+          other.isDeleted == this.isDeleted);
+}
+
+class ExchangeRateCompanion extends UpdateCompanion<ExchangeRateData> {
+  final Value<int> tenantId;
+  final Value<int> id;
+  final Value<String> toCurrency;
+  final Value<String> fromCurrency;
+  final Value<double> exchangeRate;
+  final Value<DateTime> effectiveDate;
+  final Value<bool> isActive;
+  final Value<bool> isDeleted;
+  const ExchangeRateCompanion({
+    this.tenantId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.toCurrency = const Value.absent(),
+    this.fromCurrency = const Value.absent(),
+    this.exchangeRate = const Value.absent(),
+    this.effectiveDate = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+  });
+  ExchangeRateCompanion.insert({
+    this.tenantId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.toCurrency = const Value.absent(),
+    this.fromCurrency = const Value.absent(),
+    this.exchangeRate = const Value.absent(),
+    @required DateTime effectiveDate,
+    this.isActive = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+  }) : effectiveDate = Value(effectiveDate);
+  static Insertable<ExchangeRateData> custom({
+    Expression<int> tenantId,
+    Expression<int> id,
+    Expression<String> toCurrency,
+    Expression<String> fromCurrency,
+    Expression<double> exchangeRate,
+    Expression<DateTime> effectiveDate,
+    Expression<bool> isActive,
+    Expression<bool> isDeleted,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (id != null) 'id': id,
+      if (toCurrency != null) 'to_currency': toCurrency,
+      if (fromCurrency != null) 'from_currency': fromCurrency,
+      if (exchangeRate != null) 'exchange_rate': exchangeRate,
+      if (effectiveDate != null) 'effective_date': effectiveDate,
+      if (isActive != null) 'is_active': isActive,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+    });
+  }
+
+  ExchangeRateCompanion copyWith(
+      {Value<int> tenantId,
+      Value<int> id,
+      Value<String> toCurrency,
+      Value<String> fromCurrency,
+      Value<double> exchangeRate,
+      Value<DateTime> effectiveDate,
+      Value<bool> isActive,
+      Value<bool> isDeleted}) {
+    return ExchangeRateCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      id: id ?? this.id,
+      toCurrency: toCurrency ?? this.toCurrency,
+      fromCurrency: fromCurrency ?? this.fromCurrency,
+      exchangeRate: exchangeRate ?? this.exchangeRate,
+      effectiveDate: effectiveDate ?? this.effectiveDate,
+      isActive: isActive ?? this.isActive,
+      isDeleted: isDeleted ?? this.isDeleted,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (toCurrency.present) {
+      map['to_currency'] = Variable<String>(toCurrency.value);
+    }
+    if (fromCurrency.present) {
+      map['from_currency'] = Variable<String>(fromCurrency.value);
+    }
+    if (exchangeRate.present) {
+      map['exchange_rate'] = Variable<double>(exchangeRate.value);
+    }
+    if (effectiveDate.present) {
+      map['effective_date'] = Variable<DateTime>(effectiveDate.value);
+    }
+    if (isActive.present) {
+      map['is_active'] = Variable<bool>(isActive.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ExchangeRateCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('toCurrency: $toCurrency, ')
+          ..write('fromCurrency: $fromCurrency, ')
+          ..write('exchangeRate: $exchangeRate, ')
+          ..write('effectiveDate: $effectiveDate, ')
+          ..write('isActive: $isActive, ')
+          ..write('isDeleted: $isDeleted')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ExchangeRateTable extends ExchangeRate
+    with TableInfo<$ExchangeRateTable, ExchangeRateData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $ExchangeRateTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn('id', $tableName, false,
+        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+  }
+
+  final VerificationMeta _toCurrencyMeta = const VerificationMeta('toCurrency');
+  GeneratedTextColumn _toCurrency;
+  @override
+  GeneratedTextColumn get toCurrency => _toCurrency ??= _constructToCurrency();
+  GeneratedTextColumn _constructToCurrency() {
+    return GeneratedTextColumn(
+      'to_currency',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _fromCurrencyMeta =
+      const VerificationMeta('fromCurrency');
+  GeneratedTextColumn _fromCurrency;
+  @override
+  GeneratedTextColumn get fromCurrency =>
+      _fromCurrency ??= _constructFromCurrency();
+  GeneratedTextColumn _constructFromCurrency() {
+    return GeneratedTextColumn(
+      'from_currency',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _exchangeRateMeta =
+      const VerificationMeta('exchangeRate');
+  GeneratedRealColumn _exchangeRate;
+  @override
+  GeneratedRealColumn get exchangeRate =>
+      _exchangeRate ??= _constructExchangeRate();
+  GeneratedRealColumn _constructExchangeRate() {
+    return GeneratedRealColumn(
+      'exchange_rate',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _effectiveDateMeta =
+      const VerificationMeta('effectiveDate');
+  GeneratedDateTimeColumn _effectiveDate;
+  @override
+  GeneratedDateTimeColumn get effectiveDate =>
+      _effectiveDate ??= _constructEffectiveDate();
+  GeneratedDateTimeColumn _constructEffectiveDate() {
+    return GeneratedDateTimeColumn(
+      'effective_date',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _isActiveMeta = const VerificationMeta('isActive');
+  GeneratedBoolColumn _isActive;
+  @override
+  GeneratedBoolColumn get isActive => _isActive ??= _constructIsActive();
+  GeneratedBoolColumn _constructIsActive() {
+    return GeneratedBoolColumn('is_active', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  GeneratedBoolColumn _isDeleted;
+  @override
+  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
+  GeneratedBoolColumn _constructIsDeleted() {
+    return GeneratedBoolColumn('is_deleted', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        tenantId,
+        id,
+        toCurrency,
+        fromCurrency,
+        exchangeRate,
+        effectiveDate,
+        isActive,
+        isDeleted
+      ];
+  @override
+  $ExchangeRateTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'exchange_rate';
+  @override
+  final String actualTableName = 'exchange_rate';
+  @override
+  VerificationContext validateIntegrity(Insertable<ExchangeRateData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('to_currency')) {
+      context.handle(
+          _toCurrencyMeta,
+          toCurrency.isAcceptableOrUnknown(
+              data['to_currency'], _toCurrencyMeta));
+    }
+    if (data.containsKey('from_currency')) {
+      context.handle(
+          _fromCurrencyMeta,
+          fromCurrency.isAcceptableOrUnknown(
+              data['from_currency'], _fromCurrencyMeta));
+    }
+    if (data.containsKey('exchange_rate')) {
+      context.handle(
+          _exchangeRateMeta,
+          exchangeRate.isAcceptableOrUnknown(
+              data['exchange_rate'], _exchangeRateMeta));
+    }
+    if (data.containsKey('effective_date')) {
+      context.handle(
+          _effectiveDateMeta,
+          effectiveDate.isAcceptableOrUnknown(
+              data['effective_date'], _effectiveDateMeta));
+    } else if (isInserting) {
+      context.missing(_effectiveDateMeta);
+    }
+    if (data.containsKey('is_active')) {
+      context.handle(_isActiveMeta,
+          isActive.isAcceptableOrUnknown(data['is_active'], _isActiveMeta));
+    }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ExchangeRateData map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return ExchangeRateData.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $ExchangeRateTable createAlias(String alias) {
+    return $ExchangeRateTable(_db, alias);
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $UsersTable _users;
@@ -31741,6 +32917,12 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       _moneyDeposit ??= $MoneyDepositTable(this);
   $ClockInTable _clockIn;
   $ClockInTable get clockIn => _clockIn ??= $ClockInTable(this);
+  $SystemCurrencyTable _systemCurrency;
+  $SystemCurrencyTable get systemCurrency =>
+      _systemCurrency ??= $SystemCurrencyTable(this);
+  $ExchangeRateTable _exchangeRate;
+  $ExchangeRateTable get exchangeRate =>
+      _exchangeRate ??= $ExchangeRateTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
@@ -31779,6 +32961,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         inventoryItems,
         inventoryTransaction,
         moneyDeposit,
-        clockIn
+        clockIn,
+        systemCurrency,
+        exchangeRate
       ];
 }

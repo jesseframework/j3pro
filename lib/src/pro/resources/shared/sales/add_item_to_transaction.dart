@@ -275,7 +275,7 @@ class AddItemToTransaction {
             userId: moor.Value(userId),
             userName: moor.Value(currency),
             itemCode: moor.Value(itemCode),
-            itemGroup: moor.Value(itemGroup),
+            itemGroup: moor.Value(itemGroup),            
             itemId: moor.Value(itemId),
             description: moor.Value(itemDescription),
             quantity: moor.Value(quantity),

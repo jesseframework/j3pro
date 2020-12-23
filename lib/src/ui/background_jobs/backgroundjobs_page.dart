@@ -221,6 +221,7 @@ class _BackgroundJobs extends State<BackgroundJobs> {
                 'Item Pricing Rule',
                 'Unit Of Measure',
                 'UPC Code',
+                'Sales Tax',
                 'Item All'
               ],
             ),

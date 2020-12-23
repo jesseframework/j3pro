@@ -90,6 +90,15 @@ abstract class RestApiService extends ChopperService {
   @Get(path: '/services/app/Item/GetAll?MaxResultCount=30000')
   Future<Response> getAllItems();
 
+  @Get(path: '/services/app/SalesTax/GetAll?MaxResultCount=30000')
+  Future<Response> getAllIsalestax();
+
+   @Get(path: '/services/app/Currency/GetAll?MaxResultCount=30000')
+  Future<Response> getAllCurrency();
+
+   @Get(path: '/services/app/ExchangeRate/GetAll?MaxResultCount=30000')
+  Future<Response> getAllExchangeRate();
+
   @Get(path: '/services/app/Item/Get?MaxResultCount=30000')
   Future<Response> getItemById();
 

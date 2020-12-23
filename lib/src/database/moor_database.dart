@@ -32,6 +32,8 @@ import 'package:j3enterprise/src/models/non_global_preference_setting.dart';
 import 'package:j3enterprise/src/models/preference_model.dart';
 import 'package:j3enterprise/src/models/tenant_model.dart';
 import 'package:j3enterprise/src/models/user_model.dart';
+import 'package:j3enterprise/src/pro/models/account/currency/currency_model.dart';
+import 'package:j3enterprise/src/pro/models/account/exchange_rate/exchange_rate_model.dart';
 import 'package:j3enterprise/src/pro/models/account/sales_tax/sales_tax_model.dart';
 import 'package:j3enterprise/src/pro/models/clock/clock_in_model.dart';
 import 'package:j3enterprise/src/pro/models/clock/money_deposit_model.dart';
@@ -98,7 +100,10 @@ part 'moor_database.g.dart';
   InventoryItems,
   InventoryTransaction,
   MoneyDeposit,
-  ClockIn
+  ClockIn,
+  SystemCurrency,
+  ExchangeRate
+  
 ])
 class AppDatabase extends _$AppDatabase {
   static AppDatabase _db = _constructDb();

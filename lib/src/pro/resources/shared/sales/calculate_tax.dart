@@ -55,7 +55,9 @@ class CalculateTax {
         lineTaxTotal = taxRate / 100 * lineSubTotal;
 
         var tax = new SalesOrderDetailTempCompanion(
-            taxTotal: moor.Value(lineTaxTotal), taxGroup: moor.Value(taxGroup));
+            taxTotal: moor.Value(lineTaxTotal),
+            taxGroup: moor.Value(taxGroup),
+            taxIndicator: moor.Value(taxIndicator));
 
         await salesOrderDetailTempDao.updateLineTax(
             tax, transactionNumber, transactionStatus, itemId, salesUom);

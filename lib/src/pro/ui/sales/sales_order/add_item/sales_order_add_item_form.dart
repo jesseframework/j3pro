@@ -477,7 +477,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                   buildGrandTotalListTile(
                       'Item Count:',
                       totalData.isNotEmpty
-                          ? '\$ ${totalData[0].itemCount.toString()}'
+                          ? '\ ${totalData[0].itemCount.toString()}'
                           : '\$0'),
                   buildGrandTotalListTile(
                       'Grand Total:',
@@ -959,6 +959,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                           style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w600,
+                                            color: Colors.red
                                           ),
                                         ),
                                       ],
