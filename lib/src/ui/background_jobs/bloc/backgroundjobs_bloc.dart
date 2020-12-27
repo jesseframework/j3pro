@@ -25,6 +25,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
 import 'package:j3enterprise/src/database/crud/desktop/desktop_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/pro/resources/repositories/account/currency/currency_repositories.dart';
+import 'package:j3enterprise/src/pro/resources/repositories/account/exchnage_rate/exchange_rate.repositories.dart';
 import 'package:j3enterprise/src/pro/resources/repositories/account/sales_tax/sales_tax_repositories.dart';
 import 'package:j3enterprise/src/pro/resources/repositories/customer/address_repositories.dart';
 import 'package:j3enterprise/src/pro/resources/repositories/customer/contacts_repositories.dart';
@@ -33,6 +35,7 @@ import 'package:j3enterprise/src/pro/resources/repositories/items/item_price_rep
 import 'package:j3enterprise/src/pro/resources/repositories/items/items_master_repositories.dart';
 import 'package:j3enterprise/src/pro/resources/repositories/items/pricing_rule_repositories.dart';
 import 'package:j3enterprise/src/pro/resources/repositories/sales/fullfillment/journey_plan_repositories.dart';
+import 'package:j3enterprise/src/pro/utils/gps_location.dart';
 import 'package:j3enterprise/src/resources/repositories/applogger_repositiry.dart';
 import 'package:j3enterprise/src/resources/repositories/business_rule_repositiry.dart';
 import 'package:j3enterprise/src/resources/repositories/mobile_desktop_repositiry.dart';
@@ -67,6 +70,10 @@ class BackgroundJobsBloc
   ItemPriceRepository itemPriceRepository;
   PricingRuleRepository pricingRuleRepository;
   SalesTaxRepository salesTaxRepository;
+  CurrencyRepository currencyRepository;
+  ExchangeRateRepository exchangeRateRepository;
+  GeoLocation geoLocation;
+
   DesktopDao desktopDao;
   UpdateBackgroundJobStatus updateBackgroundJobStatus;
   BackgroundJobsBloc() {
@@ -83,7 +90,10 @@ class BackgroundJobsBloc
     itemPriceRepository = new ItemPriceRepository();
     salesTaxRepository = new SalesTaxRepository();
     pricingRuleRepository = new PricingRuleRepository();
+    currencyRepository = new CurrencyRepository();
+    exchangeRateRepository = new ExchangeRateRepository();
     updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
+    geoLocation = new GeoLocation();
     backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
     desktopDao = new DesktopDao(db);
     scheduler = new Scheduler();
@@ -247,6 +257,25 @@ class BackgroundJobsBloc
               (Timer timer) async => await pricingRuleRepository
                   .getPricingRuleFromServer(event.jobname));
         }
+        if (event.jobname == "Items All") {
+          scheduler.scheduleJobs(
+              event.syncFrequency,
+              event.jobname,
+              (Timer timer) async => await itemMasterRepository
+                  .getItemMasterFromServer(event.jobname));
+
+          scheduler.scheduleJobs(
+              event.syncFrequency,
+              event.jobname,
+              (Timer timer) async => await itemPriceRepository
+                  .getItemPriceFromServer(event.jobname));
+
+          scheduler.scheduleJobs(
+              event.syncFrequency,
+              event.jobname,
+              (Timer timer) async => await pricingRuleRepository
+                  .getPricingRuleFromServer(event.jobname));
+        }
 
         if (event.jobname == "Sales Tax") {
           scheduler.scheduleJobs(
@@ -254,6 +283,34 @@ class BackgroundJobsBloc
               event.jobname,
               (Timer timer) async => await salesTaxRepository
                   .getSalesTaxFromServer(event.jobname));
+        }
+        if (event.jobname == "Currency") {
+          scheduler.scheduleJobs(
+              event.syncFrequency,
+              event.jobname,
+              (Timer timer) async => await currencyRepository
+                  .getCurrencyFromServer(event.jobname));
+        }
+        if (event.jobname == "Exchange Rate") {
+          scheduler.scheduleJobs(
+              event.syncFrequency,
+              event.jobname,
+              (Timer timer) async => await exchangeRateRepository
+                  .getExchnageRateFromServer(event.jobname));
+        }
+
+        if (event.jobname == "GPS Location Service") {
+          // scheduler.scheduleJobs(
+          //     event.syncFrequency,
+          //     event.jobname,
+          //     (Timer timer) async =>
+          //         await geoLocation.getUserLocation(event.jobname));
+
+          scheduler.scheduleJobs(
+              event.syncFrequency,
+              event.jobname,
+              (Timer timer) async =>
+                  await geoLocation.getDistance(event.jobname));
         }
 
         yield BackgroundJobsSuccess(userMessage: userMessage);

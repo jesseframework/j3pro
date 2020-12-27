@@ -5,6 +5,8 @@ import 'package:equatable/equatable.dart';
 import 'package:j3enterprise/src/database/crud/business_rule/business_rule_crud.dart';
 import 'package:j3enterprise/src/database/crud/business_rule/non_global_business_rule_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/pro/database/crud/account/currency/currency_crud.dart';
+import 'package:j3enterprise/src/pro/database/crud/account/exchange_rate/exchange_rate.dart';
 import 'package:j3enterprise/src/pro/database/crud/customer/customer_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/series_number/temp_number_log_crud.dart';
 import 'package:j3enterprise/src/pro/resources/shared/sales/add_item_to_transaction.dart';
@@ -42,6 +44,8 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
   TempSerialNumberReader tempSerialNumberReader;
   BusinessRuleDao businessRuleDao;
   CustomerDao customerDao;
+  SystemCurrencyDao systemCurrencyDao;
+  ExchangeRateDao exchangeRateDao;
   NonGlobalBusinessRuleDao nonGlobalBusinessRuleDao;
   UserSharedData userSharedData;
   Map<String, String> mapDevicePref = Map();
@@ -53,6 +57,8 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
     tempNumberLogsDao = new TempNumberLogsDao(db);
     customerDao = new CustomerDao(db);
     businessRuleDao = new BusinessRuleDao(db);
+    systemCurrencyDao = new SystemCurrencyDao(db);
+    exchangeRateDao = new ExchangeRateDao(db);
     nonGlobalBusinessRuleDao = new NonGlobalBusinessRuleDao(db);
     userSharedData = new UserSharedData();
   }
@@ -86,6 +92,15 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
     var cust = await customerDao.getAllCustomerById(customerId);
     if (cust.length > 0) {
       currency = cust[0].defaultCurrency;
+    }
+
+    //ToDo add effictive date to exchange rate
+    //ToDo get company exchange rate
+
+    var getexchangeRate =
+        await exchangeRateDao.getAllExchnageRateByCurrency("JMD", currency);
+    if (getexchangeRate.length > 0) {
+      exchangeRate = getexchangeRate[0].exchangeRate;
     }
 
     mapDevicePref = await userSharedData.getUserSharedPref();

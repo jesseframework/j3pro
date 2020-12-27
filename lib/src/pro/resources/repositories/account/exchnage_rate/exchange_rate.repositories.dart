@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:chopper/chopper.dart';
 import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
-import 'package:j3enterprise/src/pro/database/crud/account/currency/currency_crud.dart';
+import 'package:j3enterprise/src/pro/database/crud/account/exchange_rate/exchange_rate.dart';
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
 import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
 import 'package:j3enterprise/src/resources/shared/function/update_backgroung_job_schedule_status.dart';
@@ -10,60 +10,59 @@ import 'package:j3enterprise/src/resources/shared/preferences/user_share_data.da
 import 'package:j3enterprise/src/resources/shared/utils/customer_date_json_serializer.dart';
 import 'package:logging/logging.dart';
 
-class CurrencyRepository {
+class ExchangeRateRepository {
   var api = ApiClient.chopper.getService<RestApiService>();
   var db;
 
   bool isStopped = false;
 
-  static final _log = Logger('Currency Repository');
+  static final _log = Logger('Exchnage rate Repository');
   UpdateBackgroundJobStatus updateBackgroundJobStatus;
   BackgroundJobScheduleDao backgroundJobScheduleDao;
-  SystemCurrencyDao systemCurrencyDao;
+  ExchangeRateDao exchangeRateDao;
 
   UserSharedData userSharedData;
 
-  CurrencyRepository() {
-    _log.finest("Currency repository constructer call");
+  ExchangeRateRepository() {
+    _log.finest("Exchnage rate repository constructer call");
     db = AppDatabase();
     updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
     backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
-    systemCurrencyDao = new SystemCurrencyDao(db);
+    exchangeRateDao = new ExchangeRateDao(db);
     userSharedData = new UserSharedData();
   }
 
-  Future<void> getCurrencyFromServer(String jobName) async {
+  Future<void> getExchnageRateFromServer(String jobName) async {
     try {
       //ToDo code review to get a better way to push bulk data to API and update bulk data in database
       _log.finest("Currency sales tax date from server");
       var isSchedulerEnable = await backgroundJobScheduleDao.getJob(jobName);
       if (isSchedulerEnable != null) {
-        _log.finest("Currency  job found in background Jobs scheduler");
+        _log.finest("Exchnage rate  job found in background Jobs scheduler");
         if (isSchedulerEnable.startDateTime.isBefore(DateTime.now())) {
           if (isSchedulerEnable.enableJob == true) {
             DateTime startDate = isSchedulerEnable.startDateTime;
-            _log.finest("Currency jobs start date is $startDate ");
-            final Response response = await api.getAllCurrency();
-            _log.finest("Checking server resopnses for currency");
+            _log.finest("Exchnage rate jobs start date is $startDate ");
+            final Response response = await api.getAllExchangeRate();
+            _log.finest("Checking server resopnses for Exchnage rate");
             Map<String, dynamic> map = json.decode(response.bodyString);
             if (response.isSuccessful && map['success']) {
-              _log.finest("Server resopnses successful for currency ");
+              _log.finest("Server resopnses successful for Exchnage rate ");
               Map<String, dynamic> result = map['result'];
               var items = (result['items'] as List).map((e) {
-                return SystemCurrencyData.fromJson(e,
-                    serializer: CustomSerializer());
+                return ExchangeRateData.fromJson(e, serializer: CustomSerializer());
               });
 
               for (var item in items) {
                 if (isStopped) break;
-                await systemCurrencyDao.createOrUpdateCurrency(item);
+                await exchangeRateDao.createOrUpdateExchnageRate(item);
               }
               updateBackgroundJobStatus.updateJobStatus(jobName, "Success");
             } else {
               String error = map["error"]["details"].toString();
               updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
               _log.shout(
-                  "Currency API call failed. Server respond with error : $error  ");
+                  "Exchnage rate API call failed. Server respond with error : $error  ");
             }
           }
         }

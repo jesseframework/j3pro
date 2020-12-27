@@ -1896,6 +1896,7 @@ class SalesOrderDetailData extends DataClass
   final double quantity;
   final double subTotal;
   final double grandTotal;
+  final double fxGrandTotal;
   final int itemCount;
   final double depositTotal;
   final int lineId;
@@ -1935,6 +1936,7 @@ class SalesOrderDetailData extends DataClass
       @required this.quantity,
       @required this.subTotal,
       @required this.grandTotal,
+      @required this.fxGrandTotal,
       this.itemCount,
       this.depositTotal,
       this.lineId,
@@ -2013,6 +2015,8 @@ class SalesOrderDetailData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}sub_total']),
       grandTotal: doubleType
           .mapFromDatabaseResponse(data['${effectivePrefix}grand_total']),
+      fxGrandTotal: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}fx_grand_total']),
       itemCount:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}item_count']),
       depositTotal: doubleType
@@ -2125,6 +2129,9 @@ class SalesOrderDetailData extends DataClass
     }
     if (!nullToAbsent || grandTotal != null) {
       map['grand_total'] = Variable<double>(grandTotal);
+    }
+    if (!nullToAbsent || fxGrandTotal != null) {
+      map['fx_grand_total'] = Variable<double>(fxGrandTotal);
     }
     if (!nullToAbsent || itemCount != null) {
       map['item_count'] = Variable<int>(itemCount);
@@ -2241,6 +2248,9 @@ class SalesOrderDetailData extends DataClass
       grandTotal: grandTotal == null && nullToAbsent
           ? const Value.absent()
           : Value(grandTotal),
+      fxGrandTotal: fxGrandTotal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(fxGrandTotal),
       itemCount: itemCount == null && nullToAbsent
           ? const Value.absent()
           : Value(itemCount),
@@ -2299,6 +2309,7 @@ class SalesOrderDetailData extends DataClass
       quantity: serializer.fromJson<double>(json['quantity']),
       subTotal: serializer.fromJson<double>(json['subTotal']),
       grandTotal: serializer.fromJson<double>(json['grandTotal']),
+      fxGrandTotal: serializer.fromJson<double>(json['fxGrandTotal']),
       itemCount: serializer.fromJson<int>(json['itemCount']),
       depositTotal: serializer.fromJson<double>(json['depositTotal']),
       lineId: serializer.fromJson<int>(json['lineId']),
@@ -2343,6 +2354,7 @@ class SalesOrderDetailData extends DataClass
       'quantity': serializer.toJson<double>(quantity),
       'subTotal': serializer.toJson<double>(subTotal),
       'grandTotal': serializer.toJson<double>(grandTotal),
+      'fxGrandTotal': serializer.toJson<double>(fxGrandTotal),
       'itemCount': serializer.toJson<int>(itemCount),
       'depositTotal': serializer.toJson<double>(depositTotal),
       'lineId': serializer.toJson<int>(lineId),
@@ -2385,6 +2397,7 @@ class SalesOrderDetailData extends DataClass
           double quantity,
           double subTotal,
           double grandTotal,
+          double fxGrandTotal,
           int itemCount,
           double depositTotal,
           int lineId,
@@ -2424,6 +2437,7 @@ class SalesOrderDetailData extends DataClass
         quantity: quantity ?? this.quantity,
         subTotal: subTotal ?? this.subTotal,
         grandTotal: grandTotal ?? this.grandTotal,
+        fxGrandTotal: fxGrandTotal ?? this.fxGrandTotal,
         itemCount: itemCount ?? this.itemCount,
         depositTotal: depositTotal ?? this.depositTotal,
         lineId: lineId ?? this.lineId,
@@ -2466,6 +2480,7 @@ class SalesOrderDetailData extends DataClass
           ..write('quantity: $quantity, ')
           ..write('subTotal: $subTotal, ')
           ..write('grandTotal: $grandTotal, ')
+          ..write('fxGrandTotal: $fxGrandTotal, ')
           ..write('itemCount: $itemCount, ')
           ..write('depositTotal: $depositTotal, ')
           ..write('lineId: $lineId, ')
@@ -2519,7 +2534,7 @@ class SalesOrderDetailData extends DataClass
                                                                               .hashCode,
                                                                           $mrjc(
                                                                               stockUOM.hashCode,
-                                                                              $mrjc(taxGroup.hashCode, $mrjc(warehouse.hashCode, $mrjc(discountType.hashCode, $mrjc(discountPercentage.hashCode, $mrjc(discountAmount.hashCode, $mrjc(lineDiscountTotal.hashCode, $mrjc(taxIndicator.hashCode, $mrjc(unitPrice.hashCode, $mrjc(costPrice.hashCode, $mrjc(listPrice.hashCode, $mrjc(quantity.hashCode, $mrjc(subTotal.hashCode, $mrjc(grandTotal.hashCode, $mrjc(itemCount.hashCode, $mrjc(depositTotal.hashCode, $mrjc(lineId.hashCode, $mrjc(taxTotal.hashCode, $mrjc(shippingTotal.hashCode, conversionFactor.hashCode))))))))))))))))))))))))))))))))))))));
+                                                                              $mrjc(taxGroup.hashCode, $mrjc(warehouse.hashCode, $mrjc(discountType.hashCode, $mrjc(discountPercentage.hashCode, $mrjc(discountAmount.hashCode, $mrjc(lineDiscountTotal.hashCode, $mrjc(taxIndicator.hashCode, $mrjc(unitPrice.hashCode, $mrjc(costPrice.hashCode, $mrjc(listPrice.hashCode, $mrjc(quantity.hashCode, $mrjc(subTotal.hashCode, $mrjc(grandTotal.hashCode, $mrjc(fxGrandTotal.hashCode, $mrjc(itemCount.hashCode, $mrjc(depositTotal.hashCode, $mrjc(lineId.hashCode, $mrjc(taxTotal.hashCode, $mrjc(shippingTotal.hashCode, conversionFactor.hashCode)))))))))))))))))))))))))))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -2556,6 +2571,7 @@ class SalesOrderDetailData extends DataClass
           other.quantity == this.quantity &&
           other.subTotal == this.subTotal &&
           other.grandTotal == this.grandTotal &&
+          other.fxGrandTotal == this.fxGrandTotal &&
           other.itemCount == this.itemCount &&
           other.depositTotal == this.depositTotal &&
           other.lineId == this.lineId &&
@@ -2597,6 +2613,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
   final Value<double> quantity;
   final Value<double> subTotal;
   final Value<double> grandTotal;
+  final Value<double> fxGrandTotal;
   final Value<int> itemCount;
   final Value<double> depositTotal;
   final Value<int> lineId;
@@ -2636,6 +2653,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
     this.quantity = const Value.absent(),
     this.subTotal = const Value.absent(),
     this.grandTotal = const Value.absent(),
+    this.fxGrandTotal = const Value.absent(),
     this.itemCount = const Value.absent(),
     this.depositTotal = const Value.absent(),
     this.lineId = const Value.absent(),
@@ -2676,6 +2694,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
     @required double quantity,
     @required double subTotal,
     @required double grandTotal,
+    @required double fxGrandTotal,
     this.itemCount = const Value.absent(),
     this.depositTotal = const Value.absent(),
     this.lineId = const Value.absent(),
@@ -2709,6 +2728,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
         quantity = Value(quantity),
         subTotal = Value(subTotal),
         grandTotal = Value(grandTotal),
+        fxGrandTotal = Value(fxGrandTotal),
         taxTotal = Value(taxTotal),
         shippingTotal = Value(shippingTotal),
         conversionFactor = Value(conversionFactor);
@@ -2745,6 +2765,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
     Expression<double> quantity,
     Expression<double> subTotal,
     Expression<double> grandTotal,
+    Expression<double> fxGrandTotal,
     Expression<int> itemCount,
     Expression<double> depositTotal,
     Expression<int> lineId,
@@ -2786,6 +2807,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
       if (quantity != null) 'quantity': quantity,
       if (subTotal != null) 'sub_total': subTotal,
       if (grandTotal != null) 'grand_total': grandTotal,
+      if (fxGrandTotal != null) 'fx_grand_total': fxGrandTotal,
       if (itemCount != null) 'item_count': itemCount,
       if (depositTotal != null) 'deposit_total': depositTotal,
       if (lineId != null) 'line_id': lineId,
@@ -2828,6 +2850,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
       Value<double> quantity,
       Value<double> subTotal,
       Value<double> grandTotal,
+      Value<double> fxGrandTotal,
       Value<int> itemCount,
       Value<double> depositTotal,
       Value<int> lineId,
@@ -2867,6 +2890,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
       quantity: quantity ?? this.quantity,
       subTotal: subTotal ?? this.subTotal,
       grandTotal: grandTotal ?? this.grandTotal,
+      fxGrandTotal: fxGrandTotal ?? this.fxGrandTotal,
       itemCount: itemCount ?? this.itemCount,
       depositTotal: depositTotal ?? this.depositTotal,
       lineId: lineId ?? this.lineId,
@@ -2976,6 +3000,9 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
     if (grandTotal.present) {
       map['grand_total'] = Variable<double>(grandTotal.value);
     }
+    if (fxGrandTotal.present) {
+      map['fx_grand_total'] = Variable<double>(fxGrandTotal.value);
+    }
     if (itemCount.present) {
       map['item_count'] = Variable<int>(itemCount.value);
     }
@@ -3032,6 +3059,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
           ..write('quantity: $quantity, ')
           ..write('subTotal: $subTotal, ')
           ..write('grandTotal: $grandTotal, ')
+          ..write('fxGrandTotal: $fxGrandTotal, ')
           ..write('itemCount: $itemCount, ')
           ..write('depositTotal: $depositTotal, ')
           ..write('lineId: $lineId, ')
@@ -3456,6 +3484,20 @@ class $SalesOrderDetailTable extends SalesOrderDetail
     );
   }
 
+  final VerificationMeta _fxGrandTotalMeta =
+      const VerificationMeta('fxGrandTotal');
+  GeneratedRealColumn _fxGrandTotal;
+  @override
+  GeneratedRealColumn get fxGrandTotal =>
+      _fxGrandTotal ??= _constructFxGrandTotal();
+  GeneratedRealColumn _constructFxGrandTotal() {
+    return GeneratedRealColumn(
+      'fx_grand_total',
+      $tableName,
+      false,
+    );
+  }
+
   final VerificationMeta _itemCountMeta = const VerificationMeta('itemCount');
   GeneratedIntColumn _itemCount;
   @override
@@ -3568,6 +3610,7 @@ class $SalesOrderDetailTable extends SalesOrderDetail
         quantity,
         subTotal,
         grandTotal,
+        fxGrandTotal,
         itemCount,
         depositTotal,
         lineId,
@@ -3793,6 +3836,14 @@ class $SalesOrderDetailTable extends SalesOrderDetail
               data['grand_total'], _grandTotalMeta));
     } else if (isInserting) {
       context.missing(_grandTotalMeta);
+    }
+    if (data.containsKey('fx_grand_total')) {
+      context.handle(
+          _fxGrandTotalMeta,
+          fxGrandTotal.isAcceptableOrUnknown(
+              data['fx_grand_total'], _fxGrandTotalMeta));
+    } else if (isInserting) {
+      context.missing(_fxGrandTotalMeta);
     }
     if (data.containsKey('item_count')) {
       context.handle(_itemCountMeta,

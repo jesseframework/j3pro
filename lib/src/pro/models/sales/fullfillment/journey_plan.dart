@@ -17,8 +17,13 @@ class JourneyPlan extends Table implements MustHaveTenant {
   DateTimeColumn get expiryDate => dateTime().nullable()();
   IntColumn get weekNumber => integer().nullable()();
   TextColumn get weekDay => text().nullable()();
+  RealColumn get inMiles => real().nullable()();
+  RealColumn get inKilometer => real().nullable()();
+  RealColumn get inMeter => real().nullable()();
+  TextColumn get distanceLabel => text().nullable()();
+  RealColumn get distanceUsed => real().nullable()();
+  TextColumn get transactionStatus => text().nullable()();
   BoolColumn get isDeleted => boolean().withDefault(Constant(false))();
-
 
   @override
   Set<Column> get primaryKey => {id};

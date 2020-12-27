@@ -45,6 +45,25 @@ class JourneyPlanDao extends DatabaseAccessor<AppDatabase>
     });
   }
 
+  Future updateGPSDistance(
+      JourneyPlanCompanion jp,
+      String customerid,
+      String userName,
+      String transactionStatus) {
+    return (update(db.journeyPlan)
+          ..where((t) =>
+              t.customerId.equals(customerid)         
+              ))
+        .write(
+      JourneyPlanCompanion(
+          inKilometer: jp.inKilometer,
+          inMeter: jp.inMeter,
+          inMiles: jp.inMiles,
+          distanceLabel: jp.distanceLabel,
+          distanceUsed: jp.distanceUsed ),
+    );
+  }
+
   Future<List<JourneyPlanData>> getAllJourneyPlanByUser(String userName) {
     return (select(db.journeyPlan)..where((t) => t.assignTo.equals(userName)))
         .get();

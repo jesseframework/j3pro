@@ -24,7 +24,11 @@ class AddressDao extends DatabaseAccessor<AppDatabase> with _$AddressDaoMixin {
   }
 
   Future<List<Addres>> getAllAddressByTitle(String customerId) {
-    return (select(db.address)..where((t) => t.customerId.equals(customerId)))
+    return (select(db.address)
+          ..where((t) =>
+              t.customerId.equals(customerId) &
+              t.latitude.isBiggerThanValue(0) &
+              t.longitude.isSmallerThanValue(0)))
         .get();
   }
 

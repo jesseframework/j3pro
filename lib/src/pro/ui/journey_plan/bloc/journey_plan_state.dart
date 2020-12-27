@@ -8,3 +8,4 @@ abstract class JourneyPlanState extends Equatable {
 }
 
 class JourneyPlanInitial extends JourneyPlanState {}
+class JourneyPlanLoad extends JourneyPlanState {}

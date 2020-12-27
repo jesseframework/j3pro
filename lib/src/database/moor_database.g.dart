@@ -12137,6 +12137,7 @@ class SalesOrderDetailData extends DataClass
   final double quantity;
   final double subTotal;
   final double grandTotal;
+  final double fxGrandTotal;
   final int itemCount;
   final double depositTotal;
   final int lineId;
@@ -12176,6 +12177,7 @@ class SalesOrderDetailData extends DataClass
       @required this.quantity,
       @required this.subTotal,
       @required this.grandTotal,
+      @required this.fxGrandTotal,
       this.itemCount,
       this.depositTotal,
       this.lineId,
@@ -12254,6 +12256,8 @@ class SalesOrderDetailData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}sub_total']),
       grandTotal: doubleType
           .mapFromDatabaseResponse(data['${effectivePrefix}grand_total']),
+      fxGrandTotal: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}fx_grand_total']),
       itemCount:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}item_count']),
       depositTotal: doubleType
@@ -12366,6 +12370,9 @@ class SalesOrderDetailData extends DataClass
     }
     if (!nullToAbsent || grandTotal != null) {
       map['grand_total'] = Variable<double>(grandTotal);
+    }
+    if (!nullToAbsent || fxGrandTotal != null) {
+      map['fx_grand_total'] = Variable<double>(fxGrandTotal);
     }
     if (!nullToAbsent || itemCount != null) {
       map['item_count'] = Variable<int>(itemCount);
@@ -12482,6 +12489,9 @@ class SalesOrderDetailData extends DataClass
       grandTotal: grandTotal == null && nullToAbsent
           ? const Value.absent()
           : Value(grandTotal),
+      fxGrandTotal: fxGrandTotal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(fxGrandTotal),
       itemCount: itemCount == null && nullToAbsent
           ? const Value.absent()
           : Value(itemCount),
@@ -12540,6 +12550,7 @@ class SalesOrderDetailData extends DataClass
       quantity: serializer.fromJson<double>(json['quantity']),
       subTotal: serializer.fromJson<double>(json['subTotal']),
       grandTotal: serializer.fromJson<double>(json['grandTotal']),
+      fxGrandTotal: serializer.fromJson<double>(json['fxGrandTotal']),
       itemCount: serializer.fromJson<int>(json['itemCount']),
       depositTotal: serializer.fromJson<double>(json['depositTotal']),
       lineId: serializer.fromJson<int>(json['lineId']),
@@ -12584,6 +12595,7 @@ class SalesOrderDetailData extends DataClass
       'quantity': serializer.toJson<double>(quantity),
       'subTotal': serializer.toJson<double>(subTotal),
       'grandTotal': serializer.toJson<double>(grandTotal),
+      'fxGrandTotal': serializer.toJson<double>(fxGrandTotal),
       'itemCount': serializer.toJson<int>(itemCount),
       'depositTotal': serializer.toJson<double>(depositTotal),
       'lineId': serializer.toJson<int>(lineId),
@@ -12626,6 +12638,7 @@ class SalesOrderDetailData extends DataClass
           double quantity,
           double subTotal,
           double grandTotal,
+          double fxGrandTotal,
           int itemCount,
           double depositTotal,
           int lineId,
@@ -12665,6 +12678,7 @@ class SalesOrderDetailData extends DataClass
         quantity: quantity ?? this.quantity,
         subTotal: subTotal ?? this.subTotal,
         grandTotal: grandTotal ?? this.grandTotal,
+        fxGrandTotal: fxGrandTotal ?? this.fxGrandTotal,
         itemCount: itemCount ?? this.itemCount,
         depositTotal: depositTotal ?? this.depositTotal,
         lineId: lineId ?? this.lineId,
@@ -12707,6 +12721,7 @@ class SalesOrderDetailData extends DataClass
           ..write('quantity: $quantity, ')
           ..write('subTotal: $subTotal, ')
           ..write('grandTotal: $grandTotal, ')
+          ..write('fxGrandTotal: $fxGrandTotal, ')
           ..write('itemCount: $itemCount, ')
           ..write('depositTotal: $depositTotal, ')
           ..write('lineId: $lineId, ')
@@ -12760,7 +12775,7 @@ class SalesOrderDetailData extends DataClass
                                                                               .hashCode,
                                                                           $mrjc(
                                                                               stockUOM.hashCode,
-                                                                              $mrjc(taxGroup.hashCode, $mrjc(warehouse.hashCode, $mrjc(discountType.hashCode, $mrjc(discountPercentage.hashCode, $mrjc(discountAmount.hashCode, $mrjc(lineDiscountTotal.hashCode, $mrjc(taxIndicator.hashCode, $mrjc(unitPrice.hashCode, $mrjc(costPrice.hashCode, $mrjc(listPrice.hashCode, $mrjc(quantity.hashCode, $mrjc(subTotal.hashCode, $mrjc(grandTotal.hashCode, $mrjc(itemCount.hashCode, $mrjc(depositTotal.hashCode, $mrjc(lineId.hashCode, $mrjc(taxTotal.hashCode, $mrjc(shippingTotal.hashCode, conversionFactor.hashCode))))))))))))))))))))))))))))))))))))));
+                                                                              $mrjc(taxGroup.hashCode, $mrjc(warehouse.hashCode, $mrjc(discountType.hashCode, $mrjc(discountPercentage.hashCode, $mrjc(discountAmount.hashCode, $mrjc(lineDiscountTotal.hashCode, $mrjc(taxIndicator.hashCode, $mrjc(unitPrice.hashCode, $mrjc(costPrice.hashCode, $mrjc(listPrice.hashCode, $mrjc(quantity.hashCode, $mrjc(subTotal.hashCode, $mrjc(grandTotal.hashCode, $mrjc(fxGrandTotal.hashCode, $mrjc(itemCount.hashCode, $mrjc(depositTotal.hashCode, $mrjc(lineId.hashCode, $mrjc(taxTotal.hashCode, $mrjc(shippingTotal.hashCode, conversionFactor.hashCode)))))))))))))))))))))))))))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -12797,6 +12812,7 @@ class SalesOrderDetailData extends DataClass
           other.quantity == this.quantity &&
           other.subTotal == this.subTotal &&
           other.grandTotal == this.grandTotal &&
+          other.fxGrandTotal == this.fxGrandTotal &&
           other.itemCount == this.itemCount &&
           other.depositTotal == this.depositTotal &&
           other.lineId == this.lineId &&
@@ -12838,6 +12854,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
   final Value<double> quantity;
   final Value<double> subTotal;
   final Value<double> grandTotal;
+  final Value<double> fxGrandTotal;
   final Value<int> itemCount;
   final Value<double> depositTotal;
   final Value<int> lineId;
@@ -12877,6 +12894,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
     this.quantity = const Value.absent(),
     this.subTotal = const Value.absent(),
     this.grandTotal = const Value.absent(),
+    this.fxGrandTotal = const Value.absent(),
     this.itemCount = const Value.absent(),
     this.depositTotal = const Value.absent(),
     this.lineId = const Value.absent(),
@@ -12917,6 +12935,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
     @required double quantity,
     @required double subTotal,
     @required double grandTotal,
+    @required double fxGrandTotal,
     this.itemCount = const Value.absent(),
     this.depositTotal = const Value.absent(),
     this.lineId = const Value.absent(),
@@ -12950,6 +12969,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
         quantity = Value(quantity),
         subTotal = Value(subTotal),
         grandTotal = Value(grandTotal),
+        fxGrandTotal = Value(fxGrandTotal),
         taxTotal = Value(taxTotal),
         shippingTotal = Value(shippingTotal),
         conversionFactor = Value(conversionFactor);
@@ -12986,6 +13006,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
     Expression<double> quantity,
     Expression<double> subTotal,
     Expression<double> grandTotal,
+    Expression<double> fxGrandTotal,
     Expression<int> itemCount,
     Expression<double> depositTotal,
     Expression<int> lineId,
@@ -13027,6 +13048,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
       if (quantity != null) 'quantity': quantity,
       if (subTotal != null) 'sub_total': subTotal,
       if (grandTotal != null) 'grand_total': grandTotal,
+      if (fxGrandTotal != null) 'fx_grand_total': fxGrandTotal,
       if (itemCount != null) 'item_count': itemCount,
       if (depositTotal != null) 'deposit_total': depositTotal,
       if (lineId != null) 'line_id': lineId,
@@ -13069,6 +13091,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
       Value<double> quantity,
       Value<double> subTotal,
       Value<double> grandTotal,
+      Value<double> fxGrandTotal,
       Value<int> itemCount,
       Value<double> depositTotal,
       Value<int> lineId,
@@ -13108,6 +13131,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
       quantity: quantity ?? this.quantity,
       subTotal: subTotal ?? this.subTotal,
       grandTotal: grandTotal ?? this.grandTotal,
+      fxGrandTotal: fxGrandTotal ?? this.fxGrandTotal,
       itemCount: itemCount ?? this.itemCount,
       depositTotal: depositTotal ?? this.depositTotal,
       lineId: lineId ?? this.lineId,
@@ -13217,6 +13241,9 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
     if (grandTotal.present) {
       map['grand_total'] = Variable<double>(grandTotal.value);
     }
+    if (fxGrandTotal.present) {
+      map['fx_grand_total'] = Variable<double>(fxGrandTotal.value);
+    }
     if (itemCount.present) {
       map['item_count'] = Variable<int>(itemCount.value);
     }
@@ -13273,6 +13300,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
           ..write('quantity: $quantity, ')
           ..write('subTotal: $subTotal, ')
           ..write('grandTotal: $grandTotal, ')
+          ..write('fxGrandTotal: $fxGrandTotal, ')
           ..write('itemCount: $itemCount, ')
           ..write('depositTotal: $depositTotal, ')
           ..write('lineId: $lineId, ')
@@ -13697,6 +13725,20 @@ class $SalesOrderDetailTable extends SalesOrderDetail
     );
   }
 
+  final VerificationMeta _fxGrandTotalMeta =
+      const VerificationMeta('fxGrandTotal');
+  GeneratedRealColumn _fxGrandTotal;
+  @override
+  GeneratedRealColumn get fxGrandTotal =>
+      _fxGrandTotal ??= _constructFxGrandTotal();
+  GeneratedRealColumn _constructFxGrandTotal() {
+    return GeneratedRealColumn(
+      'fx_grand_total',
+      $tableName,
+      false,
+    );
+  }
+
   final VerificationMeta _itemCountMeta = const VerificationMeta('itemCount');
   GeneratedIntColumn _itemCount;
   @override
@@ -13809,6 +13851,7 @@ class $SalesOrderDetailTable extends SalesOrderDetail
         quantity,
         subTotal,
         grandTotal,
+        fxGrandTotal,
         itemCount,
         depositTotal,
         lineId,
@@ -14034,6 +14077,14 @@ class $SalesOrderDetailTable extends SalesOrderDetail
               data['grand_total'], _grandTotalMeta));
     } else if (isInserting) {
       context.missing(_grandTotalMeta);
+    }
+    if (data.containsKey('fx_grand_total')) {
+      context.handle(
+          _fxGrandTotalMeta,
+          fxGrandTotal.isAcceptableOrUnknown(
+              data['fx_grand_total'], _fxGrandTotalMeta));
+    } else if (isInserting) {
+      context.missing(_fxGrandTotalMeta);
     }
     if (data.containsKey('item_count')) {
       context.handle(_itemCountMeta,
@@ -26384,6 +26435,12 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
   final DateTime expiryDate;
   final int weekNumber;
   final String weekDay;
+  final double inMiles;
+  final double inKilometer;
+  final double inMeter;
+  final String distanceLabel;
+  final double distanceUsed;
+  final String transactionStatus;
   final bool isDeleted;
   JourneyPlanData(
       {this.tenantId,
@@ -26400,6 +26457,12 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
       this.expiryDate,
       this.weekNumber,
       this.weekDay,
+      this.inMiles,
+      this.inKilometer,
+      this.inMeter,
+      this.distanceLabel,
+      this.distanceUsed,
+      this.transactionStatus,
       @required this.isDeleted});
   factory JourneyPlanData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
@@ -26408,6 +26471,7 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
     final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final doubleType = db.typeSystem.forDartType<double>();
     final boolType = db.typeSystem.forDartType<bool>();
     return JourneyPlanData(
       tenantId:
@@ -26437,6 +26501,18 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}week_number']),
       weekDay: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}week_day']),
+      inMiles: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}in_miles']),
+      inKilometer: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}in_kilometer']),
+      inMeter: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}in_meter']),
+      distanceLabel: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}distance_label']),
+      distanceUsed: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}distance_used']),
+      transactionStatus: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}transaction_status']),
       isDeleted: boolType
           .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
     );
@@ -26486,6 +26562,24 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
     if (!nullToAbsent || weekDay != null) {
       map['week_day'] = Variable<String>(weekDay);
     }
+    if (!nullToAbsent || inMiles != null) {
+      map['in_miles'] = Variable<double>(inMiles);
+    }
+    if (!nullToAbsent || inKilometer != null) {
+      map['in_kilometer'] = Variable<double>(inKilometer);
+    }
+    if (!nullToAbsent || inMeter != null) {
+      map['in_meter'] = Variable<double>(inMeter);
+    }
+    if (!nullToAbsent || distanceLabel != null) {
+      map['distance_label'] = Variable<String>(distanceLabel);
+    }
+    if (!nullToAbsent || distanceUsed != null) {
+      map['distance_used'] = Variable<double>(distanceUsed);
+    }
+    if (!nullToAbsent || transactionStatus != null) {
+      map['transaction_status'] = Variable<String>(transactionStatus);
+    }
     if (!nullToAbsent || isDeleted != null) {
       map['is_deleted'] = Variable<bool>(isDeleted);
     }
@@ -26534,6 +26628,24 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
       weekDay: weekDay == null && nullToAbsent
           ? const Value.absent()
           : Value(weekDay),
+      inMiles: inMiles == null && nullToAbsent
+          ? const Value.absent()
+          : Value(inMiles),
+      inKilometer: inKilometer == null && nullToAbsent
+          ? const Value.absent()
+          : Value(inKilometer),
+      inMeter: inMeter == null && nullToAbsent
+          ? const Value.absent()
+          : Value(inMeter),
+      distanceLabel: distanceLabel == null && nullToAbsent
+          ? const Value.absent()
+          : Value(distanceLabel),
+      distanceUsed: distanceUsed == null && nullToAbsent
+          ? const Value.absent()
+          : Value(distanceUsed),
+      transactionStatus: transactionStatus == null && nullToAbsent
+          ? const Value.absent()
+          : Value(transactionStatus),
       isDeleted: isDeleted == null && nullToAbsent
           ? const Value.absent()
           : Value(isDeleted),
@@ -26560,6 +26672,12 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
       expiryDate: serializer.fromJson<DateTime>(json['expiryDate']),
       weekNumber: serializer.fromJson<int>(json['weekNumber']),
       weekDay: serializer.fromJson<String>(json['weekDay']),
+      inMiles: serializer.fromJson<double>(json['inMiles']),
+      inKilometer: serializer.fromJson<double>(json['inKilometer']),
+      inMeter: serializer.fromJson<double>(json['inMeter']),
+      distanceLabel: serializer.fromJson<String>(json['distanceLabel']),
+      distanceUsed: serializer.fromJson<double>(json['distanceUsed']),
+      transactionStatus: serializer.fromJson<String>(json['transactionStatus']),
       isDeleted: serializer.fromJson<bool>(json['isDeleted']),
     );
   }
@@ -26581,6 +26699,12 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
       'expiryDate': serializer.toJson<DateTime>(expiryDate),
       'weekNumber': serializer.toJson<int>(weekNumber),
       'weekDay': serializer.toJson<String>(weekDay),
+      'inMiles': serializer.toJson<double>(inMiles),
+      'inKilometer': serializer.toJson<double>(inKilometer),
+      'inMeter': serializer.toJson<double>(inMeter),
+      'distanceLabel': serializer.toJson<String>(distanceLabel),
+      'distanceUsed': serializer.toJson<double>(distanceUsed),
+      'transactionStatus': serializer.toJson<String>(transactionStatus),
       'isDeleted': serializer.toJson<bool>(isDeleted),
     };
   }
@@ -26600,6 +26724,12 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
           DateTime expiryDate,
           int weekNumber,
           String weekDay,
+          double inMiles,
+          double inKilometer,
+          double inMeter,
+          String distanceLabel,
+          double distanceUsed,
+          String transactionStatus,
           bool isDeleted}) =>
       JourneyPlanData(
         tenantId: tenantId ?? this.tenantId,
@@ -26616,6 +26746,12 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
         expiryDate: expiryDate ?? this.expiryDate,
         weekNumber: weekNumber ?? this.weekNumber,
         weekDay: weekDay ?? this.weekDay,
+        inMiles: inMiles ?? this.inMiles,
+        inKilometer: inKilometer ?? this.inKilometer,
+        inMeter: inMeter ?? this.inMeter,
+        distanceLabel: distanceLabel ?? this.distanceLabel,
+        distanceUsed: distanceUsed ?? this.distanceUsed,
+        transactionStatus: transactionStatus ?? this.transactionStatus,
         isDeleted: isDeleted ?? this.isDeleted,
       );
   @override
@@ -26635,6 +26771,12 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
           ..write('expiryDate: $expiryDate, ')
           ..write('weekNumber: $weekNumber, ')
           ..write('weekDay: $weekDay, ')
+          ..write('inMiles: $inMiles, ')
+          ..write('inKilometer: $inKilometer, ')
+          ..write('inMeter: $inMeter, ')
+          ..write('distanceLabel: $distanceLabel, ')
+          ..write('distanceUsed: $distanceUsed, ')
+          ..write('transactionStatus: $transactionStatus, ')
           ..write('isDeleted: $isDeleted')
           ..write(')'))
         .toString();
@@ -26669,8 +26811,20 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
                                                       weekNumber.hashCode,
                                                       $mrjc(
                                                           weekDay.hashCode,
-                                                          isDeleted
-                                                              .hashCode)))))))))))))));
+                                                          $mrjc(
+                                                              inMiles.hashCode,
+                                                              $mrjc(
+                                                                  inKilometer
+                                                                      .hashCode,
+                                                                  $mrjc(
+                                                                      inMeter
+                                                                          .hashCode,
+                                                                      $mrjc(
+                                                                          distanceLabel
+                                                                              .hashCode,
+                                                                          $mrjc(
+                                                                              distanceUsed.hashCode,
+                                                                              $mrjc(transactionStatus.hashCode, isDeleted.hashCode)))))))))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -26689,6 +26843,12 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
           other.expiryDate == this.expiryDate &&
           other.weekNumber == this.weekNumber &&
           other.weekDay == this.weekDay &&
+          other.inMiles == this.inMiles &&
+          other.inKilometer == this.inKilometer &&
+          other.inMeter == this.inMeter &&
+          other.distanceLabel == this.distanceLabel &&
+          other.distanceUsed == this.distanceUsed &&
+          other.transactionStatus == this.transactionStatus &&
           other.isDeleted == this.isDeleted);
 }
 
@@ -26707,6 +26867,12 @@ class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
   final Value<DateTime> expiryDate;
   final Value<int> weekNumber;
   final Value<String> weekDay;
+  final Value<double> inMiles;
+  final Value<double> inKilometer;
+  final Value<double> inMeter;
+  final Value<String> distanceLabel;
+  final Value<double> distanceUsed;
+  final Value<String> transactionStatus;
   final Value<bool> isDeleted;
   const JourneyPlanCompanion({
     this.tenantId = const Value.absent(),
@@ -26723,6 +26889,12 @@ class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
     this.expiryDate = const Value.absent(),
     this.weekNumber = const Value.absent(),
     this.weekDay = const Value.absent(),
+    this.inMiles = const Value.absent(),
+    this.inKilometer = const Value.absent(),
+    this.inMeter = const Value.absent(),
+    this.distanceLabel = const Value.absent(),
+    this.distanceUsed = const Value.absent(),
+    this.transactionStatus = const Value.absent(),
     this.isDeleted = const Value.absent(),
   });
   JourneyPlanCompanion.insert({
@@ -26740,6 +26912,12 @@ class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
     this.expiryDate = const Value.absent(),
     this.weekNumber = const Value.absent(),
     this.weekDay = const Value.absent(),
+    this.inMiles = const Value.absent(),
+    this.inKilometer = const Value.absent(),
+    this.inMeter = const Value.absent(),
+    this.distanceLabel = const Value.absent(),
+    this.distanceUsed = const Value.absent(),
+    this.transactionStatus = const Value.absent(),
     this.isDeleted = const Value.absent(),
   })  : customerId = Value(customerId),
         customerName = Value(customerName),
@@ -26762,6 +26940,12 @@ class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
     Expression<DateTime> expiryDate,
     Expression<int> weekNumber,
     Expression<String> weekDay,
+    Expression<double> inMiles,
+    Expression<double> inKilometer,
+    Expression<double> inMeter,
+    Expression<String> distanceLabel,
+    Expression<double> distanceUsed,
+    Expression<String> transactionStatus,
     Expression<bool> isDeleted,
   }) {
     return RawValuesInsertable({
@@ -26781,6 +26965,12 @@ class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
       if (expiryDate != null) 'expiry_date': expiryDate,
       if (weekNumber != null) 'week_number': weekNumber,
       if (weekDay != null) 'week_day': weekDay,
+      if (inMiles != null) 'in_miles': inMiles,
+      if (inKilometer != null) 'in_kilometer': inKilometer,
+      if (inMeter != null) 'in_meter': inMeter,
+      if (distanceLabel != null) 'distance_label': distanceLabel,
+      if (distanceUsed != null) 'distance_used': distanceUsed,
+      if (transactionStatus != null) 'transaction_status': transactionStatus,
       if (isDeleted != null) 'is_deleted': isDeleted,
     });
   }
@@ -26800,6 +26990,12 @@ class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
       Value<DateTime> expiryDate,
       Value<int> weekNumber,
       Value<String> weekDay,
+      Value<double> inMiles,
+      Value<double> inKilometer,
+      Value<double> inMeter,
+      Value<String> distanceLabel,
+      Value<double> distanceUsed,
+      Value<String> transactionStatus,
       Value<bool> isDeleted}) {
     return JourneyPlanCompanion(
       tenantId: tenantId ?? this.tenantId,
@@ -26816,6 +27012,12 @@ class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
       expiryDate: expiryDate ?? this.expiryDate,
       weekNumber: weekNumber ?? this.weekNumber,
       weekDay: weekDay ?? this.weekDay,
+      inMiles: inMiles ?? this.inMiles,
+      inKilometer: inKilometer ?? this.inKilometer,
+      inMeter: inMeter ?? this.inMeter,
+      distanceLabel: distanceLabel ?? this.distanceLabel,
+      distanceUsed: distanceUsed ?? this.distanceUsed,
+      transactionStatus: transactionStatus ?? this.transactionStatus,
       isDeleted: isDeleted ?? this.isDeleted,
     );
   }
@@ -26866,6 +27068,24 @@ class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
     if (weekDay.present) {
       map['week_day'] = Variable<String>(weekDay.value);
     }
+    if (inMiles.present) {
+      map['in_miles'] = Variable<double>(inMiles.value);
+    }
+    if (inKilometer.present) {
+      map['in_kilometer'] = Variable<double>(inKilometer.value);
+    }
+    if (inMeter.present) {
+      map['in_meter'] = Variable<double>(inMeter.value);
+    }
+    if (distanceLabel.present) {
+      map['distance_label'] = Variable<String>(distanceLabel.value);
+    }
+    if (distanceUsed.present) {
+      map['distance_used'] = Variable<double>(distanceUsed.value);
+    }
+    if (transactionStatus.present) {
+      map['transaction_status'] = Variable<String>(transactionStatus.value);
+    }
     if (isDeleted.present) {
       map['is_deleted'] = Variable<bool>(isDeleted.value);
     }
@@ -26889,6 +27109,12 @@ class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
           ..write('expiryDate: $expiryDate, ')
           ..write('weekNumber: $weekNumber, ')
           ..write('weekDay: $weekDay, ')
+          ..write('inMiles: $inMiles, ')
+          ..write('inKilometer: $inKilometer, ')
+          ..write('inMeter: $inMeter, ')
+          ..write('distanceLabel: $distanceLabel, ')
+          ..write('distanceUsed: $distanceUsed, ')
+          ..write('transactionStatus: $transactionStatus, ')
           ..write('isDeleted: $isDeleted')
           ..write(')'))
         .toString();
@@ -27083,6 +27309,86 @@ class $JourneyPlanTable extends JourneyPlan
     );
   }
 
+  final VerificationMeta _inMilesMeta = const VerificationMeta('inMiles');
+  GeneratedRealColumn _inMiles;
+  @override
+  GeneratedRealColumn get inMiles => _inMiles ??= _constructInMiles();
+  GeneratedRealColumn _constructInMiles() {
+    return GeneratedRealColumn(
+      'in_miles',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _inKilometerMeta =
+      const VerificationMeta('inKilometer');
+  GeneratedRealColumn _inKilometer;
+  @override
+  GeneratedRealColumn get inKilometer =>
+      _inKilometer ??= _constructInKilometer();
+  GeneratedRealColumn _constructInKilometer() {
+    return GeneratedRealColumn(
+      'in_kilometer',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _inMeterMeta = const VerificationMeta('inMeter');
+  GeneratedRealColumn _inMeter;
+  @override
+  GeneratedRealColumn get inMeter => _inMeter ??= _constructInMeter();
+  GeneratedRealColumn _constructInMeter() {
+    return GeneratedRealColumn(
+      'in_meter',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _distanceLabelMeta =
+      const VerificationMeta('distanceLabel');
+  GeneratedTextColumn _distanceLabel;
+  @override
+  GeneratedTextColumn get distanceLabel =>
+      _distanceLabel ??= _constructDistanceLabel();
+  GeneratedTextColumn _constructDistanceLabel() {
+    return GeneratedTextColumn(
+      'distance_label',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _distanceUsedMeta =
+      const VerificationMeta('distanceUsed');
+  GeneratedRealColumn _distanceUsed;
+  @override
+  GeneratedRealColumn get distanceUsed =>
+      _distanceUsed ??= _constructDistanceUsed();
+  GeneratedRealColumn _constructDistanceUsed() {
+    return GeneratedRealColumn(
+      'distance_used',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _transactionStatusMeta =
+      const VerificationMeta('transactionStatus');
+  GeneratedTextColumn _transactionStatus;
+  @override
+  GeneratedTextColumn get transactionStatus =>
+      _transactionStatus ??= _constructTransactionStatus();
+  GeneratedTextColumn _constructTransactionStatus() {
+    return GeneratedTextColumn(
+      'transaction_status',
+      $tableName,
+      true,
+    );
+  }
+
   final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
   GeneratedBoolColumn _isDeleted;
   @override
@@ -27108,6 +27414,12 @@ class $JourneyPlanTable extends JourneyPlan
         expiryDate,
         weekNumber,
         weekDay,
+        inMiles,
+        inKilometer,
+        inMeter,
+        distanceLabel,
+        distanceUsed,
+        transactionStatus,
         isDeleted
       ];
   @override
@@ -27207,6 +27519,38 @@ class $JourneyPlanTable extends JourneyPlan
     if (data.containsKey('week_day')) {
       context.handle(_weekDayMeta,
           weekDay.isAcceptableOrUnknown(data['week_day'], _weekDayMeta));
+    }
+    if (data.containsKey('in_miles')) {
+      context.handle(_inMilesMeta,
+          inMiles.isAcceptableOrUnknown(data['in_miles'], _inMilesMeta));
+    }
+    if (data.containsKey('in_kilometer')) {
+      context.handle(
+          _inKilometerMeta,
+          inKilometer.isAcceptableOrUnknown(
+              data['in_kilometer'], _inKilometerMeta));
+    }
+    if (data.containsKey('in_meter')) {
+      context.handle(_inMeterMeta,
+          inMeter.isAcceptableOrUnknown(data['in_meter'], _inMeterMeta));
+    }
+    if (data.containsKey('distance_label')) {
+      context.handle(
+          _distanceLabelMeta,
+          distanceLabel.isAcceptableOrUnknown(
+              data['distance_label'], _distanceLabelMeta));
+    }
+    if (data.containsKey('distance_used')) {
+      context.handle(
+          _distanceUsedMeta,
+          distanceUsed.isAcceptableOrUnknown(
+              data['distance_used'], _distanceUsedMeta));
+    }
+    if (data.containsKey('transaction_status')) {
+      context.handle(
+          _transactionStatusMeta,
+          transactionStatus.isAcceptableOrUnknown(
+              data['transaction_status'], _transactionStatusMeta));
     }
     if (data.containsKey('is_deleted')) {
       context.handle(_isDeletedMeta,

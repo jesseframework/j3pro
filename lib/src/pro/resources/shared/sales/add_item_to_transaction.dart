@@ -273,7 +273,7 @@ class AddItemToTransaction {
             exchangeRate: moor.Value(exchangeRate),
             tenantId: moor.Value(tenantId),
             userId: moor.Value(userId),
-            userName: moor.Value(currency),
+            userName: moor.Value(userName),
             itemCode: moor.Value(itemCode),
             itemGroup: moor.Value(itemGroup),            
             itemId: moor.Value(itemId),

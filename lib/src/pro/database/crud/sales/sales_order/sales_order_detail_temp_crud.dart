@@ -99,7 +99,8 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
           taxTotal: tax.taxTotal,
           listPrice: tax.listPrice,
           taxGroup: tax.taxGroup,
-          subTotal: tax.subTotal),
+          subTotal: tax.subTotal,
+          taxIndicator: tax.taxIndicator),
     );
   }
 

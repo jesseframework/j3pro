@@ -6,3 +6,11 @@ abstract class JourneyPlanEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class SyncGPSDistancEvent extends JourneyPlanEvent {
+  //final double data;
+
+  const SyncGPSDistancEvent();
+
+ 
+}

@@ -15,7 +15,7 @@ class SystemCurrencyDao extends DatabaseAccessor<AppDatabase>
     return (select(db.systemCurrency).get());
   }
 
-  Future<List<SystemCurrencyData>> getAllSalesTaxByGroup(String currencyname) {
+  Future<List<SystemCurrencyData>> getAllSystemCurrencyByName(String currencyname) {
     return (select(db.systemCurrency)
           ..where((t) => t.currencyName.equals(currencyname)))
         .get();

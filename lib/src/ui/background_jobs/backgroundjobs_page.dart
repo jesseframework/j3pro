@@ -218,11 +218,14 @@ class _BackgroundJobs extends State<BackgroundJobs> {
                 'Item Group',
                 'Item Category',
                 'Item Price',
+                'Items All',
                 'Item Pricing Rule',
                 'Unit Of Measure',
                 'UPC Code',
                 'Sales Tax',
-                'Item All'
+                'Currency',
+                'Exchange Rate',
+                'GPS Location Service'
               ],
             ),
           ),
