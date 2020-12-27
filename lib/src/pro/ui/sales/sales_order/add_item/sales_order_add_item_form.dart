@@ -4,6 +4,7 @@ import 'package:badges/badges.dart';
 import 'package:barcode_keyboard_listener/barcode_keyboard_listener.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
@@ -221,7 +222,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                   ),
                   searchFoused
                       ? Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          padding: const EdgeInsets.only(left: 5),
                           child: Container(
                             width: 80,
                             decoration: BoxDecoration(
@@ -380,7 +381,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                         )
                       : Container(),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    padding: const EdgeInsets.only(right: 10, left: 5),
                     child: InkWell(
                       child: Container(
                           width: 60, child: Image.asset('images/bar_code.png')),
@@ -529,29 +530,37 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                               Hero(
                                                 transitionOnUserGestures: true,
                                                 tag: 'mask${index}',
-                                                child: Container(
-                                                  alignment:
-                                                      Alignment.topCenter,
-                                                  decoration: BoxDecoration(
-                                                      image: DecorationImage(
-                                                          image: AssetImage(
-                                                              'images/mask.png')),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5)),
-                                                  height: 84,
-                                                  width: 84,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Container(
+                                                    alignment:
+                                                        Alignment.topCenter,
+                                                    decoration: BoxDecoration(
+                                                        image: DecorationImage(
+                                                            image: AssetImage(
+                                                                'images/mask.png')),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5)),
+                                                    height: 84,
+                                                    width: 84,
+                                                  ),
                                                 ),
                                               ),
                                               Flexible(
-                                                child: Text(
-                                                  itemsWithPrices[index]
-                                                      .item
-                                                      .itemName,
-                                                  maxLines: 2,
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontSize: 20,
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(horizontal: 5),
+                                                  child: Text(
+                                                    itemsWithPrices[index]
+                                                        .item
+                                                        .itemName,
+                                                    maxLines: 2,
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontSize: 20,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -584,6 +593,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                                 ),
                                               ),
                                               Divider(
+                                                thickness: 2,
                                                 color: Theme.of(context)
                                                     .scaffoldBackgroundColor,
                                               ),
@@ -619,14 +629,19 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                                             "Item is not saved please try again");
                                                   }
                                                 },
-                                                child: Text(
-                                                  "Add",
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color: Colors.green),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 5),
+                                                  child: Text(
+                                                    "Add",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: Colors.green),
+                                                  ),
                                                 ),
                                               ),
                                             ],
@@ -841,197 +856,207 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                         index: index,
                       )));
                 },
-                child: Container(
-                  color: (index % 2 == 0)
-                      ? Theme.of(context).primaryColor.withOpacity(0.1)
-                      : Theme.of(context).cardColor.withOpacity(0.1),
-                  //  height: 150,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          child: Text(
-                                            salesOrderDetailTempData[index]
-                                                .description,
-                                            softWrap: false,
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 2,
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.normal),
-                                          ),
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              "SKU: ${salesOrderDetailTempData[index].itemCode}",
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 12,
-                                            ),
-                                            Text(
-                                              "UOM: ${salesOrderDetailTempData[index].salesUOM}",
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 20, right: 10),
-                                child: Row(
+                child: Dismissible(
+                  key: Key(salesOrderDetailTempData[index].id.toString()),
+                  onDismissed: (value) {},
+                  direction: DismissDirection.endToStart,
+                  background: Container(
+                    color: Colors.redAccent,
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 50),
+                      child: Icon(
+                        Icons.delete,
+                        size: 50,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  child: Container(
+                    color: (index % 2 == 0)
+                        ? Theme.of(context).primaryColor.withOpacity(0.1)
+                        : Theme.of(context).cardColor.withOpacity(0.1),
+                    //  height: 150,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Unit Price  \$${salesOrderDetailTempData[index].unitPrice}',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                            child: Text(
+                                              salesOrderDetailTempData[index]
+                                                  .description,
+                                              softWrap: false,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 2,
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight:
+                                                      FontWeight.normal),
+                                            ),
                                           ),
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          'List Price  \$${salesOrderDetailTempData[index].listPrice}',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
+                                          Row(
+                                            children: [
+                                              Text(
+                                                "SKU: ${salesOrderDetailTempData[index].itemCode}",
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 12,
+                                              ),
+                                              Text(
+                                                "UOM: ${salesOrderDetailTempData[index].salesUOM}",
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Line Total  \$${salesOrderDetailTempData[index].subTotal}',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          'Discount    \$${salesOrderDetailTempData[index].lineDiscountTotal}',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.red
-                                          ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          height: 100,
-                          alignment: Alignment.centerRight,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                width: 25,
-                                height: 25,
-                                child: FloatingActionButton(
-                                  backgroundColor: Colors.green,
-                                  heroTag: 'Increment$index',
-                                  onPressed: () {},
-                                  elevation: 2,
-                                  tooltip: 'Increment',
-                                  child: Icon(Icons.add),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8),
-                                child: Container(
-                                    alignment: Alignment.center,
-                                    height: 35,
-                                    width: 65,
-                                    child: TextField(
-                                      keyboardType: TextInputType.number,
-                                      controller: TextEditingController(
-                                          text: salesOrderDetailTempData[index]
-                                              .quantity
-                                              .toString()),
-                                      textAlignVertical:
-                                          TextAlignVertical.center,
-                                      // controller: controller,
-                                      textAlign: TextAlign.center,
-                                      decoration: new InputDecoration(
-                                        contentPadding: EdgeInsets.only(
-                                          bottom:
-                                              25 / 2, // HERE THE IMPORTANT PART
-                                        ),
-                                        border: new OutlineInputBorder(
-                                            borderSide: new BorderSide(
-                                                color: Colors.teal)),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 20, right: 10),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Unit Price  \$${salesOrderDetailTempData[index].unitPrice}',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            'List Price  \$${salesOrderDetailTempData[index].listPrice}',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    )),
-                              ),
-                              SizedBox(
-                                width: 25,
-                                height: 25,
-                                child: FloatingActionButton(
-                                  backgroundColor: Colors.red,
-                                  heroTag: 'Decrement$index',
-                                  onPressed: () {},
-                                  elevation: 25,
-                                  tooltip: 'Decrement',
-                                  child: Icon(Icons.remove),
-                                ),
-                              ),
-                            ],
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Line Total  \$${salesOrderDetailTempData[index].subTotal}',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            'Discount    \$${salesOrderDetailTempData[index].lineDiscountTotal}',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.red),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                          Container(
+                            height: 100,
+                            alignment: Alignment.centerRight,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  height: 35,
+                                  width: 65,
+                                  child: TextField(
+                                    keyboardType: TextInputType.number,
+                                    textAlignVertical: TextAlignVertical.center,
+                                    textAlign: TextAlign.justify,
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp(r'[0-9 -]')),
+                                    ],
+                                    decoration: InputDecoration(
+                                      labelText: salesOrderDetailTempData[index]
+                                          .quantity
+                                          .toString(),
+                                      contentPadding: EdgeInsets.only(
+                                          bottom: 25 / 2,
+                                          left: 10 // HERE THE IMPORTANT PART
+                                          ),
+                                      border: new OutlineInputBorder(
+                                          borderSide: new BorderSide(
+                                              color: Colors.teal)),
+                                    ),
+                                    onSubmitted: (value) async {
+                                       
+                                      BlocProvider.of<AddItemBloc>(context)
+                                            .add(AddItemButtonPress(
+                                                searchText: searchText,
+                                                itemNumber:
+                                                    salesOrderDetailTempData[
+                                                            index]
+                                                        .itemCode,
+                                                setQty: double.parse(value)));
+                                  
+
+                                      // await widget.salesOrderDetailTempDao
+                                      //     .increaseLineItemQuantity(
+                                      //         salesOrderDetailTempData[index]
+                                      //             .copyWith(
+                                      //                 quantity:
+                                      //                     double.parse(value)));
+                                    },
+                                  )),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -1083,8 +1108,9 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
   }
 
   buildGrandTotalListTile(String title, String amount) {
-    return ListTile(
-      title: Row(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
