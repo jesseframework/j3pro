@@ -1,4 +1,3 @@
-import 'package:chopper/chopper.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/models/sales/sales_order/sales_order_detail_temp_model.dart';
 import 'package:moor/moor.dart';
@@ -104,24 +103,26 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
     );
   }
 
-  Future increaseLineItemQuantity(
-      SalesOrderDetailTempCompanion qty,
-      String transactionNumber,
-      String transactionStatus,
-      String itemId,
-      String salesUom) {
-    return (update(db.salesOrderDetailTemp)
-          ..where((t) =>
-              t.transactionNumber.equals(transactionNumber) &
-              t.transactionStatus.equals(transactionStatus) &
-              t.itemId.equals(itemId) &
-              t.salesUOM.equals(salesUom)))
-        .write(
-      SalesOrderDetailTempCompanion(
-        quantity: qty.quantity,
-      ),
-    );
-  }
+  // Future increaseLineItemQuantity(
+  //     SalesOrderDetailTempCompanion qty,
+  //     String transactionNumber,
+  //     String transactionStatus,
+  //     String itemId,
+  //     String salesUom) {
+  //   return (update(db.salesOrderDetailTemp)
+  //         ..where((t) =>
+  //             t.transactionNumber.equals(transactionNumber) &
+  //             t.transactionStatus.equals(transactionStatus) &
+  //             t.itemId.equals(itemId) &
+  //             t.salesUOM.equals(salesUom)))
+  //       .write(
+  //     SalesOrderDetailTempCompanion(
+  //       quantity: qty.quantity,
+  //     ),
+  //   );
+  // }
+  Future increaseLineItemQuantity(SalesOrderDetailTempData record) =>
+      update(salesOrderDetailTemp).replace(record);
 
   Future decreaseLineItemQuantity(
       SalesOrderDetailTempCompanion qty,

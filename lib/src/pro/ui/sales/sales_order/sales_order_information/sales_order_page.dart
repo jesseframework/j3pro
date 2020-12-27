@@ -29,7 +29,7 @@ class _SalesOrderPageState extends State<SalesOrderPage> {
   TextEditingController _textFieldController = TextEditingController();
   JourneyWithAddress journeyWithAddress;
   Addres primaryAddress;
-  String poNumber = 'HJK-0001';
+  String poNumber =  '';
   DateTime dateTime = DateTime.now();
   @override
   Widget build(BuildContext context) {
