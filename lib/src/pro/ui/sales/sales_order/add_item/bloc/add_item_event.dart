@@ -26,6 +26,22 @@ class AddItemButtonPress extends AddItemEvent {
       'itemNuber:$itemNumber';
 }
 
+class DeleteLineItemPress extends AddItemEvent {
+  final int id;
+  final String itemNumber;
+  final String uom;
+  const DeleteLineItemPress(
+      {@required this.id, @required this.itemNumber, this.uom});
+
+  @override
+  List<Object> get props => [id, itemNumber, uom];
+
+  @override
+  String toString() => 'AddItemToSalesOrderButtonPress { id: $id, '
+      'itemNuber:$itemNumber,'
+      'uom:$uom';
+}
+
 class GetTransactioNumberEvent extends AddItemEvent {}
 
 class OnFormLoadGetTransactionNumber extends AddItemEvent {

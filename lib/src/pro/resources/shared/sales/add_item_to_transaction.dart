@@ -1,6 +1,8 @@
+import 'package:intl/intl.dart';
 import 'package:j3enterprise/src/database/crud/business_rule/business_rule_crud.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/preference_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/pro/database/crud/account/currency/currency_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/customer/customer_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/items/item_master_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/items/item_price_crud.dart';
@@ -77,6 +79,7 @@ class AddItemToTransaction {
   TempNumberLogsDao tempNumberLogsDao;
   CustomerDao customerDao;
   SalesOrderDetailTempDao salesOrderDetailTempDao;
+  SystemCurrencyDao systemCurrencyDao;
 
   //Regular Class
   AddItemToWarehouse addItemToWarehouse;
@@ -100,6 +103,7 @@ class AddItemToTransaction {
     tempNumberLogsDao = new TempNumberLogsDao(db);
     salesOrderDetailTempDao = new SalesOrderDetailTempDao(db);
     customerDao = new CustomerDao(db);
+    systemCurrencyDao = new SystemCurrencyDao(db);
     checkInventory = new CheckInventory();
     calculateDiscount = new CalculateDiscount();
     calculateTax = new CalculateTax();
@@ -215,12 +219,26 @@ class AddItemToTransaction {
           tempSalesOrderNo, tempTransactionStatus, itemId, uom);
       if (onRegister.length > 0 && onRegister != null) {
         registerQuantityTotal = onRegister.single.quantity;
+
+        double formatedSubTotal = 0;
+        double unformatedSubTotal = (quantity + onRegister.single.quantity) * itemPrice;
+
+        var currency =
+            await systemCurrencyDao.getAllSystemCurrencyByName("JMD");
+        if (currency.length > 0) {
+          var f = new NumberFormat(currency[0].numberFormat, "en_US");
+          formatedSubTotal = double.tryParse(f.format(unformatedSubTotal));
+        } else {
+          var f = new NumberFormat("###.0#", "en_US");
+          formatedSubTotal = double.tryParse(f.format(unformatedSubTotal));
+        }
+
         var lineUpdate = new SalesOrderDetailTempCompanion(
           quantity: moor.Value(quantity + onRegister.single.quantity),
           shippingTotal: moor.Value(0),
           listPrice: moor.Value(itemPrice),
           subTotal:
-              moor.Value((quantity + onRegister.single.quantity) * itemPrice),
+              moor.Value(formatedSubTotal),
         );
         await salesOrderDetailTempDao.updateLineItem(
             lineUpdate, tempSalesOrderNo, tempTransactionStatus, itemId, uom);
@@ -275,7 +293,7 @@ class AddItemToTransaction {
             userId: moor.Value(userId),
             userName: moor.Value(userName),
             itemCode: moor.Value(itemCode),
-            itemGroup: moor.Value(itemGroup),            
+            itemGroup: moor.Value(itemGroup),
             itemId: moor.Value(itemId),
             description: moor.Value(itemDescription),
             quantity: moor.Value(quantity),

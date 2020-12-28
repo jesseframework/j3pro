@@ -64,6 +64,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.1"
+  battery:
+    dependency: "direct main"
+    description:
+      name: battery
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.7"
+  battery_platform_interface:
+    dependency: transitive
+    description:
+      name: battery_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   bloc:
     dependency: transitive
     description:

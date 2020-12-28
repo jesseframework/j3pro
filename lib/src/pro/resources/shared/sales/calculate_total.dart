@@ -1,4 +1,6 @@
+import 'package:intl/intl.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/pro/database/crud/account/currency/currency_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/sales/sales_order/sales_order_detail_temp_crud.dart';
 import 'package:logging/logging.dart';
 import 'package:moor/moor.dart' as moor;
@@ -8,23 +10,37 @@ class CalculateTotal {
   var db;
   static final _log = Logger('AddItemToTransaction');
   SalesOrderDetailTempDao salesOrderDetailTempDao;
+  SystemCurrencyDao systemCurrencyDao;
 
   CalculateTotal() {
     db = AppDatabase();
     _log.finest("$className repository constructer call");
 
     salesOrderDetailTempDao = new SalesOrderDetailTempDao(db);
+    systemCurrencyDao = new SystemCurrencyDao(db);
   }
   Future<void> getTotal(String tempSalesOrderNo, String tempTransactionStatus,
       String itemId, String uom) async {
     var onRegister = await salesOrderDetailTempDao.getAllSalesOrderForUpdate(
         tempSalesOrderNo, tempTransactionStatus, itemId, uom);
     if (onRegister.length > 0 && onRegister != null) {
-      var lineUpdate = new SalesOrderDetailTempCompanion(
-          grandTotal: moor.Value((onRegister.single.subTotal +
+      //ToDo Add location to currency
+      double formatedGrandTotal = 0;
+      double unformatedGrandTotal = (onRegister.single.subTotal +
                   onRegister.single.taxTotal +
                   onRegister.single.shippingTotal) -
-              onRegister.single.lineDiscountTotal));
+              onRegister.single.lineDiscountTotal;
+
+      var currency = await systemCurrencyDao.getAllSystemCurrencyByName("JMD");
+      if (currency.length > 0) {
+        var f = new NumberFormat(currency[0].numberFormat, "en_US");
+        formatedGrandTotal = double.tryParse(f.format(unformatedGrandTotal));
+      } else {
+        var f = new NumberFormat("###.0#", "en_US");
+        formatedGrandTotal = double.tryParse(f.format(unformatedGrandTotal));
+      }
+      var lineUpdate = new SalesOrderDetailTempCompanion(
+          grandTotal: moor.Value(formatedGrandTotal));
       await salesOrderDetailTempDao.updateInvoiceGrandTotal(
           lineUpdate, tempSalesOrderNo, tempTransactionStatus, itemId, uom);
     }

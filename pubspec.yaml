@@ -16,6 +16,7 @@ dependencies:
   geolocator: ^6.1.13
   vector_math: any
   sensors: ^0.4.2+6
+  battery: ^1.0.7
 
 
 

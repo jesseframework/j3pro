@@ -10,6 +10,9 @@ import 'package:j3enterprise/src/pro/database/crud/account/exchange_rate/exchang
 import 'package:j3enterprise/src/pro/database/crud/customer/customer_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/series_number/temp_number_log_crud.dart';
 import 'package:j3enterprise/src/pro/resources/shared/sales/add_item_to_transaction.dart';
+import 'package:j3enterprise/src/pro/resources/shared/sales/calculate_tax.dart';
+import 'package:j3enterprise/src/pro/resources/shared/sales/calculate_total.dart';
+import 'package:j3enterprise/src/pro/resources/shared/sales/delete_line_item.dart';
 import 'package:j3enterprise/src/pro/resources/shared/utils/temp_serial_number_logic.dart';
 import 'package:j3enterprise/src/resources/shared/preferences/user_share_data.dart';
 import 'package:logging/logging.dart';
@@ -40,6 +43,9 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
   static final _log = Logger('SalesOrderBloc');
   var db;
   AddItemToTransaction _addItemToTransaction;
+  DeleteSalesOrderLineItem _deleteSalesOrderLineItem;
+  CalculateTotal _calculateTotal;
+  CalculateTax _calculateTax;
   TempNumberLogsDao tempNumberLogsDao;
   TempSerialNumberReader tempSerialNumberReader;
   BusinessRuleDao businessRuleDao;
@@ -54,6 +60,9 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
 
     tempSerialNumberReader = new TempSerialNumberReader();
     _addItemToTransaction = new AddItemToTransaction();
+    _deleteSalesOrderLineItem = new DeleteSalesOrderLineItem();
+    _calculateTax = new CalculateTax();
+    _calculateTotal = new CalculateTotal();
     tempNumberLogsDao = new TempNumberLogsDao(db);
     customerDao = new CustomerDao(db);
     businessRuleDao = new BusinessRuleDao(db);
@@ -162,6 +171,18 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
           userName,
           int.tryParse(userId),
           customerId);
+
+      if (result != null) {
+        print(result);
+      }
+    }
+
+    if (event is DeleteLineItemPress) {
+      var result = await _deleteSalesOrderLineItem.deleteLineItemById(
+          event.itemNumber, event.uom, tempSalesOrderNo, event.id);
+
+      await _calculateTotal.getTotal(
+          tempSalesOrderNo, tempTransactionStatus, event.itemNumber, event.uom);
 
       if (result != null) {
         print(result);

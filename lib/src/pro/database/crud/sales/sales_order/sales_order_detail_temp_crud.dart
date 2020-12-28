@@ -186,6 +186,8 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
           SalesOrderDetailTempCompanion salesOrderDetailTempData) =>
       into(db.salesOrderDetailTemp).insert(salesOrderDetailTempData);
 
+
+
   Future deleteAllSalesOrderTempDetail() =>
       delete(db.salesOrderDetailTemp).go();
 

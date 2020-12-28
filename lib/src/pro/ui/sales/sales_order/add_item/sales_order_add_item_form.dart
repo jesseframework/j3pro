@@ -858,7 +858,14 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                 },
                 child: Dismissible(
                   key: Key(salesOrderDetailTempData[index].id.toString()),
-                  onDismissed: (value) {},
+                  onDismissed: (value) async {
+                    BlocProvider.of<AddItemBloc>(context)
+                        .add(DeleteLineItemPress(
+                      id: salesOrderDetailTempData[index].id,
+                      itemNumber: salesOrderDetailTempData[index].itemId,
+                      uom: salesOrderDetailTempData[index].salesUOM,
+                    ));
+                  },
                   direction: DismissDirection.endToStart,
                   background: Container(
                     color: Colors.redAccent,
@@ -907,7 +914,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 2,
                                               style: TextStyle(
-                                                  fontSize: 20,
+                                                  fontSize: 16,
                                                   fontWeight:
                                                       FontWeight.normal),
                                             ),
@@ -1034,23 +1041,14 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                               color: Colors.teal)),
                                     ),
                                     onSubmitted: (value) async {
-                                       
-                                      BlocProvider.of<AddItemBloc>(context)
-                                            .add(AddItemButtonPress(
-                                                searchText: searchText,
-                                                itemNumber:
-                                                    salesOrderDetailTempData[
-                                                            index]
-                                                        .itemCode,
-                                                setQty: double.parse(value)));
-                                  
-
-                                      // await widget.salesOrderDetailTempDao
-                                      //     .increaseLineItemQuantity(
-                                      //         salesOrderDetailTempData[index]
-                                      //             .copyWith(
-                                      //                 quantity:
-                                      //                     double.parse(value)));
+                                      BlocProvider.of<AddItemBloc>(context).add(
+                                          AddItemButtonPress(
+                                              searchText: searchText,
+                                              itemNumber:
+                                                  salesOrderDetailTempData[
+                                                          index]
+                                                      .itemCode,
+                                              setQty: double.parse(value)));
                                     },
                                   )),
                             ),

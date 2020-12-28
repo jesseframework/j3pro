@@ -1,4 +1,6 @@
+import 'package:intl/intl.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/pro/database/crud/account/currency/currency_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/account/sales_tax/sales_tax_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/customer/customer_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/items/item_master_crud.dart';
@@ -19,6 +21,7 @@ class CalculateTax {
   CustomerDao customerDao;
   SalesOrderDetailTempDao salesOrderDetailTempDao;
   SalesTaxDao salesTaxDao;
+  SystemCurrencyDao systemCurrencyDao;
 
   CalculateTax() {
     db = AppDatabase();
@@ -29,6 +32,7 @@ class CalculateTax {
     salesOrderDetailTempDao = new SalesOrderDetailTempDao(db);
     customerDao = new CustomerDao(db);
     salesTaxDao = new SalesTaxDao(db);
+    systemCurrencyDao = new SystemCurrencyDao(db);
   }
   Future<void> getTotalTax(
       String searchText,
@@ -54,8 +58,20 @@ class CalculateTax {
       if (taxRate > 0) {
         lineTaxTotal = taxRate / 100 * lineSubTotal;
 
+        double formatedGrandTotal = 0;
+
+        var currency =
+            await systemCurrencyDao.getAllSystemCurrencyByName("JMD");
+        if (currency.length > 0) {
+          var f = new NumberFormat(currency[0].numberFormat, "en_US");
+          formatedGrandTotal = double.tryParse(f.format(lineTaxTotal));
+        } else {
+          var f = new NumberFormat("###.0#", "en_US");
+          formatedGrandTotal = double.tryParse(f.format(lineTaxTotal));
+        }
+
         var tax = new SalesOrderDetailTempCompanion(
-            taxTotal: moor.Value(lineTaxTotal),
+            taxTotal: moor.Value(formatedGrandTotal),
             taxGroup: moor.Value(taxGroup),
             taxIndicator: moor.Value(taxIndicator));
 

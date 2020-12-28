@@ -18,7 +18,9 @@
  */
 
 import 'dart:async';
+import 'dart:io';
 
+import 'package:battery/battery.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
@@ -55,6 +57,7 @@ class BackgroundJobsBloc
   Scheduler scheduler;
   static final _log = Logger('BackgroundJobsBloc');
   var db;
+ 
 
   String userMessage;
   AppLoggerRepository appLoggerRepository;
@@ -73,6 +76,7 @@ class BackgroundJobsBloc
   CurrencyRepository currencyRepository;
   ExchangeRateRepository exchangeRateRepository;
   GeoLocation geoLocation;
+ 
 
   DesktopDao desktopDao;
   UpdateBackgroundJobStatus updateBackgroundJobStatus;
@@ -110,6 +114,7 @@ class BackgroundJobsBloc
     try {
       if (event is BackgroundJobsStart) {
         yield BackgroundJobsLoading();
+        
         var data = await backgroundJobScheduleDao.getAllJobs();
         print('Jobb Data Load $data');
         String formatted = await formatDate(DateTime.now().toString());
@@ -300,12 +305,7 @@ class BackgroundJobsBloc
         }
 
         if (event.jobname == "GPS Location Service") {
-          // scheduler.scheduleJobs(
-          //     event.syncFrequency,
-          //     event.jobname,
-          //     (Timer timer) async =>
-          //         await geoLocation.getUserLocation(event.jobname));
-
+         if(Platform.isAndroid && Platform.isIOS)
           scheduler.scheduleJobs(
               event.syncFrequency,
               event.jobname,
