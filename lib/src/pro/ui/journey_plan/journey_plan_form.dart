@@ -153,7 +153,7 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
                         Icons.warning_rounded,
                         color: Colors.amber,
                       ),
-                      title: Text('In Progress'),
+                      title: Text('Cancel'),
                       trailing: Container(
                         height: 30,
                         width: 90,

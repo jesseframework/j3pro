@@ -1,4 +1,6 @@
+import 'package:intl/intl.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/pro/database/crud/account/currency/currency_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/customer/customer_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/items/item_master_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/items/item_price_crud.dart';
@@ -39,6 +41,7 @@ class CalculateDiscount {
   ItemPriceDao itemPriceDao;
   CustomerDao customerDao;
   SalesOrderDetailTempDao salesOrderDetailTempDao;
+  SystemCurrencyDao systemCurrencyDao;
   ItemPricingRuleDao itemPricingRuleDao;
 
   CalculateDiscount() {
@@ -49,6 +52,7 @@ class CalculateDiscount {
     customerDao = new CustomerDao(db);
     salesOrderDetailTempDao = new SalesOrderDetailTempDao(db);
     itemPricingRuleDao = new ItemPricingRuleDao(db);
+    systemCurrencyDao = new SystemCurrencyDao(db);
   }
 
   Future<void> getDiscount(
@@ -134,6 +138,10 @@ class CalculateDiscount {
         numOfcategoryOnRegister);
 
     if (isDiscount.length > 0) {
+      double formateddiscountAmount = 0;
+      double formatedListPrice = 0;
+      double formatedlineSubTotal = 0;
+
       amountOff = isDiscount.single.discountPercentage;
       priceOrDiscount = isDiscount.single.priceOrDiscount;
 
@@ -147,15 +155,33 @@ class CalculateDiscount {
         discountAmount = amountOff;
       }
 
+      var currency = await systemCurrencyDao.getAllSystemCurrencyByName("JMD");
+      if (currency.length > 0) {
+        var f = new NumberFormat(currency[0].numberFormat, "en_US");
+        formateddiscountAmount = double.tryParse(f.format(discountAmount));
+        var flistprice = new NumberFormat(currency[0].numberFormat, "en_US");
+        formatedListPrice = double.tryParse(flistprice.format(listPrice));
+        var flinetotal = new NumberFormat(currency[0].numberFormat, "en_US");
+        formatedlineSubTotal = double.tryParse(flinetotal.format(lineSubTotal));
+      } else {
+        var f = new NumberFormat("###.0#", "en_US");
+        formateddiscountAmount = double.tryParse(f.format(discountAmount));
+
+        var flistprice = new NumberFormat("###.0#", "en_US");
+        formatedListPrice = double.tryParse(flistprice.format(listPrice));
+        var flinetotal = new NumberFormat("###.0#", "en_US");
+        formatedlineSubTotal = double.tryParse(flinetotal.format(lineSubTotal));
+      }
+
       //Now Update the list price and call recalcualte
       //ToDo line discount amount is added however must be able ot recalcuale with other discount apply to the line
       var tempOrder = new SalesOrderDetailTempCompanion(
-          listPrice: moor.Value(listPrice),
-          subTotal: moor.Value(lineSubTotal),
+          listPrice: moor.Value(formatedListPrice),
+          subTotal: moor.Value(formatedlineSubTotal),
           discountPercentage: moor.Value(amountOff),
-          discountAmount: moor.Value(discountAmount),
-          lineDiscountTotal: moor.Value(discountAmount),
-          discountType:  moor.Value(priceOrDiscount));
+          discountAmount: moor.Value(formateddiscountAmount),
+          lineDiscountTotal: moor.Value(formateddiscountAmount),
+          discountType: moor.Value(priceOrDiscount));
 
       await salesOrderDetailTempDao.updateInvoiceTotal(
           tempOrder, transactionNumber, transactionStatus, itemId, salesUom);

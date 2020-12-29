@@ -17,7 +17,6 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-import 'package:j3enterprise/src/database/moor_database.dart';
 
 class InitalSetupData{
   //Future insertJobLog(BackgroundJobLog backgroundJoblog) =>

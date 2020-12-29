@@ -30,7 +30,7 @@ class _ActivitiesMenuFormState extends State<ActivitiesMenuForm> {
   bool toggleList = false;
 
   static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
+    target: LatLng(17.9575081, -76.908),
     zoom: 10.4746,
   );
   @override
