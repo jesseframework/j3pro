@@ -305,7 +305,7 @@ class BackgroundJobsBloc
         }
 
         if (event.jobname == "GPS Location Service") {
-         if(Platform.isAndroid && Platform.isIOS)
+         if(Platform.isAndroid || Platform.isIOS)
           scheduler.scheduleJobs(
               event.syncFrequency,
               event.jobname,
