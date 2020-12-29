@@ -17,7 +17,6 @@ class ActivitiesMenuForm extends StatefulWidget {
   ActivitiesMenuForm({this.journeyWithAddress}) {
     db = AppDatabase();
     desktopDao = DesktopDao(db);
-    
   }
 
   @override
@@ -29,10 +28,6 @@ class _ActivitiesMenuFormState extends State<ActivitiesMenuForm> {
   Completer<GoogleMapController> _controller = Completer();
   bool toggleList = false;
 
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(17.9575081, -76.908),
-    zoom: 10.4746,
-  );
   @override
   void initState() {
     addItemBloc.setOrderNumber();
@@ -82,7 +77,12 @@ class _ActivitiesMenuFormState extends State<ActivitiesMenuForm> {
                           child: GoogleMap(
                             zoomControlsEnabled: false,
                             mapType: MapType.normal,
-                            initialCameraPosition: _kGooglePlex,
+                            initialCameraPosition: CameraPosition(
+                              target: LatLng(
+                                  widget.journeyWithAddress.addr.latitude,
+                                  widget.journeyWithAddress.addr.longitude),
+                              zoom: 10.4746,
+                            ),
                             onMapCreated: (GoogleMapController controller) {
                               _controller.complete(controller);
                             },
