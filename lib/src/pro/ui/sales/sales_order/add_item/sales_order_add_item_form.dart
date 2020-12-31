@@ -576,7 +576,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                                 ),
                                               ),
                                               Text(
-                                                "IN STOCK: 18",
+                                                itemsWithPrices[index].invite.quantityOnHand!=null?"IN STOCK: ${itemsWithPrices[index].invite.quantityOnHand.toString()}":'IN STOCK : 0',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     fontSize: 16,

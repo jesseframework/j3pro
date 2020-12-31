@@ -54,6 +54,8 @@ class ItemsDao extends DatabaseAccessor<AppDatabase> with _$ItemsDaoMixin {
     final query = select(db.items).join([
       leftOuterJoin(
           db.itemsPrices, db.items.itemId.equalsExp(db.itemsPrices.itemId)),
+      leftOuterJoin(db.inventoryItems,
+          db.items.itemId.equalsExp(db.inventoryItems.itemCode)),
     ])
       ..where(db.items.itemName.contains(searchText) |
           db.items.itemCode.contains(searchText) |
@@ -62,8 +64,8 @@ class ItemsDao extends DatabaseAccessor<AppDatabase> with _$ItemsDaoMixin {
 
     return query.watch().map((rows) {
       return rows.map((row) {
-        return ItemsWithPrices(
-            row.readTable(db.items), row.readTable(db.itemsPrices));
+        return ItemsWithPrices(row.readTable(db.items),
+            row.readTable(db.itemsPrices), row.readTable(db.inventoryItems));
       }).toList();
     });
   }
@@ -80,6 +82,7 @@ class ItemsDao extends DatabaseAccessor<AppDatabase> with _$ItemsDaoMixin {
         ' p.item_price '
         ' FROM items i '
         ' LEFT OUTER JOIN items_prices p on i.item_id = p.item_id '
+         ' LEFT OUTER JOIN inventory_items n on i.item_id = n.item_code '
         ' WHERE '
         ' i.item_code LIKE ? or '
         ' i.item_name LIKE ? or '
@@ -102,7 +105,7 @@ class ItemsDao extends DatabaseAccessor<AppDatabase> with _$ItemsDaoMixin {
         ]).watch().map((rows) {
       return rows
           .map((e) => ItemsWithPrices(
-              Item.fromData(e.data, db), ItemsPrice.fromData(e.data, db)))
+              Item.fromData(e.data, db), ItemsPrice.fromData(e.data, db), InventoryItem.fromData(e.data, db)))
           .toList();
     });
   }
