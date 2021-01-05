@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:j3enterprise/src/database/crud/desktop/desktop_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/pro/database/crud/customer/customer_crud.dart';
 import 'package:j3enterprise/src/pro/models/sales/fullfillment/jounery_with_address.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/bloc/add_item_bloc.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
@@ -13,10 +14,12 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 class ActivitiesMenuForm extends StatefulWidget {
   var db;
   DesktopDao desktopDao;
+  
   JourneyWithAddress journeyWithAddress;
   ActivitiesMenuForm({this.journeyWithAddress}) {
     db = AppDatabase();
     desktopDao = DesktopDao(db);
+  
   }
 
   @override

@@ -31,11 +31,12 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
   DateTime deliveryDate;
   String currency = "";
   double exchangeRate = 0;
-  String customerId = "CS10001";
+  String customerId = "";
 
   void setId({String cusID}) {
     customerId = cusID;
   }
+ 
 
   get getCusID => customerId;
   get getOderNumber => tempSalesOrderNo;
