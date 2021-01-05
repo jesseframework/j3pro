@@ -25,6 +25,7 @@ import 'package:j3enterprise/src/pro/ui/items/items_page.dart';
 import 'package:j3enterprise/src/pro/ui/journey_plan/journey_plan_page.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/sales_order_add_item_page.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/sales_order_item_detail_page.dart';
+import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_information/sales_order_form.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_information/sales_order_page.dart';
 
 import 'package:j3enterprise/src/ui/about/about.dart';
@@ -41,7 +42,7 @@ final routes = {
   SalesOrderItemDetailPage.route: (BuildContext context) =>SalesOrderItemDetailPage(),
   BackgroundJobsPage.route: (BuildContext context) => BackgroundJobsPage(),
   
-  SalesOrderPage.route: (BuildContext context) => SalesOrderPage(),
+  SalesOrderPage.route: (BuildContext context) => SalesOrderForm(),
   CommunicationPage.route: (BuildContext context) => CommunicationPage(),
   BussinessRulePage.route: (BuildContext context) => BussinessRulePage(), 
   PreferencesPage.route: (BuildContext context) => PreferencesPage(),
