@@ -145,8 +145,8 @@ class _AppState extends State<App> {
             // navigatorObservers: [BotToastNavigatorObserver()],
             home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
               builder: (context, state) {
-                //ToDo To Implement notification using pushnotification state
-                if (state is PushNotificationState) {}
+                
+                 
                 if (state is AuthenticationCreateMobileHash) {
                   return OfflineLoginPage(
                       userRepository: widget.userRepository);

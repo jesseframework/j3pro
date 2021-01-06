@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 displayDialog(
     {BuildContext context,
     String title,
     Function callBack,
+    bool doubleOnly,
     TextEditingController textcontroller}) async {
   return showDialog(
       context: context,
@@ -13,6 +15,12 @@ displayDialog(
           title: Text(title),
           content: TextField(
             controller: textcontroller,
+            inputFormatters: doubleOnly
+                ? <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(
+                        RegExp(r'^(\d+)?\.?\d{0,9}')),
+                  ]
+                : [],
           ),
           actions: <Widget>[
             FlatButton(

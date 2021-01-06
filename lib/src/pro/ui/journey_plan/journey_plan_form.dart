@@ -7,6 +7,7 @@ import 'package:j3enterprise/src/pro/database/crud/sales/fullfillment/journey_pl
 import 'package:j3enterprise/src/pro/models/sales/fullfillment/jounery_with_address.dart';
 import 'package:j3enterprise/src/pro/ui/activities_menu/activities_menu_page.dart';
 import 'package:j3enterprise/src/pro/ui/journey_plan/bloc/journey_plan_bloc.dart';
+import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/bloc/add_item_bloc.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
@@ -189,7 +190,7 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
                             itemBuilder: (context, index) {
                               return InkWell(
                                 onTap: () async {
-                                  //salesOderBloc.setId(cusID: journeyWithAddressData[index].jplan.customerId);
+                                addItemBloc.setId(cusID: journeyWithAddressData[index].jplan.customerId);
                                   Navigator.push(
                                       context,
                                       EnterExitRoute(
