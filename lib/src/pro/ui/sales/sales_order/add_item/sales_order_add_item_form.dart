@@ -576,7 +576,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                                 ),
                                               ),
                                               Text(
-                                                itemsWithPrices[index].invite.quantityOnHand!=null?"IN STOCK: ${itemsWithPrices[index].invite.quantityOnHand.toString()}":'IN STOCK : 0',
+                                                'items',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     fontSize: 16,
@@ -611,6 +611,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                                                         index]
                                                                     .item
                                                                     .itemId,
+                                                                    context: context,
                                                             setQty:
                                                                 double.parse(
                                                               _qtyController

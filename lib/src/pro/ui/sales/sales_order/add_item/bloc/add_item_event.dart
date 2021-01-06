@@ -11,13 +11,15 @@ class AddItemButtonPress extends AddItemEvent {
   final double setQty;
   final String searchText;
   final String itemNumber;
+  final BuildContext context;
   const AddItemButtonPress(
       {@required this.searchText,
       @required this.setQty,
+      @required this.context,
       @required this.itemNumber});
 
   @override
-  List<Object> get props => [searchText, setQty, itemNumber];
+  List<Object> get props => [searchText, setQty, itemNumber,context];
 
   @override
   String toString() =>
