@@ -103,24 +103,7 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
     );
   }
 
-  // Future increaseLineItemQuantity(
-  //     SalesOrderDetailTempCompanion qty,
-  //     String transactionNumber,
-  //     String transactionStatus,
-  //     String itemId,
-  //     String salesUom) {
-  //   return (update(db.salesOrderDetailTemp)
-  //         ..where((t) =>
-  //             t.transactionNumber.equals(transactionNumber) &
-  //             t.transactionStatus.equals(transactionStatus) &
-  //             t.itemId.equals(itemId) &
-  //             t.salesUOM.equals(salesUom)))
-  //       .write(
-  //     SalesOrderDetailTempCompanion(
-  //       quantity: qty.quantity,
-  //     ),
-  //   );
-  // }
+ 
   Future increaseLineItemQuantity(SalesOrderDetailTempData record) =>
       update(salesOrderDetailTemp).replace(record);
 

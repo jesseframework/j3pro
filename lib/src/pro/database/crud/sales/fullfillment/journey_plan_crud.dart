@@ -64,8 +64,29 @@ class JourneyPlanDao extends DatabaseAccessor<AppDatabase>
     );
   }
 
+    Future updateTransactionStatus(
+      JourneyPlanCompanion ts,
+      String customerid,
+      String userName,
+      String transactionStatus) {
+    return (update(db.journeyPlan)
+          ..where((t) =>
+              t.customerId.equals(customerid)         
+              ))
+        .write(
+      JourneyPlanCompanion(
+          transactionStatus: ts.transactionStatus
+          ),
+    );
+  }
+
   Future<List<JourneyPlanData>> getAllJourneyPlanByUser(String userName) {
     return (select(db.journeyPlan)..where((t) => t.assignTo.equals(userName)))
+        .get();
+  }
+
+    Future<List<JourneyPlanData>> getAllJourneyPlanByCustomer(String customerId) {
+    return (select(db.journeyPlan)..where((t) => t.customerId.equals(customerId)))
         .get();
   }
 

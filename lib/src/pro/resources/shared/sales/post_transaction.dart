@@ -49,14 +49,37 @@ class PostTransaction {
 
   Future<void> postTransactionData(
       String customerId,
+      String currencyCode,
+      double exchangeRate,
+      String purchaseOrderNo,
       String transactionType,
       String transactionNumber,
       String transactionStatus,
       String inventoryCycleNumber,
       String daySessionNumber,
-      String orderType) async {
+      String orderType,
+      String userName,
+      int userId,
+      int tenantId,
+      String soldTo,
+      String billingAddressName,
+      String shippingAddressName,
+      double latitude,
+      double longitude,
+      DateTime deliveryDate) async {
     if (transactionType == "Sales Order") {
       //Sales Order Header
+      double subTotal = 0;
+      double taxTotal = 0;
+      double depositTotal = 0;
+      double discountTotal = 0;
+      double shippingTotal = 0;
+      int itemCount = 0;
+      double grandTotal = 0;
+      String discountType = "";
+      double discountPercentage = 0;
+      double discountAmount = 0;
+
       var getCustomer = await customerDao.getAllCustomerById(customerId);
       if (getCustomer.length > 0 && getCustomer != null) {}
 
@@ -98,41 +121,56 @@ class PostTransaction {
             conversionFactor: moor.Value(detail.conversionFactor));
       }
 
+      salesOrderDetailTempDao
+          .transactionTotal(transactionNumber, transactionStatus)
+          .listen((e) {
+        if (e.isNotEmpty) {
+          subTotal = e.single.subTotal;
+          taxTotal = e.single.taxTotal;
+          depositTotal = e.single.depositTotal;
+          discountTotal = e.single.lineDiscountTotal;
+          shippingTotal = e.single.shippingTotal;
+          itemCount = e.single.itemCount;
+          grandTotal = e.single.grandTotal;
+          discountType = e.single.discountType;
+          discountPercentage = e.single.discountPercentage;
+          discountAmount = e.single.discountAmount;
+        }
+      });
+
       var salesHeader = new SalesOrderHeaderCompanion(
           transactionNumber: moor.Value(transactionNumber),
           transactionStatus: moor.Value("Post"),
           inventoryCycleNumber: moor.Value(inventoryCycleNumber),
           daySessionNumber: moor.Value(daySessionNumber),
-          customerId: moor.Value(0), //ToDo convert to string
-          soldTo: moor.Value(""),
+          customerId: moor.Value(customerId),
+          soldTo: moor.Value(soldTo),
           orderDate: moor.Value(DateTime.now()),
-          deliveryDate:
-              moor.Value(DateTime.now()), //ToDo Add correct deliver date
+          deliveryDate: moor.Value(deliveryDate),
           orderType: moor.Value(orderType),
           orderStatus: moor.Value("Waiting"),
-          purchaseOrderNo: moor.Value(""), //ToDo Bring in PO No
-          currency: moor.Value(""),
-          exchangeRate: moor.Value(0),
-          tenantId: moor.Value(0),
+          purchaseOrderNo: moor.Value(purchaseOrderNo),
+          currency: moor.Value(currencyCode),
+          exchangeRate: moor.Value(exchangeRate),
+          tenantId: moor.Value(tenantId),
           couponCode: moor.Value(0),
-          billingAddressName: moor.Value(""),
-          shippingAddressName: moor.Value(""),
+          billingAddressName: moor.Value(billingAddressName),
+          shippingAddressName: moor.Value(shippingAddressName),
           yourInitial: moor.Value(""),
-          subTotal: moor.Value(0),
-          taxTotal: moor.Value(0),
-          depositTotal: moor.Value(0),
-          discountTotal: moor.Value(0),
-          shippingTotal: moor.Value(0),
-          itemCount: moor.Value(0),
-          grandTotal: moor.Value(0),
-          discountType: moor.Value(""),
-          discountPercentage: moor.Value(0),
-          discountAmount: moor.Value(0),
-          userName: moor.Value(""),
-          userId: moor.Value(0),
-          latitude: moor.Value(0),
-          longitude: moor.Value(0),
-          transactionStart: moor.Value(DateTime.now()),
+          subTotal: moor.Value(subTotal),
+          taxTotal: moor.Value(taxTotal),
+          depositTotal: moor.Value(depositTotal),
+          discountTotal: moor.Value(discountTotal),
+          shippingTotal: moor.Value(shippingTotal),
+          itemCount: moor.Value(itemCount),
+          grandTotal: moor.Value(grandTotal),
+          discountType: moor.Value(discountType),
+          discountPercentage: moor.Value(discountPercentage),
+          discountAmount: moor.Value(discountAmount),
+          userName: moor.Value(userName),
+          userId: moor.Value(userId),
+          latitude: moor.Value(latitude),
+          longitude: moor.Value(longitude),
           transactionEnd: moor.Value(DateTime.now()));
 
       var isPost = await salesOrderDetailDao.postSalesOrderData(

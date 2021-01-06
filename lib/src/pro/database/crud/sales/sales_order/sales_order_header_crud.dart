@@ -23,5 +23,8 @@ class SalesOrderHeaderDao extends DatabaseAccessor<AppDatabase>
   Future insertSalesOrderHeader(SalesOrderHeaderData salesOrderHeaderData) =>
       into(db.salesOrderHeader).insert(salesOrderHeaderData);
 
+      Future tempInsertSalesOrderHeader(SalesOrderHeaderCompanion salesOrderHeaderCompanion) =>
+      into(db.salesOrderHeader).insert(salesOrderHeaderCompanion);
+
   Future deleteAllSalesOrderHeader() => delete(db.salesOrderHeader).go();
 }

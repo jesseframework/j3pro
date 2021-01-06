@@ -17,7 +17,7 @@ class SalesOrderHeaderData extends DataClass
   final String transactionStatus;
   final String inventoryCycleNumber;
   final String daySessionNumber;
-  final int customerId;
+  final String customerId;
   final String soldTo;
   final DateTime orderDate;
   final DateTime deliveryDate;
@@ -104,7 +104,7 @@ class SalesOrderHeaderData extends DataClass
           data['${effectivePrefix}inventory_cycle_number']),
       daySessionNumber: stringType.mapFromDatabaseResponse(
           data['${effectivePrefix}day_session_number']),
-      customerId: intType
+      customerId: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}customer_id']),
       soldTo:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}sold_to']),
@@ -188,7 +188,7 @@ class SalesOrderHeaderData extends DataClass
       map['day_session_number'] = Variable<String>(daySessionNumber);
     }
     if (!nullToAbsent || customerId != null) {
-      map['customer_id'] = Variable<int>(customerId);
+      map['customer_id'] = Variable<String>(customerId);
     }
     if (!nullToAbsent || soldTo != null) {
       map['sold_to'] = Variable<String>(soldTo);
@@ -390,7 +390,7 @@ class SalesOrderHeaderData extends DataClass
       inventoryCycleNumber:
           serializer.fromJson<String>(json['inventoryCycleNumber']),
       daySessionNumber: serializer.fromJson<String>(json['daySessionNumber']),
-      customerId: serializer.fromJson<int>(json['customerId']),
+      customerId: serializer.fromJson<String>(json['customerId']),
       soldTo: serializer.fromJson<String>(json['soldTo']),
       orderDate: serializer.fromJson<DateTime>(json['orderDate']),
       deliveryDate: serializer.fromJson<DateTime>(json['deliveryDate']),
@@ -434,7 +434,7 @@ class SalesOrderHeaderData extends DataClass
       'transactionStatus': serializer.toJson<String>(transactionStatus),
       'inventoryCycleNumber': serializer.toJson<String>(inventoryCycleNumber),
       'daySessionNumber': serializer.toJson<String>(daySessionNumber),
-      'customerId': serializer.toJson<int>(customerId),
+      'customerId': serializer.toJson<String>(customerId),
       'soldTo': serializer.toJson<String>(soldTo),
       'orderDate': serializer.toJson<DateTime>(orderDate),
       'deliveryDate': serializer.toJson<DateTime>(deliveryDate),
@@ -473,7 +473,7 @@ class SalesOrderHeaderData extends DataClass
           String transactionStatus,
           String inventoryCycleNumber,
           String daySessionNumber,
-          int customerId,
+          String customerId,
           String soldTo,
           DateTime orderDate,
           DateTime deliveryDate,
@@ -673,7 +673,7 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
   final Value<String> transactionStatus;
   final Value<String> inventoryCycleNumber;
   final Value<String> daySessionNumber;
-  final Value<int> customerId;
+  final Value<String> customerId;
   final Value<String> soldTo;
   final Value<DateTime> orderDate;
   final Value<DateTime> deliveryDate;
@@ -746,7 +746,7 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
     this.transactionStatus = const Value.absent(),
     @required String inventoryCycleNumber,
     @required String daySessionNumber,
-    @required int customerId,
+    @required String customerId,
     this.soldTo = const Value.absent(),
     @required DateTime orderDate,
     @required DateTime deliveryDate,
@@ -804,7 +804,7 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
     Expression<String> transactionStatus,
     Expression<String> inventoryCycleNumber,
     Expression<String> daySessionNumber,
-    Expression<int> customerId,
+    Expression<String> customerId,
     Expression<String> soldTo,
     Expression<DateTime> orderDate,
     Expression<DateTime> deliveryDate,
@@ -883,7 +883,7 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
       Value<String> transactionStatus,
       Value<String> inventoryCycleNumber,
       Value<String> daySessionNumber,
-      Value<int> customerId,
+      Value<String> customerId,
       Value<String> soldTo,
       Value<DateTime> orderDate,
       Value<DateTime> deliveryDate,
@@ -978,7 +978,7 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
       map['day_session_number'] = Variable<String>(daySessionNumber.value);
     }
     if (customerId.present) {
-      map['customer_id'] = Variable<int>(customerId.value);
+      map['customer_id'] = Variable<String>(customerId.value);
     }
     if (soldTo.present) {
       map['sold_to'] = Variable<String>(soldTo.value);
@@ -1215,11 +1215,11 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
   }
 
   final VerificationMeta _customerIdMeta = const VerificationMeta('customerId');
-  GeneratedIntColumn _customerId;
+  GeneratedTextColumn _customerId;
   @override
-  GeneratedIntColumn get customerId => _customerId ??= _constructCustomerId();
-  GeneratedIntColumn _constructCustomerId() {
-    return GeneratedIntColumn(
+  GeneratedTextColumn get customerId => _customerId ??= _constructCustomerId();
+  GeneratedTextColumn _constructCustomerId() {
+    return GeneratedTextColumn(
       'customer_id',
       $tableName,
       false,

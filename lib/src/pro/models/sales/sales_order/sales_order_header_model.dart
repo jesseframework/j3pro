@@ -8,7 +8,7 @@ class SalesOrderHeader extends Table implements MustHaveTenant, MultiUser {
   TextColumn get transactionStatus => text().nullable()();
   TextColumn get inventoryCycleNumber => text()();
   TextColumn get daySessionNumber => text()();
-  IntColumn get customerId => integer()();
+  TextColumn get customerId => text()();
   TextColumn get soldTo => text().nullable()();
   DateTimeColumn get orderDate => dateTime()();
   DateTimeColumn get deliveryDate => dateTime()();
