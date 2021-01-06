@@ -611,6 +611,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                                                         index]
                                                                     .item
                                                                     .itemId,
+                                                                    context: context,
                                                             setQty:
                                                                 double.parse(
                                                               _qtyController

@@ -62,24 +62,6 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
     super.initState();
   }
 
-  // Future setDefaultData() async {
-  //   List<CustomerData> customerData =
-  //       await widget.customerDao.getAllCustomerById(addItemBloc.customerId);
-  //   defaultCurrency = customerData[0].defaultCurrency.isNotEmpty
-  //       ? customerData[0].defaultCurrency
-  //       : 'JMD';
-  //   List<SystemCurrencyData> currencydata =
-  //       await widget.systemCurrencyDao.getAllSystemCurrency();
-  //   defaultCurrencyList = currencydata.isNotEmpty
-  //       ? currencydata
-  //       : [SystemCurrencyData(currencyName: 'No Currency Found')];
-  //   List<ExchangeRateData> exchangeRateData = await widget.exchangeRateDao
-  //       .getAllExchnageRateByCurrency('JMD', defaultCurrency);
-
-  //   exchangeRate = exchangeRateData[0].exchangeRate;
-
-  //   return customerData;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -95,19 +77,14 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                 Navigator.push(context,
                     EnterExitRoute(enterPage: SalesOrderAddItemPage()));
               },
-              child: InkWell(
-                onTap: () {
-                  // widget.salesOrderHeaderDao.insertSalesOrderHeader(SalesOrderHeaderData())
-                },
-                child: Row(
-                  children: [
-                    Text(
-                      "Next",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    Icon(Icons.arrow_forward_ios)
-                  ],
-                ),
+              child: Row(
+                children: [
+                  Text(
+                    "Next",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  Icon(Icons.arrow_forward_ios)
+                ],
               ),
             ),
             IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),

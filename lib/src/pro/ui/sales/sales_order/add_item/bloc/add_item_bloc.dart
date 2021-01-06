@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/database/crud/business_rule/business_rule_crud.dart';
 import 'package:j3enterprise/src/database/crud/business_rule/non_global_business_rule_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
@@ -15,6 +16,7 @@ import 'package:j3enterprise/src/pro/resources/shared/sales/calculate_total.dart
 import 'package:j3enterprise/src/pro/resources/shared/sales/delete_line_item.dart';
 import 'package:j3enterprise/src/pro/resources/shared/utils/temp_serial_number_logic.dart';
 import 'package:j3enterprise/src/resources/shared/preferences/user_share_data.dart';
+import 'package:j3enterprise/src/resources/shared/widgets/dialog.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
@@ -36,7 +38,6 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
   void setId({String cusID}) {
     customerId = cusID;
   }
- 
 
   get getCusID => customerId;
   get getOderNumber => tempSalesOrderNo;
@@ -174,7 +175,10 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
           customerId);
 
       if (result != null) {
-        print(result);
+        displayDialog(
+            onlyMessage: true,
+            title: result.toString(),
+            context: event.context);
       }
     }
 
