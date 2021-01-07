@@ -19,23 +19,23 @@ class PostTransactionHeader {
   }
 
   Future<void> postTransactionData(
-      String customerId,
-      String currencyCode,
-      double exchangeRate,
-      String purchaseOrderNo,
-      String transactionType,
-      String transactionNumber,
-      String transactionStatus,
-      String inventoryCycleNumber,
-      String daySessionNumber,
-      String orderType,
-      String userName,
-      int userId,
-      int tenantId,
-      String soldTo,
-      String billingAddressName,
-      String shippingAddressName,
-      DateTime deliveryDate) async {
+      {@moor.required String customerId,
+      @moor.required String currencyCode,
+      @moor.required double exchangeRate,
+      @moor.required String purchaseOrderNo,
+      @moor.required String transactionType,
+      @moor.required String transactionNumber,
+      @moor.required String transactionStatus,
+      @moor.required String inventoryCycleNumber,
+      @moor.required String daySessionNumber,
+      @moor.required String orderType,
+      @moor.required String userName,
+      @moor.required int userId,
+      @moor.required int tenantId,
+      @moor.required String soldTo,
+      @moor.required String billingAddressName,
+      @moor.required String shippingAddressName,
+      @moor.required DateTime deliveryDate}) async {
     if (transactionType == "Sales Order") {
       //Sales Order Header
 

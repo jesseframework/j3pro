@@ -14,7 +14,7 @@ class TempSerialNumberReader {
     tempNumberLogsDao = new TempNumberLogsDao(db);
   }
 
-  Future<String> getTempNumber(String typeOfNumber) async {
+  Future<String> getTempNumber({String typeOfNumber}) async {
     String numberSet = "";
     var temNumbers =
         await tempNumberLogsDao.getAllTempNumberLogsByType(typeOfNumber);

@@ -1,5 +1,6 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/account/currency/currency_crud.dart';
@@ -8,8 +9,10 @@ import 'package:j3enterprise/src/pro/database/crud/customer/address_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/customer/customer_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/sales/sales_order/sales_order_header_crud.dart';
 import 'package:j3enterprise/src/pro/models/sales/fullfillment/jounery_with_address.dart';
+import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/bloc/add_item_bloc.dart';
 
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/sales_order_add_item_page.dart';
+import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_information/bloc/sales_oder_bloc.dart';
 
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
@@ -50,7 +53,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
   String percentageAmount = '';
   String defaultAmount;
   String swipeDiscountTpye = 'Percentage';
-  String defaultCurrency = 'Standard Order';
+  String defaultCurrency = 'JMD';
   String deliveryInstructions = '';
   List<SystemCurrencyData> defaultCurrencyList = [];
   DateTime dateTime = DateTime.now();
@@ -61,7 +64,6 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
     defaultCurrencyList = widget.currenciesData;
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +76,17 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
           actions: [
             InkWell(
               onTap: () {
+                BlocProvider.of<SalesOderBloc>(context)
+                    .add(CreateSalesOrderHeader(
+                    currencyCode:defaultCurrency,
+                    exchangeRate: exchangeRate,
+                    orderType: swipeDiscountTpye,
+                    deliveryDate: dateTime ,
+                    transactionType: 'Sales Order',
+                    customerId: addItemBloc.customerId,
+                    transactionStatus: 'InProgress',
+                    
+                    ));
                 Navigator.push(context,
                     EnterExitRoute(enterPage: SalesOrderAddItemPage()));
               },
