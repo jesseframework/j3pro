@@ -139,7 +139,7 @@ class AddItemToTransaction {
 
     var item = await itemsDao.getItemForSales(searchText);
     if (item != null && item.length > 0) {
-      result = "Item Found";
+       
       //Assign Item values
       itemId = item[0].itemId;
       itemName = item[0].itemName;
@@ -376,8 +376,7 @@ class AddItemToTransaction {
       registerQuantityTotal = 0;
       quantity = 0;
 
-      result = "Item Add Success";
-
+      
       //ToDo Check if code execute successfull
     } else {
       var searchServer = await businessRuleDao.getSingleBusinessRule("SRCR");

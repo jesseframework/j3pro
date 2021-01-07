@@ -6,7 +6,7 @@ import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/account/currency/currency_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/customer/address_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/sales/fullfillment/journey_plan_crud.dart';
-import 'package:j3enterprise/src/pro/models/sales/fullfillment/jounery_with_address.dart';
+ 
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
 import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
 import 'package:j3enterprise/src/resources/shared/function/update_backgroung_job_schedule_status.dart';

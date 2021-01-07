@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 displayDialog(
     {BuildContext context,
     String title,
+    bool onlyMessage=false,
     Function callBack,
     bool doubleOnly,
     TextEditingController textcontroller}) async {
@@ -13,7 +14,7 @@ displayDialog(
         return AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           title: Text(title),
-          content: TextField(
+          content:onlyMessage?SizedBox(): TextField(
             controller: textcontroller,
             inputFormatters: doubleOnly
                 ? <TextInputFormatter>[
@@ -24,12 +25,12 @@ displayDialog(
           ),
           actions: <Widget>[
             FlatButton(
-              child: Text('Discard'),
+              child: Text(onlyMessage?'Ok':'Discard'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
-            FlatButton(
+            onlyMessage?SizedBox():FlatButton(
               child: Text('Save'),
               onPressed: () async {
                 await callBack(textcontroller.text.toString());
