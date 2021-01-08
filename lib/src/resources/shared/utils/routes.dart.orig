@@ -18,10 +18,9 @@
  */
 
 import 'package:flutter/material.dart';
+<<<<<<< Updated upstream
 import 'package:j3enterprise/src/pro/ui/activities_menu/activities_menu_page.dart';
 
-import 'package:j3enterprise/src/pro/models/customer/address_model.dart';
-import 'package:j3enterprise/src/pro/ui/address/address_list_page.dart';
 import 'package:j3enterprise/src/pro/ui/customer/customer_list_page.dart';
 import 'package:j3enterprise/src/pro/ui/items/items_page.dart';
 import 'package:j3enterprise/src/pro/ui/journey_plan/journey_plan_page.dart';
@@ -30,6 +29,14 @@ import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/sales_order_i
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_information/sales_order_form.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_information/sales_order_page.dart';
 
+=======
+import 'package:j3enterprise/src/pro/models/customer/address_model.dart';
+import 'package:j3enterprise/src/pro/ui/address/address_list_page.dart';
+import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_item_detail_page.dart';
+import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_page.dart';
+import 'package:j3enterprise/src/pro/ui/sales/sales_order/seles_order_item_page.dart';
+import 'package:j3enterprise/src/pro/ui/service_activities/service_activities_page.dart';
+>>>>>>> Stashed changes
 import 'package:j3enterprise/src/ui/about/about.dart';
 import 'package:j3enterprise/src/ui/background_jobs/backgroundjobs_pages.dart';
 import 'package:j3enterprise/src/ui/bussiness_rule/bussiness_rule_page.dart';
@@ -53,10 +60,14 @@ final routes = {
   LoginPage.route: (BuildContext context) => LoginPage(),
   HomePage.route: (BuildContext context) => HomePage(),
   About.route: (BuildContext context) => About(),
+<<<<<<< Updated upstream
   SalesOrderAddItemPage.route: (BuildContext context) => SalesOrderAddItemPage(),
   JourneyPlanPage.route: (BuildContext context) => JourneyPlanPage(),
   ActivitiesMenuPage.route: (BuildContext context) => ActivitiesMenuPage(),
   CustomerListPage.route: (BuildContext context) => CustomerListPage(),
   ItemsPage.route: (BuildContext context) => ItemsPage(),
   
+=======
+  AddressListPage.route: (BuildContext context) => AddressListPage(),
+>>>>>>> Stashed changes
 };

@@ -44,7 +44,7 @@ class _DropdownFormFieldNormalReuseState
 
   @override
   Widget build(BuildContext context) {
-    print("dropdown valuue: ${widget.selectedValue}");
+    print("dropdown value: ${widget.selectedValue}");
     setselectedValue = widget.selectedValue;
 
     return Container(
@@ -54,10 +54,9 @@ class _DropdownFormFieldNormalReuseState
             padding: const EdgeInsets.all(10.00),
             child: DropdownButtonFormField<String>(
               decoration: InputDecoration(
-
-                  filled: true,
-                  //fillColor: Theme.of(context).backgroundColor
-                ),
+                filled: true,
+                //fillColor: Theme.of(context).backgroundColor
+              ),
               hint: Text(widget.hintText),
               value: setselectedValue,
               onChanged: (String newValue) {
