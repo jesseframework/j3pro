@@ -76,11 +76,11 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
 
   void setOrderNumber() async {
     tempSalesOrderNo =
-        await tempSerialNumberReader.getTempNumber("Sales Order");
+        await tempSerialNumberReader.getTempNumber(typeOfNumber:"Sales Order");
     tempInventoryCycle =
-        await tempSerialNumberReader.getTempNumber("Inventory Cycle");
+        await tempSerialNumberReader.getTempNumber(typeOfNumber:"Inventory Cycle");
     tempDaySessionNumber =
-        await tempSerialNumberReader.getTempNumber("Clock Out");
+        await tempSerialNumberReader.getTempNumber(typeOfNumber:"Clock In");
   }
 
   @override
@@ -93,11 +93,11 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
     yield AddItemLoading();
     _log.finest("get temp number from database");
     tempSalesOrderNo =
-        await tempSerialNumberReader.getTempNumber("Sales Order");
+        await tempSerialNumberReader.getTempNumber(typeOfNumber: "Sales Order");
     tempInventoryCycle =
-        await tempSerialNumberReader.getTempNumber("Inventory Cycle");
+        await tempSerialNumberReader.getTempNumber(typeOfNumber:"Inventory Cycle");
     tempDaySessionNumber =
-        await tempSerialNumberReader.getTempNumber("Clock Out");
+        await tempSerialNumberReader.getTempNumber(typeOfNumber:"Clock In");
 
     _log.finest("get customer by customer number");
     var cust = await customerDao.getAllCustomerById(customerId);
