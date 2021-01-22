@@ -75,13 +75,19 @@ class PostTransactionHeader {
           transactionStart: moor.Value(DateTime.now()),
           transactionEnd: moor.Value(DateTime.now()));
 
-      await salesOrderHeaderDao.tempInsertSalesOrderHeader(salesHeader);
+      var isTrasactionCurrent = await salesOrderHeaderDao
+          .getSalesOrderHeaderBySaleOrderNo(transactionNumber);
+      if (isTrasactionCurrent.length > 0 &&
+          isTrasactionCurrent[0].transactionStatus == "InProgress") {
+      } else {
+        await salesOrderHeaderDao.tempInsertSalesOrderHeader(salesHeader);
 
-      var updateJplan =
-          new JourneyPlanCompanion(transactionStatus: moor.Value("InProgress"));
+        var updateJplan = new JourneyPlanCompanion(
+            transactionStatus: moor.Value("InProgress"));
 
-      await journeyPlanDao.updateTransactionStatus(
-          updateJplan, customerId, userName, transactionStatus);
+        await journeyPlanDao.updateTransactionStatus(
+            updateJplan, customerId, userName, transactionStatus);
+      }
     }
     if (transactionType == "Sales Invoice") {}
 

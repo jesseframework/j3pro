@@ -14,6 +14,10 @@ class SalesOrderHeaderDao extends DatabaseAccessor<AppDatabase>
     return (select(db.salesOrderHeader).get());
   }
 
+  Future<List<SalesOrderHeaderData>> getSalesOrderHeaderBySaleOrderNo(String orderNo) {
+    return (select(db.salesOrderHeader)..where((t) => t.transactionNumber.contains(orderNo))).get();
+  }
+
   Stream<List<SalesOrderHeaderData>> watchAllSalesOrderHeader(String orderNo) {
     return (select(db.salesOrderHeader)
           ..where((t) => t.transactionNumber.contains(orderNo)))
