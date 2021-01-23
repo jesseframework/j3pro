@@ -14,6 +14,7 @@ import 'package:j3enterprise/src/pro/models/items/ItemsWithPrices.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/bloc/add_item_bloc.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/check_out/sales_order_checkout_page.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/sales_order_item_detail_page.dart';
+import 'package:j3enterprise/src/pro/ui/sales/sales_order/check_out/sales_order_finalized.dart';
 import 'package:j3enterprise/src/pro/utils/show_flushbar.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
@@ -113,7 +114,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
           InkWell(
             onTap: () {
               Navigator.push(
-                  context, SizeRoute(page: SalesOrderCheckOutPage()));
+                  context, SizeRoute(page: SalesOrderFinslizedPage()));
             },
             child: Row(
               children: [
