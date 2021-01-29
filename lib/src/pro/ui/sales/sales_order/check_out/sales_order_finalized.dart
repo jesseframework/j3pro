@@ -33,18 +33,31 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                         context, SizeRoute(page: SalesOrderCheckOutPage()));
                   },
                   child: Text(
-                    "Save as Draft",
+                    " Complete And Print",
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
                 SizedBox(
                   width: 5,
                 ),
-                Icon(Icons.drafts)
               ],
             ),
           ),
-          IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
+          //IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
+          PopupMenuButton<String>(
+            icon: Icon(Icons.more_vert),
+            onSelected: (value) {},
+            itemBuilder: (BuildContext context) {
+              return <PopupMenuItem<String>>[
+                new PopupMenuItem<String>(
+                    child: ListTile(
+                      leading: Icon(Icons.drafts),
+                      title: Text('Save as Draft'),
+                    ),
+                    value: 'Draft'),
+              ];
+            },
+          ),
         ],
       ),
       body: Padding(
@@ -59,7 +72,7 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                       color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(8)),
                   child: Padding(
-                    padding: const EdgeInsets.all(12.0),
+                    padding: const EdgeInsets.all(5.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -78,7 +91,7 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                           child: Text(
                             'LRD000',
                             style: TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 36),
+                                fontWeight: FontWeight.w600, fontSize: 25),
                           ),
                         ),
                       ],
@@ -125,7 +138,7 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                     // height: MediaQuery.of(context).size.height * 0.08,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 20),
+                          horizontal: 30, vertical: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,9 +146,6 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                           buildSalesOrderDateCardRowTile(
                             heading: 'Order Date',
                             title: '1/22/2021',
-                          ),
-                          SizedBox(
-                            height: 15,
                           ),
                           buildSalesOrderDateCardRowTile(
                             heading: 'Dilvery Date',
@@ -147,7 +157,7 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Container(
-                      height: 300,
+                      height: 250,
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
                           color: Theme.of(context).cardColor,
@@ -155,7 +165,9 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                       // height: MediaQuery.of(context).size.height * 0.08,
                       child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Stack(children: [
+                          child: Stack(
+                            
+                            children: [
                             Signature(
                               controller: _controller,
                               height: 200,
@@ -164,9 +176,9 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                                   Theme.of(context).scaffoldBackgroundColor,
                             ),
                             Positioned(
-                                left: MediaQuery.of(context).size.width * 0.2,
-                                right: MediaQuery.of(context).size.width * 0.2,
-                                bottom: 60,
+                                left: MediaQuery.of(context).size.width * 0.20,
+                                right: MediaQuery.of(context).size.width * 0.20,
+                                bottom: 33,
                                 child: DottedLine()),
                             Container(
                               child: Text(
@@ -178,44 +190,31 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                               ),
                             ),
                             Positioned(
-                                
-                                right: MediaQuery.of(context).size.width * 0.2,
-                                bottom: 60,
+                                right: MediaQuery.of(context).size.width * 0.20,
+                                bottom: 35,
                                 child: InkWell(
                                     onTap: () {
                                       _controller.clear();
                                     },
-                                    child: Icon(Icons.delete,color: Colors.red,size: 40,))),
+                                    child: Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                      size: 40,
+                                    ))),
                           ]))),
                 ),
+                SizedBox(height: 150,),
               ],
             ),
           ),
         ),
       ),
       bottomSheet: Container(
-        height: 200,
+        height: 150,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 3),
-              child: MaterialButton(
-                  color: Colors.green,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    child: Text(
-                      'Complete And Send',
-                      style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                  ),
-                  onPressed: () {}),
-            ),
+            
             SizedBox(
               height: 5,
             ),
