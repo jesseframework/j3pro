@@ -25,6 +25,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/bloc/add_item_bloc.dart';
+import 'package:j3enterprise/src/pro/ui/sales/sales_order/check_out/bloc/sales_order_finalize_bloc.dart';
 import 'package:j3enterprise/src/resources/services/background_fetch_service.dart';
 import 'package:j3enterprise/src/resources/services/firebase_message_wrapper.dart';
 import 'package:j3enterprise/src/resources/services/init_services.dart';
@@ -35,9 +36,7 @@ import 'package:j3enterprise/src/ui/home/home.dart';
 import 'package:j3enterprise/src/ui/login/login_page.dart';
 import 'package:j3enterprise/src/ui/login_offline/offline_login_page.dart';
 import 'package:j3enterprise/src/ui/splash/splash_page.dart';
-import 'package:overlay_support/overlay_support.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'src/resources/repositories/user_repository.dart';
 import 'src/resources/shared/common/loading_indicator.dart';
 import 'src/ui/authentication/authentication_bloc.dart';
@@ -67,8 +66,6 @@ Future<void> main() async {
     SharedPreferences.setMockInitialValues({});
   }
   await systemInitelSetup();
-  //await initServiceSetup.setupLogging();
-
   final userRepository = UserRepository();
 
   runApp(
@@ -130,73 +127,71 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return FirebaseMessageWrapper(
-      child: OverlaySupport(
-        child: MultiBlocProvider(
-          providers: [
-            BlocProvider<AuthenticationBloc>(
-              create: (context) => AuthenticationBloc()..add(AppStarted()),
-            ),
-           BlocProvider<AddItemBloc>(
-              create: (context) => AddItemBloc(),
-           )
-          ],
-          child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            // navigatorObservers: [BotToastNavigatorObserver()],
-            home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-              builder: (context, state) {
-                
-                 
-                if (state is AuthenticationCreateMobileHash) {
-                  return OfflineLoginPage(
-                      userRepository: widget.userRepository);
-                }
-                if (state is AuthenticationAuthenticated) {
-                  return HomePage();
-                }
-                if (state is AuthenticationUnauthenticated) {
-                  return LoginPage();
-                }
-                if (state is AuthenticationLoading) {
-                  return LoadingIndicator();
-                }
-                return SplashPage();
-              },
-            ),
-            theme: themeData,
-            locale: _locale,
-            routes: routes,
-            supportedLocales: [
-              Locale('en', 'US'),
-              Locale('es', 'ES'),
-              Locale('sk', 'SK'),
-            ],
-            localizationsDelegates: [
-              AppLocalization.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-            ],
-            localeResolutionCallback: (locale, supportedLocales) {
-              // Check if the current device locale is supported
-              if (Platform.isAndroid) {
-                for (var supportedLocale in supportedLocales) {
-                  if (supportedLocale.languageCode == locale.languageCode &&
-                      supportedLocale.countryCode == locale.countryCode) {
-                    return supportedLocale;
-                  }
-                }
-              } else if (Platform.isIOS) {
-                for (var supportedLocale in supportedLocales) {
-                  if (supportedLocale.languageCode == locale.languageCode &&
-                      supportedLocale.countryCode == locale.countryCode) {
-                    return supportedLocale;
-                  }
-                }
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<AuthenticationBloc>(
+            create: (context) => AuthenticationBloc()..add(AppStarted()),
+          ),
+          BlocProvider<SalesOrderFinalizeBloc>(
+            create: (context) => SalesOrderFinalizeBloc(),
+          ),
+          BlocProvider<AddItemBloc>(
+            create: (context) => AddItemBloc(),
+          )
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          // navigatorObservers: [BotToastNavigatorObserver()],
+          home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+            builder: (context, state) {
+              if (state is AuthenticationCreateMobileHash) {
+                return OfflineLoginPage(userRepository: widget.userRepository);
               }
-
-              return supportedLocales.first;
+              if (state is AuthenticationAuthenticated) {
+                return HomePage();
+              }
+              if (state is AuthenticationUnauthenticated) {
+                return LoginPage();
+              }
+              if (state is AuthenticationLoading) {
+                return LoadingIndicator();
+              }
+              return SplashPage();
             },
           ),
+          theme: themeData,
+          locale: _locale,
+          routes: routes,
+          supportedLocales: [
+            Locale('en', 'US'),
+            Locale('es', 'ES'),
+            Locale('sk', 'SK'),
+          ],
+          localizationsDelegates: [
+            AppLocalization.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          localeResolutionCallback: (locale, supportedLocales) {
+            // Check if the current device locale is supported
+            if (Platform.isAndroid) {
+              for (var supportedLocale in supportedLocales) {
+                if (supportedLocale.languageCode == locale.languageCode &&
+                    supportedLocale.countryCode == locale.countryCode) {
+                  return supportedLocale;
+                }
+              }
+            } else if (Platform.isIOS) {
+              for (var supportedLocale in supportedLocales) {
+                if (supportedLocale.languageCode == locale.languageCode &&
+                    supportedLocale.countryCode == locale.countryCode) {
+                  return supportedLocale;
+                }
+              }
+            }
+
+            return supportedLocales.first;
+          },
         ),
       ),
     );

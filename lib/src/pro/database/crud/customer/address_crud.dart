@@ -14,12 +14,20 @@ class AddressDao extends DatabaseAccessor<AppDatabase> with _$AddressDaoMixin {
   }
 
   Stream<List<Addres>> watchAllAddressByTitle(
-      {String customerId, String addressType, bool isDisable}) {
+      {String customerId, bool isShippingAddress, bool isDisable}) {
     return (select(db.address)
           ..where((t) =>
               t.customerId.equals(customerId) &
-              t.addressType.equals(addressType) &
+              t.isShippingAddress.equals(isShippingAddress) &
               t.isDeleted.equals(isDisable)))
+        .watch();
+  }
+
+  Stream<List<Addres>> watchAllAddressByTitleDual(
+      {String customerId, String addressType, bool isDisable}) {
+    return (select(db.address)
+          ..where((t) =>
+              t.customerId.equals(customerId) & t.isDeleted.equals(isDisable)))
         .watch();
   }
 

@@ -7,7 +7,7 @@
  * Jesseframework is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
- * any later version. 
+ * any later version.
  *
  * Jesseframework is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -64,7 +64,7 @@ abstract class RestApiService extends ChopperService {
   Future<Response> createSalesOrder(@Body() Map<String, dynamic> body);
 
   @Get(path: '/services/app/Customer/GetAll?MaxResultCount=30000')
-  Future<Response> getAllCustomer();  
+  Future<Response> getAllCustomer();
 
   @Get(path: '/services/app/Customer/Get?MaxResultCount=30000')
   Future<Response> getAllCustomerById();
@@ -84,7 +84,7 @@ abstract class RestApiService extends ChopperService {
   @Get(path: '/services/app/Journey/GetAll?MaxResultCount=30000')
   Future<Response> getAllJourney();
 
-    @Get(path: '/services/app/Journey/GetBySalesRep?MaxResultCount=30000')
+  @Get(path: '/services/app/Journey/GetBySalesRep?MaxResultCount=30000')
   Future<Response> getJourneyPlanBySalesRep();
 
   @Get(path: '/services/app/Item/GetAll?MaxResultCount=30000')
@@ -93,10 +93,10 @@ abstract class RestApiService extends ChopperService {
   @Get(path: '/services/app/SalesTax/GetAll?MaxResultCount=30000')
   Future<Response> getAllIsalestax();
 
-   @Get(path: '/services/app/Currency/GetAll?MaxResultCount=30000')
+  @Get(path: '/services/app/Currency/GetAll?MaxResultCount=30000')
   Future<Response> getAllCurrency();
 
-   @Get(path: '/services/app/ExchangeRate/GetAll?MaxResultCount=30000')
+  @Get(path: '/services/app/ExchangeRate/GetAll?MaxResultCount=30000')
   Future<Response> getAllExchangeRate();
 
   @Get(path: '/services/app/Item/Get?MaxResultCount=30000')

@@ -48,7 +48,7 @@ class PostTransaction {
   }
 
   Future<void> postTransactionData(
-      String customerId,
+      {String customerId,
       String currencyCode,
       double exchangeRate,
       String purchaseOrderNo,
@@ -66,7 +66,7 @@ class PostTransaction {
       String shippingAddressName,
       double latitude,
       double longitude,
-      DateTime deliveryDate) async {
+      DateTime deliveryDate}) async {
     if (transactionType == "Sales Order") {
       //Sales Order Header
       double subTotal = 0;

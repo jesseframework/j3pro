@@ -19,7 +19,7 @@ part 'sales_oder_event.dart';
 part 'sales_oder_state.dart';
 
 class SalesOderBloc extends Bloc<SalesOderEvent, SalesOderState> {
-  List<SystemCurrencyData> defaultCurrencyList = [];
+ 
   var db;
   PostTransactionHeader postTransactionHeader;
   UserSharedData userSharedData;
@@ -54,9 +54,9 @@ class SalesOderBloc extends Bloc<SalesOderEvent, SalesOderState> {
           : 'JMD';
       List<SystemCurrencyData> currencydata =
           await systemCurrencyDao.getAllSystemCurrency();
-      defaultCurrencyList = currencydata.isNotEmpty
+    List<SystemCurrencyData> defaultCurrencyList = currencydata.isNotEmpty
           ? currencydata
-          : [SystemCurrencyData(currencyName: 'No Currency Found')];
+          : [SystemCurrencyData(currencyName: 'No Currency Found',isDeleted: false)];
       List<ExchangeRateData> exchangeRateData = await exchangeRateDao
           .getAllExchnageRateByCurrency('JMD', defaultCurrency);
 
