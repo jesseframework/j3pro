@@ -19,7 +19,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
+
 import 'package:j3enterprise/main.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
@@ -38,19 +38,19 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final UserRepository userRepository = getIt<UserRepository>();
-  String image=  'images/beach-background.jpg';
+  String image = 'images/beach-background.jpg';
   @override
   void didChangeDependencies() {
     getIt<UserRepository>().getTheme().then((value) {
-      if(value=='dark'){
+      if (value == 'dark') {
         setState(() {
-          image='images/dark-theme-background.jpg';
+          image = 'images/dark-theme-background.jpg';
         });
-
       }
     });
     super.didChangeDependencies();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               Positioned.fill(
                 child: Image.asset(
-                 image,
+                  image,
                   fit: BoxFit.cover,
                 ),
               ),

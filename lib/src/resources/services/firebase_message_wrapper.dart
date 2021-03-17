@@ -16,12 +16,10 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  */
-
 import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/services/message_stream.dart';
 import 'package:j3enterprise/main.dart';
-import 'package:overlay_support/overlay_support.dart';
 
 class FirebaseMessageWrapper extends StatefulWidget {
   final Widget child;
@@ -59,7 +57,6 @@ class _FirebaseMessageWrapperState extends State<FirebaseMessageWrapper> {
             _serialiseAndNavigate(message, context);
             //snapshot.data.clear();
           }
-
           return widget.child;
         });
   }
@@ -70,39 +67,39 @@ class _FirebaseMessageWrapperState extends State<FirebaseMessageWrapper> {
     print(message['priority']);
     Key key;
     // if (ModalRoute.of(context).isCurrent) {
-   if (hasToken) {
-      showOverlayNotification(
-        
-            (ctx) => SlideDismissible(
-           key:UniqueKey(),
-              
-          enable: priority == Priority.HIGH ? false : true,
+    if (hasToken) {
+      // showOverlayNotification(
 
-          child: Material(
-            color: Theme.of(context)?.accentColor,
-            elevation: 8,
-            child: SafeArea(
-                top: true,
-                child: ListTileTheme(
-                  textColor: Theme.of(context)?.accentTextTheme?.title?.color,
-                  iconColor: Theme.of(context)?.accentTextTheme?.title?.color,
-                  child: ListTile(
-                    leading: Image.asset(
-                      'images/logo.png',
-                    ),
-                    title: Text(message['notification']["title"]),
-                    subtitle: Text(message['notification']["body"]),
-                  ),
-                )),
-          ),
-        ),
-        duration: Duration(
-            seconds: priority == Priority.HIGH
-                ? 1000
-                : priority == Priority.MEDIUM ? 5 : 3),
-      );
+      //       (con) => SlideDismissible(
+      //      key:UniqueKey(),
 
-      // print('showToast');
+      //     enable: priority == Priority.HIGH ? false : true,
+
+      //     child: Material(
+      //       color: Theme.of(context)?.accentColor,
+      //       elevation: 8,
+      //       child: SafeArea(
+      //           top: true,
+      //           child: ListTileTheme(
+      //             textColor: Theme.of(context)?.accentTextTheme?.title?.color,
+      //             iconColor: Theme.of(context)?.accentTextTheme?.title?.color,
+      //             child: ListTile(
+      //               leading: Image.asset(
+      //                 'images/logo.png',
+      //               ),
+      //               title: Text(message['notification']["title"]),
+      //               subtitle: Text(message['notification']["body"]),
+      //             ),
+      //           )),
+      //     ),
+      //   ),
+      //   duration: Duration(
+      //       seconds: priority == Priority.HIGH
+      //           ? 1000
+      //           : priority == Priority.MEDIUM ? 5 : 3),
+      // );
+
+      // // print('showToast');
       // BotToast.showNotification(
       //     crossPage: true,
       //     title: (_) => Text(message['notification']["title"]),

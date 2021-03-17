@@ -25,7 +25,7 @@ class SalesOrderPage extends StatelessWidget {
           return StreamBuilder(
               stream: addressDao.watchAllAddressByTitle(
                   customerId: addItemBloc.customerId,
-                  addressType: 'Shipping',
+                  isShippingAddress: true,
                   isDisable: false),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.active) {

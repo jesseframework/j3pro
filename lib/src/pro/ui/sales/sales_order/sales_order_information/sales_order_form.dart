@@ -7,14 +7,12 @@ import 'package:j3enterprise/src/pro/database/crud/account/exchange_rate/exchang
 import 'package:j3enterprise/src/pro/database/crud/customer/address_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/customer/customer_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/sales/sales_order/sales_order_header_crud.dart';
-import 'package:j3enterprise/src/pro/models/customer/address_model.dart';
 import 'package:j3enterprise/src/pro/models/sales/fullfillment/jounery_with_address.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/bloc/add_item_bloc.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/sales_order_add_item_page.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_information/bloc/sales_oder_bloc.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
-import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/dialog.dart';
 
 class SalesOrderForm extends StatefulWidget {
@@ -47,7 +45,7 @@ class SalesOrderForm extends StatefulWidget {
 }
 
 class _SalesOrderFormState extends State<SalesOrderForm> {
-  TextEditingController _textFieldController = TextEditingController();
+
   JourneyWithAddress journeyWithAddress;
   Addres primaryAddress;
 
@@ -73,6 +71,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
       });
     }
     super.initState();
+    addItemBloc.setShippingAddress(address: primaryAddress);
   }
 
   @override
@@ -96,6 +95,8 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                   customerId: addItemBloc.customerId,
                   transactionStatus: 'InProgress',
                 ));
+                 addItemBloc.setDilveryDate(
+                                      dilverydate:dateTime);
                 Navigator.push(context,
                     EnterExitRoute(enterPage: SalesOrderAddItemPage()));
               },
@@ -145,17 +146,15 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                                 ? 'No address found '
                                 : primaryAddress.addressLine1,
                             showSearchBox: true,
-                            items:widget.address.isEmpty
+                            items: widget.address.isEmpty
                                 ? null
-                                : widget.address.map((e) => e.addressLine1).toList(),
+                                : widget.address
+                                    .map((e) => e.addressLine1)
+                                    .toList(),
                             onChanged: (value) async {
-                              // await widget
-                              //     .businessRuleDao
-                              //     .updateBussinessRule(
-                              //     businessRuleData
-                              //         .copyWith(
-                              //         value:
-                              //         value));
+                              addItemBloc.setShippingAddress(
+                                  address: widget.address.firstWhere(
+                                      (e) => e.addressLine1 == value));
                             },
                             // autofocus: true,
                             searchBoxDecoration: InputDecoration(
@@ -181,7 +180,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                             ? 'No Contact Found'
                             : widget.address[0].phoneNumber,
 
-                        items:widget.address.isEmpty
+                        items: widget.address.isEmpty
                             ? null
                             : widget.address
                                 .map((e) =>
@@ -292,10 +291,13 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                                   initialDate: DateTime.now(),
                                   firstDate: DateTime(1970),
                                   lastDate: DateTime(2100));
-
-                              setState(() {
-                                dateTime = result;
-                              });
+                              if (result != null) {
+                                setState(() {
+                                  dateTime = result;
+                                  addItemBloc.setDilveryDate(
+                                      dilverydate: result);
+                                });
+                              } 
                             },
                           ),
                           callback: (value) {

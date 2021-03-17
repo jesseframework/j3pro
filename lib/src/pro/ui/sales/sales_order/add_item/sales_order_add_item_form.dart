@@ -51,13 +51,13 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
   final _tecScanKeyCode = TextEditingController();
   int _scanButtonKeyCode;
   String _scanResult = '';
-  String number;
+  String salesOrderNo;
 
   @override
   void initState() {
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
-    number = addItemBloc.tempSalesOrderNo;
+    salesOrderNo = addItemBloc.tempSalesOrderNo;
     super.initState();
     _barcodeListener = BarcodeListener(null, null, _onKeyPress);
   }
@@ -70,9 +70,9 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
   }
 
   void _onKeyPress(int keyCode) async {
-    setState(() {
-      _tecScanKeyCode.text = keyCode.toString();
-    });
+    // setState(() {
+    //   _tecScanKeyCode.text = keyCode.toString();
+    // });
   }
 
   void _setScanButtonKeyCode() {
@@ -124,9 +124,9 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                 ),
                 StreamBuilder(
                     stream: widget.salesOrderDetailTempDao
-                        .transactionTotal(number, 'Pending'),
+                        .transactionTotal(salesOrderNo, 'Pending'),
                     builder: (context, snapshot) {
-                      print(number);
+                      print(salesOrderNo);
                       if (snapshot.connectionState == ConnectionState.active) {
                         List<SalesOrderDetailTempData> totalData =
                             snapshot.data;
@@ -419,7 +419,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
   buildBottomSheet() {
     return StreamBuilder(
       stream:
-          widget.salesOrderDetailTempDao.transactionTotal(number, 'Pending'),
+          widget.salesOrderDetailTempDao.transactionTotal(salesOrderNo, 'Pending'),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<SalesOrderDetailTempData> totalData = snapshot.data;
@@ -840,7 +840,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
   buildItemList() {
     return StreamBuilder(
       stream: widget.salesOrderDetailTempDao
-          .watchAllSalesOrderDetail(number, 'Pending'),
+          .watchAllSalesOrderDetail(salesOrderNo, 'Pending'),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<SalesOrderDetailTempData> salesOrderDetailTempData =

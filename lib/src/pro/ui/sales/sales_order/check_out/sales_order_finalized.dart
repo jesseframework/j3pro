@@ -1,11 +1,24 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/pro/database/crud/customer/address_crud.dart';
+import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/bloc/add_item_bloc.dart';
+import 'package:j3enterprise/src/pro/ui/sales/sales_order/check_out/bloc/sales_order_finalize_bloc.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/check_out/sales_order_checkout_page.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
+import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dart';
+import 'package:shamsi_date/shamsi_date.dart';
 import 'package:signature/signature.dart';
 
 class SalesOrderFinslizedPage extends StatefulWidget {
+  var db;
+  AddressDao addressDao;
+  SalesOrderFinslizedPage() {
+    db = AppDatabase();
+    addressDao = AddressDao(db);
+  }
   @override
   _SalesOrderFinslizedPageState createState() =>
       _SalesOrderFinslizedPageState();
@@ -21,25 +34,27 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
       appBar: AppBar(
         title: Text(
             AppLocalization.of(context).translate('sales_order_finalized') ??
-                "Finalize Sales Order "),
+                "Finalize  "),
         //ToDO put translation
         actions: [
           InkWell(
             child: Row(
               children: [
                 InkWell(
-                  onTap: () {
+                  onTap: ()async {
+                    BlocProvider.of(context).add(CreatePostTransection());
                     Navigator.push(
                         context, SizeRoute(page: SalesOrderCheckOutPage()));
                   },
                   child: Text(
-                    " Complete And Print",
+                    " Complete",
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
                 SizedBox(
                   width: 5,
                 ),
+                Icon(Icons.done_all)
               ],
             ),
           ),
@@ -60,198 +75,204 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).cardColor,
-                      borderRadius: BorderRadius.circular(8)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
+      body: StreamBuilder<Object>(
+          stream: widget.addressDao.watchAllAddressByTitleDual(
+              customerId: addItemBloc.customerId,
+              //addressType: 'Shipping',
+              isDisable: false),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.active) {
+              List<Addres> addres = snapshot.data;
+
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: SingleChildScrollView(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Container(
-                          child: Text(
-                            'Order No:',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: Colors.grey,
-                                fontSize: 12),
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).cardColor,
+                              borderRadius: BorderRadius.circular(8)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  child: Text(
+                                    'Order No:',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.grey,
+                                        fontSize: 12),
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: Text(
+                                    addItemBloc.tempSalesOrderNo,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 25),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Text(
-                            'LRD000',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 25),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).cardColor,
-                      borderRadius: BorderRadius.circular(8)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        buildSalesOrderCardRowTile(
-                          heading: 'Billing To:',
-                          title:
-                              'jermaine grey \nhouse 1 street no 2 sunvillias opp wapda office qasim pur multan pakistan ',
                         ),
                         SizedBox(
-                          height: 30,
+                          height: 10,
                         ),
-                        buildSalesOrderCardRowTile(
-                          heading: 'Shipping To:',
-                          title:
-                              'Irfan Bashir \nhouse 1 street no 2 sunvillias opp wapda office qasim pur multan pakistan ',
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).cardColor,
+                              borderRadius: BorderRadius.circular(8)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                buildSalesOrderCardRowTile(
+                                    heading: 'Billing To:',
+                                    title: addres
+                                        .firstWhere(
+                                            (e) => e.isShippingAddress != true)
+                                        .addressLine1),
+                                SizedBox(
+                                  height: 30,
+                                ),
+                                buildSalesOrderCardRowTile(
+                                  heading: 'Shipping To:',
+                                  title: addItemBloc
+                                      .getShippingAddress.addressLine1,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).cardColor,
+                                borderRadius: BorderRadius.circular(8)),
+                            // height: MediaQuery.of(context).size.height * 0.08,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 30, vertical: 10),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  buildSalesOrderDateCardRowTile(
+                                      heading: 'Order Date',
+                                      title:
+                                          '${DateTime.now().day.toString()}/${DateTime.now().month.toString()}/${DateTime.now().year.toString()}'),
+                                  buildSalesOrderDateCardRowTile(
+                                    heading: 'Dilvery Date',
+                                    title:
+                                        '${addItemBloc.getDilveryDate.day.toString()}/${addItemBloc.getDilveryDate.month.toString()}/${addItemBloc.getDilveryDate.year.toString()}',
+                                  ),
+                                ],
+                              ),
+                            )),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Container(
+                              height: 200,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).cardColor,
+                                  borderRadius: BorderRadius.circular(8)),
+                              // height: MediaQuery.of(context).size.height * 0.08,
+                              child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Stack(children: [
+                                    Signature(
+                                      controller: _controller,
+                                      height: 150,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.6,
+                                      backgroundColor: Theme.of(context)
+                                          .scaffoldBackgroundColor,
+                                    ),
+                                    Positioned(
+                                        left:
+                                            MediaQuery.of(context).size.width *
+                                                0.20,
+                                        right:
+                                            MediaQuery.of(context).size.width *
+                                                0.20,
+                                        bottom: 25,
+                                        child: DottedLine()),
+                                    Container(
+                                      child: Text(
+                                        'Signature',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.grey,
+                                            fontSize: 12),
+                                      ),
+                                    ),
+                                    Positioned(
+                                        right:
+                                            MediaQuery.of(context).size.width *
+                                                0.20,
+                                        bottom: 30,
+                                        child: InkWell(
+                                            onTap: () {
+                                              _controller.clear();
+                                            },
+                                            child: Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                              size: 40,
+                                            ))),
+                                  ]))),
+                        ),
+                        SizedBox(
+                          height: 150,
                         ),
                       ],
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 10,
+              );
+            }
+            return BuildProgressIndicator();
+          }),
+      bottomSheet: ExpansionTile(
+        title: Container(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "TOTAL : ",
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
-                Container(
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).cardColor,
-                        borderRadius: BorderRadius.circular(8)),
-                    // height: MediaQuery.of(context).size.height * 0.08,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          buildSalesOrderDateCardRowTile(
-                            heading: 'Order Date',
-                            title: '1/22/2021',
-                          ),
-                          buildSalesOrderDateCardRowTile(
-                            heading: 'Dilvery Date',
-                            title: '1/26/2021',
-                          ),
-                        ],
-                      ),
-                    )),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Container(
-                      height: 250,
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).cardColor,
-                          borderRadius: BorderRadius.circular(8)),
-                      // height: MediaQuery.of(context).size.height * 0.08,
-                      child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Stack(
-                            
-                            children: [
-                            Signature(
-                              controller: _controller,
-                              height: 200,
-                              width: MediaQuery.of(context).size.width * 0.6,
-                              backgroundColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                            ),
-                            Positioned(
-                                left: MediaQuery.of(context).size.width * 0.20,
-                                right: MediaQuery.of(context).size.width * 0.20,
-                                bottom: 33,
-                                child: DottedLine()),
-                            Container(
-                              child: Text(
-                                'Signature',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.grey,
-                                    fontSize: 12),
-                              ),
-                            ),
-                            Positioned(
-                                right: MediaQuery.of(context).size.width * 0.20,
-                                bottom: 35,
-                                child: InkWell(
-                                    onTap: () {
-                                      _controller.clear();
-                                    },
-                                    child: Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                      size: 40,
-                                    ))),
-                          ]))),
+                Text(
+                  '\$0',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 150,),
               ],
             ),
           ),
         ),
-      ),
-      bottomSheet: Container(
-        height: 150,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            
-            SizedBox(
-              height: 5,
-            ),
-            Container(
-              color: Theme.of(context).cardColor,
-              child: Column(
-                children: [
-                  Container(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "TOTAL :",
-                            style: TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            '\$0',
-                            style: TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  buildGrandTotalListTile('DELIVERY CHARGES:', '\$0'),
-                  buildGrandTotalListTile('TOTAL POINTS:', '\$0'),
-                  buildGrandTotalListTile('AMOUNT DUE:', '\$0'),
-                ],
-              ),
-            ),
-          ],
-        ),
+        children: [
+          buildGrandTotalListTile('DELIVERY CHARGES:', '\$0'),
+          buildGrandTotalListTile('TOTAL POINTS:', '\$0'),
+          buildGrandTotalListTile('AMOUNT DUE:', '\$0'),
+        ],
       ),
     );
   }

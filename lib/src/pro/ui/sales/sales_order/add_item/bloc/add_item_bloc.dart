@@ -10,6 +10,7 @@ import 'package:j3enterprise/src/pro/database/crud/account/currency/currency_cru
 import 'package:j3enterprise/src/pro/database/crud/account/exchange_rate/exchange_rate.dart';
 import 'package:j3enterprise/src/pro/database/crud/customer/customer_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/series_number/temp_number_log_crud.dart';
+import 'package:j3enterprise/src/pro/models/customer/address_model.dart';
 import 'package:j3enterprise/src/pro/resources/shared/sales/add_item_to_transaction.dart';
 import 'package:j3enterprise/src/pro/resources/shared/sales/calculate_tax.dart';
 import 'package:j3enterprise/src/pro/resources/shared/sales/calculate_total.dart';
@@ -34,13 +35,24 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
   String currency = "";
   double exchangeRate = 0;
   String customerId = "";
-
+  Addres shippingAddress;
+  DateTime dateTime;
   void setId({String cusID}) {
     customerId = cusID;
   }
 
-  get getCusID => customerId;
-  get getOderNumber => tempSalesOrderNo;
+  void setDilveryDate({DateTime dilverydate}) {
+    dateTime = dilverydate;
+  }
+
+  void setShippingAddress({Addres address}) {
+    shippingAddress = address;
+  }
+
+  String get getCusID => customerId;
+  Addres get getShippingAddress => shippingAddress;
+  String get getOderNumber => tempSalesOrderNo;
+  DateTime get getDilveryDate => dateTime;
 
   static final _log = Logger('SalesOrderBloc');
   var db;
@@ -76,11 +88,11 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
 
   void setOrderNumber() async {
     tempSalesOrderNo =
-        await tempSerialNumberReader.getTempNumber(typeOfNumber:"Sales Order");
-    tempInventoryCycle =
-        await tempSerialNumberReader.getTempNumber(typeOfNumber:"Inventory Cycle");
+        await tempSerialNumberReader.getTempNumber(typeOfNumber: "Sales Order");
+    tempInventoryCycle = await tempSerialNumberReader.getTempNumber(
+        typeOfNumber: "Inventory Cycle");
     tempDaySessionNumber =
-        await tempSerialNumberReader.getTempNumber(typeOfNumber:"Clock In");
+        await tempSerialNumberReader.getTempNumber(typeOfNumber: "Clock In");
   }
 
   @override
@@ -94,10 +106,10 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
     _log.finest("get temp number from database");
     tempSalesOrderNo =
         await tempSerialNumberReader.getTempNumber(typeOfNumber: "Sales Order");
-    tempInventoryCycle =
-        await tempSerialNumberReader.getTempNumber(typeOfNumber:"Inventory Cycle");
+    tempInventoryCycle = await tempSerialNumberReader.getTempNumber(
+        typeOfNumber: "Inventory Cycle");
     tempDaySessionNumber =
-        await tempSerialNumberReader.getTempNumber(typeOfNumber:"Clock In");
+        await tempSerialNumberReader.getTempNumber(typeOfNumber: "Clock In");
 
     _log.finest("get customer by customer number");
     var cust = await customerDao.getAllCustomerById(customerId);

@@ -23,7 +23,7 @@ import 'package:j3enterprise/src/resources/shared/preferences/user_share_data.da
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiClient {
-  final String apiConnection = 'API';
+  // final String apiConnection = 'API';
 
   static const String URL = 'https://j3webdevserver.azurewebsites.net';
 
