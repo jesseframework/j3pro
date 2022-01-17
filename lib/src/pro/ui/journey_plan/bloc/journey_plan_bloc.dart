@@ -10,7 +10,7 @@ part 'journey_plan_state.dart';
 
 class JourneyPlanBloc extends Bloc<JourneyPlanEvent, JourneyPlanState> {
   GeoLocation geolocation;
-  JourneyPlanBloc() {
+  JourneyPlanBloc() : super(JourneyPlanInitial()) {
     geolocation = new GeoLocation();
   }
 

@@ -45,7 +45,6 @@ class SalesOrderForm extends StatefulWidget {
 }
 
 class _SalesOrderFormState extends State<SalesOrderForm> {
-
   JourneyWithAddress journeyWithAddress;
   Addres primaryAddress;
 
@@ -95,8 +94,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                   customerId: addItemBloc.customerId,
                   transactionStatus: 'InProgress',
                 ));
-                 addItemBloc.setDilveryDate(
-                                      dilverydate:dateTime);
+                addItemBloc.setDilveryDate(dilverydate: dateTime);
                 Navigator.push(context,
                     EnterExitRoute(enterPage: SalesOrderAddItemPage()));
               },
@@ -157,7 +155,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                                       (e) => e.addressLine1 == value));
                             },
                             // autofocus: true,
-                            searchBoxDecoration: InputDecoration(
+                            dropdownSearchDecoration: InputDecoration(
                                 suffix: Container(
                               height: 30,
                               child: FloatingActionButton(
@@ -195,7 +193,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                           //         value:
                           //         value));
                         },
-                        searchBoxDecoration: InputDecoration(
+                        dropdownSearchDecoration: InputDecoration(
                             suffix: Container(
                           height: 30,
                           child: FloatingActionButton(
@@ -252,7 +250,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                           //         value:
                           //         value));
                         },
-                        searchBoxDecoration: InputDecoration(
+                        dropdownSearchDecoration: InputDecoration(
                             suffix: Container(
                           height: 30,
                           child: FloatingActionButton(
@@ -297,7 +295,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                                   addItemBloc.setDilveryDate(
                                       dilverydate: result);
                                 });
-                              } 
+                              }
                             },
                           ),
                           callback: (value) {
@@ -345,7 +343,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                                             exchangeRateData[0].exchangeRate;
                                       });
                                     },
-                                    searchBoxDecoration: InputDecoration(
+                                    dropdownSearchDecoration: InputDecoration(
                                         suffix: Container(
                                       height: 30,
                                       child: FloatingActionButton(
@@ -401,7 +399,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                                         swipeDiscountTpye = value;
                                       });
                                     },
-                                    searchBoxDecoration: InputDecoration(
+                                    dropdownSearchDecoration: InputDecoration(
                                         suffix: Container(
                                       height: 30,
                                       child: FloatingActionButton(

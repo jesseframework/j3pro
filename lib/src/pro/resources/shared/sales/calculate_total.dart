@@ -3,7 +3,7 @@ import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/account/currency/currency_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/sales/sales_order/sales_order_detail_temp_crud.dart';
 import 'package:logging/logging.dart';
-import 'package:moor/moor.dart' as moor;
+import 'package:drift/drift.dart' as moor;
 
 class CalculateTotal {
   String className = "Calculate Transaction";
@@ -27,9 +27,9 @@ class CalculateTotal {
       //ToDo Add location to currency
       double formatedGrandTotal = 0;
       double unformatedGrandTotal = (onRegister.single.subTotal +
-                  onRegister.single.taxTotal +
-                  onRegister.single.shippingTotal) -
-              onRegister.single.lineDiscountTotal;
+              onRegister.single.taxTotal +
+              onRegister.single.shippingTotal) -
+          onRegister.single.lineDiscountTotal;
 
       var currency = await systemCurrencyDao.getAllSystemCurrencyByName("JMD");
       if (currency.length > 0) {

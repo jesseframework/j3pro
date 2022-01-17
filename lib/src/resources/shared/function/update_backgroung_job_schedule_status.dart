@@ -17,11 +17,10 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-
 import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/shared/utils/date_formating.dart';
-import 'package:moor/moor.dart' as moor;
+import 'package:drift/drift.dart' as moor;
 
 class UpdateBackgroundJobStatus {
   BackgroundJobScheduleDao backgroundJobScheduleDao;

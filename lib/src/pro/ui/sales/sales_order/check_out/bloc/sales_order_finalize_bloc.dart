@@ -28,7 +28,7 @@ class SalesOrderFinalizeBloc
   TempSerialNumberReader tempSerialNumberReader;
   PostTransaction _postTransaction;
 
-  SalesOrderFinalizeBloc() {
+  SalesOrderFinalizeBloc() : super(SalesOrderFinalizeInitial()) {
     _postTransaction = PostTransaction();
     db = AppDatabase();
     addressDao = AddressDao(db);
@@ -59,14 +59,16 @@ class SalesOrderFinalizeBloc
           : [SystemCurrencyData(currencyName: 'No Currency Found')];
       List<ExchangeRateData> exchangeRateData = await exchangeRateDao
           .getAllExchnageRateByCurrency('JMD', defaultCurrency);
-       var shredPrefData = await userSharedData.getUserSharedPref();
+      var shredPrefData = await userSharedData.getUserSharedPref();
       _postTransaction.postTransactionData(
         exchangeRate: exchangeRateData[0].exchangeRate,
-        transactionNumber: await tempSerialNumberReader.getTempNumber(typeOfNumber: 'Sales Order'),
-         transactionStatus: event.transactionStatus,
-         daySessionNumber: await tempSerialNumberReader.getTempNumber(typeOfNumber: 'Clock In'),
-         billingAddressName: event.billingAddressName,
-          purchaseOrderNo: event.purchaseOrderNo,
+        transactionNumber: await tempSerialNumberReader.getTempNumber(
+            typeOfNumber: 'Sales Order'),
+        transactionStatus: event.transactionStatus,
+        daySessionNumber: await tempSerialNumberReader.getTempNumber(
+            typeOfNumber: 'Clock In'),
+        billingAddressName: event.billingAddressName,
+        purchaseOrderNo: event.purchaseOrderNo,
         tenantId: int.parse(shredPrefData['tenantId']),
         customerId: addItemBloc.customerId,
         shippingAddressName: event.shippingAddressName,
@@ -74,7 +76,8 @@ class SalesOrderFinalizeBloc
         soldTo: event.soldTo,
         deliveryDate: event.deliveryDate,
         transactionType: event.transactionType,
-        inventoryCycleNumber:await tempSerialNumberReader.getTempNumber(typeOfNumber: 'Inventory Cycle'),
+        inventoryCycleNumber: await tempSerialNumberReader.getTempNumber(
+            typeOfNumber: 'Inventory Cycle'),
         userId: int.parse(shredPrefData['userId']),
         userName: shredPrefData['userName'],
         orderType: event.orderType,

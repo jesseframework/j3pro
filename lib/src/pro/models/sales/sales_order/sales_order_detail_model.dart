@@ -1,6 +1,6 @@
 import 'package:j3enterprise/src/resources/shared/extension/multi_user.dart';
 import 'package:j3enterprise/src/resources/shared/extension/must_have_tenant.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 class SalesOrderDetail extends Table implements MustHaveTenant, MultiUser {
   IntColumn get id => integer()();
@@ -33,7 +33,7 @@ class SalesOrderDetail extends Table implements MustHaveTenant, MultiUser {
   RealColumn get costPrice => real()();
   RealColumn get listPrice => real()();
   RealColumn get quantity => real()();
-  RealColumn get subTotal => real()();  
+  RealColumn get subTotal => real()();
   RealColumn get grandTotal => real()();
   RealColumn get fxGrandTotal => real()();
   IntColumn get itemCount => integer().nullable()();

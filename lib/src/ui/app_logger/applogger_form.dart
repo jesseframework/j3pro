@@ -60,8 +60,7 @@ class _AppLoggerForm extends State<AppLoggerForm> {
               height: 55,
               color: Theme.of(context).scaffoldBackgroundColor,
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                 child: Center(
                   child: ListFilter(
                       placeholder: 'Search',

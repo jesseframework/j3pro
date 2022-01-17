@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 mixin SyncTrigger implements Table {
   DateTimeColumn get importDateTime => dateTime()();
@@ -25,9 +25,4 @@ mixin SyncTrigger implements Table {
   TextColumn get exportStatus => text()();
   TextColumn get importStatus => text()();
   TextColumn get syncError => text()();
-
-
-
-
-
 }

@@ -17,11 +17,11 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-
 import 'package:flutter/material.dart';
 
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/main.dart';
+
 const String ENGLISH = 'en';
 const String SPANISH = 'es';
 const String HINDI = 'sk';

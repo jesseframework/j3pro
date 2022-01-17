@@ -26,6 +26,8 @@ part 'about_event.dart';
 part 'about_state.dart';
 
 class AboutBloc extends Bloc<AboutEvent, AboutState> {
+  AboutBloc(AboutState initialState) : super(initialState);
+
   @override
   AboutState get initialState => AboutInitial();
 

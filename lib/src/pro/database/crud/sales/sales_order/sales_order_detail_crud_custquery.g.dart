@@ -80,83 +80,78 @@ class SalesOrderHeaderData extends DataClass
       this.longitude,
       this.transactionStart,
       this.transactionEnd});
-  factory SalesOrderHeaderData.fromData(
-      Map<String, dynamic> data, GeneratedDatabase db,
+  factory SalesOrderHeaderData.fromData(Map<String, dynamic> data,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
-    final intType = db.typeSystem.forDartType<int>();
-    final stringType = db.typeSystem.forDartType<String>();
-    final dateTimeType = db.typeSystem.forDartType<DateTime>();
-    final doubleType = db.typeSystem.forDartType<double>();
     return SalesOrderHeaderData(
-      tenantId:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
-      userName: stringType
+      tenantId: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      userName: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}user_name']),
-      userId:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}user_id']),
-      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      transactionNumber: stringType.mapFromDatabaseResponse(
+      userId: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}user_id']),
+      id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      transactionNumber: const StringType().mapFromDatabaseResponse(
           data['${effectivePrefix}transaction_number']),
-      transactionStatus: stringType.mapFromDatabaseResponse(
+      transactionStatus: const StringType().mapFromDatabaseResponse(
           data['${effectivePrefix}transaction_status']),
-      inventoryCycleNumber: stringType.mapFromDatabaseResponse(
+      inventoryCycleNumber: const StringType().mapFromDatabaseResponse(
           data['${effectivePrefix}inventory_cycle_number']),
-      daySessionNumber: stringType.mapFromDatabaseResponse(
+      daySessionNumber: const StringType().mapFromDatabaseResponse(
           data['${effectivePrefix}day_session_number']),
-      customerId: stringType
+      customerId: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}customer_id']),
-      soldTo:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}sold_to']),
-      orderDate: dateTimeType
+      soldTo: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}sold_to']),
+      orderDate: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}order_date']),
-      deliveryDate: dateTimeType
+      deliveryDate: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}delivery_date']),
-      orderType: stringType
+      orderType: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}order_type']),
-      orderStatus: stringType
+      orderStatus: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}order_status']),
-      purchaseOrderNo: stringType
+      purchaseOrderNo: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}purchase_order_no']),
-      currency: stringType
+      currency: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}currency']),
-      exchangeRate: doubleType
+      exchangeRate: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}exchange_rate']),
-      couponCode: intType
+      couponCode: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}coupon_code']),
-      billingAddressName: stringType.mapFromDatabaseResponse(
+      billingAddressName: const StringType().mapFromDatabaseResponse(
           data['${effectivePrefix}billing_address_name']),
-      shippingAddressName: stringType.mapFromDatabaseResponse(
+      shippingAddressName: const StringType().mapFromDatabaseResponse(
           data['${effectivePrefix}shipping_address_name']),
-      yourInitial: stringType
+      yourInitial: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}your_initial']),
-      subTotal: doubleType
+      subTotal: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}sub_total']),
-      taxTotal: doubleType
+      taxTotal: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}tax_total']),
-      depositTotal: doubleType
+      depositTotal: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}deposit_total']),
-      discountTotal: doubleType
+      discountTotal: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}discount_total']),
-      shippingTotal: doubleType
+      shippingTotal: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}shipping_total']),
-      itemCount:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}item_count']),
-      grandTotal: doubleType
+      itemCount: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}item_count']),
+      grandTotal: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}grand_total']),
-      discountType: stringType
+      discountType: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}discount_type']),
-      discountPercentage: doubleType.mapFromDatabaseResponse(
+      discountPercentage: const RealType().mapFromDatabaseResponse(
           data['${effectivePrefix}discount_percentage']),
-      discountAmount: doubleType
+      discountAmount: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}discount_amount']),
-      latitude: doubleType
+      latitude: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}latitude']),
-      longitude: doubleType
+      longitude: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}longitude']),
-      transactionStart: dateTimeType
+      transactionStart: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}transaction_start']),
-      transactionEnd: dateTimeType
+      transactionEnd: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}transaction_end']),
     );
   }
@@ -379,7 +374,7 @@ class SalesOrderHeaderData extends DataClass
 
   factory SalesOrderHeaderData.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
+    serializer ??= driftRuntimeOptions.defaultSerializer;
     return SalesOrderHeaderData(
       tenantId: serializer.fromJson<int>(json['tenantId']),
       userName: serializer.fromJson<String>(json['userName']),
@@ -424,7 +419,7 @@ class SalesOrderHeaderData extends DataClass
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
+    serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'tenantId': serializer.toJson<int>(tenantId),
       'userName': serializer.toJson<String>(userName),
@@ -580,51 +575,45 @@ class SalesOrderHeaderData extends DataClass
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(
-      tenantId.hashCode,
-      $mrjc(
-          userName.hashCode,
-          $mrjc(
-              userId.hashCode,
-              $mrjc(
-                  id.hashCode,
-                  $mrjc(
-                      transactionNumber.hashCode,
-                      $mrjc(
-                          transactionStatus.hashCode,
-                          $mrjc(
-                              inventoryCycleNumber.hashCode,
-                              $mrjc(
-                                  daySessionNumber.hashCode,
-                                  $mrjc(
-                                      customerId.hashCode,
-                                      $mrjc(
-                                          soldTo.hashCode,
-                                          $mrjc(
-                                              orderDate.hashCode,
-                                              $mrjc(
-                                                  deliveryDate.hashCode,
-                                                  $mrjc(
-                                                      orderType.hashCode,
-                                                      $mrjc(
-                                                          orderStatus.hashCode,
-                                                          $mrjc(
-                                                              purchaseOrderNo
-                                                                  .hashCode,
-                                                              $mrjc(
-                                                                  currency
-                                                                      .hashCode,
-                                                                  $mrjc(
-                                                                      exchangeRate
-                                                                          .hashCode,
-                                                                      $mrjc(
-                                                                          couponCode
-                                                                              .hashCode,
-                                                                          $mrjc(
-                                                                              billingAddressName.hashCode,
-                                                                              $mrjc(shippingAddressName.hashCode, $mrjc(yourInitial.hashCode, $mrjc(subTotal.hashCode, $mrjc(taxTotal.hashCode, $mrjc(depositTotal.hashCode, $mrjc(discountTotal.hashCode, $mrjc(shippingTotal.hashCode, $mrjc(itemCount.hashCode, $mrjc(grandTotal.hashCode, $mrjc(discountType.hashCode, $mrjc(discountPercentage.hashCode, $mrjc(discountAmount.hashCode, $mrjc(latitude.hashCode, $mrjc(longitude.hashCode, $mrjc(transactionStart.hashCode, transactionEnd.hashCode)))))))))))))))))))))))))))))))))));
+  int get hashCode => Object.hashAll([
+        tenantId,
+        userName,
+        userId,
+        id,
+        transactionNumber,
+        transactionStatus,
+        inventoryCycleNumber,
+        daySessionNumber,
+        customerId,
+        soldTo,
+        orderDate,
+        deliveryDate,
+        orderType,
+        orderStatus,
+        purchaseOrderNo,
+        currency,
+        exchangeRate,
+        couponCode,
+        billingAddressName,
+        shippingAddressName,
+        yourInitial,
+        subTotal,
+        taxTotal,
+        depositTotal,
+        discountTotal,
+        shippingTotal,
+        itemCount,
+        grandTotal,
+        discountType,
+        discountPercentage,
+        discountAmount,
+        latitude,
+        longitude,
+        transactionStart,
+        transactionEnd
+      ]);
   @override
-  bool operator ==(dynamic other) =>
+  bool operator ==(Object other) =>
       identical(this, other) ||
       (other is SalesOrderHeaderData &&
           other.tenantId == this.tenantId &&
@@ -1111,463 +1100,234 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
   final String _alias;
   $SalesOrderHeaderTable(this._db, [this._alias]);
   final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
-  GeneratedIntColumn _tenantId;
+  GeneratedColumn<int> _tenantId;
   @override
-  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
-  GeneratedIntColumn _constructTenantId() {
-    return GeneratedIntColumn(
-      'tenant_id',
-      $tableName,
-      true,
-    );
-  }
-
+  GeneratedColumn<int> get tenantId =>
+      _tenantId ??= GeneratedColumn<int>('tenant_id', aliasedName, true,
+          type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _userNameMeta = const VerificationMeta('userName');
-  GeneratedTextColumn _userName;
+  GeneratedColumn<String> _userName;
   @override
-  GeneratedTextColumn get userName => _userName ??= _constructUserName();
-  GeneratedTextColumn _constructUserName() {
-    return GeneratedTextColumn(
-      'user_name',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get userName =>
+      _userName ??= GeneratedColumn<String>('user_name', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _userIdMeta = const VerificationMeta('userId');
-  GeneratedIntColumn _userId;
+  GeneratedColumn<int> _userId;
   @override
-  GeneratedIntColumn get userId => _userId ??= _constructUserId();
-  GeneratedIntColumn _constructUserId() {
-    return GeneratedIntColumn(
-      'user_id',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<int> get userId =>
+      _userId ??= GeneratedColumn<int>('user_id', aliasedName, false,
+          type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _idMeta = const VerificationMeta('id');
-  GeneratedIntColumn _id;
+  GeneratedColumn<int> _id;
   @override
-  GeneratedIntColumn get id => _id ??= _constructId();
-  GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn(
-      'id',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<int> get id =>
+      _id ??= GeneratedColumn<int>('id', aliasedName, false,
+          type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _transactionNumberMeta =
       const VerificationMeta('transactionNumber');
-  GeneratedTextColumn _transactionNumber;
+  GeneratedColumn<String> _transactionNumber;
   @override
-  GeneratedTextColumn get transactionNumber =>
-      _transactionNumber ??= _constructTransactionNumber();
-  GeneratedTextColumn _constructTransactionNumber() {
-    return GeneratedTextColumn(
-      'transaction_number',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get transactionNumber => _transactionNumber ??=
+      GeneratedColumn<String>('transaction_number', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _transactionStatusMeta =
       const VerificationMeta('transactionStatus');
-  GeneratedTextColumn _transactionStatus;
+  GeneratedColumn<String> _transactionStatus;
   @override
-  GeneratedTextColumn get transactionStatus =>
-      _transactionStatus ??= _constructTransactionStatus();
-  GeneratedTextColumn _constructTransactionStatus() {
-    return GeneratedTextColumn(
-      'transaction_status',
-      $tableName,
-      true,
-    );
-  }
-
+  GeneratedColumn<String> get transactionStatus => _transactionStatus ??=
+      GeneratedColumn<String>('transaction_status', aliasedName, true,
+          type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _inventoryCycleNumberMeta =
       const VerificationMeta('inventoryCycleNumber');
-  GeneratedTextColumn _inventoryCycleNumber;
+  GeneratedColumn<String> _inventoryCycleNumber;
   @override
-  GeneratedTextColumn get inventoryCycleNumber =>
-      _inventoryCycleNumber ??= _constructInventoryCycleNumber();
-  GeneratedTextColumn _constructInventoryCycleNumber() {
-    return GeneratedTextColumn(
-      'inventory_cycle_number',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get inventoryCycleNumber => _inventoryCycleNumber ??=
+      GeneratedColumn<String>('inventory_cycle_number', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _daySessionNumberMeta =
       const VerificationMeta('daySessionNumber');
-  GeneratedTextColumn _daySessionNumber;
+  GeneratedColumn<String> _daySessionNumber;
   @override
-  GeneratedTextColumn get daySessionNumber =>
-      _daySessionNumber ??= _constructDaySessionNumber();
-  GeneratedTextColumn _constructDaySessionNumber() {
-    return GeneratedTextColumn(
-      'day_session_number',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get daySessionNumber => _daySessionNumber ??=
+      GeneratedColumn<String>('day_session_number', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _customerIdMeta = const VerificationMeta('customerId');
-  GeneratedTextColumn _customerId;
+  GeneratedColumn<String> _customerId;
   @override
-  GeneratedTextColumn get customerId => _customerId ??= _constructCustomerId();
-  GeneratedTextColumn _constructCustomerId() {
-    return GeneratedTextColumn(
-      'customer_id',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get customerId =>
+      _customerId ??= GeneratedColumn<String>('customer_id', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _soldToMeta = const VerificationMeta('soldTo');
-  GeneratedTextColumn _soldTo;
+  GeneratedColumn<String> _soldTo;
   @override
-  GeneratedTextColumn get soldTo => _soldTo ??= _constructSoldTo();
-  GeneratedTextColumn _constructSoldTo() {
-    return GeneratedTextColumn(
-      'sold_to',
-      $tableName,
-      true,
-    );
-  }
-
+  GeneratedColumn<String> get soldTo =>
+      _soldTo ??= GeneratedColumn<String>('sold_to', aliasedName, true,
+          type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _orderDateMeta = const VerificationMeta('orderDate');
-  GeneratedDateTimeColumn _orderDate;
+  GeneratedColumn<DateTime> _orderDate;
   @override
-  GeneratedDateTimeColumn get orderDate => _orderDate ??= _constructOrderDate();
-  GeneratedDateTimeColumn _constructOrderDate() {
-    return GeneratedDateTimeColumn(
-      'order_date',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<DateTime> get orderDate =>
+      _orderDate ??= GeneratedColumn<DateTime>('order_date', aliasedName, false,
+          type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _deliveryDateMeta =
       const VerificationMeta('deliveryDate');
-  GeneratedDateTimeColumn _deliveryDate;
+  GeneratedColumn<DateTime> _deliveryDate;
   @override
-  GeneratedDateTimeColumn get deliveryDate =>
-      _deliveryDate ??= _constructDeliveryDate();
-  GeneratedDateTimeColumn _constructDeliveryDate() {
-    return GeneratedDateTimeColumn(
-      'delivery_date',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<DateTime> get deliveryDate => _deliveryDate ??=
+      GeneratedColumn<DateTime>('delivery_date', aliasedName, false,
+          type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _orderTypeMeta = const VerificationMeta('orderType');
-  GeneratedTextColumn _orderType;
+  GeneratedColumn<String> _orderType;
   @override
-  GeneratedTextColumn get orderType => _orderType ??= _constructOrderType();
-  GeneratedTextColumn _constructOrderType() {
-    return GeneratedTextColumn(
-      'order_type',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get orderType =>
+      _orderType ??= GeneratedColumn<String>('order_type', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _orderStatusMeta =
       const VerificationMeta('orderStatus');
-  GeneratedTextColumn _orderStatus;
+  GeneratedColumn<String> _orderStatus;
   @override
-  GeneratedTextColumn get orderStatus =>
-      _orderStatus ??= _constructOrderStatus();
-  GeneratedTextColumn _constructOrderStatus() {
-    return GeneratedTextColumn(
-      'order_status',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get orderStatus => _orderStatus ??=
+      GeneratedColumn<String>('order_status', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _purchaseOrderNoMeta =
       const VerificationMeta('purchaseOrderNo');
-  GeneratedTextColumn _purchaseOrderNo;
+  GeneratedColumn<String> _purchaseOrderNo;
   @override
-  GeneratedTextColumn get purchaseOrderNo =>
-      _purchaseOrderNo ??= _constructPurchaseOrderNo();
-  GeneratedTextColumn _constructPurchaseOrderNo() {
-    return GeneratedTextColumn(
-      'purchase_order_no',
-      $tableName,
-      true,
-    );
-  }
-
+  GeneratedColumn<String> get purchaseOrderNo => _purchaseOrderNo ??=
+      GeneratedColumn<String>('purchase_order_no', aliasedName, true,
+          type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _currencyMeta = const VerificationMeta('currency');
-  GeneratedTextColumn _currency;
+  GeneratedColumn<String> _currency;
   @override
-  GeneratedTextColumn get currency => _currency ??= _constructCurrency();
-  GeneratedTextColumn _constructCurrency() {
-    return GeneratedTextColumn(
-      'currency',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get currency =>
+      _currency ??= GeneratedColumn<String>('currency', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _exchangeRateMeta =
       const VerificationMeta('exchangeRate');
-  GeneratedRealColumn _exchangeRate;
+  GeneratedColumn<double> _exchangeRate;
   @override
-  GeneratedRealColumn get exchangeRate =>
-      _exchangeRate ??= _constructExchangeRate();
-  GeneratedRealColumn _constructExchangeRate() {
-    return GeneratedRealColumn(
-      'exchange_rate',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<double> get exchangeRate => _exchangeRate ??=
+      GeneratedColumn<double>('exchange_rate', aliasedName, false,
+          type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _couponCodeMeta = const VerificationMeta('couponCode');
-  GeneratedIntColumn _couponCode;
+  GeneratedColumn<int> _couponCode;
   @override
-  GeneratedIntColumn get couponCode => _couponCode ??= _constructCouponCode();
-  GeneratedIntColumn _constructCouponCode() {
-    return GeneratedIntColumn(
-      'coupon_code',
-      $tableName,
-      true,
-    );
-  }
-
+  GeneratedColumn<int> get couponCode =>
+      _couponCode ??= GeneratedColumn<int>('coupon_code', aliasedName, true,
+          type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _billingAddressNameMeta =
       const VerificationMeta('billingAddressName');
-  GeneratedTextColumn _billingAddressName;
+  GeneratedColumn<String> _billingAddressName;
   @override
-  GeneratedTextColumn get billingAddressName =>
-      _billingAddressName ??= _constructBillingAddressName();
-  GeneratedTextColumn _constructBillingAddressName() {
-    return GeneratedTextColumn(
-      'billing_address_name',
-      $tableName,
-      true,
-    );
-  }
-
+  GeneratedColumn<String> get billingAddressName => _billingAddressName ??=
+      GeneratedColumn<String>('billing_address_name', aliasedName, true,
+          type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _shippingAddressNameMeta =
       const VerificationMeta('shippingAddressName');
-  GeneratedTextColumn _shippingAddressName;
+  GeneratedColumn<String> _shippingAddressName;
   @override
-  GeneratedTextColumn get shippingAddressName =>
-      _shippingAddressName ??= _constructShippingAddressName();
-  GeneratedTextColumn _constructShippingAddressName() {
-    return GeneratedTextColumn(
-      'shipping_address_name',
-      $tableName,
-      true,
-    );
-  }
-
+  GeneratedColumn<String> get shippingAddressName => _shippingAddressName ??=
+      GeneratedColumn<String>('shipping_address_name', aliasedName, true,
+          type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _yourInitialMeta =
       const VerificationMeta('yourInitial');
-  GeneratedTextColumn _yourInitial;
+  GeneratedColumn<String> _yourInitial;
   @override
-  GeneratedTextColumn get yourInitial =>
-      _yourInitial ??= _constructYourInitial();
-  GeneratedTextColumn _constructYourInitial() {
-    return GeneratedTextColumn(
-      'your_initial',
-      $tableName,
-      true,
-    );
-  }
-
+  GeneratedColumn<String> get yourInitial => _yourInitial ??=
+      GeneratedColumn<String>('your_initial', aliasedName, true,
+          type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _subTotalMeta = const VerificationMeta('subTotal');
-  GeneratedRealColumn _subTotal;
+  GeneratedColumn<double> _subTotal;
   @override
-  GeneratedRealColumn get subTotal => _subTotal ??= _constructSubTotal();
-  GeneratedRealColumn _constructSubTotal() {
-    return GeneratedRealColumn(
-      'sub_total',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<double> get subTotal =>
+      _subTotal ??= GeneratedColumn<double>('sub_total', aliasedName, false,
+          type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _taxTotalMeta = const VerificationMeta('taxTotal');
-  GeneratedRealColumn _taxTotal;
+  GeneratedColumn<double> _taxTotal;
   @override
-  GeneratedRealColumn get taxTotal => _taxTotal ??= _constructTaxTotal();
-  GeneratedRealColumn _constructTaxTotal() {
-    return GeneratedRealColumn(
-      'tax_total',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<double> get taxTotal =>
+      _taxTotal ??= GeneratedColumn<double>('tax_total', aliasedName, false,
+          type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _depositTotalMeta =
       const VerificationMeta('depositTotal');
-  GeneratedRealColumn _depositTotal;
+  GeneratedColumn<double> _depositTotal;
   @override
-  GeneratedRealColumn get depositTotal =>
-      _depositTotal ??= _constructDepositTotal();
-  GeneratedRealColumn _constructDepositTotal() {
-    return GeneratedRealColumn(
-      'deposit_total',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<double> get depositTotal => _depositTotal ??=
+      GeneratedColumn<double>('deposit_total', aliasedName, false,
+          type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _discountTotalMeta =
       const VerificationMeta('discountTotal');
-  GeneratedRealColumn _discountTotal;
+  GeneratedColumn<double> _discountTotal;
   @override
-  GeneratedRealColumn get discountTotal =>
-      _discountTotal ??= _constructDiscountTotal();
-  GeneratedRealColumn _constructDiscountTotal() {
-    return GeneratedRealColumn(
-      'discount_total',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<double> get discountTotal => _discountTotal ??=
+      GeneratedColumn<double>('discount_total', aliasedName, false,
+          type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _shippingTotalMeta =
       const VerificationMeta('shippingTotal');
-  GeneratedRealColumn _shippingTotal;
+  GeneratedColumn<double> _shippingTotal;
   @override
-  GeneratedRealColumn get shippingTotal =>
-      _shippingTotal ??= _constructShippingTotal();
-  GeneratedRealColumn _constructShippingTotal() {
-    return GeneratedRealColumn(
-      'shipping_total',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<double> get shippingTotal => _shippingTotal ??=
+      GeneratedColumn<double>('shipping_total', aliasedName, false,
+          type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _itemCountMeta = const VerificationMeta('itemCount');
-  GeneratedIntColumn _itemCount;
+  GeneratedColumn<int> _itemCount;
   @override
-  GeneratedIntColumn get itemCount => _itemCount ??= _constructItemCount();
-  GeneratedIntColumn _constructItemCount() {
-    return GeneratedIntColumn(
-      'item_count',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<int> get itemCount =>
+      _itemCount ??= GeneratedColumn<int>('item_count', aliasedName, false,
+          type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _grandTotalMeta = const VerificationMeta('grandTotal');
-  GeneratedRealColumn _grandTotal;
+  GeneratedColumn<double> _grandTotal;
   @override
-  GeneratedRealColumn get grandTotal => _grandTotal ??= _constructGrandTotal();
-  GeneratedRealColumn _constructGrandTotal() {
-    return GeneratedRealColumn(
-      'grand_total',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<double> get grandTotal =>
+      _grandTotal ??= GeneratedColumn<double>('grand_total', aliasedName, false,
+          type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _discountTypeMeta =
       const VerificationMeta('discountType');
-  GeneratedTextColumn _discountType;
+  GeneratedColumn<String> _discountType;
   @override
-  GeneratedTextColumn get discountType =>
-      _discountType ??= _constructDiscountType();
-  GeneratedTextColumn _constructDiscountType() {
-    return GeneratedTextColumn(
-      'discount_type',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get discountType => _discountType ??=
+      GeneratedColumn<String>('discount_type', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _discountPercentageMeta =
       const VerificationMeta('discountPercentage');
-  GeneratedRealColumn _discountPercentage;
+  GeneratedColumn<double> _discountPercentage;
   @override
-  GeneratedRealColumn get discountPercentage =>
-      _discountPercentage ??= _constructDiscountPercentage();
-  GeneratedRealColumn _constructDiscountPercentage() {
-    return GeneratedRealColumn(
-      'discount_percentage',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<double> get discountPercentage => _discountPercentage ??=
+      GeneratedColumn<double>('discount_percentage', aliasedName, false,
+          type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _discountAmountMeta =
       const VerificationMeta('discountAmount');
-  GeneratedRealColumn _discountAmount;
+  GeneratedColumn<double> _discountAmount;
   @override
-  GeneratedRealColumn get discountAmount =>
-      _discountAmount ??= _constructDiscountAmount();
-  GeneratedRealColumn _constructDiscountAmount() {
-    return GeneratedRealColumn(
-      'discount_amount',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<double> get discountAmount => _discountAmount ??=
+      GeneratedColumn<double>('discount_amount', aliasedName, false,
+          type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _latitudeMeta = const VerificationMeta('latitude');
-  GeneratedRealColumn _latitude;
+  GeneratedColumn<double> _latitude;
   @override
-  GeneratedRealColumn get latitude => _latitude ??= _constructLatitude();
-  GeneratedRealColumn _constructLatitude() {
-    return GeneratedRealColumn(
-      'latitude',
-      $tableName,
-      true,
-    );
-  }
-
+  GeneratedColumn<double> get latitude =>
+      _latitude ??= GeneratedColumn<double>('latitude', aliasedName, true,
+          type: const RealType(), requiredDuringInsert: false);
   final VerificationMeta _longitudeMeta = const VerificationMeta('longitude');
-  GeneratedRealColumn _longitude;
+  GeneratedColumn<double> _longitude;
   @override
-  GeneratedRealColumn get longitude => _longitude ??= _constructLongitude();
-  GeneratedRealColumn _constructLongitude() {
-    return GeneratedRealColumn(
-      'longitude',
-      $tableName,
-      true,
-    );
-  }
-
+  GeneratedColumn<double> get longitude =>
+      _longitude ??= GeneratedColumn<double>('longitude', aliasedName, true,
+          type: const RealType(), requiredDuringInsert: false);
   final VerificationMeta _transactionStartMeta =
       const VerificationMeta('transactionStart');
-  GeneratedDateTimeColumn _transactionStart;
+  GeneratedColumn<DateTime> _transactionStart;
   @override
-  GeneratedDateTimeColumn get transactionStart =>
-      _transactionStart ??= _constructTransactionStart();
-  GeneratedDateTimeColumn _constructTransactionStart() {
-    return GeneratedDateTimeColumn(
-      'transaction_start',
-      $tableName,
-      true,
-    );
-  }
-
+  GeneratedColumn<DateTime> get transactionStart => _transactionStart ??=
+      GeneratedColumn<DateTime>('transaction_start', aliasedName, true,
+          type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _transactionEndMeta =
       const VerificationMeta('transactionEnd');
-  GeneratedDateTimeColumn _transactionEnd;
+  GeneratedColumn<DateTime> _transactionEnd;
   @override
-  GeneratedDateTimeColumn get transactionEnd =>
-      _transactionEnd ??= _constructTransactionEnd();
-  GeneratedDateTimeColumn _constructTransactionEnd() {
-    return GeneratedDateTimeColumn(
-      'transaction_end',
-      $tableName,
-      true,
-    );
-  }
-
+  GeneratedColumn<DateTime> get transactionEnd => _transactionEnd ??=
+      GeneratedColumn<DateTime>('transaction_end', aliasedName, true,
+          type: const IntType(), requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [
         tenantId,
@@ -1607,11 +1367,9 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
         transactionEnd
       ];
   @override
-  $SalesOrderHeaderTable get asDslTable => this;
+  String get aliasedName => _alias ?? 'sales_order_header';
   @override
-  String get $tableName => _alias ?? 'sales_order_header';
-  @override
-  final String actualTableName = 'sales_order_header';
+  String get actualTableName => 'sales_order_header';
   @override
   VerificationContext validateIntegrity(
       Insertable<SalesOrderHeaderData> instance,
@@ -1852,8 +1610,8 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   SalesOrderHeaderData map(Map<String, dynamic> data, {String tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
-    return SalesOrderHeaderData.fromData(data, _db, prefix: effectivePrefix);
+    return SalesOrderHeaderData.fromData(data,
+        prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
@@ -1943,91 +1701,86 @@ class SalesOrderDetailData extends DataClass
       @required this.taxTotal,
       @required this.shippingTotal,
       @required this.conversionFactor});
-  factory SalesOrderDetailData.fromData(
-      Map<String, dynamic> data, GeneratedDatabase db,
+  factory SalesOrderDetailData.fromData(Map<String, dynamic> data,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
-    final intType = db.typeSystem.forDartType<int>();
-    final stringType = db.typeSystem.forDartType<String>();
-    final dateTimeType = db.typeSystem.forDartType<DateTime>();
-    final doubleType = db.typeSystem.forDartType<double>();
     return SalesOrderDetailData(
-      tenantId:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
-      userName: stringType
+      tenantId: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      userName: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}user_name']),
-      userId:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}user_id']),
-      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      transactionNumber: stringType.mapFromDatabaseResponse(
+      userId: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}user_id']),
+      id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      transactionNumber: const StringType().mapFromDatabaseResponse(
           data['${effectivePrefix}transaction_number']),
-      inventoryCycleNumber: stringType.mapFromDatabaseResponse(
+      inventoryCycleNumber: const StringType().mapFromDatabaseResponse(
           data['${effectivePrefix}inventory_cycle_number']),
-      daySessionNumber: stringType.mapFromDatabaseResponse(
+      daySessionNumber: const StringType().mapFromDatabaseResponse(
           data['${effectivePrefix}day_session_number']),
-      deliveryDate: dateTimeType
+      deliveryDate: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}delivery_date']),
-      currency: stringType
+      currency: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}currency']),
-      exchangeRate: doubleType
+      exchangeRate: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}exchange_rate']),
-      transactionStatus: stringType.mapFromDatabaseResponse(
+      transactionStatus: const StringType().mapFromDatabaseResponse(
           data['${effectivePrefix}transaction_status']),
-      itemId:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
-      itemCode: stringType
+      itemId: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
+      itemCode: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}item_code']),
-      upcCode: stringType
+      upcCode: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}upc_code']),
-      description: stringType
+      description: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}description']),
-      itemGroup: stringType
+      itemGroup: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}item_group']),
-      category: stringType
+      category: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}category']),
-      salesUOM: stringType
+      salesUOM: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}sales_u_o_m']),
-      stockUOM: stringType
+      stockUOM: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}stock_u_o_m']),
-      taxGroup: stringType
+      taxGroup: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}tax_group']),
-      warehouse: stringType
+      warehouse: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}warehouse']),
-      discountType: stringType
+      discountType: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}discount_type']),
-      discountPercentage: doubleType.mapFromDatabaseResponse(
+      discountPercentage: const RealType().mapFromDatabaseResponse(
           data['${effectivePrefix}discount_percentage']),
-      discountAmount: doubleType
+      discountAmount: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}discount_amount']),
-      lineDiscountTotal: doubleType.mapFromDatabaseResponse(
+      lineDiscountTotal: const RealType().mapFromDatabaseResponse(
           data['${effectivePrefix}line_discount_total']),
-      taxIndicator: stringType
+      taxIndicator: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}tax_indicator']),
-      unitPrice: doubleType
+      unitPrice: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}unit_price']),
-      costPrice: doubleType
+      costPrice: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}cost_price']),
-      listPrice: doubleType
+      listPrice: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}list_price']),
-      quantity: doubleType
+      quantity: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}quantity']),
-      subTotal: doubleType
+      subTotal: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}sub_total']),
-      grandTotal: doubleType
+      grandTotal: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}grand_total']),
-      fxGrandTotal: doubleType
+      fxGrandTotal: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}fx_grand_total']),
-      itemCount:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}item_count']),
-      depositTotal: doubleType
+      itemCount: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}item_count']),
+      depositTotal: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}deposit_total']),
-      lineId:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}line_id']),
-      taxTotal: doubleType
+      lineId: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}line_id']),
+      taxTotal: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}tax_total']),
-      shippingTotal: doubleType
+      shippingTotal: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}shipping_total']),
-      conversionFactor: doubleType
+      conversionFactor: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}conversion_factor']),
     );
   }
@@ -2273,7 +2026,7 @@ class SalesOrderDetailData extends DataClass
 
   factory SalesOrderDetailData.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
+    serializer ??= driftRuntimeOptions.defaultSerializer;
     return SalesOrderDetailData(
       tenantId: serializer.fromJson<int>(json['tenantId']),
       userName: serializer.fromJson<String>(json['userName']),
@@ -2320,7 +2073,7 @@ class SalesOrderDetailData extends DataClass
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
+    serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'tenantId': serializer.toJson<int>(tenantId),
       'userName': serializer.toJson<String>(userName),
@@ -2492,51 +2245,49 @@ class SalesOrderDetailData extends DataClass
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(
-      tenantId.hashCode,
-      $mrjc(
-          userName.hashCode,
-          $mrjc(
-              userId.hashCode,
-              $mrjc(
-                  id.hashCode,
-                  $mrjc(
-                      transactionNumber.hashCode,
-                      $mrjc(
-                          inventoryCycleNumber.hashCode,
-                          $mrjc(
-                              daySessionNumber.hashCode,
-                              $mrjc(
-                                  deliveryDate.hashCode,
-                                  $mrjc(
-                                      currency.hashCode,
-                                      $mrjc(
-                                          exchangeRate.hashCode,
-                                          $mrjc(
-                                              transactionStatus.hashCode,
-                                              $mrjc(
-                                                  itemId.hashCode,
-                                                  $mrjc(
-                                                      itemCode.hashCode,
-                                                      $mrjc(
-                                                          upcCode.hashCode,
-                                                          $mrjc(
-                                                              description
-                                                                  .hashCode,
-                                                              $mrjc(
-                                                                  itemGroup
-                                                                      .hashCode,
-                                                                  $mrjc(
-                                                                      category
-                                                                          .hashCode,
-                                                                      $mrjc(
-                                                                          salesUOM
-                                                                              .hashCode,
-                                                                          $mrjc(
-                                                                              stockUOM.hashCode,
-                                                                              $mrjc(taxGroup.hashCode, $mrjc(warehouse.hashCode, $mrjc(discountType.hashCode, $mrjc(discountPercentage.hashCode, $mrjc(discountAmount.hashCode, $mrjc(lineDiscountTotal.hashCode, $mrjc(taxIndicator.hashCode, $mrjc(unitPrice.hashCode, $mrjc(costPrice.hashCode, $mrjc(listPrice.hashCode, $mrjc(quantity.hashCode, $mrjc(subTotal.hashCode, $mrjc(grandTotal.hashCode, $mrjc(fxGrandTotal.hashCode, $mrjc(itemCount.hashCode, $mrjc(depositTotal.hashCode, $mrjc(lineId.hashCode, $mrjc(taxTotal.hashCode, $mrjc(shippingTotal.hashCode, conversionFactor.hashCode)))))))))))))))))))))))))))))))))))))));
+  int get hashCode => Object.hashAll([
+        tenantId,
+        userName,
+        userId,
+        id,
+        transactionNumber,
+        inventoryCycleNumber,
+        daySessionNumber,
+        deliveryDate,
+        currency,
+        exchangeRate,
+        transactionStatus,
+        itemId,
+        itemCode,
+        upcCode,
+        description,
+        itemGroup,
+        category,
+        salesUOM,
+        stockUOM,
+        taxGroup,
+        warehouse,
+        discountType,
+        discountPercentage,
+        discountAmount,
+        lineDiscountTotal,
+        taxIndicator,
+        unitPrice,
+        costPrice,
+        listPrice,
+        quantity,
+        subTotal,
+        grandTotal,
+        fxGrandTotal,
+        itemCount,
+        depositTotal,
+        lineId,
+        taxTotal,
+        shippingTotal,
+        conversionFactor
+      ]);
   @override
-  bool operator ==(dynamic other) =>
+  bool operator ==(Object other) =>
       identical(this, other) ||
       (other is SalesOrderDetailData &&
           other.tenantId == this.tenantId &&
@@ -3077,505 +2828,255 @@ class $SalesOrderDetailTable extends SalesOrderDetail
   final String _alias;
   $SalesOrderDetailTable(this._db, [this._alias]);
   final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
-  GeneratedIntColumn _tenantId;
+  GeneratedColumn<int> _tenantId;
   @override
-  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
-  GeneratedIntColumn _constructTenantId() {
-    return GeneratedIntColumn(
-      'tenant_id',
-      $tableName,
-      true,
-    );
-  }
-
+  GeneratedColumn<int> get tenantId =>
+      _tenantId ??= GeneratedColumn<int>('tenant_id', aliasedName, true,
+          type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _userNameMeta = const VerificationMeta('userName');
-  GeneratedTextColumn _userName;
+  GeneratedColumn<String> _userName;
   @override
-  GeneratedTextColumn get userName => _userName ??= _constructUserName();
-  GeneratedTextColumn _constructUserName() {
-    return GeneratedTextColumn(
-      'user_name',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get userName =>
+      _userName ??= GeneratedColumn<String>('user_name', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _userIdMeta = const VerificationMeta('userId');
-  GeneratedIntColumn _userId;
+  GeneratedColumn<int> _userId;
   @override
-  GeneratedIntColumn get userId => _userId ??= _constructUserId();
-  GeneratedIntColumn _constructUserId() {
-    return GeneratedIntColumn(
-      'user_id',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<int> get userId =>
+      _userId ??= GeneratedColumn<int>('user_id', aliasedName, false,
+          type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _idMeta = const VerificationMeta('id');
-  GeneratedIntColumn _id;
+  GeneratedColumn<int> _id;
   @override
-  GeneratedIntColumn get id => _id ??= _constructId();
-  GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn(
-      'id',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<int> get id =>
+      _id ??= GeneratedColumn<int>('id', aliasedName, false,
+          type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _transactionNumberMeta =
       const VerificationMeta('transactionNumber');
-  GeneratedTextColumn _transactionNumber;
+  GeneratedColumn<String> _transactionNumber;
   @override
-  GeneratedTextColumn get transactionNumber =>
-      _transactionNumber ??= _constructTransactionNumber();
-  GeneratedTextColumn _constructTransactionNumber() {
-    return GeneratedTextColumn(
-      'transaction_number',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get transactionNumber => _transactionNumber ??=
+      GeneratedColumn<String>('transaction_number', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _inventoryCycleNumberMeta =
       const VerificationMeta('inventoryCycleNumber');
-  GeneratedTextColumn _inventoryCycleNumber;
+  GeneratedColumn<String> _inventoryCycleNumber;
   @override
-  GeneratedTextColumn get inventoryCycleNumber =>
-      _inventoryCycleNumber ??= _constructInventoryCycleNumber();
-  GeneratedTextColumn _constructInventoryCycleNumber() {
-    return GeneratedTextColumn(
-      'inventory_cycle_number',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get inventoryCycleNumber => _inventoryCycleNumber ??=
+      GeneratedColumn<String>('inventory_cycle_number', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _daySessionNumberMeta =
       const VerificationMeta('daySessionNumber');
-  GeneratedTextColumn _daySessionNumber;
+  GeneratedColumn<String> _daySessionNumber;
   @override
-  GeneratedTextColumn get daySessionNumber =>
-      _daySessionNumber ??= _constructDaySessionNumber();
-  GeneratedTextColumn _constructDaySessionNumber() {
-    return GeneratedTextColumn(
-      'day_session_number',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get daySessionNumber => _daySessionNumber ??=
+      GeneratedColumn<String>('day_session_number', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _deliveryDateMeta =
       const VerificationMeta('deliveryDate');
-  GeneratedDateTimeColumn _deliveryDate;
+  GeneratedColumn<DateTime> _deliveryDate;
   @override
-  GeneratedDateTimeColumn get deliveryDate =>
-      _deliveryDate ??= _constructDeliveryDate();
-  GeneratedDateTimeColumn _constructDeliveryDate() {
-    return GeneratedDateTimeColumn(
-      'delivery_date',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<DateTime> get deliveryDate => _deliveryDate ??=
+      GeneratedColumn<DateTime>('delivery_date', aliasedName, false,
+          type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _currencyMeta = const VerificationMeta('currency');
-  GeneratedTextColumn _currency;
+  GeneratedColumn<String> _currency;
   @override
-  GeneratedTextColumn get currency => _currency ??= _constructCurrency();
-  GeneratedTextColumn _constructCurrency() {
-    return GeneratedTextColumn(
-      'currency',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get currency =>
+      _currency ??= GeneratedColumn<String>('currency', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _exchangeRateMeta =
       const VerificationMeta('exchangeRate');
-  GeneratedRealColumn _exchangeRate;
+  GeneratedColumn<double> _exchangeRate;
   @override
-  GeneratedRealColumn get exchangeRate =>
-      _exchangeRate ??= _constructExchangeRate();
-  GeneratedRealColumn _constructExchangeRate() {
-    return GeneratedRealColumn(
-      'exchange_rate',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<double> get exchangeRate => _exchangeRate ??=
+      GeneratedColumn<double>('exchange_rate', aliasedName, false,
+          type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _transactionStatusMeta =
       const VerificationMeta('transactionStatus');
-  GeneratedTextColumn _transactionStatus;
+  GeneratedColumn<String> _transactionStatus;
   @override
-  GeneratedTextColumn get transactionStatus =>
-      _transactionStatus ??= _constructTransactionStatus();
-  GeneratedTextColumn _constructTransactionStatus() {
-    return GeneratedTextColumn(
-      'transaction_status',
-      $tableName,
-      true,
-    );
-  }
-
+  GeneratedColumn<String> get transactionStatus => _transactionStatus ??=
+      GeneratedColumn<String>('transaction_status', aliasedName, true,
+          type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
-  GeneratedTextColumn _itemId;
+  GeneratedColumn<String> _itemId;
   @override
-  GeneratedTextColumn get itemId => _itemId ??= _constructItemId();
-  GeneratedTextColumn _constructItemId() {
-    return GeneratedTextColumn(
-      'item_id',
-      $tableName,
-      true,
-    );
-  }
-
+  GeneratedColumn<String> get itemId =>
+      _itemId ??= GeneratedColumn<String>('item_id', aliasedName, true,
+          type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _itemCodeMeta = const VerificationMeta('itemCode');
-  GeneratedTextColumn _itemCode;
+  GeneratedColumn<String> _itemCode;
   @override
-  GeneratedTextColumn get itemCode => _itemCode ??= _constructItemCode();
-  GeneratedTextColumn _constructItemCode() {
-    return GeneratedTextColumn(
-      'item_code',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get itemCode =>
+      _itemCode ??= GeneratedColumn<String>('item_code', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _upcCodeMeta = const VerificationMeta('upcCode');
-  GeneratedTextColumn _upcCode;
+  GeneratedColumn<String> _upcCode;
   @override
-  GeneratedTextColumn get upcCode => _upcCode ??= _constructUpcCode();
-  GeneratedTextColumn _constructUpcCode() {
-    return GeneratedTextColumn(
-      'upc_code',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get upcCode =>
+      _upcCode ??= GeneratedColumn<String>('upc_code', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _descriptionMeta =
       const VerificationMeta('description');
-  GeneratedTextColumn _description;
+  GeneratedColumn<String> _description;
   @override
-  GeneratedTextColumn get description =>
-      _description ??= _constructDescription();
-  GeneratedTextColumn _constructDescription() {
-    return GeneratedTextColumn(
-      'description',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get description => _description ??=
+      GeneratedColumn<String>('description', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _itemGroupMeta = const VerificationMeta('itemGroup');
-  GeneratedTextColumn _itemGroup;
+  GeneratedColumn<String> _itemGroup;
   @override
-  GeneratedTextColumn get itemGroup => _itemGroup ??= _constructItemGroup();
-  GeneratedTextColumn _constructItemGroup() {
-    return GeneratedTextColumn(
-      'item_group',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get itemGroup =>
+      _itemGroup ??= GeneratedColumn<String>('item_group', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _categoryMeta = const VerificationMeta('category');
-  GeneratedTextColumn _category;
+  GeneratedColumn<String> _category;
   @override
-  GeneratedTextColumn get category => _category ??= _constructCategory();
-  GeneratedTextColumn _constructCategory() {
-    return GeneratedTextColumn(
-      'category',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get category =>
+      _category ??= GeneratedColumn<String>('category', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _salesUOMMeta = const VerificationMeta('salesUOM');
-  GeneratedTextColumn _salesUOM;
+  GeneratedColumn<String> _salesUOM;
   @override
-  GeneratedTextColumn get salesUOM => _salesUOM ??= _constructSalesUOM();
-  GeneratedTextColumn _constructSalesUOM() {
-    return GeneratedTextColumn(
-      'sales_u_o_m',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get salesUOM =>
+      _salesUOM ??= GeneratedColumn<String>('sales_u_o_m', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _stockUOMMeta = const VerificationMeta('stockUOM');
-  GeneratedTextColumn _stockUOM;
+  GeneratedColumn<String> _stockUOM;
   @override
-  GeneratedTextColumn get stockUOM => _stockUOM ??= _constructStockUOM();
-  GeneratedTextColumn _constructStockUOM() {
-    return GeneratedTextColumn(
-      'stock_u_o_m',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get stockUOM =>
+      _stockUOM ??= GeneratedColumn<String>('stock_u_o_m', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _taxGroupMeta = const VerificationMeta('taxGroup');
-  GeneratedTextColumn _taxGroup;
+  GeneratedColumn<String> _taxGroup;
   @override
-  GeneratedTextColumn get taxGroup => _taxGroup ??= _constructTaxGroup();
-  GeneratedTextColumn _constructTaxGroup() {
-    return GeneratedTextColumn(
-      'tax_group',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get taxGroup =>
+      _taxGroup ??= GeneratedColumn<String>('tax_group', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _warehouseMeta = const VerificationMeta('warehouse');
-  GeneratedTextColumn _warehouse;
+  GeneratedColumn<String> _warehouse;
   @override
-  GeneratedTextColumn get warehouse => _warehouse ??= _constructWarehouse();
-  GeneratedTextColumn _constructWarehouse() {
-    return GeneratedTextColumn(
-      'warehouse',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get warehouse =>
+      _warehouse ??= GeneratedColumn<String>('warehouse', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _discountTypeMeta =
       const VerificationMeta('discountType');
-  GeneratedTextColumn _discountType;
+  GeneratedColumn<String> _discountType;
   @override
-  GeneratedTextColumn get discountType =>
-      _discountType ??= _constructDiscountType();
-  GeneratedTextColumn _constructDiscountType() {
-    return GeneratedTextColumn(
-      'discount_type',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get discountType => _discountType ??=
+      GeneratedColumn<String>('discount_type', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _discountPercentageMeta =
       const VerificationMeta('discountPercentage');
-  GeneratedRealColumn _discountPercentage;
+  GeneratedColumn<double> _discountPercentage;
   @override
-  GeneratedRealColumn get discountPercentage =>
-      _discountPercentage ??= _constructDiscountPercentage();
-  GeneratedRealColumn _constructDiscountPercentage() {
-    return GeneratedRealColumn(
-      'discount_percentage',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<double> get discountPercentage => _discountPercentage ??=
+      GeneratedColumn<double>('discount_percentage', aliasedName, false,
+          type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _discountAmountMeta =
       const VerificationMeta('discountAmount');
-  GeneratedRealColumn _discountAmount;
+  GeneratedColumn<double> _discountAmount;
   @override
-  GeneratedRealColumn get discountAmount =>
-      _discountAmount ??= _constructDiscountAmount();
-  GeneratedRealColumn _constructDiscountAmount() {
-    return GeneratedRealColumn(
-      'discount_amount',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<double> get discountAmount => _discountAmount ??=
+      GeneratedColumn<double>('discount_amount', aliasedName, false,
+          type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _lineDiscountTotalMeta =
       const VerificationMeta('lineDiscountTotal');
-  GeneratedRealColumn _lineDiscountTotal;
+  GeneratedColumn<double> _lineDiscountTotal;
   @override
-  GeneratedRealColumn get lineDiscountTotal =>
-      _lineDiscountTotal ??= _constructLineDiscountTotal();
-  GeneratedRealColumn _constructLineDiscountTotal() {
-    return GeneratedRealColumn(
-      'line_discount_total',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<double> get lineDiscountTotal => _lineDiscountTotal ??=
+      GeneratedColumn<double>('line_discount_total', aliasedName, false,
+          type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _taxIndicatorMeta =
       const VerificationMeta('taxIndicator');
-  GeneratedTextColumn _taxIndicator;
+  GeneratedColumn<String> _taxIndicator;
   @override
-  GeneratedTextColumn get taxIndicator =>
-      _taxIndicator ??= _constructTaxIndicator();
-  GeneratedTextColumn _constructTaxIndicator() {
-    return GeneratedTextColumn(
-      'tax_indicator',
-      $tableName,
-      true,
-    );
-  }
-
+  GeneratedColumn<String> get taxIndicator => _taxIndicator ??=
+      GeneratedColumn<String>('tax_indicator', aliasedName, true,
+          type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _unitPriceMeta = const VerificationMeta('unitPrice');
-  GeneratedRealColumn _unitPrice;
+  GeneratedColumn<double> _unitPrice;
   @override
-  GeneratedRealColumn get unitPrice => _unitPrice ??= _constructUnitPrice();
-  GeneratedRealColumn _constructUnitPrice() {
-    return GeneratedRealColumn(
-      'unit_price',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<double> get unitPrice =>
+      _unitPrice ??= GeneratedColumn<double>('unit_price', aliasedName, false,
+          type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _costPriceMeta = const VerificationMeta('costPrice');
-  GeneratedRealColumn _costPrice;
+  GeneratedColumn<double> _costPrice;
   @override
-  GeneratedRealColumn get costPrice => _costPrice ??= _constructCostPrice();
-  GeneratedRealColumn _constructCostPrice() {
-    return GeneratedRealColumn(
-      'cost_price',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<double> get costPrice =>
+      _costPrice ??= GeneratedColumn<double>('cost_price', aliasedName, false,
+          type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _listPriceMeta = const VerificationMeta('listPrice');
-  GeneratedRealColumn _listPrice;
+  GeneratedColumn<double> _listPrice;
   @override
-  GeneratedRealColumn get listPrice => _listPrice ??= _constructListPrice();
-  GeneratedRealColumn _constructListPrice() {
-    return GeneratedRealColumn(
-      'list_price',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<double> get listPrice =>
+      _listPrice ??= GeneratedColumn<double>('list_price', aliasedName, false,
+          type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _quantityMeta = const VerificationMeta('quantity');
-  GeneratedRealColumn _quantity;
+  GeneratedColumn<double> _quantity;
   @override
-  GeneratedRealColumn get quantity => _quantity ??= _constructQuantity();
-  GeneratedRealColumn _constructQuantity() {
-    return GeneratedRealColumn(
-      'quantity',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<double> get quantity =>
+      _quantity ??= GeneratedColumn<double>('quantity', aliasedName, false,
+          type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _subTotalMeta = const VerificationMeta('subTotal');
-  GeneratedRealColumn _subTotal;
+  GeneratedColumn<double> _subTotal;
   @override
-  GeneratedRealColumn get subTotal => _subTotal ??= _constructSubTotal();
-  GeneratedRealColumn _constructSubTotal() {
-    return GeneratedRealColumn(
-      'sub_total',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<double> get subTotal =>
+      _subTotal ??= GeneratedColumn<double>('sub_total', aliasedName, false,
+          type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _grandTotalMeta = const VerificationMeta('grandTotal');
-  GeneratedRealColumn _grandTotal;
+  GeneratedColumn<double> _grandTotal;
   @override
-  GeneratedRealColumn get grandTotal => _grandTotal ??= _constructGrandTotal();
-  GeneratedRealColumn _constructGrandTotal() {
-    return GeneratedRealColumn(
-      'grand_total',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<double> get grandTotal =>
+      _grandTotal ??= GeneratedColumn<double>('grand_total', aliasedName, false,
+          type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _fxGrandTotalMeta =
       const VerificationMeta('fxGrandTotal');
-  GeneratedRealColumn _fxGrandTotal;
+  GeneratedColumn<double> _fxGrandTotal;
   @override
-  GeneratedRealColumn get fxGrandTotal =>
-      _fxGrandTotal ??= _constructFxGrandTotal();
-  GeneratedRealColumn _constructFxGrandTotal() {
-    return GeneratedRealColumn(
-      'fx_grand_total',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<double> get fxGrandTotal => _fxGrandTotal ??=
+      GeneratedColumn<double>('fx_grand_total', aliasedName, false,
+          type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _itemCountMeta = const VerificationMeta('itemCount');
-  GeneratedIntColumn _itemCount;
+  GeneratedColumn<int> _itemCount;
   @override
-  GeneratedIntColumn get itemCount => _itemCount ??= _constructItemCount();
-  GeneratedIntColumn _constructItemCount() {
-    return GeneratedIntColumn(
-      'item_count',
-      $tableName,
-      true,
-    );
-  }
-
+  GeneratedColumn<int> get itemCount =>
+      _itemCount ??= GeneratedColumn<int>('item_count', aliasedName, true,
+          type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _depositTotalMeta =
       const VerificationMeta('depositTotal');
-  GeneratedRealColumn _depositTotal;
+  GeneratedColumn<double> _depositTotal;
   @override
-  GeneratedRealColumn get depositTotal =>
-      _depositTotal ??= _constructDepositTotal();
-  GeneratedRealColumn _constructDepositTotal() {
-    return GeneratedRealColumn(
-      'deposit_total',
-      $tableName,
-      true,
-    );
-  }
-
+  GeneratedColumn<double> get depositTotal => _depositTotal ??=
+      GeneratedColumn<double>('deposit_total', aliasedName, true,
+          type: const RealType(), requiredDuringInsert: false);
   final VerificationMeta _lineIdMeta = const VerificationMeta('lineId');
-  GeneratedIntColumn _lineId;
+  GeneratedColumn<int> _lineId;
   @override
-  GeneratedIntColumn get lineId => _lineId ??= _constructLineId();
-  GeneratedIntColumn _constructLineId() {
-    return GeneratedIntColumn(
-      'line_id',
-      $tableName,
-      true,
-    );
-  }
-
+  GeneratedColumn<int> get lineId =>
+      _lineId ??= GeneratedColumn<int>('line_id', aliasedName, true,
+          type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _taxTotalMeta = const VerificationMeta('taxTotal');
-  GeneratedRealColumn _taxTotal;
+  GeneratedColumn<double> _taxTotal;
   @override
-  GeneratedRealColumn get taxTotal => _taxTotal ??= _constructTaxTotal();
-  GeneratedRealColumn _constructTaxTotal() {
-    return GeneratedRealColumn(
-      'tax_total',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<double> get taxTotal =>
+      _taxTotal ??= GeneratedColumn<double>('tax_total', aliasedName, false,
+          type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _shippingTotalMeta =
       const VerificationMeta('shippingTotal');
-  GeneratedRealColumn _shippingTotal;
+  GeneratedColumn<double> _shippingTotal;
   @override
-  GeneratedRealColumn get shippingTotal =>
-      _shippingTotal ??= _constructShippingTotal();
-  GeneratedRealColumn _constructShippingTotal() {
-    return GeneratedRealColumn(
-      'shipping_total',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<double> get shippingTotal => _shippingTotal ??=
+      GeneratedColumn<double>('shipping_total', aliasedName, false,
+          type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _conversionFactorMeta =
       const VerificationMeta('conversionFactor');
-  GeneratedRealColumn _conversionFactor;
+  GeneratedColumn<double> _conversionFactor;
   @override
-  GeneratedRealColumn get conversionFactor =>
-      _conversionFactor ??= _constructConversionFactor();
-  GeneratedRealColumn _constructConversionFactor() {
-    return GeneratedRealColumn(
-      'conversion_factor',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<double> get conversionFactor => _conversionFactor ??=
+      GeneratedColumn<double>('conversion_factor', aliasedName, false,
+          type: const RealType(), requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns => [
         tenantId,
@@ -3619,11 +3120,9 @@ class $SalesOrderDetailTable extends SalesOrderDetail
         conversionFactor
       ];
   @override
-  $SalesOrderDetailTable get asDslTable => this;
+  String get aliasedName => _alias ?? 'sales_order_detail';
   @override
-  String get $tableName => _alias ?? 'sales_order_detail';
-  @override
-  final String actualTableName = 'sales_order_detail';
+  String get actualTableName => 'sales_order_detail';
   @override
   VerificationContext validateIntegrity(
       Insertable<SalesOrderDetailData> instance,
@@ -3888,8 +3387,8 @@ class $SalesOrderDetailTable extends SalesOrderDetail
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   SalesOrderDetailData map(Map<String, dynamic> data, {String tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
-    return SalesOrderDetailData.fromData(data, _db, prefix: effectivePrefix);
+    return SalesOrderDetailData.fromData(data,
+        prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
@@ -3913,7 +3412,7 @@ abstract class _$SalesOrderWithItem extends GeneratedDatabase {
         variables: [],
         readsFrom: {
           salesOrderHeader,
-          salesOrderDetail
+          salesOrderDetail,
         }).map(salesOrderHeader.mapFromRow);
   }
 

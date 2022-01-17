@@ -29,7 +29,7 @@ class CreateSalesOrderHeader extends SalesOderEvent {
   String shippingAddressName;
   DateTime deliveryDate;
   CreateSalesOrderHeader(
-      { this.customerId,
+      {this.customerId,
       this.currencyCode,
       this.exchangeRate,
       this.purchaseOrderNo,

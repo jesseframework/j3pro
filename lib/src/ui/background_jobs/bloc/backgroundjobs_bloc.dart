@@ -45,7 +45,7 @@ import 'package:j3enterprise/src/resources/shared/function/update_backgroung_job
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/date_formating.dart';
 import 'package:logging/logging.dart';
-import 'package:moor/moor.dart' as moor;
+import 'package:drift/drift.dart' as moor;
 
 part 'backgroundjobs_event.dart';
 part 'backgroundjobs_state.dart';
@@ -55,7 +55,6 @@ class BackgroundJobsBloc
   Scheduler scheduler;
   static final _log = Logger('BackgroundJobsBloc');
   var db;
- 
 
   String userMessage;
   AppLoggerRepository appLoggerRepository;
@@ -74,11 +73,10 @@ class BackgroundJobsBloc
   CurrencyRepository currencyRepository;
   ExchangeRateRepository exchangeRateRepository;
   GeoLocation geoLocation;
- 
 
   DesktopDao desktopDao;
   UpdateBackgroundJobStatus updateBackgroundJobStatus;
-  BackgroundJobsBloc() {
+  BackgroundJobsBloc() : super(BackgroundJobsUninitialized()) {
     db = AppDatabase();
     appLoggerRepository = new AppLoggerRepository();
     preferenceRepository = new PreferenceRepository();
@@ -112,7 +110,7 @@ class BackgroundJobsBloc
     try {
       if (event is BackgroundJobsStart) {
         yield BackgroundJobsLoading();
-        
+
         var data = await backgroundJobScheduleDao.getAllJobs();
         print('Jobb Data Load $data');
         String formatted = await formatDate(DateTime.now().toString());
@@ -303,12 +301,12 @@ class BackgroundJobsBloc
         }
 
         if (event.jobname == "GPS Location Service") {
-         if(Platform.isAndroid || Platform.isIOS)
-          scheduler.scheduleJobs(
-              event.syncFrequency,
-              event.jobname,
-              (Timer timer) async =>
-                  await geoLocation.getDistance(event.jobname));
+          if (Platform.isAndroid || Platform.isIOS)
+            scheduler.scheduleJobs(
+                event.syncFrequency,
+                event.jobname,
+                (Timer timer) async =>
+                    await geoLocation.getDistance(event.jobname));
         }
 
         yield BackgroundJobsSuccess(userMessage: userMessage);

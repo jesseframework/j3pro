@@ -130,8 +130,6 @@ class _BackgroundFetchPageState extends State<BackgroundFetchPage> {
     BackgroundFetch.finish(taskId);
   }
 
-
-
   void _onClickStatus() async {
     int status = await BackgroundFetch.status;
     print('[BackgroundFetch] status: $status');
@@ -155,7 +153,6 @@ class _BackgroundFetchPageState extends State<BackgroundFetchPage> {
             'Waiting for fetch events.  Simulate one.\n [Android] \$ ./scripts/simulate-fetch\n [iOS] XCode->Debug->Simulate Background Fetch'));
 
     return Scaffold(
-
       body: (_events.isEmpty)
           ? EMPTY_TEXT
           : Container(
@@ -171,8 +168,7 @@ class _BackgroundFetchPageState extends State<BackgroundFetchPage> {
                                 TextStyle(color: Colors.blue, fontSize: 20.0),
                             labelText: "[${event[0].toString()}]"),
                         child: new Text(event[1],
-                            style: TextStyle(
-                                 fontSize: 16.0)));
+                            style: TextStyle(fontSize: 16.0)));
                   }),
             ),
       bottomNavigationBar: BottomAppBar(

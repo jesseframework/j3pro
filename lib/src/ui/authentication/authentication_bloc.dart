@@ -33,7 +33,7 @@ import 'package:j3enterprise/src/resources/shared/function/schedule_background_j
 import 'package:j3enterprise/src/resources/shared/utils/date_formating.dart';
 import 'package:j3enterprise/src/resources/shared/utils/user_hashdigest.dart';
 import 'package:logging/logging.dart';
-import 'package:moor/moor.dart' as moor;
+import 'package:drift/drift.dart' as moor;
 
 import 'authentication_event.dart';
 import 'authentication_state.dart';
@@ -52,7 +52,7 @@ class AuthenticationBloc
 
   static final _log = Logger('LoginBloc');
 
-  AuthenticationBloc() {
+  AuthenticationBloc() : super(AuthenticationUninitialized()) {
     db = AppDatabase();
     userFromServer = new UserFromServer(userRepository: userRepository);
     userHash = new UserHashSave(userRepository: userRepository);

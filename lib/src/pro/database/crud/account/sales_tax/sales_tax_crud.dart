@@ -1,11 +1,11 @@
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/models/account/sales_tax/sales_tax_model.dart';
 
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 part 'sales_tax_crud.g.dart';
 
-@UseDao(tables: [SalesTax])
+@DriftAccessor(tables: [SalesTax])
 class SalesTaxDao extends DatabaseAccessor<AppDatabase>
     with _$SalesTaxDaoMixin {
   final AppDatabase db;
@@ -24,7 +24,7 @@ class SalesTaxDao extends DatabaseAccessor<AppDatabase>
         .get();
   }
 
-   Future<void> createOrUpdateSaleTax(SalesTaxData salesTaxData) {
+  Future<void> createOrUpdateSaleTax(SalesTaxData salesTaxData) {
     return into(db.salesTax).insertOnConflictUpdate(salesTaxData);
   }
 }

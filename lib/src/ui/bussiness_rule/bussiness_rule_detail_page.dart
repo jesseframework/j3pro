@@ -20,11 +20,12 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:j3enterprise/src/database/crud/business_rule/business_rule_crud.dart';
 import 'package:j3enterprise/src/database/crud/business_rule/non_global_business_rule_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
-import 'package:xlive_switch/xlive_switch.dart';
+//import 'package:xlive_switch/xlive_switch.dart';
 
 class BussinessRuleDetailPage extends StatefulWidget {
   final code;
@@ -134,13 +135,13 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                           fontSize: 16),
                                     ),
                                     Container(
-                                      child: XlivSwitch(
+                                      child: FlutterSwitch(
                                           value:
                                               businessRuleData.isGlobalRule ==
                                                       false
                                                   ? false
                                                   : true,
-                                          onChanged: (value) async {
+                                          onToggle: (value) async {
                                             await widget.businessRuleDao
                                                 .updateBussinessRule(
                                                     businessRuleData.copyWith(
@@ -163,12 +164,12 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                     Container(
                                         child: businessRuleData.dataType ==
                                                 'Bool'
-                                            ? XlivSwitch(
+                                            ? FlutterSwitch(
                                                 value: businessRuleData.value ==
                                                         'OFF'
                                                     ? false
                                                     : true,
-                                                onChanged: (value) async {
+                                                onToggle: (value) async {
                                                   await widget.businessRuleDao
                                                       .updateBussinessRule(
                                                           businessRuleData
@@ -342,7 +343,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                         ),
                                         Container(
                                             //  height: 20,
-                                            child: XlivSwitch(
+                                            child: FlutterSwitch(
                                                 value:
                                                     nonGlobalBussinessRuleData[
                                                                     index]
@@ -350,7 +351,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                                             'OFF'
                                                         ? false
                                                         : true,
-                                                onChanged: (value) async {
+                                                onToggle: (value) async {
                                                   await widget
                                                       .nonGlobalBusinessRuleDao
                                                       .updateNonGlobalBussinessRuleValue(

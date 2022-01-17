@@ -1,5 +1,5 @@
 import 'package:j3enterprise/src/resources/shared/extension/must_have_tenant.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 class Address extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
@@ -23,7 +23,6 @@ class Address extends Table implements MustHaveTenant {
   RealColumn get latitude => real()();
   RealColumn get longitude => real()();
   BoolColumn get isDeleted => boolean().withDefault(Constant(false))();
-
 
   @override
   Set<Column> get primaryKey => {id};

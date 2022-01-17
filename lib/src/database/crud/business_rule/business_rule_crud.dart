@@ -19,11 +19,11 @@
 
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/models/business_rule_model.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 part 'business_rule_crud.g.dart';
 
-@UseDao(tables: [BusinessRule])
+@DriftAccessor(tables: [BusinessRule])
 class BusinessRuleDao extends DatabaseAccessor<AppDatabase>
     with _$BusinessRuleDaoMixin {
   final AppDatabase db;
@@ -33,12 +33,10 @@ class BusinessRuleDao extends DatabaseAccessor<AppDatabase>
     return (select(db.businessRule).get());
   }
 
-
-   Future<BusinessRuleData> getSingleBusinessRule(String brCode) {
+  Future<BusinessRuleData> getSingleBusinessRule(String brCode) {
     return (select(db.businessRule)..where((u) => u.code.equals(brCode)))
         .getSingle();
   }
-
 
   Future<void> createOrUpdatePref(BusinessRuleData pref) {
     return into(db.businessRule).insertOnConflictUpdate(pref);

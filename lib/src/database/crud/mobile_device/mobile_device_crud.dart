@@ -19,11 +19,11 @@
 
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/models/mobile_device_model.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 part 'mobile_device_crud.g.dart';
 
-@UseDao(tables: [MobileDevice])
+@DriftAccessor(tables: [MobileDevice])
 class MobileDeviceDao extends DatabaseAccessor<AppDatabase>
     with _$MobileDeviceDaoMixin {
   final AppDatabase db;

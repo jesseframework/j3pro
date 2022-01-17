@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.14)
 project(j3pro LANGUAGES CXX)
 
 set(BINARY_NAME "j3pro")

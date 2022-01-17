@@ -17,7 +17,6 @@ void main() {
     var qty = salesOrderDetailTempDao.qtyOfItemOnRegister(
         transactionNumber, itemId, uom, transactionStatus);
     if (qty != null) {
-     
       expect(qty.asyncMap((e) => e[0].quantity).toString(),
           qty.asyncMap((e) => e[0].quantity).toString());
     }

@@ -50,7 +50,8 @@ class ExchangeRateRepository {
               _log.finest("Server resopnses successful for Exchnage rate ");
               Map<String, dynamic> result = map['result'];
               var items = (result['items'] as List).map((e) {
-                return ExchangeRateData.fromJson(e, serializer: CustomSerializer());
+                return ExchangeRateData.fromJson(e,
+                    serializer: CustomSerializer());
               });
 
               for (var item in items) {

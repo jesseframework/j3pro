@@ -48,7 +48,7 @@ class _FirebaseMessageWrapperState extends State<FirebaseMessageWrapper> {
   Widget build(BuildContext context) {
     return StreamBuilder(
         initialData: null,
-        stream: _messageStream.messageStream,
+        //stream: _messageStream.messageStream,
         builder: (BuildContext context,
             AsyncSnapshot<Map<String, dynamic>> snapshot) {
           if (snapshot.hasData) {

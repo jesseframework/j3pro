@@ -1,6 +1,6 @@
 import 'package:j3enterprise/src/resources/shared/extension/full_audited.dart';
 import 'package:j3enterprise/src/resources/shared/extension/must_have_tenant.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 class ItemPricingRule extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
@@ -29,7 +29,6 @@ class ItemPricingRule extends Table implements MustHaveTenant {
   DateTimeColumn get validFrom => dateTime().nullable()();
   DateTimeColumn get validTo => dateTime().nullable()();
 
- 
   @override
   Set<Column> get primaryKey => {id};
 }

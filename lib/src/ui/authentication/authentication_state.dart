@@ -38,13 +38,11 @@ class AuthenticationAndSaveUser extends AuthenticationState {}
 
 class AuthenticationCreateMobileHash extends AuthenticationState {}
 
-class AuthenticationNotificationScreen extends AuthenticationState{}
+class AuthenticationNotificationScreen extends AuthenticationState {}
 
-
-class PushNotificationState extends AuthenticationState{
+class PushNotificationState extends AuthenticationState {
   String route;
   PushNotificationState({this.route});
   @override
   List<Object> get props => [route];
-
 }

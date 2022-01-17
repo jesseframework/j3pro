@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 class Preference extends Table {
   IntColumn get id => integer()();
@@ -29,7 +29,7 @@ class Preference extends Table {
   TextColumn get domain => text().nullable()();
   BoolColumn get isGlobal => boolean().withDefault(Constant(true))();
   TextColumn get syncError => text().nullable()();
-  DateTimeColumn get  expiredDateTime =>  dateTime().nullable()();
+  DateTimeColumn get expiredDateTime => dateTime().nullable()();
   TextColumn get dataType => text().nullable()();
   TextColumn get dataValue => text().nullable()();
   TextColumn get groups => text().nullable()();

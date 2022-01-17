@@ -19,11 +19,11 @@
 
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/models/tenant_model.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 part 'tenant_crud.g.dart';
 
-@UseDao(tables: [Tenant])
+@DriftAccessor(tables: [Tenant])
 class TenantDao extends DatabaseAccessor<AppDatabase> with _$TenantDaoMixin {
   final AppDatabase db;
   TenantDao(this.db) : super(db);

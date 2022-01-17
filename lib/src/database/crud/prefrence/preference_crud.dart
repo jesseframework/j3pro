@@ -17,16 +17,15 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
- 
 import 'package:intl/intl.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/models/non_global_preference_setting.dart';
 import 'package:j3enterprise/src/models/preference_model.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 part 'preference_crud.g.dart';
 
-@UseDao(tables: [Preference, NonGlobalPreference])
+@DriftAccessor(tables: [Preference, NonGlobalPreference])
 class PreferenceDao extends DatabaseAccessor<AppDatabase>
     with _$PreferenceDaoMixin {
   final AppDatabase db;
@@ -46,7 +45,9 @@ class PreferenceDao extends DatabaseAccessor<AppDatabase>
   }
 
   Stream<List<PreferenceData>> watchAllPreferences(String searchText) {
-    return (select(db.preference)..where((t) => t.preferenceName.contains(searchText))).watch();
+    return (select(db.preference)
+          ..where((t) => t.preferenceName.contains(searchText)))
+        .watch();
   }
 
   Stream<PreferenceData> watchSinglePreferences(String prefCode) {

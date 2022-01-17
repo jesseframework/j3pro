@@ -17,9 +17,8 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-
 import 'dart:async';
-import 'package:rxdart/rxdart.dart';
+//import 'package:rxdart/rxdart.dart';
 
 class MessageStream {
   MessageStream._internal();
@@ -30,15 +29,15 @@ class MessageStream {
     return _instance;
   }
 
-   dynamic _message = BehaviorSubject<Map<String, dynamic>>();
-  Stream<Map<String, dynamic>> get messageStream => _message.stream;
+  //  dynamic _message = BehaviorSubject<Map<String, dynamic>>();
+  // Stream<Map<String, dynamic>> get messageStream => _message.stream;
 
-  void addMessage(Map<String, dynamic> msg) {
-    _message.add(msg);
-    return;
-  }
+  // void addMessage(Map<String, dynamic> msg) {
+  //   _message.add(msg);
+  //   return;
+  // }
 
-  void dispose() {
-    _message.close();
-  }
+  // void dispose() {
+  //   _message.close();
+  // }
 }

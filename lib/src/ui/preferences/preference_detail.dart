@@ -20,11 +20,12 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/non_preference_crud.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/preference_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
-import 'package:xlive_switch/xlive_switch.dart';
+//import 'package:xlive_switch/xlive_switch.dart';
 
 class PreferenceDetailPage extends StatefulWidget {
   final code;
@@ -133,11 +134,11 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                           fontSize: 16),
                                     ),
                                     Container(
-                                      child: XlivSwitch(
+                                      child: FlutterSwitch(
                                           value: prefData.isGlobal == false
                                               ? false
                                               : true,
-                                          onChanged: (value) async {
+                                          onToggle: (value) async {
                                             await widget.preferenceDao
                                                 .updatePreferenceValue(
                                                     prefData.copyWith(
@@ -159,11 +160,11 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                     ),
                                     Container(
                                         child: prefData.dataType == 'Bool'
-                                            ? XlivSwitch(
+                                            ? FlutterSwitch(
                                                 value: prefData.value == 'OFF'
                                                     ? false
                                                     : true,
-                                                onChanged: (value) async {
+                                                onToggle: (value) async {
                                                   await widget.preferenceDao
                                                       .updatePreferenceValue(
                                                           prefData.copyWith(
@@ -338,13 +339,13 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                         ),
                                         Container(
                                             //  height: 20,
-                                            child: XlivSwitch(
+                                            child: FlutterSwitch(
                                                 value: nonGloblePrefData[index]
                                                             .value ==
                                                         'OFF'
                                                     ? false
                                                     : true,
-                                                onChanged: (value) async {
+                                                onToggle: (value) async {
                                                   await widget
                                                       .nonGlobalPreferenceDao
                                                       .updateNonGlobalPreferenceValue(

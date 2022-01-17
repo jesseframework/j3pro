@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:badges/badges.dart';
-import 'package:barcode_keyboard_listener/barcode_keyboard_listener.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,6 +19,7 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
+import 'package:flutter_barcode_listener/flutter_barcode_listener.dart';
 
 class SalesOrderAddItemForm extends StatefulWidget {
   var db;
@@ -47,7 +47,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
   int itemCount = 0;
   bool toggleList = true;
   bool _hasMore = true;
-  BarcodeListener _barcodeListener;
+  String _barcodeListener;
   final _tecScanKeyCode = TextEditingController();
   int _scanButtonKeyCode;
   String _scanResult = '';
@@ -59,7 +59,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
     _controller.addListener(_scrollListener);
     salesOrderNo = addItemBloc.tempSalesOrderNo;
     super.initState();
-    _barcodeListener = BarcodeListener(null, null, _onKeyPress);
+    //_barcodeListener = BarcodeListener(null, null, _onKeyPress);
   }
 
   void _onScan(String barcode) async {
@@ -78,13 +78,13 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
   void _setScanButtonKeyCode() {
     setState(() {
       if (_barcodeListener != null) {
-        _barcodeListener.dispose();
+        //_barcodeListener.dispose();
         _barcodeListener = null;
       }
 
       _scanButtonKeyCode = int.parse(_tecScanKeyCode.text);
-      _barcodeListener =
-          BarcodeListener(_onScan, _scanButtonKeyCode, _onKeyPress);
+      // _barcodeListener =
+      // BarcodeListener(_onScan, _scanButtonKeyCode, _onKeyPress);
     });
   }
 
@@ -418,8 +418,8 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
 
   buildBottomSheet() {
     return StreamBuilder(
-      stream:
-          widget.salesOrderDetailTempDao.transactionTotal(salesOrderNo, 'Pending'),
+      stream: widget.salesOrderDetailTempDao
+          .transactionTotal(salesOrderNo, 'Pending'),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<SalesOrderDetailTempData> totalData = snapshot.data;
@@ -577,7 +577,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                                 ),
                                               ),
                                               Text(
-                                                  "IN STOCK:  0",
+                                                "IN STOCK:  0",
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     fontSize: 16,
@@ -612,7 +612,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                                                         index]
                                                                     .item
                                                                     .itemId,
-                                                                    context: context,
+                                                            context: context,
                                                             setQty:
                                                                 double.parse(
                                                               _qtyController

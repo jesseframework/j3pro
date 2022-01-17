@@ -29,7 +29,6 @@ class SetupCommunicationForm extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.chevron_left),

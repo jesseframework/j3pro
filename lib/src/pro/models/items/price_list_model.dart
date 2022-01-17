@@ -1,6 +1,6 @@
 import 'package:j3enterprise/src/resources/shared/extension/full_audited.dart';
 import 'package:j3enterprise/src/resources/shared/extension/must_have_tenant.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 class PriceList extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
@@ -13,7 +13,6 @@ class PriceList extends Table implements MustHaveTenant {
   BoolColumn get isPriceNotUOMDependency =>
       boolean().withDefault(Constant(false))();
 
- 
   @override
   Set<Column> get primaryKey => {id};
 }

@@ -1,11 +1,11 @@
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/models/account/currency/currency_model.dart';
 
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 part 'currency_crud.g.dart';
 
-@UseDao(tables: [SystemCurrency])
+@DriftAccessor(tables: [SystemCurrency])
 class SystemCurrencyDao extends DatabaseAccessor<AppDatabase>
     with _$SystemCurrencyDaoMixin {
   final AppDatabase db;
@@ -15,7 +15,8 @@ class SystemCurrencyDao extends DatabaseAccessor<AppDatabase>
     return (select(db.systemCurrency).get());
   }
 
-  Future<List<SystemCurrencyData>> getAllSystemCurrencyByName(String currencyname) {
+  Future<List<SystemCurrencyData>> getAllSystemCurrencyByName(
+      String currencyname) {
     return (select(db.systemCurrency)
           ..where((t) => t.currencyName.equals(currencyname)))
         .get();

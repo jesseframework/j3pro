@@ -1,10 +1,10 @@
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/models/warehouse/inventory_transaction_model.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 part 'inventory_transaction_crud.g.dart';
 
-@UseDao(tables: [InventoryTransaction])
+@DriftAccessor(tables: [InventoryTransaction])
 class InventoryTransactionDao extends DatabaseAccessor<AppDatabase>
     with _$InventoryTransactionDaoMixin {
   final AppDatabase db;
@@ -39,7 +39,7 @@ class InventoryTransactionDao extends DatabaseAccessor<AppDatabase>
     return into(db.inventoryTransaction).insertOnConflictUpdate(inventoryItem);
   }
 
-   Future<void> insertInventoryItems(
+  Future<void> insertInventoryItems(
       InventoryTransactionCompanion inventoryItem) {
     return into(db.inventoryTransaction).insert(inventoryItem);
   }

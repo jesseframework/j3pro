@@ -1,10 +1,10 @@
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/models/warehouse/inventory_items_model.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 part 'inventory_items_crud.g.dart';
 
-@UseDao(tables: [InventoryItems])
+@DriftAccessor(tables: [InventoryItems])
 class InventoryItemsDao extends DatabaseAccessor<AppDatabase>
     with _$InventoryItemsDaoMixin {
   final AppDatabase db;

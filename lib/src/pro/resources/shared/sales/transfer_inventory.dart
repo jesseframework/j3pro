@@ -1,7 +1,7 @@
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/warehouse/inventory_items_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/warehouse/inventory_transaction_crud.dart';
-import 'package:moor/moor.dart' as moor;
+import 'package:drift/drift.dart' as moor;
 
 class TransferInventory {
   var db;
@@ -30,20 +30,18 @@ class TransferInventory {
         tenantId: moor.Value(tenantId),
         itemCode: moor.Value(itemCode),
         itemName: moor.Value(itemName),
-        itemId: moor.Value(itemId), 
+        itemId: moor.Value(itemId),
         description: moor.Value(description),
         itemGroup: moor.Value(itemGroup),
         stockUom: moor.Value(stockUOM),
         transactionNumber: moor.Value(transactionNumber),
         quantityMove: moor.Value(qtyMove),
-        quantityMoveConvert:moor.Value(conversionFactor * qtyMove),
+        quantityMoveConvert: moor.Value(conversionFactor * qtyMove),
         conversionFactor: moor.Value(conversionFactor),
         itemPrice: moor.Value(itemPrice),
         transactionType: moor.Value(transactionType),
         reasonCode: moor.Value(reasonCode));
 
     await inventoryTransactionDao.insertInventoryItems(moveInventory);
-
-    
   }
 }

@@ -1,10 +1,10 @@
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/models/items/uom_model.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 part 'uom_crud.g.dart';
 
-@UseDao(tables: [UnitOfMeasure])
+@DriftAccessor(tables: [UnitOfMeasure])
 class UnitOfMeasureDao extends DatabaseAccessor<AppDatabase>
     with _$UnitOfMeasureDaoMixin {
   final AppDatabase db;
@@ -14,22 +14,16 @@ class UnitOfMeasureDao extends DatabaseAccessor<AppDatabase>
     return (select(db.unitOfMeasure).get());
   }
 
-  Stream<List<UnitOfMeasureData>> watchAllUnitOfMeasureByUOM(
-      String uom) {
-    return (select(db.unitOfMeasure)..where((t) => t.uom.equals(uom)))
-        .watch();
+  Stream<List<UnitOfMeasureData>> watchAllUnitOfMeasureByUOM(String uom) {
+    return (select(db.unitOfMeasure)..where((t) => t.uom.equals(uom))).watch();
   }
 
-  Future<List<UnitOfMeasureData>> getAllUnitOfMeasureByUOM(
-      String uom) {
-    return (select(db.unitOfMeasure)..where((t) => t.uom.equals(uom)))
-        .get();
+  Future<List<UnitOfMeasureData>> getAllUnitOfMeasureByUOM(String uom) {
+    return (select(db.unitOfMeasure)..where((t) => t.uom.equals(uom))).get();
   }
 
-  Future<void> createOrUpdateUOM(
-      UnitOfMeasureData unitOfMeasureData) {
-    return into(db.unitOfMeasure)
-        .insertOnConflictUpdate(unitOfMeasureData);
+  Future<void> createOrUpdateUOM(UnitOfMeasureData unitOfMeasureData) {
+    return into(db.unitOfMeasure).insertOnConflictUpdate(unitOfMeasureData);
   }
 
   Future deleteAllUnitOfMeasure() => delete(db.unitOfMeasure).go();

@@ -21,7 +21,6 @@ import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:kiwi/kiwi.dart';
 
 void initKiwi() {
- 
-  Container().registerFactory((c) => AppDatabase());
-  
+  KiwiContainer container = KiwiContainer();
+  container.registerFactory((c) => AppDatabase());
 }

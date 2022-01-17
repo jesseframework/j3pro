@@ -19,7 +19,6 @@ part 'sales_oder_event.dart';
 part 'sales_oder_state.dart';
 
 class SalesOderBloc extends Bloc<SalesOderEvent, SalesOderState> {
- 
   var db;
   PostTransactionHeader postTransactionHeader;
   UserSharedData userSharedData;
@@ -29,7 +28,7 @@ class SalesOderBloc extends Bloc<SalesOderEvent, SalesOderState> {
   SystemCurrencyDao systemCurrencyDao;
   ExchangeRateDao exchangeRateDao;
   TempSerialNumberReader tempSerialNumberReader;
-  SalesOderBloc() {
+  SalesOderBloc() : super(SalesOderInitial()) {
     db = AppDatabase();
     addressDao = AddressDao(db);
     customerDao = CustomerDao(db);
@@ -54,9 +53,12 @@ class SalesOderBloc extends Bloc<SalesOderEvent, SalesOderState> {
           : 'JMD';
       List<SystemCurrencyData> currencydata =
           await systemCurrencyDao.getAllSystemCurrency();
-    List<SystemCurrencyData> defaultCurrencyList = currencydata.isNotEmpty
+      List<SystemCurrencyData> defaultCurrencyList = currencydata.isNotEmpty
           ? currencydata
-          : [SystemCurrencyData(currencyName: 'No Currency Found',isDeleted: false)];
+          : [
+              SystemCurrencyData(
+                  currencyName: 'No Currency Found', isDeleted: false)
+            ];
       List<ExchangeRateData> exchangeRateData = await exchangeRateDao
           .getAllExchnageRateByCurrency('JMD', defaultCurrency);
 
@@ -71,12 +73,14 @@ class SalesOderBloc extends Bloc<SalesOderEvent, SalesOderState> {
       var shredPrefData = await userSharedData.getUserSharedPref();
       // List<JourneyPlanData> journeyPlanData =
       //     await journeyPlanDao.getAllJourneyPlanByCustomer(event.customerId);
-      
+
       postTransactionHeader.postTransactionData(
         exchangeRate: event.exchangeRate,
-        transactionNumber:await tempSerialNumberReader.getTempNumber(typeOfNumber: 'Sales Order'),
+        transactionNumber: await tempSerialNumberReader.getTempNumber(
+            typeOfNumber: 'Sales Order'),
         transactionStatus: event.transactionStatus,
-        daySessionNumber: await tempSerialNumberReader.getTempNumber(typeOfNumber: 'Clock In'),
+        daySessionNumber: await tempSerialNumberReader.getTempNumber(
+            typeOfNumber: 'Clock In'),
         billingAddressName: event.billingAddressName,
         purchaseOrderNo: event.purchaseOrderNo,
         tenantId: int.parse(shredPrefData['tenantId']),
@@ -86,7 +90,8 @@ class SalesOderBloc extends Bloc<SalesOderEvent, SalesOderState> {
         soldTo: event.soldTo,
         deliveryDate: event.deliveryDate,
         transactionType: event.transactionType,
-        inventoryCycleNumber:await tempSerialNumberReader.getTempNumber(typeOfNumber: 'Inventory Cycle'),
+        inventoryCycleNumber: await tempSerialNumberReader.getTempNumber(
+            typeOfNumber: 'Inventory Cycle'),
         userId: int.parse(shredPrefData['userId']),
         userName: shredPrefData['userName'],
         orderType: event.orderType,

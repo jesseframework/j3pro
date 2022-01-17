@@ -8,7 +8,6 @@ import 'package:j3enterprise/src/pro/ui/activities_menu/bloc/activities_menu_blo
 class ActivitiesMenuPage extends StatefulWidget {
   static final route = '/activities_menu';
   JourneyWithAddress journeyWithAddress;
-  
 
   ActivitiesMenuPage({this.journeyWithAddress});
 

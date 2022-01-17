@@ -17,7 +17,6 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-
 part of 'bussiness_rule_bloc.dart';
 
 abstract class BussinessRuleEvent extends Equatable {

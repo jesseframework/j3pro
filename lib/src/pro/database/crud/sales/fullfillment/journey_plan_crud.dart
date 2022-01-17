@@ -1,11 +1,11 @@
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/models/sales/fullfillment/jounery_with_address.dart';
 import 'package:j3enterprise/src/pro/models/sales/fullfillment/journey_plan.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 part 'journey_plan_crud.g.dart';
 
-@UseDao(tables: [JourneyPlan])
+@DriftAccessor(tables: [JourneyPlan])
 class JourneyPlanDao extends DatabaseAccessor<AppDatabase>
     with _$JourneyPlanDaoMixin {
   final AppDatabase db;
@@ -45,38 +45,26 @@ class JourneyPlanDao extends DatabaseAccessor<AppDatabase>
     });
   }
 
-  Future updateGPSDistance(
-      JourneyPlanCompanion jp,
-      String customerid,
-      String userName,
-      String transactionStatus) {
+  Future updateGPSDistance(JourneyPlanCompanion jp, String customerid,
+      String userName, String transactionStatus) {
     return (update(db.journeyPlan)
-          ..where((t) =>
-              t.customerId.equals(customerid)         
-              ))
+          ..where((t) => t.customerId.equals(customerid)))
         .write(
       JourneyPlanCompanion(
           inKilometer: jp.inKilometer,
           inMeter: jp.inMeter,
           inMiles: jp.inMiles,
           distanceLabel: jp.distanceLabel,
-          distanceUsed: jp.distanceUsed ),
+          distanceUsed: jp.distanceUsed),
     );
   }
 
-    Future updateTransactionStatus(
-      JourneyPlanCompanion ts,
-      String customerid,
-      String userName,
-      String transactionStatus) {
+  Future updateTransactionStatus(JourneyPlanCompanion ts, String customerid,
+      String userName, String transactionStatus) {
     return (update(db.journeyPlan)
-          ..where((t) =>
-              t.customerId.equals(customerid)         
-              ))
+          ..where((t) => t.customerId.equals(customerid)))
         .write(
-      JourneyPlanCompanion(
-          transactionStatus: ts.transactionStatus
-          ),
+      JourneyPlanCompanion(transactionStatus: ts.transactionStatus),
     );
   }
 
@@ -85,8 +73,9 @@ class JourneyPlanDao extends DatabaseAccessor<AppDatabase>
         .get();
   }
 
-    Future<List<JourneyPlanData>> getAllJourneyPlanByCustomer(String customerId) {
-    return (select(db.journeyPlan)..where((t) => t.customerId.equals(customerId)))
+  Future<List<JourneyPlanData>> getAllJourneyPlanByCustomer(String customerId) {
+    return (select(db.journeyPlan)
+          ..where((t) => t.customerId.equals(customerId)))
         .get();
   }
 

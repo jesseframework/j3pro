@@ -52,7 +52,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void didChangeDependencies() async {
-  
     super.didChangeDependencies();
   }
 
@@ -63,7 +62,7 @@ class _ProfilePageState extends State<ProfilePage> {
     }
     final data = await UserSharedData().getUserSharedPref();
     tenantName = data['tenantName'];
-  if (data['userId'] != null) {
+    if (data['userId'] != null) {
       final profileData =
           await widget.userDao.getSingleUser(int.tryParse(data['userId']));
       return profileData;
@@ -98,7 +97,6 @@ class _ProfilePageState extends State<ProfilePage> {
             User user = snapshot.data;
             return SingleChildScrollView(
               child: Stack(
-
                 children: <Widget>[
                   SizedBox(
                     height: 250,
@@ -118,8 +116,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               padding: EdgeInsets.all(16.0),
                               margin: EdgeInsets.only(top: 16.0),
                               decoration: BoxDecoration(
-                                  color: Theme
-                                      .of(context)
+                                  color: Theme.of(context)
                                       .cardColor
                                       .withOpacity(.8),
                                   borderRadius: BorderRadius.circular(5.0)),
@@ -130,15 +127,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                     margin: EdgeInsets.only(left: 96.0),
                                     child: Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
                                           user.fullName,
-                                          style:
-                                          Theme
-                                              .of(context)
+                                          style: Theme.of(context)
                                               .textTheme
-                                              .title,
+                                              .headline1,
                                         ),
                                         ListTile(
                                           contentPadding: EdgeInsets.all(0),
@@ -168,10 +163,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         SizedBox(height: 20.0),
                         Container(
                           decoration: BoxDecoration(
-                            color: Theme
-                                .of(context)
-                                .cardColor
-                                .withOpacity(.8),
+                            color: Theme.of(context).cardColor.withOpacity(.8),
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: Column(
@@ -195,14 +187,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                 },
                                 title: Text(
                                   AppLocalization.of(context)
-                                      .translate('language_appdraw') ??
+                                          .translate('language_appdraw') ??
                                       'Language',
                                 ),
                                 subtitle: Text(selecteditem == 'es'
                                     ? 'Spanish'
                                     : selecteditem == 'en'
-                                    ? 'English'
-                                    : 'English'),
+                                        ? 'English'
+                                        : 'English'),
                                 leading: Icon(CustomIcons.language),
                               ),
                               ListTile(
@@ -220,15 +212,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                         } else {
                                           await getIt<UserRepository>()
                                               .setTheme('light');
-                                          widget.userDao.updateSingleUser(
-                                              user.copyWith(themeData: 'Light'));
+                                          widget.userDao.updateSingleUser(user
+                                              .copyWith(themeData: 'Light'));
                                         }
                                         App.setTheme(
                                           context,
                                         );
-                                      }
-
-                                  )),
+                                      })),
                               ListTile(
                                 title: Text("Currency"),
                                 leading: Icon(Icons.brightness_4),
@@ -249,5 +239,4 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
-
 }

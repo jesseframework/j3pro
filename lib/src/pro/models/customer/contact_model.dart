@@ -1,6 +1,6 @@
 import 'package:j3enterprise/src/resources/shared/extension/full_audited.dart';
 import 'package:j3enterprise/src/resources/shared/extension/must_have_tenant.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 class Contact extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
@@ -16,7 +16,6 @@ class Contact extends Table implements MustHaveTenant {
   BoolColumn get isPrimaryContact => boolean().withDefault(Constant(false))();
   BoolColumn get isUserContact => boolean().withDefault(Constant(false))();
   TextColumn get userName => text()();
-
 
   @override
   Set<Column> get primaryKey => {id};

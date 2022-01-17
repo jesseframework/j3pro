@@ -2,7 +2,7 @@ import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/series_number/series_number_crud.dart';
 import 'package:j3enterprise/src/resources/shared/preferences/user_share_data.dart';
 import 'package:logging/logging.dart';
-import 'package:random_string_one/random_string.dart';
+import 'package:random_string_generator/random_string_generator.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 class NumberGenerator {
@@ -68,13 +68,15 @@ class NumberGenerator {
         setNextIncrement = nextIncrementNumber.toString();
       } else {
         _log.finest("generate randon number");
-        setNextIncrement = randomString(
-          getSeries[0].endingLength,
-          includeSymbols: false,
-          includeLowercase: false,
-          includeUppercase: false,
-          exclusions: {'0', '1'},
-        ).padLeft(endingLength);
+        setNextIncrement = RandomStringGenerator(
+          hasAlpha: false,
+          alphaCase: AlphaCase.UPPERCASE_ONLY,
+          hasDigits: true,
+          hasSymbols: false,
+          minLength: 10,
+          maxLength: 10,
+          mustHaveAtLeastOneOfEach: true,
+        ) as String;
       }
 
       if (getSeries[0].endingLength > 0) {
@@ -91,13 +93,22 @@ class NumberGenerator {
         endingLength = 4;
       }
       _log.finest("used randon number only");
-      setNextIncrement = randomString(
-        endingLength,
-        includeSymbols: false,
-        includeLowercase: false,
-        includeUppercase: false,
-        exclusions: {'0', '1'},
-      ).padLeft(endingLength);
+      // setNextIncrement = randomString(
+      //   endingLength,
+      //   includeSymbols: false,
+      //   includeLowercase: false,
+      //   includeUppercase: false,
+      //   exclusions: {'0', '1'},
+      // ).padLeft(endingLength);
+      setNextIncrement = RandomStringGenerator(
+        hasAlpha: false,
+        alphaCase: AlphaCase.UPPERCASE_ONLY,
+        hasDigits: true,
+        hasSymbols: false,
+        minLength: 10,
+        maxLength: 10,
+        mustHaveAtLeastOneOfEach: true,
+      ) as String;
 
       seriesNumber =
           '$setNumberPrefix $setUserId $setTenantId $setJulianDate $setNextIncrement';

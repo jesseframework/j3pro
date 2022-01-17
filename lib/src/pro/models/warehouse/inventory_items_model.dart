@@ -1,6 +1,6 @@
 import 'package:j3enterprise/src/resources/shared/extension/full_audited.dart';
 import 'package:j3enterprise/src/resources/shared/extension/must_have_tenant.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 class InventoryItems extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
@@ -16,7 +16,6 @@ class InventoryItems extends Table implements MustHaveTenant {
   RealColumn get quantitySoldOnOrder => real()();
   RealColumn get quantityCount => real()();
   TextColumn get inventoryCycleNumber => text()();
-
 
   @override
   Set<Column> get primaryKey => {id};

@@ -9,7 +9,7 @@ void main() {
     ItemsDao itemsDao = new ItemsDao(db);
     var ng = await itemsDao.getAllItem();
 
-       print(ng.single.description);
+    print(ng.single.description);
 
     expect(ng.single.description, ng.single.description);
   });

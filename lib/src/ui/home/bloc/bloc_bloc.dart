@@ -21,12 +21,13 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
- 
 
 part 'bloc_event.dart';
 part 'bloc_state.dart';
 
 class BlocBloc extends Bloc<BlocEvent, BlocState> {
+  BlocBloc(BlocState initialState) : super(initialState);
+
   @override
   BlocState get initialState => BlocInitial();
 

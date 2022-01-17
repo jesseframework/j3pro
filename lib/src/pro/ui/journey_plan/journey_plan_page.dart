@@ -7,8 +7,8 @@ import 'package:j3enterprise/src/pro/ui/journey_plan/bloc/journey_plan_bloc.dart
 import 'package:j3enterprise/src/pro/ui/journey_plan/journey_plan_form.dart';
 
 class JourneyPlanPage extends StatefulWidget {
-   static final route = '/journey_plan_page';
-   JourneyWithAddress journeyWithAddress;
+  static final route = '/journey_plan_page';
+  JourneyWithAddress journeyWithAddress;
   JourneyPlanPage({this.journeyWithAddress});
 
   @override
@@ -17,7 +17,7 @@ class JourneyPlanPage extends StatefulWidget {
 
 class _JourneyPlanPageState extends State<JourneyPlanPage> {
   @override
-   Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
         return JourneyPlanBloc();
