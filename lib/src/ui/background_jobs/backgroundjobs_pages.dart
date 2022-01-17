@@ -38,7 +38,6 @@ class _BackgroundJobsPageState extends State<BackgroundJobsPage> {
           return BackgroundJobsBloc();
         },
         child: Scaffold(
-
           body: RefreshIndicator(
             onRefresh: () async {
               return Duration(milliseconds: 3000);

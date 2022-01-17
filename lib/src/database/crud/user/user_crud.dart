@@ -19,11 +19,11 @@
 
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/models/user_model.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 part 'user_crud.g.dart';
 
-@UseDao(tables: [Users])
+@DriftAccessor(tables: [Users])
 class UserDao extends DatabaseAccessor<AppDatabase> with _$UserDaoMixin {
   final AppDatabase db;
   UserDao(this.db) : super(db);
@@ -31,9 +31,11 @@ class UserDao extends DatabaseAccessor<AppDatabase> with _$UserDaoMixin {
   Future<User> getSingleUser(int id) {
     return (select(db.users)..where((u) => u.id.equals(id))).getSingle();
   }
+
   Stream<User> watchSingleUser(int id) {
     return (select(db.users)..where((u) => u.id.equals(id))).watchSingle();
   }
+
   Future<User> getSingleByName(int id) {
     return (select(db.users)..where((u) => u.id.equals(id))).getSingle();
   }
@@ -49,10 +51,11 @@ class UserDao extends DatabaseAccessor<AppDatabase> with _$UserDaoMixin {
               (u) => u.userName.equals(userName) & u.tenantId.equals(tenantId)))
         .getSingle();
   }
+
   Future updateSingleUser(User user) {
     return (update(db.users).replace(user));
-
   }
+
   Future updateUser(UsersCompanion u, int id) {
     return (update(db.users)..where((t) => t.id.equals(id))).write(
       UsersCompanion(

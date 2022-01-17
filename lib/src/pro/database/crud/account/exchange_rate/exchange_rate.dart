@@ -1,11 +1,11 @@
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/models/account/exchange_rate/exchange_rate_model.dart';
 
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 part 'exchange_rate.g.dart';
 
-@UseDao(tables: [ExchangeRate])
+@DriftAccessor(tables: [ExchangeRate])
 class ExchangeRateDao extends DatabaseAccessor<AppDatabase>
     with _$ExchangeRateDaoMixin {
   final AppDatabase db;

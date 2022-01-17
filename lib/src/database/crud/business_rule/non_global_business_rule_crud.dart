@@ -19,11 +19,11 @@
 
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/models/non_global_business_rule.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 part 'non_global_business_rule_crud.g.dart';
 
-@UseDao(tables: [NonGlobalBusinessRule])
+@DriftAccessor(tables: [NonGlobalBusinessRule])
 class NonGlobalBusinessRuleDao extends DatabaseAccessor<AppDatabase>
     with _$NonGlobalBusinessRuleDaoMixin {
   final AppDatabase db;
@@ -33,8 +33,12 @@ class NonGlobalBusinessRuleDao extends DatabaseAccessor<AppDatabase>
     return (select(db.businessRule).get());
   }
 
-   Future<NonGlobalBusinessRuleData> getSingleNonGlobalBusinessRule(String parentCode,
-      String code, String userName, String deviceId, String screen) {
+  Future<NonGlobalBusinessRuleData> getSingleNonGlobalBusinessRule(
+      String parentCode,
+      String code,
+      String userName,
+      String deviceId,
+      String screen) {
     return (select(db.nonGlobalBusinessRule)
           ..where((u) =>
               u.code.equals(code) &

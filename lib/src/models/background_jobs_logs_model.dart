@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 class BackgroundJobLogs extends Table {
   IntColumn get id => integer()();
@@ -25,7 +25,7 @@ class BackgroundJobLogs extends Table {
   DateTimeColumn get lastRun => dateTime()();
   TextColumn get jobStatus => text()();
   TextColumn get jobDescription => text()();
-   IntColumn get tenantId => integer().nullable()();
+  IntColumn get tenantId => integer().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};

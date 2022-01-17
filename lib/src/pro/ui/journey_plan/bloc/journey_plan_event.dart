@@ -11,6 +11,4 @@ class SyncGPSDistancEvent extends JourneyPlanEvent {
   //final double data;
 
   const SyncGPSDistancEvent();
-
- 
 }

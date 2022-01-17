@@ -1,10 +1,10 @@
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/models/sales/sales_order/sales_order_detail_temp_model.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 part 'sales_order_detail_temp_crud.g.dart';
 
-@UseDao(tables: [SalesOrderDetailTemp])
+@DriftAccessor(tables: [SalesOrderDetailTemp])
 class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
     with _$SalesOrderDetailTempDaoMixin {
   final AppDatabase db;
@@ -103,7 +103,6 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
     );
   }
 
- 
   Future increaseLineItemQuantity(SalesOrderDetailTempData record) =>
       update(salesOrderDetailTemp).replace(record);
 
@@ -169,8 +168,6 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
           SalesOrderDetailTempCompanion salesOrderDetailTempData) =>
       into(db.salesOrderDetailTemp).insert(salesOrderDetailTempData);
 
-
-
   Future deleteAllSalesOrderTempDetail() =>
       delete(db.salesOrderDetailTemp).go();
 
@@ -222,7 +219,7 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
         // used for the stream: the stream will update when either table changes
         ).watch().map((rows) {
       return rows
-          .map((row) => SalesOrderDetailTempData.fromData(row.data, db))
+          .map((row) => SalesOrderDetailTempData.fromData(row.data))
           .toList();
     });
   }
@@ -257,7 +254,7 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
         // used for the stream: the stream will update when either table changes
         ).watch().map((rows) {
       return rows
-          .map((row) => SalesOrderDetailTempData.fromData(row.data, db))
+          .map((row) => SalesOrderDetailTempData.fromData(row.data))
           .toList();
     });
   }
@@ -292,7 +289,7 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
         // used for the stream: the stream will update when either table changes
         ).watch().map((rows) {
       return rows
-          .map((row) => SalesOrderDetailTempData.fromData(row.data, db))
+          .map((row) => SalesOrderDetailTempData.fromData(row.data))
           .toList();
     });
   }
@@ -325,7 +322,7 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<AppDatabase>
         // used for the stream: the stream will update when either table changes
         ).watch().map((rows) {
       return rows
-          .map((row) => SalesOrderDetailTempData.fromData(row.data, db))
+          .map((row) => SalesOrderDetailTempData.fromData(row.data))
           .toList();
     });
   }

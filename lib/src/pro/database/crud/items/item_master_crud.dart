@@ -1,11 +1,11 @@
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/models/items/ItemsWithPrices.dart';
 import 'package:j3enterprise/src/pro/models/items/item_master_model.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 part 'item_master_crud.g.dart';
 
-@UseDao(tables: [Items])
+@DriftAccessor(tables: [Items])
 class ItemsDao extends DatabaseAccessor<AppDatabase> with _$ItemsDaoMixin {
   final AppDatabase db;
   ItemsDao(this.db) : super(db);
@@ -82,7 +82,7 @@ class ItemsDao extends DatabaseAccessor<AppDatabase> with _$ItemsDaoMixin {
         ' p.item_price '
         ' FROM items i '
         ' LEFT OUTER JOIN items_prices p on i.item_id = p.item_id '
-         ' LEFT OUTER JOIN inventory_items n on i.item_id = n.item_code '
+        ' LEFT OUTER JOIN inventory_items n on i.item_id = n.item_code '
         ' WHERE '
         ' i.item_code LIKE ? or '
         ' i.item_name LIKE ? or '
@@ -105,7 +105,9 @@ class ItemsDao extends DatabaseAccessor<AppDatabase> with _$ItemsDaoMixin {
         ]).watch().map((rows) {
       return rows
           .map((e) => ItemsWithPrices(
-              Item.fromData(e.data, db), ItemsPrice.fromData(e.data, db), InventoryItem.fromData(e.data, db)))
+              Item.fromData(e.data),
+              ItemsPrice.fromData(e.data),
+              InventoryItem.fromData(e.data)))
           .toList();
     });
   }

@@ -1,5 +1,5 @@
 import 'package:j3enterprise/src/resources/shared/extension/must_have_tenant.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 class InventoryTransaction extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
@@ -26,5 +26,3 @@ class InventoryTransaction extends Table implements MustHaveTenant {
   @override
   Set<Column> get primaryKey => {id};
 }
-
-

@@ -24,7 +24,7 @@ import 'package:j3enterprise/src/resources/services/message_stream.dart';
 class FirebaseNotificationService {
   FirebaseNotificationService._internal() {
     // save the client so that it can be used else where
-    _firebaseMessaging = FirebaseMessaging();
+    //_firebaseMessaging = FirebaseMessaging.instance;
     // setup listeners
     firebaseCloudMessagingListeners();
   }
@@ -32,9 +32,9 @@ class FirebaseNotificationService {
   static final FirebaseNotificationService _instance =
       FirebaseNotificationService._internal();
 
-  static FirebaseNotificationService get instance {
-    return _instance;
-  }
+  // static FirebaseNotificationService get instance {
+  //   return _instance;
+  // }
 
   //Api api = Api.instance;
 
@@ -53,37 +53,6 @@ class FirebaseNotificationService {
   }
 
   void firebaseCloudMessagingListeners() async {
-    if (Platform.isIOS) {
-      getIOSPermission();
-    }
-
-    _firebaseMessaging.configure(
-      // onBackgroundMessage: (Map<String, dynamic> message) {
-      //   _messageStream.addMessage(message);
-      // },
-      onMessage: (Map<String, dynamic> message) async {
-        print('on message $message');
-        //add message to stream
-        _messageStream.addMessage(message);
-        //_serialiseAndNavigate(message);
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print('on resume $message');
-        _messageStream.addMessage(message);
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        _messageStream.addMessage(message);
-        // print('on launch $message');
-      },
-    );
-  }
-
-  void getIOSPermission() {
-    _firebaseMessaging.requestNotificationPermissions(
-        IosNotificationSettings(sound: true, badge: true, alert: true));
-    _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
-      print("Settings registered: $settings");
-    });
+    if (Platform.isIOS) {}
   }
 }

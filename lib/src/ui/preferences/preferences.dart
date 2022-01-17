@@ -52,7 +52,6 @@ class _PreferencesPageState extends State<PreferencesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         //ToDo add translation for preferences title
         title: Text(
@@ -128,9 +127,9 @@ class _PreferencesPageState extends State<PreferencesPage> {
                           child: Text(
                             groupsCollection[index],
                             style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                ),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
                           ),
                         ),
                         Container(
@@ -180,7 +179,6 @@ class _PreferencesPageState extends State<PreferencesPage> {
                                                                             FontWeight.bold,
                                                                         fontSize:
                                                                             16,
-
                                                                       ),
                                                                     ),
                                                                     Expanded(
@@ -209,7 +207,6 @@ class _PreferencesPageState extends State<PreferencesPage> {
                                                                             FontWeight.w600,
                                                                         fontSize:
                                                                             14,
-
                                                                       ),
                                                                     ),
                                                                   ],
@@ -224,7 +221,6 @@ class _PreferencesPageState extends State<PreferencesPage> {
                                                             Icons
                                                                 .arrow_forward_ios,
                                                             size: 20,
-
                                                           ),
                                                         )
                                                       ]),

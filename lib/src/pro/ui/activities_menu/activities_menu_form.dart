@@ -14,12 +14,11 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 class ActivitiesMenuForm extends StatefulWidget {
   var db;
   DesktopDao desktopDao;
-  
+
   JourneyWithAddress journeyWithAddress;
   ActivitiesMenuForm({this.journeyWithAddress}) {
     db = AppDatabase();
     desktopDao = DesktopDao(db);
-  
   }
 
   @override

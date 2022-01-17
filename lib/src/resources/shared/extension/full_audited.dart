@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 mixin FullAudited implements Table {
   DateTimeColumn get creationTime => dateTime()();
@@ -29,7 +29,4 @@ mixin FullAudited implements Table {
   IntColumn get deleteUserId => integer()();
   TextColumn get deleterUserId => text()();
   BoolColumn get isDeleted => boolean()();
-
-
-
 }

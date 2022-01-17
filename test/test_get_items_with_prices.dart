@@ -22,8 +22,6 @@ void main() {
       //yprint(e.single.price.itemPrice);
     });
 
-    
-
     print('$itemId');
 
     //expect(result.length, result.length);

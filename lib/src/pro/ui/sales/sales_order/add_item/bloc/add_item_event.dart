@@ -19,7 +19,7 @@ class AddItemButtonPress extends AddItemEvent {
       @required this.itemNumber});
 
   @override
-  List<Object> get props => [searchText, setQty, itemNumber,context];
+  List<Object> get props => [searchText, setQty, itemNumber, context];
 
   @override
   String toString() =>

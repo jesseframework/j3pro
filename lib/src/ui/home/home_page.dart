@@ -134,7 +134,7 @@ class _HomePageState extends State<HomePage> {
                                   horizontal: 12, vertical: 5),
                               child: Center(
                                 child: ListFilter(
-                                  function: (value){},
+                                    function: (value) {},
                                     placeholder: 'Search',
                                     filter: searchText,
                                     onFilterChanged: (search) {
@@ -149,7 +149,8 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       StreamBuilder(
-                          stream: widget.desktopDao.watchAllDesktop(searchText, false, searchText, "","home_page"),                              
+                          stream: widget.desktopDao.watchAllDesktop(searchText,
+                              false, searchText, "Administrator", "home_page"),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               List<DesktopData> prefData = snapshot.data;

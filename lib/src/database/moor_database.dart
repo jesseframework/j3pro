@@ -58,14 +58,14 @@ import 'package:j3enterprise/src/pro/models/series_number/temp_number_logs.dart'
 import 'package:j3enterprise/src/pro/models/warehouse/inventory_items_model.dart';
 import 'package:j3enterprise/src/pro/models/warehouse/inventory_transaction_model.dart';
 import 'package:j3enterprise/src/resources/shared/utils/date_formating.dart';
-import 'package:moor/moor.dart';
-import 'package:moor_ffi/moor_ffi.dart';
+import 'package:drift/drift.dart';
+import 'package:drift/native.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart' as paths;
 
 part 'moor_database.g.dart';
 
-@UseMoor(tables: [
+@DriftDatabase(tables: [
   Users,
   Communication,
   BackgroundJobSchedule,
@@ -223,22 +223,22 @@ class AppDatabase extends _$AppDatabase {
       final executor = LazyDatabase(() async {
         final dataDir = await paths.getApplicationDocumentsDirectory();
         final dbFile = File(p.join(dataDir.path, 'db.sqlite'));
-        return VmDatabase(dbFile, logStatements: logStatements);
+        return NativeDatabase(dbFile, logStatements: logStatements);
       });
       return AppDatabase._internal(executor);
     }
     if (Platform.isMacOS || Platform.isLinux) {
       final file = File('db.sqlite');
       return AppDatabase._internal(
-          VmDatabase(file, logStatements: logStatements));
+          NativeDatabase(file, logStatements: logStatements));
     }
     if (Platform.isWindows) {
       final file = File('db.sqlite');
       return AppDatabase._internal(
-          VmDatabase(file, logStatements: logStatements));
+          NativeDatabase(file, logStatements: logStatements));
     }
 
     return AppDatabase._internal(
-        VmDatabase.memory(logStatements: logStatements));
+        NativeDatabase.memory(logStatements: logStatements));
   }
 }

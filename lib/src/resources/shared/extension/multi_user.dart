@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 mixin MultiUser implements Table {
   TextColumn get userName => text()();

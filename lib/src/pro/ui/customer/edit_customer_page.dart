@@ -17,10 +17,9 @@ class _EditCustomerPadeState extends State<EditCustomerPade> {
             "Edit Customer"),
         actions: [
           InkWell(
-             onTap: (){
-               Navigator.pop(context);
+            onTap: () {
+              Navigator.pop(context);
             },
-            
             child: Row(
               children: [
                 Text(
@@ -160,9 +159,8 @@ class _EditCustomerPadeState extends State<EditCustomerPade> {
                 child: TextFromFieldNullableReusable(
                   fieldDecoration: InputDecoration(
                       hintText: "Grey",
-                      suffixIcon: InkWell(
-                          onTap: () {},
-                          child: Icon(Icons.edit))),
+                      suffixIcon:
+                          InkWell(onTap: () {}, child: Icon(Icons.edit))),
                   validationText: 'Test',
                 )),
             getSectionTitle('Address'),
@@ -175,19 +173,20 @@ class _EditCustomerPadeState extends State<EditCustomerPade> {
                   child: Column(
                     children: [
                       buildSalesOrderCardTile(
-                        heading: 'Billing Address',
-                        title:
-                            'Head Office, St. Catherine 100 Parkway Boulevard Portmore St. Catherine 00000 Jamaica',
-                        trailingWidget: Icon(Icons.edit),
-                        callback: () {}),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    buildSalesOrderCardTile(
-                        heading: 'Shipping Address',
-                        title: 'Head Office, St. Catherine 100 Parkway Boulevard Portmore St. Catherine 00000 Jamaica',
-                        trailingWidget: Icon(Icons.edit),
-                        callback: () {}),
+                          heading: 'Billing Address',
+                          title:
+                              'Head Office, St. Catherine 100 Parkway Boulevard Portmore St. Catherine 00000 Jamaica',
+                          trailingWidget: Icon(Icons.edit),
+                          callback: () {}),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      buildSalesOrderCardTile(
+                          heading: 'Shipping Address',
+                          title:
+                              'Head Office, St. Catherine 100 Parkway Boulevard Portmore St. Catherine 00000 Jamaica',
+                          trailingWidget: Icon(Icons.edit),
+                          callback: () {}),
                     ],
                   ),
                 )),
@@ -205,7 +204,7 @@ class _EditCustomerPadeState extends State<EditCustomerPade> {
                           onTap: () {}, child: Icon(Icons.arrow_drop_down))),
                   validationText: 'Test',
                 )),
-                 getSectionTitle('Model of Payment'),
+            getSectionTitle('Model of Payment'),
             Container(
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(8)),
@@ -254,7 +253,7 @@ class _EditCustomerPadeState extends State<EditCustomerPade> {
                             children: [
                               Text('Credit Card'),
                               Text('JMD'),
-                              Checkbox(value: true, onChanged: (value){}),
+                              Checkbox(value: true, onChanged: (value) {}),
                               Text('\$9,000.00        '),
                             ],
                           ),
@@ -265,30 +264,25 @@ class _EditCustomerPadeState extends State<EditCustomerPade> {
                 ],
               )),
             ),
-               getSectionTitle('Additional Info'),
+            getSectionTitle('Additional Info'),
             Container(
-              margin: EdgeInsets.only(bottom: 20),
+                margin: EdgeInsets.only(bottom: 20),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8)),
                 child: TextFromFieldNullableReusable(
-                  
-                  fieldDecoration: InputDecoration(
-                  
-                      labelText: AppLocalization.of(context)
-                              .translate('additional_info_add_customer') ??
-                          'Additional Info',
-                      
-                  )
-                )),
+                    fieldDecoration: InputDecoration(
+                  labelText: AppLocalization.of(context)
+                          .translate('additional_info_add_customer') ??
+                      'Additional Info',
+                ))),
           ],
         ),
       ),
     );
   }
 
-
- Widget buildSalesOrderCardTile(
+  Widget buildSalesOrderCardTile(
       {String heading,
       String title,
       Widget trailingWidget,
@@ -324,9 +318,6 @@ class _EditCustomerPadeState extends State<EditCustomerPade> {
     );
   }
 
-
-
-
   TextStyle headerstyle() {
     return TextStyle(
         fontWeight: FontWeight.w500,
@@ -345,7 +336,6 @@ class _EditCustomerPadeState extends State<EditCustomerPade> {
     );
   }
 }
-
 
 Widget getRichText(String text) {
   return RichText(

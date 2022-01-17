@@ -1,10 +1,10 @@
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/models/series_number/temp_number_logs.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 part 'temp_number_log_crud.g.dart';
 
-@UseDao(tables: [TempNumberLogs])
+@DriftAccessor(tables: [TempNumberLogs])
 class TempNumberLogsDao extends DatabaseAccessor<AppDatabase>
     with _$TempNumberLogsDaoMixin {
   final AppDatabase db;

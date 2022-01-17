@@ -40,7 +40,6 @@ class MobileDesktopRepository {
   UpdateBackgroundJobStatus updateBackgroundJobStatus;
   BackgroundJobScheduleDao backgroundJobScheduleDao;
   DesktopDao desktopDao;
- 
 
   UserSharedData userSharedData;
 
@@ -50,7 +49,7 @@ class MobileDesktopRepository {
     updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
     backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
     desktopDao = DesktopDao(db);
-  
+
     userSharedData = new UserSharedData();
   }
 
@@ -72,8 +71,7 @@ class MobileDesktopRepository {
               _log.finest("Server resopnses successful for Mobile Desktop ");
               Map<String, dynamic> result = map['result'];
               var items = (result['items'] as List).map((e) {
-                return DesktopData.fromJson(e,
-                    serializer: CustomSerializer());
+                return DesktopData.fromJson(e, serializer: CustomSerializer());
               });
 
               for (var item in items) {
@@ -95,6 +93,4 @@ class MobileDesktopRepository {
       _log.shout(e, StackTrace.current);
     }
   }
-
-  
 }

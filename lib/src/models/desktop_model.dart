@@ -17,12 +17,12 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 class Desktop extends Table {
   IntColumn get id => integer()();
   TextColumn get featureCode => text()();
-  TextColumn get showInLocation => text()();
+  TextColumn get showInLocation => text().nullable()();
   TextColumn get iconName => text()();
   TextColumn get iconCode => text()();
   TextColumn get iconColour => text()();
@@ -32,7 +32,7 @@ class Desktop extends Table {
   BoolColumn get isFavorit => boolean().withDefault(Constant(false))();
   TextColumn get userPermission => text()();
   IntColumn get tenantId => integer().nullable()();
-  TextColumn get tag => text()();
+  TextColumn get tag => text().nullable()();
   BoolColumn get isDeleted => boolean().withDefault(Constant(false))();
   BoolColumn get isFreeTrial => boolean().withDefault(Constant(false))();
   DateTimeColumn get validFrom => dateTime().nullable()();

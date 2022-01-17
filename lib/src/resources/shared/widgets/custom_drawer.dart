@@ -17,7 +17,7 @@ import 'package:logging/logging.dart';
 
 class CustomDrawer extends StatefulWidget {
   var db;
- final log = Logger('CustomDrawer');
+  final log = Logger('CustomDrawer');
   UserDao userDao;
   CustomDrawer() {
     db = AppDatabase();
@@ -45,13 +45,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
   @override
   void didChangeDependencies() async {
     await getIt<UserRepository>().getUserSharedPref().then((value) {
-      
-       
-        widget.log.finest('User Login id $value');   
-        setState(() {
-          userId = value['userId'];
-        });
-      
+      widget.log.finest('User Login id $value');
+      setState(() {
+        userId = value['userId'];
+      });
     });
     super.didChangeDependencies();
   }

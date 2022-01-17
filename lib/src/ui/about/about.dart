@@ -37,13 +37,7 @@ class _AboutState extends State<About> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          actions: [
-            IconButton(
-                icon: Icon(Icons.more_vert),
-                onPressed: () {
-
-                })
-          ],
+          actions: [IconButton(icon: Icon(Icons.more_vert), onPressed: () {})],
           title:
               Text(AppLocalization.of(context).translate('about_title_about')),
         ),

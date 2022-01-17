@@ -39,22 +39,23 @@ import 'package:j3enterprise/src/ui/splash/splash_page.dart';
 
 final routes = {
   //OfflineLoginPage.route: (BuildContext context) => OfflineLoginPage(),
-  SalesOrderItemDetailPage.route: (BuildContext context) =>SalesOrderItemDetailPage(),
+  SalesOrderItemDetailPage.route: (BuildContext context) =>
+      SalesOrderItemDetailPage(),
   BackgroundJobsPage.route: (BuildContext context) => BackgroundJobsPage(),
-  
+
   SalesOrderPage.route: (BuildContext context) => SalesOrderForm(),
   CommunicationPage.route: (BuildContext context) => CommunicationPage(),
-  BussinessRulePage.route: (BuildContext context) => BussinessRulePage(), 
+  BussinessRulePage.route: (BuildContext context) => BussinessRulePage(),
   PreferencesPage.route: (BuildContext context) => PreferencesPage(),
   SalesOrderPage.route: (BuildContext context) => SalesOrderPage(),
   SplashPage.route: (BuildContext context) => SplashPage(),
   LoginPage.route: (BuildContext context) => LoginPage(),
   HomePage.route: (BuildContext context) => HomePage(),
   About.route: (BuildContext context) => About(),
-  SalesOrderAddItemPage.route: (BuildContext context) => SalesOrderAddItemPage(),
+  SalesOrderAddItemPage.route: (BuildContext context) =>
+      SalesOrderAddItemPage(),
   JourneyPlanPage.route: (BuildContext context) => JourneyPlanPage(),
   ActivitiesMenuPage.route: (BuildContext context) => ActivitiesMenuPage(),
   CustomerListPage.route: (BuildContext context) => CustomerListPage(),
   ItemsPage.route: (BuildContext context) => ItemsPage(),
-  
 };

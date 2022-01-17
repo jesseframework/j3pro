@@ -19,11 +19,11 @@
 
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/models/background_jobs_logs_model.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 part 'backgroundjob_logs_crud.g.dart';
 
-@UseDao(tables: [BackgroundJobLogs])
+@DriftAccessor(tables: [BackgroundJobLogs])
 class BackgroundJobLogsDao extends DatabaseAccessor<AppDatabase>
     with _$BackgroundJobLogsDaoMixin {
   final AppDatabase db;
@@ -35,7 +35,7 @@ class BackgroundJobLogsDao extends DatabaseAccessor<AppDatabase>
 
   Stream<List<BackgroundJobLog>> watchAllJobsLog() {
     return (select(db.backgroundJobLogs).watch());
-  }  
+  }
 
   Future insertJobLog(BackgroundJobLog backgroundJoblog) =>
       into(db.backgroundJobLogs).insert(backgroundJoblog);

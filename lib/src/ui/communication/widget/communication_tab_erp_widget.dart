@@ -26,7 +26,7 @@ import 'package:j3enterprise/src/resources/shared/widgets/dropdown_box.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/password_field.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/text_field_nullable.dart';
 import 'package:j3enterprise/src/ui/communication/bloc/communication_bloc.dart';
-import 'package:moor/moor.dart' as moor;
+import 'package:drift/drift.dart' as moor;
 
 class CommunicationTabOneWidget extends StatefulWidget {
   const CommunicationTabOneWidget({
@@ -100,9 +100,7 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
         return CommunicationBloc();
       },
       child: BlocConsumer<CommunicationBloc, CommunicationState>(
-        listener: (context, state) {
-          
-        },
+        listener: (context, state) {},
         buildWhen: (previous, current) {
           var wasLoading = previous is CommunicationLoading;
           return wasLoading;

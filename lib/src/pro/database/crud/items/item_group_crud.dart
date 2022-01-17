@@ -1,9 +1,9 @@
 import 'package:j3enterprise/src/database/moor_database.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 part 'item_group_crud.g.dart';
 
-@UseDao(tables: [ItemGroup])
+@DriftAccessor(tables: [ItemGroup])
 class ItemGroupDao extends DatabaseAccessor<AppDatabase>
     with _$ItemGroupDaoMixin {
   final AppDatabase db;

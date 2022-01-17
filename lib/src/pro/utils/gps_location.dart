@@ -6,14 +6,14 @@ import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/account/currency/currency_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/customer/address_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/sales/fullfillment/journey_plan_crud.dart';
- 
+
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
 import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
 import 'package:j3enterprise/src/resources/shared/function/update_backgroung_job_schedule_status.dart';
 import 'package:j3enterprise/src/resources/shared/preferences/user_share_data.dart';
 import 'package:logging/logging.dart';
 import 'package:vector_math/vector_math_64.dart';
-import 'package:moor/moor.dart' as moor;
+import 'package:drift/drift.dart' as moor;
 
 class GeoLocation {
   var api = ApiClient.chopper.getService<RestApiService>();
@@ -73,68 +73,65 @@ class GeoLocation {
               if (item.transactionStatus != "Complete") {
                 var getaddr =
                     await addressDao.getAllAddressByTitle(item.customerId);
-                if (getaddr.length > 0) {                
-                    _currentPosition = await Geolocator.getCurrentPosition(
-                        desiredAccuracy: LocationAccuracy.high);
-                    double inMiles = 0;
-                    double inKilometer = 0;
-                    double inMeter = 0;
-                    double distantUsed = 0;
-                    double formatedDistantUsed = 0;
-                    String distanceLabel = "";
+                if (getaddr.length > 0) {
+                  _currentPosition = await Geolocator.getCurrentPosition(
+                      desiredAccuracy: LocationAccuracy.high);
+                  double inMiles = 0;
+                  double inKilometer = 0;
+                  double inMeter = 0;
+                  double distantUsed = 0;
+                  double formatedDistantUsed = 0;
+                  String distanceLabel = "";
 
-                    double pLat = getaddr[0].latitude;
-                    double pLng = getaddr[0].longitude;
-                    var dLat = radians(pLat - _currentPosition.latitude);
-                    var dLng = radians(pLng - _currentPosition.longitude);
-                    var a = sin(dLat / 2) * sin(dLat / 2) +
-                        cos(radians(_currentPosition.latitude)) *
-                            cos(radians(pLat)) *
-                            sin(dLng / 2) *
-                            sin(dLng / 2);
-                    var c = 2 * atan2(sqrt(a), sqrt(1 - a));
-                    inMeter = earthRadius * c;
-                    inMiles = inMeter * 0.000621;
-                    inKilometer = inMeter * 0.001;
-                    if (inMeter < 1000) {
-                      distantUsed = inMeter;
-                      distanceLabel = "m";
-                    } else if (inMeter > 1000) {
-                      distantUsed = inKilometer;
-                      distanceLabel = "Km";
-                    } else if (inKilometer > 1.60934) {
-                      distantUsed = inMiles;
-                      distanceLabel = "Mi";
-                    }
-
-                    //ToDo Add location to currency
-
-                    var currency = await systemCurrencyDao
-                        .getAllSystemCurrencyByName("JMD");
-                    if (currency.length > 0) {
-                      var f =
-                          new NumberFormat(currency[0].numberFormat, "en_US");
-                      formatedDistantUsed =
-                          double.tryParse(f.format(distantUsed));
-                    } else {
-                        var f =
-                          new NumberFormat("###.0#", "en_US");
-                      formatedDistantUsed =
-                          double.tryParse(f.format(distantUsed));
-                    }
-
-                    //print(f.format(distantUsed).toString());
-
-                    var updateDistant = new JourneyPlanCompanion(
-                        distanceLabel: moor.Value(distanceLabel),
-                        inKilometer: moor.Value(inKilometer),
-                        inMeter: moor.Value(inMeter),
-                        inMiles: moor.Value(inMiles),
-                        distanceUsed: moor.Value(formatedDistantUsed));
-                    await journeyPlanDao.updateGPSDistance(updateDistant,
-                        item.customerId, item.assignTo, item.transactionStatus);
+                  double pLat = getaddr[0].latitude;
+                  double pLng = getaddr[0].longitude;
+                  var dLat = radians(pLat - _currentPosition.latitude);
+                  var dLng = radians(pLng - _currentPosition.longitude);
+                  var a = sin(dLat / 2) * sin(dLat / 2) +
+                      cos(radians(_currentPosition.latitude)) *
+                          cos(radians(pLat)) *
+                          sin(dLng / 2) *
+                          sin(dLng / 2);
+                  var c = 2 * atan2(sqrt(a), sqrt(1 - a));
+                  inMeter = earthRadius * c;
+                  inMiles = inMeter * 0.000621;
+                  inKilometer = inMeter * 0.001;
+                  if (inMeter < 1000) {
+                    distantUsed = inMeter;
+                    distanceLabel = "m";
+                  } else if (inMeter > 1000) {
+                    distantUsed = inKilometer;
+                    distanceLabel = "Km";
+                  } else if (inKilometer > 1.60934) {
+                    distantUsed = inMiles;
+                    distanceLabel = "Mi";
                   }
-                
+
+                  //ToDo Add location to currency
+
+                  var currency =
+                      await systemCurrencyDao.getAllSystemCurrencyByName("JMD");
+                  if (currency.length > 0) {
+                    var f = new NumberFormat(currency[0].numberFormat, "en_US");
+                    formatedDistantUsed =
+                        double.tryParse(f.format(distantUsed));
+                  } else {
+                    var f = new NumberFormat("###.0#", "en_US");
+                    formatedDistantUsed =
+                        double.tryParse(f.format(distantUsed));
+                  }
+
+                  //print(f.format(distantUsed).toString());
+
+                  var updateDistant = new JourneyPlanCompanion(
+                      distanceLabel: moor.Value(distanceLabel),
+                      inKilometer: moor.Value(inKilometer),
+                      inMeter: moor.Value(inMeter),
+                      inMiles: moor.Value(inMiles),
+                      distanceUsed: moor.Value(formatedDistantUsed));
+                  await journeyPlanDao.updateGPSDistance(updateDistant,
+                      item.customerId, item.assignTo, item.transactionStatus);
+                }
               }
             }
             updateBackgroundJobStatus.updateJobStatus(jobName, "Success");

@@ -35,7 +35,6 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         //ToDo add translation for preferences title
         title: Text(
@@ -59,7 +58,6 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
                 padding: const EdgeInsets.symmetric(horizontal: 3),
                 child: Container(
                     height: 55,
-
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 5, vertical: 5),
@@ -112,9 +110,9 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
                           child: Text(
                             groupsCollection[index],
                             style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                ),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
                           ),
                         ),
                         Container(
@@ -158,12 +156,13 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
                                                                   children: [
                                                                     Text(
                                                                       e.ruleName,
-                                                                      style: TextStyle(
-                                                                          fontWeight: FontWeight
-                                                                              .bold,
-                                                                          fontSize:
-                                                                              16,
-                                                                           ),
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                        fontSize:
+                                                                            16,
+                                                                      ),
                                                                     ),
                                                                     Expanded(
                                                                         child:
@@ -185,13 +184,13 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
                                                                   children: [
                                                                     Text(
                                                                       e.description,
-                                                                      style: TextStyle(
-                                                                          fontWeight: FontWeight
-                                                                              .w600,
-                                                                          fontSize:
-                                                                              14,
-
-                                                                              ),
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                        fontSize:
+                                                                            14,
+                                                                      ),
                                                                     ),
                                                                   ],
                                                                 )
@@ -204,7 +203,6 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
                                                           child: Icon(
                                                             Icons
                                                                 .arrow_forward_ios,
-
                                                             size: 20,
                                                           ),
                                                         )

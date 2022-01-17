@@ -19,11 +19,11 @@
 
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/models/application_logger_model.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 part 'app_logger_crud.g.dart';
 
-@UseDao(
+@DriftAccessor(
   tables: [ApplicationLogger],
   // queries: {
   //   'deleteFromTop1000Row':

@@ -18,7 +18,7 @@ import 'package:j3enterprise/src/pro/resources/shared/warehouse/add_item_to_ware
 import 'package:j3enterprise/src/pro/resources/shared/warehouse/check_inventory.dart';
 import 'package:j3enterprise/src/resources/shared/utils/date_formating.dart';
 import 'package:logging/logging.dart';
-import 'package:moor/moor.dart' as moor;
+import 'package:drift/drift.dart' as moor;
 
 class AddItemToTransaction {
   double quantity;
@@ -139,7 +139,6 @@ class AddItemToTransaction {
 
     var item = await itemsDao.getItemForSales(searchText);
     if (item != null && item.length > 0) {
-       
       //Assign Item values
       itemId = item[0].itemId;
       itemName = item[0].itemName;
@@ -221,7 +220,8 @@ class AddItemToTransaction {
         registerQuantityTotal = onRegister.single.quantity;
 
         double formatedSubTotal = 0;
-        double unformatedSubTotal = (quantity + onRegister.single.quantity) * itemPrice;
+        double unformatedSubTotal =
+            (quantity + onRegister.single.quantity) * itemPrice;
 
         var currency =
             await systemCurrencyDao.getAllSystemCurrencyByName("JMD");
@@ -237,8 +237,7 @@ class AddItemToTransaction {
           quantity: moor.Value(quantity + onRegister.single.quantity),
           shippingTotal: moor.Value(0),
           listPrice: moor.Value(itemPrice),
-          subTotal:
-              moor.Value(formatedSubTotal),
+          subTotal: moor.Value(formatedSubTotal),
         );
         await salesOrderDetailTempDao.updateLineItem(
             lineUpdate, tempSalesOrderNo, tempTransactionStatus, itemId, uom);
@@ -376,7 +375,6 @@ class AddItemToTransaction {
       registerQuantityTotal = 0;
       quantity = 0;
 
-      
       //ToDo Check if code execute successfull
     } else {
       var searchServer = await businessRuleDao.getSingleBusinessRule("SRCR");

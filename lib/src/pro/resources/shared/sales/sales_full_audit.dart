@@ -18,7 +18,5 @@ class SalesFullAudit {
     salesOrderHeaderDao = new SalesOrderHeaderDao(db);
   }
 
-  Future<void> setFullAudit(){
-    
-  }
+  Future<void> setFullAudit() {}
 }

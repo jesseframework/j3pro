@@ -10,7 +10,7 @@ import 'package:j3enterprise/src/pro/database/crud/series_number/temp_number_log
 import 'package:j3enterprise/src/pro/database/crud/warehouse/inventory_items_crud.dart';
 import 'package:j3enterprise/src/pro/resources/shared/sales/transfer_inventory.dart';
 import 'package:j3enterprise/src/pro/resources/shared/utils/series_number_generator.dart';
-import 'package:moor/moor.dart' as moor;
+import 'package:drift/drift.dart' as moor;
 
 class PostTransaction {
   //Other

@@ -52,7 +52,6 @@ class BackgroundJobsStoped extends BackgroundJobsState {
   String toString() => 'BackgroundJobsSuccess { userMessage: $userMessage }';
 }
 
-
 class BackgroundJobsFailure extends BackgroundJobsState {
   final String error;
 

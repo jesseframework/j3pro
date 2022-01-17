@@ -41,8 +41,10 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
             child: Row(
               children: [
                 InkWell(
-                  onTap: ()async {
-                    BlocProvider.of(context).add(CreatePostTransection());
+                  onTap: () async {
+                    //BlocProvider.of(context).add(CreatePostTransection());
+                    BlocProvider.of<SalesOrderFinalizeBloc>(context)
+                        .add(CreatePostTransection());
                     Navigator.push(
                         context, SizeRoute(page: SalesOrderCheckOutPage()));
                   },

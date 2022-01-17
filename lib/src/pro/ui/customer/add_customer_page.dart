@@ -12,178 +12,177 @@ class AddCustomerPage extends StatefulWidget {
 class _AddCustomerPageState extends State<AddCustomerPage> {
   @override
   Widget build(BuildContext context) {
-   
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(AppLocalization.of(context)
-                    .translate('add_customer_appbar_title') ??
-                "New Customer"),
-            actions: [
-              InkWell(
-                onTap: (){
-                   Navigator.pop(context);
-                },
-                child: Row(
-                  children: [
-                    Text(
-                      "Save",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Icon(Icons.save)
-                  ],
-                ),
-              ),
-              IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
-            ],
-          ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: ListView(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(AppLocalization.of(context)
+                .translate('add_customer_appbar_title') ??
+            "New Customer"),
+        actions: [
+          InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Row(
               children: [
-                getSectionTitle('Customer'),
-                Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8)),
-                    child: Column(
-                      children: [
-                        TextFromFieldNullableReusable(
-                          fieldDecoration: InputDecoration(
-                            labelText: AppLocalization.of(context).translate(
-                                    'customer_number_label_add_customer') ??
-                                'Customer Number',
-                          ),
-                          validationText: 'Test',
-                        ),
-                        TextFromFieldNullableReusable(
-                          fieldDecoration: InputDecoration(
-                            labelText: AppLocalization.of(context).translate(
-                                    'customer_name_label_add_customer') ??
-                                'Customer Name *',
-                          ),
-                          validationText: 'Test',
-                        ),
-                        TextFromFieldNullableReusable(
-                          fieldDecoration: InputDecoration(
-                              labelText: AppLocalization.of(context).translate(
-                                      'customer_type_label_add_customer') ??
-                                  'Customer Type *',
-                              suffixIcon: InkWell(
-                                  onTap: () {},
-                                  child: Icon(Icons.arrow_drop_down))),
-                          validationText: 'Test',
-                        ),
-                        TextFromFieldNullableReusable(
-                          fieldDecoration: InputDecoration(
-                              labelText: AppLocalization.of(context).translate(
-                                      'customer_group_label_add_customer') ??
-                                  'Customer Group *',
-                              suffixIcon: InkWell(
-                                  onTap: () {},
-                                  child: Icon(Icons.arrow_drop_down))),
-                          validationText: 'Test',
-                        ),
-                      ],
-                    )),
-                getSectionTitle('Company'),
-                Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8)),
-                    child: Column(
-                      children: [
-                        TextFromFieldNullableReusable(
-                          fieldDecoration: InputDecoration(
-                            labelText: AppLocalization.of(context)
-                                    .translate('company_name_label_add_customer') ??
-                                'Company Name',
-                          ),
-                          validationText: 'Test',
-                        ),
-                        TextFromFieldNullableReusable(
-                          fieldDecoration: InputDecoration(
-                              labelText: AppLocalization.of(context)
-                                      .translate('territory_label_add_customer') ??
-                                  'Territory',
-                              suffixIcon: InkWell(
-                                  onTap: () {},
-                                  child: Icon(Icons.arrow_drop_down))),
-                          validationText: 'Test',
-                        ),
-                      ],
-                    )),
-                getSectionTitle('Price Setup'),
-                Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8)),
-                    child: Column(
-                      children: [
-                        TextFromFieldNullableReusable(
-                          fieldDecoration: InputDecoration(
-                              labelText: AppLocalization.of(context)
-                                      .translate('currency_label_add_customer') ??
-                                  'Currency',
-                              suffixIcon: InkWell(
-                                  onTap: () {},
-                                  child: Icon(Icons.arrow_drop_down))),
-                          validationText: 'Test',
-                        ),
-                        TextFromFieldNullableReusable(
-                          fieldDecoration: InputDecoration(
-                              labelText: AppLocalization.of(context)
-                                      .translate('price_list_add_customer') ??
-                                  'Price List',
-                              suffixIcon: InkWell(
-                                  onTap: () {},
-                                  child: Icon(Icons.arrow_drop_down))),
-                          validationText: 'Test',
-                        ),
-                        TextFromFieldNullableReusable(
-                          fieldDecoration: InputDecoration(
-                              labelText: AppLocalization.of(context)
-                                      .translate('tax group_add_customer') ??
-                                  'Tax Group',
-                              suffixIcon: InkWell(
-                                  onTap: () {},
-                                  child: Icon(Icons.arrow_drop_down))),
-                          validationText: 'Test',
-                        ),
-                      ],
-                    )),
-                getSectionTitle('Contacts'),
-                Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8)),
-                    child: TextFromFieldNullableReusable(
+                Text(
+                  "Save",
+                  style: TextStyle(fontSize: 20),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Icon(Icons.save)
+              ],
+            ),
+          ),
+          IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: ListView(
+          children: [
+            getSectionTitle('Customer'),
+            Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8)),
+                child: Column(
+                  children: [
+                    TextFromFieldNullableReusable(
+                      fieldDecoration: InputDecoration(
+                        labelText: AppLocalization.of(context).translate(
+                                'customer_number_label_add_customer') ??
+                            'Customer Number',
+                      ),
+                      validationText: 'Test',
+                    ),
+                    TextFromFieldNullableReusable(
+                      fieldDecoration: InputDecoration(
+                        labelText: AppLocalization.of(context).translate(
+                                'customer_name_label_add_customer') ??
+                            'Customer Name *',
+                      ),
+                      validationText: 'Test',
+                    ),
+                    TextFromFieldNullableReusable(
+                      fieldDecoration: InputDecoration(
+                          labelText: AppLocalization.of(context).translate(
+                                  'customer_type_label_add_customer') ??
+                              'Customer Type *',
+                          suffixIcon: InkWell(
+                              onTap: () {},
+                              child: Icon(Icons.arrow_drop_down))),
+                      validationText: 'Test',
+                    ),
+                    TextFromFieldNullableReusable(
+                      fieldDecoration: InputDecoration(
+                          labelText: AppLocalization.of(context).translate(
+                                  'customer_group_label_add_customer') ??
+                              'Customer Group *',
+                          suffixIcon: InkWell(
+                              onTap: () {},
+                              child: Icon(Icons.arrow_drop_down))),
+                      validationText: 'Test',
+                    ),
+                  ],
+                )),
+            getSectionTitle('Company'),
+            Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8)),
+                child: Column(
+                  children: [
+                    TextFromFieldNullableReusable(
+                      fieldDecoration: InputDecoration(
+                        labelText: AppLocalization.of(context)
+                                .translate('company_name_label_add_customer') ??
+                            'Company Name',
+                      ),
+                      validationText: 'Test',
+                    ),
+                    TextFromFieldNullableReusable(
                       fieldDecoration: InputDecoration(
                           labelText: AppLocalization.of(context)
-                                  .translate('contacts_label_add_customer') ??
-                              'Add Contact',
+                                  .translate('territory_label_add_customer') ??
+                              'Territory',
+                          suffixIcon: InkWell(
+                              onTap: () {},
+                              child: Icon(Icons.arrow_drop_down))),
+                      validationText: 'Test',
+                    ),
+                  ],
+                )),
+            getSectionTitle('Price Setup'),
+            Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8)),
+                child: Column(
+                  children: [
+                    TextFromFieldNullableReusable(
+                      fieldDecoration: InputDecoration(
+                          labelText: AppLocalization.of(context)
+                                  .translate('currency_label_add_customer') ??
+                              'Currency',
+                          suffixIcon: InkWell(
+                              onTap: () {},
+                              child: Icon(Icons.arrow_drop_down))),
+                      validationText: 'Test',
+                    ),
+                    TextFromFieldNullableReusable(
+                      fieldDecoration: InputDecoration(
+                          labelText: AppLocalization.of(context)
+                                  .translate('price_list_add_customer') ??
+                              'Price List',
+                          suffixIcon: InkWell(
+                              onTap: () {},
+                              child: Icon(Icons.arrow_drop_down))),
+                      validationText: 'Test',
+                    ),
+                    TextFromFieldNullableReusable(
+                      fieldDecoration: InputDecoration(
+                          labelText: AppLocalization.of(context)
+                                  .translate('tax group_add_customer') ??
+                              'Tax Group',
+                          suffixIcon: InkWell(
+                              onTap: () {},
+                              child: Icon(Icons.arrow_drop_down))),
+                      validationText: 'Test',
+                    ),
+                  ],
+                )),
+            getSectionTitle('Contacts'),
+            Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8)),
+                child: TextFromFieldNullableReusable(
+                  fieldDecoration: InputDecoration(
+                      labelText: AppLocalization.of(context)
+                              .translate('contacts_label_add_customer') ??
+                          'Add Contact',
+                      suffixIcon: InkWell(
+                          onTap: () {},
+                          child: Icon(Icons.add_circle_outline_rounded))),
+                  validationText: 'Test',
+                )),
+            getSectionTitle('Address'),
+            Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8)),
+                child: Column(
+                  children: [
+                    TextFromFieldNullableReusable(
+                      fieldDecoration: InputDecoration(
+                          labelText: AppLocalization.of(context)
+                                  .translate('billing_address_add_customer') ??
+                              'Billing Address',
                           suffixIcon: InkWell(
                               onTap: () {},
                               child: Icon(Icons.add_circle_outline_rounded))),
-                      validationText: 'Test',
-                    )),
-                getSectionTitle('Address'),
-                Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8)),
-                    child: Column(
-                      children: [
-                        TextFromFieldNullableReusable(
-                          fieldDecoration: InputDecoration(
-                              labelText: AppLocalization.of(context)
-                                      .translate('billing_address_add_customer') ??
-                                  'Billing Address',
-                              suffixIcon: InkWell(
-                                  onTap: () {},
-                                  child: Icon(Icons.add_circle_outline_rounded))),
                       validationText: 'Test',
                     ),
                     TextFromFieldNullableReusable(
@@ -212,7 +211,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                           onTap: () {}, child: Icon(Icons.arrow_drop_down))),
                   validationText: 'Test',
                 )),
-                 getSectionTitle('Model of Payment'),
+            getSectionTitle('Model of Payment'),
             Container(
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(8)),
@@ -261,7 +260,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                             children: [
                               Text('Credit Card'),
                               Text('JMD'),
-                              Checkbox(value: true, onChanged: (value){}),
+                              Checkbox(value: true, onChanged: (value) {}),
                               Text('\$9,000.00        '),
                             ],
                           ),
@@ -272,9 +271,9 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                 ],
               )),
             ),
-               getSectionTitle('Additional Info'),
+            getSectionTitle('Additional Info'),
             Container(
-              margin: EdgeInsets.only(bottom: 20),
+                margin: EdgeInsets.only(bottom: 20),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8)),

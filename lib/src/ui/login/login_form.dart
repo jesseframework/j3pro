@@ -43,19 +43,20 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   void didChangeDependencies() {
-   getIt<UserRepository>().getTenantFromSharedPref().then((value){
-    setState(() {
-      _tenantController.text=value;
+    getIt<UserRepository>().getTenantFromSharedPref().then((value) {
+      setState(() {
+        _tenantController.text = value;
+      });
     });
-   });
     super.didChangeDependencies();
   }
+
   @override
   Widget build(BuildContext context) {
     _onLoginButtonPressed() async {
-
       formKey.currentState.validate();
-    await getIt<UserRepository>().setTenantIntoSharedPref(_tenantController.text);
+      await getIt<UserRepository>()
+          .setTenantIntoSharedPref(_tenantController.text);
       BlocProvider.of<LoginBloc>(context).add(
         LoginButtonPressed(
             username: _usernameController.text.trim(),
@@ -77,7 +78,6 @@ class _LoginFormState extends State<LoginForm> {
           return Form(
             key: formKey,
             child: Container(
-
               constraints: BoxConstraints(
                   minWidth: 100, maxWidth: 400, minHeight: 200, maxHeight: 360),
               child: Padding(

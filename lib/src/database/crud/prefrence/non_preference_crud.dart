@@ -19,11 +19,11 @@
 
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/models/non_global_preference_setting.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 part 'non_preference_crud.g.dart';
 
-@UseDao(tables: [NonGlobalPreference])
+@DriftAccessor(tables: [NonGlobalPreference])
 class NonGlobalPreferenceDao extends DatabaseAccessor<AppDatabase>
     with _$NonGlobalPreferenceDaoMixin {
   final AppDatabase db;
@@ -52,6 +52,7 @@ class NonGlobalPreferenceDao extends DatabaseAccessor<AppDatabase>
         .watch();
   }
 
-  Future updateNonGlobalPreferenceValue(NonGlobalPreferenceData nonGlobalPreferenceData) =>
+  Future updateNonGlobalPreferenceValue(
+          NonGlobalPreferenceData nonGlobalPreferenceData) =>
       update(db.nonGlobalPreference).replace(nonGlobalPreferenceData);
 }

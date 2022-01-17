@@ -1,10 +1,10 @@
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/pro/models/items/stock_uom_model.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 part 'stock_uom_crud.g.dart';
 
-@UseDao(tables: [StockUnitOfMeasure])
+@DriftAccessor(tables: [StockUnitOfMeasure])
 class StockUnitOfMeasureDao extends DatabaseAccessor<AppDatabase>
     with _$StockUnitOfMeasureDaoMixin {
   final AppDatabase db;

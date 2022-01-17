@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 class NonGlobalPreference extends Table {
   IntColumn get id => integer()();
@@ -31,10 +31,10 @@ class NonGlobalPreference extends Table {
   BoolColumn get isApply => boolean().withDefault(Constant(false))();
   DateTimeColumn get expiredDateTime => dateTime().nullable()();
   TextColumn get syncError => text().nullable()();
-   TextColumn get dataType => text().nullable()();
+  TextColumn get dataType => text().nullable()();
   TextColumn get dataValue => text().nullable()();
   TextColumn get groups => text().nullable()();
-   IntColumn get tenantId => integer().nullable()();
+  IntColumn get tenantId => integer().nullable()();
 
   @override
   Set<Column> get primaryKey => {code};

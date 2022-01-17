@@ -36,7 +36,7 @@ class ItemMasterRepository {
 
   Future<void> getItemMasterFromServer(String jobName) async {
     try {
-       String className = "Item Master";
+      String className = "Item Master";
       //ToDo code review to get a better way to push bulk data to API and update bulk data in database
       _log.finest("Executing $className date from server");
       var isSchedulerEnable = await backgroundJobScheduleDao.getJob(jobName);
@@ -53,8 +53,7 @@ class ItemMasterRepository {
               _log.finest("Server resopnses successful for $className ");
               Map<String, dynamic> result = map['result'];
               var items = (result['items'] as List).map((e) {
-                return Item.fromJson(e,
-                    serializer: CustomSerializer());
+                return Item.fromJson(e, serializer: CustomSerializer());
               });
 
               for (var item in items) {

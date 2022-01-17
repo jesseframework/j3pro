@@ -32,15 +32,11 @@ class TextFromFieldNullableReusable extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
-        
-        
           controller: controllerName,
           validator: (_value) {
             return _value.length < 3 ? validationText : null;
           },
-          decoration: fieldDecoration.copyWith(
-            
-            filled: true)),
+          decoration: fieldDecoration.copyWith(filled: true)),
     );
   }
 }

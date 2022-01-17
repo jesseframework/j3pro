@@ -69,7 +69,7 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
   NonGlobalBusinessRuleDao nonGlobalBusinessRuleDao;
   UserSharedData userSharedData;
   Map<String, String> mapDevicePref = Map();
-  AddItemBloc() {
+  AddItemBloc() : super(AddItemInitial()) {
     db = AppDatabase();
 
     tempSerialNumberReader = new TempSerialNumberReader();

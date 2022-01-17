@@ -22,12 +22,11 @@ class _CustomerListPageState extends State<CustomerListPage> {
                 "Customers"),
         actions: [
           InkWell(
-              onTap: (){
-               Navigator.push(
-                          context, EnterExitRoute(enterPage: AddCustomerPage()));
+            onTap: () {
+              Navigator.push(
+                  context, EnterExitRoute(enterPage: AddCustomerPage()));
             },
             child: Row(
-              
               children: [
                 Text(
                   "New",
@@ -42,51 +41,48 @@ class _CustomerListPageState extends State<CustomerListPage> {
         ],
       ),
       body: Column(
-      children: [
- Container(
-    
-   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 5),
-                    child: Center(
-                      child: ListFilter(
-                          placeholder: 'Search',
-
-                          onFilterChanged: (search) {
-
-                          }),
-                    ),
-                  ),
- ),
-         
-        Expanded(child:
-
-        ListView.separated(
-            itemCount: 100,
-            itemBuilder: (context,index){
-          return InkWell(
-             onTap: (){
-               
-               Navigator.push(
-                          context, EnterExitRoute(enterPage: EditCustomerPade()));
-            },
-            
-                      child: ListTile(
-              leading: Icon(Icons.image,size: 30,),
-              title: Text('COMPUTER EXPERTZ LTD',style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
-              subtitle: Text('120 Portmore Boulevard' ,) ,
-              trailing: Icon(Icons.arrow_forward_ios),
+        children: [
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+              child: Center(
+                child: ListFilter(
+                    placeholder: 'Search', onFilterChanged: (search) {}),
+              ),
             ),
-          );
-        },
-            separatorBuilder:(context,index){
-        return Divider(color: Colors.grey,);
-        },
-        )
-        )
-      ],
-    ),
-      
+          ),
+          Expanded(
+              child: ListView.separated(
+            itemCount: 100,
+            itemBuilder: (context, index) {
+              return InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context, EnterExitRoute(enterPage: EditCustomerPade()));
+                },
+                child: ListTile(
+                  leading: Icon(
+                    Icons.image,
+                    size: 30,
+                  ),
+                  title: Text('COMPUTER EXPERTZ LTD',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+                  subtitle: Text(
+                    '120 Portmore Boulevard',
+                  ),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                ),
+              );
+            },
+            separatorBuilder: (context, index) {
+              return Divider(
+                color: Colors.grey,
+              );
+            },
+          ))
+        ],
+      ),
     );
   }
 }

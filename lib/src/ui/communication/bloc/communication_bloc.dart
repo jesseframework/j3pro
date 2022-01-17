@@ -26,7 +26,7 @@ import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/snak_bar.dart';
 import 'package:meta/meta.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 part 'communication_event.dart';
 part 'communication_state.dart';
@@ -37,7 +37,7 @@ class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
   final String communicationType;
   var db;
 
-  CommunicationBloc({this.communicationType}) {
+  CommunicationBloc({this.communicationType}) : super(CommunicationInitial()) {
     db = AppDatabase();
     communicationDao = CommunicationDao(db);
   }

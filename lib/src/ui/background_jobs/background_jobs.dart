@@ -17,7 +17,6 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-
 import 'dart:io';
 
 import 'package:background_fetch/background_fetch.dart';
@@ -57,7 +56,6 @@ class _SetupBackgroundPageState extends State<SetupBackgroundPage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.chevron_left),
@@ -65,29 +63,32 @@ class _SetupBackgroundPageState extends State<SetupBackgroundPage> {
               Navigator.pop(context);
             },
           ),
-          bottom: Platform.isAndroid || Platform.isIOS ?TabBar(
-            tabs: [
-              Tab(
-                icon: Icon(CustomIcons.wrench_solid),
-                text:
-                    AppLocalization.of(context).translate('tab_app_servies') ??
-                        'App Servies',
-              ),
-              Tab(
-                icon: Icon(CustomIcons.cog_regular),
-                text: AppLocalization.of(context)
-                        .translate('tab_device_servies') ??
-                    'Device Serives',
-              )
-            ],
-          ):null,
+          bottom: Platform.isAndroid || Platform.isIOS
+              ? TabBar(
+                  tabs: [
+                    Tab(
+                      icon: Icon(CustomIcons.wrench_solid),
+                      text: AppLocalization.of(context)
+                              .translate('tab_app_servies') ??
+                          'App Servies',
+                    ),
+                    Tab(
+                      icon: Icon(CustomIcons.cog_regular),
+                      text: AppLocalization.of(context)
+                              .translate('tab_device_servies') ??
+                          'Device Serives',
+                    )
+                  ],
+                )
+              : null,
           title: Text(
               AppLocalization.of(context).translate('title_background_jobs') ??
                   'Background Jobs'),
           actions: <Widget>[
             Switch(
-              activeColor: Theme.of(context).backgroundColor,
-                value: _enabled, onChanged: _onClickEnable),
+                activeColor: Theme.of(context).backgroundColor,
+                value: _enabled,
+                onChanged: _onClickEnable),
             Padding(
               padding: const EdgeInsets.all(8),
               child: Row(
@@ -98,14 +99,16 @@ class _SetupBackgroundPageState extends State<SetupBackgroundPage> {
             )
           ],
         ),
-        body: Platform.isAndroid || Platform.isIOS ?TabBarView(
-          children: [
-            //Tab 1
-            BackgroundFetchPage(),
-            //Tab 2
-            BackgroundJobsPage()
-          ],
-        ) : BackgroundJobsPage(),
+        body: Platform.isAndroid || Platform.isIOS
+            ? TabBarView(
+                children: [
+                  //Tab 1
+                  BackgroundFetchPage(),
+                  //Tab 2
+                  BackgroundJobsPage()
+                ],
+              )
+            : BackgroundJobsPage(),
       ),
     );
   }

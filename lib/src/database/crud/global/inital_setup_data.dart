@@ -17,15 +17,14 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-
-class InitalSetupData{
+class InitalSetupData {
   //Future insertJobLog(BackgroundJobLog backgroundJoblog) =>
-      //into(db.backgroundJobLogs).insert(backgroundJoblog);
-  Future<void> backgroundjobs() async{
-  //     await into(back).insert(BackgroundJobLogsCompanion(
-  //           content: 'A first todo entry',
-  //           category: null,
-  //           targetDate: DateTime.now(),
-  //     ));
+  //into(db.backgroundJobLogs).insert(backgroundJoblog);
+  Future<void> backgroundjobs() async {
+    //     await into(back).insert(BackgroundJobLogsCompanion(
+    //           content: 'A first todo entry',
+    //           category: null,
+    //           targetDate: DateTime.now(),
+    //     ));
   }
 }

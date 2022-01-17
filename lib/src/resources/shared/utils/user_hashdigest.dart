@@ -25,8 +25,8 @@ import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 
 import 'dart:convert';
 
-import 'package:moor/moor.dart';
-import 'package:moor/moor.dart' as moor;
+import 'package:drift/drift.dart';
+import 'package:drift/drift.dart' as moor;
 
 class UserHash {
   final UserRepository userRepository;

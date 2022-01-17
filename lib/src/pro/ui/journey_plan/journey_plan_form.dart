@@ -44,7 +44,6 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
   @override
   void initState() {
     super.initState();
-
   }
 
   @override
@@ -67,9 +66,9 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
         builder: (context, state) {
           var bloc = BlocProvider.of<JourneyPlanBloc>(context);
 
-         // var loadEvent = SyncGPSDistancEvent();
+          // var loadEvent = SyncGPSDistancEvent();
 
-         // bloc.add(loadEvent);
+          // bloc.add(loadEvent);
 
           // return form
           return _buildForm(bloc);
@@ -190,7 +189,10 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
                             itemBuilder: (context, index) {
                               return InkWell(
                                 onTap: () async {
-                                addItemBloc.setId(cusID: journeyWithAddressData[index].jplan.customerId);
+                                  addItemBloc.setId(
+                                      cusID: journeyWithAddressData[index]
+                                          .jplan
+                                          .customerId);
                                   Navigator.push(
                                       context,
                                       EnterExitRoute(
@@ -214,14 +216,18 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
                                     ),
                                     subtitle: Text(
                                       journeyWithAddressData[index]
-                                          .addr
-                                          .addressLine1 + " " +
-                                      journeyWithAddressData[index]
-                                          .jplan
-                                          .distanceUsed.toString() + " " + 
-                                      journeyWithAddressData[index]
-                                          .jplan
-                                          .distanceLabel.toString(),
+                                              .addr
+                                              .addressLine1 +
+                                          " " +
+                                          journeyWithAddressData[index]
+                                              .jplan
+                                              .distanceUsed
+                                              .toString() +
+                                          " " +
+                                          journeyWithAddressData[index]
+                                              .jplan
+                                              .distanceLabel
+                                              .toString(),
                                     ),
                                     title: Row(
                                       mainAxisAlignment:
@@ -237,9 +243,8 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
                                         Text(
                                           journeyWithAddressData[index]
                                               .jplan
-                                              .customerId ,
+                                              .customerId,
                                         ),
-                                        
                                       ],
                                     ),
                                     trailing: Icon(Icons.arrow_forward_ios),

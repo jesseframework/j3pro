@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 class BusinessRule extends Table {
   TextColumn get code => text()();
@@ -29,7 +29,7 @@ class BusinessRule extends Table {
   TextColumn get userRule => text().nullable()();
   TextColumn get domain => text().nullable()();
   DateTimeColumn get expiredDateTime => dateTime().nullable()();
-   IntColumn get tenantId => integer().nullable()();
+  IntColumn get tenantId => integer().nullable()();
 
   TextColumn get syncError => text().nullable()();
   TextColumn get dataType => text().nullable()();

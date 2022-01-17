@@ -19,7 +19,7 @@
 
 import 'package:j3enterprise/src/resources/shared/extension/multi_user.dart';
 import 'package:j3enterprise/src/resources/shared/extension/must_have_tenant.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 class ApplicationLogger extends Table implements MustHaveTenant, MultiUser {
   IntColumn get id => integer().autoIncrement()();
@@ -37,5 +37,4 @@ class ApplicationLogger extends Table implements MustHaveTenant, MultiUser {
   IntColumn get tenantId => integer().nullable()();
   TextColumn get userName => text().nullable()();
   IntColumn get userId => integer().nullable()();
-  
 }

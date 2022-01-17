@@ -17,6 +17,7 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
+import 'dart:async';
 import 'dart:io' show Platform;
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -173,7 +174,7 @@ class InitServiceSetup {
 }
 
 Future<void> systemInitelSetup() async {
-  BlocSupervisor.delegate = SimpleBlocDelegate();
+  //BlocOverrides.current = Zone() SimpleBlocDelegate();
   var dao = CommunicationDao(AppDatabase());
   var communicationData = await dao.getCommunicationDataByType("API");
   var serverUrl = communicationData == null || communicationData.isEmpty
@@ -181,7 +182,7 @@ Future<void> systemInitelSetup() async {
       : communicationData[0].serverUrl;
   ApiClient.updateClient(serverUrl);
   if (!Platform.isWindows && !Platform.isMacOS) {
-    FirebaseNotificationService.instance;
+    //FirebaseNotificationService.instance;
   }
   final int = InitServiceSetup();
   int.setupLogging();

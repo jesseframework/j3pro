@@ -43,7 +43,7 @@ import 'package:j3enterprise/src/resources/repositories/applogger_repositiry.dar
 import 'package:j3enterprise/src/resources/shared/preferences/user_share_data.dart';
 import 'package:j3enterprise/src/ui/login/bloc/login_bloc.dart';
 import 'package:logging/logging.dart';
-import 'package:moor/moor.dart';
+import 'package:drift/drift.dart';
 
 class AppLogger {
   ApplicationLoggerDao applicationLoggerDao;
@@ -109,8 +109,13 @@ class AppLogger {
       if (logPurging != null) {
         if (logPurging.value == "After Upload") {
           if (logPurging.isGlobal == false) {
-            var globalData = await nonGlobalPreferenceDao.getSingleNonGlobalPref(
-                logPurging.code, logPurging.code, userName, deviceId, screen);
+            var globalData =
+                await nonGlobalPreferenceDao.getSingleNonGlobalPref(
+                    logPurging.code,
+                    logPurging.code,
+                    userName,
+                    deviceId,
+                    screen);
             if (globalData != null) {
               if (globalData.expiredDateTime.isBefore(DateTime.now())) {
                 //applicationLoggerDao.purgeDatabyExportStatus('Success');
@@ -123,8 +128,13 @@ class AppLogger {
 
         if (logPurging.value == "Last 1000") {
           if (logPurging.isGlobal == false) {
-            var globalData = await nonGlobalPreferenceDao.getSingleNonGlobalPref(
-                logPurging.code, logPurging.code, userName, deviceId, screen);
+            var globalData =
+                await nonGlobalPreferenceDao.getSingleNonGlobalPref(
+                    logPurging.code,
+                    logPurging.code,
+                    userName,
+                    deviceId,
+                    screen);
             if (globalData != null) {
               if (globalData.expiredDateTime.isBefore(DateTime.now())) {
                 //applicationLoggerDao.purgeData(1000);
@@ -137,8 +147,13 @@ class AppLogger {
 
         if (logPurging.value == "Last 500") {
           if (logPurging.isGlobal == false) {
-            var globalData = await nonGlobalPreferenceDao.getSingleNonGlobalPref(
-                logPurging.code, logPurging.code, userName, deviceId, screen);
+            var globalData =
+                await nonGlobalPreferenceDao.getSingleNonGlobalPref(
+                    logPurging.code,
+                    logPurging.code,
+                    userName,
+                    deviceId,
+                    screen);
             if (globalData != null) {
               //applicationLoggerDao.purgeData(500);
             }
@@ -149,8 +164,13 @@ class AppLogger {
 
         if (logPurging.value == "Last 100") {
           if (logPurging.isGlobal == false) {
-            var globalData = await nonGlobalPreferenceDao.getSingleNonGlobalPref(
-                logPurging.code, logPurging.code, userName, deviceId, screen);
+            var globalData =
+                await nonGlobalPreferenceDao.getSingleNonGlobalPref(
+                    logPurging.code,
+                    logPurging.code,
+                    userName,
+                    deviceId,
+                    screen);
             if (globalData != null) {
               if (globalData.expiredDateTime.isBefore(DateTime.now())) {
                 //applicationLoggerDao.purgeData(100);

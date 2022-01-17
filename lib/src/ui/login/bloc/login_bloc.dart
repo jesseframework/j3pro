@@ -41,7 +41,7 @@ import 'package:j3enterprise/src/ui/authentication/authentication_bloc.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication_event.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
-import 'package:moor/moor.dart' as moor;
+import 'package:drift/drift.dart' as moor;
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -63,8 +63,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   var db;
   UserDao userDao;
 
-  LoginBloc(
-      {@required this.userRepository, @required this.authenticationBloc}) {
+  LoginBloc({@required this.userRepository, @required this.authenticationBloc})
+      : super(LoginInitial()) {
     userHash = new UserHash(userRepository: userRepository);
     db = AppDatabase();
     userSharedData = new UserSharedData();
@@ -291,9 +291,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                 0.toString());
             _log.finest(
                 'Tenant tenant result assign to virable tenant LoginLoading state');
-
-
-           
 
             if (tenantResult['tenantId'] == null) {
               tenantId = 0.toString();

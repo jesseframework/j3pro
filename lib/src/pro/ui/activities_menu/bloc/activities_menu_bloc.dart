@@ -6,8 +6,9 @@ import 'package:equatable/equatable.dart';
 part 'activities_menu_event.dart';
 part 'activities_menu_state.dart';
 
-class ActivitiesMenuBloc extends Bloc<ActivitiesMenuEvent, ActivitiesMenuState> {
-  ActivitiesMenuBloc();
+class ActivitiesMenuBloc
+    extends Bloc<ActivitiesMenuEvent, ActivitiesMenuState> {
+  ActivitiesMenuBloc() : super(ActivitiesMenuInitial());
 
   @override
   ActivitiesMenuState get initialState => ActivitiesMenuInitial();

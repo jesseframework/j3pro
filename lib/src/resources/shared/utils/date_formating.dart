@@ -17,11 +17,7 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-
-
 //ToDo Add more date format from setting
-
- 
 
 import 'package:intl/intl.dart';
 
