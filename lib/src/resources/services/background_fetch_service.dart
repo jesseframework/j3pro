@@ -33,7 +33,7 @@ void backgroundFetchHeadlessTask(String taskId) async {
 
   // Read fetch_events from SharedPreferences
   List<String> events = [];
-  String json = prefs.getString(EVENTS_KEY);
+  String? json = prefs.getString(EVENTS_KEY);
   if (json != null) {
     events = jsonDecode(json).cast<String>();
   }

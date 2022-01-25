@@ -13,10 +13,10 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 
 class ActivitiesMenuForm extends StatefulWidget {
   var db;
-  DesktopDao desktopDao;
+  late DesktopDao desktopDao;
 
   JourneyWithAddress journeyWithAddress;
-  ActivitiesMenuForm({this.journeyWithAddress}) {
+  ActivitiesMenuForm({required this.journeyWithAddress}) {
     db = AppDatabase();
     desktopDao = DesktopDao(db);
   }
@@ -59,7 +59,7 @@ class _ActivitiesMenuFormState extends State<ActivitiesMenuForm> {
         ],
       ),
       appBar: AppBar(
-        title: Text(AppLocalization.of(context)
+        title: Text(AppLocalization.of(context)!
                 .translate('activities_menu_appbar_title') ??
             "Activities Menu"),
         actions: [Icon(Icons.more_vert)],
@@ -191,14 +191,15 @@ class _ActivitiesMenuFormState extends State<ActivitiesMenuForm> {
                       builder: (context, snapshot) {
                         print(snapshot.data.toString());
                         if (snapshot.hasData) {
-                          List<DesktopData> prefData = snapshot.data;
+                          List<DesktopData>? prefData =
+                              snapshot.data as List<DesktopData>?;
                           return toggleList
                               ? Center(
                                   child: Wrap(
                                       direction: Axis.horizontal,
                                       alignment: WrapAlignment.start,
                                       children: [
-                                        ...prefData.map((e) {
+                                        ...prefData!.map((e) {
                                           return InkWell(
                                               onTap: () async {
                                                 addItemBloc.setOrderNumber();
@@ -263,7 +264,7 @@ class _ActivitiesMenuFormState extends State<ActivitiesMenuForm> {
                                     return InkWell(
                                       onTap: () {
                                         Navigator.pushNamed(context,
-                                            prefData[index].navigationRoute,
+                                            prefData![index].navigationRoute,
                                             arguments:
                                                 widget.journeyWithAddress);
                                       },
@@ -271,7 +272,7 @@ class _ActivitiesMenuFormState extends State<ActivitiesMenuForm> {
                                         leading: Icon(
                                           IconData(
                                               int.parse(
-                                                  prefData[index].iconCode),
+                                                  prefData![index].iconCode),
                                               fontFamily:
                                                   prefData[index].iconFamily),
                                           color: Color(int.parse(
@@ -281,7 +282,7 @@ class _ActivitiesMenuFormState extends State<ActivitiesMenuForm> {
                                       ),
                                     );
                                   },
-                                  itemCount: prefData.length,
+                                  itemCount: prefData!.length,
                                   separatorBuilder: (context, index) {
                                     return Divider(
                                       thickness: 0.5,

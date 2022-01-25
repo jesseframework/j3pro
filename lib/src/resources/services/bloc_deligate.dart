@@ -20,8 +20,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SimpleBlocDelegate extends BlocObserver {
-  @override
-  void onEvent(Bloc bloc, Object event) {
+  // @override
+  // void onEvent(Bloc bloc, Object event) {
+  //   super.onEvent(bloc, event);
+  //   print(event);
+  // }
+
+  void event(Bloc bloc, Object event) {
     super.onEvent(bloc, event);
     print(event);
   }

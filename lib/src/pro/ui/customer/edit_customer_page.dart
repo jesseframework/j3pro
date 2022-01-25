@@ -12,7 +12,7 @@ class _EditCustomerPadeState extends State<EditCustomerPade> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalization.of(context)
+        title: Text(AppLocalization.of(context)!
                 .translate('edit_customer_appbar_title') ??
             "Edit Customer"),
         actions: [
@@ -47,25 +47,25 @@ class _EditCustomerPadeState extends State<EditCustomerPade> {
                     borderRadius: BorderRadius.circular(8)),
                 child: Column(
                   children: [
-                    TextFromFieldNullableReusable(
+                    TextFromFieldReusable(
                       fieldDecoration: InputDecoration(
-                        labelText: AppLocalization.of(context).translate(
+                        labelText: AppLocalization.of(context)!.translate(
                                 'customer_number_label_add_customer') ??
                             'Customer Number',
                       ),
                       validationText: 'Test',
                     ),
-                    TextFromFieldNullableReusable(
+                    TextFromFieldReusable(
                       fieldDecoration: InputDecoration(
-                        labelText: AppLocalization.of(context).translate(
+                        labelText: AppLocalization.of(context)!.translate(
                                 'customer_name_label_add_customer') ??
                             'Customer Name *',
                       ),
                       validationText: 'Test',
                     ),
-                    TextFromFieldNullableReusable(
+                    TextFromFieldReusable(
                       fieldDecoration: InputDecoration(
-                          labelText: AppLocalization.of(context).translate(
+                          labelText: AppLocalization.of(context)!.translate(
                                   'customer_type_label_add_customer') ??
                               'Customer Type *',
                           suffixIcon: InkWell(
@@ -73,9 +73,9 @@ class _EditCustomerPadeState extends State<EditCustomerPade> {
                               child: Icon(Icons.arrow_drop_down))),
                       validationText: 'Test',
                     ),
-                    TextFromFieldNullableReusable(
+                    TextFromFieldReusable(
                       fieldDecoration: InputDecoration(
-                          labelText: AppLocalization.of(context).translate(
+                          labelText: AppLocalization.of(context)!.translate(
                                   'customer_group_label_add_customer') ??
                               'Customer Group *',
                           suffixIcon: InkWell(
@@ -92,17 +92,17 @@ class _EditCustomerPadeState extends State<EditCustomerPade> {
                     borderRadius: BorderRadius.circular(8)),
                 child: Column(
                   children: [
-                    TextFromFieldNullableReusable(
+                    TextFromFieldReusable(
                       fieldDecoration: InputDecoration(
-                        labelText: AppLocalization.of(context)
+                        labelText: AppLocalization.of(context)!
                                 .translate('company_name_label_add_customer') ??
                             'Company Name',
                       ),
                       validationText: 'Test',
                     ),
-                    TextFromFieldNullableReusable(
+                    TextFromFieldReusable(
                       fieldDecoration: InputDecoration(
-                          labelText: AppLocalization.of(context)
+                          labelText: AppLocalization.of(context)!
                                   .translate('territory_label_add_customer') ??
                               'Territory',
                           suffixIcon: InkWell(
@@ -119,9 +119,9 @@ class _EditCustomerPadeState extends State<EditCustomerPade> {
                     borderRadius: BorderRadius.circular(8)),
                 child: Column(
                   children: [
-                    TextFromFieldNullableReusable(
+                    TextFromFieldReusable(
                       fieldDecoration: InputDecoration(
-                          labelText: AppLocalization.of(context)
+                          labelText: AppLocalization.of(context)!
                                   .translate('currency_label_add_customer') ??
                               'Currency',
                           suffixIcon: InkWell(
@@ -129,9 +129,9 @@ class _EditCustomerPadeState extends State<EditCustomerPade> {
                               child: Icon(Icons.arrow_drop_down))),
                       validationText: 'Test',
                     ),
-                    TextFromFieldNullableReusable(
+                    TextFromFieldReusable(
                       fieldDecoration: InputDecoration(
-                          labelText: AppLocalization.of(context)
+                          labelText: AppLocalization.of(context)!
                                   .translate('price_list_add_customer') ??
                               'Price List',
                           suffixIcon: InkWell(
@@ -139,9 +139,9 @@ class _EditCustomerPadeState extends State<EditCustomerPade> {
                               child: Icon(Icons.arrow_drop_down))),
                       validationText: 'Test',
                     ),
-                    TextFromFieldNullableReusable(
+                    TextFromFieldReusable(
                       fieldDecoration: InputDecoration(
-                          labelText: AppLocalization.of(context)
+                          labelText: AppLocalization.of(context)!
                                   .translate('tax group_add_customer') ??
                               'Tax Group',
                           suffixIcon: InkWell(
@@ -156,7 +156,7 @@ class _EditCustomerPadeState extends State<EditCustomerPade> {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8)),
-                child: TextFromFieldNullableReusable(
+                child: TextFromFieldReusable(
                   fieldDecoration: InputDecoration(
                       hintText: "Grey",
                       suffixIcon:
@@ -195,9 +195,9 @@ class _EditCustomerPadeState extends State<EditCustomerPade> {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8)),
-                child: TextFromFieldNullableReusable(
+                child: TextFromFieldReusable(
                   fieldDecoration: InputDecoration(
-                      labelText: AppLocalization.of(context)
+                      labelText: AppLocalization.of(context)!
                               .translate('payment_terms_add_customer') ??
                           'Payment Terms',
                       suffixIcon: InkWell(
@@ -270,9 +270,9 @@ class _EditCustomerPadeState extends State<EditCustomerPade> {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8)),
-                child: TextFromFieldNullableReusable(
+                child: TextFromFieldReusable(
                     fieldDecoration: InputDecoration(
-                  labelText: AppLocalization.of(context)
+                  labelText: AppLocalization.of(context)!
                           .translate('additional_info_add_customer') ??
                       'Additional Info',
                 ))),
@@ -283,16 +283,16 @@ class _EditCustomerPadeState extends State<EditCustomerPade> {
   }
 
   Widget buildSalesOrderCardTile(
-      {String heading,
-      String title,
-      Widget trailingWidget,
-      Function callback}) {
+      {String? heading,
+      String? title,
+      Widget? trailingWidget,
+      Function? callback}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          heading,
+          heading!,
           style: TextStyle(
               fontWeight: FontWeight.w600,
               color: Theme.of(context).textSelectionColor,
@@ -304,14 +304,14 @@ class _EditCustomerPadeState extends State<EditCustomerPade> {
           children: [
             Flexible(
               child: Text(
-                title,
+                title!,
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
               ),
             ),
             InkWell(
                 child: Container(
                     margin: EdgeInsets.only(left: 8), child: trailingWidget),
-                onTap: callback),
+                onTap: () {}),
           ],
         ),
       ],
@@ -329,7 +329,7 @@ class _EditCustomerPadeState extends State<EditCustomerPade> {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
       child: Text(title,
-          style: Theme.of(context).textTheme.bodyText2.copyWith(
+          style: Theme.of(context).textTheme.bodyText2!.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
               )),

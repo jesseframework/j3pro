@@ -7,9 +7,9 @@ class SalesFullAudit {
   var db;
 
   //Dao
-  SalesOrderDetailTempDao salesOrderDetailTempDao;
-  SalesOrderDetailDao salesOrderDetailDao;
-  SalesOrderHeaderDao salesOrderHeaderDao;
+  late SalesOrderDetailTempDao salesOrderDetailTempDao;
+  late SalesOrderDetailDao salesOrderDetailDao;
+  late SalesOrderHeaderDao salesOrderHeaderDao;
 
   SalesFullAudit() {
     db = AppDatabase();
@@ -18,5 +18,5 @@ class SalesFullAudit {
     salesOrderHeaderDao = new SalesOrderHeaderDao(db);
   }
 
-  Future<void> setFullAudit() {}
+  Future<void> setFullAudit() async {}
 }

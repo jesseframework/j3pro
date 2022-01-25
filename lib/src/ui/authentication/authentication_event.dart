@@ -36,7 +36,7 @@ class LoggedIn extends AuthenticationEvent {
   final int tenantId;
 
   const LoggedIn(
-      {@required this.token, @required this.userId, @required this.tenantId});
+      {required this.token, required this.userId, required this.tenantId});
 
   @override
   List<Object> get props => [token, userId, tenantId];
@@ -50,13 +50,13 @@ class OfflineLoginButtonPressed extends AuthenticationEvent {
   final String password;
   final int tenantId;
   final int userId;
-  final UserRepository userRepository;
+  late UserRepository userRepository;
 
-  const OfflineLoginButtonPressed(
-      {@required this.password,
-      @required this.tenantId,
-      @required this.userId,
-      this.userRepository});
+  OfflineLoginButtonPressed(
+      {required this.password,
+      required this.tenantId,
+      required this.userId,
+      UserRepository? userRepository});
 
   @override
   List<Object> get props => [password, tenantId, userId];
@@ -73,7 +73,7 @@ class SaveUserData extends AuthenticationEvent {}
 class PushNotification extends AuthenticationEvent {
   final String route;
 
-  const PushNotification({@required this.route});
+  const PushNotification({required this.route});
 
   @override
   List<Object> get props => [route];

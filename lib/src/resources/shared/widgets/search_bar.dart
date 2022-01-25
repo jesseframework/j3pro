@@ -21,10 +21,10 @@ import 'package:flutter/material.dart';
 
 class ListFilter extends StatefulWidget {
   const ListFilter(
-      {@required this.placeholder,
-      this.filter,
-      @required this.onFilterChanged,
-      this.function});
+      {required this.placeholder,
+      required this.filter,
+      required this.onFilterChanged,
+      required this.function});
   final Function function;
   final String placeholder;
   final String filter;
@@ -35,8 +35,8 @@ class ListFilter extends StatefulWidget {
 }
 
 class _ListFilterState extends State<ListFilter> {
-  TextEditingController _filterController;
-  FocusNode _focusNode;
+  late TextEditingController _filterController;
+  late FocusNode _focusNode;
   String _placeholder = '';
 
   @override
@@ -75,8 +75,7 @@ class _ListFilterState extends State<ListFilter> {
 
   @override
   Widget build(BuildContext context) {
-    final textColor = Theme.of(context).textTheme.bodyText1.color;
-    final isFilterSet = (widget.filter ?? '').isNotEmpty;
+    final textColor = Theme.of(context).textTheme.bodyText1!.color;
 
     return Container(
       decoration: BoxDecoration(

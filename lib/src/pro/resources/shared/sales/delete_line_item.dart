@@ -3,10 +3,10 @@ import 'package:j3enterprise/src/pro/database/crud/sales/sales_order/sales_order
 import 'package:logging/logging.dart';
 
 class DeleteSalesOrderLineItem {
-  String className = "Calculate Transaction";
+  late String className = "Calculate Transaction";
   static final _log = Logger('AddItemToTransaction');
   var db;
-  SalesOrderDetailTempDao salesOrderDetailTempDao;
+  late SalesOrderDetailTempDao salesOrderDetailTempDao;
 
   DeleteSalesOrderLineItem() {
     db = AppDatabase();

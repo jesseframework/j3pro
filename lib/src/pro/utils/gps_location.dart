@@ -19,16 +19,16 @@ class GeoLocation {
   var api = ApiClient.chopper.getService<RestApiService>();
   var db;
 
-  bool isStopped = false;
+  late bool isStopped = false;
 
   static final _log = Logger('Journey Plan Location Service');
-  UpdateBackgroundJobStatus updateBackgroundJobStatus;
-  BackgroundJobScheduleDao backgroundJobScheduleDao;
-  JourneyPlanDao journeyPlanDao;
-  AddressDao addressDao;
-  UserSharedData userSharedData;
-  Position _currentPosition;
-  SystemCurrencyDao systemCurrencyDao;
+  late UpdateBackgroundJobStatus updateBackgroundJobStatus;
+  late BackgroundJobScheduleDao backgroundJobScheduleDao;
+  late JourneyPlanDao journeyPlanDao;
+  late AddressDao addressDao;
+  late UserSharedData userSharedData;
+  late Position _currentPosition;
+  late SystemCurrencyDao systemCurrencyDao;
 
   GeoLocation() {
     _log.finest("Journey Plan Location Service constructer call");
@@ -38,7 +38,15 @@ class GeoLocation {
     journeyPlanDao = new JourneyPlanDao(db);
     addressDao = new AddressDao(db);
     userSharedData = new UserSharedData();
-    _currentPosition = new Position();
+    _currentPosition = new Position(
+        accuracy: 0,
+        altitude: 0,
+        heading: 0,
+        latitude: 0,
+        longitude: 0,
+        speed: 0,
+        speedAccuracy: 0,
+        timestamp: null);
     systemCurrencyDao = new SystemCurrencyDao(db);
   }
 
@@ -114,11 +122,11 @@ class GeoLocation {
                   if (currency.length > 0) {
                     var f = new NumberFormat(currency[0].numberFormat, "en_US");
                     formatedDistantUsed =
-                        double.tryParse(f.format(distantUsed));
+                        double.tryParse(f.format(distantUsed))!;
                   } else {
                     var f = new NumberFormat("###.0#", "en_US");
                     formatedDistantUsed =
-                        double.tryParse(f.format(distantUsed));
+                        double.tryParse(f.format(distantUsed))!;
                   }
 
                   //print(f.format(distantUsed).toString());
@@ -130,7 +138,7 @@ class GeoLocation {
                       inMiles: moor.Value(inMiles),
                       distanceUsed: moor.Value(formatedDistantUsed));
                   await journeyPlanDao.updateGPSDistance(updateDistant,
-                      item.customerId, item.assignTo, item.transactionStatus);
+                      item.customerId, item.assignTo!, item.transactionStatus!);
                 }
               }
             }

@@ -30,7 +30,7 @@ class BlocInitial extends BlocState {
 
 class ShowSearchResult extends BlocState {
   final String searchCommand;
-  const ShowSearchResult({this.searchCommand});
+  const ShowSearchResult({required this.searchCommand});
 
   @override
   List<Object> get props => [searchCommand];

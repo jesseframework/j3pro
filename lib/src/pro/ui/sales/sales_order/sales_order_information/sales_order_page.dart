@@ -9,7 +9,7 @@ import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dar
 
 class SalesOrderPage extends StatelessWidget {
   var db;
-  AddressDao addressDao;
+  late AddressDao addressDao;
   SalesOrderPage() {
     db = AppDatabase();
     addressDao = AddressDao(db);
@@ -29,9 +29,9 @@ class SalesOrderPage extends StatelessWidget {
                   isDisable: false),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.active) {
-                  List<Addres> addres = snapshot.data;
+                  List<Addres>? addres = snapshot.data as List<Addres>?;
                   return SalesOrderForm(
-                      address: addres,
+                      address: addres!,
                       exchangeRate: state.exchangeRate,
                       currenciesData: state.currenciesData,
                       defaultCurrency: state.defaultCurrency);

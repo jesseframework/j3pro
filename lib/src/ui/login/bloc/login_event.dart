@@ -29,18 +29,18 @@ abstract class LoginEvent extends Equatable {
 class LoginButtonPressed extends LoginEvent {
   final String username;
   final String password;
-  final BuildContext context;
-  final int tenantId;
+  late BuildContext context;
+  late int tenantId;
   final String tenantName;
   final String deviceId;
 
-  const LoginButtonPressed(
-      {@required this.username,
-      @required this.password,
-      this.context,
-      this.tenantId,
-      this.tenantName,
-      this.deviceId});
+  LoginButtonPressed(
+      {required this.username,
+      required this.password,
+      BuildContext? context,
+      int? tenantId,
+      required this.tenantName,
+      required this.deviceId});
 
   @override
   List<Object> get props =>

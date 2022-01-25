@@ -21,73 +21,73 @@ import 'package:logging/logging.dart';
 import 'package:drift/drift.dart' as moor;
 
 class AddItemToTransaction {
-  double quantity;
-  String result;
-  String itemId;
-  String itemName;
-  String itemCode;
-  String itemDescription;
-  String itemGroup;
-  String category;
-  String upcCode;
-  String stockUOM;
-  String uom;
-  String defaultWarehouse;
+  late double quantity;
+  late String result;
+  late String itemId;
+  late String itemName;
+  late String itemCode;
+  late String itemDescription;
+  late String itemGroup;
+  late String category;
+  late String upcCode;
+  late String stockUOM;
+  late String uom;
+  late String defaultWarehouse;
   // String inventoryCycleNumber;
   // String transactionNumber;
   // String transactionStatus;
-  String priceList;
-  String standardPriceList;
+  late String priceList;
+  late String standardPriceList;
 
-  double itemPrice;
-  double sellingDeposit;
-  double deposit;
-  double returnPrice;
-  double returnDeposit;
-  double lineSubTotal;
-  String taxGroup;
-  double conversionFactor;
-  DateTime salesDate;
+  late double itemPrice;
+  late double sellingDeposit;
+  late double deposit;
+  late double returnPrice;
+  late double returnDeposit;
+  late double lineSubTotal;
+  late String taxGroup;
+  late double conversionFactor;
+  late DateTime salesDate;
 
   //Get Discount
-  String customerGroup;
-  String territory;
-  String partner;
-  DateTime validFrom;
-  DateTime validTo;
-  bool enableHeaderDiscount;
-  double minCustPurchase;
-  double maxCustPurchase;
-  double amountOff;
-  double percentageOff;
-  double accumalatedPurchase;
-  double listPrice;
-  double registerQuantityTotal;
+  late String customerGroup;
+  late String territory;
+  late String partner;
+  late DateTime validFrom;
+  late DateTime validTo;
+  late bool enableHeaderDiscount;
+  late double minCustPurchase;
+  late double maxCustPurchase;
+  late double amountOff;
+  late double percentageOff;
+  late double accumalatedPurchase;
+  late double listPrice;
+  late double registerQuantityTotal;
 
-  String className = "Add Item To Transaction";
+  late String className = "Add Item To Transaction";
   var db;
   static final _log = Logger('AddItemToTransaction');
 
   //DAOs
-  ItemsDao itemsDao;
-  ItemPriceDao itemPriceDao;
-  ItemPricingRuleDao itemPricingRuleDao;
-  BusinessRuleDao businessRuleDao;
-  PreferenceDao preferenceDao;
+  late ItemsDao itemsDao;
+  late ItemPriceDao itemPriceDao;
+  late ItemPricingRuleDao itemPricingRuleDao;
+  late BusinessRuleDao businessRuleDao;
+  late PreferenceDao preferenceDao;
   //ItemMasterRepository itemMasterRepository;
-  InventoryItemsDao inventoryItemsDao;
-  TempNumberLogsDao tempNumberLogsDao;
-  CustomerDao customerDao;
-  SalesOrderDetailTempDao salesOrderDetailTempDao;
-  SystemCurrencyDao systemCurrencyDao;
+  late InventoryItemsDao inventoryItemsDao;
+  late TempNumberLogsDao tempNumberLogsDao;
+  late CustomerDao customerDao;
+  late SalesOrderDetailTempDao salesOrderDetailTempDao;
+  late SystemCurrencyDao systemCurrencyDao;
 
   //Regular Class
-  AddItemToWarehouse addItemToWarehouse;
-  CheckInventory checkInventory;
-  CalculateDiscount calculateDiscount;
-  CalculateTax calculateTax;
-  CalculateTotal calculateTotal;
-  TransferInventory transferInventory;
+  late AddItemToWarehouse addItemToWarehouse;
+  late CheckInventory checkInventory;
+  late CalculateDiscount calculateDiscount;
+  late CalculateTax calculateTax;
+  late CalculateTotal calculateTotal;
+  late TransferInventory transferInventory;
 
   AddItemToTransaction() {
     db = AppDatabase();
@@ -138,32 +138,30 @@ class AddItemToTransaction {
     }
 
     var item = await itemsDao.getItemForSales(searchText);
-    if (item != null && item.length > 0) {
+    if (item.length > 0) {
       //Assign Item values
       itemId = item[0].itemId;
-      itemName = item[0].itemName;
-      itemCode = item[0].itemCode;
-      itemDescription = item[0].description;
-      itemGroup = item[0].itemGroup;
-      category = item[0].category;
+      itemName = item[0].itemName!;
+      itemCode = item[0].itemCode!;
+      itemDescription = item[0].description!;
+      itemGroup = item[0].itemGroup!;
+      category = item[0].category!;
       stockUOM = "";
-      defaultWarehouse = item[0].defaultWarehouse;
+      defaultWarehouse = item[0].defaultWarehouse!;
       upcCode = "";
       String formatted = await formatDate(DateTime.now().toString());
-      salesDate = DateTime.tryParse(formatted);
-      uom = item[0].uom;
+      salesDate = DateTime.tryParse(formatted)!;
+      uom = item[0].uom!;
       //taxIndicator = item[0].tax
       priceList = "";
       standardPriceList = "Standard Selling";
-      DateTime retiredDate = item[0].retiredDate;
+      DateTime retiredDate = item[0].retiredDate!;
 
       var getCusTaxGroup = await customerDao.getAllCustomerById(customerId);
-      if (getCusTaxGroup != null &&
-          getCusTaxGroup.length > 0 &&
-          getCusTaxGroup.single.taxGroup != null) {
+      if (getCusTaxGroup.length > 0) {
         taxGroup = getCusTaxGroup[0].taxGroup;
       } else {
-        taxGroup = item[0].taxGroup;
+        taxGroup = item[0].taxGroup!;
       }
 
       if (item[0].isRetired == true) {
@@ -200,7 +198,7 @@ class AddItemToTransaction {
           itemId, uom, priceList, standardPriceList);
 
       if (price != null && price.length > 0 && price.length == 1) {
-        priceList = price[0].priceList;
+        priceList = price[0].priceList!;
         itemPrice = price[0].itemPrice;
         sellingDeposit = price[0].sellingDeposit;
         deposit = price[0].deposit;
@@ -227,10 +225,10 @@ class AddItemToTransaction {
             await systemCurrencyDao.getAllSystemCurrencyByName("JMD");
         if (currency.length > 0) {
           var f = new NumberFormat(currency[0].numberFormat, "en_US");
-          formatedSubTotal = double.tryParse(f.format(unformatedSubTotal));
+          formatedSubTotal = double.tryParse(f.format(unformatedSubTotal))!;
         } else {
           var f = new NumberFormat("###.0#", "en_US");
-          formatedSubTotal = double.tryParse(f.format(unformatedSubTotal));
+          formatedSubTotal = double.tryParse(f.format(unformatedSubTotal))!;
         }
 
         var lineUpdate = new SalesOrderDetailTempCompanion(
@@ -261,21 +259,19 @@ class AddItemToTransaction {
             uom);
 
         //Calculate Tax
-        if (taxGroup != null) {
-          await calculateTax.getTotalTax(
-              searchText,
-              tempSalesOrderNo,
-              tempTransactionStatus,
-              uom,
-              tenantId,
-              userName,
-              userId,
-              itemId,
-              customerId,
-              taxGroup,
-              salesDate,
-              (quantity + onRegister.single.quantity) * itemPrice);
-        }
+        await calculateTax.getTotalTax(
+            searchText,
+            tempSalesOrderNo,
+            tempTransactionStatus,
+            uom,
+            tenantId,
+            userName,
+            userId,
+            itemId,
+            customerId,
+            taxGroup,
+            salesDate,
+            (quantity + onRegister.single.quantity) * itemPrice);
       } else {
         //Add New Line
         //Line SubTotal Calculation
@@ -380,7 +376,7 @@ class AddItemToTransaction {
       var searchServer = await businessRuleDao.getSingleBusinessRule("SRCR");
       if (searchServer != null && searchServer.value.contains("Yes")) {
         //await itemMasterRepository.getItemMasterFromServer("Items");
-        searchText = null;
+        searchText = "";
         qtySet = 0;
       } else {
         result =

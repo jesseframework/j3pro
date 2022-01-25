@@ -45,7 +45,7 @@ class _BackgroundFetchPageState extends State<BackgroundFetchPage> {
   Future<void> initPlatformState() async {
     // Load persisted fetch events from SharedPreferences
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String json = prefs.getString(EVENTS_KEY);
+    String? json = prefs.getString(EVENTS_KEY);
     if (json != null) {
       setState(() {
         _events = jsonDecode(json).cast<String>();

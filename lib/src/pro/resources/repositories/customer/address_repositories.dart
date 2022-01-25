@@ -15,14 +15,14 @@ class AddressRepository {
   var api = ApiClient.chopper.getService<RestApiService>();
   var db;
 
-  bool isStopped = false;
+  late bool isStopped = false;
 
   static final _log = Logger('Address Repository');
-  UpdateBackgroundJobStatus updateBackgroundJobStatus;
-  BackgroundJobScheduleDao backgroundJobScheduleDao;
-  AddressDao addressDao;
+  late UpdateBackgroundJobStatus updateBackgroundJobStatus;
+  late BackgroundJobScheduleDao backgroundJobScheduleDao;
+  late AddressDao addressDao;
 
-  UserSharedData userSharedData;
+  late UserSharedData userSharedData;
 
   AddressRepository() {
     _log.finest("Address repository constructer call");
@@ -38,33 +38,31 @@ class AddressRepository {
       //ToDo code review to get a better way to push bulk data to API and update bulk data in database
       _log.finest("Executing address date from server");
       var isSchedulerEnable = await backgroundJobScheduleDao.getJob(jobName);
-      if (isSchedulerEnable != null) {
-        _log.finest("address job found in background Jobs scheduler");
-        if (isSchedulerEnable.startDateTime.isBefore(DateTime.now())) {
-          if (isSchedulerEnable.enableJob == true) {
-            DateTime startDate = isSchedulerEnable.startDateTime;
-            _log.finest("Address jobs start date is $startDate ");
-            final Response response = await api.getAllAddress();
-            _log.finest("Checking server resopnses for address ");
-            Map<String, dynamic> map = json.decode(response.bodyString);
-            if (response.isSuccessful && map['success']) {
-              _log.finest("Server resopnses successful for address ");
-              Map<String, dynamic> result = map['result'];
-              var items = (result['items'] as List).map((e) {
-                return Addres.fromJson(e, serializer: CustomSerializer());
-              });
+      _log.finest("address job found in background Jobs scheduler");
+      if (isSchedulerEnable.startDateTime.isBefore(DateTime.now())) {
+        if (isSchedulerEnable.enableJob == true) {
+          DateTime startDate = isSchedulerEnable.startDateTime;
+          _log.finest("Address jobs start date is $startDate ");
+          final Response response = await api.getAllAddress();
+          _log.finest("Checking server resopnses for address ");
+          Map<String, dynamic> map = json.decode(response.bodyString);
+          if (response.isSuccessful && map['success']) {
+            _log.finest("Server resopnses successful for address ");
+            Map<String, dynamic> result = map['result'];
+            var items = (result['items'] as List).map((e) {
+              return Addres.fromJson(e, serializer: CustomSerializer());
+            });
 
-              for (var item in items) {
-                if (isStopped) break;
-                await addressDao.createOrUpdateAddress(item);
-              }
-              updateBackgroundJobStatus.updateJobStatus(jobName, "Success");
-            } else {
-              String error = map["error"]["details"].toString();
-              updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-              _log.shout(
-                  "Address API call failed. Server respond with error : $error  ");
+            for (var item in items) {
+              if (isStopped) break;
+              await addressDao.createOrUpdateAddress(item);
             }
+            updateBackgroundJobStatus.updateJobStatus(jobName, "Success");
+          } else {
+            String error = map["error"]["details"].toString();
+            updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
+            _log.shout(
+                "Address API call failed. Server respond with error : $error  ");
           }
         }
       }

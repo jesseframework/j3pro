@@ -52,12 +52,12 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
     });
   }
 
-  List<CommunicationData> _communicationData;
+  late List<CommunicationData> _communicationData;
 
   //API comeunication Setting
   Future<void> submitAPITab(CommunicationBloc bloc) async {
     try {
-      formKey.currentState.validate();
+      formKey.currentState!.validate();
 
       final plainText = _apiConfirmPasswordController.value.text;
       final key = encrypt.Key.fromUtf8('66yencbsgtTYOL78wsabzpmaQQzduerp');
@@ -92,7 +92,7 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
     try {
       return BlocProvider(
         create: (context) {
-          return CommunicationBloc();
+          return CommunicationBloc(communicationType: '');
         },
         child: BlocConsumer<CommunicationBloc, CommunicationState>(
           listener: (context, state) {
@@ -126,12 +126,14 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
           },
         ),
       );
-    } catch (e) {}
+    } catch (e) {
+      return widget;
+    }
   }
 
   void _setupControllers() {
     try {
-      if (_communicationData != null && _communicationData.length > 0) {
+      if (_communicationData.length > 0) {
         _apiserverurlController =
             TextEditingController(text: _communicationData[0].serverUrl);
         _apiusernameController =
@@ -156,7 +158,7 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
                 padding: const EdgeInsets.all(0.00),
                 child: TextFromFieldNullableReusable(
                   fieldDecoration: InputDecoration(
-                    labelText: AppLocalization.of(context)
+                    labelText: AppLocalization.of(context)!
                             .translate('server_url_label_communication') ??
                         'Server Url',
                   ),
@@ -168,7 +170,7 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
                 padding: const EdgeInsets.all(0.00),
                 child: TextFromFieldNullableReusable(
                   fieldDecoration: InputDecoration(
-                    labelText: AppLocalization.of(context)
+                    labelText: AppLocalization.of(context)!
                             .translate('username_label_communication') ??
                         'Username',
                   ),
@@ -178,9 +180,9 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
               ),
               Padding(
                 padding: const EdgeInsets.all(0.00),
-                child: TextFromFieldPasswordReusable(
+                child: TextNoNullFieldPasswordReusable(
                   fieldDecoration: InputDecoration(
-                    labelText: AppLocalization.of(context)
+                    labelText: AppLocalization.of(context)!
                             .translate('new_password_label_communication') ??
                         'New Password',
                   ),
@@ -191,7 +193,7 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
                 padding: const EdgeInsets.all(0.00),
                 child: TextFromFieldPasswordReusable(
                   fieldDecoration: InputDecoration(
-                    labelText: AppLocalization.of(context).translate(
+                    labelText: AppLocalization.of(context)!.translate(
                             'confirm_password_label_communication') ??
                         'Confirm Password',
                   ),
@@ -203,7 +205,7 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
                 padding: const EdgeInsets.all(0.00),
                 child: DropdownFormFieldNormalReuse(
                   _onUpdateeApiFrequencySelection,
-                  hintText: AppLocalization.of(context)
+                  hintText: AppLocalization.of(context)!
                           .translate('sync_frequency_label_communication') ??
                       'Sync Frequency',
                   selectedValue: syncApifrequencySelectedItem,
@@ -228,7 +230,7 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
                     },
                     child: Center(
                         child: Text(
-                      AppLocalization.of(context)
+                      AppLocalization.of(context)!
                               .translate('save_changes_button_serversetup') ??
                           'Save Changes',
                       style: TextStyle(
@@ -241,6 +243,8 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
           ),
         ),
       );
-    } catch (e) {}
+    } catch (e) {
+      return widget;
+    }
   }
 }

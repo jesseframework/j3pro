@@ -7,15 +7,15 @@ import 'package:shamsi_date/shamsi_date.dart';
 
 class NumberGenerator {
   var db;
-  String setNumberPrefix;
-  String setJulianDate;
-  String setUserId;
-  String setTenantId;
-  String setAutoNumber;
-  String setNextIncrement;
+  late String setNumberPrefix;
+  late String setJulianDate;
+  late String setUserId;
+  late String setTenantId;
+  late String setAutoNumber;
+  late String setNextIncrement;
   static final _log = Logger('SerialNumberGenerator');
-  SeriesNumberGeneratorDao seriesNumberGeneratorDao;
-  UserSharedData userSharedData;
+  late SeriesNumberGeneratorDao seriesNumberGeneratorDao;
+  late UserSharedData userSharedData;
   Map<String, String> mapDevicePref = Map();
 
   NumberGenerator() {
@@ -35,7 +35,7 @@ class NumberGenerator {
     if (getSeries != null && getSeries.length > 0) {
       _log.finest("check for prefix in serial number");
       if (getSeries[0].includePrefix == true) {
-        setNumberPrefix = getSeries[0].numberPrefix;
+        setNumberPrefix = getSeries[0].numberPrefix!;
       }
 
       if (getSeries[0].includeJulianDate == true) {
@@ -49,21 +49,23 @@ class NumberGenerator {
 
       if (getSeries[0].includeUserID == true) {
         _log.finest("get userid from shared prefrence");
-        mapDevicePref = await userSharedData.getUserSharedPref();
-        setUserId = mapDevicePref['userId'];
+        mapDevicePref =
+            await userSharedData.getUserSharedPref() as Map<String, String>;
+        setUserId = mapDevicePref['userId']!;
       }
 
       if (getSeries[0].includeTenantId == true) {
         _log.finest("get tenantid from sahre prefrence");
-        mapDevicePref = await userSharedData.getUserSharedPref();
-        setTenantId = mapDevicePref['tenantId'];
+        mapDevicePref =
+            await userSharedData.getUserSharedPref() as Map<String, String>;
+        setTenantId = mapDevicePref['tenantId']!;
       }
 
       if (getSeries[0].usedAutoNumber == true) {
         _log.finest("get last document number form datbase");
 
         setNextIncrement =
-            nextIncrementNumber.toString().padLeft(getSeries[0].endingLength);
+            nextIncrementNumber.toString().padLeft(getSeries[0].endingLength!);
 
         setNextIncrement = nextIncrementNumber.toString();
       } else {
@@ -79,7 +81,7 @@ class NumberGenerator {
         ) as String;
       }
 
-      if (getSeries[0].endingLength > 0) {
+      if (getSeries[0].endingLength! > 0) {
       } else {
         endingLength = 4;
       }

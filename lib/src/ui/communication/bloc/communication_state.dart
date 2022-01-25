@@ -37,7 +37,7 @@ class CommunicationSuccess extends CommunicationState {}
 class CommunicationLoadSuccess extends CommunicationState {
   final List<CommunicationData> data;
 
-  const CommunicationLoadSuccess({@required this.data});
+  const CommunicationLoadSuccess({required this.data});
 
   @override
   List<Object> get props => [data];
@@ -49,7 +49,7 @@ class CommunicationLoadSuccess extends CommunicationState {
 class CommunicationUpdateuccess extends CommunicationState {
   final CommunicationCompanion data;
 
-  const CommunicationUpdateuccess({@required this.data});
+  const CommunicationUpdateuccess({required this.data});
 
   @override
   List<Object> get props => [data];
@@ -63,7 +63,7 @@ class CommunicationUpdate extends CommunicationState {}
 class CommunicationFailure extends CommunicationState {
   final String error;
 
-  const CommunicationFailure({@required this.error});
+  const CommunicationFailure({required this.error});
 
   @override
   List<Object> get props => [error];

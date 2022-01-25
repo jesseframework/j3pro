@@ -30,10 +30,10 @@ import 'package:drift/drift.dart' as moor;
 
 class UserHash {
   final UserRepository userRepository;
-  UserDao userDao;
+  late UserDao userDao;
   var db;
 
-  UserHash({@required this.userRepository}) {
+  UserHash({required this.userRepository}) {
     //assert(userRepository != null);
     db = AppDatabase();
     userDao = UserDao(db);
@@ -66,10 +66,10 @@ class UserHash {
 class UserHashSave {
   final UserRepository userRepository;
   var db;
-  UserDao userDao;
-  UserHash userHash;
+  late UserDao userDao;
+  late UserHash userHash;
 
-  UserHashSave({@required this.userRepository}) {
+  UserHashSave({required this.userRepository}) {
     //assert(userRepository != null);
     db = AppDatabase();
     userDao = UserDao(db);

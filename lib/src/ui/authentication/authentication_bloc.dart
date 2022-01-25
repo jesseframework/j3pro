@@ -42,13 +42,13 @@ class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   var db;
   final UserRepository userRepository = getIt<UserRepository>();
-  UserFromServer userFromServer;
-  UserHashSave userHash;
-  AppLoggerRepository appLoggerRepository;
-  PreferenceRepository preferenceRepository;
-  BackgroundJobScheduleDao backgroundJobScheduleDao;
-  BusinessRuleDao businessRuleDao;
-  Scheduler scheduleler;
+  late UserFromServer userFromServer;
+  late UserHashSave userHash;
+  late AppLoggerRepository appLoggerRepository;
+  late PreferenceRepository preferenceRepository;
+  late BackgroundJobScheduleDao backgroundJobScheduleDao;
+  late BusinessRuleDao businessRuleDao;
+  late Scheduler scheduleler;
 
   static final _log = Logger('LoginBloc');
 
@@ -93,9 +93,8 @@ class AuthenticationBloc
       if (Platform.isWindows && Platform.isMacOS) {
         var autoStartJobs =
             await businessRuleDao.getSingleBusinessRule("AUTOSTARTJOBS");
-        if (autoStartJobs != null &&
-            autoStartJobs.value == "ON" &&
-            autoStartJobs.expiredDateTime.isAfter(DateTime.now()) &&
+        if (autoStartJobs.value == "ON" &&
+            autoStartJobs.expiredDateTime!.isAfter(DateTime.now()) &&
             autoStartJobs.isGlobalRule == false) {
           var jobData = await backgroundJobScheduleDao.getAllJobs();
           for (var eachJob in jobData) {
@@ -112,9 +111,8 @@ class AuthenticationBloc
       if (Platform.isIOS && Platform.isAndroid) {
         var autoStartJobs =
             await businessRuleDao.getSingleBusinessRule("AUTOSTARTJOBS");
-        if (autoStartJobs != null &&
-            autoStartJobs.value == "ON" &&
-            autoStartJobs.expiredDateTime.isAfter(DateTime.now()) &&
+        if (autoStartJobs.value == "ON" &&
+            autoStartJobs.expiredDateTime!.isAfter(DateTime.now()) &&
             autoStartJobs.isGlobalRule == false) {
           var jobData = await backgroundJobScheduleDao.getAllJobs();
           for (var eachJob in jobData) {
@@ -150,9 +148,8 @@ class AuthenticationBloc
       if (Platform.isWindows && Platform.isMacOS) {
         var autoAtartJobs =
             await businessRuleDao.getSingleBusinessRule("AUTOSTOPJOBS");
-        if (autoAtartJobs != null &&
-            autoAtartJobs.value == "ON" &&
-            autoAtartJobs.expiredDateTime.isAfter(DateTime.now()) &&
+        if (autoAtartJobs.value == "ON" &&
+            autoAtartJobs.expiredDateTime!.isAfter(DateTime.now()) &&
             autoAtartJobs.isGlobalRule == false) {
           var jobData = await backgroundJobScheduleDao.getAllJobs();
           appLoggerRepository.isStopped = true;
@@ -164,7 +161,7 @@ class AuthenticationBloc
             var fromEvent = new BackgroundJobScheduleCompanion(
                 enableJob: moor.Value(false),
                 jobStatus: moor.Value("Cancel"),
-                lastRun: moor.Value(DateTime.tryParse(formatted)));
+                lastRun: moor.Value(DateTime.tryParse(formatted)!));
 
             await backgroundJobScheduleDao.updateBackgroundJob(
                 fromEvent, eachJob.jobName);
@@ -178,7 +175,7 @@ class AuthenticationBloc
             await businessRuleDao.getSingleBusinessRule("AUTOSTARTJOBS");
         if (autoAtartJobs != null &&
             autoAtartJobs.value == "ON" &&
-            autoAtartJobs.expiredDateTime.isAfter(DateTime.now()) &&
+            autoAtartJobs.expiredDateTime!.isAfter(DateTime.now()) &&
             autoAtartJobs.isGlobalRule == false) {
           var jobData = await backgroundJobScheduleDao.getAllJobs();
           for (var eachJob in jobData) {
@@ -188,7 +185,7 @@ class AuthenticationBloc
             var fromEvent = new BackgroundJobScheduleCompanion(
                 enableJob: moor.Value(false),
                 jobStatus: moor.Value("Cancel"),
-                lastRun: moor.Value(DateTime.tryParse(formatted)));
+                lastRun: moor.Value(DateTime.tryParse(formatted)!));
 
             await backgroundJobScheduleDao.updateBackgroundJob(
                 fromEvent, eachJob.jobName);

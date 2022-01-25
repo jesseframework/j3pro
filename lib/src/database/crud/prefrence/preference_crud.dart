@@ -105,7 +105,7 @@ class PreferenceDao extends DatabaseAccessor<AppDatabase>
           domain: preferenceData.domain,
           isGlobal: preferenceData.isGlobal,
           expiredDateTime: DateTime.parse(DateFormat('yyyy-MM-dd hh:mm:ss')
-              .format(preferenceData.expiredDateTime)),
+              .format(preferenceData.expiredDateTime!)),
           tenantId: preferenceData.tenantId,
           id: preferenceData.id),
     ));

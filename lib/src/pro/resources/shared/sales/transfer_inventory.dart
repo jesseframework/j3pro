@@ -5,7 +5,7 @@ import 'package:drift/drift.dart' as moor;
 
 class TransferInventory {
   var db;
-  InventoryTransactionDao inventoryTransactionDao;
+  late InventoryTransactionDao inventoryTransactionDao;
   TransferInventory() {
     db = AppDatabase();
     inventoryTransactionDao = new InventoryTransactionDao(db);

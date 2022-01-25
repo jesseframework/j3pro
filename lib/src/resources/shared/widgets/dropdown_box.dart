@@ -27,9 +27,9 @@ class DropdownFormFieldNormalReuse extends StatefulWidget {
   final onUpdateSelectionValue;
 
   DropdownFormFieldNormalReuse(this.onUpdateSelectionValue,
-      {@required this.hintText,
-      @required this.selectedValue,
-      @required this.listData});
+      {required this.hintText,
+      required this.selectedValue,
+      required this.listData});
 
   //ToDo check of set state is ok in this widget using bloc
 
@@ -59,7 +59,7 @@ class _DropdownFormFieldNormalReuseState
               ),
               hint: Text(widget.hintText),
               value: setselectedValue,
-              onChanged: (String newValue) {
+              onChanged: (String? newValue) {
                 setState(() {
                   setselectedValue = newValue;
                   widget.onUpdateSelectionValue(newValue);

@@ -29,10 +29,9 @@ import 'package:quiver/strings.dart';
 class UserFromServer {
   final UserRepository userRepository;
   var db;
-  bool isofflineready = false;
-  UserDao userDao;
-  UserFromServer({this.userRepository}) {
-    assert(userRepository != null);
+  late bool isofflineready = false;
+  late UserDao userDao;
+  UserFromServer({required this.userRepository}) {
     db = AppDatabase();
     userDao = UserDao(db);
   }

@@ -23,11 +23,25 @@ import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 
 class TextFromFieldPasswordReusable extends StatefulWidget {
   final InputDecoration fieldDecoration;
-  final TextEditingController controllerName;
-  final String validationText;
+  late final TextEditingController controllerName;
+  late final String validationText;
 
   TextFromFieldPasswordReusable(
-      {this.fieldDecoration, this.controllerName, this.validationText});
+      {required this.fieldDecoration,
+      required this.controllerName,
+      String? validationText});
+
+  @override
+  _TextFromFieldPasswordReusableState createState() =>
+      _TextFromFieldPasswordReusableState();
+}
+
+class TextNoNullFieldPasswordReusable extends StatefulWidget {
+  final InputDecoration fieldDecoration;
+  late final String validationText;
+
+  TextNoNullFieldPasswordReusable(
+      {required this.fieldDecoration, String? validationText});
 
   @override
   _TextFromFieldPasswordReusableState createState() =>
@@ -44,7 +58,7 @@ class _TextFromFieldPasswordReusableState
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
           validator: (val) {
-            if (val.isEmpty) {
+            if (val!.isEmpty) {
               return widget.validationText;
             }
             return null;

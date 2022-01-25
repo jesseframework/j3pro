@@ -29,8 +29,8 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 
 class PreferenceDetailPage extends StatefulWidget {
   final code;
-  NonGlobalPreferenceDao nonGlobalPreferenceDao;
-  PreferenceDao preferenceDao;
+  late NonGlobalPreferenceDao nonGlobalPreferenceDao;
+  late PreferenceDao preferenceDao;
   PreferenceDetailPage(this.code) {
     db = AppDatabase();
     nonGlobalPreferenceDao = NonGlobalPreferenceDao(db);
@@ -44,14 +44,14 @@ class PreferenceDetailPage extends StatefulWidget {
 
 class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
   TextEditingController _textFieldController = TextEditingController();
-  String selectedValue;
+  late String selectedValue;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         //ToDo add translation for preferences title
         title: Text(
-            AppLocalization.of(context).translate('preferences_title') ??
+            AppLocalization.of(context)!.translate('preferences_title') ??
                 "Preferences"),
         actions: <Widget>[
           Padding(
@@ -86,8 +86,8 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                       widget.preferenceDao.watchSinglePreferences(widget.code),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      PreferenceData prefData;
-                      prefData = snapshot.data;
+                      PreferenceData? prefData;
+                      prefData = snapshot.data as PreferenceData?;
 
                       //  print(prefData[1]);
                       return Container(
@@ -115,7 +115,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                     Container(
                                       margin: EdgeInsets.only(right: 5),
                                       child: Text(
-                                        prefData.preferenceName,
+                                        prefData!.preferenceName!,
                                         style: TextStyle(
                                             fontWeight: FontWeight.w500,
                                             fontSize: 16),
@@ -141,7 +141,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                           onToggle: (value) async {
                                             await widget.preferenceDao
                                                 .updatePreferenceValue(
-                                                    prefData.copyWith(
+                                                    prefData!.copyWith(
                                               isGlobal: value,
                                             ));
                                           }),
@@ -167,7 +167,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                                 onToggle: (value) async {
                                                   await widget.preferenceDao
                                                       .updatePreferenceValue(
-                                                          prefData.copyWith(
+                                                          prefData!.copyWith(
                                                     value: value == true
                                                         ? 'ON'
                                                         : 'OFF',
@@ -199,14 +199,14 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                                         onTap: () {
                                                           _textFieldController =
                                                               TextEditingController(
-                                                                  text: prefData
+                                                                  text: prefData!
                                                                       .value);
                                                           _displayDialog(
                                                               context,
                                                               () => widget
                                                                   .preferenceDao
-                                                                  .updatePreferenceValue(
-                                                                      prefData.copyWith(
+                                                                  .updatePreferenceValue(prefData!
+                                                                      .copyWith(
                                                                           value:
                                                                               _textFieldController.text)));
                                                         },
@@ -217,7 +217,8 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                                     //backgroundColor: Theme.of(context).cardColor,
                                                     onFind: (value) async {
                                                       print(value);
-                                                      return prefData.dataValue
+                                                      return prefData!
+                                                          .dataValue!
                                                           .split(',')
                                                           .map((e) => e)
                                                           .toList();
@@ -225,16 +226,16 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                                     selectedItem:
                                                         prefData.value,
                                                     showSearchBox: true,
-                                                    items: prefData.dataValue
+                                                    items: prefData.dataValue!
                                                         .split(',')
                                                         .map((e) => e)
                                                         .toList(),
                                                     onChanged: (value) async {
                                                       await widget.preferenceDao
                                                           .updatePreferenceValue(
-                                                              prefData.copyWith(
-                                                                  value:
-                                                                      value));
+                                                              prefData!.copyWith(
+                                                                  value: value
+                                                                      .toString()));
                                                     })),
                                   ],
                                 ),
@@ -250,7 +251,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                     ),
                                     Expanded(child: Container()),
                                     Text(
-                                      "${prefData.expiredDateTime.day}-${prefData.expiredDateTime.month}-${prefData.expiredDateTime.year}",
+                                      "${prefData.expiredDateTime!.day}-${prefData.expiredDateTime!.month}-${prefData.expiredDateTime!.year}",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 16),
@@ -263,8 +264,8 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                               firstDate: DateTime(1970),
                                               lastDate: DateTime(2100));
                                           await widget.preferenceDao
-                                              .updatePreferenceValue(
-                                                  prefData.copyWith(
+                                              .updatePreferenceValue(prefData!
+                                                  .copyWith(
                                                       expiredDateTime: result));
                                         },
                                         child: Container(
@@ -299,9 +300,10 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                         .watchAllNonGlobalPreferences(widget.code),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        List<NonGlobalPreferenceData> nonGloblePrefData;
-                        nonGloblePrefData = snapshot.data;
-                        if (nonGloblePrefData.isEmpty) {
+                        List<NonGlobalPreferenceData>? nonGloblePrefData;
+                        nonGloblePrefData =
+                            snapshot.data as List<NonGlobalPreferenceData>?;
+                        if (nonGloblePrefData!.isEmpty) {
                           return Center(
                             child: Text(
                               "No Preference Foud",
@@ -330,7 +332,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          'DeviceId: ${nonGloblePrefData[index].deviceId}',
+                                          'DeviceId: ${nonGloblePrefData![index].deviceId}',
                                           style: TextStyle(
                                               color: Theme.of(context)
                                                   .textSelectionColor,
@@ -349,7 +351,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                                   await widget
                                                       .nonGlobalPreferenceDao
                                                       .updateNonGlobalPreferenceValue(
-                                                          nonGloblePrefData[
+                                                          nonGloblePrefData![
                                                                   index]
                                                               .copyWith(
                                                     value: value == true
@@ -385,7 +387,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                         Container(
                                           margin: EdgeInsets.only(right: 7),
                                           child: Text(
-                                            "${nonGloblePrefData[index].expiredDateTime.day}-${nonGloblePrefData[index].expiredDateTime.month}-${nonGloblePrefData[index].expiredDateTime.year}",
+                                            "${nonGloblePrefData[index].expiredDateTime!.day}-${nonGloblePrefData[index].expiredDateTime!.month}-${nonGloblePrefData[index].expiredDateTime!.year}",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w500,
                                                 color: Theme.of(context)

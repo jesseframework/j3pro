@@ -10,7 +10,7 @@ abstract class AddItemState extends Equatable {
 class AddItemInitial extends AddItemState {
   final String transactionNo;
 
-  AddItemInitial({this.transactionNo});
+  AddItemInitial({required this.transactionNo});
 
   @override
   List<Object> get props => [transactionNo];
@@ -24,7 +24,7 @@ class AddItemLoading extends AddItemState {}
 class GetTransactionNumber extends AddItemState {
   final String transactionNo;
 
-  GetTransactionNumber({@required this.transactionNo});
+  GetTransactionNumber({required this.transactionNo});
 
   @override
   List<Object> get props => [transactionNo];
@@ -36,7 +36,7 @@ class GetTransactionNumber extends AddItemState {
 class AddItemLoad extends AddItemState {
   final String transactionNo;
 
-  const AddItemLoad({@required this.transactionNo});
+  const AddItemLoad({required this.transactionNo});
 
   @override
   List<Object> get props => [transactionNo];

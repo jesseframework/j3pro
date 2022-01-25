@@ -26,21 +26,21 @@ class CreatePostTransection extends SalesOrderFinalizeEvent {
   String shippingAddressName;
   DateTime deliveryDate;
   CreatePostTransection(
-      {this.customerId,
-      this.currencyCode,
-      this.exchangeRate,
-      this.purchaseOrderNo,
-      this.transactionType,
-      this.transactionNumber,
-      this.transactionStatus,
-      this.inventoryCycleNumber,
-      this.daySessionNumber,
-      this.orderType,
-      this.userName,
-      this.userId,
-      this.tenantId,
-      this.soldTo,
-      this.billingAddressName,
-      this.shippingAddressName,
-      this.deliveryDate});
+      {required this.customerId,
+      required this.currencyCode,
+      required this.exchangeRate,
+      required this.purchaseOrderNo,
+      required this.transactionType,
+      required this.transactionNumber,
+      required this.transactionStatus,
+      required this.inventoryCycleNumber,
+      required this.daySessionNumber,
+      required this.orderType,
+      required this.userName,
+      required this.userId,
+      required this.tenantId,
+      required this.soldTo,
+      required this.billingAddressName,
+      required this.shippingAddressName,
+      required this.deliveryDate});
 }

@@ -18,6 +18,8 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/pro/models/sales/fullfillment/jounery_with_address.dart';
 import 'package:j3enterprise/src/pro/ui/activities_menu/activities_menu_page.dart';
 
 import 'package:j3enterprise/src/pro/ui/customer/customer_list_page.dart';
@@ -40,10 +42,17 @@ import 'package:j3enterprise/src/ui/splash/splash_page.dart';
 final routes = {
   //OfflineLoginPage.route: (BuildContext context) => OfflineLoginPage(),
   SalesOrderItemDetailPage.route: (BuildContext context) =>
-      SalesOrderItemDetailPage(),
+      SalesOrderItemDetailPage(
+        index: 0,
+      ),
   BackgroundJobsPage.route: (BuildContext context) => BackgroundJobsPage(),
 
-  SalesOrderPage.route: (BuildContext context) => SalesOrderForm(),
+  SalesOrderPage.route: (BuildContext context) => SalesOrderForm(
+        address: [],
+        currenciesData: [],
+        defaultCurrency: '',
+        exchangeRate: 1,
+      ),
   CommunicationPage.route: (BuildContext context) => CommunicationPage(),
   BussinessRulePage.route: (BuildContext context) => BussinessRulePage(),
   PreferencesPage.route: (BuildContext context) => PreferencesPage(),
@@ -54,8 +63,9 @@ final routes = {
   About.route: (BuildContext context) => About(),
   SalesOrderAddItemPage.route: (BuildContext context) =>
       SalesOrderAddItemPage(),
-  JourneyPlanPage.route: (BuildContext context) => JourneyPlanPage(),
-  ActivitiesMenuPage.route: (BuildContext context) => ActivitiesMenuPage(),
+  // JourneyPlanPage.route: (BuildContext context) =>
+  //     JourneyPlanPage(journeyWithAddress: []),
+  //ActivitiesMenuPage.route: (BuildContext context) => ActivitiesMenuPage(journeyWithAddress: null,),
   CustomerListPage.route: (BuildContext context) => CustomerListPage(),
   ItemsPage.route: (BuildContext context) => ItemsPage(),
 };

@@ -12,7 +12,7 @@ class _SalesOrderCheckOutPageState extends State<SalesOrderCheckOutPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalization.of(context)
+        title: Text(AppLocalization.of(context)!
                 .translate('sales_order_checkout_appbar_title') ??
             "Payment"),
         //ToDO put translation
@@ -301,16 +301,16 @@ class _SalesOrderCheckOutPageState extends State<SalesOrderCheckOutPage> {
   }
 
   Widget buildSalesOrderCardRowTile(
-      {String heading,
-      String title,
-      Widget trailingWidget,
-      Function callback}) {
+      {String? heading,
+      String? title,
+      Widget? trailingWidget,
+      Function? callback}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          heading,
+          heading!,
           style: TextStyle(
               fontWeight: FontWeight.w600,
               color: Theme.of(context).textSelectionColor,
@@ -321,13 +321,13 @@ class _SalesOrderCheckOutPageState extends State<SalesOrderCheckOutPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              title,
+              title!,
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
             ),
             InkWell(
                 child: Container(
                     margin: EdgeInsets.only(left: 8), child: trailingWidget),
-                onTap: callback),
+                onTap: () {}),
           ],
         ),
       ],

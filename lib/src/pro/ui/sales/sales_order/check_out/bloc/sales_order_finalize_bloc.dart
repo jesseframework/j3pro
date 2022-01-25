@@ -18,15 +18,15 @@ part 'sales_order_finalize_state.dart';
 class SalesOrderFinalizeBloc
     extends Bloc<SalesOrderFinalizeEvent, SalesOrderFinalizeState> {
   var db;
-  PostTransactionHeader postTransactionHeader;
-  UserSharedData userSharedData;
-  AddressDao addressDao;
-  JourneyPlanDao journeyPlanDao;
-  CustomerDao customerDao;
-  SystemCurrencyDao systemCurrencyDao;
-  ExchangeRateDao exchangeRateDao;
-  TempSerialNumberReader tempSerialNumberReader;
-  PostTransaction _postTransaction;
+  late PostTransactionHeader postTransactionHeader;
+  late UserSharedData userSharedData;
+  late AddressDao addressDao;
+  late JourneyPlanDao journeyPlanDao;
+  late CustomerDao customerDao;
+  late SystemCurrencyDao systemCurrencyDao;
+  late ExchangeRateDao exchangeRateDao;
+  late TempSerialNumberReader tempSerialNumberReader;
+  late PostTransaction _postTransaction;
 
   SalesOrderFinalizeBloc() : super(SalesOrderFinalizeInitial()) {
     _postTransaction = PostTransaction();
@@ -56,7 +56,14 @@ class SalesOrderFinalizeBloc
           await systemCurrencyDao.getAllSystemCurrency();
       List<SystemCurrencyData> defaultCurrencyList = currencydata.isNotEmpty
           ? currencydata
-          : [SystemCurrencyData(currencyName: 'No Currency Found')];
+          : [
+              SystemCurrencyData(
+                  currencyName: 'No Currency Found',
+                  effectiveDate: DateTime.now(),
+                  id: 0,
+                  isActive: false,
+                  isDeleted: false)
+            ];
       List<ExchangeRateData> exchangeRateData = await exchangeRateDao
           .getAllExchnageRateByCurrency('JMD', defaultCurrency);
       var shredPrefData = await userSharedData.getUserSharedPref();

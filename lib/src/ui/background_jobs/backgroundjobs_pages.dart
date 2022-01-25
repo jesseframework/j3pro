@@ -40,7 +40,7 @@ class _BackgroundJobsPageState extends State<BackgroundJobsPage> {
         child: Scaffold(
           body: RefreshIndicator(
             onRefresh: () async {
-              return Duration(milliseconds: 3000);
+              return Duration(milliseconds: 3000) as Future<void>;
             },
             child: BlocProvider(
               create: (context) {

@@ -37,16 +37,16 @@ class AppLoggerRepository {
   var api = ApiClient.chopper.getService<RestApiService>();
   var db;
   //static bool isStopped = false;
-  bool isStopped = false;
+  late bool isStopped = false;
 
   static final _log = Logger('AppLoggerRepository');
-  ApplicationLoggerDao applicationLoggerDao;
-  UpdateBackgroundJobStatus updateBackgroundJobStatus;
-  BackgroundJobScheduleDao backgroundJobScheduleDao;
-  PreferenceDao preferenceDao;
-  NonGlobalPreferenceDao nonGlobalPreferenceDao;
+  late ApplicationLoggerDao applicationLoggerDao;
+  late UpdateBackgroundJobStatus updateBackgroundJobStatus;
+  late BackgroundJobScheduleDao backgroundJobScheduleDao;
+  late PreferenceDao preferenceDao;
+  late NonGlobalPreferenceDao nonGlobalPreferenceDao;
 
-  UserSharedData userSharedData;
+  late UserSharedData userSharedData;
 
   AppLoggerRepository() {
     db = AppDatabase();
@@ -62,87 +62,81 @@ class AppLoggerRepository {
     try {
       //ToDo code review to get a better way to push bulk data to API and update bulk data in database
       var isSchedulerEnable = await backgroundJobScheduleDao.getJob(jobName);
-      if (isSchedulerEnable != null) {
-        if (isSchedulerEnable.startDateTime.isBefore(DateTime.now())) {
-          if (isSchedulerEnable.enableJob == true) {
-            var appLogData = await applicationLoggerDao.getAppLog("Pending");
+      if (isSchedulerEnable.startDateTime.isBefore(DateTime.now())) {
+        if (isSchedulerEnable.enableJob == true) {
+          var appLogData = await applicationLoggerDao.getAppLog("Pending");
 
-            Map<String, String> mapUserSharedData = Map();
-            UserSharedData userSharedData = new UserSharedData();
-            mapUserSharedData = await userSharedData.getUserSharedPref();
-            String _tenantId = mapUserSharedData['tenantId'];
-            String userName = mapUserSharedData['userName'];
-            String deviceId = mapUserSharedData['deviceId'];
+          Map<String, String>? mapUserSharedData = Map();
+          UserSharedData userSharedData = new UserSharedData();
+          mapUserSharedData =
+              (await userSharedData.getUserSharedPref()).cast<String, String>();
+          String? _tenantId = mapUserSharedData['tenantId'];
+          String? userName = mapUserSharedData['userName'];
+          String? deviceId = mapUserSharedData['deviceId'];
 
-            for (var fromDb in appLogData) {
-              if (isStopped) break;
-              await updateBackgroundJobStatus.updateJobStatus(
-                  jobName, "In Progress");
-              String formatted =
-                  await formatDate(fromDb.logDateTime.toString());
+          for (var fromDb in appLogData) {
+            if (isStopped) break;
+            await updateBackgroundJobStatus.updateJobStatus(
+                jobName, "In Progress");
+            String formatted = await formatDate(fromDb.logDateTime.toString());
 
-              final Response response = await api.mobileAppLogger({
-                "functionName": fromDb.functionName,
-                "logDateTime": formatted,
-                "syncFrequency": fromDb.syncFrequency,
-                "logDescription": fromDb.logDescription,
-                "documentNo": fromDb.documentNo,
-                "logCode": fromDb.logCode,
-                "logSeverity": fromDb.logSeverity,
-                "deviceID": fromDb.deviceId,
-                "tenantId": _tenantId
-              });
-              Map<String, dynamic> map = json.decode(response.bodyString);
-              if (response.isSuccessful && map['success']) {
-                //decode the response body
+            final Response response = await api.mobileAppLogger({
+              "functionName": fromDb.functionName,
+              "logDateTime": formatted,
+              "syncFrequency": fromDb.syncFrequency,
+              "logDescription": fromDb.logDescription,
+              "documentNo": fromDb.documentNo,
+              "logCode": fromDb.logCode,
+              "logSeverity": fromDb.logSeverity,
+              "deviceID": fromDb.deviceId,
+              "tenantId": _tenantId
+            });
+            Map<String, dynamic> map = json.decode(response.bodyString);
+            if (response.isSuccessful && map['success']) {
+              //decode the response body
 
-                var fromDate = new ApplicationLoggerData(
-                    id: fromDb.id,
-                    functionName: fromDb.functionName,
-                    logDateTime: fromDb.logDateTime,
-                    syncFrequency: fromDb.syncFrequency,
-                    logDescription: fromDb.logDescription,
-                    documentNo: fromDb.documentNo,
-                    deviceId: fromDb.deviceId,
-                    logCode: fromDb.logCode,
-                    logSeverity: fromDb.logSeverity,
-                    exportStatus: "Success",
-                    exportDateTime: DateTime.now());
+              var fromDate = new ApplicationLoggerData(
+                  id: fromDb.id,
+                  functionName: fromDb.functionName,
+                  logDateTime: fromDb.logDateTime,
+                  syncFrequency: fromDb.syncFrequency,
+                  logDescription: fromDb.logDescription,
+                  documentNo: fromDb.documentNo,
+                  deviceId: fromDb.deviceId,
+                  logCode: fromDb.logCode,
+                  logSeverity: fromDb.logSeverity,
+                  exportStatus: "Success",
+                  exportDateTime: DateTime.now());
 
-                await applicationLoggerDao.updateAppLoggerReplace(fromDate);
+              await applicationLoggerDao.updateAppLoggerReplace(fromDate);
 
-                var logPurging =
-                    await preferenceDao.getSinglePreferences('LOGGERPURGE');
-                if (logPurging != null) {
-                  if (logPurging.value == "After Upload") {
-                    if (logPurging.isGlobal == false) {
-                      var globalData =
-                          await nonGlobalPreferenceDao.getSingleNonGlobalPref(
-                              logPurging.code,
-                              logPurging.code,
-                              userName,
-                              deviceId,
-                              "");
-                      if (globalData != null) {
-                        if (globalData.expiredDateTime
-                            .isBefore(DateTime.now())) {
-                          await applicationLoggerDao.deleteById(fromDate.id);
-                        }
-                      }
-                    } else {
+              var logPurging =
+                  await preferenceDao.getSinglePreferences('LOGGERPURGE');
+              if (logPurging != null) {
+                if (logPurging.value == "After Upload") {
+                  if (logPurging.isGlobal == false) {
+                    var globalData =
+                        await nonGlobalPreferenceDao.getSingleNonGlobalPref(
+                            logPurging.code,
+                            logPurging.code,
+                            userName!,
+                            deviceId!,
+                            "");
+                    if (globalData.expiredDateTime!.isBefore(DateTime.now())) {
                       await applicationLoggerDao.deleteById(fromDate.id);
                     }
+                  } else {
+                    await applicationLoggerDao.deleteById(fromDate.id);
                   }
-                } else {
-                  //applicationLoggerDao.purgeData(1000);
                 }
-                await updateBackgroundJobStatus.updateJobStatus(
-                    jobName, "Success");
               } else {
-                await updateBackgroundJobStatus.updateJobStatus(
-                    jobName, "Error");
-                break;
+                //applicationLoggerDao.purgeData(1000);
               }
+              await updateBackgroundJobStatus.updateJobStatus(
+                  jobName, "Success");
+            } else {
+              await updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
+              break;
             }
           }
         }

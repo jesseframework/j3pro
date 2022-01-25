@@ -32,12 +32,13 @@ part 'communication_event.dart';
 part 'communication_state.dart';
 
 class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
-  CommunicationDao communicationDao;
-  CommunicationData communicationData;
+  late CommunicationDao communicationDao;
+  late CommunicationData communicationData;
   final String communicationType;
   var db;
 
-  CommunicationBloc({this.communicationType}) : super(CommunicationInitial()) {
+  CommunicationBloc({required this.communicationType})
+      : super(CommunicationInitial()) {
     db = AppDatabase();
     communicationDao = CommunicationDao(db);
   }
@@ -100,7 +101,7 @@ class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
           _viewCommunicationDataByType ? viewCommunicationDataByType : null;
 
       // set the success state
-      yield CommunicationLoadSuccess(data: data);
+      yield CommunicationLoadSuccess(data: data!);
     }
   }
 }

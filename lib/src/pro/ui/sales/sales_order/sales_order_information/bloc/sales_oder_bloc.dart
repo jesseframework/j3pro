@@ -20,14 +20,14 @@ part 'sales_oder_state.dart';
 
 class SalesOderBloc extends Bloc<SalesOderEvent, SalesOderState> {
   var db;
-  PostTransactionHeader postTransactionHeader;
-  UserSharedData userSharedData;
-  AddressDao addressDao;
-  JourneyPlanDao journeyPlanDao;
-  CustomerDao customerDao;
-  SystemCurrencyDao systemCurrencyDao;
-  ExchangeRateDao exchangeRateDao;
-  TempSerialNumberReader tempSerialNumberReader;
+  late PostTransactionHeader postTransactionHeader;
+  late UserSharedData userSharedData;
+  late AddressDao addressDao;
+  late JourneyPlanDao journeyPlanDao;
+  late CustomerDao customerDao;
+  late SystemCurrencyDao systemCurrencyDao;
+  late ExchangeRateDao exchangeRateDao;
+  late TempSerialNumberReader tempSerialNumberReader;
   SalesOderBloc() : super(SalesOderInitial()) {
     db = AppDatabase();
     addressDao = AddressDao(db);
@@ -57,12 +57,16 @@ class SalesOderBloc extends Bloc<SalesOderEvent, SalesOderState> {
           ? currencydata
           : [
               SystemCurrencyData(
-                  currencyName: 'No Currency Found', isDeleted: false)
+                  currencyName: 'No Currency Found',
+                  isDeleted: false,
+                  effectiveDate: DateTime.now(),
+                  id: 0,
+                  isActive: false)
             ];
       List<ExchangeRateData> exchangeRateData = await exchangeRateDao
           .getAllExchnageRateByCurrency('JMD', defaultCurrency);
 
-      double exchangeRate = exchangeRateData[0].exchangeRate;
+      double exchangeRate = exchangeRateData[0].exchangeRate!;
       yield SalesOderDefaultData(
           exchangeRate: exchangeRate,
           defaultCurrency: defaultCurrency,

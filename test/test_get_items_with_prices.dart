@@ -10,7 +10,7 @@ void main() {
     db = AppDatabase();
     String itemCode = "Kid";
     String itemId = "0";
-    List<ItemsWithPrices> result = new List<ItemsWithPrices>();
+    List<ItemsWithPrices> result = <ItemsWithPrices>[];
 
     ItemsDao items = new ItemsDao(db);
     items.watchitemsWithprices(itemCode).listen((e) {

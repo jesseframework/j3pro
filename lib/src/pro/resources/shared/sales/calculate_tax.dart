@@ -9,19 +9,19 @@ import 'package:logging/logging.dart';
 import 'package:drift/drift.dart' as moor;
 
 class CalculateTax {
-  double lineTaxTotal;
-  double taxRate;
-  String taxIndicator;
-  String className = "calculate Taxs";
+  late double lineTaxTotal;
+  late double taxRate;
+  late String taxIndicator;
+  late String className = "calculate Taxs";
   var db;
   static final _log = Logger('CalcualteTax');
 
   //DAOs
-  ItemsDao itemsDao;
-  CustomerDao customerDao;
-  SalesOrderDetailTempDao salesOrderDetailTempDao;
-  SalesTaxDao salesTaxDao;
-  SystemCurrencyDao systemCurrencyDao;
+  late ItemsDao itemsDao;
+  late CustomerDao customerDao;
+  late SalesOrderDetailTempDao salesOrderDetailTempDao;
+  late SalesTaxDao salesTaxDao;
+  late SystemCurrencyDao systemCurrencyDao;
 
   CalculateTax() {
     db = AppDatabase();
@@ -51,9 +51,9 @@ class CalculateTax {
         await salesTaxDao.getAllSalesTaxByGroup(taxGroup, salesDate);
     if (setTaxGroup.length > 0 && setTaxGroup != null) {
       _log.finest("Start Tax calculation");
-      taxRate = setTaxGroup[0].accountRate;
-      taxGroup = setTaxGroup[0].taxAccount;
-      taxIndicator = setTaxGroup[0].taxIndicator;
+      taxRate = setTaxGroup[0].accountRate!;
+      taxGroup = setTaxGroup[0].taxAccount!;
+      taxIndicator = setTaxGroup[0].taxIndicator!;
 
       if (taxRate > 0) {
         lineTaxTotal = taxRate / 100 * lineSubTotal;
@@ -64,10 +64,10 @@ class CalculateTax {
             await systemCurrencyDao.getAllSystemCurrencyByName("JMD");
         if (currency.length > 0) {
           var f = new NumberFormat(currency[0].numberFormat, "en_US");
-          formatedGrandTotal = double.tryParse(f.format(lineTaxTotal));
+          formatedGrandTotal = double.tryParse(f.format(lineTaxTotal))!;
         } else {
           var f = new NumberFormat("###.0#", "en_US");
-          formatedGrandTotal = double.tryParse(f.format(lineTaxTotal));
+          formatedGrandTotal = double.tryParse(f.format(lineTaxTotal))!;
         }
 
         var tax = new SalesOrderDetailTempCompanion(

@@ -16,8 +16,8 @@ import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
 
 class JourneyPlanForm extends StatefulWidget {
   var db;
-  JourneyPlanDao journeyPlanDao;
-  JourneyWithAddress journeyWithAddress;
+  late JourneyPlanDao journeyPlanDao;
+  late JourneyWithAddress journeyWithAddress;
   JourneyPlanForm(this.journeyWithAddress) {
     db = AppDatabase();
     journeyPlanDao = JourneyPlanDao(db);
@@ -29,7 +29,7 @@ class JourneyPlanForm extends StatefulWidget {
 
 class _JourneyPlanFormState extends State<JourneyPlanForm> {
   final formKey = new GlobalKey<FormState>();
-  String userName;
+  String? userName;
   String searchText = '';
   @override
   void didChangeDependencies() async {
@@ -82,7 +82,7 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
         key: formKey,
         child: Scaffold(
             appBar: AppBar(
-              title: Text(AppLocalization.of(context)
+              title: Text(AppLocalization.of(context)!
                       .translate('journey_plan_appbar_title') ??
                   "Journey Plan"),
             ),
@@ -97,12 +97,15 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
                         child: Container(
                           height: 35,
                           child: ListFilter(
-                              placeholder: 'Search',
-                              onFilterChanged: (search) {
-                                setState(() {
-                                  searchText = search;
-                                });
-                              }),
+                            placeholder: 'Search',
+                            onFilterChanged: (search) {
+                              setState(() {
+                                searchText = search;
+                              });
+                            },
+                            filter: '',
+                            function: () {},
+                          ),
                         ),
                       ),
                     ],
@@ -169,18 +172,19 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
                 ),
                 StreamBuilder(
                   stream: widget.journeyPlanDao.watchJourneyWithAddressJoin(
-                      userName, 'Billing', false, searchText),
+                      userName!, 'Billing', false, searchText),
                   //  future: widget.journeyPlanDao.getAllJourneyPlanData(),
                   builder: (context, snapshot) {
                     //print(snapshot.data.toString());
                     if (snapshot.hasData) {
                       //print(snapshot.data.toString());
                       if (snapshot.hasData) {
-                        List<JourneyWithAddress> journeyWithAddressData =
-                            List<JourneyWithAddress>();
-                        journeyWithAddressData = snapshot.data;
+                        List<JourneyWithAddress>? journeyWithAddressData =
+                            <JourneyWithAddress>[];
+                        journeyWithAddressData =
+                            snapshot.data as List<JourneyWithAddress>?;
 
-                        if (journeyWithAddressData.isEmpty) {
+                        if (journeyWithAddressData!.isEmpty) {
                           return Text("Empty List");
                         }
                         return Expanded(
@@ -190,16 +194,17 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
                               return InkWell(
                                 onTap: () async {
                                   addItemBloc.setId(
-                                      cusID: journeyWithAddressData[index]
+                                      cusID: journeyWithAddressData![index]
                                           .jplan
                                           .customerId);
                                   Navigator.push(
                                       context,
                                       EnterExitRoute(
                                           enterPage: ActivitiesMenuPage(
-                                        journeyWithAddress:
-                                            journeyWithAddressData[index],
-                                      )));
+                                            journeyWithAddress:
+                                                journeyWithAddressData[index],
+                                          ),
+                                          exitPage: widget));
                                 },
                                 child: Container(
                                   color: (index % 2 == 0)
@@ -215,7 +220,7 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
                                       size: 30,
                                     ),
                                     subtitle: Text(
-                                      journeyWithAddressData[index]
+                                      journeyWithAddressData![index]
                                               .addr
                                               .addressLine1 +
                                           " " +

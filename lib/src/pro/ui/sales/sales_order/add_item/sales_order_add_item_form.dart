@@ -24,8 +24,8 @@ import 'package:flutter_barcode_listener/flutter_barcode_listener.dart';
 class SalesOrderAddItemForm extends StatefulWidget {
   var db;
 
-  ItemsDao itemsDao;
-  SalesOrderDetailTempDao salesOrderDetailTempDao;
+  late ItemsDao itemsDao;
+  late SalesOrderDetailTempDao salesOrderDetailTempDao;
 
   SalesOrderAddItemForm() {
     db = AppDatabase();
@@ -39,19 +39,19 @@ class SalesOrderAddItemForm extends StatefulWidget {
 
 class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
   TextEditingController _qtyController = TextEditingController(text: '1');
-  List<ItemsWithPrices> itemsWithPrices = List<ItemsWithPrices>();
-  ScrollController _controller;
-  List<ItemsWithPrices> pageData = List<ItemsWithPrices>();
+  List<ItemsWithPrices> itemsWithPrices = <ItemsWithPrices>[];
+  late ScrollController _controller;
+  List<ItemsWithPrices> pageData = <ItemsWithPrices>[];
   String searchText = '';
   bool searchFoused = false;
   int itemCount = 0;
   bool toggleList = true;
   bool _hasMore = true;
-  String _barcodeListener;
+  late String _barcodeListener;
   final _tecScanKeyCode = TextEditingController();
-  int _scanButtonKeyCode;
-  String _scanResult = '';
-  String salesOrderNo;
+  late int _scanButtonKeyCode;
+  late String _scanResult = '';
+  late String salesOrderNo;
 
   @override
   void initState() {
@@ -77,10 +77,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
 
   void _setScanButtonKeyCode() {
     setState(() {
-      if (_barcodeListener != null) {
-        //_barcodeListener.dispose();
-        _barcodeListener = null;
-      }
+      _barcodeListener = '';
 
       _scanButtonKeyCode = int.parse(_tecScanKeyCode.text);
       // _barcodeListener =
@@ -94,7 +91,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
   }
 
   Widget _additemForm() {
-    final widgetList = List<Widget>();
+    final widgetList = <Widget>[];
     widgetList.addAll([
       Text(
           'Press the scan button, its code will appear in the text field below'),
@@ -107,7 +104,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
     ]);
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalization.of(context)
+        title: Text(AppLocalization.of(context)!
                 .translate('new_ales_order_detail_appbar_title') ??
             "New Sales Order Detail"),
         actions: [
@@ -128,9 +125,9 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                     builder: (context, snapshot) {
                       print(salesOrderNo);
                       if (snapshot.connectionState == ConnectionState.active) {
-                        List<SalesOrderDetailTempData> totalData =
-                            snapshot.data;
-                        if (totalData.isNotEmpty) {
+                        List<SalesOrderDetailTempData>? totalData =
+                            snapshot.data as List<SalesOrderDetailTempData>?;
+                        if (totalData!.isNotEmpty) {
                           return Badge(
                               badgeContent:
                                   Text(totalData[0].itemCount.toString()),
@@ -218,6 +215,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                             print(searchFoused);
                           });
                         },
+                        filter: '',
                       ),
                     ),
                   ),
@@ -229,7 +227,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                             decoration: BoxDecoration(
                                 border: Border.all(
                                     width: 1.5,
-                                    color: Theme.of(context).iconTheme.color),
+                                    color: Theme.of(context).iconTheme.color!),
                                 borderRadius: BorderRadius.circular(5)),
                             child: Row(
                               children: [
@@ -310,7 +308,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                                             color: Theme.of(
                                                                     context)
                                                                 .iconTheme
-                                                                .color,
+                                                                .color!,
                                                             width: 1.5),
                                                         borderRadius:
                                                             BorderRadius
@@ -324,7 +322,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                                             color: Theme.of(
                                                                     context)
                                                                 .iconTheme
-                                                                .color,
+                                                                .color!,
                                                             width: 1.5),
                                                         borderRadius:
                                                             BorderRadius
@@ -347,7 +345,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                                             color: Theme.of(
                                                                     context)
                                                                 .iconTheme
-                                                                .color,
+                                                                .color!,
                                                             width: 1.5),
                                                         borderRadius:
                                                             BorderRadius
@@ -361,7 +359,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                                             color: Theme.of(
                                                                     context)
                                                                 .iconTheme
-                                                                .color,
+                                                                .color!,
                                                             width: 1.5),
                                                         borderRadius:
                                                             BorderRadius
@@ -422,7 +420,8 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
           .transactionTotal(salesOrderNo, 'Pending'),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<SalesOrderDetailTempData> totalData = snapshot.data;
+          List<SalesOrderDetailTempData>? totalData =
+              snapshot.data as List<SalesOrderDetailTempData>?;
           // setState(() {
           //   itemCount=totalData[0].itemCount.toInt();
           // });
@@ -441,7 +440,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                             fontSize: 22, fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        totalData.isNotEmpty
+                        totalData!.isNotEmpty
                             ? '\$ ${totalData[0].grandTotal.toString()}'
                             : '\$0',
                         style: TextStyle(
@@ -500,7 +499,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
       builder: (context, snapshot) {
         print(snapshot.hasData);
         if (snapshot.hasData) {
-          itemsWithPrices = snapshot.data;
+          itemsWithPrices = snapshot.data as List<ItemsWithPrices>;
           return toggleList
               ? Center(
                   child: SingleChildScrollView(
@@ -556,7 +555,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                                   child: Text(
                                                     itemsWithPrices[index]
                                                         .item
-                                                        .itemName,
+                                                        .itemName!,
                                                     maxLines: 2,
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
@@ -568,7 +567,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                               Text(
                                                 itemsWithPrices[index]
                                                     .item
-                                                    .itemCode,
+                                                    .itemCode!,
                                                 overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
@@ -669,7 +668,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                           child: ListTile(
                             title: Flexible(
                               child: Text(
-                                itemsWithPrices[index].item.itemName,
+                                itemsWithPrices[index].item.itemName!,
                                 style: TextStyle(
                                   fontSize: 20,
                                 ),
@@ -694,7 +693,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                               children: [
                                 Flexible(
                                   child: Text(
-                                    itemsWithPrices[index].item.itemCode,
+                                    itemsWithPrices[index].item.itemCode!,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       fontSize: 12,
@@ -713,7 +712,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                       '${itemsWithPrices[index].price.itemPrice.toString()}\$',
                                       overflow: TextOverflow.ellipsis,
                                     ),
-                                    Text(itemsWithPrices[index].item.uom),
+                                    Text(itemsWithPrices[index].item.uom!),
                                   ],
                                 ),
                                 Container()
@@ -736,10 +735,11 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                               searchText: searchText,
                                               itemNumber: itemsWithPrices[index]
                                                   .item
-                                                  .itemCode,
+                                                  .itemCode!,
                                               setQty: double.parse(
                                                 _qtyController.text.toString(),
-                                              )));
+                                              ),
+                                              context: context));
                                       showSnackBar(
                                         context: context,
                                         value:
@@ -843,10 +843,10 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
           .watchAllSalesOrderDetail(salesOrderNo, 'Pending'),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<SalesOrderDetailTempData> salesOrderDetailTempData =
-              snapshot.data;
+          List<SalesOrderDetailTempData>? salesOrderDetailTempData =
+              snapshot.data as List<SalesOrderDetailTempData>?;
           return ListView.builder(
-            itemCount: salesOrderDetailTempData.length,
+            itemCount: salesOrderDetailTempData!.length,
             key: UniqueKey(),
             itemBuilder: (context, index) {
               return InkWell(
@@ -864,8 +864,8 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                     BlocProvider.of<AddItemBloc>(context)
                         .add(DeleteLineItemPress(
                       id: salesOrderDetailTempData[index].id,
-                      itemNumber: salesOrderDetailTempData[index].itemId,
-                      uom: salesOrderDetailTempData[index].salesUOM,
+                      itemNumber: salesOrderDetailTempData[index].itemId!,
+                      uom: salesOrderDetailTempData[index].salesUOM!,
                     ));
                   },
                   direction: DismissDirection.endToStart,
@@ -1050,7 +1050,8 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                                   salesOrderDetailTempData[
                                                           index]
                                                       .itemCode,
-                                              setQty: double.parse(value)));
+                                              setQty: double.parse(value),
+                                              context: context));
                                     },
                                   )),
                             ),

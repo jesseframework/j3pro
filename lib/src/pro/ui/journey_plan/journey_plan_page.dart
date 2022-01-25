@@ -6,10 +6,11 @@ import 'package:j3enterprise/src/pro/models/sales/fullfillment/jounery_with_addr
 import 'package:j3enterprise/src/pro/ui/journey_plan/bloc/journey_plan_bloc.dart';
 import 'package:j3enterprise/src/pro/ui/journey_plan/journey_plan_form.dart';
 
+// ignore: must_be_immutable
 class JourneyPlanPage extends StatefulWidget {
   static final route = '/journey_plan_page';
-  JourneyWithAddress journeyWithAddress;
-  JourneyPlanPage({this.journeyWithAddress});
+  late JourneyWithAddress journeyWithAddress;
+  JourneyPlanPage({required this.journeyWithAddress});
 
   @override
   _JourneyPlanPageState createState() => _JourneyPlanPageState();

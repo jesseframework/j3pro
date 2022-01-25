@@ -8,11 +8,13 @@ abstract class SalesOderState extends Equatable {
 }
 
 class SalesOderDefaultData extends SalesOderState {
-  String defaultCurrency;
-  double exchangeRate;
-  List<SystemCurrencyData> currenciesData;
+  late String defaultCurrency;
+  late double exchangeRate;
+  late List<SystemCurrencyData> currenciesData;
   SalesOderDefaultData(
-      {this.defaultCurrency, this.currenciesData, this.exchangeRate});
+      {required this.defaultCurrency,
+      required this.currenciesData,
+      required this.exchangeRate});
   @override
   List<Object> get props =>
       [this.currenciesData, this.defaultCurrency, this.exchangeRate];

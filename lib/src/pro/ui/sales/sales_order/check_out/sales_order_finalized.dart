@@ -14,7 +14,7 @@ import 'package:signature/signature.dart';
 
 class SalesOrderFinslizedPage extends StatefulWidget {
   var db;
-  AddressDao addressDao;
+  late AddressDao addressDao;
   SalesOrderFinslizedPage() {
     db = AppDatabase();
     addressDao = AddressDao(db);
@@ -33,7 +33,7 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            AppLocalization.of(context).translate('sales_order_finalized') ??
+            AppLocalization.of(context)!.translate('sales_order_finalized') ??
                 "Finalize  "),
         //ToDO put translation
         actions: [
@@ -43,8 +43,25 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                 InkWell(
                   onTap: () async {
                     //BlocProvider.of(context).add(CreatePostTransection());
-                    BlocProvider.of<SalesOrderFinalizeBloc>(context)
-                        .add(CreatePostTransection());
+                    BlocProvider.of<SalesOrderFinalizeBloc>(context).add(
+                        CreatePostTransection(
+                            billingAddressName: '',
+                            currencyCode: '',
+                            customerId: '',
+                            daySessionNumber: '',
+                            deliveryDate: DateTime.now(),
+                            inventoryCycleNumber: '',
+                            exchangeRate: 1,
+                            orderType: '',
+                            purchaseOrderNo: '',
+                            shippingAddressName: '',
+                            soldTo: '',
+                            tenantId: 1,
+                            transactionNumber: '',
+                            transactionStatus: '',
+                            transactionType: '',
+                            userId: 1,
+                            userName: ''));
                     Navigator.push(
                         context, SizeRoute(page: SalesOrderCheckOutPage()));
                   },
@@ -84,7 +101,7 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
               isDisable: false),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {
-              List<Addres> addres = snapshot.data;
+              List<Addres>? addres = snapshot.data as List<Addres>?;
 
               return Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -141,7 +158,7 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                               children: [
                                 buildSalesOrderCardRowTile(
                                     heading: 'Billing To:',
-                                    title: addres
+                                    title: addres!
                                         .firstWhere(
                                             (e) => e.isShippingAddress != true)
                                         .addressLine1),
@@ -315,16 +332,16 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
   }
 
   Widget buildSalesOrderCardRowTile(
-      {String heading,
-      String title,
-      Widget trailingWidget,
-      Function callback}) {
+      {String? heading,
+      String? title,
+      Widget? trailingWidget,
+      Function? callback}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          heading,
+          heading!,
           style: TextStyle(
               fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
         ),
@@ -334,14 +351,14 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
           children: [
             Flexible(
               child: Text(
-                title,
+                title!,
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
               ),
             ),
             InkWell(
                 child: Container(
                     margin: EdgeInsets.only(left: 8), child: trailingWidget),
-                onTap: callback),
+                onTap: () {}),
           ],
         ),
       ],
@@ -349,22 +366,22 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
   }
 
   Widget buildSalesOrderDateCardRowTile({
-    String heading,
-    String title,
+    String? heading,
+    String? title,
   }) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          heading,
+          heading!,
           style: TextStyle(
               fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Text(
-            title,
+            title!,
             style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
           ),
         ),

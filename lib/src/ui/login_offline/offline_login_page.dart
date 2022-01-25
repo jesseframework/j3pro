@@ -32,7 +32,7 @@ class OfflineLoginPage extends StatelessWidget {
   static final route = '/offline_login';
   final UserRepository userRepository;
 
-  OfflineLoginPage({Key key, @required this.userRepository})
+  OfflineLoginPage({Key? key, required this.userRepository})
       : assert(userRepository != null),
         super(key: key);
 
@@ -41,7 +41,7 @@ class OfflineLoginPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            AppLocalization.of(context).translate('title_offline_login') ??
+            AppLocalization.of(context)!.translate('title_offline_login') ??
                 "Offline Enable"),
         backgroundColor: const Color(0xff5362b7),
         leading: IconButton(

@@ -80,19 +80,18 @@ Future<void> main() async {
 
 class App extends StatefulWidget {
   final UserRepository userRepository;
+  //late ThemeData themeData;
 
-  App({
-    Key key,
-    this.userRepository,
-  }) : super(key: key);
+  App({Key? key, required this.userRepository, ThemeData? themeData})
+      : super(key: key);
   static void setLocale(BuildContext context, Locale locale) {
-    _AppState state = context.findAncestorStateOfType<_AppState>();
-    state.setLocale(locale);
+    _AppState? state = context.findAncestorStateOfType<_AppState>();
+    state!.setLocale(locale);
   }
 
   static void setTheme(BuildContext context) {
-    _AppState state = context.findAncestorStateOfType<_AppState>();
-    state.didChangeDependencies();
+    _AppState? state = context.findAncestorStateOfType<_AppState>();
+    state!.didChangeDependencies();
   }
 
   @override
@@ -100,8 +99,8 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  Locale _locale;
-  ThemeData themeData;
+  Locale? _locale;
+  ThemeData? themeData;
 
   void setLocale(locale) {
     setState(() {
@@ -126,73 +125,71 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return FirebaseMessageWrapper(
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider<AuthenticationBloc>(
-            create: (context) => AuthenticationBloc()..add(AppStarted()),
-          ),
-          BlocProvider<SalesOrderFinalizeBloc>(
-            create: (context) => SalesOrderFinalizeBloc(),
-          ),
-          BlocProvider<AddItemBloc>(
-            create: (context) => AddItemBloc(),
-          )
-        ],
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          // navigatorObservers: [BotToastNavigatorObserver()],
-          home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-            builder: (context, state) {
-              if (state is AuthenticationCreateMobileHash) {
-                return OfflineLoginPage(userRepository: widget.userRepository);
-              }
-              if (state is AuthenticationAuthenticated) {
-                return HomePage();
-              }
-              if (state is AuthenticationUnauthenticated) {
-                return LoginPage();
-              }
-              if (state is AuthenticationLoading) {
-                return LoadingIndicator();
-              }
-              return SplashPage();
-            },
-          ),
-          theme: themeData,
-          locale: _locale,
-          routes: routes,
-          supportedLocales: [
-            Locale('en', 'US'),
-            Locale('es', 'ES'),
-            Locale('sk', 'SK'),
-          ],
-          localizationsDelegates: [
-            AppLocalization.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
-          localeResolutionCallback: (locale, supportedLocales) {
-            // Check if the current device locale is supported
-            if (Platform.isAndroid) {
-              for (var supportedLocale in supportedLocales) {
-                if (supportedLocale.languageCode == locale.languageCode &&
-                    supportedLocale.countryCode == locale.countryCode) {
-                  return supportedLocale;
-                }
-              }
-            } else if (Platform.isIOS) {
-              for (var supportedLocale in supportedLocales) {
-                if (supportedLocale.languageCode == locale.languageCode &&
-                    supportedLocale.countryCode == locale.countryCode) {
-                  return supportedLocale;
-                }
-              }
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthenticationBloc>(
+          create: (context) => AuthenticationBloc()..add(AppStarted()),
+        ),
+        BlocProvider<SalesOrderFinalizeBloc>(
+          create: (context) => SalesOrderFinalizeBloc(),
+        ),
+        BlocProvider<AddItemBloc>(
+          create: (context) => AddItemBloc(),
+        )
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        // navigatorObservers: [BotToastNavigatorObserver()],
+        home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+          builder: (context, state) {
+            if (state is AuthenticationCreateMobileHash) {
+              return OfflineLoginPage(userRepository: widget.userRepository);
             }
-
-            return supportedLocales.first;
+            if (state is AuthenticationAuthenticated) {
+              return HomePage();
+            }
+            if (state is AuthenticationUnauthenticated) {
+              return LoginPage();
+            }
+            if (state is AuthenticationLoading) {
+              return LoadingIndicator();
+            }
+            return SplashPage();
           },
         ),
+        theme: themeData,
+        locale: _locale,
+        routes: routes,
+        supportedLocales: [
+          Locale('en', 'US'),
+          Locale('es', 'ES'),
+          Locale('sk', 'SK'),
+        ],
+        localizationsDelegates: [
+          AppLocalization.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        localeResolutionCallback: (locale, supportedLocales) {
+          // Check if the current device locale is supported
+          if (Platform.isAndroid) {
+            for (var supportedLocale in supportedLocales) {
+              if (supportedLocale.languageCode == locale!.languageCode &&
+                  supportedLocale.countryCode == locale.countryCode) {
+                return supportedLocale;
+              }
+            }
+          } else if (Platform.isIOS) {
+            for (var supportedLocale in supportedLocales) {
+              if (supportedLocale.languageCode == locale!.languageCode &&
+                  supportedLocale.countryCode == locale.countryCode) {
+                return supportedLocale;
+              }
+            }
+          }
+
+          return supportedLocales.first;
+        },
       ),
     );
   }

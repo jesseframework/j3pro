@@ -29,7 +29,7 @@ part 'applogger_event.dart';
 part 'applogger_state.dart';
 
 class ApploggerBloc extends Bloc<ApploggerEvent, ApploggerState> {
-  ApplicationLoggerDao applicationLoggerDao;
+  late ApplicationLoggerDao applicationLoggerDao;
   var db;
   ApploggerBloc() : super(ApploggerInitial()) {
     db = AppDatabase();

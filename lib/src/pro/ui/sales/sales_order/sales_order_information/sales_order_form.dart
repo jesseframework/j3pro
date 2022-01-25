@@ -16,23 +16,23 @@ import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/dialog.dart';
 
 class SalesOrderForm extends StatefulWidget {
-  List<Addres> address;
-  String defaultCurrency;
-  double exchangeRate;
-  List<SystemCurrencyData> currenciesData;
+  late List<Addres> address;
+  late String defaultCurrency;
+  late double exchangeRate;
+  late List<SystemCurrencyData> currenciesData;
 
   var db;
 
-  AddressDao addressDao;
-  CustomerDao customerDao;
-  SystemCurrencyDao systemCurrencyDao;
-  ExchangeRateDao exchangeRateDao;
-  SalesOrderHeaderDao salesOrderHeaderDao;
+  late AddressDao addressDao;
+  late CustomerDao customerDao;
+  late SystemCurrencyDao systemCurrencyDao;
+  late ExchangeRateDao exchangeRateDao;
+  late SalesOrderHeaderDao salesOrderHeaderDao;
   SalesOrderForm(
-      {this.defaultCurrency,
-      this.currenciesData,
-      this.exchangeRate,
-      this.address}) {
+      {required this.defaultCurrency,
+      required this.currenciesData,
+      required this.exchangeRate,
+      required this.address}) {
     db = AppDatabase();
     addressDao = AddressDao(db);
     customerDao = CustomerDao(db);
@@ -45,18 +45,18 @@ class SalesOrderForm extends StatefulWidget {
 }
 
 class _SalesOrderFormState extends State<SalesOrderForm> {
-  JourneyWithAddress journeyWithAddress;
-  Addres primaryAddress;
+  late JourneyWithAddress journeyWithAddress;
+  late Addres primaryAddress;
 
-  String poNumber = '';
-  double exchangeRate;
-  String percentageAmount = '';
-  String defaultAmount;
-  String swipeDiscountTpye = 'Percentage';
-  String defaultCurrency = 'JMD';
-  String deliveryInstructions = '';
-  List<SystemCurrencyData> defaultCurrencyList = [];
-  DateTime dateTime = DateTime.now();
+  late String poNumber = '';
+  late double exchangeRate;
+  late String percentageAmount = '';
+  late String defaultAmount;
+  late String swipeDiscountTpye = 'Percentage';
+  late String defaultCurrency = 'JMD';
+  late String deliveryInstructions = '';
+  late List<SystemCurrencyData> defaultCurrencyList = [];
+  late DateTime dateTime = DateTime.now();
   @override
   void initState() {
     exchangeRate = widget.exchangeRate;
@@ -78,7 +78,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
     // journeyWithAddress = ModalRoute.of(context).settings.arguments;
     return Scaffold(
         appBar: AppBar(
-          title: Text(AppLocalization.of(context)
+          title: Text(AppLocalization.of(context)!
                   .translate('sales_order_information_appbar_title') ??
               'Sales Order Information'),
           actions: [
@@ -93,10 +93,22 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                   transactionType: 'Sales Order',
                   customerId: addItemBloc.customerId,
                   transactionStatus: 'InProgress',
+                  billingAddressName: '',
+                  daySessionNumber: '',
+                  inventoryCycleNumber: '',
+                  purchaseOrderNo: '',
+                  shippingAddressName: '',
+                  soldTo: '',
+                  tenantId: 0,
+                  transactionNumber: '',
+                  userId: 0,
+                  userName: '',
                 ));
                 addItemBloc.setDilveryDate(dilverydate: dateTime);
-                Navigator.push(context,
-                    EnterExitRoute(enterPage: SalesOrderAddItemPage()));
+                Navigator.push(
+                    context,
+                    EnterExitRoute(
+                        enterPage: SalesOrderAddItemPage(), exitPage: widget));
               },
               child: Row(
                 children: [
@@ -284,7 +296,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                           trailingWidget: InkWell(
                             child: Icon(Icons.date_range),
                             onTap: () async {
-                              DateTime result = await showDatePicker(
+                              DateTime? result = await showDatePicker(
                                   context: context,
                                   initialDate: DateTime.now(),
                                   firstDate: DateTime(1970),
@@ -324,38 +336,36 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   DropdownSearch(
-                                    mode: Mode.MENU,
-
-                                    label: "Currency",
-                                    selectedItem: defaultCurrency,
-
-                                    items: defaultCurrencyList
-                                        .map((e) => e.currencyName)
-                                        .toList(),
-                                    onChanged: (value) async {
-                                      List<ExchangeRateData> exchangeRateData =
-                                          await widget.exchangeRateDao
-                                              .getAllExchnageRateByCurrency(
-                                                  'JMD', value);
-                                      setState(() {
-                                        defaultCurrency = value;
-                                        exchangeRate =
-                                            exchangeRateData[0].exchangeRate;
-                                      });
-                                    },
-                                    dropdownSearchDecoration: InputDecoration(
-                                        suffix: Container(
-                                      height: 30,
-                                      child: FloatingActionButton(
-                                        onPressed: () {},
-                                        backgroundColor:
-                                            Theme.of(context).accentColor,
-                                        child: Icon(Icons.add),
+                                      // mode: Mode.MENU,
+                                      // label: "Currency",
+                                      // selectedItem: defaultCurrency,
+                                      // items: defaultCurrencyList
+                                      //     .map((e) => e.currencyName)
+                                      //     .toList(),
+                                      // onChanged: (value) async {
+                                      //   List<ExchangeRateData> exchangeRateData =
+                                      //       await widget.exchangeRateDao
+                                      //           .getAllExchnageRateByCurrency(
+                                      //               'JMD', value.toString());
+                                      //   setState(() {
+                                      //     defaultCurrency = value.toString();
+                                      //     exchangeRate =
+                                      //         exchangeRateData[0].exchangeRate!;
+                                      //   });
+                                      // },
+                                      // dropdownSearchDecoration: InputDecoration(
+                                      //     suffix: Container(
+                                      //   height: 30,
+                                      //   child: FloatingActionButton(
+                                      //     onPressed: () {},
+                                      //     backgroundColor:
+                                      //         Theme.of(context).accentColor,
+                                      //     child: Icon(Icons.add),
+                                      //   ),
+                                      // )),
+                                      // autofocus: true,
+                                      // backgroundColor: Theme.of(context).cardColor,
                                       ),
-                                    )),
-                                    // autofocus: true,
-                                    // backgroundColor: Theme.of(context).cardColor,
-                                  ),
                                   SizedBox(
                                     height: 15,
                                   ),
@@ -396,7 +406,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                                     ],
                                     onChanged: (value) async {
                                       setState(() {
-                                        swipeDiscountTpye = value;
+                                        swipeDiscountTpye = value.toString();
                                       });
                                     },
                                     dropdownSearchDecoration: InputDecoration(
@@ -462,17 +472,17 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
   }
 
   Widget buildSalesOrderCardTile(
-      {String heading,
-      String title,
-      bool formatter = false,
-      Widget trailingWidget,
-      Function callback}) {
+      {String? heading,
+      String? title,
+      bool? formatter = false,
+      Widget? trailingWidget,
+      Function? callback}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          heading,
+          heading!,
           style: TextStyle(
               fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
         ),
@@ -482,7 +492,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
           children: [
             Flexible(
               child: Text(
-                title,
+                title!,
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
               ),
             ),
@@ -492,8 +502,8 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
               onTap: () {
                 displayDialog(
                   context: context,
-                  doubleOnly: formatter,
-                  callBack: (value) => callback(value),
+                  doubleOnly: formatter!,
+                  callBack: (value) => callback!(value),
                   title: heading,
                   textcontroller: TextEditingController(
                     text: title,
@@ -508,16 +518,16 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
   }
 
   Widget buildSalesOrderCardRowTile(
-      {String heading,
-      String title,
-      Widget trailingWidget,
-      Function callback}) {
+      {String? heading,
+      String? title,
+      Widget? trailingWidget,
+      Function? callback}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          heading,
+          heading!,
           style: TextStyle(
               fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
         ),
@@ -526,13 +536,13 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              title,
+              title!,
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
             ),
             InkWell(
                 child: Container(
                     margin: EdgeInsets.only(left: 8), child: trailingWidget),
-                onTap: callback),
+                onTap: () {}),
           ],
         ),
       ],

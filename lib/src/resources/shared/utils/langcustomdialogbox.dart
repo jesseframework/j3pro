@@ -182,8 +182,8 @@ class _DropWidState extends State<DropWid> {
     );
   }
 
-  void _changeLanguage(String language) async {
-    Locale locale = await getIt<UserRepository>().setLocale(language);
+  void _changeLanguage(String? language) async {
+    Locale locale = await getIt<UserRepository>().setLocale(language!);
     App.setLocale(context, locale);
     setState(() {
       selecteditem = language;

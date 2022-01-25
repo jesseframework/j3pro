@@ -52,30 +52,30 @@ part 'backgroundjobs_state.dart';
 
 class BackgroundJobsBloc
     extends Bloc<BackgroundJobsEvent, BackgroundJobsState> {
-  Scheduler scheduler;
+  late Scheduler scheduler;
   static final _log = Logger('BackgroundJobsBloc');
   var db;
 
-  String userMessage;
-  AppLoggerRepository appLoggerRepository;
-  BackgroundJobScheduleDao backgroundJobScheduleDao;
-  PreferenceRepository preferenceRepository;
-  BusinessRuleRepository businessRuleRepository;
-  MobileDesktopRepository mobileDesktopRepository;
-  CustomerRepository customerRepository;
-  JourneyPlanRepository journeyPlanRepository;
-  AddressRepository addressRepository;
-  ContactRepository contactRepository;
-  ItemMasterRepository itemMasterRepository;
-  ItemPriceRepository itemPriceRepository;
-  PricingRuleRepository pricingRuleRepository;
-  SalesTaxRepository salesTaxRepository;
-  CurrencyRepository currencyRepository;
-  ExchangeRateRepository exchangeRateRepository;
-  GeoLocation geoLocation;
+  late String userMessage;
+  late AppLoggerRepository appLoggerRepository;
+  late BackgroundJobScheduleDao backgroundJobScheduleDao;
+  late PreferenceRepository preferenceRepository;
+  late BusinessRuleRepository businessRuleRepository;
+  late MobileDesktopRepository mobileDesktopRepository;
+  late CustomerRepository customerRepository;
+  late JourneyPlanRepository journeyPlanRepository;
+  late AddressRepository addressRepository;
+  late ContactRepository contactRepository;
+  late ItemMasterRepository itemMasterRepository;
+  late ItemPriceRepository itemPriceRepository;
+  late PricingRuleRepository pricingRuleRepository;
+  late SalesTaxRepository salesTaxRepository;
+  late CurrencyRepository currencyRepository;
+  late ExchangeRateRepository exchangeRateRepository;
+  late GeoLocation geoLocation;
 
-  DesktopDao desktopDao;
-  UpdateBackgroundJobStatus updateBackgroundJobStatus;
+  late DesktopDao desktopDao;
+  late UpdateBackgroundJobStatus updateBackgroundJobStatus;
   BackgroundJobsBloc() : super(BackgroundJobsUninitialized()) {
     db = AppDatabase();
     appLoggerRepository = new AppLoggerRepository();
@@ -117,10 +117,10 @@ class BackgroundJobsBloc
         var fromEvent = new BackgroundJobScheduleCompanion(
             jobName: moor.Value(event.jobname),
             syncFrequency: moor.Value(event.syncFrequency),
-            startDateTime: moor.Value(DateTime.tryParse(event.startDateTime)),
+            startDateTime: moor.Value(DateTime.tryParse(event.startDateTime)!),
             enableJob: moor.Value(true),
             jobStatus: moor.Value("Never Run"),
-            lastRun: moor.Value(DateTime.tryParse(formatted)));
+            lastRun: moor.Value(DateTime.tryParse(formatted)!));
 
         var isJobNameInDb =
             await backgroundJobScheduleDao.getJob(event.jobname);
@@ -128,13 +128,13 @@ class BackgroundJobsBloc
           await backgroundJobScheduleDao.updateBackgroundJob(
               fromEvent, event.jobname);
           userMessage =
-              AppLocalization.of(event.context).translate('user_message') ??
+              AppLocalization.of(event.context)!.translate('user_message') ??
                   "Job Update Successful";
         } else {
           await backgroundJobScheduleDao.insertJobSchedule(fromEvent);
-          userMessage =
-              AppLocalization.of(event.context).translate('job_user_message') ??
-                  "Job Added Successful";
+          userMessage = AppLocalization.of(event.context)!
+                  .translate('job_user_message') ??
+              "Job Added Successful";
         }
 
         //Set Time condition to false to start timer
@@ -319,14 +319,14 @@ class BackgroundJobsBloc
         //AppLoggerRepository.isStopped = true;
         appLoggerRepository.isStopped = true;
         preferenceRepository.isStopped = true;
-        userMessage = AppLocalization.of(event.context)
+        userMessage = AppLocalization.of(event.context)!
                 .translate('job_cancel_user_message') ??
             "Job Cancel Successful";
         String formatted = await formatDate(DateTime.now().toString());
         var fromEvent = new BackgroundJobScheduleCompanion(
             enableJob: moor.Value(false),
             jobStatus: moor.Value("Cancel"),
-            lastRun: moor.Value(DateTime.tryParse(formatted)));
+            lastRun: moor.Value(DateTime.tryParse(formatted)!));
 
         await backgroundJobScheduleDao.updateBackgroundJob(
             fromEvent, event.jobName);

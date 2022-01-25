@@ -30,10 +30,10 @@ class BackgroundJobsStart extends BackgroundJobsEvent {
   final BuildContext context;
 
   const BackgroundJobsStart(
-      {@required this.jobname,
-      @required this.syncFrequency,
-      @required this.startDateTime,
-      @required this.context});
+      {required this.jobname,
+      required this.syncFrequency,
+      required this.startDateTime,
+      required this.context});
 
   @override
   List<Object> get props => [jobname, syncFrequency];
@@ -56,9 +56,9 @@ class BackgroundJobsCancel extends BackgroundJobsEvent {
   final BuildContext context;
 
   const BackgroundJobsCancel(
-      {@required this.jobName,
-      @required this.syncFrequency,
-      @required this.context});
+      {required this.jobName,
+      required this.syncFrequency,
+      required this.context});
 
   @override
   List<Object> get props => [jobName, syncFrequency];

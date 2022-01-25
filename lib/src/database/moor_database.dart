@@ -136,26 +136,26 @@ class AppDatabase extends _$AppDatabase {
           await into(backgroundJobSchedule).insert(BackgroundJobScheduleData(
               id: 1,
               jobName: "Mobile Desktop",
-              startDateTime: DateTime.tryParse(systemDate),
+              startDateTime: DateTime.tryParse(systemDate)!,
               syncFrequency: "Every 20 Minutes",
               enableJob: true,
-              lastRun: DateTime.tryParse(systemDate),
+              lastRun: DateTime.tryParse(systemDate)!,
               jobStatus: "Never Run"));
           await into(backgroundJobSchedule).insert(BackgroundJobScheduleData(
               id: 2,
               jobName: "Configuration",
-              startDateTime: DateTime.tryParse(systemDate),
+              startDateTime: DateTime.tryParse(systemDate)!,
               syncFrequency: "Every 20 Minutes",
               enableJob: true,
-              lastRun: DateTime.tryParse(systemDate),
+              lastRun: DateTime.tryParse(systemDate)!,
               jobStatus: "Never Run"));
           await into(backgroundJobSchedule).insert(BackgroundJobScheduleData(
               id: 3,
               jobName: "Log Shipping",
-              startDateTime: DateTime.tryParse(systemDate),
+              startDateTime: DateTime.tryParse(systemDate)!,
               syncFrequency: "Every Day",
               enableJob: true,
-              lastRun: DateTime.tryParse(systemDate),
+              lastRun: DateTime.tryParse(systemDate)!,
               jobStatus: "Never Run"));
 
           await into(seriesNumberGenerator).insert(SeriesNumberGeneratorData(

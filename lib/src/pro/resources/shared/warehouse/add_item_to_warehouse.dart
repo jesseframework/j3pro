@@ -6,10 +6,10 @@ import 'package:drift/drift.dart' as moor;
 class AddItemToWarehouse {
   var db;
   static final _log = Logger('AddItemToWarehouse');
-  String className = "Add Item To Warehouse";
-  String result;
+  late String className = "Add Item To Warehouse";
+  late String result;
 
-  InventoryItemsDao inventoryItemsDao;
+  late InventoryItemsDao inventoryItemsDao;
 
   AddItemToWarehouse() {
     db = AppDatabase();

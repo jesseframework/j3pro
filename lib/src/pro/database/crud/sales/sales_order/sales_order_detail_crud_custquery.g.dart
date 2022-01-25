@@ -9,27 +9,27 @@ part of 'sales_order_detail_crud_custquery.dart';
 // ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
 class SalesOrderHeaderData extends DataClass
     implements Insertable<SalesOrderHeaderData> {
-  final int tenantId;
+  final int? tenantId;
   final String userName;
   final int userId;
   final int id;
   final String transactionNumber;
-  final String transactionStatus;
+  final String? transactionStatus;
   final String inventoryCycleNumber;
   final String daySessionNumber;
   final String customerId;
-  final String soldTo;
+  final String? soldTo;
   final DateTime orderDate;
   final DateTime deliveryDate;
   final String orderType;
   final String orderStatus;
-  final String purchaseOrderNo;
+  final String? purchaseOrderNo;
   final String currency;
   final double exchangeRate;
-  final int couponCode;
-  final String billingAddressName;
-  final String shippingAddressName;
-  final String yourInitial;
+  final int? couponCode;
+  final String? billingAddressName;
+  final String? shippingAddressName;
+  final String? yourInitial;
   final double subTotal;
   final double taxTotal;
   final double depositTotal;
@@ -40,83 +40,84 @@ class SalesOrderHeaderData extends DataClass
   final String discountType;
   final double discountPercentage;
   final double discountAmount;
-  final double latitude;
-  final double longitude;
-  final DateTime transactionStart;
-  final DateTime transactionEnd;
+  final double? latitude;
+  final double? longitude;
+  final DateTime? transactionStart;
+  final DateTime? transactionEnd;
   SalesOrderHeaderData(
       {this.tenantId,
-      @required this.userName,
-      @required this.userId,
-      @required this.id,
-      @required this.transactionNumber,
+      required this.userName,
+      required this.userId,
+      required this.id,
+      required this.transactionNumber,
       this.transactionStatus,
-      @required this.inventoryCycleNumber,
-      @required this.daySessionNumber,
-      @required this.customerId,
+      required this.inventoryCycleNumber,
+      required this.daySessionNumber,
+      required this.customerId,
       this.soldTo,
-      @required this.orderDate,
-      @required this.deliveryDate,
-      @required this.orderType,
-      @required this.orderStatus,
+      required this.orderDate,
+      required this.deliveryDate,
+      required this.orderType,
+      required this.orderStatus,
       this.purchaseOrderNo,
-      @required this.currency,
-      @required this.exchangeRate,
+      required this.currency,
+      required this.exchangeRate,
       this.couponCode,
       this.billingAddressName,
       this.shippingAddressName,
       this.yourInitial,
-      @required this.subTotal,
-      @required this.taxTotal,
-      @required this.depositTotal,
-      @required this.discountTotal,
-      @required this.shippingTotal,
-      @required this.itemCount,
-      @required this.grandTotal,
-      @required this.discountType,
-      @required this.discountPercentage,
-      @required this.discountAmount,
+      required this.subTotal,
+      required this.taxTotal,
+      required this.depositTotal,
+      required this.discountTotal,
+      required this.shippingTotal,
+      required this.itemCount,
+      required this.grandTotal,
+      required this.discountType,
+      required this.discountPercentage,
+      required this.discountAmount,
       this.latitude,
       this.longitude,
       this.transactionStart,
       this.transactionEnd});
   factory SalesOrderHeaderData.fromData(Map<String, dynamic> data,
-      {String prefix}) {
+      {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return SalesOrderHeaderData(
       tenantId: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
       userName: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}user_name']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}user_name'])!,
       userId: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}user_id']),
-      id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}user_id'])!,
+      id: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
       transactionNumber: const StringType().mapFromDatabaseResponse(
-          data['${effectivePrefix}transaction_number']),
+          data['${effectivePrefix}transaction_number'])!,
       transactionStatus: const StringType().mapFromDatabaseResponse(
           data['${effectivePrefix}transaction_status']),
       inventoryCycleNumber: const StringType().mapFromDatabaseResponse(
-          data['${effectivePrefix}inventory_cycle_number']),
+          data['${effectivePrefix}inventory_cycle_number'])!,
       daySessionNumber: const StringType().mapFromDatabaseResponse(
-          data['${effectivePrefix}day_session_number']),
+          data['${effectivePrefix}day_session_number'])!,
       customerId: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}customer_id']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}customer_id'])!,
       soldTo: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}sold_to']),
       orderDate: const DateTimeType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}order_date']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}order_date'])!,
       deliveryDate: const DateTimeType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}delivery_date']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}delivery_date'])!,
       orderType: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}order_type']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}order_type'])!,
       orderStatus: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}order_status']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}order_status'])!,
       purchaseOrderNo: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}purchase_order_no']),
       currency: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}currency']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}currency'])!,
       exchangeRate: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}exchange_rate']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}exchange_rate'])!,
       couponCode: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}coupon_code']),
       billingAddressName: const StringType().mapFromDatabaseResponse(
@@ -126,25 +127,25 @@ class SalesOrderHeaderData extends DataClass
       yourInitial: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}your_initial']),
       subTotal: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}sub_total']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}sub_total'])!,
       taxTotal: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}tax_total']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}tax_total'])!,
       depositTotal: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}deposit_total']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}deposit_total'])!,
       discountTotal: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}discount_total']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}discount_total'])!,
       shippingTotal: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}shipping_total']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}shipping_total'])!,
       itemCount: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}item_count']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}item_count'])!,
       grandTotal: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}grand_total']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}grand_total'])!,
       discountType: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}discount_type']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}discount_type'])!,
       discountPercentage: const RealType().mapFromDatabaseResponse(
-          data['${effectivePrefix}discount_percentage']),
+          data['${effectivePrefix}discount_percentage'])!,
       discountAmount: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}discount_amount']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}discount_amount'])!,
       latitude: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}latitude']),
       longitude: const RealType()
@@ -159,109 +160,63 @@ class SalesOrderHeaderData extends DataClass
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<int?>(tenantId);
     }
-    if (!nullToAbsent || userName != null) {
-      map['user_name'] = Variable<String>(userName);
-    }
-    if (!nullToAbsent || userId != null) {
-      map['user_id'] = Variable<int>(userId);
-    }
-    if (!nullToAbsent || id != null) {
-      map['id'] = Variable<int>(id);
-    }
-    if (!nullToAbsent || transactionNumber != null) {
-      map['transaction_number'] = Variable<String>(transactionNumber);
-    }
+    map['user_name'] = Variable<String>(userName);
+    map['user_id'] = Variable<int>(userId);
+    map['id'] = Variable<int>(id);
+    map['transaction_number'] = Variable<String>(transactionNumber);
     if (!nullToAbsent || transactionStatus != null) {
-      map['transaction_status'] = Variable<String>(transactionStatus);
+      map['transaction_status'] = Variable<String?>(transactionStatus);
     }
-    if (!nullToAbsent || inventoryCycleNumber != null) {
-      map['inventory_cycle_number'] = Variable<String>(inventoryCycleNumber);
-    }
-    if (!nullToAbsent || daySessionNumber != null) {
-      map['day_session_number'] = Variable<String>(daySessionNumber);
-    }
-    if (!nullToAbsent || customerId != null) {
-      map['customer_id'] = Variable<String>(customerId);
-    }
+    map['inventory_cycle_number'] = Variable<String>(inventoryCycleNumber);
+    map['day_session_number'] = Variable<String>(daySessionNumber);
+    map['customer_id'] = Variable<String>(customerId);
     if (!nullToAbsent || soldTo != null) {
-      map['sold_to'] = Variable<String>(soldTo);
+      map['sold_to'] = Variable<String?>(soldTo);
     }
-    if (!nullToAbsent || orderDate != null) {
-      map['order_date'] = Variable<DateTime>(orderDate);
-    }
-    if (!nullToAbsent || deliveryDate != null) {
-      map['delivery_date'] = Variable<DateTime>(deliveryDate);
-    }
-    if (!nullToAbsent || orderType != null) {
-      map['order_type'] = Variable<String>(orderType);
-    }
-    if (!nullToAbsent || orderStatus != null) {
-      map['order_status'] = Variable<String>(orderStatus);
-    }
+    map['order_date'] = Variable<DateTime>(orderDate);
+    map['delivery_date'] = Variable<DateTime>(deliveryDate);
+    map['order_type'] = Variable<String>(orderType);
+    map['order_status'] = Variable<String>(orderStatus);
     if (!nullToAbsent || purchaseOrderNo != null) {
-      map['purchase_order_no'] = Variable<String>(purchaseOrderNo);
+      map['purchase_order_no'] = Variable<String?>(purchaseOrderNo);
     }
-    if (!nullToAbsent || currency != null) {
-      map['currency'] = Variable<String>(currency);
-    }
-    if (!nullToAbsent || exchangeRate != null) {
-      map['exchange_rate'] = Variable<double>(exchangeRate);
-    }
+    map['currency'] = Variable<String>(currency);
+    map['exchange_rate'] = Variable<double>(exchangeRate);
     if (!nullToAbsent || couponCode != null) {
-      map['coupon_code'] = Variable<int>(couponCode);
+      map['coupon_code'] = Variable<int?>(couponCode);
     }
     if (!nullToAbsent || billingAddressName != null) {
-      map['billing_address_name'] = Variable<String>(billingAddressName);
+      map['billing_address_name'] = Variable<String?>(billingAddressName);
     }
     if (!nullToAbsent || shippingAddressName != null) {
-      map['shipping_address_name'] = Variable<String>(shippingAddressName);
+      map['shipping_address_name'] = Variable<String?>(shippingAddressName);
     }
     if (!nullToAbsent || yourInitial != null) {
-      map['your_initial'] = Variable<String>(yourInitial);
+      map['your_initial'] = Variable<String?>(yourInitial);
     }
-    if (!nullToAbsent || subTotal != null) {
-      map['sub_total'] = Variable<double>(subTotal);
-    }
-    if (!nullToAbsent || taxTotal != null) {
-      map['tax_total'] = Variable<double>(taxTotal);
-    }
-    if (!nullToAbsent || depositTotal != null) {
-      map['deposit_total'] = Variable<double>(depositTotal);
-    }
-    if (!nullToAbsent || discountTotal != null) {
-      map['discount_total'] = Variable<double>(discountTotal);
-    }
-    if (!nullToAbsent || shippingTotal != null) {
-      map['shipping_total'] = Variable<double>(shippingTotal);
-    }
-    if (!nullToAbsent || itemCount != null) {
-      map['item_count'] = Variable<int>(itemCount);
-    }
-    if (!nullToAbsent || grandTotal != null) {
-      map['grand_total'] = Variable<double>(grandTotal);
-    }
-    if (!nullToAbsent || discountType != null) {
-      map['discount_type'] = Variable<String>(discountType);
-    }
-    if (!nullToAbsent || discountPercentage != null) {
-      map['discount_percentage'] = Variable<double>(discountPercentage);
-    }
-    if (!nullToAbsent || discountAmount != null) {
-      map['discount_amount'] = Variable<double>(discountAmount);
-    }
+    map['sub_total'] = Variable<double>(subTotal);
+    map['tax_total'] = Variable<double>(taxTotal);
+    map['deposit_total'] = Variable<double>(depositTotal);
+    map['discount_total'] = Variable<double>(discountTotal);
+    map['shipping_total'] = Variable<double>(shippingTotal);
+    map['item_count'] = Variable<int>(itemCount);
+    map['grand_total'] = Variable<double>(grandTotal);
+    map['discount_type'] = Variable<String>(discountType);
+    map['discount_percentage'] = Variable<double>(discountPercentage);
+    map['discount_amount'] = Variable<double>(discountAmount);
     if (!nullToAbsent || latitude != null) {
-      map['latitude'] = Variable<double>(latitude);
+      map['latitude'] = Variable<double?>(latitude);
     }
     if (!nullToAbsent || longitude != null) {
-      map['longitude'] = Variable<double>(longitude);
+      map['longitude'] = Variable<double?>(longitude);
     }
     if (!nullToAbsent || transactionStart != null) {
-      map['transaction_start'] = Variable<DateTime>(transactionStart);
+      map['transaction_start'] = Variable<DateTime?>(transactionStart);
     }
     if (!nullToAbsent || transactionEnd != null) {
-      map['transaction_end'] = Variable<DateTime>(transactionEnd);
+      map['transaction_end'] = Variable<DateTime?>(transactionEnd);
     }
     return map;
   }
@@ -271,50 +226,27 @@ class SalesOrderHeaderData extends DataClass
       tenantId: tenantId == null && nullToAbsent
           ? const Value.absent()
           : Value(tenantId),
-      userName: userName == null && nullToAbsent
-          ? const Value.absent()
-          : Value(userName),
-      userId:
-          userId == null && nullToAbsent ? const Value.absent() : Value(userId),
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      transactionNumber: transactionNumber == null && nullToAbsent
-          ? const Value.absent()
-          : Value(transactionNumber),
+      userName: Value(userName),
+      userId: Value(userId),
+      id: Value(id),
+      transactionNumber: Value(transactionNumber),
       transactionStatus: transactionStatus == null && nullToAbsent
           ? const Value.absent()
           : Value(transactionStatus),
-      inventoryCycleNumber: inventoryCycleNumber == null && nullToAbsent
-          ? const Value.absent()
-          : Value(inventoryCycleNumber),
-      daySessionNumber: daySessionNumber == null && nullToAbsent
-          ? const Value.absent()
-          : Value(daySessionNumber),
-      customerId: customerId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(customerId),
+      inventoryCycleNumber: Value(inventoryCycleNumber),
+      daySessionNumber: Value(daySessionNumber),
+      customerId: Value(customerId),
       soldTo:
           soldTo == null && nullToAbsent ? const Value.absent() : Value(soldTo),
-      orderDate: orderDate == null && nullToAbsent
-          ? const Value.absent()
-          : Value(orderDate),
-      deliveryDate: deliveryDate == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deliveryDate),
-      orderType: orderType == null && nullToAbsent
-          ? const Value.absent()
-          : Value(orderType),
-      orderStatus: orderStatus == null && nullToAbsent
-          ? const Value.absent()
-          : Value(orderStatus),
+      orderDate: Value(orderDate),
+      deliveryDate: Value(deliveryDate),
+      orderType: Value(orderType),
+      orderStatus: Value(orderStatus),
       purchaseOrderNo: purchaseOrderNo == null && nullToAbsent
           ? const Value.absent()
           : Value(purchaseOrderNo),
-      currency: currency == null && nullToAbsent
-          ? const Value.absent()
-          : Value(currency),
-      exchangeRate: exchangeRate == null && nullToAbsent
-          ? const Value.absent()
-          : Value(exchangeRate),
+      currency: Value(currency),
+      exchangeRate: Value(exchangeRate),
       couponCode: couponCode == null && nullToAbsent
           ? const Value.absent()
           : Value(couponCode),
@@ -327,36 +259,16 @@ class SalesOrderHeaderData extends DataClass
       yourInitial: yourInitial == null && nullToAbsent
           ? const Value.absent()
           : Value(yourInitial),
-      subTotal: subTotal == null && nullToAbsent
-          ? const Value.absent()
-          : Value(subTotal),
-      taxTotal: taxTotal == null && nullToAbsent
-          ? const Value.absent()
-          : Value(taxTotal),
-      depositTotal: depositTotal == null && nullToAbsent
-          ? const Value.absent()
-          : Value(depositTotal),
-      discountTotal: discountTotal == null && nullToAbsent
-          ? const Value.absent()
-          : Value(discountTotal),
-      shippingTotal: shippingTotal == null && nullToAbsent
-          ? const Value.absent()
-          : Value(shippingTotal),
-      itemCount: itemCount == null && nullToAbsent
-          ? const Value.absent()
-          : Value(itemCount),
-      grandTotal: grandTotal == null && nullToAbsent
-          ? const Value.absent()
-          : Value(grandTotal),
-      discountType: discountType == null && nullToAbsent
-          ? const Value.absent()
-          : Value(discountType),
-      discountPercentage: discountPercentage == null && nullToAbsent
-          ? const Value.absent()
-          : Value(discountPercentage),
-      discountAmount: discountAmount == null && nullToAbsent
-          ? const Value.absent()
-          : Value(discountAmount),
+      subTotal: Value(subTotal),
+      taxTotal: Value(taxTotal),
+      depositTotal: Value(depositTotal),
+      discountTotal: Value(discountTotal),
+      shippingTotal: Value(shippingTotal),
+      itemCount: Value(itemCount),
+      grandTotal: Value(grandTotal),
+      discountType: Value(discountType),
+      discountPercentage: Value(discountPercentage),
+      discountAmount: Value(discountAmount),
       latitude: latitude == null && nullToAbsent
           ? const Value.absent()
           : Value(latitude),
@@ -373,33 +285,34 @@ class SalesOrderHeaderData extends DataClass
   }
 
   factory SalesOrderHeaderData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
+      {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return SalesOrderHeaderData(
-      tenantId: serializer.fromJson<int>(json['tenantId']),
+      tenantId: serializer.fromJson<int?>(json['tenantId']),
       userName: serializer.fromJson<String>(json['userName']),
       userId: serializer.fromJson<int>(json['userId']),
       id: serializer.fromJson<int>(json['id']),
       transactionNumber: serializer.fromJson<String>(json['transactionNumber']),
-      transactionStatus: serializer.fromJson<String>(json['transactionStatus']),
+      transactionStatus:
+          serializer.fromJson<String?>(json['transactionStatus']),
       inventoryCycleNumber:
           serializer.fromJson<String>(json['inventoryCycleNumber']),
       daySessionNumber: serializer.fromJson<String>(json['daySessionNumber']),
       customerId: serializer.fromJson<String>(json['customerId']),
-      soldTo: serializer.fromJson<String>(json['soldTo']),
+      soldTo: serializer.fromJson<String?>(json['soldTo']),
       orderDate: serializer.fromJson<DateTime>(json['orderDate']),
       deliveryDate: serializer.fromJson<DateTime>(json['deliveryDate']),
       orderType: serializer.fromJson<String>(json['orderType']),
       orderStatus: serializer.fromJson<String>(json['orderStatus']),
-      purchaseOrderNo: serializer.fromJson<String>(json['purchaseOrderNo']),
+      purchaseOrderNo: serializer.fromJson<String?>(json['purchaseOrderNo']),
       currency: serializer.fromJson<String>(json['currency']),
       exchangeRate: serializer.fromJson<double>(json['exchangeRate']),
-      couponCode: serializer.fromJson<int>(json['couponCode']),
+      couponCode: serializer.fromJson<int?>(json['couponCode']),
       billingAddressName:
-          serializer.fromJson<String>(json['billingAddressName']),
+          serializer.fromJson<String?>(json['billingAddressName']),
       shippingAddressName:
-          serializer.fromJson<String>(json['shippingAddressName']),
-      yourInitial: serializer.fromJson<String>(json['yourInitial']),
+          serializer.fromJson<String?>(json['shippingAddressName']),
+      yourInitial: serializer.fromJson<String?>(json['yourInitial']),
       subTotal: serializer.fromJson<double>(json['subTotal']),
       taxTotal: serializer.fromJson<double>(json['taxTotal']),
       depositTotal: serializer.fromJson<double>(json['depositTotal']),
@@ -411,37 +324,38 @@ class SalesOrderHeaderData extends DataClass
       discountPercentage:
           serializer.fromJson<double>(json['discountPercentage']),
       discountAmount: serializer.fromJson<double>(json['discountAmount']),
-      latitude: serializer.fromJson<double>(json['latitude']),
-      longitude: serializer.fromJson<double>(json['longitude']),
-      transactionStart: serializer.fromJson<DateTime>(json['transactionStart']),
-      transactionEnd: serializer.fromJson<DateTime>(json['transactionEnd']),
+      latitude: serializer.fromJson<double?>(json['latitude']),
+      longitude: serializer.fromJson<double?>(json['longitude']),
+      transactionStart:
+          serializer.fromJson<DateTime?>(json['transactionStart']),
+      transactionEnd: serializer.fromJson<DateTime?>(json['transactionEnd']),
     );
   }
   @override
-  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int>(tenantId),
+      'tenantId': serializer.toJson<int?>(tenantId),
       'userName': serializer.toJson<String>(userName),
       'userId': serializer.toJson<int>(userId),
       'id': serializer.toJson<int>(id),
       'transactionNumber': serializer.toJson<String>(transactionNumber),
-      'transactionStatus': serializer.toJson<String>(transactionStatus),
+      'transactionStatus': serializer.toJson<String?>(transactionStatus),
       'inventoryCycleNumber': serializer.toJson<String>(inventoryCycleNumber),
       'daySessionNumber': serializer.toJson<String>(daySessionNumber),
       'customerId': serializer.toJson<String>(customerId),
-      'soldTo': serializer.toJson<String>(soldTo),
+      'soldTo': serializer.toJson<String?>(soldTo),
       'orderDate': serializer.toJson<DateTime>(orderDate),
       'deliveryDate': serializer.toJson<DateTime>(deliveryDate),
       'orderType': serializer.toJson<String>(orderType),
       'orderStatus': serializer.toJson<String>(orderStatus),
-      'purchaseOrderNo': serializer.toJson<String>(purchaseOrderNo),
+      'purchaseOrderNo': serializer.toJson<String?>(purchaseOrderNo),
       'currency': serializer.toJson<String>(currency),
       'exchangeRate': serializer.toJson<double>(exchangeRate),
-      'couponCode': serializer.toJson<int>(couponCode),
-      'billingAddressName': serializer.toJson<String>(billingAddressName),
-      'shippingAddressName': serializer.toJson<String>(shippingAddressName),
-      'yourInitial': serializer.toJson<String>(yourInitial),
+      'couponCode': serializer.toJson<int?>(couponCode),
+      'billingAddressName': serializer.toJson<String?>(billingAddressName),
+      'shippingAddressName': serializer.toJson<String?>(shippingAddressName),
+      'yourInitial': serializer.toJson<String?>(yourInitial),
       'subTotal': serializer.toJson<double>(subTotal),
       'taxTotal': serializer.toJson<double>(taxTotal),
       'depositTotal': serializer.toJson<double>(depositTotal),
@@ -452,49 +366,49 @@ class SalesOrderHeaderData extends DataClass
       'discountType': serializer.toJson<String>(discountType),
       'discountPercentage': serializer.toJson<double>(discountPercentage),
       'discountAmount': serializer.toJson<double>(discountAmount),
-      'latitude': serializer.toJson<double>(latitude),
-      'longitude': serializer.toJson<double>(longitude),
-      'transactionStart': serializer.toJson<DateTime>(transactionStart),
-      'transactionEnd': serializer.toJson<DateTime>(transactionEnd),
+      'latitude': serializer.toJson<double?>(latitude),
+      'longitude': serializer.toJson<double?>(longitude),
+      'transactionStart': serializer.toJson<DateTime?>(transactionStart),
+      'transactionEnd': serializer.toJson<DateTime?>(transactionEnd),
     };
   }
 
   SalesOrderHeaderData copyWith(
-          {int tenantId,
-          String userName,
-          int userId,
-          int id,
-          String transactionNumber,
-          String transactionStatus,
-          String inventoryCycleNumber,
-          String daySessionNumber,
-          String customerId,
-          String soldTo,
-          DateTime orderDate,
-          DateTime deliveryDate,
-          String orderType,
-          String orderStatus,
-          String purchaseOrderNo,
-          String currency,
-          double exchangeRate,
-          int couponCode,
-          String billingAddressName,
-          String shippingAddressName,
-          String yourInitial,
-          double subTotal,
-          double taxTotal,
-          double depositTotal,
-          double discountTotal,
-          double shippingTotal,
-          int itemCount,
-          double grandTotal,
-          String discountType,
-          double discountPercentage,
-          double discountAmount,
-          double latitude,
-          double longitude,
-          DateTime transactionStart,
-          DateTime transactionEnd}) =>
+          {int? tenantId,
+          String? userName,
+          int? userId,
+          int? id,
+          String? transactionNumber,
+          String? transactionStatus,
+          String? inventoryCycleNumber,
+          String? daySessionNumber,
+          String? customerId,
+          String? soldTo,
+          DateTime? orderDate,
+          DateTime? deliveryDate,
+          String? orderType,
+          String? orderStatus,
+          String? purchaseOrderNo,
+          String? currency,
+          double? exchangeRate,
+          int? couponCode,
+          String? billingAddressName,
+          String? shippingAddressName,
+          String? yourInitial,
+          double? subTotal,
+          double? taxTotal,
+          double? depositTotal,
+          double? discountTotal,
+          double? shippingTotal,
+          int? itemCount,
+          double? grandTotal,
+          String? discountType,
+          double? discountPercentage,
+          double? discountAmount,
+          double? latitude,
+          double? longitude,
+          DateTime? transactionStart,
+          DateTime? transactionEnd}) =>
       SalesOrderHeaderData(
         tenantId: tenantId ?? this.tenantId,
         userName: userName ?? this.userName,
@@ -654,27 +568,27 @@ class SalesOrderHeaderData extends DataClass
 }
 
 class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
-  final Value<int> tenantId;
+  final Value<int?> tenantId;
   final Value<String> userName;
   final Value<int> userId;
   final Value<int> id;
   final Value<String> transactionNumber;
-  final Value<String> transactionStatus;
+  final Value<String?> transactionStatus;
   final Value<String> inventoryCycleNumber;
   final Value<String> daySessionNumber;
   final Value<String> customerId;
-  final Value<String> soldTo;
+  final Value<String?> soldTo;
   final Value<DateTime> orderDate;
   final Value<DateTime> deliveryDate;
   final Value<String> orderType;
   final Value<String> orderStatus;
-  final Value<String> purchaseOrderNo;
+  final Value<String?> purchaseOrderNo;
   final Value<String> currency;
   final Value<double> exchangeRate;
-  final Value<int> couponCode;
-  final Value<String> billingAddressName;
-  final Value<String> shippingAddressName;
-  final Value<String> yourInitial;
+  final Value<int?> couponCode;
+  final Value<String?> billingAddressName;
+  final Value<String?> shippingAddressName;
+  final Value<String?> yourInitial;
   final Value<double> subTotal;
   final Value<double> taxTotal;
   final Value<double> depositTotal;
@@ -685,10 +599,10 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
   final Value<String> discountType;
   final Value<double> discountPercentage;
   final Value<double> discountAmount;
-  final Value<double> latitude;
-  final Value<double> longitude;
-  final Value<DateTime> transactionStart;
-  final Value<DateTime> transactionEnd;
+  final Value<double?> latitude;
+  final Value<double?> longitude;
+  final Value<DateTime?> transactionStart;
+  final Value<DateTime?> transactionEnd;
   const SalesOrderHeaderCompanion({
     this.tenantId = const Value.absent(),
     this.userName = const Value.absent(),
@@ -728,36 +642,36 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
   });
   SalesOrderHeaderCompanion.insert({
     this.tenantId = const Value.absent(),
-    @required String userName,
-    @required int userId,
+    required String userName,
+    required int userId,
     this.id = const Value.absent(),
-    @required String transactionNumber,
+    required String transactionNumber,
     this.transactionStatus = const Value.absent(),
-    @required String inventoryCycleNumber,
-    @required String daySessionNumber,
-    @required String customerId,
+    required String inventoryCycleNumber,
+    required String daySessionNumber,
+    required String customerId,
     this.soldTo = const Value.absent(),
-    @required DateTime orderDate,
-    @required DateTime deliveryDate,
-    @required String orderType,
-    @required String orderStatus,
+    required DateTime orderDate,
+    required DateTime deliveryDate,
+    required String orderType,
+    required String orderStatus,
     this.purchaseOrderNo = const Value.absent(),
-    @required String currency,
-    @required double exchangeRate,
+    required String currency,
+    required double exchangeRate,
     this.couponCode = const Value.absent(),
     this.billingAddressName = const Value.absent(),
     this.shippingAddressName = const Value.absent(),
     this.yourInitial = const Value.absent(),
-    @required double subTotal,
-    @required double taxTotal,
-    @required double depositTotal,
-    @required double discountTotal,
-    @required double shippingTotal,
-    @required int itemCount,
-    @required double grandTotal,
-    @required String discountType,
-    @required double discountPercentage,
-    @required double discountAmount,
+    required double subTotal,
+    required double taxTotal,
+    required double depositTotal,
+    required double discountTotal,
+    required double shippingTotal,
+    required int itemCount,
+    required double grandTotal,
+    required String discountType,
+    required double discountPercentage,
+    required double discountAmount,
     this.latitude = const Value.absent(),
     this.longitude = const Value.absent(),
     this.transactionStart = const Value.absent(),
@@ -785,41 +699,41 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
         discountPercentage = Value(discountPercentage),
         discountAmount = Value(discountAmount);
   static Insertable<SalesOrderHeaderData> custom({
-    Expression<int> tenantId,
-    Expression<String> userName,
-    Expression<int> userId,
-    Expression<int> id,
-    Expression<String> transactionNumber,
-    Expression<String> transactionStatus,
-    Expression<String> inventoryCycleNumber,
-    Expression<String> daySessionNumber,
-    Expression<String> customerId,
-    Expression<String> soldTo,
-    Expression<DateTime> orderDate,
-    Expression<DateTime> deliveryDate,
-    Expression<String> orderType,
-    Expression<String> orderStatus,
-    Expression<String> purchaseOrderNo,
-    Expression<String> currency,
-    Expression<double> exchangeRate,
-    Expression<int> couponCode,
-    Expression<String> billingAddressName,
-    Expression<String> shippingAddressName,
-    Expression<String> yourInitial,
-    Expression<double> subTotal,
-    Expression<double> taxTotal,
-    Expression<double> depositTotal,
-    Expression<double> discountTotal,
-    Expression<double> shippingTotal,
-    Expression<int> itemCount,
-    Expression<double> grandTotal,
-    Expression<String> discountType,
-    Expression<double> discountPercentage,
-    Expression<double> discountAmount,
-    Expression<double> latitude,
-    Expression<double> longitude,
-    Expression<DateTime> transactionStart,
-    Expression<DateTime> transactionEnd,
+    Expression<int?>? tenantId,
+    Expression<String>? userName,
+    Expression<int>? userId,
+    Expression<int>? id,
+    Expression<String>? transactionNumber,
+    Expression<String?>? transactionStatus,
+    Expression<String>? inventoryCycleNumber,
+    Expression<String>? daySessionNumber,
+    Expression<String>? customerId,
+    Expression<String?>? soldTo,
+    Expression<DateTime>? orderDate,
+    Expression<DateTime>? deliveryDate,
+    Expression<String>? orderType,
+    Expression<String>? orderStatus,
+    Expression<String?>? purchaseOrderNo,
+    Expression<String>? currency,
+    Expression<double>? exchangeRate,
+    Expression<int?>? couponCode,
+    Expression<String?>? billingAddressName,
+    Expression<String?>? shippingAddressName,
+    Expression<String?>? yourInitial,
+    Expression<double>? subTotal,
+    Expression<double>? taxTotal,
+    Expression<double>? depositTotal,
+    Expression<double>? discountTotal,
+    Expression<double>? shippingTotal,
+    Expression<int>? itemCount,
+    Expression<double>? grandTotal,
+    Expression<String>? discountType,
+    Expression<double>? discountPercentage,
+    Expression<double>? discountAmount,
+    Expression<double?>? latitude,
+    Expression<double?>? longitude,
+    Expression<DateTime?>? transactionStart,
+    Expression<DateTime?>? transactionEnd,
   }) {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
@@ -864,41 +778,41 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
   }
 
   SalesOrderHeaderCompanion copyWith(
-      {Value<int> tenantId,
-      Value<String> userName,
-      Value<int> userId,
-      Value<int> id,
-      Value<String> transactionNumber,
-      Value<String> transactionStatus,
-      Value<String> inventoryCycleNumber,
-      Value<String> daySessionNumber,
-      Value<String> customerId,
-      Value<String> soldTo,
-      Value<DateTime> orderDate,
-      Value<DateTime> deliveryDate,
-      Value<String> orderType,
-      Value<String> orderStatus,
-      Value<String> purchaseOrderNo,
-      Value<String> currency,
-      Value<double> exchangeRate,
-      Value<int> couponCode,
-      Value<String> billingAddressName,
-      Value<String> shippingAddressName,
-      Value<String> yourInitial,
-      Value<double> subTotal,
-      Value<double> taxTotal,
-      Value<double> depositTotal,
-      Value<double> discountTotal,
-      Value<double> shippingTotal,
-      Value<int> itemCount,
-      Value<double> grandTotal,
-      Value<String> discountType,
-      Value<double> discountPercentage,
-      Value<double> discountAmount,
-      Value<double> latitude,
-      Value<double> longitude,
-      Value<DateTime> transactionStart,
-      Value<DateTime> transactionEnd}) {
+      {Value<int?>? tenantId,
+      Value<String>? userName,
+      Value<int>? userId,
+      Value<int>? id,
+      Value<String>? transactionNumber,
+      Value<String?>? transactionStatus,
+      Value<String>? inventoryCycleNumber,
+      Value<String>? daySessionNumber,
+      Value<String>? customerId,
+      Value<String?>? soldTo,
+      Value<DateTime>? orderDate,
+      Value<DateTime>? deliveryDate,
+      Value<String>? orderType,
+      Value<String>? orderStatus,
+      Value<String?>? purchaseOrderNo,
+      Value<String>? currency,
+      Value<double>? exchangeRate,
+      Value<int?>? couponCode,
+      Value<String?>? billingAddressName,
+      Value<String?>? shippingAddressName,
+      Value<String?>? yourInitial,
+      Value<double>? subTotal,
+      Value<double>? taxTotal,
+      Value<double>? depositTotal,
+      Value<double>? discountTotal,
+      Value<double>? shippingTotal,
+      Value<int>? itemCount,
+      Value<double>? grandTotal,
+      Value<String>? discountType,
+      Value<double>? discountPercentage,
+      Value<double>? discountAmount,
+      Value<double?>? latitude,
+      Value<double?>? longitude,
+      Value<DateTime?>? transactionStart,
+      Value<DateTime?>? transactionEnd}) {
     return SalesOrderHeaderCompanion(
       tenantId: tenantId ?? this.tenantId,
       userName: userName ?? this.userName,
@@ -942,7 +856,7 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<int?>(tenantId.value);
     }
     if (userName.present) {
       map['user_name'] = Variable<String>(userName.value);
@@ -957,7 +871,7 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
       map['transaction_number'] = Variable<String>(transactionNumber.value);
     }
     if (transactionStatus.present) {
-      map['transaction_status'] = Variable<String>(transactionStatus.value);
+      map['transaction_status'] = Variable<String?>(transactionStatus.value);
     }
     if (inventoryCycleNumber.present) {
       map['inventory_cycle_number'] =
@@ -970,7 +884,7 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
       map['customer_id'] = Variable<String>(customerId.value);
     }
     if (soldTo.present) {
-      map['sold_to'] = Variable<String>(soldTo.value);
+      map['sold_to'] = Variable<String?>(soldTo.value);
     }
     if (orderDate.present) {
       map['order_date'] = Variable<DateTime>(orderDate.value);
@@ -985,7 +899,7 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
       map['order_status'] = Variable<String>(orderStatus.value);
     }
     if (purchaseOrderNo.present) {
-      map['purchase_order_no'] = Variable<String>(purchaseOrderNo.value);
+      map['purchase_order_no'] = Variable<String?>(purchaseOrderNo.value);
     }
     if (currency.present) {
       map['currency'] = Variable<String>(currency.value);
@@ -994,17 +908,17 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
       map['exchange_rate'] = Variable<double>(exchangeRate.value);
     }
     if (couponCode.present) {
-      map['coupon_code'] = Variable<int>(couponCode.value);
+      map['coupon_code'] = Variable<int?>(couponCode.value);
     }
     if (billingAddressName.present) {
-      map['billing_address_name'] = Variable<String>(billingAddressName.value);
+      map['billing_address_name'] = Variable<String?>(billingAddressName.value);
     }
     if (shippingAddressName.present) {
       map['shipping_address_name'] =
-          Variable<String>(shippingAddressName.value);
+          Variable<String?>(shippingAddressName.value);
     }
     if (yourInitial.present) {
-      map['your_initial'] = Variable<String>(yourInitial.value);
+      map['your_initial'] = Variable<String?>(yourInitial.value);
     }
     if (subTotal.present) {
       map['sub_total'] = Variable<double>(subTotal.value);
@@ -1037,16 +951,16 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
       map['discount_amount'] = Variable<double>(discountAmount.value);
     }
     if (latitude.present) {
-      map['latitude'] = Variable<double>(latitude.value);
+      map['latitude'] = Variable<double?>(latitude.value);
     }
     if (longitude.present) {
-      map['longitude'] = Variable<double>(longitude.value);
+      map['longitude'] = Variable<double?>(longitude.value);
     }
     if (transactionStart.present) {
-      map['transaction_start'] = Variable<DateTime>(transactionStart.value);
+      map['transaction_start'] = Variable<DateTime?>(transactionStart.value);
     }
     if (transactionEnd.present) {
-      map['transaction_end'] = Variable<DateTime>(transactionEnd.value);
+      map['transaction_end'] = Variable<DateTime?>(transactionEnd.value);
     }
     return map;
   }
@@ -1097,236 +1011,201 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
 class $SalesOrderHeaderTable extends SalesOrderHeader
     with TableInfo<$SalesOrderHeaderTable, SalesOrderHeaderData> {
   final GeneratedDatabase _db;
-  final String _alias;
+  final String? _alias;
   $SalesOrderHeaderTable(this._db, [this._alias]);
   final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
-  GeneratedColumn<int> _tenantId;
   @override
-  GeneratedColumn<int> get tenantId =>
-      _tenantId ??= GeneratedColumn<int>('tenant_id', aliasedName, true,
-          type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<int?> tenantId = GeneratedColumn<int?>(
+      'tenant_id', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _userNameMeta = const VerificationMeta('userName');
-  GeneratedColumn<String> _userName;
   @override
-  GeneratedColumn<String> get userName =>
-      _userName ??= GeneratedColumn<String>('user_name', aliasedName, false,
-          type: const StringType(), requiredDuringInsert: true);
+  late final GeneratedColumn<String?> userName = GeneratedColumn<String?>(
+      'user_name', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _userIdMeta = const VerificationMeta('userId');
-  GeneratedColumn<int> _userId;
   @override
-  GeneratedColumn<int> get userId =>
-      _userId ??= GeneratedColumn<int>('user_id', aliasedName, false,
-          type: const IntType(), requiredDuringInsert: true);
+  late final GeneratedColumn<int?> userId = GeneratedColumn<int?>(
+      'user_id', aliasedName, false,
+      type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _idMeta = const VerificationMeta('id');
-  GeneratedColumn<int> _id;
   @override
-  GeneratedColumn<int> get id =>
-      _id ??= GeneratedColumn<int>('id', aliasedName, false,
-          type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
+      'id', aliasedName, false,
+      type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _transactionNumberMeta =
       const VerificationMeta('transactionNumber');
-  GeneratedColumn<String> _transactionNumber;
   @override
-  GeneratedColumn<String> get transactionNumber => _transactionNumber ??=
-      GeneratedColumn<String>('transaction_number', aliasedName, false,
+  late final GeneratedColumn<String?> transactionNumber =
+      GeneratedColumn<String?>('transaction_number', aliasedName, false,
           type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _transactionStatusMeta =
       const VerificationMeta('transactionStatus');
-  GeneratedColumn<String> _transactionStatus;
   @override
-  GeneratedColumn<String> get transactionStatus => _transactionStatus ??=
-      GeneratedColumn<String>('transaction_status', aliasedName, true,
+  late final GeneratedColumn<String?> transactionStatus =
+      GeneratedColumn<String?>('transaction_status', aliasedName, true,
           type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _inventoryCycleNumberMeta =
       const VerificationMeta('inventoryCycleNumber');
-  GeneratedColumn<String> _inventoryCycleNumber;
   @override
-  GeneratedColumn<String> get inventoryCycleNumber => _inventoryCycleNumber ??=
-      GeneratedColumn<String>('inventory_cycle_number', aliasedName, false,
+  late final GeneratedColumn<String?> inventoryCycleNumber =
+      GeneratedColumn<String?>('inventory_cycle_number', aliasedName, false,
           type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _daySessionNumberMeta =
       const VerificationMeta('daySessionNumber');
-  GeneratedColumn<String> _daySessionNumber;
   @override
-  GeneratedColumn<String> get daySessionNumber => _daySessionNumber ??=
-      GeneratedColumn<String>('day_session_number', aliasedName, false,
+  late final GeneratedColumn<String?> daySessionNumber =
+      GeneratedColumn<String?>('day_session_number', aliasedName, false,
           type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _customerIdMeta = const VerificationMeta('customerId');
-  GeneratedColumn<String> _customerId;
   @override
-  GeneratedColumn<String> get customerId =>
-      _customerId ??= GeneratedColumn<String>('customer_id', aliasedName, false,
-          type: const StringType(), requiredDuringInsert: true);
+  late final GeneratedColumn<String?> customerId = GeneratedColumn<String?>(
+      'customer_id', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _soldToMeta = const VerificationMeta('soldTo');
-  GeneratedColumn<String> _soldTo;
   @override
-  GeneratedColumn<String> get soldTo =>
-      _soldTo ??= GeneratedColumn<String>('sold_to', aliasedName, true,
-          type: const StringType(), requiredDuringInsert: false);
+  late final GeneratedColumn<String?> soldTo = GeneratedColumn<String?>(
+      'sold_to', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _orderDateMeta = const VerificationMeta('orderDate');
-  GeneratedColumn<DateTime> _orderDate;
   @override
-  GeneratedColumn<DateTime> get orderDate =>
-      _orderDate ??= GeneratedColumn<DateTime>('order_date', aliasedName, false,
-          type: const IntType(), requiredDuringInsert: true);
+  late final GeneratedColumn<DateTime?> orderDate = GeneratedColumn<DateTime?>(
+      'order_date', aliasedName, false,
+      type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _deliveryDateMeta =
       const VerificationMeta('deliveryDate');
-  GeneratedColumn<DateTime> _deliveryDate;
   @override
-  GeneratedColumn<DateTime> get deliveryDate => _deliveryDate ??=
-      GeneratedColumn<DateTime>('delivery_date', aliasedName, false,
+  late final GeneratedColumn<DateTime?> deliveryDate =
+      GeneratedColumn<DateTime?>('delivery_date', aliasedName, false,
           type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _orderTypeMeta = const VerificationMeta('orderType');
-  GeneratedColumn<String> _orderType;
   @override
-  GeneratedColumn<String> get orderType =>
-      _orderType ??= GeneratedColumn<String>('order_type', aliasedName, false,
-          type: const StringType(), requiredDuringInsert: true);
+  late final GeneratedColumn<String?> orderType = GeneratedColumn<String?>(
+      'order_type', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _orderStatusMeta =
       const VerificationMeta('orderStatus');
-  GeneratedColumn<String> _orderStatus;
   @override
-  GeneratedColumn<String> get orderStatus => _orderStatus ??=
-      GeneratedColumn<String>('order_status', aliasedName, false,
-          type: const StringType(), requiredDuringInsert: true);
+  late final GeneratedColumn<String?> orderStatus = GeneratedColumn<String?>(
+      'order_status', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _purchaseOrderNoMeta =
       const VerificationMeta('purchaseOrderNo');
-  GeneratedColumn<String> _purchaseOrderNo;
   @override
-  GeneratedColumn<String> get purchaseOrderNo => _purchaseOrderNo ??=
-      GeneratedColumn<String>('purchase_order_no', aliasedName, true,
+  late final GeneratedColumn<String?> purchaseOrderNo =
+      GeneratedColumn<String?>('purchase_order_no', aliasedName, true,
           type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _currencyMeta = const VerificationMeta('currency');
-  GeneratedColumn<String> _currency;
   @override
-  GeneratedColumn<String> get currency =>
-      _currency ??= GeneratedColumn<String>('currency', aliasedName, false,
-          type: const StringType(), requiredDuringInsert: true);
+  late final GeneratedColumn<String?> currency = GeneratedColumn<String?>(
+      'currency', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _exchangeRateMeta =
       const VerificationMeta('exchangeRate');
-  GeneratedColumn<double> _exchangeRate;
   @override
-  GeneratedColumn<double> get exchangeRate => _exchangeRate ??=
-      GeneratedColumn<double>('exchange_rate', aliasedName, false,
-          type: const RealType(), requiredDuringInsert: true);
+  late final GeneratedColumn<double?> exchangeRate = GeneratedColumn<double?>(
+      'exchange_rate', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _couponCodeMeta = const VerificationMeta('couponCode');
-  GeneratedColumn<int> _couponCode;
   @override
-  GeneratedColumn<int> get couponCode =>
-      _couponCode ??= GeneratedColumn<int>('coupon_code', aliasedName, true,
-          type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<int?> couponCode = GeneratedColumn<int?>(
+      'coupon_code', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _billingAddressNameMeta =
       const VerificationMeta('billingAddressName');
-  GeneratedColumn<String> _billingAddressName;
   @override
-  GeneratedColumn<String> get billingAddressName => _billingAddressName ??=
-      GeneratedColumn<String>('billing_address_name', aliasedName, true,
+  late final GeneratedColumn<String?> billingAddressName =
+      GeneratedColumn<String?>('billing_address_name', aliasedName, true,
           type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _shippingAddressNameMeta =
       const VerificationMeta('shippingAddressName');
-  GeneratedColumn<String> _shippingAddressName;
   @override
-  GeneratedColumn<String> get shippingAddressName => _shippingAddressName ??=
-      GeneratedColumn<String>('shipping_address_name', aliasedName, true,
+  late final GeneratedColumn<String?> shippingAddressName =
+      GeneratedColumn<String?>('shipping_address_name', aliasedName, true,
           type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _yourInitialMeta =
       const VerificationMeta('yourInitial');
-  GeneratedColumn<String> _yourInitial;
   @override
-  GeneratedColumn<String> get yourInitial => _yourInitial ??=
-      GeneratedColumn<String>('your_initial', aliasedName, true,
-          type: const StringType(), requiredDuringInsert: false);
+  late final GeneratedColumn<String?> yourInitial = GeneratedColumn<String?>(
+      'your_initial', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _subTotalMeta = const VerificationMeta('subTotal');
-  GeneratedColumn<double> _subTotal;
   @override
-  GeneratedColumn<double> get subTotal =>
-      _subTotal ??= GeneratedColumn<double>('sub_total', aliasedName, false,
-          type: const RealType(), requiredDuringInsert: true);
+  late final GeneratedColumn<double?> subTotal = GeneratedColumn<double?>(
+      'sub_total', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _taxTotalMeta = const VerificationMeta('taxTotal');
-  GeneratedColumn<double> _taxTotal;
   @override
-  GeneratedColumn<double> get taxTotal =>
-      _taxTotal ??= GeneratedColumn<double>('tax_total', aliasedName, false,
-          type: const RealType(), requiredDuringInsert: true);
+  late final GeneratedColumn<double?> taxTotal = GeneratedColumn<double?>(
+      'tax_total', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _depositTotalMeta =
       const VerificationMeta('depositTotal');
-  GeneratedColumn<double> _depositTotal;
   @override
-  GeneratedColumn<double> get depositTotal => _depositTotal ??=
-      GeneratedColumn<double>('deposit_total', aliasedName, false,
-          type: const RealType(), requiredDuringInsert: true);
+  late final GeneratedColumn<double?> depositTotal = GeneratedColumn<double?>(
+      'deposit_total', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _discountTotalMeta =
       const VerificationMeta('discountTotal');
-  GeneratedColumn<double> _discountTotal;
   @override
-  GeneratedColumn<double> get discountTotal => _discountTotal ??=
-      GeneratedColumn<double>('discount_total', aliasedName, false,
-          type: const RealType(), requiredDuringInsert: true);
+  late final GeneratedColumn<double?> discountTotal = GeneratedColumn<double?>(
+      'discount_total', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _shippingTotalMeta =
       const VerificationMeta('shippingTotal');
-  GeneratedColumn<double> _shippingTotal;
   @override
-  GeneratedColumn<double> get shippingTotal => _shippingTotal ??=
-      GeneratedColumn<double>('shipping_total', aliasedName, false,
-          type: const RealType(), requiredDuringInsert: true);
+  late final GeneratedColumn<double?> shippingTotal = GeneratedColumn<double?>(
+      'shipping_total', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _itemCountMeta = const VerificationMeta('itemCount');
-  GeneratedColumn<int> _itemCount;
   @override
-  GeneratedColumn<int> get itemCount =>
-      _itemCount ??= GeneratedColumn<int>('item_count', aliasedName, false,
-          type: const IntType(), requiredDuringInsert: true);
+  late final GeneratedColumn<int?> itemCount = GeneratedColumn<int?>(
+      'item_count', aliasedName, false,
+      type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _grandTotalMeta = const VerificationMeta('grandTotal');
-  GeneratedColumn<double> _grandTotal;
   @override
-  GeneratedColumn<double> get grandTotal =>
-      _grandTotal ??= GeneratedColumn<double>('grand_total', aliasedName, false,
-          type: const RealType(), requiredDuringInsert: true);
+  late final GeneratedColumn<double?> grandTotal = GeneratedColumn<double?>(
+      'grand_total', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _discountTypeMeta =
       const VerificationMeta('discountType');
-  GeneratedColumn<String> _discountType;
   @override
-  GeneratedColumn<String> get discountType => _discountType ??=
-      GeneratedColumn<String>('discount_type', aliasedName, false,
-          type: const StringType(), requiredDuringInsert: true);
+  late final GeneratedColumn<String?> discountType = GeneratedColumn<String?>(
+      'discount_type', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _discountPercentageMeta =
       const VerificationMeta('discountPercentage');
-  GeneratedColumn<double> _discountPercentage;
   @override
-  GeneratedColumn<double> get discountPercentage => _discountPercentage ??=
-      GeneratedColumn<double>('discount_percentage', aliasedName, false,
+  late final GeneratedColumn<double?> discountPercentage =
+      GeneratedColumn<double?>('discount_percentage', aliasedName, false,
           type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _discountAmountMeta =
       const VerificationMeta('discountAmount');
-  GeneratedColumn<double> _discountAmount;
   @override
-  GeneratedColumn<double> get discountAmount => _discountAmount ??=
-      GeneratedColumn<double>('discount_amount', aliasedName, false,
-          type: const RealType(), requiredDuringInsert: true);
+  late final GeneratedColumn<double?> discountAmount = GeneratedColumn<double?>(
+      'discount_amount', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _latitudeMeta = const VerificationMeta('latitude');
-  GeneratedColumn<double> _latitude;
   @override
-  GeneratedColumn<double> get latitude =>
-      _latitude ??= GeneratedColumn<double>('latitude', aliasedName, true,
-          type: const RealType(), requiredDuringInsert: false);
+  late final GeneratedColumn<double?> latitude = GeneratedColumn<double?>(
+      'latitude', aliasedName, true,
+      type: const RealType(), requiredDuringInsert: false);
   final VerificationMeta _longitudeMeta = const VerificationMeta('longitude');
-  GeneratedColumn<double> _longitude;
   @override
-  GeneratedColumn<double> get longitude =>
-      _longitude ??= GeneratedColumn<double>('longitude', aliasedName, true,
-          type: const RealType(), requiredDuringInsert: false);
+  late final GeneratedColumn<double?> longitude = GeneratedColumn<double?>(
+      'longitude', aliasedName, true,
+      type: const RealType(), requiredDuringInsert: false);
   final VerificationMeta _transactionStartMeta =
       const VerificationMeta('transactionStart');
-  GeneratedColumn<DateTime> _transactionStart;
   @override
-  GeneratedColumn<DateTime> get transactionStart => _transactionStart ??=
-      GeneratedColumn<DateTime>('transaction_start', aliasedName, true,
+  late final GeneratedColumn<DateTime?> transactionStart =
+      GeneratedColumn<DateTime?>('transaction_start', aliasedName, true,
           type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _transactionEndMeta =
       const VerificationMeta('transactionEnd');
-  GeneratedColumn<DateTime> _transactionEnd;
   @override
-  GeneratedColumn<DateTime> get transactionEnd => _transactionEnd ??=
-      GeneratedColumn<DateTime>('transaction_end', aliasedName, true,
+  late final GeneratedColumn<DateTime?> transactionEnd =
+      GeneratedColumn<DateTime?>('transaction_end', aliasedName, true,
           type: const IntType(), requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [
@@ -1378,28 +1257,28 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
     final data = instance.toColumns(true);
     if (data.containsKey('tenant_id')) {
       context.handle(_tenantIdMeta,
-          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+          tenantId.isAcceptableOrUnknown(data['tenant_id']!, _tenantIdMeta));
     }
     if (data.containsKey('user_name')) {
       context.handle(_userNameMeta,
-          userName.isAcceptableOrUnknown(data['user_name'], _userNameMeta));
+          userName.isAcceptableOrUnknown(data['user_name']!, _userNameMeta));
     } else if (isInserting) {
       context.missing(_userNameMeta);
     }
     if (data.containsKey('user_id')) {
       context.handle(_userIdMeta,
-          userId.isAcceptableOrUnknown(data['user_id'], _userIdMeta));
+          userId.isAcceptableOrUnknown(data['user_id']!, _userIdMeta));
     } else if (isInserting) {
       context.missing(_userIdMeta);
     }
     if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('transaction_number')) {
       context.handle(
           _transactionNumberMeta,
           transactionNumber.isAcceptableOrUnknown(
-              data['transaction_number'], _transactionNumberMeta));
+              data['transaction_number']!, _transactionNumberMeta));
     } else if (isInserting) {
       context.missing(_transactionNumberMeta);
     }
@@ -1407,13 +1286,13 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
       context.handle(
           _transactionStatusMeta,
           transactionStatus.isAcceptableOrUnknown(
-              data['transaction_status'], _transactionStatusMeta));
+              data['transaction_status']!, _transactionStatusMeta));
     }
     if (data.containsKey('inventory_cycle_number')) {
       context.handle(
           _inventoryCycleNumberMeta,
           inventoryCycleNumber.isAcceptableOrUnknown(
-              data['inventory_cycle_number'], _inventoryCycleNumberMeta));
+              data['inventory_cycle_number']!, _inventoryCycleNumberMeta));
     } else if (isInserting) {
       context.missing(_inventoryCycleNumberMeta);
     }
@@ -1421,7 +1300,7 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
       context.handle(
           _daySessionNumberMeta,
           daySessionNumber.isAcceptableOrUnknown(
-              data['day_session_number'], _daySessionNumberMeta));
+              data['day_session_number']!, _daySessionNumberMeta));
     } else if (isInserting) {
       context.missing(_daySessionNumberMeta);
     }
@@ -1429,17 +1308,17 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
       context.handle(
           _customerIdMeta,
           customerId.isAcceptableOrUnknown(
-              data['customer_id'], _customerIdMeta));
+              data['customer_id']!, _customerIdMeta));
     } else if (isInserting) {
       context.missing(_customerIdMeta);
     }
     if (data.containsKey('sold_to')) {
       context.handle(_soldToMeta,
-          soldTo.isAcceptableOrUnknown(data['sold_to'], _soldToMeta));
+          soldTo.isAcceptableOrUnknown(data['sold_to']!, _soldToMeta));
     }
     if (data.containsKey('order_date')) {
       context.handle(_orderDateMeta,
-          orderDate.isAcceptableOrUnknown(data['order_date'], _orderDateMeta));
+          orderDate.isAcceptableOrUnknown(data['order_date']!, _orderDateMeta));
     } else if (isInserting) {
       context.missing(_orderDateMeta);
     }
@@ -1447,13 +1326,13 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
       context.handle(
           _deliveryDateMeta,
           deliveryDate.isAcceptableOrUnknown(
-              data['delivery_date'], _deliveryDateMeta));
+              data['delivery_date']!, _deliveryDateMeta));
     } else if (isInserting) {
       context.missing(_deliveryDateMeta);
     }
     if (data.containsKey('order_type')) {
       context.handle(_orderTypeMeta,
-          orderType.isAcceptableOrUnknown(data['order_type'], _orderTypeMeta));
+          orderType.isAcceptableOrUnknown(data['order_type']!, _orderTypeMeta));
     } else if (isInserting) {
       context.missing(_orderTypeMeta);
     }
@@ -1461,7 +1340,7 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
       context.handle(
           _orderStatusMeta,
           orderStatus.isAcceptableOrUnknown(
-              data['order_status'], _orderStatusMeta));
+              data['order_status']!, _orderStatusMeta));
     } else if (isInserting) {
       context.missing(_orderStatusMeta);
     }
@@ -1469,11 +1348,11 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
       context.handle(
           _purchaseOrderNoMeta,
           purchaseOrderNo.isAcceptableOrUnknown(
-              data['purchase_order_no'], _purchaseOrderNoMeta));
+              data['purchase_order_no']!, _purchaseOrderNoMeta));
     }
     if (data.containsKey('currency')) {
       context.handle(_currencyMeta,
-          currency.isAcceptableOrUnknown(data['currency'], _currencyMeta));
+          currency.isAcceptableOrUnknown(data['currency']!, _currencyMeta));
     } else if (isInserting) {
       context.missing(_currencyMeta);
     }
@@ -1481,7 +1360,7 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
       context.handle(
           _exchangeRateMeta,
           exchangeRate.isAcceptableOrUnknown(
-              data['exchange_rate'], _exchangeRateMeta));
+              data['exchange_rate']!, _exchangeRateMeta));
     } else if (isInserting) {
       context.missing(_exchangeRateMeta);
     }
@@ -1489,35 +1368,35 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
       context.handle(
           _couponCodeMeta,
           couponCode.isAcceptableOrUnknown(
-              data['coupon_code'], _couponCodeMeta));
+              data['coupon_code']!, _couponCodeMeta));
     }
     if (data.containsKey('billing_address_name')) {
       context.handle(
           _billingAddressNameMeta,
           billingAddressName.isAcceptableOrUnknown(
-              data['billing_address_name'], _billingAddressNameMeta));
+              data['billing_address_name']!, _billingAddressNameMeta));
     }
     if (data.containsKey('shipping_address_name')) {
       context.handle(
           _shippingAddressNameMeta,
           shippingAddressName.isAcceptableOrUnknown(
-              data['shipping_address_name'], _shippingAddressNameMeta));
+              data['shipping_address_name']!, _shippingAddressNameMeta));
     }
     if (data.containsKey('your_initial')) {
       context.handle(
           _yourInitialMeta,
           yourInitial.isAcceptableOrUnknown(
-              data['your_initial'], _yourInitialMeta));
+              data['your_initial']!, _yourInitialMeta));
     }
     if (data.containsKey('sub_total')) {
       context.handle(_subTotalMeta,
-          subTotal.isAcceptableOrUnknown(data['sub_total'], _subTotalMeta));
+          subTotal.isAcceptableOrUnknown(data['sub_total']!, _subTotalMeta));
     } else if (isInserting) {
       context.missing(_subTotalMeta);
     }
     if (data.containsKey('tax_total')) {
       context.handle(_taxTotalMeta,
-          taxTotal.isAcceptableOrUnknown(data['tax_total'], _taxTotalMeta));
+          taxTotal.isAcceptableOrUnknown(data['tax_total']!, _taxTotalMeta));
     } else if (isInserting) {
       context.missing(_taxTotalMeta);
     }
@@ -1525,7 +1404,7 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
       context.handle(
           _depositTotalMeta,
           depositTotal.isAcceptableOrUnknown(
-              data['deposit_total'], _depositTotalMeta));
+              data['deposit_total']!, _depositTotalMeta));
     } else if (isInserting) {
       context.missing(_depositTotalMeta);
     }
@@ -1533,7 +1412,7 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
       context.handle(
           _discountTotalMeta,
           discountTotal.isAcceptableOrUnknown(
-              data['discount_total'], _discountTotalMeta));
+              data['discount_total']!, _discountTotalMeta));
     } else if (isInserting) {
       context.missing(_discountTotalMeta);
     }
@@ -1541,13 +1420,13 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
       context.handle(
           _shippingTotalMeta,
           shippingTotal.isAcceptableOrUnknown(
-              data['shipping_total'], _shippingTotalMeta));
+              data['shipping_total']!, _shippingTotalMeta));
     } else if (isInserting) {
       context.missing(_shippingTotalMeta);
     }
     if (data.containsKey('item_count')) {
       context.handle(_itemCountMeta,
-          itemCount.isAcceptableOrUnknown(data['item_count'], _itemCountMeta));
+          itemCount.isAcceptableOrUnknown(data['item_count']!, _itemCountMeta));
     } else if (isInserting) {
       context.missing(_itemCountMeta);
     }
@@ -1555,7 +1434,7 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
       context.handle(
           _grandTotalMeta,
           grandTotal.isAcceptableOrUnknown(
-              data['grand_total'], _grandTotalMeta));
+              data['grand_total']!, _grandTotalMeta));
     } else if (isInserting) {
       context.missing(_grandTotalMeta);
     }
@@ -1563,7 +1442,7 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
       context.handle(
           _discountTypeMeta,
           discountType.isAcceptableOrUnknown(
-              data['discount_type'], _discountTypeMeta));
+              data['discount_type']!, _discountTypeMeta));
     } else if (isInserting) {
       context.missing(_discountTypeMeta);
     }
@@ -1571,7 +1450,7 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
       context.handle(
           _discountPercentageMeta,
           discountPercentage.isAcceptableOrUnknown(
-              data['discount_percentage'], _discountPercentageMeta));
+              data['discount_percentage']!, _discountPercentageMeta));
     } else if (isInserting) {
       context.missing(_discountPercentageMeta);
     }
@@ -1579,29 +1458,29 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
       context.handle(
           _discountAmountMeta,
           discountAmount.isAcceptableOrUnknown(
-              data['discount_amount'], _discountAmountMeta));
+              data['discount_amount']!, _discountAmountMeta));
     } else if (isInserting) {
       context.missing(_discountAmountMeta);
     }
     if (data.containsKey('latitude')) {
       context.handle(_latitudeMeta,
-          latitude.isAcceptableOrUnknown(data['latitude'], _latitudeMeta));
+          latitude.isAcceptableOrUnknown(data['latitude']!, _latitudeMeta));
     }
     if (data.containsKey('longitude')) {
       context.handle(_longitudeMeta,
-          longitude.isAcceptableOrUnknown(data['longitude'], _longitudeMeta));
+          longitude.isAcceptableOrUnknown(data['longitude']!, _longitudeMeta));
     }
     if (data.containsKey('transaction_start')) {
       context.handle(
           _transactionStartMeta,
           transactionStart.isAcceptableOrUnknown(
-              data['transaction_start'], _transactionStartMeta));
+              data['transaction_start']!, _transactionStartMeta));
     }
     if (data.containsKey('transaction_end')) {
       context.handle(
           _transactionEndMeta,
           transactionEnd.isAcceptableOrUnknown(
-              data['transaction_end'], _transactionEndMeta));
+              data['transaction_end']!, _transactionEndMeta));
     }
     return context;
   }
@@ -1609,7 +1488,7 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  SalesOrderHeaderData map(Map<String, dynamic> data, {String tablePrefix}) {
+  SalesOrderHeaderData map(Map<String, dynamic> data, {String? tablePrefix}) {
     return SalesOrderHeaderData.fromData(data,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
@@ -1622,7 +1501,7 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
 
 class SalesOrderDetailData extends DataClass
     implements Insertable<SalesOrderDetailData> {
-  final int tenantId;
+  final int? tenantId;
   final String userName;
   final int userId;
   final int id;
@@ -1632,8 +1511,8 @@ class SalesOrderDetailData extends DataClass
   final DateTime deliveryDate;
   final String currency;
   final double exchangeRate;
-  final String transactionStatus;
-  final String itemId;
+  final String? transactionStatus;
+  final String? itemId;
   final String itemCode;
   final String upcCode;
   final String description;
@@ -1647,7 +1526,7 @@ class SalesOrderDetailData extends DataClass
   final double discountPercentage;
   final double discountAmount;
   final double lineDiscountTotal;
-  final String taxIndicator;
+  final String? taxIndicator;
   final double unitPrice;
   final double costPrice;
   final double listPrice;
@@ -1655,121 +1534,122 @@ class SalesOrderDetailData extends DataClass
   final double subTotal;
   final double grandTotal;
   final double fxGrandTotal;
-  final int itemCount;
-  final double depositTotal;
-  final int lineId;
+  final int? itemCount;
+  final double? depositTotal;
+  final int? lineId;
   final double taxTotal;
   final double shippingTotal;
   final double conversionFactor;
   SalesOrderDetailData(
       {this.tenantId,
-      @required this.userName,
-      @required this.userId,
-      @required this.id,
-      @required this.transactionNumber,
-      @required this.inventoryCycleNumber,
-      @required this.daySessionNumber,
-      @required this.deliveryDate,
-      @required this.currency,
-      @required this.exchangeRate,
+      required this.userName,
+      required this.userId,
+      required this.id,
+      required this.transactionNumber,
+      required this.inventoryCycleNumber,
+      required this.daySessionNumber,
+      required this.deliveryDate,
+      required this.currency,
+      required this.exchangeRate,
       this.transactionStatus,
       this.itemId,
-      @required this.itemCode,
-      @required this.upcCode,
-      @required this.description,
-      @required this.itemGroup,
-      @required this.category,
-      @required this.salesUOM,
-      @required this.stockUOM,
-      @required this.taxGroup,
-      @required this.warehouse,
-      @required this.discountType,
-      @required this.discountPercentage,
-      @required this.discountAmount,
-      @required this.lineDiscountTotal,
+      required this.itemCode,
+      required this.upcCode,
+      required this.description,
+      required this.itemGroup,
+      required this.category,
+      required this.salesUOM,
+      required this.stockUOM,
+      required this.taxGroup,
+      required this.warehouse,
+      required this.discountType,
+      required this.discountPercentage,
+      required this.discountAmount,
+      required this.lineDiscountTotal,
       this.taxIndicator,
-      @required this.unitPrice,
-      @required this.costPrice,
-      @required this.listPrice,
-      @required this.quantity,
-      @required this.subTotal,
-      @required this.grandTotal,
-      @required this.fxGrandTotal,
+      required this.unitPrice,
+      required this.costPrice,
+      required this.listPrice,
+      required this.quantity,
+      required this.subTotal,
+      required this.grandTotal,
+      required this.fxGrandTotal,
       this.itemCount,
       this.depositTotal,
       this.lineId,
-      @required this.taxTotal,
-      @required this.shippingTotal,
-      @required this.conversionFactor});
+      required this.taxTotal,
+      required this.shippingTotal,
+      required this.conversionFactor});
   factory SalesOrderDetailData.fromData(Map<String, dynamic> data,
-      {String prefix}) {
+      {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return SalesOrderDetailData(
       tenantId: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
       userName: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}user_name']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}user_name'])!,
       userId: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}user_id']),
-      id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}user_id'])!,
+      id: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
       transactionNumber: const StringType().mapFromDatabaseResponse(
-          data['${effectivePrefix}transaction_number']),
+          data['${effectivePrefix}transaction_number'])!,
       inventoryCycleNumber: const StringType().mapFromDatabaseResponse(
-          data['${effectivePrefix}inventory_cycle_number']),
+          data['${effectivePrefix}inventory_cycle_number'])!,
       daySessionNumber: const StringType().mapFromDatabaseResponse(
-          data['${effectivePrefix}day_session_number']),
+          data['${effectivePrefix}day_session_number'])!,
       deliveryDate: const DateTimeType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}delivery_date']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}delivery_date'])!,
       currency: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}currency']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}currency'])!,
       exchangeRate: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}exchange_rate']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}exchange_rate'])!,
       transactionStatus: const StringType().mapFromDatabaseResponse(
           data['${effectivePrefix}transaction_status']),
       itemId: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
       itemCode: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}item_code']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}item_code'])!,
       upcCode: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}upc_code']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}upc_code'])!,
       description: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}description']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}description'])!,
       itemGroup: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}item_group']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}item_group'])!,
       category: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}category']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}category'])!,
       salesUOM: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}sales_u_o_m']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}sales_u_o_m'])!,
       stockUOM: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}stock_u_o_m']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}stock_u_o_m'])!,
       taxGroup: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}tax_group']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}tax_group'])!,
       warehouse: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}warehouse']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}warehouse'])!,
       discountType: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}discount_type']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}discount_type'])!,
       discountPercentage: const RealType().mapFromDatabaseResponse(
-          data['${effectivePrefix}discount_percentage']),
+          data['${effectivePrefix}discount_percentage'])!,
       discountAmount: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}discount_amount']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}discount_amount'])!,
       lineDiscountTotal: const RealType().mapFromDatabaseResponse(
-          data['${effectivePrefix}line_discount_total']),
+          data['${effectivePrefix}line_discount_total'])!,
       taxIndicator: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}tax_indicator']),
       unitPrice: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}unit_price']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}unit_price'])!,
       costPrice: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}cost_price']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}cost_price'])!,
       listPrice: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}list_price']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}list_price'])!,
       quantity: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}quantity']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}quantity'])!,
       subTotal: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}sub_total']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}sub_total'])!,
       grandTotal: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}grand_total']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}grand_total'])!,
       fxGrandTotal: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}fx_grand_total']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}fx_grand_total'])!,
       itemCount: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}item_count']),
       depositTotal: const RealType()
@@ -1777,133 +1657,69 @@ class SalesOrderDetailData extends DataClass
       lineId: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}line_id']),
       taxTotal: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}tax_total']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}tax_total'])!,
       shippingTotal: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}shipping_total']),
-      conversionFactor: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}conversion_factor']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}shipping_total'])!,
+      conversionFactor: const RealType().mapFromDatabaseResponse(
+          data['${effectivePrefix}conversion_factor'])!,
     );
   }
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<int?>(tenantId);
     }
-    if (!nullToAbsent || userName != null) {
-      map['user_name'] = Variable<String>(userName);
-    }
-    if (!nullToAbsent || userId != null) {
-      map['user_id'] = Variable<int>(userId);
-    }
-    if (!nullToAbsent || id != null) {
-      map['id'] = Variable<int>(id);
-    }
-    if (!nullToAbsent || transactionNumber != null) {
-      map['transaction_number'] = Variable<String>(transactionNumber);
-    }
-    if (!nullToAbsent || inventoryCycleNumber != null) {
-      map['inventory_cycle_number'] = Variable<String>(inventoryCycleNumber);
-    }
-    if (!nullToAbsent || daySessionNumber != null) {
-      map['day_session_number'] = Variable<String>(daySessionNumber);
-    }
-    if (!nullToAbsent || deliveryDate != null) {
-      map['delivery_date'] = Variable<DateTime>(deliveryDate);
-    }
-    if (!nullToAbsent || currency != null) {
-      map['currency'] = Variable<String>(currency);
-    }
-    if (!nullToAbsent || exchangeRate != null) {
-      map['exchange_rate'] = Variable<double>(exchangeRate);
-    }
+    map['user_name'] = Variable<String>(userName);
+    map['user_id'] = Variable<int>(userId);
+    map['id'] = Variable<int>(id);
+    map['transaction_number'] = Variable<String>(transactionNumber);
+    map['inventory_cycle_number'] = Variable<String>(inventoryCycleNumber);
+    map['day_session_number'] = Variable<String>(daySessionNumber);
+    map['delivery_date'] = Variable<DateTime>(deliveryDate);
+    map['currency'] = Variable<String>(currency);
+    map['exchange_rate'] = Variable<double>(exchangeRate);
     if (!nullToAbsent || transactionStatus != null) {
-      map['transaction_status'] = Variable<String>(transactionStatus);
+      map['transaction_status'] = Variable<String?>(transactionStatus);
     }
     if (!nullToAbsent || itemId != null) {
-      map['item_id'] = Variable<String>(itemId);
+      map['item_id'] = Variable<String?>(itemId);
     }
-    if (!nullToAbsent || itemCode != null) {
-      map['item_code'] = Variable<String>(itemCode);
-    }
-    if (!nullToAbsent || upcCode != null) {
-      map['upc_code'] = Variable<String>(upcCode);
-    }
-    if (!nullToAbsent || description != null) {
-      map['description'] = Variable<String>(description);
-    }
-    if (!nullToAbsent || itemGroup != null) {
-      map['item_group'] = Variable<String>(itemGroup);
-    }
-    if (!nullToAbsent || category != null) {
-      map['category'] = Variable<String>(category);
-    }
-    if (!nullToAbsent || salesUOM != null) {
-      map['sales_u_o_m'] = Variable<String>(salesUOM);
-    }
-    if (!nullToAbsent || stockUOM != null) {
-      map['stock_u_o_m'] = Variable<String>(stockUOM);
-    }
-    if (!nullToAbsent || taxGroup != null) {
-      map['tax_group'] = Variable<String>(taxGroup);
-    }
-    if (!nullToAbsent || warehouse != null) {
-      map['warehouse'] = Variable<String>(warehouse);
-    }
-    if (!nullToAbsent || discountType != null) {
-      map['discount_type'] = Variable<String>(discountType);
-    }
-    if (!nullToAbsent || discountPercentage != null) {
-      map['discount_percentage'] = Variable<double>(discountPercentage);
-    }
-    if (!nullToAbsent || discountAmount != null) {
-      map['discount_amount'] = Variable<double>(discountAmount);
-    }
-    if (!nullToAbsent || lineDiscountTotal != null) {
-      map['line_discount_total'] = Variable<double>(lineDiscountTotal);
-    }
+    map['item_code'] = Variable<String>(itemCode);
+    map['upc_code'] = Variable<String>(upcCode);
+    map['description'] = Variable<String>(description);
+    map['item_group'] = Variable<String>(itemGroup);
+    map['category'] = Variable<String>(category);
+    map['sales_u_o_m'] = Variable<String>(salesUOM);
+    map['stock_u_o_m'] = Variable<String>(stockUOM);
+    map['tax_group'] = Variable<String>(taxGroup);
+    map['warehouse'] = Variable<String>(warehouse);
+    map['discount_type'] = Variable<String>(discountType);
+    map['discount_percentage'] = Variable<double>(discountPercentage);
+    map['discount_amount'] = Variable<double>(discountAmount);
+    map['line_discount_total'] = Variable<double>(lineDiscountTotal);
     if (!nullToAbsent || taxIndicator != null) {
-      map['tax_indicator'] = Variable<String>(taxIndicator);
+      map['tax_indicator'] = Variable<String?>(taxIndicator);
     }
-    if (!nullToAbsent || unitPrice != null) {
-      map['unit_price'] = Variable<double>(unitPrice);
-    }
-    if (!nullToAbsent || costPrice != null) {
-      map['cost_price'] = Variable<double>(costPrice);
-    }
-    if (!nullToAbsent || listPrice != null) {
-      map['list_price'] = Variable<double>(listPrice);
-    }
-    if (!nullToAbsent || quantity != null) {
-      map['quantity'] = Variable<double>(quantity);
-    }
-    if (!nullToAbsent || subTotal != null) {
-      map['sub_total'] = Variable<double>(subTotal);
-    }
-    if (!nullToAbsent || grandTotal != null) {
-      map['grand_total'] = Variable<double>(grandTotal);
-    }
-    if (!nullToAbsent || fxGrandTotal != null) {
-      map['fx_grand_total'] = Variable<double>(fxGrandTotal);
-    }
+    map['unit_price'] = Variable<double>(unitPrice);
+    map['cost_price'] = Variable<double>(costPrice);
+    map['list_price'] = Variable<double>(listPrice);
+    map['quantity'] = Variable<double>(quantity);
+    map['sub_total'] = Variable<double>(subTotal);
+    map['grand_total'] = Variable<double>(grandTotal);
+    map['fx_grand_total'] = Variable<double>(fxGrandTotal);
     if (!nullToAbsent || itemCount != null) {
-      map['item_count'] = Variable<int>(itemCount);
+      map['item_count'] = Variable<int?>(itemCount);
     }
     if (!nullToAbsent || depositTotal != null) {
-      map['deposit_total'] = Variable<double>(depositTotal);
+      map['deposit_total'] = Variable<double?>(depositTotal);
     }
     if (!nullToAbsent || lineId != null) {
-      map['line_id'] = Variable<int>(lineId);
+      map['line_id'] = Variable<int?>(lineId);
     }
-    if (!nullToAbsent || taxTotal != null) {
-      map['tax_total'] = Variable<double>(taxTotal);
-    }
-    if (!nullToAbsent || shippingTotal != null) {
-      map['shipping_total'] = Variable<double>(shippingTotal);
-    }
-    if (!nullToAbsent || conversionFactor != null) {
-      map['conversion_factor'] = Variable<double>(conversionFactor);
-    }
+    map['tax_total'] = Variable<double>(taxTotal);
+    map['shipping_total'] = Variable<double>(shippingTotal);
+    map['conversion_factor'] = Variable<double>(conversionFactor);
     return map;
   }
 
@@ -1912,98 +1728,43 @@ class SalesOrderDetailData extends DataClass
       tenantId: tenantId == null && nullToAbsent
           ? const Value.absent()
           : Value(tenantId),
-      userName: userName == null && nullToAbsent
-          ? const Value.absent()
-          : Value(userName),
-      userId:
-          userId == null && nullToAbsent ? const Value.absent() : Value(userId),
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      transactionNumber: transactionNumber == null && nullToAbsent
-          ? const Value.absent()
-          : Value(transactionNumber),
-      inventoryCycleNumber: inventoryCycleNumber == null && nullToAbsent
-          ? const Value.absent()
-          : Value(inventoryCycleNumber),
-      daySessionNumber: daySessionNumber == null && nullToAbsent
-          ? const Value.absent()
-          : Value(daySessionNumber),
-      deliveryDate: deliveryDate == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deliveryDate),
-      currency: currency == null && nullToAbsent
-          ? const Value.absent()
-          : Value(currency),
-      exchangeRate: exchangeRate == null && nullToAbsent
-          ? const Value.absent()
-          : Value(exchangeRate),
+      userName: Value(userName),
+      userId: Value(userId),
+      id: Value(id),
+      transactionNumber: Value(transactionNumber),
+      inventoryCycleNumber: Value(inventoryCycleNumber),
+      daySessionNumber: Value(daySessionNumber),
+      deliveryDate: Value(deliveryDate),
+      currency: Value(currency),
+      exchangeRate: Value(exchangeRate),
       transactionStatus: transactionStatus == null && nullToAbsent
           ? const Value.absent()
           : Value(transactionStatus),
       itemId:
           itemId == null && nullToAbsent ? const Value.absent() : Value(itemId),
-      itemCode: itemCode == null && nullToAbsent
-          ? const Value.absent()
-          : Value(itemCode),
-      upcCode: upcCode == null && nullToAbsent
-          ? const Value.absent()
-          : Value(upcCode),
-      description: description == null && nullToAbsent
-          ? const Value.absent()
-          : Value(description),
-      itemGroup: itemGroup == null && nullToAbsent
-          ? const Value.absent()
-          : Value(itemGroup),
-      category: category == null && nullToAbsent
-          ? const Value.absent()
-          : Value(category),
-      salesUOM: salesUOM == null && nullToAbsent
-          ? const Value.absent()
-          : Value(salesUOM),
-      stockUOM: stockUOM == null && nullToAbsent
-          ? const Value.absent()
-          : Value(stockUOM),
-      taxGroup: taxGroup == null && nullToAbsent
-          ? const Value.absent()
-          : Value(taxGroup),
-      warehouse: warehouse == null && nullToAbsent
-          ? const Value.absent()
-          : Value(warehouse),
-      discountType: discountType == null && nullToAbsent
-          ? const Value.absent()
-          : Value(discountType),
-      discountPercentage: discountPercentage == null && nullToAbsent
-          ? const Value.absent()
-          : Value(discountPercentage),
-      discountAmount: discountAmount == null && nullToAbsent
-          ? const Value.absent()
-          : Value(discountAmount),
-      lineDiscountTotal: lineDiscountTotal == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lineDiscountTotal),
+      itemCode: Value(itemCode),
+      upcCode: Value(upcCode),
+      description: Value(description),
+      itemGroup: Value(itemGroup),
+      category: Value(category),
+      salesUOM: Value(salesUOM),
+      stockUOM: Value(stockUOM),
+      taxGroup: Value(taxGroup),
+      warehouse: Value(warehouse),
+      discountType: Value(discountType),
+      discountPercentage: Value(discountPercentage),
+      discountAmount: Value(discountAmount),
+      lineDiscountTotal: Value(lineDiscountTotal),
       taxIndicator: taxIndicator == null && nullToAbsent
           ? const Value.absent()
           : Value(taxIndicator),
-      unitPrice: unitPrice == null && nullToAbsent
-          ? const Value.absent()
-          : Value(unitPrice),
-      costPrice: costPrice == null && nullToAbsent
-          ? const Value.absent()
-          : Value(costPrice),
-      listPrice: listPrice == null && nullToAbsent
-          ? const Value.absent()
-          : Value(listPrice),
-      quantity: quantity == null && nullToAbsent
-          ? const Value.absent()
-          : Value(quantity),
-      subTotal: subTotal == null && nullToAbsent
-          ? const Value.absent()
-          : Value(subTotal),
-      grandTotal: grandTotal == null && nullToAbsent
-          ? const Value.absent()
-          : Value(grandTotal),
-      fxGrandTotal: fxGrandTotal == null && nullToAbsent
-          ? const Value.absent()
-          : Value(fxGrandTotal),
+      unitPrice: Value(unitPrice),
+      costPrice: Value(costPrice),
+      listPrice: Value(listPrice),
+      quantity: Value(quantity),
+      subTotal: Value(subTotal),
+      grandTotal: Value(grandTotal),
+      fxGrandTotal: Value(fxGrandTotal),
       itemCount: itemCount == null && nullToAbsent
           ? const Value.absent()
           : Value(itemCount),
@@ -2012,23 +1773,17 @@ class SalesOrderDetailData extends DataClass
           : Value(depositTotal),
       lineId:
           lineId == null && nullToAbsent ? const Value.absent() : Value(lineId),
-      taxTotal: taxTotal == null && nullToAbsent
-          ? const Value.absent()
-          : Value(taxTotal),
-      shippingTotal: shippingTotal == null && nullToAbsent
-          ? const Value.absent()
-          : Value(shippingTotal),
-      conversionFactor: conversionFactor == null && nullToAbsent
-          ? const Value.absent()
-          : Value(conversionFactor),
+      taxTotal: Value(taxTotal),
+      shippingTotal: Value(shippingTotal),
+      conversionFactor: Value(conversionFactor),
     );
   }
 
   factory SalesOrderDetailData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
+      {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return SalesOrderDetailData(
-      tenantId: serializer.fromJson<int>(json['tenantId']),
+      tenantId: serializer.fromJson<int?>(json['tenantId']),
       userName: serializer.fromJson<String>(json['userName']),
       userId: serializer.fromJson<int>(json['userId']),
       id: serializer.fromJson<int>(json['id']),
@@ -2039,8 +1794,9 @@ class SalesOrderDetailData extends DataClass
       deliveryDate: serializer.fromJson<DateTime>(json['deliveryDate']),
       currency: serializer.fromJson<String>(json['currency']),
       exchangeRate: serializer.fromJson<double>(json['exchangeRate']),
-      transactionStatus: serializer.fromJson<String>(json['transactionStatus']),
-      itemId: serializer.fromJson<String>(json['itemId']),
+      transactionStatus:
+          serializer.fromJson<String?>(json['transactionStatus']),
+      itemId: serializer.fromJson<String?>(json['itemId']),
       itemCode: serializer.fromJson<String>(json['itemCode']),
       upcCode: serializer.fromJson<String>(json['upcCode']),
       description: serializer.fromJson<String>(json['description']),
@@ -2055,7 +1811,7 @@ class SalesOrderDetailData extends DataClass
           serializer.fromJson<double>(json['discountPercentage']),
       discountAmount: serializer.fromJson<double>(json['discountAmount']),
       lineDiscountTotal: serializer.fromJson<double>(json['lineDiscountTotal']),
-      taxIndicator: serializer.fromJson<String>(json['taxIndicator']),
+      taxIndicator: serializer.fromJson<String?>(json['taxIndicator']),
       unitPrice: serializer.fromJson<double>(json['unitPrice']),
       costPrice: serializer.fromJson<double>(json['costPrice']),
       listPrice: serializer.fromJson<double>(json['listPrice']),
@@ -2063,19 +1819,19 @@ class SalesOrderDetailData extends DataClass
       subTotal: serializer.fromJson<double>(json['subTotal']),
       grandTotal: serializer.fromJson<double>(json['grandTotal']),
       fxGrandTotal: serializer.fromJson<double>(json['fxGrandTotal']),
-      itemCount: serializer.fromJson<int>(json['itemCount']),
-      depositTotal: serializer.fromJson<double>(json['depositTotal']),
-      lineId: serializer.fromJson<int>(json['lineId']),
+      itemCount: serializer.fromJson<int?>(json['itemCount']),
+      depositTotal: serializer.fromJson<double?>(json['depositTotal']),
+      lineId: serializer.fromJson<int?>(json['lineId']),
       taxTotal: serializer.fromJson<double>(json['taxTotal']),
       shippingTotal: serializer.fromJson<double>(json['shippingTotal']),
       conversionFactor: serializer.fromJson<double>(json['conversionFactor']),
     );
   }
   @override
-  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int>(tenantId),
+      'tenantId': serializer.toJson<int?>(tenantId),
       'userName': serializer.toJson<String>(userName),
       'userId': serializer.toJson<int>(userId),
       'id': serializer.toJson<int>(id),
@@ -2085,8 +1841,8 @@ class SalesOrderDetailData extends DataClass
       'deliveryDate': serializer.toJson<DateTime>(deliveryDate),
       'currency': serializer.toJson<String>(currency),
       'exchangeRate': serializer.toJson<double>(exchangeRate),
-      'transactionStatus': serializer.toJson<String>(transactionStatus),
-      'itemId': serializer.toJson<String>(itemId),
+      'transactionStatus': serializer.toJson<String?>(transactionStatus),
+      'itemId': serializer.toJson<String?>(itemId),
       'itemCode': serializer.toJson<String>(itemCode),
       'upcCode': serializer.toJson<String>(upcCode),
       'description': serializer.toJson<String>(description),
@@ -2100,7 +1856,7 @@ class SalesOrderDetailData extends DataClass
       'discountPercentage': serializer.toJson<double>(discountPercentage),
       'discountAmount': serializer.toJson<double>(discountAmount),
       'lineDiscountTotal': serializer.toJson<double>(lineDiscountTotal),
-      'taxIndicator': serializer.toJson<String>(taxIndicator),
+      'taxIndicator': serializer.toJson<String?>(taxIndicator),
       'unitPrice': serializer.toJson<double>(unitPrice),
       'costPrice': serializer.toJson<double>(costPrice),
       'listPrice': serializer.toJson<double>(listPrice),
@@ -2108,9 +1864,9 @@ class SalesOrderDetailData extends DataClass
       'subTotal': serializer.toJson<double>(subTotal),
       'grandTotal': serializer.toJson<double>(grandTotal),
       'fxGrandTotal': serializer.toJson<double>(fxGrandTotal),
-      'itemCount': serializer.toJson<int>(itemCount),
-      'depositTotal': serializer.toJson<double>(depositTotal),
-      'lineId': serializer.toJson<int>(lineId),
+      'itemCount': serializer.toJson<int?>(itemCount),
+      'depositTotal': serializer.toJson<double?>(depositTotal),
+      'lineId': serializer.toJson<int?>(lineId),
       'taxTotal': serializer.toJson<double>(taxTotal),
       'shippingTotal': serializer.toJson<double>(shippingTotal),
       'conversionFactor': serializer.toJson<double>(conversionFactor),
@@ -2118,45 +1874,45 @@ class SalesOrderDetailData extends DataClass
   }
 
   SalesOrderDetailData copyWith(
-          {int tenantId,
-          String userName,
-          int userId,
-          int id,
-          String transactionNumber,
-          String inventoryCycleNumber,
-          String daySessionNumber,
-          DateTime deliveryDate,
-          String currency,
-          double exchangeRate,
-          String transactionStatus,
-          String itemId,
-          String itemCode,
-          String upcCode,
-          String description,
-          String itemGroup,
-          String category,
-          String salesUOM,
-          String stockUOM,
-          String taxGroup,
-          String warehouse,
-          String discountType,
-          double discountPercentage,
-          double discountAmount,
-          double lineDiscountTotal,
-          String taxIndicator,
-          double unitPrice,
-          double costPrice,
-          double listPrice,
-          double quantity,
-          double subTotal,
-          double grandTotal,
-          double fxGrandTotal,
-          int itemCount,
-          double depositTotal,
-          int lineId,
-          double taxTotal,
-          double shippingTotal,
-          double conversionFactor}) =>
+          {int? tenantId,
+          String? userName,
+          int? userId,
+          int? id,
+          String? transactionNumber,
+          String? inventoryCycleNumber,
+          String? daySessionNumber,
+          DateTime? deliveryDate,
+          String? currency,
+          double? exchangeRate,
+          String? transactionStatus,
+          String? itemId,
+          String? itemCode,
+          String? upcCode,
+          String? description,
+          String? itemGroup,
+          String? category,
+          String? salesUOM,
+          String? stockUOM,
+          String? taxGroup,
+          String? warehouse,
+          String? discountType,
+          double? discountPercentage,
+          double? discountAmount,
+          double? lineDiscountTotal,
+          String? taxIndicator,
+          double? unitPrice,
+          double? costPrice,
+          double? listPrice,
+          double? quantity,
+          double? subTotal,
+          double? grandTotal,
+          double? fxGrandTotal,
+          int? itemCount,
+          double? depositTotal,
+          int? lineId,
+          double? taxTotal,
+          double? shippingTotal,
+          double? conversionFactor}) =>
       SalesOrderDetailData(
         tenantId: tenantId ?? this.tenantId,
         userName: userName ?? this.userName,
@@ -2332,7 +2088,7 @@ class SalesOrderDetailData extends DataClass
 }
 
 class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
-  final Value<int> tenantId;
+  final Value<int?> tenantId;
   final Value<String> userName;
   final Value<int> userId;
   final Value<int> id;
@@ -2342,8 +2098,8 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
   final Value<DateTime> deliveryDate;
   final Value<String> currency;
   final Value<double> exchangeRate;
-  final Value<String> transactionStatus;
-  final Value<String> itemId;
+  final Value<String?> transactionStatus;
+  final Value<String?> itemId;
   final Value<String> itemCode;
   final Value<String> upcCode;
   final Value<String> description;
@@ -2357,7 +2113,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
   final Value<double> discountPercentage;
   final Value<double> discountAmount;
   final Value<double> lineDiscountTotal;
-  final Value<String> taxIndicator;
+  final Value<String?> taxIndicator;
   final Value<double> unitPrice;
   final Value<double> costPrice;
   final Value<double> listPrice;
@@ -2365,9 +2121,9 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
   final Value<double> subTotal;
   final Value<double> grandTotal;
   final Value<double> fxGrandTotal;
-  final Value<int> itemCount;
-  final Value<double> depositTotal;
-  final Value<int> lineId;
+  final Value<int?> itemCount;
+  final Value<double?> depositTotal;
+  final Value<int?> lineId;
   final Value<double> taxTotal;
   final Value<double> shippingTotal;
   final Value<double> conversionFactor;
@@ -2414,44 +2170,44 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
   });
   SalesOrderDetailCompanion.insert({
     this.tenantId = const Value.absent(),
-    @required String userName,
-    @required int userId,
+    required String userName,
+    required int userId,
     this.id = const Value.absent(),
-    @required String transactionNumber,
-    @required String inventoryCycleNumber,
-    @required String daySessionNumber,
-    @required DateTime deliveryDate,
-    @required String currency,
-    @required double exchangeRate,
+    required String transactionNumber,
+    required String inventoryCycleNumber,
+    required String daySessionNumber,
+    required DateTime deliveryDate,
+    required String currency,
+    required double exchangeRate,
     this.transactionStatus = const Value.absent(),
     this.itemId = const Value.absent(),
-    @required String itemCode,
-    @required String upcCode,
-    @required String description,
-    @required String itemGroup,
-    @required String category,
-    @required String salesUOM,
-    @required String stockUOM,
-    @required String taxGroup,
-    @required String warehouse,
-    @required String discountType,
-    @required double discountPercentage,
-    @required double discountAmount,
-    @required double lineDiscountTotal,
+    required String itemCode,
+    required String upcCode,
+    required String description,
+    required String itemGroup,
+    required String category,
+    required String salesUOM,
+    required String stockUOM,
+    required String taxGroup,
+    required String warehouse,
+    required String discountType,
+    required double discountPercentage,
+    required double discountAmount,
+    required double lineDiscountTotal,
     this.taxIndicator = const Value.absent(),
-    @required double unitPrice,
-    @required double costPrice,
-    @required double listPrice,
-    @required double quantity,
-    @required double subTotal,
-    @required double grandTotal,
-    @required double fxGrandTotal,
+    required double unitPrice,
+    required double costPrice,
+    required double listPrice,
+    required double quantity,
+    required double subTotal,
+    required double grandTotal,
+    required double fxGrandTotal,
     this.itemCount = const Value.absent(),
     this.depositTotal = const Value.absent(),
     this.lineId = const Value.absent(),
-    @required double taxTotal,
-    @required double shippingTotal,
-    @required double conversionFactor,
+    required double taxTotal,
+    required double shippingTotal,
+    required double conversionFactor,
   })  : userName = Value(userName),
         userId = Value(userId),
         transactionNumber = Value(transactionNumber),
@@ -2484,45 +2240,45 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
         shippingTotal = Value(shippingTotal),
         conversionFactor = Value(conversionFactor);
   static Insertable<SalesOrderDetailData> custom({
-    Expression<int> tenantId,
-    Expression<String> userName,
-    Expression<int> userId,
-    Expression<int> id,
-    Expression<String> transactionNumber,
-    Expression<String> inventoryCycleNumber,
-    Expression<String> daySessionNumber,
-    Expression<DateTime> deliveryDate,
-    Expression<String> currency,
-    Expression<double> exchangeRate,
-    Expression<String> transactionStatus,
-    Expression<String> itemId,
-    Expression<String> itemCode,
-    Expression<String> upcCode,
-    Expression<String> description,
-    Expression<String> itemGroup,
-    Expression<String> category,
-    Expression<String> salesUOM,
-    Expression<String> stockUOM,
-    Expression<String> taxGroup,
-    Expression<String> warehouse,
-    Expression<String> discountType,
-    Expression<double> discountPercentage,
-    Expression<double> discountAmount,
-    Expression<double> lineDiscountTotal,
-    Expression<String> taxIndicator,
-    Expression<double> unitPrice,
-    Expression<double> costPrice,
-    Expression<double> listPrice,
-    Expression<double> quantity,
-    Expression<double> subTotal,
-    Expression<double> grandTotal,
-    Expression<double> fxGrandTotal,
-    Expression<int> itemCount,
-    Expression<double> depositTotal,
-    Expression<int> lineId,
-    Expression<double> taxTotal,
-    Expression<double> shippingTotal,
-    Expression<double> conversionFactor,
+    Expression<int?>? tenantId,
+    Expression<String>? userName,
+    Expression<int>? userId,
+    Expression<int>? id,
+    Expression<String>? transactionNumber,
+    Expression<String>? inventoryCycleNumber,
+    Expression<String>? daySessionNumber,
+    Expression<DateTime>? deliveryDate,
+    Expression<String>? currency,
+    Expression<double>? exchangeRate,
+    Expression<String?>? transactionStatus,
+    Expression<String?>? itemId,
+    Expression<String>? itemCode,
+    Expression<String>? upcCode,
+    Expression<String>? description,
+    Expression<String>? itemGroup,
+    Expression<String>? category,
+    Expression<String>? salesUOM,
+    Expression<String>? stockUOM,
+    Expression<String>? taxGroup,
+    Expression<String>? warehouse,
+    Expression<String>? discountType,
+    Expression<double>? discountPercentage,
+    Expression<double>? discountAmount,
+    Expression<double>? lineDiscountTotal,
+    Expression<String?>? taxIndicator,
+    Expression<double>? unitPrice,
+    Expression<double>? costPrice,
+    Expression<double>? listPrice,
+    Expression<double>? quantity,
+    Expression<double>? subTotal,
+    Expression<double>? grandTotal,
+    Expression<double>? fxGrandTotal,
+    Expression<int?>? itemCount,
+    Expression<double?>? depositTotal,
+    Expression<int?>? lineId,
+    Expression<double>? taxTotal,
+    Expression<double>? shippingTotal,
+    Expression<double>? conversionFactor,
   }) {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
@@ -2569,45 +2325,45 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
   }
 
   SalesOrderDetailCompanion copyWith(
-      {Value<int> tenantId,
-      Value<String> userName,
-      Value<int> userId,
-      Value<int> id,
-      Value<String> transactionNumber,
-      Value<String> inventoryCycleNumber,
-      Value<String> daySessionNumber,
-      Value<DateTime> deliveryDate,
-      Value<String> currency,
-      Value<double> exchangeRate,
-      Value<String> transactionStatus,
-      Value<String> itemId,
-      Value<String> itemCode,
-      Value<String> upcCode,
-      Value<String> description,
-      Value<String> itemGroup,
-      Value<String> category,
-      Value<String> salesUOM,
-      Value<String> stockUOM,
-      Value<String> taxGroup,
-      Value<String> warehouse,
-      Value<String> discountType,
-      Value<double> discountPercentage,
-      Value<double> discountAmount,
-      Value<double> lineDiscountTotal,
-      Value<String> taxIndicator,
-      Value<double> unitPrice,
-      Value<double> costPrice,
-      Value<double> listPrice,
-      Value<double> quantity,
-      Value<double> subTotal,
-      Value<double> grandTotal,
-      Value<double> fxGrandTotal,
-      Value<int> itemCount,
-      Value<double> depositTotal,
-      Value<int> lineId,
-      Value<double> taxTotal,
-      Value<double> shippingTotal,
-      Value<double> conversionFactor}) {
+      {Value<int?>? tenantId,
+      Value<String>? userName,
+      Value<int>? userId,
+      Value<int>? id,
+      Value<String>? transactionNumber,
+      Value<String>? inventoryCycleNumber,
+      Value<String>? daySessionNumber,
+      Value<DateTime>? deliveryDate,
+      Value<String>? currency,
+      Value<double>? exchangeRate,
+      Value<String?>? transactionStatus,
+      Value<String?>? itemId,
+      Value<String>? itemCode,
+      Value<String>? upcCode,
+      Value<String>? description,
+      Value<String>? itemGroup,
+      Value<String>? category,
+      Value<String>? salesUOM,
+      Value<String>? stockUOM,
+      Value<String>? taxGroup,
+      Value<String>? warehouse,
+      Value<String>? discountType,
+      Value<double>? discountPercentage,
+      Value<double>? discountAmount,
+      Value<double>? lineDiscountTotal,
+      Value<String?>? taxIndicator,
+      Value<double>? unitPrice,
+      Value<double>? costPrice,
+      Value<double>? listPrice,
+      Value<double>? quantity,
+      Value<double>? subTotal,
+      Value<double>? grandTotal,
+      Value<double>? fxGrandTotal,
+      Value<int?>? itemCount,
+      Value<double?>? depositTotal,
+      Value<int?>? lineId,
+      Value<double>? taxTotal,
+      Value<double>? shippingTotal,
+      Value<double>? conversionFactor}) {
     return SalesOrderDetailCompanion(
       tenantId: tenantId ?? this.tenantId,
       userName: userName ?? this.userName,
@@ -2655,7 +2411,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<int?>(tenantId.value);
     }
     if (userName.present) {
       map['user_name'] = Variable<String>(userName.value);
@@ -2686,10 +2442,10 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
       map['exchange_rate'] = Variable<double>(exchangeRate.value);
     }
     if (transactionStatus.present) {
-      map['transaction_status'] = Variable<String>(transactionStatus.value);
+      map['transaction_status'] = Variable<String?>(transactionStatus.value);
     }
     if (itemId.present) {
-      map['item_id'] = Variable<String>(itemId.value);
+      map['item_id'] = Variable<String?>(itemId.value);
     }
     if (itemCode.present) {
       map['item_code'] = Variable<String>(itemCode.value);
@@ -2731,7 +2487,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
       map['line_discount_total'] = Variable<double>(lineDiscountTotal.value);
     }
     if (taxIndicator.present) {
-      map['tax_indicator'] = Variable<String>(taxIndicator.value);
+      map['tax_indicator'] = Variable<String?>(taxIndicator.value);
     }
     if (unitPrice.present) {
       map['unit_price'] = Variable<double>(unitPrice.value);
@@ -2755,13 +2511,13 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
       map['fx_grand_total'] = Variable<double>(fxGrandTotal.value);
     }
     if (itemCount.present) {
-      map['item_count'] = Variable<int>(itemCount.value);
+      map['item_count'] = Variable<int?>(itemCount.value);
     }
     if (depositTotal.present) {
-      map['deposit_total'] = Variable<double>(depositTotal.value);
+      map['deposit_total'] = Variable<double?>(depositTotal.value);
     }
     if (lineId.present) {
-      map['line_id'] = Variable<int>(lineId.value);
+      map['line_id'] = Variable<int?>(lineId.value);
     }
     if (taxTotal.present) {
       map['tax_total'] = Variable<double>(taxTotal.value);
@@ -2825,257 +2581,218 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
 class $SalesOrderDetailTable extends SalesOrderDetail
     with TableInfo<$SalesOrderDetailTable, SalesOrderDetailData> {
   final GeneratedDatabase _db;
-  final String _alias;
+  final String? _alias;
   $SalesOrderDetailTable(this._db, [this._alias]);
   final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
-  GeneratedColumn<int> _tenantId;
   @override
-  GeneratedColumn<int> get tenantId =>
-      _tenantId ??= GeneratedColumn<int>('tenant_id', aliasedName, true,
-          type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<int?> tenantId = GeneratedColumn<int?>(
+      'tenant_id', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _userNameMeta = const VerificationMeta('userName');
-  GeneratedColumn<String> _userName;
   @override
-  GeneratedColumn<String> get userName =>
-      _userName ??= GeneratedColumn<String>('user_name', aliasedName, false,
-          type: const StringType(), requiredDuringInsert: true);
+  late final GeneratedColumn<String?> userName = GeneratedColumn<String?>(
+      'user_name', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _userIdMeta = const VerificationMeta('userId');
-  GeneratedColumn<int> _userId;
   @override
-  GeneratedColumn<int> get userId =>
-      _userId ??= GeneratedColumn<int>('user_id', aliasedName, false,
-          type: const IntType(), requiredDuringInsert: true);
+  late final GeneratedColumn<int?> userId = GeneratedColumn<int?>(
+      'user_id', aliasedName, false,
+      type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _idMeta = const VerificationMeta('id');
-  GeneratedColumn<int> _id;
   @override
-  GeneratedColumn<int> get id =>
-      _id ??= GeneratedColumn<int>('id', aliasedName, false,
-          type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
+      'id', aliasedName, false,
+      type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _transactionNumberMeta =
       const VerificationMeta('transactionNumber');
-  GeneratedColumn<String> _transactionNumber;
   @override
-  GeneratedColumn<String> get transactionNumber => _transactionNumber ??=
-      GeneratedColumn<String>('transaction_number', aliasedName, false,
+  late final GeneratedColumn<String?> transactionNumber =
+      GeneratedColumn<String?>('transaction_number', aliasedName, false,
           type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _inventoryCycleNumberMeta =
       const VerificationMeta('inventoryCycleNumber');
-  GeneratedColumn<String> _inventoryCycleNumber;
   @override
-  GeneratedColumn<String> get inventoryCycleNumber => _inventoryCycleNumber ??=
-      GeneratedColumn<String>('inventory_cycle_number', aliasedName, false,
+  late final GeneratedColumn<String?> inventoryCycleNumber =
+      GeneratedColumn<String?>('inventory_cycle_number', aliasedName, false,
           type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _daySessionNumberMeta =
       const VerificationMeta('daySessionNumber');
-  GeneratedColumn<String> _daySessionNumber;
   @override
-  GeneratedColumn<String> get daySessionNumber => _daySessionNumber ??=
-      GeneratedColumn<String>('day_session_number', aliasedName, false,
+  late final GeneratedColumn<String?> daySessionNumber =
+      GeneratedColumn<String?>('day_session_number', aliasedName, false,
           type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _deliveryDateMeta =
       const VerificationMeta('deliveryDate');
-  GeneratedColumn<DateTime> _deliveryDate;
   @override
-  GeneratedColumn<DateTime> get deliveryDate => _deliveryDate ??=
-      GeneratedColumn<DateTime>('delivery_date', aliasedName, false,
+  late final GeneratedColumn<DateTime?> deliveryDate =
+      GeneratedColumn<DateTime?>('delivery_date', aliasedName, false,
           type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _currencyMeta = const VerificationMeta('currency');
-  GeneratedColumn<String> _currency;
   @override
-  GeneratedColumn<String> get currency =>
-      _currency ??= GeneratedColumn<String>('currency', aliasedName, false,
-          type: const StringType(), requiredDuringInsert: true);
+  late final GeneratedColumn<String?> currency = GeneratedColumn<String?>(
+      'currency', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _exchangeRateMeta =
       const VerificationMeta('exchangeRate');
-  GeneratedColumn<double> _exchangeRate;
   @override
-  GeneratedColumn<double> get exchangeRate => _exchangeRate ??=
-      GeneratedColumn<double>('exchange_rate', aliasedName, false,
-          type: const RealType(), requiredDuringInsert: true);
+  late final GeneratedColumn<double?> exchangeRate = GeneratedColumn<double?>(
+      'exchange_rate', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _transactionStatusMeta =
       const VerificationMeta('transactionStatus');
-  GeneratedColumn<String> _transactionStatus;
   @override
-  GeneratedColumn<String> get transactionStatus => _transactionStatus ??=
-      GeneratedColumn<String>('transaction_status', aliasedName, true,
+  late final GeneratedColumn<String?> transactionStatus =
+      GeneratedColumn<String?>('transaction_status', aliasedName, true,
           type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
-  GeneratedColumn<String> _itemId;
   @override
-  GeneratedColumn<String> get itemId =>
-      _itemId ??= GeneratedColumn<String>('item_id', aliasedName, true,
-          type: const StringType(), requiredDuringInsert: false);
+  late final GeneratedColumn<String?> itemId = GeneratedColumn<String?>(
+      'item_id', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _itemCodeMeta = const VerificationMeta('itemCode');
-  GeneratedColumn<String> _itemCode;
   @override
-  GeneratedColumn<String> get itemCode =>
-      _itemCode ??= GeneratedColumn<String>('item_code', aliasedName, false,
-          type: const StringType(), requiredDuringInsert: true);
+  late final GeneratedColumn<String?> itemCode = GeneratedColumn<String?>(
+      'item_code', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _upcCodeMeta = const VerificationMeta('upcCode');
-  GeneratedColumn<String> _upcCode;
   @override
-  GeneratedColumn<String> get upcCode =>
-      _upcCode ??= GeneratedColumn<String>('upc_code', aliasedName, false,
-          type: const StringType(), requiredDuringInsert: true);
+  late final GeneratedColumn<String?> upcCode = GeneratedColumn<String?>(
+      'upc_code', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _descriptionMeta =
       const VerificationMeta('description');
-  GeneratedColumn<String> _description;
   @override
-  GeneratedColumn<String> get description => _description ??=
-      GeneratedColumn<String>('description', aliasedName, false,
-          type: const StringType(), requiredDuringInsert: true);
+  late final GeneratedColumn<String?> description = GeneratedColumn<String?>(
+      'description', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _itemGroupMeta = const VerificationMeta('itemGroup');
-  GeneratedColumn<String> _itemGroup;
   @override
-  GeneratedColumn<String> get itemGroup =>
-      _itemGroup ??= GeneratedColumn<String>('item_group', aliasedName, false,
-          type: const StringType(), requiredDuringInsert: true);
+  late final GeneratedColumn<String?> itemGroup = GeneratedColumn<String?>(
+      'item_group', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _categoryMeta = const VerificationMeta('category');
-  GeneratedColumn<String> _category;
   @override
-  GeneratedColumn<String> get category =>
-      _category ??= GeneratedColumn<String>('category', aliasedName, false,
-          type: const StringType(), requiredDuringInsert: true);
+  late final GeneratedColumn<String?> category = GeneratedColumn<String?>(
+      'category', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _salesUOMMeta = const VerificationMeta('salesUOM');
-  GeneratedColumn<String> _salesUOM;
   @override
-  GeneratedColumn<String> get salesUOM =>
-      _salesUOM ??= GeneratedColumn<String>('sales_u_o_m', aliasedName, false,
-          type: const StringType(), requiredDuringInsert: true);
+  late final GeneratedColumn<String?> salesUOM = GeneratedColumn<String?>(
+      'sales_u_o_m', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _stockUOMMeta = const VerificationMeta('stockUOM');
-  GeneratedColumn<String> _stockUOM;
   @override
-  GeneratedColumn<String> get stockUOM =>
-      _stockUOM ??= GeneratedColumn<String>('stock_u_o_m', aliasedName, false,
-          type: const StringType(), requiredDuringInsert: true);
+  late final GeneratedColumn<String?> stockUOM = GeneratedColumn<String?>(
+      'stock_u_o_m', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _taxGroupMeta = const VerificationMeta('taxGroup');
-  GeneratedColumn<String> _taxGroup;
   @override
-  GeneratedColumn<String> get taxGroup =>
-      _taxGroup ??= GeneratedColumn<String>('tax_group', aliasedName, false,
-          type: const StringType(), requiredDuringInsert: true);
+  late final GeneratedColumn<String?> taxGroup = GeneratedColumn<String?>(
+      'tax_group', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _warehouseMeta = const VerificationMeta('warehouse');
-  GeneratedColumn<String> _warehouse;
   @override
-  GeneratedColumn<String> get warehouse =>
-      _warehouse ??= GeneratedColumn<String>('warehouse', aliasedName, false,
-          type: const StringType(), requiredDuringInsert: true);
+  late final GeneratedColumn<String?> warehouse = GeneratedColumn<String?>(
+      'warehouse', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _discountTypeMeta =
       const VerificationMeta('discountType');
-  GeneratedColumn<String> _discountType;
   @override
-  GeneratedColumn<String> get discountType => _discountType ??=
-      GeneratedColumn<String>('discount_type', aliasedName, false,
-          type: const StringType(), requiredDuringInsert: true);
+  late final GeneratedColumn<String?> discountType = GeneratedColumn<String?>(
+      'discount_type', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _discountPercentageMeta =
       const VerificationMeta('discountPercentage');
-  GeneratedColumn<double> _discountPercentage;
   @override
-  GeneratedColumn<double> get discountPercentage => _discountPercentage ??=
-      GeneratedColumn<double>('discount_percentage', aliasedName, false,
+  late final GeneratedColumn<double?> discountPercentage =
+      GeneratedColumn<double?>('discount_percentage', aliasedName, false,
           type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _discountAmountMeta =
       const VerificationMeta('discountAmount');
-  GeneratedColumn<double> _discountAmount;
   @override
-  GeneratedColumn<double> get discountAmount => _discountAmount ??=
-      GeneratedColumn<double>('discount_amount', aliasedName, false,
-          type: const RealType(), requiredDuringInsert: true);
+  late final GeneratedColumn<double?> discountAmount = GeneratedColumn<double?>(
+      'discount_amount', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _lineDiscountTotalMeta =
       const VerificationMeta('lineDiscountTotal');
-  GeneratedColumn<double> _lineDiscountTotal;
   @override
-  GeneratedColumn<double> get lineDiscountTotal => _lineDiscountTotal ??=
-      GeneratedColumn<double>('line_discount_total', aliasedName, false,
+  late final GeneratedColumn<double?> lineDiscountTotal =
+      GeneratedColumn<double?>('line_discount_total', aliasedName, false,
           type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _taxIndicatorMeta =
       const VerificationMeta('taxIndicator');
-  GeneratedColumn<String> _taxIndicator;
   @override
-  GeneratedColumn<String> get taxIndicator => _taxIndicator ??=
-      GeneratedColumn<String>('tax_indicator', aliasedName, true,
-          type: const StringType(), requiredDuringInsert: false);
+  late final GeneratedColumn<String?> taxIndicator = GeneratedColumn<String?>(
+      'tax_indicator', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _unitPriceMeta = const VerificationMeta('unitPrice');
-  GeneratedColumn<double> _unitPrice;
   @override
-  GeneratedColumn<double> get unitPrice =>
-      _unitPrice ??= GeneratedColumn<double>('unit_price', aliasedName, false,
-          type: const RealType(), requiredDuringInsert: true);
+  late final GeneratedColumn<double?> unitPrice = GeneratedColumn<double?>(
+      'unit_price', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _costPriceMeta = const VerificationMeta('costPrice');
-  GeneratedColumn<double> _costPrice;
   @override
-  GeneratedColumn<double> get costPrice =>
-      _costPrice ??= GeneratedColumn<double>('cost_price', aliasedName, false,
-          type: const RealType(), requiredDuringInsert: true);
+  late final GeneratedColumn<double?> costPrice = GeneratedColumn<double?>(
+      'cost_price', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _listPriceMeta = const VerificationMeta('listPrice');
-  GeneratedColumn<double> _listPrice;
   @override
-  GeneratedColumn<double> get listPrice =>
-      _listPrice ??= GeneratedColumn<double>('list_price', aliasedName, false,
-          type: const RealType(), requiredDuringInsert: true);
+  late final GeneratedColumn<double?> listPrice = GeneratedColumn<double?>(
+      'list_price', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _quantityMeta = const VerificationMeta('quantity');
-  GeneratedColumn<double> _quantity;
   @override
-  GeneratedColumn<double> get quantity =>
-      _quantity ??= GeneratedColumn<double>('quantity', aliasedName, false,
-          type: const RealType(), requiredDuringInsert: true);
+  late final GeneratedColumn<double?> quantity = GeneratedColumn<double?>(
+      'quantity', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _subTotalMeta = const VerificationMeta('subTotal');
-  GeneratedColumn<double> _subTotal;
   @override
-  GeneratedColumn<double> get subTotal =>
-      _subTotal ??= GeneratedColumn<double>('sub_total', aliasedName, false,
-          type: const RealType(), requiredDuringInsert: true);
+  late final GeneratedColumn<double?> subTotal = GeneratedColumn<double?>(
+      'sub_total', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _grandTotalMeta = const VerificationMeta('grandTotal');
-  GeneratedColumn<double> _grandTotal;
   @override
-  GeneratedColumn<double> get grandTotal =>
-      _grandTotal ??= GeneratedColumn<double>('grand_total', aliasedName, false,
-          type: const RealType(), requiredDuringInsert: true);
+  late final GeneratedColumn<double?> grandTotal = GeneratedColumn<double?>(
+      'grand_total', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _fxGrandTotalMeta =
       const VerificationMeta('fxGrandTotal');
-  GeneratedColumn<double> _fxGrandTotal;
   @override
-  GeneratedColumn<double> get fxGrandTotal => _fxGrandTotal ??=
-      GeneratedColumn<double>('fx_grand_total', aliasedName, false,
-          type: const RealType(), requiredDuringInsert: true);
+  late final GeneratedColumn<double?> fxGrandTotal = GeneratedColumn<double?>(
+      'fx_grand_total', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _itemCountMeta = const VerificationMeta('itemCount');
-  GeneratedColumn<int> _itemCount;
   @override
-  GeneratedColumn<int> get itemCount =>
-      _itemCount ??= GeneratedColumn<int>('item_count', aliasedName, true,
-          type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<int?> itemCount = GeneratedColumn<int?>(
+      'item_count', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _depositTotalMeta =
       const VerificationMeta('depositTotal');
-  GeneratedColumn<double> _depositTotal;
   @override
-  GeneratedColumn<double> get depositTotal => _depositTotal ??=
-      GeneratedColumn<double>('deposit_total', aliasedName, true,
-          type: const RealType(), requiredDuringInsert: false);
+  late final GeneratedColumn<double?> depositTotal = GeneratedColumn<double?>(
+      'deposit_total', aliasedName, true,
+      type: const RealType(), requiredDuringInsert: false);
   final VerificationMeta _lineIdMeta = const VerificationMeta('lineId');
-  GeneratedColumn<int> _lineId;
   @override
-  GeneratedColumn<int> get lineId =>
-      _lineId ??= GeneratedColumn<int>('line_id', aliasedName, true,
-          type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<int?> lineId = GeneratedColumn<int?>(
+      'line_id', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _taxTotalMeta = const VerificationMeta('taxTotal');
-  GeneratedColumn<double> _taxTotal;
   @override
-  GeneratedColumn<double> get taxTotal =>
-      _taxTotal ??= GeneratedColumn<double>('tax_total', aliasedName, false,
-          type: const RealType(), requiredDuringInsert: true);
+  late final GeneratedColumn<double?> taxTotal = GeneratedColumn<double?>(
+      'tax_total', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _shippingTotalMeta =
       const VerificationMeta('shippingTotal');
-  GeneratedColumn<double> _shippingTotal;
   @override
-  GeneratedColumn<double> get shippingTotal => _shippingTotal ??=
-      GeneratedColumn<double>('shipping_total', aliasedName, false,
-          type: const RealType(), requiredDuringInsert: true);
+  late final GeneratedColumn<double?> shippingTotal = GeneratedColumn<double?>(
+      'shipping_total', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _conversionFactorMeta =
       const VerificationMeta('conversionFactor');
-  GeneratedColumn<double> _conversionFactor;
   @override
-  GeneratedColumn<double> get conversionFactor => _conversionFactor ??=
-      GeneratedColumn<double>('conversion_factor', aliasedName, false,
+  late final GeneratedColumn<double?> conversionFactor =
+      GeneratedColumn<double?>('conversion_factor', aliasedName, false,
           type: const RealType(), requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns => [
@@ -3131,28 +2848,28 @@ class $SalesOrderDetailTable extends SalesOrderDetail
     final data = instance.toColumns(true);
     if (data.containsKey('tenant_id')) {
       context.handle(_tenantIdMeta,
-          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+          tenantId.isAcceptableOrUnknown(data['tenant_id']!, _tenantIdMeta));
     }
     if (data.containsKey('user_name')) {
       context.handle(_userNameMeta,
-          userName.isAcceptableOrUnknown(data['user_name'], _userNameMeta));
+          userName.isAcceptableOrUnknown(data['user_name']!, _userNameMeta));
     } else if (isInserting) {
       context.missing(_userNameMeta);
     }
     if (data.containsKey('user_id')) {
       context.handle(_userIdMeta,
-          userId.isAcceptableOrUnknown(data['user_id'], _userIdMeta));
+          userId.isAcceptableOrUnknown(data['user_id']!, _userIdMeta));
     } else if (isInserting) {
       context.missing(_userIdMeta);
     }
     if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('transaction_number')) {
       context.handle(
           _transactionNumberMeta,
           transactionNumber.isAcceptableOrUnknown(
-              data['transaction_number'], _transactionNumberMeta));
+              data['transaction_number']!, _transactionNumberMeta));
     } else if (isInserting) {
       context.missing(_transactionNumberMeta);
     }
@@ -3160,7 +2877,7 @@ class $SalesOrderDetailTable extends SalesOrderDetail
       context.handle(
           _inventoryCycleNumberMeta,
           inventoryCycleNumber.isAcceptableOrUnknown(
-              data['inventory_cycle_number'], _inventoryCycleNumberMeta));
+              data['inventory_cycle_number']!, _inventoryCycleNumberMeta));
     } else if (isInserting) {
       context.missing(_inventoryCycleNumberMeta);
     }
@@ -3168,7 +2885,7 @@ class $SalesOrderDetailTable extends SalesOrderDetail
       context.handle(
           _daySessionNumberMeta,
           daySessionNumber.isAcceptableOrUnknown(
-              data['day_session_number'], _daySessionNumberMeta));
+              data['day_session_number']!, _daySessionNumberMeta));
     } else if (isInserting) {
       context.missing(_daySessionNumberMeta);
     }
@@ -3176,13 +2893,13 @@ class $SalesOrderDetailTable extends SalesOrderDetail
       context.handle(
           _deliveryDateMeta,
           deliveryDate.isAcceptableOrUnknown(
-              data['delivery_date'], _deliveryDateMeta));
+              data['delivery_date']!, _deliveryDateMeta));
     } else if (isInserting) {
       context.missing(_deliveryDateMeta);
     }
     if (data.containsKey('currency')) {
       context.handle(_currencyMeta,
-          currency.isAcceptableOrUnknown(data['currency'], _currencyMeta));
+          currency.isAcceptableOrUnknown(data['currency']!, _currencyMeta));
     } else if (isInserting) {
       context.missing(_currencyMeta);
     }
@@ -3190,7 +2907,7 @@ class $SalesOrderDetailTable extends SalesOrderDetail
       context.handle(
           _exchangeRateMeta,
           exchangeRate.isAcceptableOrUnknown(
-              data['exchange_rate'], _exchangeRateMeta));
+              data['exchange_rate']!, _exchangeRateMeta));
     } else if (isInserting) {
       context.missing(_exchangeRateMeta);
     }
@@ -3198,21 +2915,21 @@ class $SalesOrderDetailTable extends SalesOrderDetail
       context.handle(
           _transactionStatusMeta,
           transactionStatus.isAcceptableOrUnknown(
-              data['transaction_status'], _transactionStatusMeta));
+              data['transaction_status']!, _transactionStatusMeta));
     }
     if (data.containsKey('item_id')) {
       context.handle(_itemIdMeta,
-          itemId.isAcceptableOrUnknown(data['item_id'], _itemIdMeta));
+          itemId.isAcceptableOrUnknown(data['item_id']!, _itemIdMeta));
     }
     if (data.containsKey('item_code')) {
       context.handle(_itemCodeMeta,
-          itemCode.isAcceptableOrUnknown(data['item_code'], _itemCodeMeta));
+          itemCode.isAcceptableOrUnknown(data['item_code']!, _itemCodeMeta));
     } else if (isInserting) {
       context.missing(_itemCodeMeta);
     }
     if (data.containsKey('upc_code')) {
       context.handle(_upcCodeMeta,
-          upcCode.isAcceptableOrUnknown(data['upc_code'], _upcCodeMeta));
+          upcCode.isAcceptableOrUnknown(data['upc_code']!, _upcCodeMeta));
     } else if (isInserting) {
       context.missing(_upcCodeMeta);
     }
@@ -3220,43 +2937,43 @@ class $SalesOrderDetailTable extends SalesOrderDetail
       context.handle(
           _descriptionMeta,
           description.isAcceptableOrUnknown(
-              data['description'], _descriptionMeta));
+              data['description']!, _descriptionMeta));
     } else if (isInserting) {
       context.missing(_descriptionMeta);
     }
     if (data.containsKey('item_group')) {
       context.handle(_itemGroupMeta,
-          itemGroup.isAcceptableOrUnknown(data['item_group'], _itemGroupMeta));
+          itemGroup.isAcceptableOrUnknown(data['item_group']!, _itemGroupMeta));
     } else if (isInserting) {
       context.missing(_itemGroupMeta);
     }
     if (data.containsKey('category')) {
       context.handle(_categoryMeta,
-          category.isAcceptableOrUnknown(data['category'], _categoryMeta));
+          category.isAcceptableOrUnknown(data['category']!, _categoryMeta));
     } else if (isInserting) {
       context.missing(_categoryMeta);
     }
     if (data.containsKey('sales_u_o_m')) {
       context.handle(_salesUOMMeta,
-          salesUOM.isAcceptableOrUnknown(data['sales_u_o_m'], _salesUOMMeta));
+          salesUOM.isAcceptableOrUnknown(data['sales_u_o_m']!, _salesUOMMeta));
     } else if (isInserting) {
       context.missing(_salesUOMMeta);
     }
     if (data.containsKey('stock_u_o_m')) {
       context.handle(_stockUOMMeta,
-          stockUOM.isAcceptableOrUnknown(data['stock_u_o_m'], _stockUOMMeta));
+          stockUOM.isAcceptableOrUnknown(data['stock_u_o_m']!, _stockUOMMeta));
     } else if (isInserting) {
       context.missing(_stockUOMMeta);
     }
     if (data.containsKey('tax_group')) {
       context.handle(_taxGroupMeta,
-          taxGroup.isAcceptableOrUnknown(data['tax_group'], _taxGroupMeta));
+          taxGroup.isAcceptableOrUnknown(data['tax_group']!, _taxGroupMeta));
     } else if (isInserting) {
       context.missing(_taxGroupMeta);
     }
     if (data.containsKey('warehouse')) {
       context.handle(_warehouseMeta,
-          warehouse.isAcceptableOrUnknown(data['warehouse'], _warehouseMeta));
+          warehouse.isAcceptableOrUnknown(data['warehouse']!, _warehouseMeta));
     } else if (isInserting) {
       context.missing(_warehouseMeta);
     }
@@ -3264,7 +2981,7 @@ class $SalesOrderDetailTable extends SalesOrderDetail
       context.handle(
           _discountTypeMeta,
           discountType.isAcceptableOrUnknown(
-              data['discount_type'], _discountTypeMeta));
+              data['discount_type']!, _discountTypeMeta));
     } else if (isInserting) {
       context.missing(_discountTypeMeta);
     }
@@ -3272,7 +2989,7 @@ class $SalesOrderDetailTable extends SalesOrderDetail
       context.handle(
           _discountPercentageMeta,
           discountPercentage.isAcceptableOrUnknown(
-              data['discount_percentage'], _discountPercentageMeta));
+              data['discount_percentage']!, _discountPercentageMeta));
     } else if (isInserting) {
       context.missing(_discountPercentageMeta);
     }
@@ -3280,7 +2997,7 @@ class $SalesOrderDetailTable extends SalesOrderDetail
       context.handle(
           _discountAmountMeta,
           discountAmount.isAcceptableOrUnknown(
-              data['discount_amount'], _discountAmountMeta));
+              data['discount_amount']!, _discountAmountMeta));
     } else if (isInserting) {
       context.missing(_discountAmountMeta);
     }
@@ -3288,7 +3005,7 @@ class $SalesOrderDetailTable extends SalesOrderDetail
       context.handle(
           _lineDiscountTotalMeta,
           lineDiscountTotal.isAcceptableOrUnknown(
-              data['line_discount_total'], _lineDiscountTotalMeta));
+              data['line_discount_total']!, _lineDiscountTotalMeta));
     } else if (isInserting) {
       context.missing(_lineDiscountTotalMeta);
     }
@@ -3296,35 +3013,35 @@ class $SalesOrderDetailTable extends SalesOrderDetail
       context.handle(
           _taxIndicatorMeta,
           taxIndicator.isAcceptableOrUnknown(
-              data['tax_indicator'], _taxIndicatorMeta));
+              data['tax_indicator']!, _taxIndicatorMeta));
     }
     if (data.containsKey('unit_price')) {
       context.handle(_unitPriceMeta,
-          unitPrice.isAcceptableOrUnknown(data['unit_price'], _unitPriceMeta));
+          unitPrice.isAcceptableOrUnknown(data['unit_price']!, _unitPriceMeta));
     } else if (isInserting) {
       context.missing(_unitPriceMeta);
     }
     if (data.containsKey('cost_price')) {
       context.handle(_costPriceMeta,
-          costPrice.isAcceptableOrUnknown(data['cost_price'], _costPriceMeta));
+          costPrice.isAcceptableOrUnknown(data['cost_price']!, _costPriceMeta));
     } else if (isInserting) {
       context.missing(_costPriceMeta);
     }
     if (data.containsKey('list_price')) {
       context.handle(_listPriceMeta,
-          listPrice.isAcceptableOrUnknown(data['list_price'], _listPriceMeta));
+          listPrice.isAcceptableOrUnknown(data['list_price']!, _listPriceMeta));
     } else if (isInserting) {
       context.missing(_listPriceMeta);
     }
     if (data.containsKey('quantity')) {
       context.handle(_quantityMeta,
-          quantity.isAcceptableOrUnknown(data['quantity'], _quantityMeta));
+          quantity.isAcceptableOrUnknown(data['quantity']!, _quantityMeta));
     } else if (isInserting) {
       context.missing(_quantityMeta);
     }
     if (data.containsKey('sub_total')) {
       context.handle(_subTotalMeta,
-          subTotal.isAcceptableOrUnknown(data['sub_total'], _subTotalMeta));
+          subTotal.isAcceptableOrUnknown(data['sub_total']!, _subTotalMeta));
     } else if (isInserting) {
       context.missing(_subTotalMeta);
     }
@@ -3332,7 +3049,7 @@ class $SalesOrderDetailTable extends SalesOrderDetail
       context.handle(
           _grandTotalMeta,
           grandTotal.isAcceptableOrUnknown(
-              data['grand_total'], _grandTotalMeta));
+              data['grand_total']!, _grandTotalMeta));
     } else if (isInserting) {
       context.missing(_grandTotalMeta);
     }
@@ -3340,27 +3057,27 @@ class $SalesOrderDetailTable extends SalesOrderDetail
       context.handle(
           _fxGrandTotalMeta,
           fxGrandTotal.isAcceptableOrUnknown(
-              data['fx_grand_total'], _fxGrandTotalMeta));
+              data['fx_grand_total']!, _fxGrandTotalMeta));
     } else if (isInserting) {
       context.missing(_fxGrandTotalMeta);
     }
     if (data.containsKey('item_count')) {
       context.handle(_itemCountMeta,
-          itemCount.isAcceptableOrUnknown(data['item_count'], _itemCountMeta));
+          itemCount.isAcceptableOrUnknown(data['item_count']!, _itemCountMeta));
     }
     if (data.containsKey('deposit_total')) {
       context.handle(
           _depositTotalMeta,
           depositTotal.isAcceptableOrUnknown(
-              data['deposit_total'], _depositTotalMeta));
+              data['deposit_total']!, _depositTotalMeta));
     }
     if (data.containsKey('line_id')) {
       context.handle(_lineIdMeta,
-          lineId.isAcceptableOrUnknown(data['line_id'], _lineIdMeta));
+          lineId.isAcceptableOrUnknown(data['line_id']!, _lineIdMeta));
     }
     if (data.containsKey('tax_total')) {
       context.handle(_taxTotalMeta,
-          taxTotal.isAcceptableOrUnknown(data['tax_total'], _taxTotalMeta));
+          taxTotal.isAcceptableOrUnknown(data['tax_total']!, _taxTotalMeta));
     } else if (isInserting) {
       context.missing(_taxTotalMeta);
     }
@@ -3368,7 +3085,7 @@ class $SalesOrderDetailTable extends SalesOrderDetail
       context.handle(
           _shippingTotalMeta,
           shippingTotal.isAcceptableOrUnknown(
-              data['shipping_total'], _shippingTotalMeta));
+              data['shipping_total']!, _shippingTotalMeta));
     } else if (isInserting) {
       context.missing(_shippingTotalMeta);
     }
@@ -3376,7 +3093,7 @@ class $SalesOrderDetailTable extends SalesOrderDetail
       context.handle(
           _conversionFactorMeta,
           conversionFactor.isAcceptableOrUnknown(
-              data['conversion_factor'], _conversionFactorMeta));
+              data['conversion_factor']!, _conversionFactorMeta));
     } else if (isInserting) {
       context.missing(_conversionFactorMeta);
     }
@@ -3386,7 +3103,7 @@ class $SalesOrderDetailTable extends SalesOrderDetail
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  SalesOrderDetailData map(Map<String, dynamic> data, {String tablePrefix}) {
+  SalesOrderDetailData map(Map<String, dynamic> data, {String? tablePrefix}) {
     return SalesOrderDetailData.fromData(data,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
@@ -3400,12 +3117,10 @@ class $SalesOrderDetailTable extends SalesOrderDetail
 abstract class _$SalesOrderWithItem extends GeneratedDatabase {
   _$SalesOrderWithItem(QueryExecutor e)
       : super(SqlTypeSystem.defaultInstance, e);
-  $SalesOrderHeaderTable _salesOrderHeader;
-  $SalesOrderHeaderTable get salesOrderHeader =>
-      _salesOrderHeader ??= $SalesOrderHeaderTable(this);
-  $SalesOrderDetailTable _salesOrderDetail;
-  $SalesOrderDetailTable get salesOrderDetail =>
-      _salesOrderDetail ??= $SalesOrderDetailTable(this);
+  late final $SalesOrderHeaderTable salesOrderHeader =
+      $SalesOrderHeaderTable(this);
+  late final $SalesOrderDetailTable salesOrderDetail =
+      $SalesOrderDetailTable(this);
   Selectable<SalesOrderHeaderData> salesOrderWithLineItem() {
     return customSelect(
         'SELECT h.* FROM sales_order_header h inner join sales_order_detail d on h.transaction_number = d.transaction_number;',

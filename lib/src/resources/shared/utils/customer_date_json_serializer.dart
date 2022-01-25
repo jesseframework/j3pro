@@ -25,7 +25,7 @@ class CustomSerializer extends ValueSerializer {
     if (T == DateTime) {
       return DateTime.parse(json.toString()) as T;
     } else if (json == 'set to null') {
-      return null;
+      return json;
     } else {
       return json as T;
     }

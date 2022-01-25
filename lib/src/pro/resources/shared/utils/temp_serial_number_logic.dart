@@ -6,7 +6,7 @@ import 'package:drift/drift.dart' as moor;
 class TempSerialNumberReader {
   var db;
   static final _log = Logger('TempSerialNumberReader');
-  TempNumberLogsDao tempNumberLogsDao;
+  late TempNumberLogsDao tempNumberLogsDao;
 
   TempSerialNumberReader() {
     _log.finest("serail number reader constructor call");
@@ -14,12 +14,12 @@ class TempSerialNumberReader {
     tempNumberLogsDao = new TempNumberLogsDao(db);
   }
 
-  Future<String> getTempNumber({String typeOfNumber}) async {
+  Future<String> getTempNumber({String? typeOfNumber}) async {
     String numberSet = "";
     var temNumbers =
-        await tempNumberLogsDao.getAllTempNumberLogsByType(typeOfNumber);
+        await tempNumberLogsDao.getAllTempNumberLogsByType(typeOfNumber!);
     if (temNumbers.length > 0) {
-      numberSet = temNumbers[0].nextSeriesNumber;
+      numberSet = temNumbers[0].nextSeriesNumber!;
     }
     return numberSet;
   }

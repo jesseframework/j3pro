@@ -25,27 +25,27 @@ part 'add_item_event.dart';
 part 'add_item_state.dart';
 
 class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
-  String tempSalesOrderNo = "";
-  String tempInventoryCycle = "";
-  String tempDaySessionNumber = "";
-  String tempTransactionStatus = "Pending";
-  String getItemNumber = "";
-  double setQty = 0;
-  DateTime deliveryDate;
-  String currency = "";
-  double exchangeRate = 0;
-  String customerId = "";
-  Addres shippingAddress;
-  DateTime dateTime;
-  void setId({String cusID}) {
+  late String tempSalesOrderNo = "";
+  late String tempInventoryCycle = "";
+  late String tempDaySessionNumber = "";
+  late String tempTransactionStatus = "Pending";
+  late String getItemNumber = "";
+  late double setQty = 0;
+  late DateTime deliveryDate;
+  late String currency = "";
+  late double exchangeRate = 0;
+  late String customerId = "";
+  late Addres shippingAddress;
+  late DateTime dateTime;
+  void setId({required String cusID}) {
     customerId = cusID;
   }
 
-  void setDilveryDate({DateTime dilverydate}) {
+  void setDilveryDate({required DateTime dilverydate}) {
     dateTime = dilverydate;
   }
 
-  void setShippingAddress({Addres address}) {
+  void setShippingAddress({required Addres address}) {
     shippingAddress = address;
   }
 
@@ -56,20 +56,20 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
 
   static final _log = Logger('SalesOrderBloc');
   var db;
-  AddItemToTransaction _addItemToTransaction;
-  DeleteSalesOrderLineItem _deleteSalesOrderLineItem;
-  CalculateTotal _calculateTotal;
-  CalculateTax _calculateTax;
-  TempNumberLogsDao tempNumberLogsDao;
-  TempSerialNumberReader tempSerialNumberReader;
-  BusinessRuleDao businessRuleDao;
-  CustomerDao customerDao;
-  SystemCurrencyDao systemCurrencyDao;
-  ExchangeRateDao exchangeRateDao;
-  NonGlobalBusinessRuleDao nonGlobalBusinessRuleDao;
-  UserSharedData userSharedData;
+  late AddItemToTransaction _addItemToTransaction;
+  late DeleteSalesOrderLineItem _deleteSalesOrderLineItem;
+  late CalculateTotal _calculateTotal;
+  late CalculateTax _calculateTax;
+  late TempNumberLogsDao tempNumberLogsDao;
+  late TempSerialNumberReader tempSerialNumberReader;
+  late BusinessRuleDao businessRuleDao;
+  late CustomerDao customerDao;
+  late SystemCurrencyDao systemCurrencyDao;
+  late ExchangeRateDao exchangeRateDao;
+  late NonGlobalBusinessRuleDao nonGlobalBusinessRuleDao;
+  late UserSharedData userSharedData;
   Map<String, String> mapDevicePref = Map();
-  AddItemBloc() : super(AddItemInitial()) {
+  AddItemBloc() : super(AddItemInitial(transactionNo: '')) {
     db = AppDatabase();
 
     tempSerialNumberReader = new TempSerialNumberReader();
@@ -96,7 +96,7 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
   }
 
   @override
-  AddItemState get initialState => AddItemInitial();
+  AddItemState get initialState => AddItemInitial(transactionNo: '');
 
   @override
   Stream<AddItemState> mapEventToState(
@@ -123,15 +123,16 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
     var getexchangeRate =
         await exchangeRateDao.getAllExchnageRateByCurrency("JMD", currency);
     if (getexchangeRate.length > 0) {
-      exchangeRate = getexchangeRate[0].exchangeRate;
+      exchangeRate = getexchangeRate[0].exchangeRate!;
     }
 
-    mapDevicePref = await userSharedData.getUserSharedPref();
-    String userName = mapDevicePref['userName'];
-    String userId = mapDevicePref['userId'];
-    String deviceID = mapDevicePref['deviceID'];
-    String screen = mapDevicePref['screen'];
-    String tenantId = mapDevicePref['tenantId'];
+    mapDevicePref =
+        await userSharedData.getUserSharedPref() as Map<String, String>;
+    String? userName = mapDevicePref['userName'];
+    String? userId = mapDevicePref['userId'];
+    String? deviceID = mapDevicePref['deviceID'];
+    String? screen = mapDevicePref['screen'];
+    String? tenantId = mapDevicePref['tenantId'];
     if (state is AddItemLoading) {
       yield GetTransactionNumber(transactionNo: tempSalesOrderNo);
     }
@@ -142,16 +143,14 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
     if (setDeliveryDate != null) {
       if (setDeliveryDate.value == "ON" &&
           setDeliveryDate.isGlobalRule == false &&
-          (setDeliveryDate.expiredDateTime.isAfter(DateTime.now()) ||
+          (setDeliveryDate.expiredDateTime!.isAfter(DateTime.now()) ||
               setDeliveryDate.expiredDateTime == null)) {
         var nonGlobalDb =
             await nonGlobalBusinessRuleDao.getSingleNonGlobalBusinessRule(
-                'SETDDDATE', 'SETDDDATE', userName, deviceID, screen);
-        if (nonGlobalDb != null &&
-            nonGlobalDb.value == "ON" &&
-            nonGlobalDb.isApply == true) {
+                'SETDDDATE', 'SETDDDATE', userName!, deviceID!, screen!);
+        if (nonGlobalDb.value == "ON" && nonGlobalDb.isApply == true) {
           //Set not global
-          if (nonGlobalDb.expiredDateTime.isAfter(DateTime.now()) ||
+          if (nonGlobalDb.expiredDateTime!.isAfter(DateTime.now()) ||
               nonGlobalDb.expiredDateTime == null) {
             deliveryDate = DateTime.now();
           }
@@ -181,17 +180,13 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
           deliveryDate,
           currency,
           exchangeRate,
-          int.tryParse(tenantId),
-          userName,
-          int.tryParse(userId),
+          int.tryParse(tenantId!)!,
+          userName!,
+          int.tryParse(userId!)!,
           customerId);
 
-      if (result != null) {
-        displayDialog(
-            onlyMessage: true,
-            title: result.toString(),
-            context: event.context);
-      }
+      displayDialog(
+          onlyMessage: true, title: result.toString(), context: event.context);
     }
 
     if (event is DeleteLineItemPress) {

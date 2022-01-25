@@ -14,7 +14,7 @@ import 'package:j3enterprise/src/ui/preferences/preference_detail.dart';
 class BussinessRulePage extends StatefulWidget {
   static final route = '/businessrule';
   var db;
-  BusinessRuleDao businessRuleDao;
+  late BusinessRuleDao businessRuleDao;
   BussinessRulePage() {
     db = AppDatabase();
     businessRuleDao = BusinessRuleDao(db);
@@ -38,7 +38,7 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
       appBar: AppBar(
         //ToDo add translation for preferences title
         title: Text(
-            AppLocalization.of(context).translate('bussiness_rule_title') ??
+            AppLocalization.of(context)!.translate('bussiness_rule_title') ??
                 "Bussiness Rule"),
         actions: <Widget>[
           Padding(
@@ -63,13 +63,15 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
                           horizontal: 5, vertical: 5),
                       child: Center(
                         child: ListFilter(
-                            placeholder: 'Search',
-                            filter: searchText,
-                            onFilterChanged: (search) {
-                              setState(() {
-                                searchText = search;
-                              });
-                            }),
+                          placeholder: 'Search',
+                          filter: searchText,
+                          onFilterChanged: (search) {
+                            setState(() {
+                              searchText = search;
+                            });
+                          },
+                          function: () {},
+                        ),
                       ),
                     ))),
             _buildStreamBuilder(),
@@ -82,11 +84,12 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
         stream: widget.businessRuleDao.watchAllBusinessRule(searchText),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            List<BusinessRuleData> bussinessRuleData = snapshot.data;
-            List<String> groupsCollection = List<String>();
-            bussinessRuleData.forEach((element) {
+            List<BusinessRuleData>? bussinessRuleData =
+                snapshot.data as List<BusinessRuleData>?;
+            List<String> groupsCollection = <String>[];
+            bussinessRuleData!.forEach((element) {
               if (!groupsCollection.contains(element.groups)) {
-                groupsCollection.add(element.groups);
+                groupsCollection.add(element.groups.toString());
               }
             });
             if (bussinessRuleData.isEmpty) {
@@ -155,7 +158,7 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
                                                                           .spaceBetween,
                                                                   children: [
                                                                     Text(
-                                                                      e.ruleName,
+                                                                      e.ruleName!,
                                                                       style:
                                                                           TextStyle(
                                                                         fontWeight:
@@ -183,7 +186,7 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
                                                                 Row(
                                                                   children: [
                                                                     Text(
-                                                                      e.description,
+                                                                      e.description!,
                                                                       style:
                                                                           TextStyle(
                                                                         fontWeight:

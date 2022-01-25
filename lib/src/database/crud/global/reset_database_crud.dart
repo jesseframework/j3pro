@@ -10,27 +10,18 @@ import 'package:j3enterprise/src/database/crud/user/user_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 
 class ResetDatabase {
-  UserDao userDao;
-  CommunicationDao communicationDao;
-  BackgroundJobScheduleDao backgroundJobScheduleDao;
-  BackgroundJobLogsDao backgroundJobLogsDao;
-  ApplicationLoggerDao applicationLoggerDao;
-  MobileDeviceDao mobileDeviceDao;
-  PreferenceDao preferencesDao;
-  BusinessRuleDao businessRuleDao;
-  TenantDao tenantDao;
+  late UserDao userDao;
+  late CommunicationDao communicationDao;
+  late BackgroundJobScheduleDao backgroundJobScheduleDao;
+  late BackgroundJobLogsDao backgroundJobLogsDao;
+  late ApplicationLoggerDao applicationLoggerDao;
+  late MobileDeviceDao mobileDeviceDao;
+  late PreferenceDao preferencesDao;
+  late BusinessRuleDao businessRuleDao;
+  late TenantDao tenantDao;
   var db;
 
-  ResetDatabase(
-      {this.userDao,
-      this.communicationDao,
-      this.backgroundJobLogsDao,
-      this.backgroundJobScheduleDao,
-      this.applicationLoggerDao,
-      this.tenantDao,
-      this.businessRuleDao,
-      this.preferencesDao,
-      this.mobileDeviceDao}) {
+  ResetDatabase() {
     db = AppDatabase();
     userDao = UserDao(db);
     communicationDao = CommunicationDao(db);

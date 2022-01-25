@@ -38,7 +38,7 @@ class BlocBloc extends Bloc<BlocEvent, BlocState> {
     // TODO: implement mapEventToState
     if (event is TypeSearchCommand) {
       if (event.searchString == "View Prefrence") {
-        yield ShowSearchResult();
+        yield ShowSearchResult(searchCommand: '');
       }
     }
   }

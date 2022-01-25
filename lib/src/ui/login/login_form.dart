@@ -38,14 +38,14 @@ class _LoginFormState extends State<LoginForm> {
   final _tenantController = TextEditingController();
   final formKey = new GlobalKey<FormState>();
   bool pass = true;
-  String selected;
+  late String selected;
   bool isSwitched = false;
 
   @override
   void didChangeDependencies() {
     getIt<UserRepository>().getTenantFromSharedPref().then((value) {
       setState(() {
-        _tenantController.text = value;
+        _tenantController.text = value!;
       });
     });
     super.didChangeDependencies();
@@ -54,7 +54,7 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     _onLoginButtonPressed() async {
-      formKey.currentState.validate();
+      formKey.currentState!.validate();
       await getIt<UserRepository>()
           .setTenantIntoSharedPref(_tenantController.text);
       BlocProvider.of<LoginBloc>(context).add(
@@ -62,6 +62,7 @@ class _LoginFormState extends State<LoginForm> {
             username: _usernameController.text.trim(),
             password: _passwordController.text.trim(),
             context: context,
+            deviceId: '444444',
             tenantName: _tenantController.text.trim()),
       );
     }
@@ -97,13 +98,13 @@ class _LoginFormState extends State<LoginForm> {
                               controllerName: _usernameController,
                               validationText:
                                   _usernameController.text.length < 3
-                                      ? AppLocalization.of(context).translate(
+                                      ? AppLocalization.of(context)!.translate(
                                               'username_validation_text') ??
                                           'Enter valid username'
                                       : null,
                               fieldDecoration: InputDecoration(
                                 icon: Icon(Icons.person),
-                                labelText: AppLocalization.of(context)
+                                labelText: AppLocalization.of(context)!
                                         .translate('username_label') ??
                                     'Username',
                               ),
@@ -115,13 +116,13 @@ class _LoginFormState extends State<LoginForm> {
                               controllerName: _passwordController,
                               validationText:
                                   _usernameController.text.length < 3
-                                      ? AppLocalization.of(context).translate(
+                                      ? AppLocalization.of(context)!.translate(
                                               'username_validation_password') ??
                                           'Enter valid password'
                                       : null,
                               fieldDecoration: InputDecoration(
                                 icon: Icon(Icons.lock),
-                                labelText: AppLocalization.of(context)
+                                labelText: AppLocalization.of(context)!
                                         .translate('password_label') ??
                                     'Password',
                               ),
@@ -133,14 +134,14 @@ class _LoginFormState extends State<LoginForm> {
                               controllerName: _tenantController,
                               validationText: _usernameController.text.length <
                                       2
-                                  ? AppLocalization.of(context)
+                                  ? AppLocalization.of(context)!
                                           .translate('tenant_value_missing') ??
                                       'Enter valid tenant'
                                   : null,
                               fieldDecoration: InputDecoration(
                                 icon: Icon(Icons.home),
                                 alignLabelWithHint: false,
-                                labelText: AppLocalization.of(context)
+                                labelText: AppLocalization.of(context)!
                                         .translate('tenant_label') ??
                                     'Tenant',
                               ),
@@ -152,7 +153,7 @@ class _LoginFormState extends State<LoginForm> {
                             child: RaisedButton(
                               color: Theme.of(context).primaryColor,
                               child: Text(
-                                AppLocalization.of(context)
+                                AppLocalization.of(context)!
                                         .translate('login_button') ??
                                     'Login',
                                 style: TextStyle(color: Colors.white),

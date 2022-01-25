@@ -16,14 +16,14 @@ class SalesTaxRepository {
   var api = ApiClient.chopper.getService<RestApiService>();
   var db;
 
-  bool isStopped = false;
+  late bool isStopped = false;
 
   static final _log = Logger('Sales Tax Repository');
-  UpdateBackgroundJobStatus updateBackgroundJobStatus;
-  BackgroundJobScheduleDao backgroundJobScheduleDao;
-  SalesTaxDao salesTaxDao;
+  late UpdateBackgroundJobStatus updateBackgroundJobStatus;
+  late BackgroundJobScheduleDao backgroundJobScheduleDao;
+  late SalesTaxDao salesTaxDao;
 
-  UserSharedData userSharedData;
+  late UserSharedData userSharedData;
 
   SalesTaxRepository() {
     _log.finest("Sales repository constructer call");
@@ -39,33 +39,31 @@ class SalesTaxRepository {
       //ToDo code review to get a better way to push bulk data to API and update bulk data in database
       _log.finest("Executing sales tax date from server");
       var isSchedulerEnable = await backgroundJobScheduleDao.getJob(jobName);
-      if (isSchedulerEnable != null) {
-        _log.finest("Sales tax  job found in background Jobs scheduler");
-        if (isSchedulerEnable.startDateTime.isBefore(DateTime.now())) {
-          if (isSchedulerEnable.enableJob == true) {
-            DateTime startDate = isSchedulerEnable.startDateTime;
-            _log.finest("Sales tax  jobs start date is $startDate ");
-            final Response response = await api.getAllIsalestax();
-            _log.finest("Checking server resopnses for sales tax  ");
-            Map<String, dynamic> map = json.decode(response.bodyString);
-            if (response.isSuccessful && map['success']) {
-              _log.finest("Server resopnses successful for sales tax ");
-              Map<String, dynamic> result = map['result'];
-              var items = (result['items'] as List).map((e) {
-                return SalesTaxData.fromJson(e, serializer: CustomSerializer());
-              });
+      _log.finest("Sales tax  job found in background Jobs scheduler");
+      if (isSchedulerEnable.startDateTime.isBefore(DateTime.now())) {
+        if (isSchedulerEnable.enableJob == true) {
+          DateTime startDate = isSchedulerEnable.startDateTime;
+          _log.finest("Sales tax  jobs start date is $startDate ");
+          final Response response = await api.getAllIsalestax();
+          _log.finest("Checking server resopnses for sales tax  ");
+          Map<String, dynamic> map = json.decode(response.bodyString);
+          if (response.isSuccessful && map['success']) {
+            _log.finest("Server resopnses successful for sales tax ");
+            Map<String, dynamic> result = map['result'];
+            var items = (result['items'] as List).map((e) {
+              return SalesTaxData.fromJson(e, serializer: CustomSerializer());
+            });
 
-              for (var item in items) {
-                if (isStopped) break;
-                await salesTaxDao.createOrUpdateSaleTax(item);
-              }
-              updateBackgroundJobStatus.updateJobStatus(jobName, "Success");
-            } else {
-              String error = map["error"]["details"].toString();
-              updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-              _log.shout(
-                  "Sales tax API call failed. Server respond with error : $error  ");
+            for (var item in items) {
+              if (isStopped) break;
+              await salesTaxDao.createOrUpdateSaleTax(item);
             }
+            updateBackgroundJobStatus.updateJobStatus(jobName, "Success");
+          } else {
+            String error = map["error"]["details"].toString();
+            updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
+            _log.shout(
+                "Sales tax API call failed. Server respond with error : $error  ");
           }
         }
       }

@@ -30,7 +30,7 @@ import 'package:drift/drift.dart' as moor;
 
 class CommunicationTabOneWidget extends StatefulWidget {
   const CommunicationTabOneWidget({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -61,7 +61,7 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
   }
 
   Future<void> submitERPTab(CommunicationBloc bloc) async {
-    formKey.currentState.validate();
+    formKey.currentState!.validate();
 
     final plainText = _confirmpasswordController.value.text;
     final key = encrypt.Key.fromUtf8('88yencbsgtTYOL98wsabzpmaXXzduerp');
@@ -90,14 +90,14 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
     }
   }
 
-  List<CommunicationData> _communicationData;
+  late List<CommunicationData> _communicationData;
   final erpList = ['SAP', 'ERP Next', 'Quick Books'];
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        return CommunicationBloc();
+        return CommunicationBloc(communicationType: '');
       },
       child: BlocConsumer<CommunicationBloc, CommunicationState>(
         listener: (context, state) {},
@@ -127,7 +127,7 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
   }
 
   void _setupControllers() {
-    if (_communicationData != null && _communicationData.length > 0) {
+    if (_communicationData.length > 0) {
       _serverurlController =
           TextEditingController(text: _communicationData[0].serverUrl);
       _usernameController =
@@ -150,7 +150,7 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
                 padding: const EdgeInsets.all(0.00),
                 child: DropdownFormFieldNormalReuse(
                   _onUpdateERBSelection,
-                  hintText: AppLocalization.of(context)
+                  hintText: AppLocalization.of(context)!
                           .translate('type_of_erp_label_communication') ??
                       'Type of ERP',
                   selectedValue: erpSelecteditem,
@@ -160,7 +160,7 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
               padding: const EdgeInsets.all(0.00),
               child: TextFromFieldNullableReusable(
                 fieldDecoration: InputDecoration(
-                  labelText: AppLocalization.of(context)
+                  labelText: AppLocalization.of(context)!
                           .translate('server_url_label_communication') ??
                       'Server Url',
                 ),
@@ -172,7 +172,7 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
               padding: const EdgeInsets.all(0.00),
               child: TextFromFieldNullableReusable(
                 fieldDecoration: InputDecoration(
-                  labelText: AppLocalization.of(context)
+                  labelText: AppLocalization.of(context)!
                           .translate('username_label_communication') ??
                       'Username',
                 ),
@@ -182,9 +182,9 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
             ),
             Padding(
               padding: const EdgeInsets.all(0.00),
-              child: TextFromFieldPasswordReusable(
+              child: TextNoNullFieldPasswordReusable(
                 fieldDecoration: InputDecoration(
-                  labelText: AppLocalization.of(context)
+                  labelText: AppLocalization.of(context)!
                           .translate('new_password_label_communication') ??
                       'New Password',
                 ),
@@ -195,7 +195,7 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
               padding: const EdgeInsets.all(0.00),
               child: TextFromFieldPasswordReusable(
                 fieldDecoration: InputDecoration(
-                  labelText: AppLocalization.of(context)
+                  labelText: AppLocalization.of(context)!
                           .translate('confirm_password_label_communication') ??
                       'Confirm Password',
                 ),
@@ -207,7 +207,7 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
               padding: const EdgeInsets.all(0.00),
               child: DropdownFormFieldNormalReuse(
                 _onUpdateeFrequencySelection,
-                hintText: AppLocalization.of(context)
+                hintText: AppLocalization.of(context)!
                         .translate('sync_frequency_label_communication') ??
                     'Sync Frequency',
                 selectedValue: syncfrequencySelectedItem,
@@ -232,7 +232,7 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
                   },
                   child: Center(
                       child: Text(
-                    AppLocalization.of(context)
+                    AppLocalization.of(context)!
                             .translate('save_changes_button_serversetup') ??
                         'Save Changes',
                     style: TextStyle(

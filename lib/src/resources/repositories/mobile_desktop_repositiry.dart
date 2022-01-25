@@ -37,11 +37,11 @@ class MobileDesktopRepository {
   bool isStopped = false;
 
   static final _log = Logger('MobileDesktopRepository');
-  UpdateBackgroundJobStatus updateBackgroundJobStatus;
-  BackgroundJobScheduleDao backgroundJobScheduleDao;
-  DesktopDao desktopDao;
+  late UpdateBackgroundJobStatus updateBackgroundJobStatus;
+  late BackgroundJobScheduleDao backgroundJobScheduleDao;
+  late DesktopDao desktopDao;
 
-  UserSharedData userSharedData;
+  late UserSharedData userSharedData;
 
   MobileDesktopRepository() {
     _log.finest("Mobile Desktop repository constructer call");

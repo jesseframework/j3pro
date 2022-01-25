@@ -87,24 +87,24 @@ class BackgroundJobScheduleDao extends DatabaseAccessor<AppDatabase>
         BackgroundJobScheduleCompanion(
             jobName: moor.Value("Mobile Desktop"),
             syncFrequency: moor.Value("Every 20 Minutes"),
-            startDateTime: moor.Value(DateTime.tryParse(systemDate)),
+            startDateTime: moor.Value(DateTime.tryParse(systemDate)!),
             enableJob: moor.Value(true),
             jobStatus: moor.Value("Never Run"),
-            lastRun: moor.Value(DateTime.tryParse(systemDate))),
+            lastRun: moor.Value(DateTime.tryParse(systemDate)!)),
         BackgroundJobScheduleCompanion.insert(
             jobName: "Configuration",
             syncFrequency: "Every 20 Minutes",
-            startDateTime: DateTime.tryParse(systemDate),
+            startDateTime: DateTime.tryParse(systemDate)!,
             enableJob: moor.Value(true),
             jobStatus: "Never Run",
-            lastRun: DateTime.tryParse(systemDate)),
+            lastRun: DateTime.tryParse(systemDate)!),
         BackgroundJobScheduleCompanion.insert(
             jobName: "Log Shipping",
             syncFrequency: "Every Day",
-            startDateTime: DateTime.tryParse(systemDate),
+            startDateTime: DateTime.tryParse(systemDate)!,
             enableJob: moor.Value(true),
             jobStatus: "Never Run",
-            lastRun: DateTime.tryParse(systemDate)),
+            lastRun: DateTime.tryParse(systemDate)!),
         // ...
       ]);
     });

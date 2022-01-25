@@ -35,8 +35,8 @@ import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
 class HomePage extends StatefulWidget {
   static final route = '/home';
   var db;
-  DesktopDao desktopDao;
-  UserDao userDao;
+  late DesktopDao desktopDao;
+  late UserDao userDao;
   HomePage() {
     db = AppDatabase();
     desktopDao = DesktopDao(db);
@@ -52,16 +52,16 @@ class _HomePageState extends State<HomePage> {
   //final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   int code = 0xe8b8;
   String image = 'images/beach-background.jpg';
-  int userId;
-  @override
-  void didChangeDependencies() async {
-    await getIt<UserRepository>().getUserSharedPref().then((value) {
-      setState(() {
-        userId = int.parse(value['userId']);
-      });
-    });
-    super.didChangeDependencies();
-  }
+  //int? userId;
+  //@override
+  // void didChangeDependencies() async {
+  //   await getIt<UserRepository>().getUserSharedPref().then((value) {
+  //     setState(() {
+  //       userId = int.parse(value['userId']);
+  //     });
+  //   });
+  //   super.didChangeDependencies();
+  // }
 
   getImageName(String themeMode) {
     if (themeMode == 'dark') {
@@ -71,14 +71,14 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  User user;
+  late User user;
   @override
   // ignore: missing_return
   Widget build(BuildContext context) {
     try {
       return Scaffold(
         appBar: AppBar(
-          title: Text(AppLocalization.of(context).translate('app_title')),
+          title: Text(AppLocalization.of(context)!.translate('app_title')!),
           actions: <Widget>[
             Padding(
                 padding: const EdgeInsets.only(right: 18),
@@ -106,17 +106,17 @@ class _HomePageState extends State<HomePage> {
         ),
         drawer: CustomDrawer(),
         body: StreamBuilder(
-            stream: widget.userDao.watchSingleUser(userId),
+            stream: widget.userDao.watchSingleUser(2),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                user = snapshot.data;
+                user = snapshot.data as User;
               }
               return Container(
                 decoration: BoxDecoration(
                     image: DecorationImage(
                   image: AssetImage(
                     snapshot.hasData == true
-                        ? getImageName(user.themeData)
+                        ? getImageName(user.themeData!)
                         : image,
                   ),
                   fit: BoxFit.cover,
@@ -153,9 +153,10 @@ class _HomePageState extends State<HomePage> {
                               false, searchText, "Administrator", "home_page"),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
-                              List<DesktopData> prefData = snapshot.data;
-                              List<String> groupsCollection = List<String>();
-                              prefData.forEach((element) {
+                              List<DesktopData>? prefData =
+                                  snapshot.data as List<DesktopData>?;
+                              List<String> groupsCollection = <String>[];
+                              prefData!.forEach((element) {
                                 if (!groupsCollection
                                     .contains(element.iconGroup)) {
                                   groupsCollection.add(element.iconGroup);
@@ -296,6 +297,9 @@ class _HomePageState extends State<HomePage> {
               );
             }),
       );
-    } catch (e) {}
+    } catch (e) {
+      //return widget;
+      throw '';
+    }
   }
 }

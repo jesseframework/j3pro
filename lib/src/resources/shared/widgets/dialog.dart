@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 displayDialog(
-    {BuildContext context,
-    String title,
+    {BuildContext? context,
+    String? title,
     bool onlyMessage = false,
-    Function callBack,
-    bool doubleOnly,
-    TextEditingController textcontroller}) async {
+    Function? callBack,
+    bool? doubleOnly,
+    TextEditingController? textcontroller}) async {
   return showDialog(
-      context: context,
+      context: context!,
       builder: (context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          title: Text(title),
+          title: Text(title!),
           content: onlyMessage
               ? SizedBox()
               : TextField(
                   controller: textcontroller,
-                  inputFormatters: doubleOnly
+                  inputFormatters: doubleOnly!
                       ? <TextInputFormatter>[
                           FilteringTextInputFormatter.allow(
                               RegExp(r'^(\d+)?\.?\d{0,9}')),
@@ -37,7 +37,7 @@ displayDialog(
                 : FlatButton(
                     child: Text('Save'),
                     onPressed: () async {
-                      await callBack(textcontroller.text.toString());
+                      await callBack!(textcontroller!.text.toString());
                       Navigator.of(context).pop();
                     },
                   )

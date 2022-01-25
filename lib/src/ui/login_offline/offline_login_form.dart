@@ -34,7 +34,7 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
   //final UserRepository userRepository;
   final formKey = new GlobalKey<FormState>();
   bool pass = true;
-  String selected;
+  late String selected;
   bool isSwitched = false;
   Map<String, String> mappref = Map();
   UserRepository userRepository = new UserRepository();
@@ -48,15 +48,16 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
   @override
   Widget build(BuildContext context) {
     _onLoginButtonPressed() async {
-      formKey.currentState.validate();
+      formKey.currentState!.validate();
+      int? _userId = int.tryParse(mappref['userId'].toString());
+      int? _tenantId = int.tryParse(mappref['tenantid'].toString());
 
-      mappref = await userRepository.getPreferenceData();
+      mappref = await userRepository.getPreferenceData() as Map<String, String>;
       BlocProvider.of<AuthenticationBloc>(context).add(
-        OfflineLoginButtonPressed(
-            userId: int.tryParse(mappref['userId']),
-            password: _passwordController.text,
-            tenantId: int.tryParse(mappref['tenantid'])),
-      );
+          OfflineLoginButtonPressed(
+              userId: _userId!,
+              password: _passwordController.text,
+              tenantId: _tenantId!));
     }
 
     return BlocListener<LoginBloc, LoginState>(
@@ -88,7 +89,7 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            AppLocalization.of(context)
+                            AppLocalization.of(context)!
                                     .translate('offline_login_message') ??
                                 'Warning!!! You are about to enable mobile offline login on this device. This option will allow this device to store encrypted data for your profile. If this device is stolen, hackers may be able to crack encryption and retrieved profile data. By completing this step you agree to accept this risk.',
                             style: TextStyle(
@@ -123,8 +124,8 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
                                   //Fit and size widgets widgets according to container size
                                   child: TextFormField(
                                     validator: (val) {
-                                      if (val.isEmpty) {
-                                        return AppLocalization.of(context)
+                                      if (val!.isEmpty) {
+                                        return AppLocalization.of(context)!
                                                 .translate(
                                                     'offline_password_error_message') ??
                                             'Password';
@@ -145,7 +146,7 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
                                           });
                                         },
                                       ),
-                                      labelText: AppLocalization.of(context)
+                                      labelText: AppLocalization.of(context)!
                                               .translate('password_label') ??
                                           'Password',
                                     ),
@@ -156,14 +157,14 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
                                   //Fit and size widgets widgets according to container size
                                   child: TextFormField(
                                     validator: (val) {
-                                      if (val.isEmpty) {
-                                        return AppLocalization.of(context)
+                                      if (val!.isEmpty) {
+                                        return AppLocalization.of(context)!
                                                 .translate(
                                                     'offline_password_Confirm_error_message') ??
                                             'Password';
                                       }
                                       if (val != _passwordController.text) {
-                                        return AppLocalization.of(context)
+                                        return AppLocalization.of(context)!
                                                 .translate(
                                                     'offline_password_Not_Match_error_message') ??
                                             'Password';
@@ -184,7 +185,7 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
                                           });
                                         },
                                       ),
-                                      labelText: AppLocalization.of(context)
+                                      labelText: AppLocalization.of(context)!
                                               .translate(
                                                   'confirm_password_label') ??
                                           'Confirm Password',
@@ -197,7 +198,7 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
                                   child: RaisedButton(
                                     color: Colors.blue.shade500,
                                     child: Text(
-                                      AppLocalization.of(context).translate(
+                                      AppLocalization.of(context)!.translate(
                                               'offline_login_button') ??
                                           'Complete offline setup',
                                       style: TextStyle(color: Colors.white),

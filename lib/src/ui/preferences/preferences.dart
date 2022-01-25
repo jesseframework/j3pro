@@ -31,7 +31,7 @@ import 'package:j3enterprise/src/ui/preferences/preference_detail.dart';
 class PreferencesPage extends StatefulWidget {
   static final route = '/preferences';
   var db;
-  PreferenceDao preferenceDao;
+  late PreferenceDao preferenceDao;
   PreferencesPage() {
     db = AppDatabase();
     preferenceDao = PreferenceDao(db);
@@ -55,7 +55,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
       appBar: AppBar(
         //ToDo add translation for preferences title
         title: Text(
-            AppLocalization.of(context).translate('preferences_title') ??
+            AppLocalization.of(context)!.translate('preferences_title') ??
                 "Preferences"),
         actions: <Widget>[
           Padding(
@@ -80,13 +80,15 @@ class _PreferencesPageState extends State<PreferencesPage> {
                           horizontal: 5, vertical: 5),
                       child: Center(
                         child: ListFilter(
-                            placeholder: 'Search',
-                            filter: searchText,
-                            onFilterChanged: (search) {
-                              setState(() {
-                                searchText = search;
-                              });
-                            }),
+                          placeholder: 'Search',
+                          filter: searchText,
+                          onFilterChanged: (search) {
+                            setState(() {
+                              searchText = search;
+                            });
+                          },
+                          function: () {},
+                        ),
                       ),
                     ))),
             _buildStreamBuilder(),
@@ -99,11 +101,12 @@ class _PreferencesPageState extends State<PreferencesPage> {
         stream: widget.preferenceDao.watchAllPreferences(searchText),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            List<PreferenceData> prefData = snapshot.data;
-            List<String> groupsCollection = List<String>();
-            prefData.forEach((element) {
+            List<PreferenceData>? prefData =
+                snapshot.data as List<PreferenceData>?;
+            List<String> groupsCollection = <String>[];
+            prefData!.forEach((element) {
               if (!groupsCollection.contains(element.groups)) {
-                groupsCollection.add(element.groups);
+                groupsCollection.add(element.groups!);
               }
             });
             if (prefData.isEmpty) {
@@ -172,7 +175,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
                                                                           .spaceBetween,
                                                                   children: [
                                                                     Text(
-                                                                      e.preferenceName,
+                                                                      e.preferenceName!,
                                                                       style:
                                                                           TextStyle(
                                                                         fontWeight:
@@ -200,7 +203,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
                                                                 Row(
                                                                   children: [
                                                                     Text(
-                                                                      e.description,
+                                                                      e.description!,
                                                                       style:
                                                                           TextStyle(
                                                                         fontWeight:

@@ -37,11 +37,11 @@ class BusinessRuleRepository {
   var db;
 
   static final _log = Logger('PreferenceRepository');
-  UpdateBackgroundJobStatus updateBackgroundJobStatus;
-  BackgroundJobScheduleDao backgroundJobScheduleDao;
-  NonGlobalBusinessRuleDao nonGlobalBusinessRuleDao;
-  BusinessRuleDao businessRuleDao;
-  UserSharedData userSharedData;
+  late UpdateBackgroundJobStatus updateBackgroundJobStatus;
+  late BackgroundJobScheduleDao backgroundJobScheduleDao;
+  late NonGlobalBusinessRuleDao nonGlobalBusinessRuleDao;
+  late BusinessRuleDao businessRuleDao;
+  late UserSharedData userSharedData;
 
   BusinessRuleRepository() {
     _log.finest("BusinessRule repository constructer call");

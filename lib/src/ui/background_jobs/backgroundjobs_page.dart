@@ -51,7 +51,7 @@ class _BackgroundJobs extends State<BackgroundJobs> {
   }
 
   Future<void> _onBackGroundJobStartButtonPress() async {
-    formKey.currentState.validate();
+    formKey.currentState!.validate();
     BlocProvider.of<BackgroundJobsBloc>(context).add(BackgroundJobsStart(
         context: context,
         jobname: setjobname,
@@ -60,7 +60,7 @@ class _BackgroundJobs extends State<BackgroundJobs> {
   }
 
   Future<void> _onBackGroundJobCancelButtonPress() async {
-    formKey.currentState.validate();
+    formKey.currentState!.validate();
     BlocProvider.of<BackgroundJobsBloc>(context).add(BackgroundJobsCancel(
         jobName: setjobname,
         syncFrequency: syncfrequencySelectedItem,
@@ -149,7 +149,7 @@ class _BackgroundJobs extends State<BackgroundJobs> {
                           var newTime = await showTimePicker(
                               context: context, initialTime: TimeOfDay.now());
                           setState(() {
-                            time = newTime;
+                            time = newTime!;
                           });
                         },
                       ),
@@ -186,7 +186,7 @@ class _BackgroundJobs extends State<BackgroundJobs> {
                               lastDate: DateTime(2100));
 
                           setState(() {
-                            date = result;
+                            date = result!;
                           });
                         },
                       ),
@@ -200,8 +200,9 @@ class _BackgroundJobs extends State<BackgroundJobs> {
             padding: const EdgeInsets.all(0.00),
             child: DropdownFormFieldNormalReuse(
               _onSetJobNameSelection,
-              hintText: AppLocalization.of(context).translate('set_job_name') ??
-                  'Selected Job',
+              hintText:
+                  AppLocalization.of(context)!.translate('set_job_name') ??
+                      'Selected Job',
               selectedValue: setjobname,
               listData: [
                 'Device Setting',
@@ -233,7 +234,7 @@ class _BackgroundJobs extends State<BackgroundJobs> {
             padding: const EdgeInsets.all(0.00),
             child: DropdownFormFieldNormalReuse(
               _onUpdateeFrequencySelection,
-              hintText: AppLocalization.of(context)
+              hintText: AppLocalization.of(context)!
                       .translate('sync_frequency_label_communication') ??
                   'Sync Frequency',
               selectedValue: syncfrequencySelectedItem,
@@ -260,8 +261,8 @@ class _BackgroundJobs extends State<BackgroundJobs> {
                     _onBackGroundJobStartButtonPress();
                   },
                   child: Text(
-                    AppLocalization.of(context)
-                        .translate('start_button_backgroundjob'),
+                    AppLocalization.of(context)!
+                        .translate('start_button_backgroundjob')!,
                     style: TextStyle(
                         color: Colors.blue,
                         fontSize: 18,
@@ -276,8 +277,8 @@ class _BackgroundJobs extends State<BackgroundJobs> {
                     await _onBackGroundJobCancelButtonPress();
                   },
                   child: Text(
-                      AppLocalization.of(context)
-                          .translate('cancel_button_backgroundjob'),
+                      AppLocalization.of(context)!
+                          .translate('cancel_button_backgroundjob')!,
                       style: TextStyle(
                           color: Colors.blue,
                           fontSize: 18,
@@ -300,7 +301,7 @@ class _BackgroundJobs extends State<BackgroundJobs> {
                 stream: bloc.backgroundJobScheduleDao.watchAllJobs(),
                 builder: (context,
                     AsyncSnapshot<List<BackgroundJobScheduleData>> snapshot) {
-                  final jobs = snapshot.data ?? List();
+                  final jobs = snapshot.data ?? [];
 
                   return ListView.builder(
                     scrollDirection: Axis.vertical,

@@ -36,7 +36,7 @@ import '../../resources/shared/icons/custom_icons.dart';
 
 class ProfilePage extends StatefulWidget {
   var db;
-  UserDao userDao;
+  late UserDao userDao;
   ProfilePage() {
     db = AppDatabase();
     userDao = UserDao(db);
@@ -47,8 +47,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String tenantName;
-  String theme;
+  late String tenantName;
+  late String theme;
 
   @override
   void didChangeDependencies() async {
@@ -56,7 +56,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future getProfileData() async {
-    theme = await getIt<UserRepository>().getTheme();
+    theme = await getIt<UserRepository>().getTheme().toString();
     if (theme == null) {
       theme = 'light';
     }
@@ -64,7 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
     tenantName = data['tenantName'];
     if (data['userId'] != null) {
       final profileData =
-          await widget.userDao.getSingleUser(int.tryParse(data['userId']));
+          await widget.userDao.getSingleUser(int.tryParse(data['userId'])!);
       return profileData;
     }
     return null;
@@ -77,7 +77,7 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         centerTitle: false,
         //ToDo add translation for preferences title
-        title: Text(AppLocalization.of(context).translate('profile_title') ??
+        title: Text(AppLocalization.of(context)!.translate('profile_title') ??
             "Profile"),
         actions: <Widget>[
           Padding(
@@ -94,7 +94,7 @@ class _ProfilePageState extends State<ProfilePage> {
         future: getProfileData(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            User user = snapshot.data;
+            User? user = snapshot.data as User?;
             return SingleChildScrollView(
               child: Stack(
                 children: <Widget>[
@@ -130,7 +130,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
-                                          user.fullName,
+                                          user!.fullName,
                                           style: Theme.of(context)
                                               .textTheme
                                               .headline1,
@@ -186,7 +186,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       });
                                 },
                                 title: Text(
-                                  AppLocalization.of(context)
+                                  AppLocalization.of(context)!
                                           .translate('language_appdraw') ??
                                       'Language',
                                 ),

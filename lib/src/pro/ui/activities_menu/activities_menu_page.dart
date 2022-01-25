@@ -5,11 +5,12 @@ import 'package:j3enterprise/src/pro/models/sales/fullfillment/jounery_with_addr
 import 'package:j3enterprise/src/pro/ui/activities_menu/activities_menu_form.dart';
 import 'package:j3enterprise/src/pro/ui/activities_menu/bloc/activities_menu_bloc.dart';
 
+// ignore: must_be_immutable
 class ActivitiesMenuPage extends StatefulWidget {
   static final route = '/activities_menu';
   JourneyWithAddress journeyWithAddress;
 
-  ActivitiesMenuPage({this.journeyWithAddress});
+  ActivitiesMenuPage({required this.journeyWithAddress});
 
   @override
   _ActivitiesMenuPageState createState() => _ActivitiesMenuPageState();

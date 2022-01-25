@@ -29,8 +29,8 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 
 class BussinessRuleDetailPage extends StatefulWidget {
   final code;
-  BusinessRuleDao businessRuleDao;
-  NonGlobalBusinessRuleDao nonGlobalBusinessRuleDao;
+  late BusinessRuleDao businessRuleDao;
+  late NonGlobalBusinessRuleDao nonGlobalBusinessRuleDao;
   BussinessRuleDetailPage(this.code) {
     db = AppDatabase();
     nonGlobalBusinessRuleDao = NonGlobalBusinessRuleDao(db);
@@ -45,14 +45,14 @@ class BussinessRuleDetailPage extends StatefulWidget {
 
 class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
   TextEditingController _textFieldController = TextEditingController();
-  String selectedValue;
+  late String selectedValue;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         //ToDo add translation for preferences title
         title: Text(
-            AppLocalization.of(context).translate('preferences_title') ??
+            AppLocalization.of(context)!.translate('preferences_title') ??
                 "Bussiness Rule"),
         actions: <Widget>[
           Padding(
@@ -87,8 +87,8 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                       .watchSingleBussinessRule(widget.code),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      BusinessRuleData businessRuleData;
-                      businessRuleData = snapshot.data;
+                      BusinessRuleData? businessRuleData;
+                      businessRuleData = snapshot.data as BusinessRuleData?;
 
                       //  print(prefData[1]);
                       return Container(
@@ -116,7 +116,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                     Container(
                                       margin: EdgeInsets.only(right: 5),
                                       child: Text(
-                                        businessRuleData.ruleName,
+                                        businessRuleData!.ruleName!,
                                         style: TextStyle(
                                             fontWeight: FontWeight.w500,
                                             fontSize: 16),
@@ -144,7 +144,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                           onToggle: (value) async {
                                             await widget.businessRuleDao
                                                 .updateBussinessRule(
-                                                    businessRuleData.copyWith(
+                                                    businessRuleData!.copyWith(
                                               isGlobalRule: value,
                                             ));
                                           }),
@@ -172,7 +172,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                                 onToggle: (value) async {
                                                   await widget.businessRuleDao
                                                       .updateBussinessRule(
-                                                          businessRuleData
+                                                          businessRuleData!
                                                               .copyWith(
                                                     value: value == true
                                                         ? 'ON'
@@ -201,14 +201,14 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                                         onTap: () {
                                                           _textFieldController =
                                                               TextEditingController(
-                                                                  text: businessRuleData
+                                                                  text: businessRuleData!
                                                                       .value);
                                                           _displayDialog(
                                                               context,
                                                               () => widget
                                                                   .businessRuleDao
-                                                                  .updateBussinessRule(
-                                                                      businessRuleData.copyWith(
+                                                                  .updateBussinessRule(businessRuleData!
+                                                                      .copyWith(
                                                                           value:
                                                                               _textFieldController.text)));
                                                         },
@@ -218,8 +218,8 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                                 : DropdownSearch(
                                                     onFind: (value) async {
                                                       print(value);
-                                                      return businessRuleData
-                                                          .dataValue
+                                                      return businessRuleData!
+                                                          .dataValue!
                                                           .split(',')
                                                           .map((e) => e)
                                                           .toList();
@@ -228,7 +228,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                                         businessRuleData.value,
                                                     showSearchBox: true,
                                                     items: businessRuleData
-                                                        .dataValue
+                                                        .dataValue!
                                                         .split(',')
                                                         .map((e) => e)
                                                         .toList(),
@@ -236,10 +236,10 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                                       await widget
                                                           .businessRuleDao
                                                           .updateBussinessRule(
-                                                              businessRuleData
+                                                              businessRuleData!
                                                                   .copyWith(
-                                                                      value:
-                                                                          value));
+                                                                      value: value
+                                                                          .toString()));
                                                     })),
                                   ],
                                 ),
@@ -255,7 +255,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                     ),
                                     Expanded(child: Container()),
                                     Text(
-                                      "${businessRuleData.expiredDateTime.day}-${businessRuleData.expiredDateTime.month}-${businessRuleData.expiredDateTime.year}",
+                                      "${businessRuleData.expiredDateTime!.day}-${businessRuleData.expiredDateTime!.month}-${businessRuleData.expiredDateTime!.year}",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 16),
@@ -269,7 +269,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                               lastDate: DateTime(2100));
                                           await widget.businessRuleDao
                                               .updateBussinessRule(
-                                                  businessRuleData.copyWith(
+                                                  businessRuleData!.copyWith(
                                                       expiredDateTime: result));
                                         },
                                         child: Container(
@@ -304,10 +304,11 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                         .watchAllNonGlobalBussinessRule(widget.code),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        List<NonGlobalBusinessRuleData>
+                        List<NonGlobalBusinessRuleData>?
                             nonGlobalBussinessRuleData;
-                        nonGlobalBussinessRuleData = snapshot.data;
-                        if (nonGlobalBussinessRuleData.isEmpty) {
+                        nonGlobalBussinessRuleData =
+                            snapshot.data as List<NonGlobalBusinessRuleData>?;
+                        if (nonGlobalBussinessRuleData!.isEmpty) {
                           return Center(
                             child: Text(
                               "No Non-Global Bussiness Rule Found",
@@ -336,7 +337,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          'DeviceId: ${nonGlobalBussinessRuleData[index].deviceId}',
+                                          'DeviceId: ${nonGlobalBussinessRuleData![index].deviceId}',
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 18),
@@ -355,7 +356,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                                   await widget
                                                       .nonGlobalBusinessRuleDao
                                                       .updateNonGlobalBussinessRuleValue(
-                                                          nonGlobalBussinessRuleData[
+                                                          nonGlobalBussinessRuleData![
                                                                   index]
                                                               .copyWith(
                                                     value: value == true
@@ -387,7 +388,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                         Container(
                                           margin: EdgeInsets.only(right: 7),
                                           child: Text(
-                                            "${nonGlobalBussinessRuleData[index].expiredDateTime.day}-${nonGlobalBussinessRuleData[index].expiredDateTime.month}-${nonGlobalBussinessRuleData[index].expiredDateTime.year}",
+                                            "${nonGlobalBussinessRuleData[index].expiredDateTime!.day}-${nonGlobalBussinessRuleData[index].expiredDateTime!.month}-${nonGlobalBussinessRuleData[index].expiredDateTime!.year}",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 16),

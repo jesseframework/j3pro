@@ -6,11 +6,11 @@ import 'package:logging/logging.dart';
 import 'package:drift/drift.dart' as moor;
 
 class CalculateTotal {
-  String className = "Calculate Transaction";
+  late String className = "Calculate Transaction";
   var db;
   static final _log = Logger('AddItemToTransaction');
-  SalesOrderDetailTempDao salesOrderDetailTempDao;
-  SystemCurrencyDao systemCurrencyDao;
+  late SalesOrderDetailTempDao salesOrderDetailTempDao;
+  late SystemCurrencyDao systemCurrencyDao;
 
   CalculateTotal() {
     db = AppDatabase();
@@ -27,17 +27,17 @@ class CalculateTotal {
       //ToDo Add location to currency
       double formatedGrandTotal = 0;
       double unformatedGrandTotal = (onRegister.single.subTotal +
-              onRegister.single.taxTotal +
+              onRegister.single.taxTotal! +
               onRegister.single.shippingTotal) -
-          onRegister.single.lineDiscountTotal;
+          onRegister.single.lineDiscountTotal!;
 
       var currency = await systemCurrencyDao.getAllSystemCurrencyByName("JMD");
       if (currency.length > 0) {
         var f = new NumberFormat(currency[0].numberFormat, "en_US");
-        formatedGrandTotal = double.tryParse(f.format(unformatedGrandTotal));
+        formatedGrandTotal = double.tryParse(f.format(unformatedGrandTotal))!;
       } else {
         var f = new NumberFormat("###.0#", "en_US");
-        formatedGrandTotal = double.tryParse(f.format(unformatedGrandTotal));
+        formatedGrandTotal = double.tryParse(f.format(unformatedGrandTotal))!;
       }
       var lineUpdate = new SalesOrderDetailTempCompanion(
           grandTotal: moor.Value(formatedGrandTotal));

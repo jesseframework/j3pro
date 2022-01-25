@@ -32,7 +32,7 @@ import 'package:logging/logging.dart';
 class TimerData {
   final String name;
   final Timer timer;
-  TimerData({@required this.name, @required this.timer});
+  TimerData({required this.name, required this.timer});
 }
 
 class Scheduler {
@@ -50,7 +50,7 @@ class Scheduler {
     } catch (error) {}
   }
 
-  Duration _getFromString(String setFrequency) {
+  Duration? _getFromString(String setFrequency) {
     if (setFrequency == "Every Minute")
       return Duration(minutes: 1);
     else if (setFrequency == "Every 5 Minutes")

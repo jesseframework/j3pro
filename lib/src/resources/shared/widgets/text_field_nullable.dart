@@ -20,12 +20,14 @@
 import 'package:flutter/material.dart';
 
 class TextFromFieldNullableReusable extends StatelessWidget {
-  final TextEditingController controllerName;
-  final String validationText;
+  late final TextEditingController controllerName;
+  late final String validationText;
   final InputDecoration fieldDecoration;
 
   TextFromFieldNullableReusable(
-      {this.controllerName, this.validationText, this.fieldDecoration});
+      {required this.controllerName,
+      String? validationText,
+      required this.fieldDecoration});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,27 @@ class TextFromFieldNullableReusable extends StatelessWidget {
       child: TextFormField(
           controller: controllerName,
           validator: (_value) {
-            return _value.length < 3 ? validationText : null;
+            return _value!.length < 3 ? validationText : null;
+          },
+          decoration: fieldDecoration.copyWith(filled: true)),
+    );
+  }
+}
+
+class TextFromFieldReusable extends StatelessWidget {
+  late final String validationText;
+  late final InputDecoration fieldDecoration;
+
+  TextFromFieldReusable(
+      {String? validationText, required this.fieldDecoration});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextFormField(
+          validator: (_value) {
+            return _value!.length < 3 ? validationText : null;
           },
           decoration: fieldDecoration.copyWith(filled: true)),
     );

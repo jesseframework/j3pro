@@ -23,7 +23,7 @@ import 'package:j3enterprise/src/resources/shared/utils/date_formating.dart';
 import 'package:drift/drift.dart' as moor;
 
 class UpdateBackgroundJobStatus {
-  BackgroundJobScheduleDao backgroundJobScheduleDao;
+  late BackgroundJobScheduleDao backgroundJobScheduleDao;
   var db;
   UpdateBackgroundJobStatus() {
     db = AppDatabase();
@@ -35,7 +35,7 @@ class UpdateBackgroundJobStatus {
 
     var fromData = new BackgroundJobScheduleCompanion(
         jobStatus: moor.Value(jobStatus),
-        lastRun: moor.Value(DateTime.tryParse(formatted)));
+        lastRun: moor.Value(DateTime.tryParse(formatted)!));
 
     await backgroundJobScheduleDao.updateBackgroundJobStstus(
         fromData, jobName, DateTime.now());

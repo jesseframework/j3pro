@@ -6,9 +6,9 @@ import 'package:drift/drift.dart' as moor;
 class CheckInventory {
   var db;
   static final _log = Logger('CheckInventory');
-  String className = "Check Inventory";
+  late String className = "Check Inventory";
 
-  InventoryItemsDao inventoryItemsDao;
+  late InventoryItemsDao inventoryItemsDao;
 
   CheckInventory() {
     db = AppDatabase();

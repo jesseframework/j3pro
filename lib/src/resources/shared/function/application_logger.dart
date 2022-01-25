@@ -46,14 +46,14 @@ import 'package:logging/logging.dart';
 import 'package:drift/drift.dart';
 
 class AppLogger {
-  ApplicationLoggerDao applicationLoggerDao;
-  AppLoggerRepository appLoggerRepository;
-  PreferenceDao preferenceDao;
-  NonGlobalPreferenceDao nonGlobalPreferenceDao;
-  UserSharedData userSharedData;
+  late ApplicationLoggerDao applicationLoggerDao;
+  late AppLoggerRepository appLoggerRepository;
+  late PreferenceDao preferenceDao;
+  late NonGlobalPreferenceDao nonGlobalPreferenceDao;
+  late UserSharedData userSharedData;
   Map<String, String> mapDevicePref = Map();
 
-  LoginState loginState;
+  late LoginState loginState;
 
   var db;
 
@@ -84,8 +84,9 @@ class AppLogger {
       String userName,
       int userId) async {
     try {
-      mapDevicePref = await userSharedData.getUserSharedPref();
-      String screen = mapDevicePref['screen'];
+      mapDevicePref =
+          await userSharedData.getUserSharedPref() as Map<String, String>;
+      String screen = mapDevicePref['screen']!;
 
       var logData = new ApplicationLoggerCompanion(
           logDateTime: Value(logDateTime),
@@ -117,7 +118,7 @@ class AppLogger {
                     deviceId,
                     screen);
             if (globalData != null) {
-              if (globalData.expiredDateTime.isBefore(DateTime.now())) {
+              if (globalData.expiredDateTime!.isBefore(DateTime.now())) {
                 //applicationLoggerDao.purgeDatabyExportStatus('Success');
               }
             }
@@ -136,7 +137,7 @@ class AppLogger {
                     deviceId,
                     screen);
             if (globalData != null) {
-              if (globalData.expiredDateTime.isBefore(DateTime.now())) {
+              if (globalData.expiredDateTime!.isBefore(DateTime.now())) {
                 //applicationLoggerDao.purgeData(1000);
               }
             }
@@ -154,9 +155,6 @@ class AppLogger {
                     userName,
                     deviceId,
                     screen);
-            if (globalData != null) {
-              //applicationLoggerDao.purgeData(500);
-            }
           } else {
             //applicationLoggerDao.purgeData(500);
           }
@@ -172,7 +170,7 @@ class AppLogger {
                     deviceId,
                     screen);
             if (globalData != null) {
-              if (globalData.expiredDateTime.isBefore(DateTime.now())) {
+              if (globalData.expiredDateTime!.isBefore(DateTime.now())) {
                 //applicationLoggerDao.purgeData(100);
               }
             }

@@ -8,7 +8,7 @@ part of 'rest_api_service.dart';
 
 // ignore_for_file: always_put_control_body_on_new_line, always_specify_types, prefer_const_declarations
 class _$RestApiService extends RestApiService {
-  _$RestApiService([ChopperClient client]) {
+  _$RestApiService([ChopperClient? client]) {
     if (client == null) return;
     this.client = client;
   }
@@ -455,7 +455,7 @@ class _$RestApiService extends RestApiService {
 
   @override
   Future<Response<dynamic>> sampleWithUrlAndQuery(String url, String page) {
-    final $url = '/api/$url';
+    final $url = '/api/${url}';
     final $params = <String, dynamic>{'page': page};
     final $request = Request('POST', $url, client.baseUrl, parameters: $params);
     return client.send<dynamic, dynamic>($request);

@@ -27,7 +27,7 @@ class LoggerDetailPage extends StatelessWidget {
               BuildInfoRow('Device ID :', data.deviceId),
               BuildInfoRow('Export DateTime :', data.exportDateTime.toString()),
               BuildInfoRow('Export Status :', data.exportStatus),
-              BuildInfoRow('Sync Error :', data.syncError),
+              BuildInfoRow('Sync Error :', data.syncError!),
               BuildInfoRow('Creator User Id :', data.userId.toString()),
               BuildInfoRow(
                 'Tenant Id :',

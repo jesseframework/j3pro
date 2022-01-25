@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalization.of(context).translate('app_title') ??
+        title: Text(AppLocalization.of(context)!.translate('app_title') ??
             'J3 ENTERPRISE SOLUTION'),
       ),
       body: BlocProvider(

@@ -63,23 +63,26 @@ class _AppLoggerForm extends State<AppLoggerForm> {
                 padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                 child: Center(
                   child: ListFilter(
-                      placeholder: 'Search',
-                      filter: searchText,
-                      onFilterChanged: (search) {
-                        setState(() {
-                          searchText = search;
-                        });
-                      }),
+                    placeholder: 'Search',
+                    filter: searchText,
+                    onFilterChanged: (search) {
+                      setState(() {
+                        searchText = search;
+                      });
+                    },
+                    function: () {},
+                  ),
                 ),
               )),
           StreamBuilder(
               stream: bloc.applicationLoggerDao.watchAllAppLog(searchText),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  List<ApplicationLoggerData> data = snapshot.data;
+                  List<ApplicationLoggerData>? data =
+                      snapshot.data as List<ApplicationLoggerData>?;
                   return Expanded(
                     child: ListView.builder(
-                        itemCount: data.length,
+                        itemCount: data!.length,
                         itemBuilder: (_, index) {
                           return Container(
                             color: (index % 2 == 0)

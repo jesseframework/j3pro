@@ -34,10 +34,10 @@ import 'package:logging/logging.dart';
 
 class InitServiceSetup {
   var db;
-  PreferenceDao preferenceDao;
-  NonGlobalPreferenceDao nonGlobalPreferenceDao;
-  UserSharedData userSharedData;
-  AppLogger appLogger;
+  late PreferenceDao preferenceDao;
+  late NonGlobalPreferenceDao nonGlobalPreferenceDao;
+  late UserSharedData userSharedData;
+  late AppLogger appLogger;
   Map<String, String> mapDevicePref = Map();
   InitServiceSetup() {
     db = AppDatabase();
@@ -47,40 +47,35 @@ class InitServiceSetup {
     userSharedData = new UserSharedData();
   }
   Future<void> setupLogging() async {
-    mapDevicePref = await userSharedData.getUserSharedPref();
-    String userName = mapDevicePref['userName'];
-    String deviceID = mapDevicePref['deviceID'];
-    String screen = mapDevicePref['screen'];
+    mapDevicePref =
+        await userSharedData.getUserSharedPref() as Map<String, String>;
+    String? userName = mapDevicePref['userName']!;
+    String? deviceID = '3344444'; //mapDevicePref['deviceID']!;
+    String? screen = 'loading'; //mapDevicePref['screen']!;
 
     //Turn on/off logs. Default value yes isGlobal no
     var saveLogToDd = await preferenceDao.getSinglePreferences('LOGGERON');
     if (saveLogToDd != null) {
       if (saveLogToDd.value == "ON" &&
           saveLogToDd.isGlobal == false &&
-          (saveLogToDd.expiredDateTime.isAfter(DateTime.now()) ||
+          (saveLogToDd.expiredDateTime!.isAfter(DateTime.now()) ||
               saveLogToDd.expiredDateTime == null)) {
         var nonGlobalDb = await nonGlobalPreferenceDao.getSingleNonGlobalPref(
             'LOGGERON', 'LOGGERON', userName, deviceID, screen);
-        if (nonGlobalDb != null &&
-            nonGlobalDb.value == "ON" &&
-            nonGlobalDb.isApply == true) {
+        if (nonGlobalDb.value == "ON" && nonGlobalDb.isApply == true) {
           //Set not global
-          if (nonGlobalDb.expiredDateTime.isAfter(DateTime.now()) ||
+          if (nonGlobalDb.expiredDateTime!.isAfter(DateTime.now()) ||
               nonGlobalDb.expiredDateTime == null) {
             var setLogLevel =
                 await nonGlobalPreferenceDao.getSingleNonGlobalPref(
                     'LOGGERLEVEL', 'LOGGERLEVEL', userName, deviceID, screen);
-            if (setLogLevel != null) {
-              await logLevelCheck(setLogLevel.value);
-            }
+            await logLevelCheck(setLogLevel.value);
           }
         }
       } else {
         var setLogLevel =
             await preferenceDao.getSinglePreferences('LOGGERLEVEL');
-        if (setLogLevel != null) {
-          await logLevelCheck(setLogLevel.value);
-        }
+        await logLevelCheck(setLogLevel.value);
       }
     } else {
       //Set Default
@@ -97,16 +92,14 @@ class InitServiceSetup {
       if (logHttp != null) {
         if (logHttp.value == "ON" &&
             logHttp.isGlobal == false &&
-            logHttp.expiredDateTime.isBefore(DateTime.now())) {
+            logHttp.expiredDateTime!.isBefore(DateTime.now())) {
           var nonGlobalDb = await nonGlobalPreferenceDao.getSingleNonGlobalPref(
               'HTTPLOGINGTOSERVER',
               'HTTPLOGINGTOSERVER',
               userName,
               deviceID,
               screen);
-          if (nonGlobalDb != null &&
-              nonGlobalDb.value == "ON" &&
-              nonGlobalDb.isApply == true) {
+          if (nonGlobalDb.value == "ON" && nonGlobalDb.isApply == true) {
             if (_functionName == "Chopper") {
               await appLogger.saveAppLog(rec.loggerName, rec.time, "NA",
                   rec.message, "NA", "NA", "NA", rec.level.name, 0, "NA", 0);
@@ -122,7 +115,7 @@ class InitServiceSetup {
           }
         } else if (logHttp.value == "ON" &&
             logHttp.isGlobal == true &&
-            logHttp.expiredDateTime.isBefore(DateTime.now())) {
+            logHttp.expiredDateTime!.isBefore(DateTime.now())) {
           if (_functionName == "Chopper") {
             await appLogger.saveAppLog(rec.loggerName, rec.time, "NA",
                 rec.message, "NA", "NA", "NA", rec.level.name, 0, "NA", 0);
@@ -177,7 +170,7 @@ Future<void> systemInitelSetup() async {
   //BlocOverrides.current = Zone() SimpleBlocDelegate();
   var dao = CommunicationDao(AppDatabase());
   var communicationData = await dao.getCommunicationDataByType("API");
-  var serverUrl = communicationData == null || communicationData.isEmpty
+  var serverUrl = communicationData.isEmpty
       ? ApiClient.URL
       : communicationData[0].serverUrl;
   ApiClient.updateClient(serverUrl);

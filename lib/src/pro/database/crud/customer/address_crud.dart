@@ -14,7 +14,7 @@ class AddressDao extends DatabaseAccessor<AppDatabase> with _$AddressDaoMixin {
   }
 
   Stream<List<Addres>> watchAllAddressByTitle(
-      {String customerId, bool isShippingAddress, bool isDisable}) {
+      {String? customerId, bool? isShippingAddress, bool? isDisable}) {
     return (select(db.address)
           ..where((t) =>
               t.customerId.equals(customerId) &
@@ -24,7 +24,7 @@ class AddressDao extends DatabaseAccessor<AppDatabase> with _$AddressDaoMixin {
   }
 
   Stream<List<Addres>> watchAllAddressByTitleDual(
-      {String customerId, String addressType, bool isDisable}) {
+      {String? customerId, String? addressType, bool? isDisable}) {
     return (select(db.address)
           ..where((t) =>
               t.customerId.equals(customerId) & t.isDeleted.equals(isDisable)))
