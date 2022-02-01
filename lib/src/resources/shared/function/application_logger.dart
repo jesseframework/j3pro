@@ -86,7 +86,7 @@ class AppLogger {
     try {
       mapDevicePref =
           await userSharedData.getUserSharedPref() as Map<String, String>;
-      String screen = mapDevicePref['screen']!;
+      String? screen = mapDevicePref['screen'];
 
       var logData = new ApplicationLoggerCompanion(
           logDateTime: Value(logDateTime),
@@ -183,7 +183,8 @@ class AppLogger {
 
         //applicationLoggerDao.purgeData(1000);
       }
-    } catch (error) {
+    } catch (error, s) {
+      print(s);
       _log.shout(error, StackTrace.current);
     }
   }

@@ -52,18 +52,18 @@ class _HomePageState extends State<HomePage> {
   //final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   int code = 0xe8b8;
   String image = 'images/beach-background.jpg';
-  //int? userId;
-  //@override
-  // void didChangeDependencies() async {
-  //   await getIt<UserRepository>().getUserSharedPref().then((value) {
-  //     setState(() {
-  //       userId = int.parse(value['userId']);
-  //     });
-  //   });
-  //   super.didChangeDependencies();
-  // }
+  int? userId;
+  @override
+  void didChangeDependencies() async {
+    await getIt<UserRepository>().getUserSharedPref().then((value) {
+      setState(() {
+        userId = int.parse(value['userId']);
+      });
+    });
+    super.didChangeDependencies();
+  }
 
-  getImageName(String themeMode) {
+  getImageName(String? themeMode) {
     if (themeMode == 'dark') {
       return 'images/dark-theme-background.jpg';
     } else {
@@ -106,7 +106,7 @@ class _HomePageState extends State<HomePage> {
         ),
         drawer: CustomDrawer(),
         body: StreamBuilder(
-            stream: widget.userDao.watchSingleUser(2),
+            stream: widget.userDao.watchSingleUser(userId),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 user = snapshot.data as User;
@@ -116,7 +116,7 @@ class _HomePageState extends State<HomePage> {
                     image: DecorationImage(
                   image: AssetImage(
                     snapshot.hasData == true
-                        ? getImageName(user.themeData!)
+                        ? getImageName(user.themeData)
                         : image,
                   ),
                   fit: BoxFit.cover,

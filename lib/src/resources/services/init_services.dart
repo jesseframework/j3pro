@@ -75,7 +75,9 @@ class InitServiceSetup {
       } else {
         var setLogLevel =
             await preferenceDao.getSinglePreferences('LOGGERLEVEL');
-        await logLevelCheck(setLogLevel.value);
+        if (setLogLevel != null) {
+          await logLevelCheck(setLogLevel.value);
+        }
       }
     } else {
       //Set Default

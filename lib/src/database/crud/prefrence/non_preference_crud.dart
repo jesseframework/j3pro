@@ -34,14 +34,14 @@ class NonGlobalPreferenceDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future<NonGlobalPreferenceData> getSingleNonGlobalPref(String parentCode,
-      String code, String userName, String deviceId, String screen) {
+      String code, String userName, String deviceId, String? screen) {
     return (select(db.nonGlobalPreference)
           ..where((u) =>
               u.code.equals(code) &
               u.parentCode.equals(parentCode) &
               (u.userName.like(userName) |
                   u.deviceId.like(deviceId) |
-                  u.screen.like(screen))))
+                  u.screen.like(screen ?? ''))))
         .getSingle();
   }
 

@@ -35,9 +35,9 @@ class PreferenceDao extends DatabaseAccessor<AppDatabase>
     return (select(db.preference)..where((t) => t.code.equals(prefCode))).get();
   }
 
-  Future<PreferenceData> getSinglePreferences(String prefCode) {
+  Future<PreferenceData?> getSinglePreferences(String prefCode) {
     return (select(db.preference)..where((u) => u.code.equals(prefCode)))
-        .getSingle();
+        .getSingleOrNull();
   }
 
   Future<List<PreferenceData>> getAllPreferences() {

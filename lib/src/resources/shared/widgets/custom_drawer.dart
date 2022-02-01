@@ -30,7 +30,7 @@ class CustomDrawer extends StatefulWidget {
 }
 
 class _CustomDrawerState extends State<CustomDrawer> {
-  Future getProfileData() async {
+  Future<User?> getProfileData() async {
     final data = await UserSharedData().getUserSharedPref();
     if (data['userId'] != null) {
       final profileData =
@@ -40,8 +40,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
     return null;
   }
 
-  late User user;
-  late String userId = '2';
+  // late User user;
+  late String userId;
 
   @override
   void didChangeDependencies() async {
@@ -64,11 +64,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
             FutureBuilder(
                 future: getProfileData(),
                 builder: (context, snapshot) {
-                  user = snapshot.data as User;
+                  var user = snapshot.data as User?;
                   return snapshot.hasData
                       ? UserAccountsDrawerHeader(
-                          accountName: Text(user.fullName),
-                          accountEmail: Text(user.emailAddress),
+                          accountName: Text(user?.fullName ?? ""),
+                          accountEmail: Text(user?.emailAddress ?? ""),
                           currentAccountPicture: CircleAvatar(
                               backgroundColor:
                                   Theme.of(context).backgroundColor,

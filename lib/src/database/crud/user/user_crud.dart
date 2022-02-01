@@ -28,12 +28,13 @@ class UserDao extends DatabaseAccessor<AppDatabase> with _$UserDaoMixin {
   final AppDatabase db;
   UserDao(this.db) : super(db);
 
-  Future<User> getSingleUser(int id) {
-    return (select(db.users)..where((u) => u.id.equals(id))).getSingle();
+  Future<User?> getSingleUser(int id) {
+    return (select(db.users)..where((u) => u.id.equals(id))).getSingleOrNull();
   }
 
-  Stream<User> watchSingleUser(int id) {
-    return (select(db.users)..where((u) => u.id.equals(id))).watchSingle();
+  Stream<User?> watchSingleUser(int? id) {
+    return (select(db.users)..where((u) => u.id.equals(id)))
+        .watchSingleOrNull();
   }
 
   Future<User> getSingleByName(int id) {

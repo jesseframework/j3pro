@@ -34,6 +34,7 @@ class BackgroundJobScheduleDao extends DatabaseAccessor<AppDatabase>
     return (select(db.backgroundJobSchedule).get());
   }
 
+  //Background Jobs will not be null on call
   Future<BackgroundJobScheduleData> getJob(String jobName) {
     return (select(db.backgroundJobSchedule)
           ..where((u) => u.jobName.equals(jobName)))
