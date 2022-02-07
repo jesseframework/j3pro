@@ -74,15 +74,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     //appLogger = new AppLogger();
 
-    getData();
+    //getData();
 
     userDao = UserDao(db);
     _log.finest('LoginBloc constructer call');
   }
 
-  getData() async {
-    tenantName = (await userRepository.getTenantFromSharedPref())!;
-  }
+  // getData() async {
+  //   tenantName = (await userRepository.getTenantFromSharedPref())!;
+  // }
 
   LoginState get initialState => LoginInitial(tenantName: '');
 

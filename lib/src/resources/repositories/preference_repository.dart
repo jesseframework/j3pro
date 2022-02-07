@@ -88,9 +88,9 @@ class PreferenceRepository {
           }
         }
       }
-    } catch (e) {
+    } catch (e, s) {
       updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-      _log.shout(e, StackTrace.current);
+      _log.shout(e, s);
     }
   }
 
@@ -99,42 +99,40 @@ class PreferenceRepository {
       //ToDo code review to get a better way to push bulk data to API and update bulk data in database
       _log.finest("Executing Non Global preference date from server");
       var isSchedulerEnable = await backgroundJobScheduleDao.getJob(jobName);
-      if (isSchedulerEnable != null) {
-        _log.finest(
-            "Non Global Preference job found in background Jobs scheduler");
-        if (isSchedulerEnable.startDateTime.isBefore(DateTime.now())) {
-          if (isSchedulerEnable.enableJob == true) {
-            DateTime startDate = isSchedulerEnable.startDateTime;
-            _log.finest("Non Global Preference jobs start date is $startDate ");
-            final Response response = await api.getNonGlobalPreference();
-            _log.finest("Checking server resopnses for Non global preference ");
-            Map<String, dynamic> map = json.decode(response.bodyString);
-            if (response.isSuccessful && map['success']) {
-              _log.finest(
-                  "Server resopnses successful for non global preference ");
-              Map<String, dynamic> result = map['result'];
-              var items = (result['items'] as List).map((e) {
-                return NonGlobalPreferenceData.fromJson(e,
-                    serializer: CustomSerializer());
-              });
+      _log.finest(
+          "Non Global Preference job found in background Jobs scheduler");
+      if (isSchedulerEnable.startDateTime.isBefore(DateTime.now())) {
+        if (isSchedulerEnable.enableJob == true) {
+          DateTime startDate = isSchedulerEnable.startDateTime;
+          _log.finest("Non Global Preference jobs start date is $startDate ");
+          final Response response = await api.getNonGlobalPreference();
+          _log.finest("Checking server resopnses for Non global preference ");
+          Map<String, dynamic> map = json.decode(response.bodyString);
+          if (response.isSuccessful && map['success']) {
+            _log.finest(
+                "Server resopnses successful for non global preference ");
+            Map<String, dynamic> result = map['result'];
+            var items = (result['items'] as List).map((e) {
+              return NonGlobalPreferenceData.fromJson(e,
+                  serializer: CustomSerializer());
+            });
 
-              for (var item in items) {
-                if (isStopped) break;
-                await nonGlobalPreferenceDao.createOrUpdatePref(item);
-              }
-              updateBackgroundJobStatus.updateJobStatus(jobName, "Success");
-            } else {
-              String error = map["error"]["details"].toString();
-              updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-              _log.shout(
-                  "Non Global Preference API call failed. Server respond with error: $error ");
+            for (var item in items) {
+              if (isStopped) break;
+              await nonGlobalPreferenceDao.createOrUpdatePref(item);
             }
+            updateBackgroundJobStatus.updateJobStatus(jobName, "Success");
+          } else {
+            String error = map["error"]["details"].toString();
+            updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
+            _log.shout(
+                "Non Global Preference API call failed. Server respond with error: $error ");
           }
         }
       }
-    } catch (e) {
+    } catch (e, s) {
       updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-      _log.shout(e, StackTrace.current);
+      _log.shout(e, s);
     }
   }
 }
