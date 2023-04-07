@@ -45,7 +45,7 @@ dependencies:
   drift: ^2.6.0
   #moor_ffi: ^0.8.0
   sqlite3_flutter_libs: ^0.5.13
-  dsru67_provider: ^2.0.14
+  path_provider: ^2.0.14
   # firebase_core: ^0.4.0+9
   # firebase_analytics: ^5.0.2
   # firebase_auth: ^0.14.0+5
