@@ -1,7 +1,6 @@
 import 'dart:io';
 
-import 'package:badges/badges.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -11,7 +10,6 @@ import 'package:j3enterprise/src/pro/database/crud/items/item_master_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/sales/sales_order/sales_order_detail_temp_crud.dart';
 import 'package:j3enterprise/src/pro/models/items/ItemsWithPrices.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/bloc/add_item_bloc.dart';
-import 'package:j3enterprise/src/pro/ui/sales/sales_order/check_out/sales_order_checkout_page.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/sales_order_item_detail_page.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/check_out/sales_order_finalized.dart';
 import 'package:j3enterprise/src/pro/utils/show_flushbar.dart';
@@ -19,7 +17,6 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
-import 'package:flutter_barcode_listener/flutter_barcode_listener.dart';
 
 class SalesOrderAddItemForm extends StatefulWidget {
   var db;
@@ -129,7 +126,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                             snapshot.data as List<SalesOrderDetailTempData>?;
                         if (totalData!.isNotEmpty) {
                           return Badge(
-                              badgeContent:
+                              label:
                                   Text(totalData[0].itemCount.toString()),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
@@ -138,7 +135,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                               ));
                         } else {
                           return Badge(
-                              badgeContent: Text(itemCount.toString()),
+                              label: Text(itemCount.toString()),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 4, vertical: 4),
@@ -147,7 +144,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                         }
                       }
                       return Badge(
-                          badgeContent: Text(itemCount.toString()),
+                          label: Text(itemCount.toString()),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 4, vertical: 4),

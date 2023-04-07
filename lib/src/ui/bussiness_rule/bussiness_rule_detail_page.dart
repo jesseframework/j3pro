@@ -216,17 +216,17 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                                     ],
                                                   )
                                                 : DropdownSearch(
-                                                    onFind: (value) async {
-                                                      print(value);
-                                                      return businessRuleData!
-                                                          .dataValue!
-                                                          .split(',')
-                                                          .map((e) => e)
-                                                          .toList();
-                                                    },
+                                                    // onFind: (value) async {
+                                                    //   print(value);
+                                                    //   return businessRuleData!
+                                                    //       .dataValue!
+                                                    //       .split(',')
+                                                    //       .map((e) => e)
+                                                    //       .toList();
+                                                    // },
                                                     selectedItem:
                                                         businessRuleData.value,
-                                                    showSearchBox: true,
+                                                    // showSearchBox: true,
                                                     items: businessRuleData
                                                         .dataValue!
                                                         .split(',')
@@ -427,13 +427,13 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
               controller: _textFieldController,
             ),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text('Discard'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
-              FlatButton(
+              TextButton(
                 child: Text('Save'),
                 onPressed: () async {
                   await callBack();

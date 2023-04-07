@@ -43,9 +43,9 @@ class NonGlobalBusinessRuleDao extends DatabaseAccessor<AppDatabase>
           ..where((u) =>
               u.code.equals(code) &
               u.parentCode.equals(parentCode) &
-              (u.userName.like(userName) |
-                  u.deviceId.like(deviceId) |
-                  u.screen.like(screen))))
+              (u.userName.equals(userName) |
+                  u.deviceId.equals(deviceId) |
+                  u.screen.equals(screen))))
         .getSingle();
   }
 

@@ -72,16 +72,16 @@ class _BackgroundJobs extends State<BackgroundJobs> {
     return BlocListener<BackgroundJobsBloc, BackgroundJobsState>(
         listener: (context, state) {
       if (state is BackgroundJobsFailure) {
-        Scaffold.of(context)
+        ScaffoldMessenger.of(context)
             .showSnackBar(new SnackBar(content: new Text(state.error)));
       }
       if (state is BackgroundJobsSuccess) {
-        Scaffold.of(context)
+        ScaffoldMessenger.of(context)
             .showSnackBar(new SnackBar(content: new Text(state.userMessage)));
       }
 
       if (state is BackgroundJobsStoped) {
-        Scaffold.of(context)
+        ScaffoldMessenger.of(context)
             .showSnackBar(new SnackBar(content: new Text(state.userMessage)));
       }
     }, child: BlocBuilder<BackgroundJobsBloc, BackgroundJobsState>(
@@ -256,7 +256,7 @@ class _BackgroundJobs extends State<BackgroundJobs> {
             children: <Widget>[
               Container(
                 child: Container(
-                    child: FlatButton(
+                    child: TextButton(
                   onPressed: () {
                     _onBackGroundJobStartButtonPress();
                   },
@@ -272,7 +272,7 @@ class _BackgroundJobs extends State<BackgroundJobs> {
               ),
               Container(
                 decoration: BoxDecoration(),
-                child: FlatButton(
+                child: TextButton(
                   onPressed: () async {
                     await _onBackGroundJobCancelButtonPress();
                   },

@@ -46,7 +46,7 @@ class PreferenceDao extends DatabaseAccessor<AppDatabase>
 
   Stream<List<PreferenceData>> watchAllPreferences(String searchText) {
     return (select(db.preference)
-          ..where((t) => t.preferenceName.contains(searchText)))
+          ..where((t) => t.preferenceName.equals(searchText)))
         .watch();
   }
 

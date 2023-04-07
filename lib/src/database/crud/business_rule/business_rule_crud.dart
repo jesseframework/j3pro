@@ -44,7 +44,7 @@ class BusinessRuleDao extends DatabaseAccessor<AppDatabase>
 
   Stream<List<BusinessRuleData>> watchAllBusinessRule(String searchText) {
     return (select(db.businessRule)
-          ..where((tbl) => tbl.ruleName.contains(searchText)))
+          ..where((tbl) => tbl.ruleName.equals(searchText)))
         .watch();
   }
 

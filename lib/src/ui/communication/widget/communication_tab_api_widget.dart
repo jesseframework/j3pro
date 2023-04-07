@@ -223,8 +223,10 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
                 padding: const EdgeInsets.all(10.00),
                 child: ButtonTheme(
                   height: 50,
-                  child: FlatButton(
-                    color: Colors.green[400],
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.green[400],),
+                  
                     onPressed: () {
                       submitAPITab(bloc);
                     },

@@ -40,10 +40,10 @@ class DesktopDao extends DatabaseAccessor<AppDatabase> with _$DesktopDaoMixin {
       String featureCode, String userPermission, String showInLoaction) {
     return (select(db.desktop)
           ..where((t) =>
-              t.iconName.contains(functionName) &
+              t.iconName.equals(functionName) &
               t.isDeleted.equals(isDelete) &
-              t.featureCode.contains(featureCode) &
-              t.userPermission.contains(userPermission) &
+              t.featureCode.equals(featureCode) &
+              t.userPermission.equals(userPermission) &
               t.showInLocation.equals(showInLoaction)))
         .watch();
   }
@@ -54,7 +54,7 @@ class DesktopDao extends DatabaseAccessor<AppDatabase> with _$DesktopDaoMixin {
           ..where((t) =>
               t.iconGroup.equals(functionName) &
               t.isDeleted.equals(isDelete) &
-              t.userPermission.contains(userPermission)))
+              t.userPermission.equals(userPermission)))
         .watch();
   }
 

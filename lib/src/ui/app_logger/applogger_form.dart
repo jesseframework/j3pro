@@ -39,7 +39,7 @@ class _AppLoggerForm extends State<AppLoggerForm> {
     return BlocListener<ApploggerBloc, ApploggerState>(listener:
         (context, state) {
       if (state is ApploggerFailure) {
-        Scaffold.of(context)
+        ScaffoldMessenger.of(context)
             .showSnackBar(new SnackBar(content: new Text(state.error)));
       }
     }, child:

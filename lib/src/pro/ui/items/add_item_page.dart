@@ -50,7 +50,7 @@ class _AddItemPageState extends State<AddItemPage> {
                   'Item Photo',
                   style: Theme.of(context)
                       .textTheme
-                      .bodyText2!
+                      .bodyMedium!
                       .copyWith(fontWeight: FontWeight.bold),
                 ),
                 children: [
@@ -65,10 +65,10 @@ class _AddItemPageState extends State<AddItemPage> {
                             Text(
                               'Attach Photo',
                               style: TextStyle(
-                                  color: Theme.of(context).textSelectionColor),
+                                  color: Theme.of(context).textSelectionTheme.selectionColor),
                             ),
                             Icon(Icons.attach_file,
-                                color: Theme.of(context).textSelectionColor)
+                                color: Theme.of(context).textSelectionTheme.selectionColor)
                           ],
                         ),
                       ),

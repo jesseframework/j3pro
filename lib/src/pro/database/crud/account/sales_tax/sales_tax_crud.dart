@@ -20,7 +20,7 @@ class SalesTaxDao extends DatabaseAccessor<AppDatabase>
     return (select(db.salesTax)
           ..where((t) =>
               t.taxAccount.equals(taxGroup) &
-              t.effectiveDate.isSmallerOrEqualValue(salesDate)))
+              t.effectiveDate.iss(salesDate)))
         .get();
   }
 

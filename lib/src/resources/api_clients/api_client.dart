@@ -31,7 +31,7 @@ class ApiClient {
 
   static void updateClient(String baseUrl) {
     chopper = ChopperClient(
-        baseUrl: baseUrl,
+        baseUrl: Uri.parse(baseUrl),
         services: [
           // inject the generated service
           RestApiService.create()

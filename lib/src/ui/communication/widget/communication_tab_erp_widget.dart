@@ -225,8 +225,11 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
               padding: const EdgeInsets.all(10.00),
               child: ButtonTheme(
                 height: 50,
-                child: FlatButton(
-                  color: Colors.green[400],
+                child: TextButton(
+                  style:  TextButton.styleFrom(
+                    backgroundColor: Colors.green[400],
+                  ),
+            
                   onPressed: () {
                     submitERPTab(bloc);
                   },
