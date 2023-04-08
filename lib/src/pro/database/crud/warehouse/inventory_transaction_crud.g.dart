@@ -2,11 +2,8 @@
 
 part of 'inventory_transaction_crud.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$InventoryTransactionDaoMixin on DatabaseAccessor<AppDatabase> {
+// ignore_for_file: type=lint
+mixin _$InventoryTransactionDaoMixin on DatabaseAccessor<MyDatabase> {
   $InventoryTransactionTable get inventoryTransaction =>
       attachedDatabase.inventoryTransaction;
 }

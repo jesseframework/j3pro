@@ -17,13 +17,14 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
+import 'package:drift/drift.dart' hide Column;
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:j3enterprise/src/database/crud/business_rule/business_rule_crud.dart';
 import 'package:j3enterprise/src/database/crud/business_rule/non_global_business_rule_crud.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 //import 'package:xlive_switch/xlive_switch.dart';
 
@@ -32,15 +33,14 @@ class BussinessRuleDetailPage extends StatefulWidget {
   late BusinessRuleDao businessRuleDao;
   late NonGlobalBusinessRuleDao nonGlobalBusinessRuleDao;
   BussinessRuleDetailPage(this.code) {
-    db = AppDatabase();
+    db = MyDatabase();
     nonGlobalBusinessRuleDao = NonGlobalBusinessRuleDao(db);
     businessRuleDao = BusinessRuleDao(db);
   }
   var db;
 
   @override
-  _BussinessRuleDetailPageState createState() =>
-      _BussinessRuleDetailPageState();
+  _BussinessRuleDetailPageState createState() => _BussinessRuleDetailPageState();
 }
 
 class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
@@ -51,9 +51,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
     return Scaffold(
       appBar: AppBar(
         //ToDo add translation for preferences title
-        title: Text(
-            AppLocalization.of(context)!.translate('preferences_title') ??
-                "Bussiness Rule"),
+        title: Text(AppLocalization.of(context)!.translate('preferences_title') ?? "Bussiness Rule"),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 18),
@@ -83,8 +81,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                 ),
               ),
               StreamBuilder(
-                  stream: widget.businessRuleDao
-                      .watchSingleBussinessRule(widget.code),
+                  stream: widget.businessRuleDao.watchSingleBussinessRule(widget.code),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       BusinessRuleData? businessRuleData;
@@ -94,8 +91,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                       return Container(
                         height: 200,
                         child: Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                           elevation: 4.0,
                           //  height: 150,
                           child: Padding(
@@ -104,47 +100,33 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'Name',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16),
+                                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                                     ),
                                     Container(
                                       margin: EdgeInsets.only(right: 5),
                                       child: Text(
                                         businessRuleData!.ruleName!,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                        style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
                                       ),
                                     ),
                                   ],
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'Is Global',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16),
+                                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                                     ),
                                     Container(
                                       child: FlutterSwitch(
-                                          value:
-                                              businessRuleData.isGlobalRule ==
-                                                      false
-                                                  ? false
-                                                  : true,
+                                          value: businessRuleData.isGlobalRule == false ? false : true,
                                           onToggle: (value) async {
-                                            await widget.businessRuleDao
-                                                .updateBussinessRule(
-                                                    businessRuleData!.copyWith(
+                                            await widget.businessRuleDao.updateBussinessRule(businessRuleData!.copyWith(
                                               isGlobalRule: value,
                                             ));
                                           }),
@@ -152,65 +134,37 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                   ],
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'Option',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16),
+                                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                                     ),
                                     Container(
-                                        child: businessRuleData.dataType ==
-                                                'Bool'
+                                        child: businessRuleData.dataType == 'Bool'
                                             ? FlutterSwitch(
-                                                value: businessRuleData.value ==
-                                                        'OFF'
-                                                    ? false
-                                                    : true,
+                                                value: businessRuleData.value == 'OFF' ? false : true,
                                                 onToggle: (value) async {
-                                                  await widget.businessRuleDao
-                                                      .updateBussinessRule(
-                                                          businessRuleData!
-                                                              .copyWith(
-                                                    value: value == true
-                                                        ? 'ON'
-                                                        : 'OFF',
+                                                  await widget.businessRuleDao.updateBussinessRule(businessRuleData!.copyWith(
+                                                    value: value == true ? 'ON' : 'OFF',
                                                   ));
                                                 })
 //
-                                            : businessRuleData.dataType ==
-                                                    'Text'
+                                            : businessRuleData.dataType == 'Text'
                                                 ? Row(
                                                     children: [
                                                       Text(
                                                         businessRuleData.value,
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontSize: 16),
+                                                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                                                       ),
                                                       InkWell(
-                                                        child: Container(
-                                                            margin:
-                                                                EdgeInsets.only(
-                                                                    left: 8),
-                                                            child: Icon(
-                                                                Icons.edit)),
+                                                        child: Container(margin: EdgeInsets.only(left: 8), child: Icon(Icons.edit)),
                                                         onTap: () {
-                                                          _textFieldController =
-                                                              TextEditingController(
-                                                                  text: businessRuleData!
-                                                                      .value);
+                                                          _textFieldController = TextEditingController(text: businessRuleData!.value);
                                                           _displayDialog(
                                                               context,
-                                                              () => widget
-                                                                  .businessRuleDao
-                                                                  .updateBussinessRule(businessRuleData!
-                                                                      .copyWith(
-                                                                          value:
-                                                                              _textFieldController.text)));
+                                                              () => widget.businessRuleDao
+                                                                  .updateBussinessRule(businessRuleData!.copyWith(value: _textFieldController.text)));
                                                         },
                                                       ),
                                                     ],
@@ -224,57 +178,34 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                                     //       .map((e) => e)
                                                     //       .toList();
                                                     // },
-                                                    selectedItem:
-                                                        businessRuleData.value,
+                                                    selectedItem: businessRuleData.value,
                                                     // showSearchBox: true,
-                                                    items: businessRuleData
-                                                        .dataValue!
-                                                        .split(',')
-                                                        .map((e) => e)
-                                                        .toList(),
+                                                    items: businessRuleData.dataValue!.split(',').map((e) => e).toList(),
                                                     onChanged: (value) async {
-                                                      await widget
-                                                          .businessRuleDao
-                                                          .updateBussinessRule(
-                                                              businessRuleData!
-                                                                  .copyWith(
-                                                                      value: value
-                                                                          .toString()));
+                                                      await widget.businessRuleDao
+                                                          .updateBussinessRule(businessRuleData!.copyWith(value: value.toString()));
                                                     })),
                                   ],
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'Expiry Date',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16),
+                                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                                     ),
                                     Expanded(child: Container()),
                                     Text(
                                       "${businessRuleData.expiredDateTime!.day}-${businessRuleData.expiredDateTime!.month}-${businessRuleData.expiredDateTime!.year}",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16),
+                                      style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
                                     ),
                                     InkWell(
                                         onTap: () async {
                                           var result = await showDatePicker(
-                                              context: context,
-                                              initialDate: DateTime.now(),
-                                              firstDate: DateTime(1970),
-                                              lastDate: DateTime(2100));
-                                          await widget.businessRuleDao
-                                              .updateBussinessRule(
-                                                  businessRuleData!.copyWith(
-                                                      expiredDateTime: result));
+                                              context: context, initialDate: DateTime.now(), firstDate: DateTime(1970), lastDate: DateTime(2100));
+                                          await widget.businessRuleDao.updateBussinessRule(businessRuleData!.copyWith(expiredDateTime: Value(result)));
                                         },
-                                        child: Container(
-                                            margin: EdgeInsets.only(left: 8),
-                                            child: Icon(Icons.calendar_today))),
+                                        child: Container(margin: EdgeInsets.only(left: 8), child: Icon(Icons.calendar_today))),
                                   ],
                                 ),
                               ],
@@ -300,22 +231,16 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
               Container(
                 height: 300,
                 child: StreamBuilder(
-                    stream: widget.nonGlobalBusinessRuleDao
-                        .watchAllNonGlobalBussinessRule(widget.code),
+                    stream: widget.nonGlobalBusinessRuleDao.watchAllNonGlobalBussinessRule(widget.code),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        List<NonGlobalBusinessRuleData>?
-                            nonGlobalBussinessRuleData;
-                        nonGlobalBussinessRuleData =
-                            snapshot.data as List<NonGlobalBusinessRuleData>?;
+                        List<NonGlobalBusinessRuleData>? nonGlobalBussinessRuleData;
+                        nonGlobalBussinessRuleData = snapshot.data as List<NonGlobalBusinessRuleData>?;
                         if (nonGlobalBussinessRuleData!.isEmpty) {
                           return Center(
                             child: Text(
                               "No Non-Global Bussiness Rule Found",
-                              style: TextStyle(
-                                  fontStyle: FontStyle.italic,
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 25),
+                              style: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.w800, fontSize: 25),
                             ),
                           );
                         }
@@ -326,42 +251,25 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                             return Card(
                               elevation: 4.0,
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 5, horizontal: 12),
+                                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 12),
                                 child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
                                           'DeviceId: ${nonGlobalBussinessRuleData![index].deviceId}',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18),
+                                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                                         ),
                                         Container(
                                             //  height: 20,
                                             child: FlutterSwitch(
-                                                value:
-                                                    nonGlobalBussinessRuleData[
-                                                                    index]
-                                                                .value ==
-                                                            'OFF'
-                                                        ? false
-                                                        : true,
+                                                value: nonGlobalBussinessRuleData[index].value == 'OFF' ? false : true,
                                                 onToggle: (value) async {
-                                                  await widget
-                                                      .nonGlobalBusinessRuleDao
-                                                      .updateNonGlobalBussinessRuleValue(
-                                                          nonGlobalBussinessRuleData![
-                                                                  index]
-                                                              .copyWith(
-                                                    value: value == true
-                                                        ? 'ON'
-                                                        : 'OFF',
+                                                  await widget.nonGlobalBusinessRuleDao
+                                                      .updateNonGlobalBussinessRuleValue(nonGlobalBussinessRuleData![index].copyWith(
+                                                    value: value == true ? 'ON' : 'OFF',
                                                   ));
                                                 })),
                                       ],
@@ -370,28 +278,21 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                       height: 8,
                                     ),
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
                                           'User: ${nonGlobalBussinessRuleData[index].userName.toString()}',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16),
+                                          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
                                         ),
                                         Text(
                                           'Screen: ${nonGlobalBussinessRuleData[index].screen}',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16),
+                                          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
                                         ),
                                         Container(
                                           margin: EdgeInsets.only(right: 7),
                                           child: Text(
                                             "${nonGlobalBussinessRuleData[index].expiredDateTime!.day}-${nonGlobalBussinessRuleData[index].expiredDateTime!.month}-${nonGlobalBussinessRuleData[index].expiredDateTime!.year}",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 16),
+                                            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
                                           ),
                                         ),
                                       ],
@@ -420,8 +321,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             title: Text('Option'),
             content: TextField(
               controller: _textFieldController,

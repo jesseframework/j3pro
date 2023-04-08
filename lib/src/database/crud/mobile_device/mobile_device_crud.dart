@@ -17,16 +17,15 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/models/mobile_device_model.dart';
 import 'package:drift/drift.dart';
 
 part 'mobile_device_crud.g.dart';
 
 @DriftAccessor(tables: [MobileDevice])
-class MobileDeviceDao extends DatabaseAccessor<AppDatabase>
-    with _$MobileDeviceDaoMixin {
-  final AppDatabase db;
+class MobileDeviceDao extends DatabaseAccessor<MyDatabase> with _$MobileDeviceDaoMixin {
+  final MyDatabase db;
   MobileDeviceDao(this.db) : super(db);
 
   Future<List<MobileDeviceData>> getAllMobileDevice() {
@@ -37,8 +36,7 @@ class MobileDeviceDao extends DatabaseAccessor<AppDatabase>
     return (select(db.mobileDevice).watch());
   }
 
-  Future insertMobileDevice(MobileDeviceData mobileDeviceData) =>
-      into(db.mobileDevice).insert(mobileDeviceData);
+  Future insertMobileDevice(MobileDeviceData mobileDeviceData) => into(db.mobileDevice).insert(mobileDeviceData);
 
   Future deleteAllBusinessRule() => delete(db.businessRule).go();
 }

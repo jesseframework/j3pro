@@ -22,18 +22,18 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:j3enterprise/src/database/crud/application_logger/app_logger_crud.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:meta/meta.dart';
 
 part 'applogger_event.dart';
 part 'applogger_state.dart';
 
 class ApploggerBloc extends Bloc<ApploggerEvent, ApploggerState> {
-  late ApplicationLoggerDao applicationLoggerDao;
+  late ApplicationLoggerView applicationLoggerDao;
   var db;
   ApploggerBloc() : super(ApploggerInitial()) {
-    db = AppDatabase();
-    applicationLoggerDao = new ApplicationLoggerDao(db);
+    db = MyDatabase();
+    applicationLoggerDao = new ApplicationLoggerView(db);
   }
   @override
   ApploggerState get initialState => ApploggerInitial();

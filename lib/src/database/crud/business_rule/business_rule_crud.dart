@@ -17,16 +17,15 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/models/business_rule_model.dart';
 import 'package:drift/drift.dart';
 
 part 'business_rule_crud.g.dart';
 
 @DriftAccessor(tables: [BusinessRule])
-class BusinessRuleDao extends DatabaseAccessor<AppDatabase>
-    with _$BusinessRuleDaoMixin {
-  final AppDatabase db;
+class BusinessRuleDao extends DatabaseAccessor<MyDatabase> with _$BusinessRuleDaoMixin {
+  final MyDatabase db;
   BusinessRuleDao(this.db) : super(db);
 
   Future<List<BusinessRuleData>> getAllBusinessRule() {
@@ -34,8 +33,7 @@ class BusinessRuleDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future<BusinessRuleData> getSingleBusinessRule(String brCode) {
-    return (select(db.businessRule)..where((u) => u.code.equals(brCode)))
-        .getSingle();
+    return (select(db.businessRule)..where((u) => u.code.equals(brCode))).getSingle();
   }
 
   Future<void> createOrUpdatePref(BusinessRuleData pref) {
@@ -43,21 +41,16 @@ class BusinessRuleDao extends DatabaseAccessor<AppDatabase>
   }
 
   Stream<List<BusinessRuleData>> watchAllBusinessRule(String searchText) {
-    return (select(db.businessRule)
-          ..where((tbl) => tbl.ruleName.equals(searchText)))
-        .watch();
+    return (select(db.businessRule)..where((tbl) => tbl.ruleName.equals(searchText))).watch();
   }
 
   Stream<BusinessRuleData> watchSingleBussinessRule(String prefCode) {
-    return (select(db.businessRule)..where((u) => u.ruleName.equals(prefCode)))
-        .watchSingle();
+    return (select(db.businessRule)..where((u) => u.ruleName.equals(prefCode))).watchSingle();
   }
 
-  Future insertBusinessRule(BusinessRuleData businessRuleData) =>
-      into(db.businessRule).insert(businessRuleData);
+  Future insertBusinessRule(BusinessRuleData businessRuleData) => into(db.businessRule).insert(businessRuleData);
 
-  Future updateBussinessRule(BusinessRuleData businessRuleData) =>
-      update(db.businessRule).replace(businessRuleData);
+  Future updateBussinessRule(BusinessRuleData businessRuleData) => update(db.businessRule).replace(businessRuleData);
 
   Future deleteAllBusinessRule() => delete(db.businessRule).go();
 }

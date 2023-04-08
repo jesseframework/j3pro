@@ -22,7 +22,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:j3enterprise/src/database/crud/communication/communication_setup_crud.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/snak_bar.dart';
 import 'package:meta/meta.dart';
@@ -37,9 +37,8 @@ class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
   final String communicationType;
   var db;
 
-  CommunicationBloc({required this.communicationType})
-      : super(CommunicationInitial()) {
-    db = AppDatabase();
+  CommunicationBloc({required this.communicationType}) : super(CommunicationInitial()) {
+    db = MyDatabase();
     communicationDao = CommunicationDao(db);
   }
 
@@ -93,12 +92,10 @@ class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
     if (event is OnFormLoadGetSaveCommunication) {
       yield CommunicationLoading();
 
-      var viewCommunicationDataByType = await communicationDao
-          .getCommunicationDataByType(event.communicationType);
+      var viewCommunicationDataByType = await communicationDao.getCommunicationDataByType(event.communicationType);
 
       var _viewCommunicationDataByType = viewCommunicationDataByType.length > 0;
-      var data =
-          _viewCommunicationDataByType ? viewCommunicationDataByType : null;
+      var data = _viewCommunicationDataByType ? viewCommunicationDataByType : null;
 
       // set the success state
       yield CommunicationLoadSuccess(data: data!);

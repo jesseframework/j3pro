@@ -17,16 +17,17 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-import 'package:j3enterprise/src/database/moor_database.dart';
+ 
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/models/background_jobs_logs_model.dart';
 import 'package:drift/drift.dart';
 
 part 'backgroundjob_logs_crud.g.dart';
 
 @DriftAccessor(tables: [BackgroundJobLogs])
-class BackgroundJobLogsDao extends DatabaseAccessor<AppDatabase>
+class BackgroundJobLogsDao extends DatabaseAccessor<MyDatabase>
     with _$BackgroundJobLogsDaoMixin {
-  final AppDatabase db;
+  final MyDatabase db;
   BackgroundJobLogsDao(this.db) : super(db);
 
   Future<List<BackgroundJobLog>> getAllJobsLog() {

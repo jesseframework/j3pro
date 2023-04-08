@@ -2,10 +2,7 @@
 
 part of 'sales_tax_crud.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$SalesTaxDaoMixin on DatabaseAccessor<AppDatabase> {
+// ignore_for_file: type=lint
+mixin _$SalesTaxDaoMixin on DatabaseAccessor<MyDatabase> {
   $SalesTaxTable get salesTax => attachedDatabase.salesTax;
 }

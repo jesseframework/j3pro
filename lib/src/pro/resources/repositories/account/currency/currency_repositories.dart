@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:chopper/chopper.dart';
 import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
+
 import 'package:j3enterprise/src/pro/database/crud/account/currency/currency_crud.dart';
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
 import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
@@ -25,7 +26,7 @@ class CurrencyRepository {
 
   CurrencyRepository() {
     _log.finest("Currency repository constructer call");
-    db = AppDatabase();
+    db = MyDatabase();
     updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
     backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
     systemCurrencyDao = new SystemCurrencyDao(db);
@@ -49,8 +50,7 @@ class CurrencyRepository {
             _log.finest("Server resopnses successful for currency ");
             Map<String, dynamic> result = map['result'];
             var items = (result['items'] as List).map((e) {
-              return SystemCurrencyData.fromJson(e,
-                  serializer: CustomSerializer());
+              return SystemCurrencyData.fromJson(e, serializer: CustomSerializer());
             });
 
             for (var item in items) {
@@ -61,8 +61,7 @@ class CurrencyRepository {
           } else {
             String error = map["error"]["details"].toString();
             updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-            _log.shout(
-                "Currency API call failed. Server respond with error : $error  ");
+            _log.shout("Currency API call failed. Server respond with error : $error  ");
           }
         }
       }

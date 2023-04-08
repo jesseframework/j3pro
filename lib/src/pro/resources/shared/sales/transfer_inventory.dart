@@ -1,4 +1,4 @@
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/warehouse/inventory_items_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/warehouse/inventory_transaction_crud.dart';
 import 'package:drift/drift.dart' as moor;
@@ -7,7 +7,7 @@ class TransferInventory {
   var db;
   late InventoryTransactionDao inventoryTransactionDao;
   TransferInventory() {
-    db = AppDatabase();
+    db = MyDatabase();
     inventoryTransactionDao = new InventoryTransactionDao(db);
   }
 

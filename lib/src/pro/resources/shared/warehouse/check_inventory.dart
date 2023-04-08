@@ -1,4 +1,4 @@
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/warehouse/inventory_items_crud.dart';
 import 'package:logging/logging.dart';
 import 'package:drift/drift.dart' as moor;
@@ -11,7 +11,7 @@ class CheckInventory {
   late InventoryItemsDao inventoryItemsDao;
 
   CheckInventory() {
-    db = AppDatabase();
+    db = MyDatabase();
     _log.finest("$className constructer call");
     inventoryItemsDao = new InventoryItemsDao(db);
   }

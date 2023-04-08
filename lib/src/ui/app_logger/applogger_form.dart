@@ -19,7 +19,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
 import 'package:j3enterprise/src/ui/app_logger/bloc/applogger_bloc.dart';
@@ -36,14 +36,11 @@ class _AppLoggerForm extends State<AppLoggerForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ApploggerBloc, ApploggerState>(listener:
-        (context, state) {
+    return BlocListener<ApploggerBloc, ApploggerState>(listener: (context, state) {
       if (state is ApploggerFailure) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(new SnackBar(content: new Text(state.error)));
+        ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: new Text(state.error)));
       }
-    }, child:
-        BlocBuilder<ApploggerBloc, ApploggerState>(builder: (context, state) {
+    }, child: BlocBuilder<ApploggerBloc, ApploggerState>(builder: (context, state) {
       var bloc = BlocProvider.of<ApploggerBloc>(context);
       return _buildForm(bloc);
     }));
@@ -78,53 +75,36 @@ class _AppLoggerForm extends State<AppLoggerForm> {
               stream: bloc.applicationLoggerDao.watchAllAppLog(searchText),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  List<ApplicationLoggerData>? data =
-                      snapshot.data as List<ApplicationLoggerData>?;
+                  List<ApplicationLoggerData>? data = snapshot.data as List<ApplicationLoggerData>?;
                   return Expanded(
                     child: ListView.builder(
                         itemCount: data!.length,
                         itemBuilder: (_, index) {
                           return Container(
-                            color: (index % 2 == 0)
-                                ? Theme.of(context).backgroundColor
-                                : Theme.of(context).cardColor.withOpacity(0.8),
+                            color: (index % 2 == 0) ? Theme.of(context).backgroundColor : Theme.of(context).cardColor.withOpacity(0.8),
                             child: Row(
                               children: [
                                 Expanded(
                                     child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Divider(
                                       height: 0.5,
                                     ),
                                     ListTile(
                                       onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    LoggerDetailPage(
-                                                        data[index])));
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => LoggerDetailPage(data[index])));
                                       },
                                       title: Row(
                                         children: [
-                                          Expanded(
-                                              child: Text(
-                                                  '${data[index].functionName}')),
-                                          Expanded(
-                                              child: Text(
-                                                  '${data[index].logDateTime}')),
+                                          Expanded(child: Text('${data[index].functionName}')),
+                                          Expanded(child: Text('${data[index].logDateTime}')),
                                         ],
                                       ),
                                       subtitle: Row(
                                         children: [
-                                          Expanded(
-                                              child: Text(
-                                                  '${data[index].logDescription}')),
-                                          Expanded(
-                                              child: Text(
-                                                  '${data[index].documentNo}')),
+                                          Expanded(child: Text('${data[index].logDescription}')),
+                                          Expanded(child: Text('${data[index].documentNo}')),
                                         ],
                                       ),
                                     )

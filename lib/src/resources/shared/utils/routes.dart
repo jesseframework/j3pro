@@ -18,7 +18,7 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/models/sales/fullfillment/jounery_with_address.dart';
 import 'package:j3enterprise/src/pro/ui/activities_menu/activities_menu_page.dart';
 
@@ -41,8 +41,7 @@ import 'package:j3enterprise/src/ui/splash/splash_page.dart';
 
 final routes = {
   //OfflineLoginPage.route: (BuildContext context) => OfflineLoginPage(),
-  SalesOrderItemDetailPage.route: (BuildContext context) =>
-      SalesOrderItemDetailPage(
+  SalesOrderItemDetailPage.route: (BuildContext context) => SalesOrderItemDetailPage(
         index: 0,
       ),
   BackgroundJobsPage.route: (BuildContext context) => BackgroundJobsPage(),
@@ -61,8 +60,7 @@ final routes = {
   LoginPage.route: (BuildContext context) => LoginPage(),
   HomePage.route: (BuildContext context) => HomePage(),
   About.route: (BuildContext context) => About(),
-  SalesOrderAddItemPage.route: (BuildContext context) =>
-      SalesOrderAddItemPage(),
+  SalesOrderAddItemPage.route: (BuildContext context) => SalesOrderAddItemPage(),
   // JourneyPlanPage.route: (BuildContext context) =>
   //     JourneyPlanPage(journeyWithAddress: []),
   //ActivitiesMenuPage.route: (BuildContext context) => ActivitiesMenuPage(journeyWithAddress: null,),

@@ -17,26 +17,21 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-import 'package:j3enterprise/src/database/moor_database.dart';
-import 'package:j3enterprise/src/models/application_logger_model.dart';
+
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:drift/drift.dart';
-
+import 'package:j3enterprise/src/models/application_logger_model.dart';
 part 'app_logger_crud.g.dart';
-
-@DriftAccessor(
-  tables: [ApplicationLogger],
-  // queries: {
-  //   'deleteFromTop1000Row':
-  //       'DELETE FROM application_logger WHERE id in (SELECT id FROM application_logger ORDER BY log_date_time LIMIT 100);'
-  // },
-)
-class ApplicationLoggerDao extends DatabaseAccessor<AppDatabase>
-    with _$ApplicationLoggerDaoMixin {
-  final AppDatabase db;
-  ApplicationLoggerDao(this.db) : super(db);
-
+ 
+@DriftAccessor(tables: [ApplicationLogger])
+class ApplicationLoggerView extends DatabaseAccessor<MyDatabase> with _$ApplicationLoggerViewMixin   {
+ 
+    final MyDatabase db;
+  ApplicationLoggerView(this.db) : super(db);
+ 
   Future<List<ApplicationLoggerData>> getAllAppLog() {
     return (select(db.applicationLogger).get());
+ 
   }
 
   Future<List<ApplicationLoggerData>> getAppLog(String exportStatus) {
@@ -88,7 +83,7 @@ class ApplicationLoggerDao extends DatabaseAccessor<AppDatabase>
 //          .toList();
 //    });
 //  }
-//
+
 //  Stream<List<ApplicationLoggerData>> purgeDatabyExportStatus(
 //      String exportStatus) {
 //    return customSelectStream(

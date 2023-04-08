@@ -17,15 +17,16 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-import 'package:j3enterprise/src/database/moor_database.dart';
+
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/models/tenant_model.dart';
 import 'package:drift/drift.dart';
 
 part 'tenant_crud.g.dart';
 
 @DriftAccessor(tables: [Tenant])
-class TenantDao extends DatabaseAccessor<AppDatabase> with _$TenantDaoMixin {
-  final AppDatabase db;
+class TenantDao extends DatabaseAccessor<MyDatabase> with _$TenantDaoMixin {
+  final MyDatabase db;
   TenantDao(this.db) : super(db);
 
   Future<List<TenantData>> getAllTenant() {
@@ -33,10 +34,7 @@ class TenantDao extends DatabaseAccessor<AppDatabase> with _$TenantDaoMixin {
   }
 
   Future<TenantData> getSingleTenant(String tenantName, String userName) {
-    return (select(db.tenant)
-          ..where((t) =>
-              t.tenantName.equals(tenantName) & t.userName.equals(userName)))
-        .getSingle();
+    return (select(db.tenant)..where((t) => t.tenantName.equals(tenantName) & t.userName.equals(userName))).getSingle();
   }
 
   Stream<List<TenantData>> watchAllTenant() {
@@ -47,8 +45,7 @@ class TenantDao extends DatabaseAccessor<AppDatabase> with _$TenantDaoMixin {
     return into(db.tenant).insertOnConflictUpdate(tenantData);
   }
 
-  Future insertTenant(TenantData tenantData) =>
-      into(db.tenant).insert(tenantData);
+  Future insertTenant(TenantData tenantData) => into(db.tenant).insert(tenantData);
 
   Future deleteAllTenant() => delete(db.tenant).go();
 }

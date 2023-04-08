@@ -1,7 +1,7 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/account/currency/currency_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/account/exchange_rate/exchange_rate.dart';
 import 'package:j3enterprise/src/pro/database/crud/customer/address_crud.dart';
@@ -29,7 +29,7 @@ class SalesOrderForm extends StatefulWidget {
   late ExchangeRateDao exchangeRateDao;
   late SalesOrderHeaderDao salesOrderHeaderDao;
   SalesOrderForm({required this.defaultCurrency, required this.currenciesData, required this.exchangeRate, required this.address}) {
-    db = AppDatabase();
+    db = MyDatabase();
     addressDao = AddressDao(db);
     customerDao = CustomerDao(db);
     salesOrderHeaderDao = SalesOrderHeaderDao(db);
@@ -133,30 +133,33 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           DropdownSearch(
-                            mode: Mode.MENU,
+                            popupProps: PopupProps.menu(),
                             // backgroundColor: Theme.of(context).cardColor,
                             // labelStyle: TextStyle(
                             //     fontWeight: FontWeight.w600,
                             //     color:
                             //         Theme.of(context)                                          .textSelectionTheme.selectionColor,
                             //     fontSize: 12),
-                            label: "Shipping Address",
+                            // label: "Shipping Address",
                             selectedItem: widget.address.isEmpty ? 'No address found ' : primaryAddress.addressLine1,
-                            showSearchBox: true,
-                            items: widget.address.isEmpty ? null : widget.address.map((e) => e.addressLine1).toList(),
-                            onChanged: (value) async {
+                            // showSearchBox: true,
+                            // items: widget.address.isEmpty ? null : widget.address.map((e) => e.addressLine1).toList(),
+                            onChanged: (dynamic value) async {
                               addItemBloc.setShippingAddress(address: widget.address.firstWhere((e) => e.addressLine1 == value));
                             },
                             // autofocus: true,
-                            dropdownSearchDecoration: InputDecoration(
-                                suffix: Container(
-                              height: 30,
-                              child: FloatingActionButton(
-                                onPressed: () {},
-                                backgroundColor: Theme.of(context).accentColor,
-                                child: Icon(Icons.add),
-                              ),
-                            )),
+                            dropdownDecoratorProps: DropDownDecoratorProps(
+dropdownSearchDecoration: InputDecoration(
+                                  suffix: Container(
+                                height: 30,
+                                child: FloatingActionButton(
+                                  onPressed: () {},
+                                  backgroundColor: Theme.of(context).accentColor,
+                                  child: Icon(Icons.add),
+                                ),
+                              )),
+                            ),
+                          
                           )
                         ],
                       ),
@@ -164,13 +167,12 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                         height: 15,
                       ),
                       DropdownSearch(
-                        mode: Mode.MENU,
-                        showSearchBox: true,
-                        label: 'Contact',
+                        popupProps: PopupProps.menu(),
+                        //  label: 'Contact',
                         selectedItem: widget.address.isEmpty ? 'No Contact Found' : widget.address[0].phoneNumber,
 
-                        items: widget.address.isEmpty ? null : widget.address.map((e) => e.contactPerson + ' ' + e.phoneNumber).toList(),
-                        onChanged: (value) async {
+                        // items: widget.address.isEmpty ? null : widget.address.map((e) => e.contactPerson + ' ' + e.phoneNumber).toList() ,
+                        onChanged: (dynamic value) async {
                           // await widget
                           //     .businessRuleDao
                           //     .updateBussinessRule(
@@ -179,15 +181,18 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                           //         value:
                           //         value));
                         },
-                        dropdownSearchDecoration: InputDecoration(
-                            suffix: Container(
-                          height: 30,
-                          child: FloatingActionButton(
-                            onPressed: () {},
-                            backgroundColor: Theme.of(context).accentColor,
-                            child: Icon(Icons.add),
-                          ),
-                        )),
+                        dropdownDecoratorProps: DropDownDecoratorProps(
+                          dropdownSearchDecoration: InputDecoration(
+                              suffix: Container(
+                            height: 30,
+                            child: FloatingActionButton(
+                              onPressed: () {},
+                              backgroundColor: Theme.of(context).accentColor,
+                              child: Icon(Icons.add),
+                            ),
+                          )),
+                        ),
+
                         // autofocus: true,
                       ),
                     ],
@@ -205,12 +210,12 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       DropdownSearch(
-                        mode: Mode.MENU,
+                        popupProps: PopupProps.menu(),
                         // labelStyle: TextStyle(
                         //     color: Theme.of(context)                                          .textSelectionTheme.selectionColor,
                         //     fontWeight: FontWeight.w600,
                         //     fontSize: 12),
-                        label: "Order Type",
+                        // label: "Order Type",
                         selectedItem: 'Standard Order',
 
                         items: [
@@ -226,7 +231,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                           'Pick Up Order',
                           'Ullage Order ',
                         ],
-                        onChanged: (value) async {
+                        onChanged: (dynamic value) async {
                           // await widget
                           //     .businessRuleDao
                           //     .updateBussinessRule(
@@ -235,18 +240,22 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                           //         value:
                           //         value));
                         },
-                        dropdownSearchDecoration: InputDecoration(
-                            suffix: Container(
-                          height: 30,
-                          child: FloatingActionButton(
-                            onPressed: () {},
-                            backgroundColor: Theme.of(context).accentColor,
-                            child: Icon(Icons.add),
-                          ),
-                        )),
-                        // autofocus: true,
-                        // backgroundColor: Theme.of(context).cardColor,
+                        dropdownDecoratorProps: DropDownDecoratorProps(
+                          dropdownSearchDecoration: InputDecoration(
+                              suffix: Container(
+                            height: 30,
+                            child: FloatingActionButton(
+                              onPressed: () {},
+                              backgroundColor: Theme.of(context).accentColor,
+                              child: Icon(Icons.add),
+                            ),
+                          )),
+                        ),
                       ),
+
+                      // autofocus: true,
+                      // backgroundColor: Theme.of(context).cardColor,
+
                       SizedBox(
                         height: 15,
                       ),
@@ -302,7 +311,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   DropdownSearch(
-                                      // mode: Mode.MENU,
+                                      // popupProps:  PopupProps.menu(),
                                       // label: "Currency",
                                       // selectedItem: defaultCurrency,
                                       // items: defaultCurrencyList
@@ -360,29 +369,33 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   DropdownSearch(
-                                    mode: Mode.MENU,
+                                    popupProps: PopupProps.menu(),
 
-                                    label: "Discount Type",
+                                    // label: "Discount Type",
                                     selectedItem: swipeDiscountTpye,
 
                                     items: [
                                       'Percentage',
                                       'Amount',
                                     ],
-                                    onChanged: (value) async {
+                                    onChanged: (
+                                     dynamic value) async {
                                       setState(() {
                                         swipeDiscountTpye = value.toString();
                                       });
                                     },
-                                    dropdownSearchDecoration: InputDecoration(
-                                        suffix: Container(
-                                      height: 30,
-                                      child: FloatingActionButton(
-                                        onPressed: () {},
-                                        backgroundColor: Theme.of(context).accentColor,
-                                        child: Icon(Icons.add),
-                                      ),
-                                    )),
+                                    dropdownDecoratorProps: DropDownDecoratorProps(
+                                      dropdownSearchDecoration: InputDecoration(
+                                          suffix: Container(
+                                        height: 30,
+                                        child: FloatingActionButton(
+                                          onPressed: () {},
+                                          backgroundColor: Theme.of(context).accentColor,
+                                          child: Icon(Icons.add),
+                                        ),
+                                      )),
+                                    ),
+
                                     // autofocus: true,
                                     // backgroundColor: Theme.of(context).cardColor,
                                   ),

@@ -1,13 +1,12 @@
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/models/items/uom_model.dart';
 import 'package:drift/drift.dart';
 
 part 'uom_crud.g.dart';
 
 @DriftAccessor(tables: [UnitOfMeasure])
-class UnitOfMeasureDao extends DatabaseAccessor<AppDatabase>
-    with _$UnitOfMeasureDaoMixin {
-  final AppDatabase db;
+class UnitOfMeasureDao extends DatabaseAccessor<MyDatabase> with _$UnitOfMeasureDaoMixin {
+  final MyDatabase db;
   UnitOfMeasureDao(this.db) : super(db);
 
   Future<List<UnitOfMeasureData>> getAllUnitOfMeasureData() {

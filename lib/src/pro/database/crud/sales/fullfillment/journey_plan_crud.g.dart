@@ -2,10 +2,7 @@
 
 part of 'journey_plan_crud.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$JourneyPlanDaoMixin on DatabaseAccessor<AppDatabase> {
+// ignore_for_file: type=lint
+mixin _$JourneyPlanDaoMixin on DatabaseAccessor<MyDatabase> {
   $JourneyPlanTable get journeyPlan => attachedDatabase.journeyPlan;
 }

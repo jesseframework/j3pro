@@ -1,4 +1,4 @@
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/sales/fullfillment/journey_plan_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/sales/sales_order/sales_order_header_crud.dart';
 import 'package:drift/drift.dart' as moor;
@@ -13,29 +13,29 @@ class PostTransactionHeader {
   late JourneyPlanDao journeyPlanDao;
 
   PostTransactionHeader() {
-    db = AppDatabase();
+    db = MyDatabase();
     salesOrderHeaderDao = new SalesOrderHeaderDao(db);
     journeyPlanDao = new JourneyPlanDao(db);
   }
 
-  Future<void> postTransactionData(
-      {@moor.required String? customerId,
-      @moor.required String? currencyCode,
-      @moor.required double? exchangeRate,
-      @moor.required String? purchaseOrderNo,
-      @moor.required String? transactionType,
-      @moor.required String? transactionNumber,
-      @moor.required String? transactionStatus,
-      @moor.required String? inventoryCycleNumber,
-      @moor.required String? daySessionNumber,
-      @moor.required String? orderType,
-      @moor.required String? userName,
-      @moor.required int? userId,
-      @moor.required int? tenantId,
-      @moor.required String? soldTo,
-      @moor.required String? billingAddressName,
-      @moor.required String? shippingAddressName,
-      @moor.required DateTime? deliveryDate}) async {
+  Future<void> postTransactionData({
+      required String? customerId,
+      required String? currencyCode,
+      required double? exchangeRate,
+      required String? purchaseOrderNo,
+      required String? transactionType,
+      required String? transactionNumber,
+      required String? transactionStatus,
+      required String? inventoryCycleNumber,
+      required String? daySessionNumber,
+      required String? orderType,
+      required String? userName,
+      required int? userId,
+      required int? tenantId,
+      required String? soldTo,
+      required String? billingAddressName,
+      required String? shippingAddressName,
+      required DateTime? deliveryDate}) async {
     if (transactionType == "Sales Order") {
       //Sales Order Header
 
@@ -75,18 +75,14 @@ class PostTransactionHeader {
           transactionStart: moor.Value(DateTime.now()),
           transactionEnd: moor.Value(DateTime.now()));
 
-      var isTrasactionCurrent = await salesOrderHeaderDao
-          .getSalesOrderHeaderBySaleOrderNo(transactionNumber);
-      if (isTrasactionCurrent.length > 0 &&
-          isTrasactionCurrent[0].transactionStatus == "InProgress") {
+      var isTrasactionCurrent = await salesOrderHeaderDao.getSalesOrderHeaderBySaleOrderNo(transactionNumber);
+      if (isTrasactionCurrent.length > 0 && isTrasactionCurrent[0].transactionStatus == "InProgress") {
       } else {
         await salesOrderHeaderDao.tempInsertSalesOrderHeader(salesHeader);
 
-        var updateJplan = new JourneyPlanCompanion(
-            transactionStatus: moor.Value("InProgress"));
+        var updateJplan = new JourneyPlanCompanion(transactionStatus: moor.Value("InProgress"));
 
-        await journeyPlanDao.updateTransactionStatus(
-            updateJplan, customerId, userName, transactionStatus!);
+        await journeyPlanDao.updateTransactionStatus(updateJplan, customerId, userName, transactionStatus!);
       }
     }
     if (transactionType == "Sales Invoice") {}

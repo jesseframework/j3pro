@@ -1,4 +1,4 @@
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/warehouse/inventory_items_crud.dart';
 import 'package:logging/logging.dart';
 import 'package:drift/drift.dart' as moor;
@@ -12,13 +12,12 @@ class AddItemToWarehouse {
   late InventoryItemsDao inventoryItemsDao;
 
   AddItemToWarehouse() {
-    db = AppDatabase();
+    db = MyDatabase();
     _log.finest("$className constructer call");
     inventoryItemsDao = new InventoryItemsDao(db);
   }
 
-  Future<String> addItemToWarehouse(String itemCode, String itemName,
-      String uom, String defaultWarehouse, String inventoryCycleNumber) async {
+  Future<String> addItemToWarehouse(String itemCode, String itemName, String uom, String defaultWarehouse, String inventoryCycleNumber) async {
     var data = new InventoryItemsCompanion(
         itemCode: moor.Value(itemCode),
         itemName: moor.Value(itemName),

@@ -2,10 +2,7 @@
 
 part of 'communication_setup_crud.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$CommunicationDaoMixin on DatabaseAccessor<AppDatabase> {
+// ignore_for_file: type=lint
+mixin _$CommunicationDaoMixin on DatabaseAccessor<MyDatabase> {
   $CommunicationTable get communication => attachedDatabase.communication;
 }

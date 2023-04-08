@@ -2,10 +2,7 @@
 
 part of 'mobile_device_crud.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$MobileDeviceDaoMixin on DatabaseAccessor<AppDatabase> {
+// ignore_for_file: type=lint
+mixin _$MobileDeviceDaoMixin on DatabaseAccessor<MyDatabase> {
   $MobileDeviceTable get mobileDevice => attachedDatabase.mobileDevice;
 }

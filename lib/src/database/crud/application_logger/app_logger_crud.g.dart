@@ -2,11 +2,8 @@
 
 part of 'app_logger_crud.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$ApplicationLoggerDaoMixin on DatabaseAccessor<AppDatabase> {
+// ignore_for_file: type=lint
+mixin _$ApplicationLoggerViewMixin on DatabaseAccessor<MyDatabase> {
   $ApplicationLoggerTable get applicationLogger =>
       attachedDatabase.applicationLogger;
 }

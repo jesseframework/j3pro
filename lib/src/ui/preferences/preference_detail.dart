@@ -17,12 +17,13 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
+import 'package:drift/drift.dart' hide Column;
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/non_preference_crud.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/preference_crud.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 //import 'package:xlive_switch/xlive_switch.dart';
 
@@ -31,7 +32,7 @@ class PreferenceDetailPage extends StatefulWidget {
   late NonGlobalPreferenceDao nonGlobalPreferenceDao;
   late PreferenceDao preferenceDao;
   PreferenceDetailPage(this.code) {
-    db = AppDatabase();
+    db = MyDatabase();
     nonGlobalPreferenceDao = NonGlobalPreferenceDao(db);
     preferenceDao = PreferenceDao(db);
   }
@@ -171,7 +172,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                                     ],
                                                   )
                                                 : DropdownSearch(
-                                                  popupProps: PopupProps.menu(
+                                                    popupProps: PopupProps.menu(
                                                       showSelectedItems: true,
                                                       disabledItemFn: (String s) => s.startsWith('I'),
                                                     ),
@@ -181,7 +182,6 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                                     //   return prefData!.dataValue!.split(',').map((e) => e).toList();
                                                     // },
                                                     selectedItem: prefData.value,
-                                                  
                                                     items: prefData.dataValue!.split(',').map((e) => e).toList(),
                                                     onChanged: (value) async {
                                                       await widget.preferenceDao.updatePreferenceValue(prefData!.copyWith(value: value.toString()));
@@ -204,7 +204,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                         onTap: () async {
                                           var result = await showDatePicker(
                                               context: context, initialDate: DateTime.now(), firstDate: DateTime(1970), lastDate: DateTime(2100));
-                                          await widget.preferenceDao.updatePreferenceValue(prefData!.copyWith(expiredDateTime: result));
+                                          await widget.preferenceDao.updatePreferenceValue(prefData!.copyWith(expiredDateTime: Value(result)));
                                         },
                                         child: Container(margin: EdgeInsets.only(left: 8), child: Icon(Icons.calendar_today))),
                                   ],

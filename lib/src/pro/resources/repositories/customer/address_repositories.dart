@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:chopper/chopper.dart';
 import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/customer/address_crud.dart';
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
 import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
@@ -26,7 +26,7 @@ class AddressRepository {
 
   AddressRepository() {
     _log.finest("Address repository constructer call");
-    db = AppDatabase();
+    db = MyDatabase();
     updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
     backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
     addressDao = new AddressDao(db);
@@ -61,8 +61,7 @@ class AddressRepository {
           } else {
             String error = map["error"]["details"].toString();
             updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-            _log.shout(
-                "Address API call failed. Server respond with error : $error  ");
+            _log.shout("Address API call failed. Server respond with error : $error  ");
           }
         }
       }

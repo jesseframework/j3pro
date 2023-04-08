@@ -7,14 +7,15 @@ import 'package:j3enterprise/src/database/crud/mobile_device/mobile_device_crud.
 import 'package:j3enterprise/src/database/crud/prefrence/preference_crud.dart';
 import 'package:j3enterprise/src/database/crud/tenant/tenant_crud.dart';
 import 'package:j3enterprise/src/database/crud/user/user_crud.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
+ 
 
 class ResetDatabase {
   late UserDao userDao;
   late CommunicationDao communicationDao;
   late BackgroundJobScheduleDao backgroundJobScheduleDao;
   late BackgroundJobLogsDao backgroundJobLogsDao;
-  late ApplicationLoggerDao applicationLoggerDao;
+  late ApplicationLoggerView applicationLoggerDao;
   late MobileDeviceDao mobileDeviceDao;
   late PreferenceDao preferencesDao;
   late BusinessRuleDao businessRuleDao;
@@ -22,12 +23,12 @@ class ResetDatabase {
   var db;
 
   ResetDatabase() {
-    db = AppDatabase();
+    db = MyDatabase();
     userDao = UserDao(db);
     communicationDao = CommunicationDao(db);
     backgroundJobScheduleDao = BackgroundJobScheduleDao(db);
     backgroundJobLogsDao = BackgroundJobLogsDao(db);
-    applicationLoggerDao = ApplicationLoggerDao(db);
+    applicationLoggerDao = ApplicationLoggerView(db);
     tenantDao = TenantDao(db);
     businessRuleDao = BusinessRuleDao(db);
     preferencesDao = PreferenceDao(db);

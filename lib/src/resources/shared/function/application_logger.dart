@@ -38,7 +38,7 @@ import 'dart:async' show Future;
 import 'package:j3enterprise/src/database/crud/application_logger/app_logger_crud.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/non_preference_crud.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/preference_crud.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/resources/repositories/applogger_repositiry.dart';
 import 'package:j3enterprise/src/resources/shared/preferences/user_share_data.dart';
 import 'package:j3enterprise/src/ui/login/bloc/login_bloc.dart';
@@ -46,7 +46,7 @@ import 'package:logging/logging.dart';
 import 'package:drift/drift.dart';
 
 class AppLogger {
-  late ApplicationLoggerDao applicationLoggerDao;
+  late ApplicationLoggerView applicationLoggerDao;
   late AppLoggerRepository appLoggerRepository;
   late PreferenceDao preferenceDao;
   late NonGlobalPreferenceDao nonGlobalPreferenceDao;
@@ -61,8 +61,8 @@ class AppLogger {
 
   AppLogger() {
     //assert(appLoggerRepository != null);
-    db = AppDatabase();
-    applicationLoggerDao = ApplicationLoggerDao(db);
+    db = MyDatabase();
+    applicationLoggerDao = ApplicationLoggerView(db);
     preferenceDao = PreferenceDao(db);
     nonGlobalPreferenceDao = NonGlobalPreferenceDao(db);
     userSharedData = new UserSharedData();
@@ -71,21 +71,10 @@ class AppLogger {
 
   //ToDo Implement connectivity and batry setting for saving log to server. Server setting must be set to allow for log save over wify and log battery
 
-  Future<void> saveAppLog(
-      String functionName,
-      DateTime logDateTime,
-      String syncFrequency,
-      String logDescription,
-      String documentNo,
-      String deviceId,
-      String logCode,
-      String logSeverity,
-      int tenantId,
-      String userName,
-      int userId) async {
+  Future<void> saveAppLog(String functionName, DateTime logDateTime, String syncFrequency, String logDescription, String documentNo, String deviceId,
+      String logCode, String logSeverity, int tenantId, String userName, int userId) async {
     try {
-      mapDevicePref =
-          await userSharedData.getUserSharedPref() as Map<String, String>;
+      mapDevicePref = await userSharedData.getUserSharedPref() as Map<String, String>;
       String? screen = mapDevicePref['screen'];
 
       var logData = new ApplicationLoggerCompanion(
@@ -110,13 +99,7 @@ class AppLogger {
       if (logPurging != null) {
         if (logPurging.value == "After Upload") {
           if (logPurging.isGlobal == false) {
-            var globalData =
-                await nonGlobalPreferenceDao.getSingleNonGlobalPref(
-                    logPurging.code,
-                    logPurging.code,
-                    userName,
-                    deviceId,
-                    screen);
+            var globalData = await nonGlobalPreferenceDao.getSingleNonGlobalPref(logPurging.code, logPurging.code, userName, deviceId, screen);
             if (globalData != null) {
               if (globalData.expiredDateTime!.isBefore(DateTime.now())) {
                 //applicationLoggerDao.purgeDatabyExportStatus('Success');
@@ -129,13 +112,7 @@ class AppLogger {
 
         if (logPurging.value == "Last 1000") {
           if (logPurging.isGlobal == false) {
-            var globalData =
-                await nonGlobalPreferenceDao.getSingleNonGlobalPref(
-                    logPurging.code,
-                    logPurging.code,
-                    userName,
-                    deviceId,
-                    screen);
+            var globalData = await nonGlobalPreferenceDao.getSingleNonGlobalPref(logPurging.code, logPurging.code, userName, deviceId, screen);
             if (globalData != null) {
               if (globalData.expiredDateTime!.isBefore(DateTime.now())) {
                 //applicationLoggerDao.purgeData(1000);
@@ -148,13 +125,7 @@ class AppLogger {
 
         if (logPurging.value == "Last 500") {
           if (logPurging.isGlobal == false) {
-            var globalData =
-                await nonGlobalPreferenceDao.getSingleNonGlobalPref(
-                    logPurging.code,
-                    logPurging.code,
-                    userName,
-                    deviceId,
-                    screen);
+            var globalData = await nonGlobalPreferenceDao.getSingleNonGlobalPref(logPurging.code, logPurging.code, userName, deviceId, screen);
           } else {
             //applicationLoggerDao.purgeData(500);
           }
@@ -162,13 +133,7 @@ class AppLogger {
 
         if (logPurging.value == "Last 100") {
           if (logPurging.isGlobal == false) {
-            var globalData =
-                await nonGlobalPreferenceDao.getSingleNonGlobalPref(
-                    logPurging.code,
-                    logPurging.code,
-                    userName,
-                    deviceId,
-                    screen);
+            var globalData = await nonGlobalPreferenceDao.getSingleNonGlobalPref(logPurging.code, logPurging.code, userName, deviceId, screen);
             if (globalData != null) {
               if (globalData.expiredDateTime!.isBefore(DateTime.now())) {
                 //applicationLoggerDao.purgeData(100);

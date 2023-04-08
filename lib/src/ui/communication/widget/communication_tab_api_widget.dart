@@ -20,7 +20,7 @@
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/dropdown_box.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/password_field.dart';
@@ -30,8 +30,7 @@ import 'package:drift/drift.dart' as moor;
 
 class CommunicationTabTwoWidget extends StatefulWidget {
   @override
-  _CommunicationTabTwoWidgetState createState() =>
-      _CommunicationTabTwoWidgetState();
+  _CommunicationTabTwoWidgetState createState() => _CommunicationTabTwoWidgetState();
 }
 
 class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
@@ -117,8 +116,7 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
               //_setupControllers();
             } else if (_communicationData == null) {
               // else if data is not present retrieve it
-              var loadEvent = OnFormLoadGetSaveCommunication(
-                  communicationType: apiConnection);
+              var loadEvent = OnFormLoadGetSaveCommunication(communicationType: apiConnection);
               bloc.add(loadEvent);
             }
             // return form
@@ -134,12 +132,9 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
   void _setupControllers() {
     try {
       if (_communicationData.length > 0) {
-        _apiserverurlController =
-            TextEditingController(text: _communicationData[0].serverUrl);
-        _apiusernameController =
-            TextEditingController(text: _communicationData[0].userName);
-        _apiConfirmPasswordController =
-            TextEditingController(text: _communicationData[0].confirmPasskey);
+        _apiserverurlController = TextEditingController(text: _communicationData[0].serverUrl);
+        _apiusernameController = TextEditingController(text: _communicationData[0].userName);
+        _apiConfirmPasswordController = TextEditingController(text: _communicationData[0].confirmPasskey);
 
         syncApifrequencySelectedItem = _communicationData[0].syncFrequency;
       }
@@ -158,9 +153,7 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
                 padding: const EdgeInsets.all(0.00),
                 child: TextFromFieldNullableReusable(
                   fieldDecoration: InputDecoration(
-                    labelText: AppLocalization.of(context)!
-                            .translate('server_url_label_communication') ??
-                        'Server Url',
+                    labelText: AppLocalization.of(context)!.translate('server_url_label_communication') ?? 'Server Url',
                   ),
                   controllerName: _apiserverurlController,
                   validationText: 'Test',
@@ -170,9 +163,7 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
                 padding: const EdgeInsets.all(0.00),
                 child: TextFromFieldNullableReusable(
                   fieldDecoration: InputDecoration(
-                    labelText: AppLocalization.of(context)!
-                            .translate('username_label_communication') ??
-                        'Username',
+                    labelText: AppLocalization.of(context)!.translate('username_label_communication') ?? 'Username',
                   ),
                   controllerName: _apiusernameController,
                   validationText: 'Test',
@@ -182,9 +173,7 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
                 padding: const EdgeInsets.all(0.00),
                 child: TextNoNullFieldPasswordReusable(
                   fieldDecoration: InputDecoration(
-                    labelText: AppLocalization.of(context)!
-                            .translate('new_password_label_communication') ??
-                        'New Password',
+                    labelText: AppLocalization.of(context)!.translate('new_password_label_communication') ?? 'New Password',
                   ),
                   validationText: 'Test',
                 ),
@@ -193,9 +182,7 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
                 padding: const EdgeInsets.all(0.00),
                 child: TextFromFieldPasswordReusable(
                   fieldDecoration: InputDecoration(
-                    labelText: AppLocalization.of(context)!.translate(
-                            'confirm_password_label_communication') ??
-                        'Confirm Password',
+                    labelText: AppLocalization.of(context)!.translate('confirm_password_label_communication') ?? 'Confirm Password',
                   ),
                   controllerName: _apiConfirmPasswordController,
                   validationText: 'Test',
@@ -205,18 +192,9 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
                 padding: const EdgeInsets.all(0.00),
                 child: DropdownFormFieldNormalReuse(
                   _onUpdateeApiFrequencySelection,
-                  hintText: AppLocalization.of(context)!
-                          .translate('sync_frequency_label_communication') ??
-                      'Sync Frequency',
+                  hintText: AppLocalization.of(context)!.translate('sync_frequency_label_communication') ?? 'Sync Frequency',
                   selectedValue: syncApifrequencySelectedItem,
-                  listData: [
-                    'Every Minet',
-                    'Every 5 Minutes',
-                    'Every 20 Minutes',
-                    'Every Day',
-                    'Every Month',
-                    'Every Year'
-                  ],
+                  listData: ['Every Minet', 'Every 5 Minutes', 'Every 20 Minutes', 'Every Day', 'Every Month', 'Every Year'],
                 ),
               ),
               Padding(
@@ -225,18 +203,15 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
                   height: 50,
                   child: TextButton(
                     style: TextButton.styleFrom(
-                      backgroundColor: Colors.green[400],),
-                  
+                      backgroundColor: Colors.green[400],
+                    ),
                     onPressed: () {
                       submitAPITab(bloc);
                     },
                     child: Center(
                         child: Text(
-                      AppLocalization.of(context)!
-                              .translate('save_changes_button_serversetup') ??
-                          'Save Changes',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.white),
+                      AppLocalization.of(context)!.translate('save_changes_button_serversetup') ?? 'Save Changes',
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
                     )),
                   ),
                 ),

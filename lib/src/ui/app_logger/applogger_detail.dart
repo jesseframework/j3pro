@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 //import 'package:xlive_switch/xlive_switch.dart';
 
 class LoggerDetailPage extends StatelessWidget {
@@ -48,10 +48,7 @@ class LoggerDetailPage extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(
-                color: Colors.black45,
-                fontWeight: FontWeight.bold,
-                fontSize: 18),
+            style: TextStyle(color: Colors.black45, fontWeight: FontWeight.bold, fontSize: 18),
           ),
           Flexible(
             fit: FlexFit.loose,
@@ -59,10 +56,7 @@ class LoggerDetailPage extends StatelessWidget {
               info,
               softWrap: false,
               overflow: TextOverflow.fade,
-              style: TextStyle(
-                  color: Colors.black45,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 18),
+              style: TextStyle(color: Colors.black45, fontWeight: FontWeight.w500, fontSize: 18),
             ),
           ),
         ],

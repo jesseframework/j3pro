@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/main.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/sales/fullfillment/journey_plan_crud.dart';
 import 'package:j3enterprise/src/pro/models/sales/fullfillment/jounery_with_address.dart';
 import 'package:j3enterprise/src/pro/ui/activities_menu/activities_menu_page.dart';
@@ -19,7 +19,7 @@ class JourneyPlanForm extends StatefulWidget {
   late JourneyPlanDao journeyPlanDao;
   late JourneyWithAddress journeyWithAddress;
   JourneyPlanForm(this.journeyWithAddress) {
-    db = AppDatabase();
+    db = MyDatabase();
     journeyPlanDao = JourneyPlanDao(db);
   }
 
@@ -123,12 +123,11 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
                         height: 30,
                         width: 90,
                         child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:  Colors.deepPurple,
-                            shape:  RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),),
-                          
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.deepPurple,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                            ),
                             child: Text('1'),
-                           
                             onPressed: () {}),
                       ),
                     ),
@@ -142,13 +141,11 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
                         height: 30,
                         width: 90,
                         child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor:  Colors.green,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green,
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                             ),
-                           
                             child: Text('1'),
-                            
                             onPressed: () {}),
                       ),
                     ),
@@ -162,13 +159,11 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
                         height: 30,
                         width: 90,
                         child: ElevatedButton(
-                           style: ElevatedButton.styleFrom(
+                            style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.amber,
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                             ),
-                            
                             child: Text('1'),
-                          
                             onPressed: () {}),
                       ),
                     )
