@@ -19,7 +19,6 @@
 
 import 'dart:async';
 import 'dart:io' show Platform;
-
 import 'package:bloc/bloc.dart';
 import 'package:j3enterprise/main.dart';
 import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
@@ -34,7 +33,6 @@ import 'package:j3enterprise/src/resources/shared/utils/date_formating.dart';
 import 'package:j3enterprise/src/resources/shared/utils/user_hashdigest.dart';
 import 'package:logging/logging.dart';
 import 'package:drift/drift.dart' as moor;
-
 import 'authentication_event.dart';
 import 'authentication_state.dart';
 
@@ -60,70 +58,71 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
     businessRuleDao = new BusinessRuleDao(db);
     scheduleler = new Scheduler();
+    on<PushNotification>((event, emit) => _mapPushNotificationToState(event, emit));
+    on<AppStarted>((event, emit) => _mapAppStartedEventToState(event, emit));
+    on<LoggedIn>((event, emit) => _mapLoggedInEventToState(event, emit));
+    on<OfflineLoginButtonPressed>((event, emit) => _mapOfflineLoginButtonPressedEventToState(event, emit));
+    on<LoggedOut>((event, emit) => _mapLoggedOutEventToState(event, emit));
   }
 
-  @override
-  AuthenticationState get initialState => AuthenticationUninitialized();
+   
 
-  @override
-  Stream<AuthenticationState> mapEventToState(
-    AuthenticationEvent event,
-  ) async* {
-    if (event is PushNotification) {
-      yield PushNotificationState(route: event.route);
+  _mapPushNotificationToState(PushNotification event, Emitter<AuthenticationState> emit) {
+    emit(PushNotificationState(route: event.route));
+  }
+
+  _mapAppStartedEventToState(AppStarted event, Emitter<AuthenticationState> emit) async {
+    await Future.delayed(Duration(seconds: 9));
+    final bool hasToken = await userRepository.hasToken();
+    if (hasToken) {
+      emit(AuthenticationAuthenticated());
+    } else {
+      emit(AuthenticationUnauthenticated());
     }
-    if (event is AppStarted) {
-      await Future.delayed(Duration(seconds: 9));
-      final bool hasToken = await userRepository.hasToken();
-      if (hasToken) {
-        yield AuthenticationAuthenticated();
-      } else {
-        yield AuthenticationUnauthenticated();
-      }
-    }
+  }
 
-    if (event is LoggedIn) {
-      yield AuthenticationLoading();
-      await userRepository.persistToken(event.token, event.userId, event.tenantId);
-      yield AuthenticationAuthenticated();
-      _log.finest('Starting background Jobs');
+  _mapLoggedInEventToState(LoggedIn event, Emitter<AuthenticationState> emit) async {
+    emit(AuthenticationLoading());
+    await userRepository.persistToken(event.token, event.userId, event.tenantId);
+    emit(AuthenticationAuthenticated());
+    _log.finest('Starting background Jobs');
 
-      if (Platform.isWindows && Platform.isMacOS) {
-        var autoStartJobs = await businessRuleDao.getSingleBusinessRule("AUTOSTARTJOBS");
-        if (autoStartJobs.value == "ON" && autoStartJobs.expiredDateTime!.isAfter(DateTime.now()) && autoStartJobs.isGlobalRule == false) {
-          var jobData = await backgroundJobScheduleDao.getAllJobs();
-          for (var eachJob in jobData) {
-            scheduleler.scheduleJobs(eachJob.syncFrequency, eachJob.jobName, (Timer timer) => appLoggerRepository.putAppLogOnServer(eachJob.jobName));
-            _log.finest('background Jobs start');
-          }
+    if (Platform.isWindows && Platform.isMacOS) {
+      var autoStartJobs = await businessRuleDao.getSingleBusinessRule("AUTOSTARTJOBS");
+      if (autoStartJobs.value == "ON" && autoStartJobs.expiredDateTime!.isAfter(DateTime.now()) && autoStartJobs.isGlobalRule == false) {
+        var jobData = await backgroundJobScheduleDao.getAllJobs();
+        for (var eachJob in jobData) {
+          scheduleler.scheduleJobs(eachJob.syncFrequency, eachJob.jobName, (Timer timer) => appLoggerRepository.putAppLogOnServer(eachJob.jobName));
+          _log.finest('background Jobs start');
         }
       }
+    }
 
-      if (Platform.isIOS && Platform.isAndroid) {
-        var autoStartJobs = await businessRuleDao.getSingleBusinessRule("AUTOSTARTJOBS");
-        if (autoStartJobs.value == "ON" && autoStartJobs.expiredDateTime!.isAfter(DateTime.now()) && autoStartJobs.isGlobalRule == false) {
-          var jobData = await backgroundJobScheduleDao.getAllJobs();
-          for (var eachJob in jobData) {
-            scheduleler.scheduleJobs(eachJob.syncFrequency, eachJob.jobName, (Timer timer) => appLoggerRepository.putAppLogOnServer(eachJob.jobName));
-            _log.finest('background Jobs start');
-          }
+    if (Platform.isIOS && Platform.isAndroid) {
+      var autoStartJobs = await businessRuleDao.getSingleBusinessRule("AUTOSTARTJOBS");
+      if (autoStartJobs.value == "ON" && autoStartJobs.expiredDateTime!.isAfter(DateTime.now()) && autoStartJobs.isGlobalRule == false) {
+        var jobData = await backgroundJobScheduleDao.getAllJobs();
+        for (var eachJob in jobData) {
+          scheduleler.scheduleJobs(eachJob.syncFrequency, eachJob.jobName, (Timer timer) => appLoggerRepository.putAppLogOnServer(eachJob.jobName));
+          _log.finest('background Jobs start');
         }
       }
-
-      var offlineReady = await userFromServer.validateUser(event.userId, event.tenantId);
-      print(offlineReady);
-      if (offlineReady == true) {
-        yield AuthenticationCreateMobileHash();
-      }
     }
 
-    if (event is OfflineLoginButtonPressed) {
-      await userHash.saveHash(event.password, event.tenantId, event.userId);
-      yield AuthenticationAuthenticated();
+    var offlineReady = await userFromServer.validateUser(event.userId, event.tenantId);
+    print(offlineReady);
+    if (offlineReady == true) {
+      emit(AuthenticationCreateMobileHash());
     }
+  }
 
-    if (event is LoggedOut) {
-      yield AuthenticationLoading();
+  _mapOfflineLoginButtonPressedEventToState(OfflineLoginButtonPressed event, Emitter<AuthenticationState> emit) async {
+    await userHash.saveHash(event.password, event.tenantId, event.userId);
+    emit(AuthenticationAuthenticated());
+  }
+  
+  _mapLoggedOutEventToState(LoggedOut event, Emitter<AuthenticationState> emit)async {
+         emit( AuthenticationLoading());
       await userRepository.deleteToken();
 
       _log.finest('Canceling background Jobs');
@@ -167,7 +166,6 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
         }
       }
 
-      yield AuthenticationUnauthenticated();
-    }
+      emit( AuthenticationUnauthenticated());
   }
 }

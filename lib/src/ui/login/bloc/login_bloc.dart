@@ -77,23 +77,29 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     userDao = UserDao(db);
     _log.finest('LoginBloc constructer call');
+
+
+    on<LoginButtonPressed>((event, emit) => _mapLoginButtonPressedToState(event, emit));
   }
 
   getData() async {
-    tenantName = (await userRepository.getTenantFromSharedPref())!;
+    tenantName = (await userRepository.getTenantFromSharedPref())??'';
   }
+
 
   LoginState get initialState => LoginInitial(tenantName: '');
 
-  @override
-  Stream<LoginState> mapEventToState(LoginEvent event) async* {
-    _log.finest('Bloc mapEventToState call');
+
+
+
+    _mapLoginButtonPressedToState(LoginButtonPressed event, Emitter<LoginState> emit) async{
+      _log.finest('Bloc mapEventToState call');
     try {
       String tenantId;
       String deviceState;
       String tenantState;
 
-      if (event is LoginButtonPressed) {
+      
         if (Platform.isAndroid || Platform.isIOS) {
           var isConnected = await ConnectionService().isConnected();
           _log.finest('Connection check call');
@@ -101,7 +107,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           if (isConnected) {
             _log.info(isConnected);
 
-            yield LoginLoading();
+            emit( LoginLoading());
             _log.finest('Bloc state change to LoginLoading');
             final Response tenantResponse = await userRepository.checkTenant(tenancyName: event.tenantName);
             Map<String, dynamic> tenantMap = json.decode(tenantResponse.bodyString);
@@ -127,7 +133,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                   _log.info('Transulate tenant error message and show message to user. LoginLoading state');
                   error = AppLocalization.of(event.context)!.translate('tenant_validation_message') ?? "There is no tenant defined with name";
                 }
-                yield LoginFailure(error: error);
+                emit( LoginFailure(error: error));
                 _log.info('Bloc state change to LoginFailure when trying to get tenant');
                 return;
               }
@@ -137,7 +143,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               if (error == null) {
                 error = AppLocalization.of(event.context)!.translate('online_login_failed') ?? "Something went wrong! Please try again";
               }
-              yield LoginFailure(error: error);
+              emit( LoginFailure(error: error));
               return;
             }
 
@@ -168,7 +174,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               _log.finest('Moveing to authenticationBloc');
               authenticationBloc.add(LoggedIn(token: result['accessToken'], userId: result['userId'], tenantId: int.tryParse(tenantId)!));
 
-              yield LoginInitial(tenantName: '');
+              emit( LoginInitial(tenantName: ''));
             } else {
               //display errors
               String error = map["error"]["details"].toString();
@@ -176,12 +182,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               if (error == null) {
                 error = AppLocalization.of(event.context)!.translate('online_login_failed') ?? "Something went wrong! Please try again";
               }
-              yield LoginFailure(error: error);
+              emit( LoginFailure(error: error));
             }
           } else {
             //Login offline with hash
             _log.finest('Trying to loging offline');
-            yield LoginLoading();
+            emit( LoginLoading());
             var getTenantData = await tenantDao.getSingleTenant(event.tenantName, event.username);
             if (getTenantData != null) {
               var userDate = await userDao.getSingleTenantUser(event.username, getTenantData.tenantId);
@@ -197,28 +203,28 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                   _log.finest('Create share preference for user');
                   userSharedData.setUserSharedPref(event.deviceId, "", "", event.username, tenantName, _tenantId.toString(), userDate.id.toString());
                   authenticationBloc.add(LoggedIn(token: "", userId: userDate.id, tenantId: int.tryParse(_tenantId.toString())!));
-                  yield LoginInitial(tenantName: '');
+                  emit( LoginInitial(tenantName: ''));
                 } else {
                   String error = AppLocalization.of(event.context)!.translate('online_login_code_miss_match') ?? 'Invalid User Name or Password';
                   _log.info(error, StackTrace.current);
-                  yield LoginFailure(error: error);
+                  emit( LoginFailure(error: error));
                 }
               } else {
                 String error = AppLocalization.of(event.context)!.translate('offline_login_failed') ??
                     'Something went wrong! Unable to log you in offline. Please try againg';
                 _log.info(error, StackTrace.current);
-                yield LoginFailure(error: error);
+                emit( LoginFailure(error: error));
               }
             } else {
               String error = AppLocalization.of(event.context)!.translate('offline_login_failed') ??
                   'Something went wrong! Unable to log you in offline. Please try againg';
               _log.info(error, StackTrace.current);
-              yield LoginFailure(error: error);
+              emit( LoginFailure(error: error));
             }
           }
         } else {
           //Not Android and iOS device
-          yield LoginLoading();
+          emit( LoginLoading());
           _log.finest('Loging on with non Android or iOS devices');
           final Response tenantResponse = await userRepository.checkTenant(tenancyName: event.tenantName);
           Map<String, dynamic> tenantMap = json.decode(tenantResponse.bodyString);
@@ -243,7 +249,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               if (error == null) {
                 error = AppLocalization.of(event.context)!.translate('tenant_validation_message') ?? "There is no tenant defined with name";
               }
-              yield LoginFailure(error: error);
+              emit( LoginFailure(error: error));
               _log.info('Bloc state change to LoginFailure');
               return;
             }
@@ -253,7 +259,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             if (error == null) {
               error = AppLocalization.of(event.context)!.translate('online_login_failed') ?? "Something went wrong! Please try again";
             }
-            yield LoginFailure(error: error);
+            emit( LoginFailure(error: error));
             return;
           }
           final Response response = await userRepository.authenticate(
@@ -269,7 +275,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             int? userId = int.tryParse(result['userId'].toString());
             userSharedData.setUserSharedPref(event.deviceId, "", "", event.username, tenantName, tenantId, userId.toString());
             authenticationBloc.add(LoggedIn(token: result['accessToken'], userId: result['userId'], tenantId: int.tryParse(tenantId)!));
-            yield LoginInitial(tenantName: '');
+            emit( LoginInitial(tenantName: ''));
           } else {
             //display errors
             // can have an error class and use from map here as well
@@ -277,13 +283,17 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             if (error == null) {
               error = AppLocalization.of(event.context)!.translate('online_login_failed') ?? "Something went wrong! Please try again";
             }
-            yield LoginFailure(error: error);
+            emit( LoginFailure(error: error));
           }
         }
-      }
+    
     } catch (error) {
       _log.shout(error, StackTrace.current);
-      yield LoginFailure(error: error.toString());
+      emit( LoginFailure(error: error.toString()));
     }
   }
+
+  
+  
+
 }

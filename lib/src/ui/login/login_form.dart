@@ -45,7 +45,7 @@ class _LoginFormState extends State<LoginForm> {
   void didChangeDependencies() {
     getIt<UserRepository>().getTenantFromSharedPref().then((value) {
       setState(() {
-        _tenantController.text = value!;
+        _tenantController.text = value??'';
       });
     });
     super.didChangeDependencies();
