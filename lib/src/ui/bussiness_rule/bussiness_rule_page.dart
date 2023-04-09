@@ -193,3 +193,7 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
         });
   }
 }
+
+void create({  String? name}) {
+  ;
+}

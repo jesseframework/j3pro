@@ -46,7 +46,6 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   late BackgroundJobScheduleDao backgroundJobScheduleDao;
   late BusinessRuleDao businessRuleDao;
   late Scheduler scheduleler;
-
   static final _log = Logger('LoginBloc');
 
   AuthenticationBloc() : super(AuthenticationUninitialized()) {
@@ -58,14 +57,15 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
     businessRuleDao = new BusinessRuleDao(db);
     scheduleler = new Scheduler();
+
+
+    
     on<PushNotification>((event, emit) => _mapPushNotificationToState(event, emit));
     on<AppStarted>((event, emit) => _mapAppStartedEventToState(event, emit));
     on<LoggedIn>((event, emit) => _mapLoggedInEventToState(event, emit));
     on<OfflineLoginButtonPressed>((event, emit) => _mapOfflineLoginButtonPressedEventToState(event, emit));
     on<LoggedOut>((event, emit) => _mapLoggedOutEventToState(event, emit));
   }
-
-   
 
   _mapPushNotificationToState(PushNotification event, Emitter<AuthenticationState> emit) {
     emit(PushNotificationState(route: event.route));
@@ -120,52 +120,52 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     await userHash.saveHash(event.password, event.tenantId, event.userId);
     emit(AuthenticationAuthenticated());
   }
-  
-  _mapLoggedOutEventToState(LoggedOut event, Emitter<AuthenticationState> emit)async {
-         emit( AuthenticationLoading());
-      await userRepository.deleteToken();
 
-      _log.finest('Canceling background Jobs');
+  _mapLoggedOutEventToState(LoggedOut event, Emitter<AuthenticationState> emit) async {
+    emit(AuthenticationLoading());
+    await userRepository.deleteToken();
 
-      if (Platform.isWindows && Platform.isMacOS) {
-        var autoAtartJobs = await businessRuleDao.getSingleBusinessRule("AUTOSTOPJOBS");
-        if (autoAtartJobs.value == "ON" && autoAtartJobs.expiredDateTime!.isAfter(DateTime.now()) && autoAtartJobs.isGlobalRule == false) {
-          var jobData = await backgroundJobScheduleDao.getAllJobs();
-          appLoggerRepository.isStopped = true;
-          preferenceRepository.isStopped = true;
-          for (var eachJob in jobData) {
-            scheduleler.cancel(eachJob.jobName);
+    _log.finest('Canceling background Jobs');
 
-            String formatted = await formatDate(DateTime.now().toString());
-            var fromEvent = new BackgroundJobScheduleCompanion(
-                enableJob: moor.Value(false), jobStatus: moor.Value("Cancel"), lastRun: moor.Value(DateTime.tryParse(formatted)!));
+    if (Platform.isWindows && Platform.isMacOS) {
+      var autoAtartJobs = await businessRuleDao.getSingleBusinessRule("AUTOSTOPJOBS");
+      if (autoAtartJobs.value == "ON" && autoAtartJobs.expiredDateTime!.isAfter(DateTime.now()) && autoAtartJobs.isGlobalRule == false) {
+        var jobData = await backgroundJobScheduleDao.getAllJobs();
+        appLoggerRepository.isStopped = true;
+        preferenceRepository.isStopped = true;
+        for (var eachJob in jobData) {
+          scheduleler.cancel(eachJob.jobName);
 
-            await backgroundJobScheduleDao.updateBackgroundJob(fromEvent, eachJob.jobName);
-          }
-          _log.finest('background Jobs Canceled');
+          String formatted = await formatDate(DateTime.now().toString());
+          var fromEvent = new BackgroundJobScheduleCompanion(
+              enableJob: moor.Value(false), jobStatus: moor.Value("Cancel"), lastRun: moor.Value(DateTime.tryParse(formatted)!));
+
+          await backgroundJobScheduleDao.updateBackgroundJob(fromEvent, eachJob.jobName);
         }
+        _log.finest('background Jobs Canceled');
       }
+    }
 
-      if (Platform.isIOS && Platform.isAndroid) {
-        var autoAtartJobs = await businessRuleDao.getSingleBusinessRule("AUTOSTARTJOBS");
-        if (autoAtartJobs != null &&
-            autoAtartJobs.value == "ON" &&
-            autoAtartJobs.expiredDateTime!.isAfter(DateTime.now()) &&
-            autoAtartJobs.isGlobalRule == false) {
-          var jobData = await backgroundJobScheduleDao.getAllJobs();
-          for (var eachJob in jobData) {
-            scheduleler.cancel(eachJob.jobName);
+    if (Platform.isIOS && Platform.isAndroid) {
+      var autoAtartJobs = await businessRuleDao.getSingleBusinessRule("AUTOSTARTJOBS");
+      if (autoAtartJobs != null &&
+          autoAtartJobs.value == "ON" &&
+          autoAtartJobs.expiredDateTime!.isAfter(DateTime.now()) &&
+          autoAtartJobs.isGlobalRule == false) {
+        var jobData = await backgroundJobScheduleDao.getAllJobs();
+        for (var eachJob in jobData) {
+          scheduleler.cancel(eachJob.jobName);
 
-            String formatted = await formatDate(DateTime.now().toString());
-            var fromEvent = new BackgroundJobScheduleCompanion(
-                enableJob: moor.Value(false), jobStatus: moor.Value("Cancel"), lastRun: moor.Value(DateTime.tryParse(formatted)!));
+          String formatted = await formatDate(DateTime.now().toString());
+          var fromEvent = new BackgroundJobScheduleCompanion(
+              enableJob: moor.Value(false), jobStatus: moor.Value("Cancel"), lastRun: moor.Value(DateTime.tryParse(formatted)!));
 
-            await backgroundJobScheduleDao.updateBackgroundJob(fromEvent, eachJob.jobName);
-          }
-          _log.finest('background Jobs Canceled');
+          await backgroundJobScheduleDao.updateBackgroundJob(fromEvent, eachJob.jobName);
         }
+        _log.finest('background Jobs Canceled');
       }
+    }
 
-      emit( AuthenticationUnauthenticated());
+    emit(AuthenticationUnauthenticated());
   }
 }

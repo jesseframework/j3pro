@@ -24,12 +24,12 @@ import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 class TextFromFieldPasswordReusable extends StatefulWidget {
   final InputDecoration fieldDecoration;
   late final TextEditingController controllerName;
-  late final String validationText;
+    final String? validationText;
 
   TextFromFieldPasswordReusable(
       {required this.fieldDecoration,
       required this.controllerName,
-      String? validationText});
+      this. validationText});
 
   @override
   _TextFromFieldPasswordReusableState createState() =>
@@ -38,10 +38,10 @@ class TextFromFieldPasswordReusable extends StatefulWidget {
 
 class TextNoNullFieldPasswordReusable extends StatefulWidget {
   final InputDecoration fieldDecoration;
-  late final String validationText;
+    final String? validationText;
 
   TextNoNullFieldPasswordReusable(
-      {required this.fieldDecoration, String? validationText});
+      {required this.fieldDecoration, this. validationText});
 
   @override
   _TextFromFieldPasswordReusableState createState() =>

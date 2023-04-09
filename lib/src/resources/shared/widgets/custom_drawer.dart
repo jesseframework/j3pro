@@ -32,7 +32,7 @@ class CustomDrawer extends StatefulWidget {
 class _CustomDrawerState extends State<CustomDrawer> {
   Future<User?> getProfileData() async {
     final data = await UserSharedData().getUserSharedPref();
-    if (data['userId'] != null) {
+    if (data['userId'] != 'null') {
       final profileData = await widget.userDao.getSingleUser(int.tryParse(data['userId'])!);
       return profileData;
     }

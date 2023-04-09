@@ -108,7 +108,7 @@ class _LoginFormState extends State<LoginForm> {
                               controllerName: _passwordController,
                               validationText: _usernameController.text.length < 3
                                   ? AppLocalization.of(context)!.translate('username_validation_password') ?? 'Enter valid password'
-                                  : null,
+                                  : '',
                               fieldDecoration: InputDecoration(
                                 icon: Icon(Icons.lock),
                                 labelText: AppLocalization.of(context)!.translate('password_label') ?? 'Password',

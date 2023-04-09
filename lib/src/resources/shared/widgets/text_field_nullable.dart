@@ -20,13 +20,13 @@
 import 'package:flutter/material.dart';
 
 class TextFromFieldNullableReusable extends StatelessWidget {
-  late final TextEditingController controllerName;
-  late final String validationText;
+    final TextEditingController controllerName;
+    final String? validationText;
   final InputDecoration fieldDecoration;
 
   TextFromFieldNullableReusable(
       {required this.controllerName,
-      String? validationText,
+         this.validationText ,
       required this.fieldDecoration});
 
   @override
