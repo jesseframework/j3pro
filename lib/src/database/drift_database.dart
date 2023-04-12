@@ -103,6 +103,89 @@ class MyDatabase extends _$MyDatabase {
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (Migrator m) async {
           await m.createAll();
+             String systemDate = await formatDate(DateTime.now().toString());
+          await into(backgroundJobSchedule).insert(BackgroundJobScheduleData(
+              id: 1,
+              jobName: "Mobile Desktop",
+              startDateTime: DateTime.tryParse(systemDate)!,
+              syncFrequency: "Every 20 Minutes",
+              enableJob: true,
+              lastRun: DateTime.tryParse(systemDate)!,
+              jobStatus: "Never Run"));
+          await into(backgroundJobSchedule).insert(BackgroundJobScheduleData(
+              id: 2,
+              jobName: "Configuration",
+              startDateTime: DateTime.tryParse(systemDate)!,
+              syncFrequency: "Every 20 Minutes",
+              enableJob: true,
+              lastRun: DateTime.tryParse(systemDate)!,
+              jobStatus: "Never Run"));
+          await into(backgroundJobSchedule).insert(BackgroundJobScheduleData(
+              id: 3,
+              jobName: "Log Shipping",
+              startDateTime: DateTime.tryParse(systemDate)!,
+              syncFrequency: "Every Day",
+              enableJob: true,
+              lastRun: DateTime.tryParse(systemDate)!,
+              jobStatus: "Never Run"));
+
+          await into(seriesNumberGenerator).insert(SeriesNumberGeneratorData(
+              id: 1,
+              includeJulianDate: false,
+              includePrefix: false,
+              includeUserID: false,
+              includeTenantId: false,
+              usedAutoNumber: false,
+              numberPrefix: "SO",
+              endingLength: 8,
+              typeOfNumber: "Sales Order"));
+          await into(seriesNumberGenerator).insert(SeriesNumberGeneratorData(
+              id: 2,
+              includeJulianDate: false,
+              includePrefix: false,
+              includeUserID: false,
+              includeTenantId: false,
+              usedAutoNumber: false,
+              numberPrefix: "INV",
+              endingLength: 8,
+              typeOfNumber: "Invoice"));
+
+          await into(tempNumberLogs).insert(TempNumberLog(
+              id: 1,
+              lastUsageDate: DateTime.now(),
+              tenantId: 1,
+              nextSeriesNumber: "SO10000000001",
+              lastSeriesNumber: "SO10000000002",
+              typeOfNumber: "Sales Order"));
+          await into(tempNumberLogs).insert(TempNumberLog(
+              id: 2,
+              lastUsageDate: DateTime.now(),
+              tenantId: 1,
+              nextSeriesNumber: "CLI10000000001",
+              lastSeriesNumber: "CLI10000000002",
+              typeOfNumber: "Clock In"));
+          await into(tempNumberLogs).insert(TempNumberLog(
+              id: 3,
+              lastUsageDate: DateTime.now(),
+              tenantId: 1,
+              nextSeriesNumber: "CLO10000000001",
+              lastSeriesNumber: "CLO10000000002",
+              typeOfNumber: "Clock Out"));
+          await into(tempNumberLogs).insert(TempNumberLog(
+              id: 4,
+              lastUsageDate: DateTime.now(),
+              tenantId: 1,
+              nextSeriesNumber: "INV10000000001",
+              lastSeriesNumber: "INV10000000002",
+              typeOfNumber: "Invoice"));
+
+          await into(tempNumberLogs).insert(TempNumberLog(
+              id: 5,
+              lastUsageDate: DateTime.now(),
+              tenantId: 1,
+              nextSeriesNumber: "INC10000000001",
+              lastSeriesNumber: "INC10000000001",
+              typeOfNumber: "Inventory Cycle"));
         },
       );
  
