@@ -27,7 +27,6 @@ import 'package:get_it/get_it.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/bloc/add_item_bloc.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/check_out/bloc/sales_order_finalize_bloc.dart';
 import 'package:j3enterprise/src/resources/services/background_fetch_service.dart';
-import 'package:j3enterprise/src/resources/services/firebase_message_wrapper.dart';
 import 'package:j3enterprise/src/resources/services/init_services.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/routes.dart';

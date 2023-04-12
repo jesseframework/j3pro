@@ -123,13 +123,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        Text(
-                                          user!.fullName,
-                                          style: Theme.of(context).textTheme.headline1,
-                                        ),
                                         ListTile(
                                           contentPadding: EdgeInsets.all(0),
-                                          title: Text(user.userName),
+                                          title: Text(user!.userName),
                                           subtitle: Text(tenantName),
                                         ),
                                       ],
@@ -196,10 +192,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                       onChanged: (theme) async {
                                         if (theme == true) {
                                           await getIt<UserRepository>().setTheme('dark');
-                                          widget.userDao.updateSingleUser(user.copyWith(themeData:Value( 'dark')));
+                                          widget.userDao.updateSingleUser(user.copyWith(themeData: Value('dark')));
                                         } else {
                                           await getIt<UserRepository>().setTheme('light');
-                                          widget.userDao.updateSingleUser(user.copyWith(themeData:Value('Light')));
+                                          widget.userDao.updateSingleUser(user.copyWith(themeData: Value('Light')));
                                         }
                                         App.setTheme(
                                           context,

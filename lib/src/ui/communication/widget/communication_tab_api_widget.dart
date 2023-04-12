@@ -51,7 +51,7 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
     });
   }
 
-  late List<CommunicationData> _communicationData;
+    List<CommunicationData>? _communicationData;
 
   //API comeunication Setting
   Future<void> submitAPITab(CommunicationBloc bloc) async {
@@ -114,7 +114,7 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
               _communicationData = state.data;
 
               //_setupControllers();
-            } else if (_communicationData == null) {
+            } else if (_communicationData==null) {
               // else if data is not present retrieve it
               var loadEvent = OnFormLoadGetSaveCommunication(communicationType: apiConnection);
               bloc.add(loadEvent);
@@ -131,12 +131,12 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
 
   void _setupControllers() {
     try {
-      if (_communicationData.length > 0) {
-        _apiserverurlController = TextEditingController(text: _communicationData[0].serverUrl);
-        _apiusernameController = TextEditingController(text: _communicationData[0].userName);
-        _apiConfirmPasswordController = TextEditingController(text: _communicationData[0].confirmPasskey);
+      if (_communicationData!.length > 0) {
+        _apiserverurlController = TextEditingController(text: _communicationData![0].serverUrl);
+        _apiusernameController = TextEditingController(text: _communicationData![0].userName);
+        _apiConfirmPasswordController = TextEditingController(text: _communicationData![0].confirmPasskey);
 
-        syncApifrequencySelectedItem = _communicationData[0].syncFrequency;
+        syncApifrequencySelectedItem = _communicationData![0].syncFrequency;
       }
     } catch (e) {}
   }
@@ -171,7 +171,8 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
               ),
               Padding(
                 padding: const EdgeInsets.all(0.00),
-                child: TextNoNullFieldPasswordReusable(
+                child: TextFromFieldPasswordReusable(
+                  controllerName: TextEditingController(),
                   fieldDecoration: InputDecoration(
                     labelText: AppLocalization.of(context)!.translate('new_password_label_communication') ?? 'New Password',
                   ),

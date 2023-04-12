@@ -96,178 +96,162 @@ class BackgroundJobsBloc extends Bloc<BackgroundJobsEvent, BackgroundJobsState> 
     backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
     desktopDao = new DesktopDao(db);
     scheduler = new Scheduler();
+    on<BackgroundJobsStart>((event, emit) => _mapBackgroundJobsStartToState(event, emit));
+    on<BackgroundJobsCancel>((event, emit) => _mapBackgroundJobsCancelToState(event, emit));
+    on<BackgroundJobsStartAll>((event, emit) => _mapBackgroundJobsStartAllToState(event, emit));
+    
   }
-
   @override
   BackgroundJobsState get initialState => BackgroundJobsUninitialized();
 
-  @override
-  Stream<BackgroundJobsState> mapEventToState(
-    BackgroundJobsEvent event,
-  ) async* {
-    _log.finest('Bloc mapEventToState call');
-    try {
-      if (event is BackgroundJobsStart) {
-        yield BackgroundJobsLoading();
+  _mapBackgroundJobsStartToState(BackgroundJobsStart event, Emitter<BackgroundJobsState> emit) async {
+    emit(BackgroundJobsLoading());
 
-        var data = await backgroundJobScheduleDao.getAllJobs();
-        print('Jobb Data Load $data');
-        String formatted = await formatDate(DateTime.now().toString());
-        var fromEvent = new BackgroundJobScheduleCompanion(
-            jobName: moor.Value(event.jobname),
-            syncFrequency: moor.Value(event.syncFrequency),
-            startDateTime: moor.Value(DateTime.tryParse(event.startDateTime)!),
-            enableJob: moor.Value(true),
-            jobStatus: moor.Value("Never Run"),
-            lastRun: moor.Value(DateTime.tryParse(formatted)!));
+    var data = await backgroundJobScheduleDao.getAllJobs();
+    print('Jobb Data Load $data');
+    String formatted = await formatDate(DateTime.now().toString());
+    var fromEvent = new BackgroundJobScheduleCompanion(
+        jobName: moor.Value(event.jobname),
+        syncFrequency: moor.Value(event.syncFrequency),
+        startDateTime: moor.Value(DateTime.tryParse(event.startDateTime)!),
+        enableJob: moor.Value(true),
+        jobStatus: moor.Value("Never Run"),
+        lastRun: moor.Value(DateTime.tryParse(formatted)!));
 
-        var isJobNameInDb = await backgroundJobScheduleDao.getJob(event.jobname);
-        if (isJobNameInDb != null) {
-          await backgroundJobScheduleDao.updateBackgroundJob(fromEvent, event.jobname);
-          userMessage = AppLocalization.of(event.context)!.translate('user_message') ?? "Job Update Successful";
-        } else {
-          await backgroundJobScheduleDao.insertJobSchedule(fromEvent);
-          userMessage = AppLocalization.of(event.context)!.translate('job_user_message') ?? "Job Added Successful";
-        }
-
-        //Set Time condition to false to start timer
-        if (event.jobname == "Log Shipping") {
-          scheduler.scheduleJobs(
-              event.syncFrequency, event.jobname, (Timer timer) async => await appLoggerRepository.putAppLogOnServer(event.jobname));
-        }
-        if (event.jobname == "Configuration") {
-          scheduler.scheduleJobs(
-              event.syncFrequency, event.jobname, (Timer timer) async => await preferenceRepository.getPreferenceFromServer(event.jobname));
-
-          scheduler.scheduleJobs(
-              event.syncFrequency, event.jobname, (Timer timer) async => await preferenceRepository.getNonGlobalPrefFromServer(event.jobname));
-
-          scheduler.scheduleJobs(
-              event.syncFrequency, event.jobname, (Timer timer) async => await businessRuleRepository.getBusinessRuleFromServer(event.jobname));
-
-          scheduler.scheduleJobs(event.syncFrequency, event.jobname,
-              (Timer timer) async => await businessRuleRepository.getNonGlobalBusinessRuleFromServer(event.jobname));
-        }
-
-        if (event.jobname == "Mobile Desktop") {
-          scheduler.scheduleJobs(
-              event.syncFrequency, event.jobname, (Timer timer) async => await mobileDesktopRepository.getMobileDesktopFromServer(event.jobname));
-        }
-
-        if (event.jobname == "Customer") {
-          scheduler.scheduleJobs(
-              event.syncFrequency, event.jobname, (Timer timer) async => await customerRepository.getCustomerFromServer(event.jobname));
-        }
-        if (event.jobname == "Journey Plan") {
-          scheduler.scheduleJobs(
-              event.syncFrequency, event.jobname, (Timer timer) async => await journeyPlanRepository.getJourneyPlanFromServer(event.jobname));
-        }
-
-        if (event.jobname == "Address") {
-          scheduler.scheduleJobs(event.syncFrequency, event.jobname, (Timer timer) async => addressRepository.getAddressFromServer(event.jobname));
-        }
-        if (event.jobname == "Contact") {
-          scheduler.scheduleJobs(
-              event.syncFrequency, event.jobname, (Timer timer) async => await contactRepository.getContactFromServer(event.jobname));
-        }
-
-        if (event.jobname == "Customer All") {
-          scheduler.scheduleJobs(
-              event.syncFrequency, event.jobname, (Timer timer) async => await customerRepository.getCustomerFromServer(event.jobname));
-
-          scheduler.scheduleJobs(
-              event.syncFrequency, event.jobname, (Timer timer) async => await contactRepository.getContactFromServer(event.jobname));
-
-          scheduler.scheduleJobs(
-              event.syncFrequency, event.jobname, (Timer timer) async => await journeyPlanRepository.getJourneyPlanFromServer(event.jobname));
-
-          scheduler.scheduleJobs(
-              event.syncFrequency, event.jobname, (Timer timer) async => await addressRepository.getAddressFromServer(event.jobname));
-        }
-
-        if (event.jobname == "Items") {
-          scheduler.scheduleJobs(
-              event.syncFrequency, event.jobname, (Timer timer) async => await itemMasterRepository.getItemMasterFromServer(event.jobname));
-        }
-
-        if (event.jobname == "Item Price") {
-          scheduler.scheduleJobs(
-              event.syncFrequency, event.jobname, (Timer timer) async => await itemPriceRepository.getItemPriceFromServer(event.jobname));
-        }
-
-        if (event.jobname == "Item Pricing Rule") {
-          scheduler.scheduleJobs(
-              event.syncFrequency, event.jobname, (Timer timer) async => await pricingRuleRepository.getPricingRuleFromServer(event.jobname));
-        }
-        if (event.jobname == "Items All") {
-          scheduler.scheduleJobs(
-              event.syncFrequency, event.jobname, (Timer timer) async => await itemMasterRepository.getItemMasterFromServer(event.jobname));
-
-          scheduler.scheduleJobs(
-              event.syncFrequency, event.jobname, (Timer timer) async => await itemPriceRepository.getItemPriceFromServer(event.jobname));
-
-          scheduler.scheduleJobs(
-              event.syncFrequency, event.jobname, (Timer timer) async => await pricingRuleRepository.getPricingRuleFromServer(event.jobname));
-        }
-
-        if (event.jobname == "Sales Tax") {
-          scheduler.scheduleJobs(
-              event.syncFrequency, event.jobname, (Timer timer) async => await salesTaxRepository.getSalesTaxFromServer(event.jobname));
-        }
-        if (event.jobname == "Currency") {
-          scheduler.scheduleJobs(
-              event.syncFrequency, event.jobname, (Timer timer) async => await currencyRepository.getCurrencyFromServer(event.jobname));
-        }
-        if (event.jobname == "Exchange Rate") {
-          scheduler.scheduleJobs(
-              event.syncFrequency, event.jobname, (Timer timer) async => await exchangeRateRepository.getExchnageRateFromServer(event.jobname));
-        }
-
-        if (event.jobname == "GPS Location Service") {
-          if (Platform.isAndroid || Platform.isIOS)
-            scheduler.scheduleJobs(event.syncFrequency, event.jobname, (Timer timer) async => await geoLocation.getDistance(event.jobname));
-        }
-
-        yield BackgroundJobsSuccess(userMessage: userMessage);
-      }
-
-      if (event is BackgroundJobsCancel) {
-        //yield BackgroundJobsLoading();
-
-        scheduler.cancel(event.jobName);
-        //AppLoggerRepository.isStopped = true;
-        appLoggerRepository.isStopped = true;
-        preferenceRepository.isStopped = true;
-        userMessage = AppLocalization.of(event.context)!.translate('job_cancel_user_message') ?? "Job Cancel Successful";
-        String formatted = await formatDate(DateTime.now().toString());
-        var fromEvent = new BackgroundJobScheduleCompanion(
-            enableJob: moor.Value(false), jobStatus: moor.Value("Cancel"), lastRun: moor.Value(DateTime.tryParse(formatted)!));
-
-        await backgroundJobScheduleDao.updateBackgroundJob(fromEvent, event.jobName);
-
-        yield BackgroundJobsSuccess(userMessage: userMessage);
-      }
-
-      if (event is BackgroundJobsStartAll) {
-        var jobData = await backgroundJobScheduleDao.getAllJobs();
-        for (var eachJob in jobData) {
-          await updateBackgroundJobStatus.updateJobStatus(eachJob.jobName, "Never Run");
-
-          if (eachJob.jobName == "Log Shipping") {
-            scheduler.runNowJobs(
-                eachJob.syncFrequency, eachJob.jobName, (Timer timer) async => await appLoggerRepository.putAppLogOnServer(eachJob.jobName));
-          }
-        }
-
-        userMessage = "Jobs Added Successful";
-
-        yield BackgroundJobsSuccess(userMessage: userMessage);
-      }
-
-      yield BackgroundJobsUninitialized();
-    } catch (error) {
-      _log.shout(error, StackTrace.current);
-      yield BackgroundJobsFailure(error: error.toString());
+    var isJobNameInDb = await backgroundJobScheduleDao.getJob(event.jobname);
+    if (isJobNameInDb != null) {
+      await backgroundJobScheduleDao.updateBackgroundJob(fromEvent, event.jobname);
+      userMessage = AppLocalization.of(event.context)!.translate('user_message') ?? "Job Update Successful";
+    } else {
+      await backgroundJobScheduleDao.insertJobSchedule(fromEvent);
+      userMessage = AppLocalization.of(event.context)!.translate('job_user_message') ?? "Job Added Successful";
     }
+
+    //Set Time condition to false to start timer
+    if (event.jobname == "Log Shipping") {
+      scheduler.scheduleJobs(event.syncFrequency, event.jobname, (Timer timer) async => await appLoggerRepository.putAppLogOnServer(event.jobname));
+    }
+    if (event.jobname == "Configuration") {
+      scheduler.scheduleJobs(
+          event.syncFrequency, event.jobname, (Timer timer) async => await preferenceRepository.getPreferenceFromServer(event.jobname));
+
+      scheduler.scheduleJobs(
+          event.syncFrequency, event.jobname, (Timer timer) async => await preferenceRepository.getNonGlobalPrefFromServer(event.jobname));
+
+      scheduler.scheduleJobs(
+          event.syncFrequency, event.jobname, (Timer timer) async => await businessRuleRepository.getBusinessRuleFromServer(event.jobname));
+
+      scheduler.scheduleJobs(
+          event.syncFrequency, event.jobname, (Timer timer) async => await businessRuleRepository.getNonGlobalBusinessRuleFromServer(event.jobname));
+    }
+
+    if (event.jobname == "Mobile Desktop") {
+      scheduler.scheduleJobs(
+          event.syncFrequency, event.jobname, (Timer timer) async => await mobileDesktopRepository.getMobileDesktopFromServer(event.jobname));
+    }
+
+    if (event.jobname == "Customer") {
+      scheduler.scheduleJobs(
+          event.syncFrequency, event.jobname, (Timer timer) async => await customerRepository.getCustomerFromServer(event.jobname));
+    }
+    if (event.jobname == "Journey Plan") {
+      scheduler.scheduleJobs(
+          event.syncFrequency, event.jobname, (Timer timer) async => await journeyPlanRepository.getJourneyPlanFromServer(event.jobname));
+    }
+
+    if (event.jobname == "Address") {
+      scheduler.scheduleJobs(event.syncFrequency, event.jobname, (Timer timer) async => addressRepository.getAddressFromServer(event.jobname));
+    }
+    if (event.jobname == "Contact") {
+      scheduler.scheduleJobs(event.syncFrequency, event.jobname, (Timer timer) async => await contactRepository.getContactFromServer(event.jobname));
+    }
+
+    if (event.jobname == "Customer All") {
+      scheduler.scheduleJobs(
+          event.syncFrequency, event.jobname, (Timer timer) async => await customerRepository.getCustomerFromServer(event.jobname));
+
+      scheduler.scheduleJobs(event.syncFrequency, event.jobname, (Timer timer) async => await contactRepository.getContactFromServer(event.jobname));
+
+      scheduler.scheduleJobs(
+          event.syncFrequency, event.jobname, (Timer timer) async => await journeyPlanRepository.getJourneyPlanFromServer(event.jobname));
+
+      scheduler.scheduleJobs(event.syncFrequency, event.jobname, (Timer timer) async => await addressRepository.getAddressFromServer(event.jobname));
+    }
+
+    if (event.jobname == "Items") {
+      scheduler.scheduleJobs(
+          event.syncFrequency, event.jobname, (Timer timer) async => await itemMasterRepository.getItemMasterFromServer(event.jobname));
+    }
+
+    if (event.jobname == "Item Price") {
+      scheduler.scheduleJobs(
+          event.syncFrequency, event.jobname, (Timer timer) async => await itemPriceRepository.getItemPriceFromServer(event.jobname));
+    }
+
+    if (event.jobname == "Item Pricing Rule") {
+      scheduler.scheduleJobs(
+          event.syncFrequency, event.jobname, (Timer timer) async => await pricingRuleRepository.getPricingRuleFromServer(event.jobname));
+    }
+    if (event.jobname == "Items All") {
+      scheduler.scheduleJobs(
+          event.syncFrequency, event.jobname, (Timer timer) async => await itemMasterRepository.getItemMasterFromServer(event.jobname));
+
+      scheduler.scheduleJobs(
+          event.syncFrequency, event.jobname, (Timer timer) async => await itemPriceRepository.getItemPriceFromServer(event.jobname));
+
+      scheduler.scheduleJobs(
+          event.syncFrequency, event.jobname, (Timer timer) async => await pricingRuleRepository.getPricingRuleFromServer(event.jobname));
+    }
+
+    if (event.jobname == "Sales Tax") {
+      scheduler.scheduleJobs(
+          event.syncFrequency, event.jobname, (Timer timer) async => await salesTaxRepository.getSalesTaxFromServer(event.jobname));
+    }
+    if (event.jobname == "Currency") {
+      scheduler.scheduleJobs(
+          event.syncFrequency, event.jobname, (Timer timer) async => await currencyRepository.getCurrencyFromServer(event.jobname));
+    }
+    if (event.jobname == "Exchange Rate") {
+      scheduler.scheduleJobs(
+          event.syncFrequency, event.jobname, (Timer timer) async => await exchangeRateRepository.getExchnageRateFromServer(event.jobname));
+    }
+
+    if (event.jobname == "GPS Location Service") {
+      if (Platform.isAndroid || Platform.isIOS)
+        scheduler.scheduleJobs(event.syncFrequency, event.jobname, (Timer timer) async => await geoLocation.getDistance(event.jobname));
+    }
+
+    emit(BackgroundJobsSuccess(userMessage: userMessage));
+  }
+
+  _mapBackgroundJobsCancelToState(BackgroundJobsCancel event, Emitter<BackgroundJobsState> emit) async {
+    scheduler.cancel(event.jobName);
+    //AppLoggerRepository.isStopped = true;
+    appLoggerRepository.isStopped = true;
+    preferenceRepository.isStopped = true;
+    userMessage = AppLocalization.of(event.context)!.translate('job_cancel_user_message') ?? "Job Cancel Successful";
+    String formatted = await formatDate(DateTime.now().toString());
+    var fromEvent = new BackgroundJobScheduleCompanion(
+        enableJob: moor.Value(false), jobStatus: moor.Value("Cancel"), lastRun: moor.Value(DateTime.tryParse(formatted)!));
+
+    await backgroundJobScheduleDao.updateBackgroundJob(fromEvent, event.jobName);
+
+    emit(BackgroundJobsSuccess(userMessage: userMessage));
+  }
+
+  _mapBackgroundJobsStartAllToState(BackgroundJobsStartAll event, Emitter<BackgroundJobsState> emit) async {
+    var jobData = await backgroundJobScheduleDao.getAllJobs();
+    for (var eachJob in jobData) {
+      await updateBackgroundJobStatus.updateJobStatus(eachJob.jobName, "Never Run");
+
+      if (eachJob.jobName == "Log Shipping") {
+        scheduler.runNowJobs(
+            eachJob.syncFrequency, eachJob.jobName, (Timer timer) async => await appLoggerRepository.putAppLogOnServer(eachJob.jobName));
+      }
+    }
+
+    userMessage = "Jobs Added Successful";
+
+    emit(BackgroundJobsSuccess(userMessage: userMessage));
   }
 }

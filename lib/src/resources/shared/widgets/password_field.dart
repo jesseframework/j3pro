@@ -35,19 +35,9 @@ class TextFromFieldPasswordReusable extends StatefulWidget {
   _TextFromFieldPasswordReusableState createState() =>
       _TextFromFieldPasswordReusableState();
 }
-
-class TextNoNullFieldPasswordReusable extends StatefulWidget {
-  final InputDecoration fieldDecoration;
-    final String? validationText;
-
-  TextNoNullFieldPasswordReusable(
-      {required this.fieldDecoration, this. validationText});
-
-  @override
-  _TextFromFieldPasswordReusableState createState() =>
-      _TextFromFieldPasswordReusableState();
-}
-
+ 
+ 
+  
 class _TextFromFieldPasswordReusableState
     extends State<TextFromFieldPasswordReusable> {
   bool showPassword = true;

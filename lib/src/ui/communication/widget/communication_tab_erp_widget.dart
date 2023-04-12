@@ -89,7 +89,7 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
     }
   }
 
-  late List<CommunicationData> _communicationData;
+    List<CommunicationData>? _communicationData;
   final erpList = ['SAP', 'ERP Next', 'Quick Books'];
 
   @override
@@ -111,7 +111,7 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
             // if data was loaded set it
             _communicationData = state.data;
             _setupControllers();
-          } else if (_communicationData == null) {
+          } else if (_communicationData==null) {
             // else if data is not present retrieve it
             var event = OnFormLoadGetSaveCommunication(communicationType: erpConnection);
             bloc.add(event);
@@ -125,13 +125,13 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
   }
 
   void _setupControllers() {
-    if (_communicationData.length > 0) {
-      _serverurlController = TextEditingController(text: _communicationData[0].serverUrl);
-      _usernameController = TextEditingController(text: _communicationData[0].userName);
-      _confirmpasswordController = TextEditingController(text: _communicationData[0].confirmPasskey);
+    if (_communicationData!.length > 0) {
+      _serverurlController = TextEditingController(text: _communicationData![0].serverUrl);
+      _usernameController = TextEditingController(text: _communicationData![0].userName);
+      _confirmpasswordController = TextEditingController(text: _communicationData![0].confirmPasskey);
 
-      erpSelecteditem = _communicationData[0].typeofErp;
-      syncfrequencySelectedItem = _communicationData[0].syncFrequency;
+      erpSelecteditem = _communicationData![0].typeofErp;
+      syncfrequencySelectedItem = _communicationData![0].syncFrequency;
     }
   }
 
@@ -171,7 +171,8 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
             ),
             Padding(
               padding: const EdgeInsets.all(0.00),
-              child: TextNoNullFieldPasswordReusable(
+              child: TextFromFieldPasswordReusable(
+                controllerName:TextEditingController(),
                 fieldDecoration: InputDecoration(
                   labelText: AppLocalization.of(context)!.translate('new_password_label_communication') ?? 'New Password',
                 ),
