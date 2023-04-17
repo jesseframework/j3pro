@@ -39,7 +39,7 @@ class ContactRepository {
       _log.finest("Executing address date from server");
       var isSchedulerEnable = await backgroundJobScheduleDao.getJob(jobName);
       _log.finest("Contact job found in background Jobs scheduler");
-      if (isSchedulerEnable.startDateTime.isBefore(DateTime.now())) {
+      if (isSchedulerEnable!.startDateTime.isBefore(DateTime.now())) {
         if (isSchedulerEnable.enableJob == true) {
           DateTime startDate = isSchedulerEnable.startDateTime;
           _log.finest("Contact jobs start date is $startDate ");

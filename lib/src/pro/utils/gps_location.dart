@@ -46,10 +46,18 @@ class GeoLocation {
   double earthRadius = 6371000;
 
 //Use Geolocator to find the current location(latitude & longitude)
-  // getUserLocation(String jobName) async {
-  //   _currentPosition = await Geolocator.getCurrentPosition(
-  //       desiredAccuracy: LocationAccuracy.high);
-  // }
+  getUserLocation() async {
+    LocationPermission permission;
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.deniedForever) {
+        // Permissions are denied forever, handle appropriately.
+      }
+    }
+    _currentPosition = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }
 
 //Calculating the distance between two points
   getDistance(String jobName) async {
@@ -81,8 +89,8 @@ class GeoLocation {
                   double formatedDistantUsed = 0;
                   String distanceLabel = "";
 
-                  double pLat = getaddr[0].latitude;
-                  double pLng = getaddr[0].longitude;
+                  double pLat = getaddr[0].latitude!;
+                  double pLng = getaddr[0].longitude!;
                   var dLat = radians(pLat - _currentPosition.latitude);
                   var dLng = radians(pLng - _currentPosition.longitude);
                   var a =

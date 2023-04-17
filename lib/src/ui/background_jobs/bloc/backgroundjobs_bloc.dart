@@ -46,7 +46,6 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/date_formating.dart';
 import 'package:logging/logging.dart';
 import 'package:drift/drift.dart' as moor;
-
 part 'backgroundjobs_event.dart';
 part 'backgroundjobs_state.dart';
 
@@ -101,8 +100,7 @@ class BackgroundJobsBloc extends Bloc<BackgroundJobsEvent, BackgroundJobsState> 
     on<BackgroundJobsStartAll>((event, emit) => _mapBackgroundJobsStartAllToState(event, emit));
     
   }
-  @override
-  BackgroundJobsState get initialState => BackgroundJobsUninitialized();
+ 
 
   _mapBackgroundJobsStartToState(BackgroundJobsStart event, Emitter<BackgroundJobsState> emit) async {
     emit(BackgroundJobsLoading());

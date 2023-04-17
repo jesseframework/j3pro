@@ -38,7 +38,7 @@ class ExchangeRateRepository {
       _log.finest("Currency sales tax date from server");
       var isSchedulerEnable = await backgroundJobScheduleDao.getJob(jobName);
       _log.finest("Exchnage rate  job found in background Jobs scheduler");
-      if (isSchedulerEnable.startDateTime.isBefore(DateTime.now())) {
+      if (isSchedulerEnable!.startDateTime.isBefore(DateTime.now())) {
         if (isSchedulerEnable.enableJob == true) {
           DateTime startDate = isSchedulerEnable.startDateTime;
           _log.finest("Exchnage rate jobs start date is $startDate ");

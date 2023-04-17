@@ -40,10 +40,10 @@ class DesktopDao extends DatabaseAccessor<MyDatabase> with _$DesktopDaoMixin {
   Stream<List<DesktopData>> watchAllDesktop(String functionName, bool isDelete, String featureCode, String userPermission, String showInLoaction) {
     return (select(db.desktop)
           ..where((t) =>
-              t.iconName.equals(functionName) &
+              t.iconName.contains(functionName) &
               t.isDeleted.equals(isDelete) &
-              t.featureCode.equals(featureCode) &
-              t.userPermission.equals(userPermission) &
+              t.featureCode.contains(featureCode) &
+              t.userPermission.contains(userPermission) &
               t.showInLocation.equals(showInLoaction)))
         .watch();
   }

@@ -27,7 +27,7 @@ import 'package:j3enterprise/src/resources/shared/widgets/no_data_found.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/snak_bar.dart';
 
 class About extends StatefulWidget {
-  static final route = '/about';
+  
   @override
   _AboutState createState() => _AboutState();
 }

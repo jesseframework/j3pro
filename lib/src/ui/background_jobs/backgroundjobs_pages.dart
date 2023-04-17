@@ -24,7 +24,7 @@ import 'package:j3enterprise/src/ui/background_jobs/bloc/backgroundjobs_bloc.dar
 import 'backgroundjobs_page.dart';
 
 class BackgroundJobsPage extends StatefulWidget {
-  static final route = '/BackgroundJobs';
+ 
 
   @override
   _BackgroundJobsPageState createState() => _BackgroundJobsPageState();

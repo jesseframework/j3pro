@@ -62,7 +62,7 @@ class AppLoggerRepository {
     try {
       //ToDo code review to get a better way to push bulk data to API and update bulk data in database
       var isSchedulerEnable = await backgroundJobScheduleDao.getJob(jobName);
-      if (isSchedulerEnable.startDateTime.isBefore(DateTime.now())) {
+      if (isSchedulerEnable!.startDateTime.isBefore(DateTime.now())) {
         if (isSchedulerEnable.enableJob == true) {
           var appLogData = await applicationLoggerDao.getAppLog("Pending");
 

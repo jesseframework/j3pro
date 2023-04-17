@@ -12,7 +12,7 @@ import 'package:j3enterprise/src/ui/bussiness_rule/bussiness_rule_detail_page.da
 import 'package:j3enterprise/src/ui/preferences/preference_detail.dart';
 
 class BussinessRulePage extends StatefulWidget {
-  static final route = '/businessrule';
+ 
   var db;
   late BusinessRuleDao businessRuleDao;
   BussinessRulePage() {

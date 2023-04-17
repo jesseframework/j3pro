@@ -16,9 +16,9 @@ import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
 
 class JourneyPlanForm extends StatefulWidget {
   var db;
-  late JourneyPlanDao journeyPlanDao;
-  late JourneyWithAddress journeyWithAddress;
-  JourneyPlanForm(this.journeyWithAddress) {
+    JourneyPlanDao? journeyPlanDao;
+    
+  JourneyPlanForm( ) {
     db = MyDatabase();
     journeyPlanDao = JourneyPlanDao(db);
   }
@@ -29,7 +29,7 @@ class JourneyPlanForm extends StatefulWidget {
 
 class _JourneyPlanFormState extends State<JourneyPlanForm> {
   final formKey = new GlobalKey<FormState>();
-  String? userName;
+  String userName='';
   String searchText = '';
   @override
   void didChangeDependencies() async {
@@ -170,7 +170,7 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
                   ],
                 ),
                 StreamBuilder(
-                  stream: widget.journeyPlanDao.watchJourneyWithAddressJoin(userName!, 'Billing', false, searchText),
+                  stream: widget.journeyPlanDao!.watchJourneyWithAddressJoin(userName, 'Billing', false, searchText),
                   //  future: widget.journeyPlanDao.getAllJourneyPlanData(),
                   builder: (context, snapshot) {
                     //print(snapshot.data.toString());
@@ -208,7 +208,7 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
                                       size: 30,
                                     ),
                                     subtitle: Text(
-                                      journeyWithAddressData![index].addr.addressLine1 +
+                                      journeyWithAddressData![index].addr.addressLine1! +
                                           " " +
                                           journeyWithAddressData[index].jplan.distanceUsed.toString() +
                                           " " +

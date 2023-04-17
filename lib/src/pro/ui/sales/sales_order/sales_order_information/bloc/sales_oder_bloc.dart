@@ -47,12 +47,12 @@ class SalesOderBloc extends Bloc<SalesOderEvent, SalesOderState> {
     if (event is FetchDefaultData) {
       yield SalesOderLoding();
       List<CustomerData> customerData = await customerDao.getAllCustomerById(addItemBloc.customerId);
-      var defaultCurrency = customerData[0].defaultCurrency.isNotEmpty ? customerData[0].defaultCurrency : 'JMD';
+      var defaultCurrency = customerData[0].defaultCurrency!.isNotEmpty ? customerData[0].defaultCurrency : 'JMD';
       List<SystemCurrencyData> currencydata = await systemCurrencyDao.getAllSystemCurrency();
       List<SystemCurrencyData> defaultCurrencyList = currencydata.isNotEmpty
           ? currencydata
           : [SystemCurrencyData(currencyName: 'No Currency Found', isDeleted: false, effectiveDate: DateTime.now(), id: 0, isActive: false)];
-      List<ExchangeRateData> exchangeRateData = await exchangeRateDao.getAllExchnageRateByCurrency('JMD', defaultCurrency);
+      List<ExchangeRateData> exchangeRateData = await exchangeRateDao.getAllExchnageRateByCurrency('JMD', defaultCurrency!);
 
       double exchangeRate = exchangeRateData[0].exchangeRate!;
       yield SalesOderDefaultData(exchangeRate: exchangeRate, defaultCurrency: defaultCurrency, currenciesData: defaultCurrencyList);

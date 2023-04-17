@@ -14906,62 +14906,62 @@ class $CustomerTable extends Customer
       const VerificationMeta('customerId');
   @override
   late final GeneratedColumn<String> customerId = GeneratedColumn<String>(
-      'customer_id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'customer_id', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _customerNameMeta =
       const VerificationMeta('customerName');
   @override
   late final GeneratedColumn<String> customerName = GeneratedColumn<String>(
-      'customer_name', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'customer_name', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _companyNameMeta =
       const VerificationMeta('companyName');
   @override
   late final GeneratedColumn<String> companyName = GeneratedColumn<String>(
-      'company_name', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'company_name', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _customerTypeMeta =
       const VerificationMeta('customerType');
   @override
   late final GeneratedColumn<String> customerType = GeneratedColumn<String>(
-      'customer_type', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'customer_type', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _customerGroupMeta =
       const VerificationMeta('customerGroup');
   @override
   late final GeneratedColumn<String> customerGroup = GeneratedColumn<String>(
-      'customer_group', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'customer_group', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _customerTerritoryMeta =
       const VerificationMeta('customerTerritory');
   @override
   late final GeneratedColumn<String> customerTerritory =
-      GeneratedColumn<String>('customer_territory', aliasedName, false,
-          type: DriftSqlType.string, requiredDuringInsert: true);
+      GeneratedColumn<String>('customer_territory', aliasedName, true,
+          type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _defaultCurrencyMeta =
       const VerificationMeta('defaultCurrency');
   @override
   late final GeneratedColumn<String> defaultCurrency = GeneratedColumn<String>(
-      'default_currency', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'default_currency', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _paymentTermsMeta =
       const VerificationMeta('paymentTerms');
   @override
   late final GeneratedColumn<String> paymentTerms = GeneratedColumn<String>(
-      'payment_terms', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'payment_terms', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _languageMeta =
       const VerificationMeta('language');
   @override
   late final GeneratedColumn<String> language = GeneratedColumn<String>(
-      'language', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'language', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _creditLimitMeta =
       const VerificationMeta('creditLimit');
   @override
   late final GeneratedColumn<double> creditLimit = GeneratedColumn<double>(
-      'credit_limit', aliasedName, false,
-      type: DriftSqlType.double, requiredDuringInsert: true);
+      'credit_limit', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
   static const VerificationMeta _billingAddressNameMeta =
       const VerificationMeta('billingAddressName');
   @override
@@ -14990,37 +14990,37 @@ class $CustomerTable extends Customer
       const VerificationMeta('minQuantity');
   @override
   late final GeneratedColumn<double> minQuantity = GeneratedColumn<double>(
-      'min_quantity', aliasedName, false,
-      type: DriftSqlType.double, requiredDuringInsert: true);
+      'min_quantity', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
   static const VerificationMeta _maxQuantityMeta =
       const VerificationMeta('maxQuantity');
   @override
   late final GeneratedColumn<double> maxQuantity = GeneratedColumn<double>(
-      'max_quantity', aliasedName, false,
-      type: DriftSqlType.double, requiredDuringInsert: true);
+      'max_quantity', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
   static const VerificationMeta _discountTypeMeta =
       const VerificationMeta('discountType');
   @override
   late final GeneratedColumn<String> discountType = GeneratedColumn<String>(
-      'discount_type', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'discount_type', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _discountPercentageMeta =
       const VerificationMeta('discountPercentage');
   @override
   late final GeneratedColumn<double> discountPercentage =
-      GeneratedColumn<double>('discount_percentage', aliasedName, false,
-          type: DriftSqlType.double, requiredDuringInsert: true);
+      GeneratedColumn<double>('discount_percentage', aliasedName, true,
+          type: DriftSqlType.double, requiredDuringInsert: false);
   static const VerificationMeta _discountAmountMeta =
       const VerificationMeta('discountAmount');
   @override
   late final GeneratedColumn<double> discountAmount = GeneratedColumn<double>(
-      'discount_amount', aliasedName, false,
-      type: DriftSqlType.double, requiredDuringInsert: true);
+      'discount_amount', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
   static const VerificationMeta _enableHeaderDiscountMeta =
       const VerificationMeta('enableHeaderDiscount');
   @override
   late final GeneratedColumn<bool> enableHeaderDiscount =
-      GeneratedColumn<bool>('enable_header_discount', aliasedName, false,
+      GeneratedColumn<bool>('enable_header_discount', aliasedName, true,
           type: DriftSqlType.bool,
           requiredDuringInsert: false,
           defaultConstraints: GeneratedColumn.constraintsDependsOnDialect({
@@ -15033,31 +15033,31 @@ class $CustomerTable extends Customer
       const VerificationMeta('accumulatedPurchase');
   @override
   late final GeneratedColumn<double> accumulatedPurchase =
-      GeneratedColumn<double>('accumulated_purchase', aliasedName, false,
-          type: DriftSqlType.double, requiredDuringInsert: true);
+      GeneratedColumn<double>('accumulated_purchase', aliasedName, true,
+          type: DriftSqlType.double, requiredDuringInsert: false);
   static const VerificationMeta _validFromMeta =
       const VerificationMeta('validFrom');
   @override
   late final GeneratedColumn<DateTime> validFrom = GeneratedColumn<DateTime>(
-      'valid_from', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+      'valid_from', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
   static const VerificationMeta _validToMeta =
       const VerificationMeta('validTo');
   @override
   late final GeneratedColumn<DateTime> validTo = GeneratedColumn<DateTime>(
-      'valid_to', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+      'valid_to', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
   static const VerificationMeta _taxIdMeta = const VerificationMeta('taxId');
   @override
   late final GeneratedColumn<String> taxId = GeneratedColumn<String>(
-      'tax_id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'tax_id', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _taxGroupMeta =
       const VerificationMeta('taxGroup');
   @override
   late final GeneratedColumn<String> taxGroup = GeneratedColumn<String>(
-      'tax_group', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'tax_group', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [
         tenantId,
@@ -15109,78 +15109,58 @@ class $CustomerTable extends Customer
           _customerIdMeta,
           customerId.isAcceptableOrUnknown(
               data['customer_id']!, _customerIdMeta));
-    } else if (isInserting) {
-      context.missing(_customerIdMeta);
     }
     if (data.containsKey('customer_name')) {
       context.handle(
           _customerNameMeta,
           customerName.isAcceptableOrUnknown(
               data['customer_name']!, _customerNameMeta));
-    } else if (isInserting) {
-      context.missing(_customerNameMeta);
     }
     if (data.containsKey('company_name')) {
       context.handle(
           _companyNameMeta,
           companyName.isAcceptableOrUnknown(
               data['company_name']!, _companyNameMeta));
-    } else if (isInserting) {
-      context.missing(_companyNameMeta);
     }
     if (data.containsKey('customer_type')) {
       context.handle(
           _customerTypeMeta,
           customerType.isAcceptableOrUnknown(
               data['customer_type']!, _customerTypeMeta));
-    } else if (isInserting) {
-      context.missing(_customerTypeMeta);
     }
     if (data.containsKey('customer_group')) {
       context.handle(
           _customerGroupMeta,
           customerGroup.isAcceptableOrUnknown(
               data['customer_group']!, _customerGroupMeta));
-    } else if (isInserting) {
-      context.missing(_customerGroupMeta);
     }
     if (data.containsKey('customer_territory')) {
       context.handle(
           _customerTerritoryMeta,
           customerTerritory.isAcceptableOrUnknown(
               data['customer_territory']!, _customerTerritoryMeta));
-    } else if (isInserting) {
-      context.missing(_customerTerritoryMeta);
     }
     if (data.containsKey('default_currency')) {
       context.handle(
           _defaultCurrencyMeta,
           defaultCurrency.isAcceptableOrUnknown(
               data['default_currency']!, _defaultCurrencyMeta));
-    } else if (isInserting) {
-      context.missing(_defaultCurrencyMeta);
     }
     if (data.containsKey('payment_terms')) {
       context.handle(
           _paymentTermsMeta,
           paymentTerms.isAcceptableOrUnknown(
               data['payment_terms']!, _paymentTermsMeta));
-    } else if (isInserting) {
-      context.missing(_paymentTermsMeta);
     }
     if (data.containsKey('language')) {
       context.handle(_languageMeta,
           language.isAcceptableOrUnknown(data['language']!, _languageMeta));
-    } else if (isInserting) {
-      context.missing(_languageMeta);
     }
     if (data.containsKey('credit_limit')) {
       context.handle(
           _creditLimitMeta,
           creditLimit.isAcceptableOrUnknown(
               data['credit_limit']!, _creditLimitMeta));
-    } else if (isInserting) {
-      context.missing(_creditLimitMeta);
     }
     if (data.containsKey('billing_address_name')) {
       context.handle(
@@ -15209,40 +15189,30 @@ class $CustomerTable extends Customer
           _minQuantityMeta,
           minQuantity.isAcceptableOrUnknown(
               data['min_quantity']!, _minQuantityMeta));
-    } else if (isInserting) {
-      context.missing(_minQuantityMeta);
     }
     if (data.containsKey('max_quantity')) {
       context.handle(
           _maxQuantityMeta,
           maxQuantity.isAcceptableOrUnknown(
               data['max_quantity']!, _maxQuantityMeta));
-    } else if (isInserting) {
-      context.missing(_maxQuantityMeta);
     }
     if (data.containsKey('discount_type')) {
       context.handle(
           _discountTypeMeta,
           discountType.isAcceptableOrUnknown(
               data['discount_type']!, _discountTypeMeta));
-    } else if (isInserting) {
-      context.missing(_discountTypeMeta);
     }
     if (data.containsKey('discount_percentage')) {
       context.handle(
           _discountPercentageMeta,
           discountPercentage.isAcceptableOrUnknown(
               data['discount_percentage']!, _discountPercentageMeta));
-    } else if (isInserting) {
-      context.missing(_discountPercentageMeta);
     }
     if (data.containsKey('discount_amount')) {
       context.handle(
           _discountAmountMeta,
           discountAmount.isAcceptableOrUnknown(
               data['discount_amount']!, _discountAmountMeta));
-    } else if (isInserting) {
-      context.missing(_discountAmountMeta);
     }
     if (data.containsKey('enable_header_discount')) {
       context.handle(
@@ -15255,32 +15225,22 @@ class $CustomerTable extends Customer
           _accumulatedPurchaseMeta,
           accumulatedPurchase.isAcceptableOrUnknown(
               data['accumulated_purchase']!, _accumulatedPurchaseMeta));
-    } else if (isInserting) {
-      context.missing(_accumulatedPurchaseMeta);
     }
     if (data.containsKey('valid_from')) {
       context.handle(_validFromMeta,
           validFrom.isAcceptableOrUnknown(data['valid_from']!, _validFromMeta));
-    } else if (isInserting) {
-      context.missing(_validFromMeta);
     }
     if (data.containsKey('valid_to')) {
       context.handle(_validToMeta,
           validTo.isAcceptableOrUnknown(data['valid_to']!, _validToMeta));
-    } else if (isInserting) {
-      context.missing(_validToMeta);
     }
     if (data.containsKey('tax_id')) {
       context.handle(
           _taxIdMeta, taxId.isAcceptableOrUnknown(data['tax_id']!, _taxIdMeta));
-    } else if (isInserting) {
-      context.missing(_taxIdMeta);
     }
     if (data.containsKey('tax_group')) {
       context.handle(_taxGroupMeta,
           taxGroup.isAcceptableOrUnknown(data['tax_group']!, _taxGroupMeta));
-    } else if (isInserting) {
-      context.missing(_taxGroupMeta);
     }
     return context;
   }
@@ -15296,25 +15256,25 @@ class $CustomerTable extends Customer
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       customerId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}customer_id'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}customer_id']),
       customerName: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}customer_name'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}customer_name']),
       companyName: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}company_name'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}company_name']),
       customerType: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}customer_type'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}customer_type']),
       customerGroup: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}customer_group'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}customer_group']),
       customerTerritory: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}customer_territory'])!,
+          DriftSqlType.string, data['${effectivePrefix}customer_territory']),
       defaultCurrency: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}default_currency'])!,
+          DriftSqlType.string, data['${effectivePrefix}default_currency']),
       paymentTerms: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}payment_terms'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}payment_terms']),
       language: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}language'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}language']),
       creditLimit: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}credit_limit'])!,
+          .read(DriftSqlType.double, data['${effectivePrefix}credit_limit']),
       billingAddressName: attachedDatabase.typeMapping.read(
           DriftSqlType.string, data['${effectivePrefix}billing_address_name']),
       shippingAddressName: attachedDatabase.typeMapping.read(
@@ -15324,27 +15284,27 @@ class $CustomerTable extends Customer
       priceList: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}price_list']),
       minQuantity: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}min_quantity'])!,
+          .read(DriftSqlType.double, data['${effectivePrefix}min_quantity']),
       maxQuantity: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}max_quantity'])!,
+          .read(DriftSqlType.double, data['${effectivePrefix}max_quantity']),
       discountType: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}discount_type'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}discount_type']),
       discountPercentage: attachedDatabase.typeMapping.read(
-          DriftSqlType.double, data['${effectivePrefix}discount_percentage'])!,
-      discountAmount: attachedDatabase.typeMapping.read(
-          DriftSqlType.double, data['${effectivePrefix}discount_amount'])!,
+          DriftSqlType.double, data['${effectivePrefix}discount_percentage']),
+      discountAmount: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}discount_amount']),
       enableHeaderDiscount: attachedDatabase.typeMapping.read(
-          DriftSqlType.bool, data['${effectivePrefix}enable_header_discount'])!,
+          DriftSqlType.bool, data['${effectivePrefix}enable_header_discount']),
       accumulatedPurchase: attachedDatabase.typeMapping.read(
-          DriftSqlType.double, data['${effectivePrefix}accumulated_purchase'])!,
+          DriftSqlType.double, data['${effectivePrefix}accumulated_purchase']),
       validFrom: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}valid_from'])!,
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}valid_from']),
       validTo: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}valid_to'])!,
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}valid_to']),
       taxId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}tax_id'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}tax_id']),
       taxGroup: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}tax_group'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}tax_group']),
     );
   }
 
@@ -15357,59 +15317,59 @@ class $CustomerTable extends Customer
 class CustomerData extends DataClass implements Insertable<CustomerData> {
   final int? tenantId;
   final int id;
-  final String customerId;
-  final String customerName;
-  final String companyName;
-  final String customerType;
-  final String customerGroup;
-  final String customerTerritory;
-  final String defaultCurrency;
-  final String paymentTerms;
-  final String language;
-  final double creditLimit;
+  final String? customerId;
+  final String? customerName;
+  final String? companyName;
+  final String? customerType;
+  final String? customerGroup;
+  final String? customerTerritory;
+  final String? defaultCurrency;
+  final String? paymentTerms;
+  final String? language;
+  final double? creditLimit;
   final String? billingAddressName;
   final String? shippingAddressName;
   final String? contactName;
   final String? priceList;
-  final double minQuantity;
-  final double maxQuantity;
-  final String discountType;
-  final double discountPercentage;
-  final double discountAmount;
-  final bool enableHeaderDiscount;
-  final double accumulatedPurchase;
-  final DateTime validFrom;
-  final DateTime validTo;
-  final String taxId;
-  final String taxGroup;
+  final double? minQuantity;
+  final double? maxQuantity;
+  final String? discountType;
+  final double? discountPercentage;
+  final double? discountAmount;
+  final bool? enableHeaderDiscount;
+  final double? accumulatedPurchase;
+  final DateTime? validFrom;
+  final DateTime? validTo;
+  final String? taxId;
+  final String? taxGroup;
   const CustomerData(
       {this.tenantId,
       required this.id,
-      required this.customerId,
-      required this.customerName,
-      required this.companyName,
-      required this.customerType,
-      required this.customerGroup,
-      required this.customerTerritory,
-      required this.defaultCurrency,
-      required this.paymentTerms,
-      required this.language,
-      required this.creditLimit,
+      this.customerId,
+      this.customerName,
+      this.companyName,
+      this.customerType,
+      this.customerGroup,
+      this.customerTerritory,
+      this.defaultCurrency,
+      this.paymentTerms,
+      this.language,
+      this.creditLimit,
       this.billingAddressName,
       this.shippingAddressName,
       this.contactName,
       this.priceList,
-      required this.minQuantity,
-      required this.maxQuantity,
-      required this.discountType,
-      required this.discountPercentage,
-      required this.discountAmount,
-      required this.enableHeaderDiscount,
-      required this.accumulatedPurchase,
-      required this.validFrom,
-      required this.validTo,
-      required this.taxId,
-      required this.taxGroup});
+      this.minQuantity,
+      this.maxQuantity,
+      this.discountType,
+      this.discountPercentage,
+      this.discountAmount,
+      this.enableHeaderDiscount,
+      this.accumulatedPurchase,
+      this.validFrom,
+      this.validTo,
+      this.taxId,
+      this.taxGroup});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -15417,16 +15377,36 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
       map['tenant_id'] = Variable<int>(tenantId);
     }
     map['id'] = Variable<int>(id);
-    map['customer_id'] = Variable<String>(customerId);
-    map['customer_name'] = Variable<String>(customerName);
-    map['company_name'] = Variable<String>(companyName);
-    map['customer_type'] = Variable<String>(customerType);
-    map['customer_group'] = Variable<String>(customerGroup);
-    map['customer_territory'] = Variable<String>(customerTerritory);
-    map['default_currency'] = Variable<String>(defaultCurrency);
-    map['payment_terms'] = Variable<String>(paymentTerms);
-    map['language'] = Variable<String>(language);
-    map['credit_limit'] = Variable<double>(creditLimit);
+    if (!nullToAbsent || customerId != null) {
+      map['customer_id'] = Variable<String>(customerId);
+    }
+    if (!nullToAbsent || customerName != null) {
+      map['customer_name'] = Variable<String>(customerName);
+    }
+    if (!nullToAbsent || companyName != null) {
+      map['company_name'] = Variable<String>(companyName);
+    }
+    if (!nullToAbsent || customerType != null) {
+      map['customer_type'] = Variable<String>(customerType);
+    }
+    if (!nullToAbsent || customerGroup != null) {
+      map['customer_group'] = Variable<String>(customerGroup);
+    }
+    if (!nullToAbsent || customerTerritory != null) {
+      map['customer_territory'] = Variable<String>(customerTerritory);
+    }
+    if (!nullToAbsent || defaultCurrency != null) {
+      map['default_currency'] = Variable<String>(defaultCurrency);
+    }
+    if (!nullToAbsent || paymentTerms != null) {
+      map['payment_terms'] = Variable<String>(paymentTerms);
+    }
+    if (!nullToAbsent || language != null) {
+      map['language'] = Variable<String>(language);
+    }
+    if (!nullToAbsent || creditLimit != null) {
+      map['credit_limit'] = Variable<double>(creditLimit);
+    }
     if (!nullToAbsent || billingAddressName != null) {
       map['billing_address_name'] = Variable<String>(billingAddressName);
     }
@@ -15439,17 +15419,39 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
     if (!nullToAbsent || priceList != null) {
       map['price_list'] = Variable<String>(priceList);
     }
-    map['min_quantity'] = Variable<double>(minQuantity);
-    map['max_quantity'] = Variable<double>(maxQuantity);
-    map['discount_type'] = Variable<String>(discountType);
-    map['discount_percentage'] = Variable<double>(discountPercentage);
-    map['discount_amount'] = Variable<double>(discountAmount);
-    map['enable_header_discount'] = Variable<bool>(enableHeaderDiscount);
-    map['accumulated_purchase'] = Variable<double>(accumulatedPurchase);
-    map['valid_from'] = Variable<DateTime>(validFrom);
-    map['valid_to'] = Variable<DateTime>(validTo);
-    map['tax_id'] = Variable<String>(taxId);
-    map['tax_group'] = Variable<String>(taxGroup);
+    if (!nullToAbsent || minQuantity != null) {
+      map['min_quantity'] = Variable<double>(minQuantity);
+    }
+    if (!nullToAbsent || maxQuantity != null) {
+      map['max_quantity'] = Variable<double>(maxQuantity);
+    }
+    if (!nullToAbsent || discountType != null) {
+      map['discount_type'] = Variable<String>(discountType);
+    }
+    if (!nullToAbsent || discountPercentage != null) {
+      map['discount_percentage'] = Variable<double>(discountPercentage);
+    }
+    if (!nullToAbsent || discountAmount != null) {
+      map['discount_amount'] = Variable<double>(discountAmount);
+    }
+    if (!nullToAbsent || enableHeaderDiscount != null) {
+      map['enable_header_discount'] = Variable<bool>(enableHeaderDiscount);
+    }
+    if (!nullToAbsent || accumulatedPurchase != null) {
+      map['accumulated_purchase'] = Variable<double>(accumulatedPurchase);
+    }
+    if (!nullToAbsent || validFrom != null) {
+      map['valid_from'] = Variable<DateTime>(validFrom);
+    }
+    if (!nullToAbsent || validTo != null) {
+      map['valid_to'] = Variable<DateTime>(validTo);
+    }
+    if (!nullToAbsent || taxId != null) {
+      map['tax_id'] = Variable<String>(taxId);
+    }
+    if (!nullToAbsent || taxGroup != null) {
+      map['tax_group'] = Variable<String>(taxGroup);
+    }
     return map;
   }
 
@@ -15459,16 +15461,36 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
           ? const Value.absent()
           : Value(tenantId),
       id: Value(id),
-      customerId: Value(customerId),
-      customerName: Value(customerName),
-      companyName: Value(companyName),
-      customerType: Value(customerType),
-      customerGroup: Value(customerGroup),
-      customerTerritory: Value(customerTerritory),
-      defaultCurrency: Value(defaultCurrency),
-      paymentTerms: Value(paymentTerms),
-      language: Value(language),
-      creditLimit: Value(creditLimit),
+      customerId: customerId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerId),
+      customerName: customerName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerName),
+      companyName: companyName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(companyName),
+      customerType: customerType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerType),
+      customerGroup: customerGroup == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerGroup),
+      customerTerritory: customerTerritory == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerTerritory),
+      defaultCurrency: defaultCurrency == null && nullToAbsent
+          ? const Value.absent()
+          : Value(defaultCurrency),
+      paymentTerms: paymentTerms == null && nullToAbsent
+          ? const Value.absent()
+          : Value(paymentTerms),
+      language: language == null && nullToAbsent
+          ? const Value.absent()
+          : Value(language),
+      creditLimit: creditLimit == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creditLimit),
       billingAddressName: billingAddressName == null && nullToAbsent
           ? const Value.absent()
           : Value(billingAddressName),
@@ -15481,17 +15503,38 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
       priceList: priceList == null && nullToAbsent
           ? const Value.absent()
           : Value(priceList),
-      minQuantity: Value(minQuantity),
-      maxQuantity: Value(maxQuantity),
-      discountType: Value(discountType),
-      discountPercentage: Value(discountPercentage),
-      discountAmount: Value(discountAmount),
-      enableHeaderDiscount: Value(enableHeaderDiscount),
-      accumulatedPurchase: Value(accumulatedPurchase),
-      validFrom: Value(validFrom),
-      validTo: Value(validTo),
-      taxId: Value(taxId),
-      taxGroup: Value(taxGroup),
+      minQuantity: minQuantity == null && nullToAbsent
+          ? const Value.absent()
+          : Value(minQuantity),
+      maxQuantity: maxQuantity == null && nullToAbsent
+          ? const Value.absent()
+          : Value(maxQuantity),
+      discountType: discountType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(discountType),
+      discountPercentage: discountPercentage == null && nullToAbsent
+          ? const Value.absent()
+          : Value(discountPercentage),
+      discountAmount: discountAmount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(discountAmount),
+      enableHeaderDiscount: enableHeaderDiscount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(enableHeaderDiscount),
+      accumulatedPurchase: accumulatedPurchase == null && nullToAbsent
+          ? const Value.absent()
+          : Value(accumulatedPurchase),
+      validFrom: validFrom == null && nullToAbsent
+          ? const Value.absent()
+          : Value(validFrom),
+      validTo: validTo == null && nullToAbsent
+          ? const Value.absent()
+          : Value(validTo),
+      taxId:
+          taxId == null && nullToAbsent ? const Value.absent() : Value(taxId),
+      taxGroup: taxGroup == null && nullToAbsent
+          ? const Value.absent()
+          : Value(taxGroup),
     );
   }
 
@@ -15501,36 +15544,37 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
     return CustomerData(
       tenantId: serializer.fromJson<int?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
-      customerId: serializer.fromJson<String>(json['customerId']),
-      customerName: serializer.fromJson<String>(json['customerName']),
-      companyName: serializer.fromJson<String>(json['companyName']),
-      customerType: serializer.fromJson<String>(json['customerType']),
-      customerGroup: serializer.fromJson<String>(json['customerGroup']),
-      customerTerritory: serializer.fromJson<String>(json['customerTerritory']),
-      defaultCurrency: serializer.fromJson<String>(json['defaultCurrency']),
-      paymentTerms: serializer.fromJson<String>(json['paymentTerms']),
-      language: serializer.fromJson<String>(json['language']),
-      creditLimit: serializer.fromJson<double>(json['creditLimit']),
+      customerId: serializer.fromJson<String?>(json['customerId']),
+      customerName: serializer.fromJson<String?>(json['customerName']),
+      companyName: serializer.fromJson<String?>(json['companyName']),
+      customerType: serializer.fromJson<String?>(json['customerType']),
+      customerGroup: serializer.fromJson<String?>(json['customerGroup']),
+      customerTerritory:
+          serializer.fromJson<String?>(json['customerTerritory']),
+      defaultCurrency: serializer.fromJson<String?>(json['defaultCurrency']),
+      paymentTerms: serializer.fromJson<String?>(json['paymentTerms']),
+      language: serializer.fromJson<String?>(json['language']),
+      creditLimit: serializer.fromJson<double?>(json['creditLimit']),
       billingAddressName:
           serializer.fromJson<String?>(json['billingAddressName']),
       shippingAddressName:
           serializer.fromJson<String?>(json['shippingAddressName']),
       contactName: serializer.fromJson<String?>(json['contactName']),
       priceList: serializer.fromJson<String?>(json['priceList']),
-      minQuantity: serializer.fromJson<double>(json['minQuantity']),
-      maxQuantity: serializer.fromJson<double>(json['maxQuantity']),
-      discountType: serializer.fromJson<String>(json['discountType']),
+      minQuantity: serializer.fromJson<double?>(json['minQuantity']),
+      maxQuantity: serializer.fromJson<double?>(json['maxQuantity']),
+      discountType: serializer.fromJson<String?>(json['discountType']),
       discountPercentage:
-          serializer.fromJson<double>(json['discountPercentage']),
-      discountAmount: serializer.fromJson<double>(json['discountAmount']),
+          serializer.fromJson<double?>(json['discountPercentage']),
+      discountAmount: serializer.fromJson<double?>(json['discountAmount']),
       enableHeaderDiscount:
-          serializer.fromJson<bool>(json['enableHeaderDiscount']),
+          serializer.fromJson<bool?>(json['enableHeaderDiscount']),
       accumulatedPurchase:
-          serializer.fromJson<double>(json['accumulatedPurchase']),
-      validFrom: serializer.fromJson<DateTime>(json['validFrom']),
-      validTo: serializer.fromJson<DateTime>(json['validTo']),
-      taxId: serializer.fromJson<String>(json['taxId']),
-      taxGroup: serializer.fromJson<String>(json['taxGroup']),
+          serializer.fromJson<double?>(json['accumulatedPurchase']),
+      validFrom: serializer.fromJson<DateTime?>(json['validFrom']),
+      validTo: serializer.fromJson<DateTime?>(json['validTo']),
+      taxId: serializer.fromJson<String?>(json['taxId']),
+      taxGroup: serializer.fromJson<String?>(json['taxGroup']),
     );
   }
   @override
@@ -15539,75 +15583,83 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
     return <String, dynamic>{
       'tenantId': serializer.toJson<int?>(tenantId),
       'id': serializer.toJson<int>(id),
-      'customerId': serializer.toJson<String>(customerId),
-      'customerName': serializer.toJson<String>(customerName),
-      'companyName': serializer.toJson<String>(companyName),
-      'customerType': serializer.toJson<String>(customerType),
-      'customerGroup': serializer.toJson<String>(customerGroup),
-      'customerTerritory': serializer.toJson<String>(customerTerritory),
-      'defaultCurrency': serializer.toJson<String>(defaultCurrency),
-      'paymentTerms': serializer.toJson<String>(paymentTerms),
-      'language': serializer.toJson<String>(language),
-      'creditLimit': serializer.toJson<double>(creditLimit),
+      'customerId': serializer.toJson<String?>(customerId),
+      'customerName': serializer.toJson<String?>(customerName),
+      'companyName': serializer.toJson<String?>(companyName),
+      'customerType': serializer.toJson<String?>(customerType),
+      'customerGroup': serializer.toJson<String?>(customerGroup),
+      'customerTerritory': serializer.toJson<String?>(customerTerritory),
+      'defaultCurrency': serializer.toJson<String?>(defaultCurrency),
+      'paymentTerms': serializer.toJson<String?>(paymentTerms),
+      'language': serializer.toJson<String?>(language),
+      'creditLimit': serializer.toJson<double?>(creditLimit),
       'billingAddressName': serializer.toJson<String?>(billingAddressName),
       'shippingAddressName': serializer.toJson<String?>(shippingAddressName),
       'contactName': serializer.toJson<String?>(contactName),
       'priceList': serializer.toJson<String?>(priceList),
-      'minQuantity': serializer.toJson<double>(minQuantity),
-      'maxQuantity': serializer.toJson<double>(maxQuantity),
-      'discountType': serializer.toJson<String>(discountType),
-      'discountPercentage': serializer.toJson<double>(discountPercentage),
-      'discountAmount': serializer.toJson<double>(discountAmount),
-      'enableHeaderDiscount': serializer.toJson<bool>(enableHeaderDiscount),
-      'accumulatedPurchase': serializer.toJson<double>(accumulatedPurchase),
-      'validFrom': serializer.toJson<DateTime>(validFrom),
-      'validTo': serializer.toJson<DateTime>(validTo),
-      'taxId': serializer.toJson<String>(taxId),
-      'taxGroup': serializer.toJson<String>(taxGroup),
+      'minQuantity': serializer.toJson<double?>(minQuantity),
+      'maxQuantity': serializer.toJson<double?>(maxQuantity),
+      'discountType': serializer.toJson<String?>(discountType),
+      'discountPercentage': serializer.toJson<double?>(discountPercentage),
+      'discountAmount': serializer.toJson<double?>(discountAmount),
+      'enableHeaderDiscount': serializer.toJson<bool?>(enableHeaderDiscount),
+      'accumulatedPurchase': serializer.toJson<double?>(accumulatedPurchase),
+      'validFrom': serializer.toJson<DateTime?>(validFrom),
+      'validTo': serializer.toJson<DateTime?>(validTo),
+      'taxId': serializer.toJson<String?>(taxId),
+      'taxGroup': serializer.toJson<String?>(taxGroup),
     };
   }
 
   CustomerData copyWith(
           {Value<int?> tenantId = const Value.absent(),
           int? id,
-          String? customerId,
-          String? customerName,
-          String? companyName,
-          String? customerType,
-          String? customerGroup,
-          String? customerTerritory,
-          String? defaultCurrency,
-          String? paymentTerms,
-          String? language,
-          double? creditLimit,
+          Value<String?> customerId = const Value.absent(),
+          Value<String?> customerName = const Value.absent(),
+          Value<String?> companyName = const Value.absent(),
+          Value<String?> customerType = const Value.absent(),
+          Value<String?> customerGroup = const Value.absent(),
+          Value<String?> customerTerritory = const Value.absent(),
+          Value<String?> defaultCurrency = const Value.absent(),
+          Value<String?> paymentTerms = const Value.absent(),
+          Value<String?> language = const Value.absent(),
+          Value<double?> creditLimit = const Value.absent(),
           Value<String?> billingAddressName = const Value.absent(),
           Value<String?> shippingAddressName = const Value.absent(),
           Value<String?> contactName = const Value.absent(),
           Value<String?> priceList = const Value.absent(),
-          double? minQuantity,
-          double? maxQuantity,
-          String? discountType,
-          double? discountPercentage,
-          double? discountAmount,
-          bool? enableHeaderDiscount,
-          double? accumulatedPurchase,
-          DateTime? validFrom,
-          DateTime? validTo,
-          String? taxId,
-          String? taxGroup}) =>
+          Value<double?> minQuantity = const Value.absent(),
+          Value<double?> maxQuantity = const Value.absent(),
+          Value<String?> discountType = const Value.absent(),
+          Value<double?> discountPercentage = const Value.absent(),
+          Value<double?> discountAmount = const Value.absent(),
+          Value<bool?> enableHeaderDiscount = const Value.absent(),
+          Value<double?> accumulatedPurchase = const Value.absent(),
+          Value<DateTime?> validFrom = const Value.absent(),
+          Value<DateTime?> validTo = const Value.absent(),
+          Value<String?> taxId = const Value.absent(),
+          Value<String?> taxGroup = const Value.absent()}) =>
       CustomerData(
         tenantId: tenantId.present ? tenantId.value : this.tenantId,
         id: id ?? this.id,
-        customerId: customerId ?? this.customerId,
-        customerName: customerName ?? this.customerName,
-        companyName: companyName ?? this.companyName,
-        customerType: customerType ?? this.customerType,
-        customerGroup: customerGroup ?? this.customerGroup,
-        customerTerritory: customerTerritory ?? this.customerTerritory,
-        defaultCurrency: defaultCurrency ?? this.defaultCurrency,
-        paymentTerms: paymentTerms ?? this.paymentTerms,
-        language: language ?? this.language,
-        creditLimit: creditLimit ?? this.creditLimit,
+        customerId: customerId.present ? customerId.value : this.customerId,
+        customerName:
+            customerName.present ? customerName.value : this.customerName,
+        companyName: companyName.present ? companyName.value : this.companyName,
+        customerType:
+            customerType.present ? customerType.value : this.customerType,
+        customerGroup:
+            customerGroup.present ? customerGroup.value : this.customerGroup,
+        customerTerritory: customerTerritory.present
+            ? customerTerritory.value
+            : this.customerTerritory,
+        defaultCurrency: defaultCurrency.present
+            ? defaultCurrency.value
+            : this.defaultCurrency,
+        paymentTerms:
+            paymentTerms.present ? paymentTerms.value : this.paymentTerms,
+        language: language.present ? language.value : this.language,
+        creditLimit: creditLimit.present ? creditLimit.value : this.creditLimit,
         billingAddressName: billingAddressName.present
             ? billingAddressName.value
             : this.billingAddressName,
@@ -15616,17 +15668,25 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
             : this.shippingAddressName,
         contactName: contactName.present ? contactName.value : this.contactName,
         priceList: priceList.present ? priceList.value : this.priceList,
-        minQuantity: minQuantity ?? this.minQuantity,
-        maxQuantity: maxQuantity ?? this.maxQuantity,
-        discountType: discountType ?? this.discountType,
-        discountPercentage: discountPercentage ?? this.discountPercentage,
-        discountAmount: discountAmount ?? this.discountAmount,
-        enableHeaderDiscount: enableHeaderDiscount ?? this.enableHeaderDiscount,
-        accumulatedPurchase: accumulatedPurchase ?? this.accumulatedPurchase,
-        validFrom: validFrom ?? this.validFrom,
-        validTo: validTo ?? this.validTo,
-        taxId: taxId ?? this.taxId,
-        taxGroup: taxGroup ?? this.taxGroup,
+        minQuantity: minQuantity.present ? minQuantity.value : this.minQuantity,
+        maxQuantity: maxQuantity.present ? maxQuantity.value : this.maxQuantity,
+        discountType:
+            discountType.present ? discountType.value : this.discountType,
+        discountPercentage: discountPercentage.present
+            ? discountPercentage.value
+            : this.discountPercentage,
+        discountAmount:
+            discountAmount.present ? discountAmount.value : this.discountAmount,
+        enableHeaderDiscount: enableHeaderDiscount.present
+            ? enableHeaderDiscount.value
+            : this.enableHeaderDiscount,
+        accumulatedPurchase: accumulatedPurchase.present
+            ? accumulatedPurchase.value
+            : this.accumulatedPurchase,
+        validFrom: validFrom.present ? validFrom.value : this.validFrom,
+        validTo: validTo.present ? validTo.value : this.validTo,
+        taxId: taxId.present ? taxId.value : this.taxId,
+        taxGroup: taxGroup.present ? taxGroup.value : this.taxGroup,
       );
   @override
   String toString() {
@@ -15728,31 +15788,31 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
 class CustomerCompanion extends UpdateCompanion<CustomerData> {
   final Value<int?> tenantId;
   final Value<int> id;
-  final Value<String> customerId;
-  final Value<String> customerName;
-  final Value<String> companyName;
-  final Value<String> customerType;
-  final Value<String> customerGroup;
-  final Value<String> customerTerritory;
-  final Value<String> defaultCurrency;
-  final Value<String> paymentTerms;
-  final Value<String> language;
-  final Value<double> creditLimit;
+  final Value<String?> customerId;
+  final Value<String?> customerName;
+  final Value<String?> companyName;
+  final Value<String?> customerType;
+  final Value<String?> customerGroup;
+  final Value<String?> customerTerritory;
+  final Value<String?> defaultCurrency;
+  final Value<String?> paymentTerms;
+  final Value<String?> language;
+  final Value<double?> creditLimit;
   final Value<String?> billingAddressName;
   final Value<String?> shippingAddressName;
   final Value<String?> contactName;
   final Value<String?> priceList;
-  final Value<double> minQuantity;
-  final Value<double> maxQuantity;
-  final Value<String> discountType;
-  final Value<double> discountPercentage;
-  final Value<double> discountAmount;
-  final Value<bool> enableHeaderDiscount;
-  final Value<double> accumulatedPurchase;
-  final Value<DateTime> validFrom;
-  final Value<DateTime> validTo;
-  final Value<String> taxId;
-  final Value<String> taxGroup;
+  final Value<double?> minQuantity;
+  final Value<double?> maxQuantity;
+  final Value<String?> discountType;
+  final Value<double?> discountPercentage;
+  final Value<double?> discountAmount;
+  final Value<bool?> enableHeaderDiscount;
+  final Value<double?> accumulatedPurchase;
+  final Value<DateTime?> validFrom;
+  final Value<DateTime?> validTo;
+  final Value<String?> taxId;
+  final Value<String?> taxGroup;
   const CustomerCompanion({
     this.tenantId = const Value.absent(),
     this.id = const Value.absent(),
@@ -15785,51 +15845,32 @@ class CustomerCompanion extends UpdateCompanion<CustomerData> {
   CustomerCompanion.insert({
     this.tenantId = const Value.absent(),
     this.id = const Value.absent(),
-    required String customerId,
-    required String customerName,
-    required String companyName,
-    required String customerType,
-    required String customerGroup,
-    required String customerTerritory,
-    required String defaultCurrency,
-    required String paymentTerms,
-    required String language,
-    required double creditLimit,
+    this.customerId = const Value.absent(),
+    this.customerName = const Value.absent(),
+    this.companyName = const Value.absent(),
+    this.customerType = const Value.absent(),
+    this.customerGroup = const Value.absent(),
+    this.customerTerritory = const Value.absent(),
+    this.defaultCurrency = const Value.absent(),
+    this.paymentTerms = const Value.absent(),
+    this.language = const Value.absent(),
+    this.creditLimit = const Value.absent(),
     this.billingAddressName = const Value.absent(),
     this.shippingAddressName = const Value.absent(),
     this.contactName = const Value.absent(),
     this.priceList = const Value.absent(),
-    required double minQuantity,
-    required double maxQuantity,
-    required String discountType,
-    required double discountPercentage,
-    required double discountAmount,
+    this.minQuantity = const Value.absent(),
+    this.maxQuantity = const Value.absent(),
+    this.discountType = const Value.absent(),
+    this.discountPercentage = const Value.absent(),
+    this.discountAmount = const Value.absent(),
     this.enableHeaderDiscount = const Value.absent(),
-    required double accumulatedPurchase,
-    required DateTime validFrom,
-    required DateTime validTo,
-    required String taxId,
-    required String taxGroup,
-  })  : customerId = Value(customerId),
-        customerName = Value(customerName),
-        companyName = Value(companyName),
-        customerType = Value(customerType),
-        customerGroup = Value(customerGroup),
-        customerTerritory = Value(customerTerritory),
-        defaultCurrency = Value(defaultCurrency),
-        paymentTerms = Value(paymentTerms),
-        language = Value(language),
-        creditLimit = Value(creditLimit),
-        minQuantity = Value(minQuantity),
-        maxQuantity = Value(maxQuantity),
-        discountType = Value(discountType),
-        discountPercentage = Value(discountPercentage),
-        discountAmount = Value(discountAmount),
-        accumulatedPurchase = Value(accumulatedPurchase),
-        validFrom = Value(validFrom),
-        validTo = Value(validTo),
-        taxId = Value(taxId),
-        taxGroup = Value(taxGroup);
+    this.accumulatedPurchase = const Value.absent(),
+    this.validFrom = const Value.absent(),
+    this.validTo = const Value.absent(),
+    this.taxId = const Value.absent(),
+    this.taxGroup = const Value.absent(),
+  });
   static Insertable<CustomerData> custom({
     Expression<int>? tenantId,
     Expression<int>? id,
@@ -15897,31 +15938,31 @@ class CustomerCompanion extends UpdateCompanion<CustomerData> {
   CustomerCompanion copyWith(
       {Value<int?>? tenantId,
       Value<int>? id,
-      Value<String>? customerId,
-      Value<String>? customerName,
-      Value<String>? companyName,
-      Value<String>? customerType,
-      Value<String>? customerGroup,
-      Value<String>? customerTerritory,
-      Value<String>? defaultCurrency,
-      Value<String>? paymentTerms,
-      Value<String>? language,
-      Value<double>? creditLimit,
+      Value<String?>? customerId,
+      Value<String?>? customerName,
+      Value<String?>? companyName,
+      Value<String?>? customerType,
+      Value<String?>? customerGroup,
+      Value<String?>? customerTerritory,
+      Value<String?>? defaultCurrency,
+      Value<String?>? paymentTerms,
+      Value<String?>? language,
+      Value<double?>? creditLimit,
       Value<String?>? billingAddressName,
       Value<String?>? shippingAddressName,
       Value<String?>? contactName,
       Value<String?>? priceList,
-      Value<double>? minQuantity,
-      Value<double>? maxQuantity,
-      Value<String>? discountType,
-      Value<double>? discountPercentage,
-      Value<double>? discountAmount,
-      Value<bool>? enableHeaderDiscount,
-      Value<double>? accumulatedPurchase,
-      Value<DateTime>? validFrom,
-      Value<DateTime>? validTo,
-      Value<String>? taxId,
-      Value<String>? taxGroup}) {
+      Value<double?>? minQuantity,
+      Value<double?>? maxQuantity,
+      Value<String?>? discountType,
+      Value<double?>? discountPercentage,
+      Value<double?>? discountAmount,
+      Value<bool?>? enableHeaderDiscount,
+      Value<double?>? accumulatedPurchase,
+      Value<DateTime?>? validFrom,
+      Value<DateTime?>? validTo,
+      Value<String?>? taxId,
+      Value<String?>? taxGroup}) {
     return CustomerCompanion(
       tenantId: tenantId ?? this.tenantId,
       id: id ?? this.id,
@@ -16097,77 +16138,77 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
       const VerificationMeta('customerId');
   @override
   late final GeneratedColumn<String> customerId = GeneratedColumn<String>(
-      'customer_id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'customer_id', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _addressTitleMeta =
       const VerificationMeta('addressTitle');
   @override
   late final GeneratedColumn<String> addressTitle = GeneratedColumn<String>(
-      'address_title', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'address_title', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _addressTypeMeta =
       const VerificationMeta('addressType');
   @override
   late final GeneratedColumn<String> addressType = GeneratedColumn<String>(
-      'address_type', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'address_type', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _addressLine1Meta =
       const VerificationMeta('addressLine1');
   @override
   late final GeneratedColumn<String> addressLine1 = GeneratedColumn<String>(
-      'address_line1', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'address_line1', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _addressLine2Meta =
       const VerificationMeta('addressLine2');
   @override
   late final GeneratedColumn<String> addressLine2 = GeneratedColumn<String>(
-      'address_line2', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'address_line2', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _cityMeta = const VerificationMeta('city');
   @override
   late final GeneratedColumn<String> city = GeneratedColumn<String>(
-      'city', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'city', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _stateMeta = const VerificationMeta('state');
   @override
   late final GeneratedColumn<String> state = GeneratedColumn<String>(
-      'state', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'state', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _apartmentMeta =
       const VerificationMeta('apartment');
   @override
   late final GeneratedColumn<String> apartment = GeneratedColumn<String>(
-      'apartment', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'apartment', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _countryMeta =
       const VerificationMeta('country');
   @override
   late final GeneratedColumn<String> country = GeneratedColumn<String>(
-      'country', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'country', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _zipCodeMeta =
       const VerificationMeta('zipCode');
   @override
   late final GeneratedColumn<String> zipCode = GeneratedColumn<String>(
-      'zip_code', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'zip_code', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _contactPersonMeta =
       const VerificationMeta('contactPerson');
   @override
   late final GeneratedColumn<String> contactPerson = GeneratedColumn<String>(
-      'contact_person', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'contact_person', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _phoneNumberMeta =
       const VerificationMeta('phoneNumber');
   @override
   late final GeneratedColumn<String> phoneNumber = GeneratedColumn<String>(
-      'phone_number', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'phone_number', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _isYourCompanyAddressMeta =
       const VerificationMeta('isYourCompanyAddress');
   @override
   late final GeneratedColumn<bool> isYourCompanyAddress =
-      GeneratedColumn<bool>('is_your_company_address', aliasedName, false,
+      GeneratedColumn<bool>('is_your_company_address', aliasedName, true,
           type: DriftSqlType.bool,
           requiredDuringInsert: false,
           defaultConstraints: GeneratedColumn.constraintsDependsOnDialect({
@@ -16180,7 +16221,7 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
       const VerificationMeta('isPrimaryAddress');
   @override
   late final GeneratedColumn<bool> isPrimaryAddress =
-      GeneratedColumn<bool>('is_primary_address', aliasedName, false,
+      GeneratedColumn<bool>('is_primary_address', aliasedName, true,
           type: DriftSqlType.bool,
           requiredDuringInsert: false,
           defaultConstraints: GeneratedColumn.constraintsDependsOnDialect({
@@ -16193,7 +16234,7 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
       const VerificationMeta('isShippingAddress');
   @override
   late final GeneratedColumn<bool> isShippingAddress =
-      GeneratedColumn<bool>('is_shipping_address', aliasedName, false,
+      GeneratedColumn<bool>('is_shipping_address', aliasedName, true,
           type: DriftSqlType.bool,
           requiredDuringInsert: false,
           defaultConstraints: GeneratedColumn.constraintsDependsOnDialect({
@@ -16206,19 +16247,19 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
       const VerificationMeta('latitude');
   @override
   late final GeneratedColumn<double> latitude = GeneratedColumn<double>(
-      'latitude', aliasedName, false,
-      type: DriftSqlType.double, requiredDuringInsert: true);
+      'latitude', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
   static const VerificationMeta _longitudeMeta =
       const VerificationMeta('longitude');
   @override
   late final GeneratedColumn<double> longitude = GeneratedColumn<double>(
-      'longitude', aliasedName, false,
-      type: DriftSqlType.double, requiredDuringInsert: true);
+      'longitude', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
   static const VerificationMeta _isDeletedMeta =
       const VerificationMeta('isDeleted');
   @override
   late final GeneratedColumn<bool> isDeleted =
-      GeneratedColumn<bool>('is_deleted', aliasedName, false,
+      GeneratedColumn<bool>('is_deleted', aliasedName, true,
           type: DriftSqlType.bool,
           requiredDuringInsert: false,
           defaultConstraints: GeneratedColumn.constraintsDependsOnDialect({
@@ -16271,86 +16312,62 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
           _customerIdMeta,
           customerId.isAcceptableOrUnknown(
               data['customer_id']!, _customerIdMeta));
-    } else if (isInserting) {
-      context.missing(_customerIdMeta);
     }
     if (data.containsKey('address_title')) {
       context.handle(
           _addressTitleMeta,
           addressTitle.isAcceptableOrUnknown(
               data['address_title']!, _addressTitleMeta));
-    } else if (isInserting) {
-      context.missing(_addressTitleMeta);
     }
     if (data.containsKey('address_type')) {
       context.handle(
           _addressTypeMeta,
           addressType.isAcceptableOrUnknown(
               data['address_type']!, _addressTypeMeta));
-    } else if (isInserting) {
-      context.missing(_addressTypeMeta);
     }
     if (data.containsKey('address_line1')) {
       context.handle(
           _addressLine1Meta,
           addressLine1.isAcceptableOrUnknown(
               data['address_line1']!, _addressLine1Meta));
-    } else if (isInserting) {
-      context.missing(_addressLine1Meta);
     }
     if (data.containsKey('address_line2')) {
       context.handle(
           _addressLine2Meta,
           addressLine2.isAcceptableOrUnknown(
               data['address_line2']!, _addressLine2Meta));
-    } else if (isInserting) {
-      context.missing(_addressLine2Meta);
     }
     if (data.containsKey('city')) {
       context.handle(
           _cityMeta, city.isAcceptableOrUnknown(data['city']!, _cityMeta));
-    } else if (isInserting) {
-      context.missing(_cityMeta);
     }
     if (data.containsKey('state')) {
       context.handle(
           _stateMeta, state.isAcceptableOrUnknown(data['state']!, _stateMeta));
-    } else if (isInserting) {
-      context.missing(_stateMeta);
     }
     if (data.containsKey('apartment')) {
       context.handle(_apartmentMeta,
           apartment.isAcceptableOrUnknown(data['apartment']!, _apartmentMeta));
-    } else if (isInserting) {
-      context.missing(_apartmentMeta);
     }
     if (data.containsKey('country')) {
       context.handle(_countryMeta,
           country.isAcceptableOrUnknown(data['country']!, _countryMeta));
-    } else if (isInserting) {
-      context.missing(_countryMeta);
     }
     if (data.containsKey('zip_code')) {
       context.handle(_zipCodeMeta,
           zipCode.isAcceptableOrUnknown(data['zip_code']!, _zipCodeMeta));
-    } else if (isInserting) {
-      context.missing(_zipCodeMeta);
     }
     if (data.containsKey('contact_person')) {
       context.handle(
           _contactPersonMeta,
           contactPerson.isAcceptableOrUnknown(
               data['contact_person']!, _contactPersonMeta));
-    } else if (isInserting) {
-      context.missing(_contactPersonMeta);
     }
     if (data.containsKey('phone_number')) {
       context.handle(
           _phoneNumberMeta,
           phoneNumber.isAcceptableOrUnknown(
               data['phone_number']!, _phoneNumberMeta));
-    } else if (isInserting) {
-      context.missing(_phoneNumberMeta);
     }
     if (data.containsKey('is_your_company_address')) {
       context.handle(
@@ -16373,14 +16390,10 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
     if (data.containsKey('latitude')) {
       context.handle(_latitudeMeta,
           latitude.isAcceptableOrUnknown(data['latitude']!, _latitudeMeta));
-    } else if (isInserting) {
-      context.missing(_latitudeMeta);
     }
     if (data.containsKey('longitude')) {
       context.handle(_longitudeMeta,
           longitude.isAcceptableOrUnknown(data['longitude']!, _longitudeMeta));
-    } else if (isInserting) {
-      context.missing(_longitudeMeta);
     }
     if (data.containsKey('is_deleted')) {
       context.handle(_isDeletedMeta,
@@ -16400,41 +16413,41 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       customerId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}customer_id'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}customer_id']),
       addressTitle: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}address_title'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}address_title']),
       addressType: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}address_type'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}address_type']),
       addressLine1: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}address_line1'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}address_line1']),
       addressLine2: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}address_line2'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}address_line2']),
       city: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}city'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}city']),
       state: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}state'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}state']),
       apartment: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}apartment'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}apartment']),
       country: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}country'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}country']),
       zipCode: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}zip_code'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}zip_code']),
       contactPerson: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}contact_person'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}contact_person']),
       phoneNumber: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}phone_number'])!,
-      isYourCompanyAddress: attachedDatabase.typeMapping.read(DriftSqlType.bool,
-          data['${effectivePrefix}is_your_company_address'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}phone_number']),
+      isYourCompanyAddress: attachedDatabase.typeMapping.read(
+          DriftSqlType.bool, data['${effectivePrefix}is_your_company_address']),
       isPrimaryAddress: attachedDatabase.typeMapping.read(
-          DriftSqlType.bool, data['${effectivePrefix}is_primary_address'])!,
+          DriftSqlType.bool, data['${effectivePrefix}is_primary_address']),
       isShippingAddress: attachedDatabase.typeMapping.read(
-          DriftSqlType.bool, data['${effectivePrefix}is_shipping_address'])!,
+          DriftSqlType.bool, data['${effectivePrefix}is_shipping_address']),
       latitude: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}latitude'])!,
+          .read(DriftSqlType.double, data['${effectivePrefix}latitude']),
       longitude: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}longitude'])!,
+          .read(DriftSqlType.double, data['${effectivePrefix}longitude']),
       isDeleted: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_deleted'])!,
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_deleted']),
     );
   }
 
@@ -16447,45 +16460,45 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
 class Addres extends DataClass implements Insertable<Addres> {
   final int? tenantId;
   final int id;
-  final String customerId;
-  final String addressTitle;
-  final String addressType;
-  final String addressLine1;
-  final String addressLine2;
-  final String city;
-  final String state;
-  final String apartment;
-  final String country;
-  final String zipCode;
-  final String contactPerson;
-  final String phoneNumber;
-  final bool isYourCompanyAddress;
-  final bool isPrimaryAddress;
-  final bool isShippingAddress;
-  final double latitude;
-  final double longitude;
-  final bool isDeleted;
+  final String? customerId;
+  final String? addressTitle;
+  final String? addressType;
+  final String? addressLine1;
+  final String? addressLine2;
+  final String? city;
+  final String? state;
+  final String? apartment;
+  final String? country;
+  final String? zipCode;
+  final String? contactPerson;
+  final String? phoneNumber;
+  final bool? isYourCompanyAddress;
+  final bool? isPrimaryAddress;
+  final bool? isShippingAddress;
+  final double? latitude;
+  final double? longitude;
+  final bool? isDeleted;
   const Addres(
       {this.tenantId,
       required this.id,
-      required this.customerId,
-      required this.addressTitle,
-      required this.addressType,
-      required this.addressLine1,
-      required this.addressLine2,
-      required this.city,
-      required this.state,
-      required this.apartment,
-      required this.country,
-      required this.zipCode,
-      required this.contactPerson,
-      required this.phoneNumber,
-      required this.isYourCompanyAddress,
-      required this.isPrimaryAddress,
-      required this.isShippingAddress,
-      required this.latitude,
-      required this.longitude,
-      required this.isDeleted});
+      this.customerId,
+      this.addressTitle,
+      this.addressType,
+      this.addressLine1,
+      this.addressLine2,
+      this.city,
+      this.state,
+      this.apartment,
+      this.country,
+      this.zipCode,
+      this.contactPerson,
+      this.phoneNumber,
+      this.isYourCompanyAddress,
+      this.isPrimaryAddress,
+      this.isShippingAddress,
+      this.latitude,
+      this.longitude,
+      this.isDeleted});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -16493,24 +16506,60 @@ class Addres extends DataClass implements Insertable<Addres> {
       map['tenant_id'] = Variable<int>(tenantId);
     }
     map['id'] = Variable<int>(id);
-    map['customer_id'] = Variable<String>(customerId);
-    map['address_title'] = Variable<String>(addressTitle);
-    map['address_type'] = Variable<String>(addressType);
-    map['address_line1'] = Variable<String>(addressLine1);
-    map['address_line2'] = Variable<String>(addressLine2);
-    map['city'] = Variable<String>(city);
-    map['state'] = Variable<String>(state);
-    map['apartment'] = Variable<String>(apartment);
-    map['country'] = Variable<String>(country);
-    map['zip_code'] = Variable<String>(zipCode);
-    map['contact_person'] = Variable<String>(contactPerson);
-    map['phone_number'] = Variable<String>(phoneNumber);
-    map['is_your_company_address'] = Variable<bool>(isYourCompanyAddress);
-    map['is_primary_address'] = Variable<bool>(isPrimaryAddress);
-    map['is_shipping_address'] = Variable<bool>(isShippingAddress);
-    map['latitude'] = Variable<double>(latitude);
-    map['longitude'] = Variable<double>(longitude);
-    map['is_deleted'] = Variable<bool>(isDeleted);
+    if (!nullToAbsent || customerId != null) {
+      map['customer_id'] = Variable<String>(customerId);
+    }
+    if (!nullToAbsent || addressTitle != null) {
+      map['address_title'] = Variable<String>(addressTitle);
+    }
+    if (!nullToAbsent || addressType != null) {
+      map['address_type'] = Variable<String>(addressType);
+    }
+    if (!nullToAbsent || addressLine1 != null) {
+      map['address_line1'] = Variable<String>(addressLine1);
+    }
+    if (!nullToAbsent || addressLine2 != null) {
+      map['address_line2'] = Variable<String>(addressLine2);
+    }
+    if (!nullToAbsent || city != null) {
+      map['city'] = Variable<String>(city);
+    }
+    if (!nullToAbsent || state != null) {
+      map['state'] = Variable<String>(state);
+    }
+    if (!nullToAbsent || apartment != null) {
+      map['apartment'] = Variable<String>(apartment);
+    }
+    if (!nullToAbsent || country != null) {
+      map['country'] = Variable<String>(country);
+    }
+    if (!nullToAbsent || zipCode != null) {
+      map['zip_code'] = Variable<String>(zipCode);
+    }
+    if (!nullToAbsent || contactPerson != null) {
+      map['contact_person'] = Variable<String>(contactPerson);
+    }
+    if (!nullToAbsent || phoneNumber != null) {
+      map['phone_number'] = Variable<String>(phoneNumber);
+    }
+    if (!nullToAbsent || isYourCompanyAddress != null) {
+      map['is_your_company_address'] = Variable<bool>(isYourCompanyAddress);
+    }
+    if (!nullToAbsent || isPrimaryAddress != null) {
+      map['is_primary_address'] = Variable<bool>(isPrimaryAddress);
+    }
+    if (!nullToAbsent || isShippingAddress != null) {
+      map['is_shipping_address'] = Variable<bool>(isShippingAddress);
+    }
+    if (!nullToAbsent || latitude != null) {
+      map['latitude'] = Variable<double>(latitude);
+    }
+    if (!nullToAbsent || longitude != null) {
+      map['longitude'] = Variable<double>(longitude);
+    }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
     return map;
   }
 
@@ -16520,24 +16569,57 @@ class Addres extends DataClass implements Insertable<Addres> {
           ? const Value.absent()
           : Value(tenantId),
       id: Value(id),
-      customerId: Value(customerId),
-      addressTitle: Value(addressTitle),
-      addressType: Value(addressType),
-      addressLine1: Value(addressLine1),
-      addressLine2: Value(addressLine2),
-      city: Value(city),
-      state: Value(state),
-      apartment: Value(apartment),
-      country: Value(country),
-      zipCode: Value(zipCode),
-      contactPerson: Value(contactPerson),
-      phoneNumber: Value(phoneNumber),
-      isYourCompanyAddress: Value(isYourCompanyAddress),
-      isPrimaryAddress: Value(isPrimaryAddress),
-      isShippingAddress: Value(isShippingAddress),
-      latitude: Value(latitude),
-      longitude: Value(longitude),
-      isDeleted: Value(isDeleted),
+      customerId: customerId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerId),
+      addressTitle: addressTitle == null && nullToAbsent
+          ? const Value.absent()
+          : Value(addressTitle),
+      addressType: addressType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(addressType),
+      addressLine1: addressLine1 == null && nullToAbsent
+          ? const Value.absent()
+          : Value(addressLine1),
+      addressLine2: addressLine2 == null && nullToAbsent
+          ? const Value.absent()
+          : Value(addressLine2),
+      city: city == null && nullToAbsent ? const Value.absent() : Value(city),
+      state:
+          state == null && nullToAbsent ? const Value.absent() : Value(state),
+      apartment: apartment == null && nullToAbsent
+          ? const Value.absent()
+          : Value(apartment),
+      country: country == null && nullToAbsent
+          ? const Value.absent()
+          : Value(country),
+      zipCode: zipCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(zipCode),
+      contactPerson: contactPerson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(contactPerson),
+      phoneNumber: phoneNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(phoneNumber),
+      isYourCompanyAddress: isYourCompanyAddress == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isYourCompanyAddress),
+      isPrimaryAddress: isPrimaryAddress == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isPrimaryAddress),
+      isShippingAddress: isShippingAddress == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isShippingAddress),
+      latitude: latitude == null && nullToAbsent
+          ? const Value.absent()
+          : Value(latitude),
+      longitude: longitude == null && nullToAbsent
+          ? const Value.absent()
+          : Value(longitude),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
     );
   }
 
@@ -16547,25 +16629,25 @@ class Addres extends DataClass implements Insertable<Addres> {
     return Addres(
       tenantId: serializer.fromJson<int?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
-      customerId: serializer.fromJson<String>(json['customerId']),
-      addressTitle: serializer.fromJson<String>(json['addressTitle']),
-      addressType: serializer.fromJson<String>(json['addressType']),
-      addressLine1: serializer.fromJson<String>(json['addressLine1']),
-      addressLine2: serializer.fromJson<String>(json['addressLine2']),
-      city: serializer.fromJson<String>(json['city']),
-      state: serializer.fromJson<String>(json['state']),
-      apartment: serializer.fromJson<String>(json['apartment']),
-      country: serializer.fromJson<String>(json['country']),
-      zipCode: serializer.fromJson<String>(json['zipCode']),
-      contactPerson: serializer.fromJson<String>(json['contactPerson']),
-      phoneNumber: serializer.fromJson<String>(json['phoneNumber']),
+      customerId: serializer.fromJson<String?>(json['customerId']),
+      addressTitle: serializer.fromJson<String?>(json['addressTitle']),
+      addressType: serializer.fromJson<String?>(json['addressType']),
+      addressLine1: serializer.fromJson<String?>(json['addressLine1']),
+      addressLine2: serializer.fromJson<String?>(json['addressLine2']),
+      city: serializer.fromJson<String?>(json['city']),
+      state: serializer.fromJson<String?>(json['state']),
+      apartment: serializer.fromJson<String?>(json['apartment']),
+      country: serializer.fromJson<String?>(json['country']),
+      zipCode: serializer.fromJson<String?>(json['zipCode']),
+      contactPerson: serializer.fromJson<String?>(json['contactPerson']),
+      phoneNumber: serializer.fromJson<String?>(json['phoneNumber']),
       isYourCompanyAddress:
-          serializer.fromJson<bool>(json['isYourCompanyAddress']),
-      isPrimaryAddress: serializer.fromJson<bool>(json['isPrimaryAddress']),
-      isShippingAddress: serializer.fromJson<bool>(json['isShippingAddress']),
-      latitude: serializer.fromJson<double>(json['latitude']),
-      longitude: serializer.fromJson<double>(json['longitude']),
-      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+          serializer.fromJson<bool?>(json['isYourCompanyAddress']),
+      isPrimaryAddress: serializer.fromJson<bool?>(json['isPrimaryAddress']),
+      isShippingAddress: serializer.fromJson<bool?>(json['isShippingAddress']),
+      latitude: serializer.fromJson<double?>(json['latitude']),
+      longitude: serializer.fromJson<double?>(json['longitude']),
+      isDeleted: serializer.fromJson<bool?>(json['isDeleted']),
     );
   }
   @override
@@ -16574,69 +16656,79 @@ class Addres extends DataClass implements Insertable<Addres> {
     return <String, dynamic>{
       'tenantId': serializer.toJson<int?>(tenantId),
       'id': serializer.toJson<int>(id),
-      'customerId': serializer.toJson<String>(customerId),
-      'addressTitle': serializer.toJson<String>(addressTitle),
-      'addressType': serializer.toJson<String>(addressType),
-      'addressLine1': serializer.toJson<String>(addressLine1),
-      'addressLine2': serializer.toJson<String>(addressLine2),
-      'city': serializer.toJson<String>(city),
-      'state': serializer.toJson<String>(state),
-      'apartment': serializer.toJson<String>(apartment),
-      'country': serializer.toJson<String>(country),
-      'zipCode': serializer.toJson<String>(zipCode),
-      'contactPerson': serializer.toJson<String>(contactPerson),
-      'phoneNumber': serializer.toJson<String>(phoneNumber),
-      'isYourCompanyAddress': serializer.toJson<bool>(isYourCompanyAddress),
-      'isPrimaryAddress': serializer.toJson<bool>(isPrimaryAddress),
-      'isShippingAddress': serializer.toJson<bool>(isShippingAddress),
-      'latitude': serializer.toJson<double>(latitude),
-      'longitude': serializer.toJson<double>(longitude),
-      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'customerId': serializer.toJson<String?>(customerId),
+      'addressTitle': serializer.toJson<String?>(addressTitle),
+      'addressType': serializer.toJson<String?>(addressType),
+      'addressLine1': serializer.toJson<String?>(addressLine1),
+      'addressLine2': serializer.toJson<String?>(addressLine2),
+      'city': serializer.toJson<String?>(city),
+      'state': serializer.toJson<String?>(state),
+      'apartment': serializer.toJson<String?>(apartment),
+      'country': serializer.toJson<String?>(country),
+      'zipCode': serializer.toJson<String?>(zipCode),
+      'contactPerson': serializer.toJson<String?>(contactPerson),
+      'phoneNumber': serializer.toJson<String?>(phoneNumber),
+      'isYourCompanyAddress': serializer.toJson<bool?>(isYourCompanyAddress),
+      'isPrimaryAddress': serializer.toJson<bool?>(isPrimaryAddress),
+      'isShippingAddress': serializer.toJson<bool?>(isShippingAddress),
+      'latitude': serializer.toJson<double?>(latitude),
+      'longitude': serializer.toJson<double?>(longitude),
+      'isDeleted': serializer.toJson<bool?>(isDeleted),
     };
   }
 
   Addres copyWith(
           {Value<int?> tenantId = const Value.absent(),
           int? id,
-          String? customerId,
-          String? addressTitle,
-          String? addressType,
-          String? addressLine1,
-          String? addressLine2,
-          String? city,
-          String? state,
-          String? apartment,
-          String? country,
-          String? zipCode,
-          String? contactPerson,
-          String? phoneNumber,
-          bool? isYourCompanyAddress,
-          bool? isPrimaryAddress,
-          bool? isShippingAddress,
-          double? latitude,
-          double? longitude,
-          bool? isDeleted}) =>
+          Value<String?> customerId = const Value.absent(),
+          Value<String?> addressTitle = const Value.absent(),
+          Value<String?> addressType = const Value.absent(),
+          Value<String?> addressLine1 = const Value.absent(),
+          Value<String?> addressLine2 = const Value.absent(),
+          Value<String?> city = const Value.absent(),
+          Value<String?> state = const Value.absent(),
+          Value<String?> apartment = const Value.absent(),
+          Value<String?> country = const Value.absent(),
+          Value<String?> zipCode = const Value.absent(),
+          Value<String?> contactPerson = const Value.absent(),
+          Value<String?> phoneNumber = const Value.absent(),
+          Value<bool?> isYourCompanyAddress = const Value.absent(),
+          Value<bool?> isPrimaryAddress = const Value.absent(),
+          Value<bool?> isShippingAddress = const Value.absent(),
+          Value<double?> latitude = const Value.absent(),
+          Value<double?> longitude = const Value.absent(),
+          Value<bool?> isDeleted = const Value.absent()}) =>
       Addres(
         tenantId: tenantId.present ? tenantId.value : this.tenantId,
         id: id ?? this.id,
-        customerId: customerId ?? this.customerId,
-        addressTitle: addressTitle ?? this.addressTitle,
-        addressType: addressType ?? this.addressType,
-        addressLine1: addressLine1 ?? this.addressLine1,
-        addressLine2: addressLine2 ?? this.addressLine2,
-        city: city ?? this.city,
-        state: state ?? this.state,
-        apartment: apartment ?? this.apartment,
-        country: country ?? this.country,
-        zipCode: zipCode ?? this.zipCode,
-        contactPerson: contactPerson ?? this.contactPerson,
-        phoneNumber: phoneNumber ?? this.phoneNumber,
-        isYourCompanyAddress: isYourCompanyAddress ?? this.isYourCompanyAddress,
-        isPrimaryAddress: isPrimaryAddress ?? this.isPrimaryAddress,
-        isShippingAddress: isShippingAddress ?? this.isShippingAddress,
-        latitude: latitude ?? this.latitude,
-        longitude: longitude ?? this.longitude,
-        isDeleted: isDeleted ?? this.isDeleted,
+        customerId: customerId.present ? customerId.value : this.customerId,
+        addressTitle:
+            addressTitle.present ? addressTitle.value : this.addressTitle,
+        addressType: addressType.present ? addressType.value : this.addressType,
+        addressLine1:
+            addressLine1.present ? addressLine1.value : this.addressLine1,
+        addressLine2:
+            addressLine2.present ? addressLine2.value : this.addressLine2,
+        city: city.present ? city.value : this.city,
+        state: state.present ? state.value : this.state,
+        apartment: apartment.present ? apartment.value : this.apartment,
+        country: country.present ? country.value : this.country,
+        zipCode: zipCode.present ? zipCode.value : this.zipCode,
+        contactPerson:
+            contactPerson.present ? contactPerson.value : this.contactPerson,
+        phoneNumber: phoneNumber.present ? phoneNumber.value : this.phoneNumber,
+        isYourCompanyAddress: isYourCompanyAddress.present
+            ? isYourCompanyAddress.value
+            : this.isYourCompanyAddress,
+        isPrimaryAddress: isPrimaryAddress.present
+            ? isPrimaryAddress.value
+            : this.isPrimaryAddress,
+        isShippingAddress: isShippingAddress.present
+            ? isShippingAddress.value
+            : this.isShippingAddress,
+        latitude: latitude.present ? latitude.value : this.latitude,
+        longitude: longitude.present ? longitude.value : this.longitude,
+        isDeleted: isDeleted.present ? isDeleted.value : this.isDeleted,
       );
   @override
   String toString() {
@@ -16716,24 +16808,24 @@ class Addres extends DataClass implements Insertable<Addres> {
 class AddressCompanion extends UpdateCompanion<Addres> {
   final Value<int?> tenantId;
   final Value<int> id;
-  final Value<String> customerId;
-  final Value<String> addressTitle;
-  final Value<String> addressType;
-  final Value<String> addressLine1;
-  final Value<String> addressLine2;
-  final Value<String> city;
-  final Value<String> state;
-  final Value<String> apartment;
-  final Value<String> country;
-  final Value<String> zipCode;
-  final Value<String> contactPerson;
-  final Value<String> phoneNumber;
-  final Value<bool> isYourCompanyAddress;
-  final Value<bool> isPrimaryAddress;
-  final Value<bool> isShippingAddress;
-  final Value<double> latitude;
-  final Value<double> longitude;
-  final Value<bool> isDeleted;
+  final Value<String?> customerId;
+  final Value<String?> addressTitle;
+  final Value<String?> addressType;
+  final Value<String?> addressLine1;
+  final Value<String?> addressLine2;
+  final Value<String?> city;
+  final Value<String?> state;
+  final Value<String?> apartment;
+  final Value<String?> country;
+  final Value<String?> zipCode;
+  final Value<String?> contactPerson;
+  final Value<String?> phoneNumber;
+  final Value<bool?> isYourCompanyAddress;
+  final Value<bool?> isPrimaryAddress;
+  final Value<bool?> isShippingAddress;
+  final Value<double?> latitude;
+  final Value<double?> longitude;
+  final Value<bool?> isDeleted;
   const AddressCompanion({
     this.tenantId = const Value.absent(),
     this.id = const Value.absent(),
@@ -16759,38 +16851,25 @@ class AddressCompanion extends UpdateCompanion<Addres> {
   AddressCompanion.insert({
     this.tenantId = const Value.absent(),
     this.id = const Value.absent(),
-    required String customerId,
-    required String addressTitle,
-    required String addressType,
-    required String addressLine1,
-    required String addressLine2,
-    required String city,
-    required String state,
-    required String apartment,
-    required String country,
-    required String zipCode,
-    required String contactPerson,
-    required String phoneNumber,
+    this.customerId = const Value.absent(),
+    this.addressTitle = const Value.absent(),
+    this.addressType = const Value.absent(),
+    this.addressLine1 = const Value.absent(),
+    this.addressLine2 = const Value.absent(),
+    this.city = const Value.absent(),
+    this.state = const Value.absent(),
+    this.apartment = const Value.absent(),
+    this.country = const Value.absent(),
+    this.zipCode = const Value.absent(),
+    this.contactPerson = const Value.absent(),
+    this.phoneNumber = const Value.absent(),
     this.isYourCompanyAddress = const Value.absent(),
     this.isPrimaryAddress = const Value.absent(),
     this.isShippingAddress = const Value.absent(),
-    required double latitude,
-    required double longitude,
+    this.latitude = const Value.absent(),
+    this.longitude = const Value.absent(),
     this.isDeleted = const Value.absent(),
-  })  : customerId = Value(customerId),
-        addressTitle = Value(addressTitle),
-        addressType = Value(addressType),
-        addressLine1 = Value(addressLine1),
-        addressLine2 = Value(addressLine2),
-        city = Value(city),
-        state = Value(state),
-        apartment = Value(apartment),
-        country = Value(country),
-        zipCode = Value(zipCode),
-        contactPerson = Value(contactPerson),
-        phoneNumber = Value(phoneNumber),
-        latitude = Value(latitude),
-        longitude = Value(longitude);
+  });
   static Insertable<Addres> custom({
     Expression<int>? tenantId,
     Expression<int>? id,
@@ -16841,24 +16920,24 @@ class AddressCompanion extends UpdateCompanion<Addres> {
   AddressCompanion copyWith(
       {Value<int?>? tenantId,
       Value<int>? id,
-      Value<String>? customerId,
-      Value<String>? addressTitle,
-      Value<String>? addressType,
-      Value<String>? addressLine1,
-      Value<String>? addressLine2,
-      Value<String>? city,
-      Value<String>? state,
-      Value<String>? apartment,
-      Value<String>? country,
-      Value<String>? zipCode,
-      Value<String>? contactPerson,
-      Value<String>? phoneNumber,
-      Value<bool>? isYourCompanyAddress,
-      Value<bool>? isPrimaryAddress,
-      Value<bool>? isShippingAddress,
-      Value<double>? latitude,
-      Value<double>? longitude,
-      Value<bool>? isDeleted}) {
+      Value<String?>? customerId,
+      Value<String?>? addressTitle,
+      Value<String?>? addressType,
+      Value<String?>? addressLine1,
+      Value<String?>? addressLine2,
+      Value<String?>? city,
+      Value<String?>? state,
+      Value<String?>? apartment,
+      Value<String?>? country,
+      Value<String?>? zipCode,
+      Value<String?>? contactPerson,
+      Value<String?>? phoneNumber,
+      Value<bool?>? isYourCompanyAddress,
+      Value<bool?>? isPrimaryAddress,
+      Value<bool?>? isShippingAddress,
+      Value<double?>? latitude,
+      Value<double?>? longitude,
+      Value<bool?>? isDeleted}) {
     return AddressCompanion(
       tenantId: tenantId ?? this.tenantId,
       id: id ?? this.id,
@@ -16998,43 +17077,43 @@ class $ContactTable extends Contact with TableInfo<$ContactTable, ContactData> {
       const VerificationMeta('contactTitle');
   @override
   late final GeneratedColumn<String> contactTitle = GeneratedColumn<String>(
-      'contact_title', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'contact_title', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _customerIdMeta =
       const VerificationMeta('customerId');
   @override
   late final GeneratedColumn<String> customerId = GeneratedColumn<String>(
-      'customer_id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'customer_id', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _contactPersonMeta =
       const VerificationMeta('contactPerson');
   @override
   late final GeneratedColumn<String> contactPerson = GeneratedColumn<String>(
-      'contact_person', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'contact_person', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _workNumberMeta =
       const VerificationMeta('workNumber');
   @override
   late final GeneratedColumn<String> workNumber = GeneratedColumn<String>(
-      'work_number', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'work_number', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _cellNumberMeta =
       const VerificationMeta('cellNumber');
   @override
   late final GeneratedColumn<String> cellNumber = GeneratedColumn<String>(
-      'cell_number', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'cell_number', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _whatappNumberMeta =
       const VerificationMeta('whatappNumber');
   @override
   late final GeneratedColumn<String> whatappNumber = GeneratedColumn<String>(
-      'whatapp_number', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'whatapp_number', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _isYourCompanyContactMeta =
       const VerificationMeta('isYourCompanyContact');
   @override
   late final GeneratedColumn<bool> isYourCompanyContact =
-      GeneratedColumn<bool>('is_your_company_contact', aliasedName, false,
+      GeneratedColumn<bool>('is_your_company_contact', aliasedName, true,
           type: DriftSqlType.bool,
           requiredDuringInsert: false,
           defaultConstraints: GeneratedColumn.constraintsDependsOnDialect({
@@ -17047,7 +17126,7 @@ class $ContactTable extends Contact with TableInfo<$ContactTable, ContactData> {
       const VerificationMeta('isPrimaryContact');
   @override
   late final GeneratedColumn<bool> isPrimaryContact =
-      GeneratedColumn<bool>('is_primary_contact', aliasedName, false,
+      GeneratedColumn<bool>('is_primary_contact', aliasedName, true,
           type: DriftSqlType.bool,
           requiredDuringInsert: false,
           defaultConstraints: GeneratedColumn.constraintsDependsOnDialect({
@@ -17060,7 +17139,7 @@ class $ContactTable extends Contact with TableInfo<$ContactTable, ContactData> {
       const VerificationMeta('isUserContact');
   @override
   late final GeneratedColumn<bool> isUserContact =
-      GeneratedColumn<bool>('is_user_contact', aliasedName, false,
+      GeneratedColumn<bool>('is_user_contact', aliasedName, true,
           type: DriftSqlType.bool,
           requiredDuringInsert: false,
           defaultConstraints: GeneratedColumn.constraintsDependsOnDialect({
@@ -17073,8 +17152,8 @@ class $ContactTable extends Contact with TableInfo<$ContactTable, ContactData> {
       const VerificationMeta('userName');
   @override
   late final GeneratedColumn<String> userName = GeneratedColumn<String>(
-      'user_name', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'user_name', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [
         tenantId,
@@ -17111,48 +17190,36 @@ class $ContactTable extends Contact with TableInfo<$ContactTable, ContactData> {
           _contactTitleMeta,
           contactTitle.isAcceptableOrUnknown(
               data['contact_title']!, _contactTitleMeta));
-    } else if (isInserting) {
-      context.missing(_contactTitleMeta);
     }
     if (data.containsKey('customer_id')) {
       context.handle(
           _customerIdMeta,
           customerId.isAcceptableOrUnknown(
               data['customer_id']!, _customerIdMeta));
-    } else if (isInserting) {
-      context.missing(_customerIdMeta);
     }
     if (data.containsKey('contact_person')) {
       context.handle(
           _contactPersonMeta,
           contactPerson.isAcceptableOrUnknown(
               data['contact_person']!, _contactPersonMeta));
-    } else if (isInserting) {
-      context.missing(_contactPersonMeta);
     }
     if (data.containsKey('work_number')) {
       context.handle(
           _workNumberMeta,
           workNumber.isAcceptableOrUnknown(
               data['work_number']!, _workNumberMeta));
-    } else if (isInserting) {
-      context.missing(_workNumberMeta);
     }
     if (data.containsKey('cell_number')) {
       context.handle(
           _cellNumberMeta,
           cellNumber.isAcceptableOrUnknown(
               data['cell_number']!, _cellNumberMeta));
-    } else if (isInserting) {
-      context.missing(_cellNumberMeta);
     }
     if (data.containsKey('whatapp_number')) {
       context.handle(
           _whatappNumberMeta,
           whatappNumber.isAcceptableOrUnknown(
               data['whatapp_number']!, _whatappNumberMeta));
-    } else if (isInserting) {
-      context.missing(_whatappNumberMeta);
     }
     if (data.containsKey('is_your_company_contact')) {
       context.handle(
@@ -17175,8 +17242,6 @@ class $ContactTable extends Contact with TableInfo<$ContactTable, ContactData> {
     if (data.containsKey('user_name')) {
       context.handle(_userNameMeta,
           userName.isAcceptableOrUnknown(data['user_name']!, _userNameMeta));
-    } else if (isInserting) {
-      context.missing(_userNameMeta);
     }
     return context;
   }
@@ -17192,25 +17257,25 @@ class $ContactTable extends Contact with TableInfo<$ContactTable, ContactData> {
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       contactTitle: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}contact_title'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}contact_title']),
       customerId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}customer_id'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}customer_id']),
       contactPerson: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}contact_person'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}contact_person']),
       workNumber: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}work_number'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}work_number']),
       cellNumber: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}cell_number'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}cell_number']),
       whatappNumber: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}whatapp_number'])!,
-      isYourCompanyContact: attachedDatabase.typeMapping.read(DriftSqlType.bool,
-          data['${effectivePrefix}is_your_company_contact'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}whatapp_number']),
+      isYourCompanyContact: attachedDatabase.typeMapping.read(
+          DriftSqlType.bool, data['${effectivePrefix}is_your_company_contact']),
       isPrimaryContact: attachedDatabase.typeMapping.read(
-          DriftSqlType.bool, data['${effectivePrefix}is_primary_contact'])!,
+          DriftSqlType.bool, data['${effectivePrefix}is_primary_contact']),
       isUserContact: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_user_contact'])!,
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_user_contact']),
       userName: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}user_name'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}user_name']),
     );
   }
 
@@ -17223,29 +17288,29 @@ class $ContactTable extends Contact with TableInfo<$ContactTable, ContactData> {
 class ContactData extends DataClass implements Insertable<ContactData> {
   final int? tenantId;
   final int id;
-  final String contactTitle;
-  final String customerId;
-  final String contactPerson;
-  final String workNumber;
-  final String cellNumber;
-  final String whatappNumber;
-  final bool isYourCompanyContact;
-  final bool isPrimaryContact;
-  final bool isUserContact;
-  final String userName;
+  final String? contactTitle;
+  final String? customerId;
+  final String? contactPerson;
+  final String? workNumber;
+  final String? cellNumber;
+  final String? whatappNumber;
+  final bool? isYourCompanyContact;
+  final bool? isPrimaryContact;
+  final bool? isUserContact;
+  final String? userName;
   const ContactData(
       {this.tenantId,
       required this.id,
-      required this.contactTitle,
-      required this.customerId,
-      required this.contactPerson,
-      required this.workNumber,
-      required this.cellNumber,
-      required this.whatappNumber,
-      required this.isYourCompanyContact,
-      required this.isPrimaryContact,
-      required this.isUserContact,
-      required this.userName});
+      this.contactTitle,
+      this.customerId,
+      this.contactPerson,
+      this.workNumber,
+      this.cellNumber,
+      this.whatappNumber,
+      this.isYourCompanyContact,
+      this.isPrimaryContact,
+      this.isUserContact,
+      this.userName});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -17253,16 +17318,36 @@ class ContactData extends DataClass implements Insertable<ContactData> {
       map['tenant_id'] = Variable<int>(tenantId);
     }
     map['id'] = Variable<int>(id);
-    map['contact_title'] = Variable<String>(contactTitle);
-    map['customer_id'] = Variable<String>(customerId);
-    map['contact_person'] = Variable<String>(contactPerson);
-    map['work_number'] = Variable<String>(workNumber);
-    map['cell_number'] = Variable<String>(cellNumber);
-    map['whatapp_number'] = Variable<String>(whatappNumber);
-    map['is_your_company_contact'] = Variable<bool>(isYourCompanyContact);
-    map['is_primary_contact'] = Variable<bool>(isPrimaryContact);
-    map['is_user_contact'] = Variable<bool>(isUserContact);
-    map['user_name'] = Variable<String>(userName);
+    if (!nullToAbsent || contactTitle != null) {
+      map['contact_title'] = Variable<String>(contactTitle);
+    }
+    if (!nullToAbsent || customerId != null) {
+      map['customer_id'] = Variable<String>(customerId);
+    }
+    if (!nullToAbsent || contactPerson != null) {
+      map['contact_person'] = Variable<String>(contactPerson);
+    }
+    if (!nullToAbsent || workNumber != null) {
+      map['work_number'] = Variable<String>(workNumber);
+    }
+    if (!nullToAbsent || cellNumber != null) {
+      map['cell_number'] = Variable<String>(cellNumber);
+    }
+    if (!nullToAbsent || whatappNumber != null) {
+      map['whatapp_number'] = Variable<String>(whatappNumber);
+    }
+    if (!nullToAbsent || isYourCompanyContact != null) {
+      map['is_your_company_contact'] = Variable<bool>(isYourCompanyContact);
+    }
+    if (!nullToAbsent || isPrimaryContact != null) {
+      map['is_primary_contact'] = Variable<bool>(isPrimaryContact);
+    }
+    if (!nullToAbsent || isUserContact != null) {
+      map['is_user_contact'] = Variable<bool>(isUserContact);
+    }
+    if (!nullToAbsent || userName != null) {
+      map['user_name'] = Variable<String>(userName);
+    }
     return map;
   }
 
@@ -17272,16 +17357,36 @@ class ContactData extends DataClass implements Insertable<ContactData> {
           ? const Value.absent()
           : Value(tenantId),
       id: Value(id),
-      contactTitle: Value(contactTitle),
-      customerId: Value(customerId),
-      contactPerson: Value(contactPerson),
-      workNumber: Value(workNumber),
-      cellNumber: Value(cellNumber),
-      whatappNumber: Value(whatappNumber),
-      isYourCompanyContact: Value(isYourCompanyContact),
-      isPrimaryContact: Value(isPrimaryContact),
-      isUserContact: Value(isUserContact),
-      userName: Value(userName),
+      contactTitle: contactTitle == null && nullToAbsent
+          ? const Value.absent()
+          : Value(contactTitle),
+      customerId: customerId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerId),
+      contactPerson: contactPerson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(contactPerson),
+      workNumber: workNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(workNumber),
+      cellNumber: cellNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(cellNumber),
+      whatappNumber: whatappNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(whatappNumber),
+      isYourCompanyContact: isYourCompanyContact == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isYourCompanyContact),
+      isPrimaryContact: isPrimaryContact == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isPrimaryContact),
+      isUserContact: isUserContact == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isUserContact),
+      userName: userName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(userName),
     );
   }
 
@@ -17291,17 +17396,17 @@ class ContactData extends DataClass implements Insertable<ContactData> {
     return ContactData(
       tenantId: serializer.fromJson<int?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
-      contactTitle: serializer.fromJson<String>(json['contactTitle']),
-      customerId: serializer.fromJson<String>(json['customerId']),
-      contactPerson: serializer.fromJson<String>(json['contactPerson']),
-      workNumber: serializer.fromJson<String>(json['workNumber']),
-      cellNumber: serializer.fromJson<String>(json['cellNumber']),
-      whatappNumber: serializer.fromJson<String>(json['whatappNumber']),
+      contactTitle: serializer.fromJson<String?>(json['contactTitle']),
+      customerId: serializer.fromJson<String?>(json['customerId']),
+      contactPerson: serializer.fromJson<String?>(json['contactPerson']),
+      workNumber: serializer.fromJson<String?>(json['workNumber']),
+      cellNumber: serializer.fromJson<String?>(json['cellNumber']),
+      whatappNumber: serializer.fromJson<String?>(json['whatappNumber']),
       isYourCompanyContact:
-          serializer.fromJson<bool>(json['isYourCompanyContact']),
-      isPrimaryContact: serializer.fromJson<bool>(json['isPrimaryContact']),
-      isUserContact: serializer.fromJson<bool>(json['isUserContact']),
-      userName: serializer.fromJson<String>(json['userName']),
+          serializer.fromJson<bool?>(json['isYourCompanyContact']),
+      isPrimaryContact: serializer.fromJson<bool?>(json['isPrimaryContact']),
+      isUserContact: serializer.fromJson<bool?>(json['isUserContact']),
+      userName: serializer.fromJson<String?>(json['userName']),
     );
   }
   @override
@@ -17310,45 +17415,53 @@ class ContactData extends DataClass implements Insertable<ContactData> {
     return <String, dynamic>{
       'tenantId': serializer.toJson<int?>(tenantId),
       'id': serializer.toJson<int>(id),
-      'contactTitle': serializer.toJson<String>(contactTitle),
-      'customerId': serializer.toJson<String>(customerId),
-      'contactPerson': serializer.toJson<String>(contactPerson),
-      'workNumber': serializer.toJson<String>(workNumber),
-      'cellNumber': serializer.toJson<String>(cellNumber),
-      'whatappNumber': serializer.toJson<String>(whatappNumber),
-      'isYourCompanyContact': serializer.toJson<bool>(isYourCompanyContact),
-      'isPrimaryContact': serializer.toJson<bool>(isPrimaryContact),
-      'isUserContact': serializer.toJson<bool>(isUserContact),
-      'userName': serializer.toJson<String>(userName),
+      'contactTitle': serializer.toJson<String?>(contactTitle),
+      'customerId': serializer.toJson<String?>(customerId),
+      'contactPerson': serializer.toJson<String?>(contactPerson),
+      'workNumber': serializer.toJson<String?>(workNumber),
+      'cellNumber': serializer.toJson<String?>(cellNumber),
+      'whatappNumber': serializer.toJson<String?>(whatappNumber),
+      'isYourCompanyContact': serializer.toJson<bool?>(isYourCompanyContact),
+      'isPrimaryContact': serializer.toJson<bool?>(isPrimaryContact),
+      'isUserContact': serializer.toJson<bool?>(isUserContact),
+      'userName': serializer.toJson<String?>(userName),
     };
   }
 
   ContactData copyWith(
           {Value<int?> tenantId = const Value.absent(),
           int? id,
-          String? contactTitle,
-          String? customerId,
-          String? contactPerson,
-          String? workNumber,
-          String? cellNumber,
-          String? whatappNumber,
-          bool? isYourCompanyContact,
-          bool? isPrimaryContact,
-          bool? isUserContact,
-          String? userName}) =>
+          Value<String?> contactTitle = const Value.absent(),
+          Value<String?> customerId = const Value.absent(),
+          Value<String?> contactPerson = const Value.absent(),
+          Value<String?> workNumber = const Value.absent(),
+          Value<String?> cellNumber = const Value.absent(),
+          Value<String?> whatappNumber = const Value.absent(),
+          Value<bool?> isYourCompanyContact = const Value.absent(),
+          Value<bool?> isPrimaryContact = const Value.absent(),
+          Value<bool?> isUserContact = const Value.absent(),
+          Value<String?> userName = const Value.absent()}) =>
       ContactData(
         tenantId: tenantId.present ? tenantId.value : this.tenantId,
         id: id ?? this.id,
-        contactTitle: contactTitle ?? this.contactTitle,
-        customerId: customerId ?? this.customerId,
-        contactPerson: contactPerson ?? this.contactPerson,
-        workNumber: workNumber ?? this.workNumber,
-        cellNumber: cellNumber ?? this.cellNumber,
-        whatappNumber: whatappNumber ?? this.whatappNumber,
-        isYourCompanyContact: isYourCompanyContact ?? this.isYourCompanyContact,
-        isPrimaryContact: isPrimaryContact ?? this.isPrimaryContact,
-        isUserContact: isUserContact ?? this.isUserContact,
-        userName: userName ?? this.userName,
+        contactTitle:
+            contactTitle.present ? contactTitle.value : this.contactTitle,
+        customerId: customerId.present ? customerId.value : this.customerId,
+        contactPerson:
+            contactPerson.present ? contactPerson.value : this.contactPerson,
+        workNumber: workNumber.present ? workNumber.value : this.workNumber,
+        cellNumber: cellNumber.present ? cellNumber.value : this.cellNumber,
+        whatappNumber:
+            whatappNumber.present ? whatappNumber.value : this.whatappNumber,
+        isYourCompanyContact: isYourCompanyContact.present
+            ? isYourCompanyContact.value
+            : this.isYourCompanyContact,
+        isPrimaryContact: isPrimaryContact.present
+            ? isPrimaryContact.value
+            : this.isPrimaryContact,
+        isUserContact:
+            isUserContact.present ? isUserContact.value : this.isUserContact,
+        userName: userName.present ? userName.value : this.userName,
       );
   @override
   String toString() {
@@ -17404,16 +17517,16 @@ class ContactData extends DataClass implements Insertable<ContactData> {
 class ContactCompanion extends UpdateCompanion<ContactData> {
   final Value<int?> tenantId;
   final Value<int> id;
-  final Value<String> contactTitle;
-  final Value<String> customerId;
-  final Value<String> contactPerson;
-  final Value<String> workNumber;
-  final Value<String> cellNumber;
-  final Value<String> whatappNumber;
-  final Value<bool> isYourCompanyContact;
-  final Value<bool> isPrimaryContact;
-  final Value<bool> isUserContact;
-  final Value<String> userName;
+  final Value<String?> contactTitle;
+  final Value<String?> customerId;
+  final Value<String?> contactPerson;
+  final Value<String?> workNumber;
+  final Value<String?> cellNumber;
+  final Value<String?> whatappNumber;
+  final Value<bool?> isYourCompanyContact;
+  final Value<bool?> isPrimaryContact;
+  final Value<bool?> isUserContact;
+  final Value<String?> userName;
   const ContactCompanion({
     this.tenantId = const Value.absent(),
     this.id = const Value.absent(),
@@ -17431,23 +17544,17 @@ class ContactCompanion extends UpdateCompanion<ContactData> {
   ContactCompanion.insert({
     this.tenantId = const Value.absent(),
     this.id = const Value.absent(),
-    required String contactTitle,
-    required String customerId,
-    required String contactPerson,
-    required String workNumber,
-    required String cellNumber,
-    required String whatappNumber,
+    this.contactTitle = const Value.absent(),
+    this.customerId = const Value.absent(),
+    this.contactPerson = const Value.absent(),
+    this.workNumber = const Value.absent(),
+    this.cellNumber = const Value.absent(),
+    this.whatappNumber = const Value.absent(),
     this.isYourCompanyContact = const Value.absent(),
     this.isPrimaryContact = const Value.absent(),
     this.isUserContact = const Value.absent(),
-    required String userName,
-  })  : contactTitle = Value(contactTitle),
-        customerId = Value(customerId),
-        contactPerson = Value(contactPerson),
-        workNumber = Value(workNumber),
-        cellNumber = Value(cellNumber),
-        whatappNumber = Value(whatappNumber),
-        userName = Value(userName);
+    this.userName = const Value.absent(),
+  });
   static Insertable<ContactData> custom({
     Expression<int>? tenantId,
     Expression<int>? id,
@@ -17482,16 +17589,16 @@ class ContactCompanion extends UpdateCompanion<ContactData> {
   ContactCompanion copyWith(
       {Value<int?>? tenantId,
       Value<int>? id,
-      Value<String>? contactTitle,
-      Value<String>? customerId,
-      Value<String>? contactPerson,
-      Value<String>? workNumber,
-      Value<String>? cellNumber,
-      Value<String>? whatappNumber,
-      Value<bool>? isYourCompanyContact,
-      Value<bool>? isPrimaryContact,
-      Value<bool>? isUserContact,
-      Value<String>? userName}) {
+      Value<String?>? contactTitle,
+      Value<String?>? customerId,
+      Value<String?>? contactPerson,
+      Value<String?>? workNumber,
+      Value<String?>? cellNumber,
+      Value<String?>? whatappNumber,
+      Value<bool?>? isYourCompanyContact,
+      Value<bool?>? isPrimaryContact,
+      Value<bool?>? isUserContact,
+      Value<String?>? userName}) {
     return ContactCompanion(
       tenantId: tenantId ?? this.tenantId,
       id: id ?? this.id,

@@ -29,7 +29,7 @@ import 'package:j3enterprise/src/ui/authentication/authentication.dart';
 import 'package:j3enterprise/src/ui/preferences/preference_detail.dart';
 
 class PreferencesPage extends StatefulWidget {
-  static final route = '/preferences';
+ 
   var db;
   late PreferenceDao preferenceDao;
   PreferencesPage() {

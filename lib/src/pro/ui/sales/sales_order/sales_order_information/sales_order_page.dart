@@ -14,7 +14,7 @@ class SalesOrderPage extends StatelessWidget {
     db = MyDatabase();
     addressDao = AddressDao(db);
   }
-  static final route = '/SalesOrderPage';
+ 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SalesOderBloc>(create: (context) {

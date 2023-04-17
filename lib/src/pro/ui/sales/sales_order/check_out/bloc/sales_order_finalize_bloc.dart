@@ -47,12 +47,12 @@ class SalesOrderFinalizeBloc extends Bloc<SalesOrderFinalizeEvent, SalesOrderFin
   ) async* {
     if (event is CreatePostTransection) {
       List<CustomerData> customerData = await customerDao.getAllCustomerById(addItemBloc.customerId);
-      var defaultCurrency = customerData[0].defaultCurrency.isNotEmpty ? customerData[0].defaultCurrency : 'JMD';
+      var defaultCurrency = customerData[0].defaultCurrency!.isNotEmpty ? customerData[0].defaultCurrency : 'JMD';
       List<SystemCurrencyData> currencydata = await systemCurrencyDao.getAllSystemCurrency();
       List<SystemCurrencyData> defaultCurrencyList = currencydata.isNotEmpty
           ? currencydata
           : [SystemCurrencyData(currencyName: 'No Currency Found', effectiveDate: DateTime.now(), id: 0, isActive: false, isDeleted: false)];
-      List<ExchangeRateData> exchangeRateData = await exchangeRateDao.getAllExchnageRateByCurrency('JMD', defaultCurrency);
+      List<ExchangeRateData> exchangeRateData = await exchangeRateDao.getAllExchnageRateByCurrency('JMD', defaultCurrency!);
       var shredPrefData = await userSharedData.getUserSharedPref();
       _postTransaction.postTransactionData(
         exchangeRate: exchangeRateData[0].exchangeRate,

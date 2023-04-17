@@ -8,7 +8,6 @@ import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
 import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
 import 'package:j3enterprise/src/resources/shared/function/update_backgroung_job_schedule_status.dart';
 import 'package:j3enterprise/src/resources/shared/preferences/user_share_data.dart';
-import 'package:j3enterprise/src/resources/shared/utils/customer_date_json_serializer.dart';
 import 'package:logging/logging.dart';
 
 class CustomerRepository {
@@ -39,7 +38,7 @@ class CustomerRepository {
       _log.finest("Executing customer date from server");
       var isSchedulerEnable = await backgroundJobScheduleDao.getJob(jobName);
       _log.finest("customer job found in background Jobs scheduler");
-      if (isSchedulerEnable.startDateTime.isBefore(DateTime.now())) {
+      if (isSchedulerEnable!.startDateTime.isBefore(DateTime.now())) {
         if (isSchedulerEnable.enableJob == true) {
           DateTime startDate = isSchedulerEnable.startDateTime;
           _log.finest("Customer jobs start date is $startDate ");
@@ -50,7 +49,7 @@ class CustomerRepository {
             _log.finest("Server resopnses successful for customer ");
             Map<String, dynamic> result = map['result'];
             var items = (result['items'] as List).map((e) {
-              return CustomerData.fromJson(e, serializer: CustomSerializer());
+              return CustomerData.fromJson(e);
             });
 
             for (var item in items) {

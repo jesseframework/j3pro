@@ -159,7 +159,7 @@ class AddItemToTransaction {
 
       var getCusTaxGroup = await customerDao.getAllCustomerById(customerId);
       if (getCusTaxGroup.length > 0) {
-        taxGroup = getCusTaxGroup[0].taxGroup;
+        taxGroup = getCusTaxGroup[0].taxGroup!;
       } else {
         taxGroup = item[0].taxGroup!;
       }

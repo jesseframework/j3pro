@@ -7,7 +7,7 @@ import 'add_customer_page.dart';
 import 'edit_customer_page.dart';
 
 class CustomerListPage extends StatefulWidget {
-  static final route = '/customerpage';
+  
   @override
   _CustomerListPageState createState() => _CustomerListPageState();
 }

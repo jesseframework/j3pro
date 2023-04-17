@@ -108,7 +108,7 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
     _log.finest("get customer by customer number");
     var cust = await customerDao.getAllCustomerById(customerId);
     if (cust.length > 0) {
-      currency = cust[0].defaultCurrency;
+      currency = cust[0].defaultCurrency!;
     }
 
     //ToDo add effictive date to exchange rate

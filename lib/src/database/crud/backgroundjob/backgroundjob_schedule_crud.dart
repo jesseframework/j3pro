@@ -34,8 +34,8 @@ class BackgroundJobScheduleDao extends DatabaseAccessor<MyDatabase> with _$Backg
   }
 
   //Background Jobs will not be null on call
-  Future<BackgroundJobScheduleData> getJob(String jobName) {
-    return (select(db.backgroundJobSchedule)..where((u) => u.jobName.equals(jobName))).getSingle();
+  Future<BackgroundJobScheduleData?> getJob(String jobName) {
+    return (select(db.backgroundJobSchedule)..where((u) => u.jobName.equals(jobName))).getSingleOrNull();
   }
 
   Stream<List<BackgroundJobScheduleData>> watchAllJobs() {

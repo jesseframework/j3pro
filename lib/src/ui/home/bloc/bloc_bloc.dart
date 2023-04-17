@@ -35,7 +35,7 @@ class BlocBloc extends Bloc<BlocEvent, BlocState> {
   Stream<BlocState> mapEventToState(
     BlocEvent event,
   ) async* {
-    // TODO: implement mapEventToState
+    
     if (event is TypeSearchCommand) {
       if (event.searchString == "View Prefrence") {
         yield ShowSearchResult(searchCommand: '');

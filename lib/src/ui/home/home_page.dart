@@ -33,7 +33,7 @@ import 'package:j3enterprise/src/resources/shared/widgets/no_data_found.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
 
 class HomePage extends StatefulWidget {
-  static final route = '/home';
+ 
   var db;
   late DesktopDao desktopDao;
   late UserDao userDao;

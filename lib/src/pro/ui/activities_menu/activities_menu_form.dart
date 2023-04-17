@@ -75,7 +75,7 @@ class _ActivitiesMenuFormState extends State<ActivitiesMenuForm> {
                         zoomControlsEnabled: false,
                         mapType: MapType.normal,
                         initialCameraPosition: CameraPosition(
-                          target: LatLng(widget.journeyWithAddress.addr.latitude, widget.journeyWithAddress.addr.longitude),
+                          target: LatLng(widget.journeyWithAddress.addr.latitude!, widget.journeyWithAddress.addr.longitude!),
                           zoom: 10.4746,
                         ),
                         onMapCreated: (GoogleMapController controller) {
@@ -112,7 +112,7 @@ class _ActivitiesMenuFormState extends State<ActivitiesMenuForm> {
                             width: 3,
                           ),
                           Text(
-                            widget.journeyWithAddress.addr.addressLine1,
+                            widget.journeyWithAddress.addr.addressLine1!,
                             softWrap: true,
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),

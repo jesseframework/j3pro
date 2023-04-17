@@ -73,16 +73,16 @@ class CalculateDiscount {
       String salesUom) async {
     var customer = await customerDao.getAllCustomerById(customerId);
     if (customer != null && customer.length > 0) {
-      customerGroup = customer[0].customerGroup;
-      salesTerritory = customer[0].customerTerritory;
+      customerGroup = customer[0].customerGroup!;
+      salesTerritory = customer[0].customerTerritory!;
       //enableHeaderDiscount = customer[0].enableHeaderDiscount;
       salesPartner = "";
       campaign = "";
-      minPurchase = customer[0].minQuantity;
-      amountOff = customer[0].discountAmount;
-      validFrom = customer[0].validFrom;
-      validTo = customer[0].validTo;
-      accumulatedPurchase = customer[0].accumulatedPurchase;
+      minPurchase = customer[0].minQuantity!;
+      amountOff = customer[0].discountAmount!;
+      validFrom = customer[0].validFrom!;
+      validTo = customer[0].validTo!;
+      accumulatedPurchase = customer[0].accumulatedPurchase!;
       //priceOrDiscount = customer[0].;
     }
 

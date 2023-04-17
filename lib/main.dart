@@ -23,6 +23,7 @@ import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
 import 'package:get_it/get_it.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/bloc/add_item_bloc.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/check_out/bloc/sales_order_finalize_bloc.dart';
@@ -38,6 +39,7 @@ import 'package:j3enterprise/src/ui/splash/splash_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'src/resources/repositories/user_repository.dart';
 import 'src/resources/shared/common/loading_indicator.dart';
+import 'src/resources/shared/utils/langcustomdialogbox.dart';
 import 'src/ui/authentication/authentication_bloc.dart';
 import 'src/ui/authentication/authentication_event.dart';
 import 'src/ui/authentication/authentication_state.dart';
@@ -98,7 +100,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  Locale? _locale;
+  Locale _locale= Locale(ENGLISH, 'US');
   ThemeData? themeData;
 
   void setLocale(locale) {
@@ -158,7 +160,7 @@ class _AppState extends State<App> {
         ),
         theme: themeData,
         locale: _locale,
-        routes: routes,
+        onGenerateRoute: Routes().generateRoute,
         supportedLocales: [
           Locale('en', 'US'),
           Locale('es', 'ES'),
