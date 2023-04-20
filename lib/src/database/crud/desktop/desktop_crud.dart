@@ -17,7 +17,6 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-
 import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/models/desktop_model.dart';
 import 'package:drift/drift.dart';
@@ -49,9 +48,7 @@ class DesktopDao extends DatabaseAccessor<MyDatabase> with _$DesktopDaoMixin {
   }
 
   Stream<List<DesktopData>> watchAllActivitiesMenu(String functionName, bool isDelete, String featureCode, String userPermission) {
-    return (select(db.desktop)
-          ..where((t) => t.iconGroup.equals(functionName) & t.isDeleted.equals(isDelete) & t.userPermission.equals(userPermission)))
-        .watch();
+    return (select(db.desktop).watch());
   }
 
   Future insertBusinessRule(DesktopData desktopData) => into(db.desktop).insert(desktopData);

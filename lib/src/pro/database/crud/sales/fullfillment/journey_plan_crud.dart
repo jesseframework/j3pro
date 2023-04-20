@@ -23,15 +23,16 @@ class JourneyPlanDao extends DatabaseAccessor<MyDatabase> with _$JourneyPlanDaoM
     final query = select(db.journeyPlan).join([
       leftOuterJoin(db.address, db.journeyPlan.customerId.equalsExp(db.address.customerId)),
       leftOuterJoin(db.contact, db.journeyPlan.customerId.equalsExp(db.contact.customerId))
-    ])
-      ..where(db.address.addressType.equals(addressType) &
-          db.journeyPlan.assignTo.equals(userName) &
-          db.journeyPlan.isDeleted.equals(isDelete) &
-          (db.journeyPlan.customerName.contains(searchText) |
-              db.journeyPlan.customerGroup.contains(searchText) |
-              db.journeyPlan.customerId.contains(searchText) |
-              db.address.addressLine1.contains(searchText) |
-              db.address.addressLine2.contains(searchText)));
+    ]);
+
+    // ..where(db.address.addressType.equals(addressType) &
+    //     db.journeyPlan.assignTo.equals(userName) &
+    //     db.journeyPlan.isDeleted.equals(isDelete) &
+    //     (db.journeyPlan.customerName.contains(searchText) |
+    //         db.journeyPlan.customerGroup.contains(searchText) |
+    //         db.journeyPlan.customerId.contains(searchText) |
+    //         db.address.addressLine1.contains(searchText) |
+    //         db.address.addressLine2.contains(searchText)));
     return query.watch().map((rows) {
       return rows.map((row) {
         return JourneyWithAddress(row.readTable(db.address), row.readTable(db.journeyPlan), row.readTable(db.contact));
@@ -39,6 +40,9 @@ class JourneyPlanDao extends DatabaseAccessor<MyDatabase> with _$JourneyPlanDaoM
     });
   }
 
+ Future getAllJourneyPlanByUserAndCustomer(String userName, String customerId) {
+    return (select(db.journeyPlan)).get();
+  }
   Future updateGPSDistance(JourneyPlanCompanion jp, String customerid, String userName, String transactionStatus) {
     return (update(db.journeyPlan)..where((t) => t.customerId.equals(customerid))).write(
       JourneyPlanCompanion(

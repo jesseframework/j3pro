@@ -33,9 +33,11 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
   String searchText = '';
   @override
   void didChangeDependencies() async {
-    await getIt<UserRepository>().getUserSharedPref().then((value) {
+    await getIt<UserRepository>().getUserSharedPref().then((value)async {
+        
       setState(() {
         userName = value['userName'];
+    
       });
     });
     super.didChangeDependencies();
