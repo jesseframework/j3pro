@@ -62,7 +62,7 @@ dependencies:
   flutter_barcode_scanner: ^2.0.0
   kiwi: ^4.1.0
   built_value: ^8.4.4
-  flutter_local_notifications: ^13.0.00
+  flutter_local_notifications: ^14.0.0+1
   get_it: ^7.2.0
   built_collection: ^5.1.1
   shamsi_date: ^1.0.1
