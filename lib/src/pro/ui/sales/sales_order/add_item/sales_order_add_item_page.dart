@@ -6,7 +6,7 @@ import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/sales_order_a
 
 class SalesOrderAddItemPage extends StatefulWidget {
   SalesOrderAddItemPage();
-  static final route = '/SalesOrderAddItemPage';
+   
 
   @override
   _SalesOrderAddItemPageState createState() => _SalesOrderAddItemPageState();

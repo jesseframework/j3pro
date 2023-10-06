@@ -13,10 +13,10 @@ class AddItemButtonPress extends AddItemEvent {
   final String itemNumber;
   final BuildContext context;
   const AddItemButtonPress(
-      {@required this.searchText,
-      @required this.setQty,
-      @required this.context,
-      @required this.itemNumber});
+      {required this.searchText,
+      required this.setQty,
+      required this.context,
+      required this.itemNumber});
 
   @override
   List<Object> get props => [searchText, setQty, itemNumber, context];
@@ -33,7 +33,7 @@ class DeleteLineItemPress extends AddItemEvent {
   final String itemNumber;
   final String uom;
   const DeleteLineItemPress(
-      {@required this.id, @required this.itemNumber, this.uom});
+      {required this.id, required this.itemNumber, required this.uom});
 
   @override
   List<Object> get props => [id, itemNumber, uom];
@@ -49,7 +49,7 @@ class GetTransactioNumberEvent extends AddItemEvent {}
 class OnFormLoadGetTransactionNumber extends AddItemEvent {
   final String transactionNo;
 
-  OnFormLoadGetTransactionNumber({@required this.transactionNo});
+  OnFormLoadGetTransactionNumber({required this.transactionNo});
 
   @override
   List<Object> get props => [transactionNo];

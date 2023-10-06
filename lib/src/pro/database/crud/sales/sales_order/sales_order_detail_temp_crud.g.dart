@@ -2,11 +2,8 @@
 
 part of 'sales_order_detail_temp_crud.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$SalesOrderDetailTempDaoMixin on DatabaseAccessor<AppDatabase> {
+// ignore_for_file: type=lint
+mixin _$SalesOrderDetailTempDaoMixin on DatabaseAccessor<MyDatabase> {
   $SalesOrderDetailTempTable get salesOrderDetailTemp =>
       attachedDatabase.salesOrderDetailTemp;
 }

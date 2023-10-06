@@ -27,11 +27,11 @@ class ApiClient {
 
   static const String URL = 'http://app.j3enterprisecloud.com';
 
-  static ChopperClient chopper;
+  static late ChopperClient chopper;
 
   static void updateClient(String baseUrl) {
     chopper = ChopperClient(
-        baseUrl: baseUrl,
+        baseUrl: Uri.parse(baseUrl),
         services: [
           // inject the generated service
           RestApiService.create()
@@ -54,12 +54,13 @@ class ApiClient {
           (Request request) async {
             Map<String, String> mapUserSharedData = Map();
             UserSharedData userSharedData = new UserSharedData();
-            mapUserSharedData = await userSharedData.getUserSharedPref();
-            String _tenantId = mapUserSharedData['tenantId'];
+            mapUserSharedData =
+                await userSharedData.getUserSharedPref() as Map<String, String>;
+            String? _tenantId = mapUserSharedData['tenantId'];
 
             SharedPreferences prefs = await SharedPreferences.getInstance();
-            String token = await prefs.get("access_token");
-            String tenantId = _tenantId;
+            String? token = (await prefs.get("access_token")) as String?;
+            String? tenantId = _tenantId;
 
             Map<String, String> map = {
               "Authorization": "Bearer $token",

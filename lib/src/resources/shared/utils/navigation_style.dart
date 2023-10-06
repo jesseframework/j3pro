@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class SlideRightRoute extends PageRouteBuilder {
   final Widget page;
-  SlideRightRoute({this.page})
+  SlideRightRoute({required this.page})
       : super(
           pageBuilder: (
             BuildContext context,
@@ -28,7 +28,7 @@ class SlideRightRoute extends PageRouteBuilder {
 
 class ScaleRoute extends PageRouteBuilder {
   final Widget page;
-  ScaleRoute({this.page})
+  ScaleRoute({required this.page})
       : super(
           pageBuilder: (
             BuildContext context,
@@ -59,7 +59,7 @@ class ScaleRoute extends PageRouteBuilder {
 
 class RotationRoute extends PageRouteBuilder {
   final Widget page;
-  RotationRoute({this.page})
+  RotationRoute({required this.page})
       : super(
           pageBuilder: (
             BuildContext context,
@@ -91,7 +91,7 @@ class RotationRoute extends PageRouteBuilder {
 
 class SizeRoute extends PageRouteBuilder {
   final Widget page;
-  SizeRoute({this.page})
+  SizeRoute({required this.page})
       : super(
           pageBuilder: (
             BuildContext context,
@@ -116,7 +116,7 @@ class SizeRoute extends PageRouteBuilder {
 
 class FadeRoute extends PageRouteBuilder {
   final Widget page;
-  FadeRoute({this.page})
+  FadeRoute({required this.page})
       : super(
           pageBuilder: (
             BuildContext context,
@@ -140,7 +140,7 @@ class FadeRoute extends PageRouteBuilder {
 class EnterExitRoute extends PageRouteBuilder {
   final Widget enterPage;
   final Widget exitPage;
-  EnterExitRoute({this.exitPage, this.enterPage})
+  EnterExitRoute({required this.exitPage, required this.enterPage})
       : super(
           pageBuilder: (
             BuildContext context,
@@ -177,7 +177,7 @@ class EnterExitRoute extends PageRouteBuilder {
 
 class ScaleRotateRoute extends PageRouteBuilder {
   final Widget page;
-  ScaleRotateRoute({this.page})
+  ScaleRotateRoute({required this.page})
       : super(
           pageBuilder: (
             BuildContext context,

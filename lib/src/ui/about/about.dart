@@ -27,7 +27,7 @@ import 'package:j3enterprise/src/resources/shared/widgets/no_data_found.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/snak_bar.dart';
 
 class About extends StatefulWidget {
-  static final route = '/about';
+  
   @override
   _AboutState createState() => _AboutState();
 }
@@ -38,8 +38,8 @@ class _AboutState extends State<About> {
     return Scaffold(
         appBar: AppBar(
           actions: [IconButton(icon: Icon(Icons.more_vert), onPressed: () {})],
-          title:
-              Text(AppLocalization.of(context).translate('about_title_about')),
+          title: Text(
+              AppLocalization.of(context)!.translate('about_title_about')!),
         ),
         body: FutureBuilder(
             future: initPlatformState(),
@@ -61,21 +61,21 @@ class _AboutState extends State<About> {
                       SizedBox(
                         height: 10,
                       ),
-                      NormWid(
-                        name: AppLocalization.of(context)
-                            .translate('preduct_version_label_about'),
-                        text: platfromData.data['model'],
-                      ),
-                      NormWid(
-                        name: AppLocalization.of(context)
-                            .translate('device_id_label_about'),
-                        text: platfromData.data['identifierForVendor'],
-                      ),
-                      NormWid(
-                        name: AppLocalization.of(context)
-                            .translate('device_status_label_about'),
-                        text: platfromData.data['utsname.version:'],
-                      ),
+                      // NormWid(
+                      //   name: AppLocalization.of(context)
+                      //       .translate('preduct_version_label_about'),
+                      //   text: platfromData.data['model'],
+                      // ),
+                      // NormWid(
+                      //   name: AppLocalization.of(context)
+                      //       .translate('device_id_label_about'),
+                      //   text: platfromData.data['identifierForVendor'],
+                      // ),
+                      // NormWid(
+                      //   name: AppLocalization.of(context)
+                      //       .translate('device_status_label_about'),
+                      //   text: platfromData.data['utsname.version:'],
+                      // ),
                     ],
                   ),
                 );
@@ -93,7 +93,7 @@ class _AboutState extends State<About> {
 
 Future<Map<String, dynamic>> initPlatformState() async {
   final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-  Map<String, dynamic> deviceData;
+  late Map<String, dynamic> deviceData;
 
   try {
     if (Platform.isAndroid) {
@@ -158,7 +158,7 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
 
 class NormWid extends StatelessWidget {
   final String name, text;
-  NormWid({this.name, this.text});
+  NormWid({required this.name, required this.text});
   @override
   Widget build(BuildContext context) {
     return Padding(

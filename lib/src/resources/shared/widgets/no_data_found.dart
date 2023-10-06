@@ -21,7 +21,7 @@ import 'package:flutter/material.dart';
 
 class BuildOnNoData extends StatelessWidget {
   String message;
-  BuildOnNoData({this.message});
+  BuildOnNoData({required this.message});
   @override
   Widget build(BuildContext context) {
     return Center(

@@ -22,36 +22,35 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:j3enterprise/src/database/crud/communication/communication_setup_crud.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
-import 'package:j3enterprise/src/resources/shared/widgets/snak_bar.dart';
-import 'package:meta/meta.dart';
-import 'package:drift/drift.dart';
-
+ 
 part 'communication_event.dart';
 part 'communication_state.dart';
 
 class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
-  CommunicationDao communicationDao;
-  CommunicationData communicationData;
+  late CommunicationDao communicationDao;
+  late CommunicationData communicationData;
   final String communicationType;
   var db;
 
-  CommunicationBloc({this.communicationType}) : super(CommunicationInitial()) {
-    db = AppDatabase();
+  CommunicationBloc({required this.communicationType}) : super(CommunicationInitial()) {
+    db = MyDatabase();
     communicationDao = CommunicationDao(db);
+    on<SaveCommunicationButtonPressed>((event, emit) => _mapSaveCommunicationButtonPressedToState(event, emit));
+    on<UpdateAPICommunicationButtonPressed>((event, emit) => _mapUpdateAPICommunicationButtonPressedToState(event, emit));
+    on<UpdateERPCommunicationButtonPressed>((event, emit) => _mapUpdateERPCommunicationButtonPressedToState(event, emit));
+    on<OnFormLoadGetSaveCommunication>((event, emit) => _mapOnFormLoadGetSaveCommunicationToState(event, emit));
   }
 
   @override
   CommunicationState get initialState => CommunicationInitial();
 
-  @override
-  Stream<CommunicationState> mapEventToState(
-    CommunicationEvent event,
-  ) async* {
-    if (event is SaveCommunicationButtonPressed) {
+ 
+  
+  _mapSaveCommunicationButtonPressedToState(SaveCommunicationButtonPressed event, Emitter<CommunicationState> emit) async{
       // set state as loading
-      yield CommunicationInserting();
+      emit( CommunicationInserting());
       // save data to db
       await communicationDao.insertCommunnication(event.data);
 
@@ -60,11 +59,12 @@ class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
       ApiClient.updateClient(url.value);
 
       // set the success state
-      yield CommunicationSuccess();
-    }
+      emit( CommunicationSuccess());
 
-    if (event is UpdateAPICommunicationButtonPressed) {
-      yield CommunicationUpdate();
+  }
+  
+  _mapUpdateAPICommunicationButtonPressedToState(UpdateAPICommunicationButtonPressed event, Emitter<CommunicationState> emit) async{
+       emit( CommunicationUpdate());
 
       await communicationDao.updateAPICommunnication(event.data);
 
@@ -72,12 +72,12 @@ class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
       ApiClient.updateClient(url.value);
       // set the success state
       //yield CommunicationSuccess();
-      yield CommunicationUpdateuccess(data: event.data);
+      emit( CommunicationUpdateuccess(data: event.data));
       // ShowSnakBar("Success", "Communication Update");
-    }
-
-    if (event is UpdateERPCommunicationButtonPressed) {
-      yield CommunicationUpdate();
+  }
+  
+  _mapUpdateERPCommunicationButtonPressedToState(UpdateERPCommunicationButtonPressed event, Emitter<CommunicationState> emit)async {
+      emit( CommunicationUpdate());
 
       await communicationDao.updateERPCommunnication(event.data);
       var url = event.data.serverUrl;
@@ -85,22 +85,18 @@ class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
 
       // set the success state
       //yield CommunicationSuccess();
-      yield CommunicationUpdateuccess(data: event.data);
-      // ShowSnakBar("Success", "Communication Update");
-    }
+      emit( CommunicationUpdateuccess(data: event.data));
+  }
+  
+  _mapOnFormLoadGetSaveCommunicationToState(OnFormLoadGetSaveCommunication event, Emitter<CommunicationState> emit)async {
+     emit( CommunicationLoading());
 
-    if (event is OnFormLoadGetSaveCommunication) {
-      yield CommunicationLoading();
-
-      var viewCommunicationDataByType = await communicationDao
-          .getCommunicationDataByType(event.communicationType);
+      var viewCommunicationDataByType = await communicationDao.getCommunicationDataByType(event.communicationType);
 
       var _viewCommunicationDataByType = viewCommunicationDataByType.length > 0;
-      var data =
-          _viewCommunicationDataByType ? viewCommunicationDataByType : null;
+      var data = _viewCommunicationDataByType ? viewCommunicationDataByType : null;
 
       // set the success state
-      yield CommunicationLoadSuccess(data: data);
-    }
+      emit( CommunicationLoadSuccess(data: data??[]));
   }
 }

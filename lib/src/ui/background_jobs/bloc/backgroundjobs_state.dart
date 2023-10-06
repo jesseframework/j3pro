@@ -32,7 +32,7 @@ class BackgroundJobsLoading extends BackgroundJobsState {}
 class BackgroundJobsSuccess extends BackgroundJobsState {
   //final BackgroundJobScheduleCompanion data;
   final userMessage;
-  const BackgroundJobsSuccess({@required this.userMessage});
+  const BackgroundJobsSuccess({required this.userMessage});
 
   @override
   List<Object> get props => [userMessage];
@@ -43,7 +43,7 @@ class BackgroundJobsSuccess extends BackgroundJobsState {
 
 class BackgroundJobsStoped extends BackgroundJobsState {
   final userMessage;
-  const BackgroundJobsStoped({@required this.userMessage});
+  const BackgroundJobsStoped({required this.userMessage});
 
   @override
   List<Object> get props => [userMessage];
@@ -55,7 +55,7 @@ class BackgroundJobsStoped extends BackgroundJobsState {
 class BackgroundJobsFailure extends BackgroundJobsState {
   final String error;
 
-  const BackgroundJobsFailure({@required this.error});
+  const BackgroundJobsFailure({required this.error});
 
   @override
   List<Object> get props => [error];

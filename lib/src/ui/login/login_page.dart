@@ -30,7 +30,7 @@ import 'bloc/login_bloc.dart';
 import 'login_form.dart';
 
 class LoginPage extends StatefulWidget {
-  static final route = '/login';
+ 
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalization.of(context).translate('app_title') ??
+        title: Text(AppLocalization.of(context)!.translate('app_title') ??
             'J3 ENTERPRISE SOLUTION'),
       ),
       body: BlocProvider(

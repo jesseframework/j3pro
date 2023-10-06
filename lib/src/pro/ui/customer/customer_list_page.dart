@@ -7,7 +7,7 @@ import 'add_customer_page.dart';
 import 'edit_customer_page.dart';
 
 class CustomerListPage extends StatefulWidget {
-  static final route = '/customerpage';
+  
   @override
   _CustomerListPageState createState() => _CustomerListPageState();
 }
@@ -18,13 +18,15 @@ class _CustomerListPageState extends State<CustomerListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            AppLocalization.of(context).translate('customer_appbar_title') ??
+            AppLocalization.of(context)!.translate('customer_appbar_title') ??
                 "Customers"),
         actions: [
           InkWell(
             onTap: () {
               Navigator.push(
-                  context, EnterExitRoute(enterPage: AddCustomerPage()));
+                  context,
+                  EnterExitRoute(
+                      enterPage: AddCustomerPage(), exitPage: widget));
             },
             child: Row(
               children: [
@@ -47,7 +49,11 @@ class _CustomerListPageState extends State<CustomerListPage> {
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
               child: Center(
                 child: ListFilter(
-                    placeholder: 'Search', onFilterChanged: (search) {}),
+                  placeholder: 'Search',
+                  onFilterChanged: (search) {},
+                  filter: '',
+                  function: () {},
+                ),
               ),
             ),
           ),
@@ -58,7 +64,9 @@ class _CustomerListPageState extends State<CustomerListPage> {
               return InkWell(
                 onTap: () {
                   Navigator.push(
-                      context, EnterExitRoute(enterPage: EditCustomerPade()));
+                      context,
+                      EnterExitRoute(
+                          enterPage: EditCustomerPade(), exitPage: widget));
                 },
                 child: ListTile(
                   leading: Icon(

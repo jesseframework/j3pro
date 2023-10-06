@@ -1,7 +1,7 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/customer/address_crud.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/bloc/add_item_bloc.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/check_out/bloc/sales_order_finalize_bloc.dart';
@@ -14,27 +14,23 @@ import 'package:signature/signature.dart';
 
 class SalesOrderFinslizedPage extends StatefulWidget {
   var db;
-  AddressDao addressDao;
+  late AddressDao addressDao;
   SalesOrderFinslizedPage() {
-    db = AppDatabase();
+    db = MyDatabase();
     addressDao = AddressDao(db);
   }
   @override
-  _SalesOrderFinslizedPageState createState() =>
-      _SalesOrderFinslizedPageState();
+  _SalesOrderFinslizedPageState createState() => _SalesOrderFinslizedPageState();
 }
 
 class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
-  final SignatureController _controller =
-      SignatureController(exportBackgroundColor: Colors.white);
+  final SignatureController _controller = SignatureController(exportBackgroundColor: Colors.white);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-            AppLocalization.of(context).translate('sales_order_finalized') ??
-                "Finalize  "),
+        title: Text(AppLocalization.of(context)!.translate('sales_order_finalized') ?? "Finalize  "),
         //ToDO put translation
         actions: [
           InkWell(
@@ -43,10 +39,25 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                 InkWell(
                   onTap: () async {
                     //BlocProvider.of(context).add(CreatePostTransection());
-                    BlocProvider.of<SalesOrderFinalizeBloc>(context)
-                        .add(CreatePostTransection());
-                    Navigator.push(
-                        context, SizeRoute(page: SalesOrderCheckOutPage()));
+                    BlocProvider.of<SalesOrderFinalizeBloc>(context).add(CreatePostTransection(
+                        billingAddressName: '',
+                        currencyCode: '',
+                        customerId: '',
+                        daySessionNumber: '',
+                        deliveryDate: DateTime.now(),
+                        inventoryCycleNumber: '',
+                        exchangeRate: 1,
+                        orderType: '',
+                        purchaseOrderNo: '',
+                        shippingAddressName: '',
+                        soldTo: '',
+                        tenantId: 1,
+                        transactionNumber: '',
+                        transactionStatus: '',
+                        transactionType: '',
+                        userId: 1,
+                        userName: ''));
+                    Navigator.push(context, SizeRoute(page: SalesOrderCheckOutPage()));
                   },
                   child: Text(
                     " Complete",
@@ -84,7 +95,7 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
               isDisable: false),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {
-              List<Addres> addres = snapshot.data;
+              List<Addres>? addres = snapshot.data as List<Addres>?;
 
               return Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -94,9 +105,7 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Container(
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).cardColor,
-                              borderRadius: BorderRadius.circular(8)),
+                          decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(8)),
                           child: Padding(
                             padding: const EdgeInsets.all(5.0),
                             child: Column(
@@ -106,20 +115,14 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                                 Container(
                                   child: Text(
                                     'Order No:',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.grey,
-                                        fontSize: 12),
+                                    style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: Text(
                                     addItemBloc.tempSalesOrderNo,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 25),
+                                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 25),
                                   ),
                                 ),
                               ],
@@ -130,9 +133,7 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                           height: 10,
                         ),
                         Container(
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).cardColor,
-                              borderRadius: BorderRadius.circular(8)),
+                          decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(8)),
                           child: Padding(
                             padding: const EdgeInsets.all(12.0),
                             child: Column(
@@ -140,18 +141,13 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 buildSalesOrderCardRowTile(
-                                    heading: 'Billing To:',
-                                    title: addres
-                                        .firstWhere(
-                                            (e) => e.isShippingAddress != true)
-                                        .addressLine1),
+                                    heading: 'Billing To:', title: addres!.firstWhere((e) => e.isShippingAddress != true).addressLine1),
                                 SizedBox(
                                   height: 30,
                                 ),
                                 buildSalesOrderCardRowTile(
                                   heading: 'Shipping To:',
-                                  title: addItemBloc
-                                      .getShippingAddress.addressLine1,
+                                  title: addItemBloc.getShippingAddress.addressLine1,
                                 )
                               ],
                             ),
@@ -161,22 +157,17 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                           height: 10,
                         ),
                         Container(
-                            decoration: BoxDecoration(
-                                color: Theme.of(context).cardColor,
-                                borderRadius: BorderRadius.circular(8)),
+                            decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(8)),
                             // height: MediaQuery.of(context).size.height * 0.08,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 30, vertical: 10),
+                              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   buildSalesOrderDateCardRowTile(
                                       heading: 'Order Date',
-                                      title:
-                                          '${DateTime.now().day.toString()}/${DateTime.now().month.toString()}/${DateTime.now().year.toString()}'),
+                                      title: '${DateTime.now().day.toString()}/${DateTime.now().month.toString()}/${DateTime.now().year.toString()}'),
                                   buildSalesOrderDateCardRowTile(
                                     heading: 'Dilvery Date',
                                     title:
@@ -190,9 +181,7 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                           child: Container(
                               height: 200,
                               clipBehavior: Clip.antiAlias,
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context).cardColor,
-                                  borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(8)),
                               // height: MediaQuery.of(context).size.height * 0.08,
                               child: Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -200,33 +189,22 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                                     Signature(
                                       controller: _controller,
                                       height: 150,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.6,
-                                      backgroundColor: Theme.of(context)
-                                          .scaffoldBackgroundColor,
+                                      width: MediaQuery.of(context).size.width * 0.6,
+                                      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                                     ),
                                     Positioned(
-                                        left:
-                                            MediaQuery.of(context).size.width *
-                                                0.20,
-                                        right:
-                                            MediaQuery.of(context).size.width *
-                                                0.20,
+                                        left: MediaQuery.of(context).size.width * 0.20,
+                                        right: MediaQuery.of(context).size.width * 0.20,
                                         bottom: 25,
                                         child: DottedLine()),
                                     Container(
                                       child: Text(
                                         'Signature',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.grey,
-                                            fontSize: 12),
+                                        style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
                                       ),
                                     ),
                                     Positioned(
-                                        right:
-                                            MediaQuery.of(context).size.width *
-                                                0.20,
+                                        right: MediaQuery.of(context).size.width * 0.20,
                                         bottom: 30,
                                         child: InkWell(
                                             onTap: () {
@@ -314,19 +292,14 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
     );
   }
 
-  Widget buildSalesOrderCardRowTile(
-      {String heading,
-      String title,
-      Widget trailingWidget,
-      Function callback}) {
+  Widget buildSalesOrderCardRowTile({String? heading, String? title, Widget? trailingWidget, Function? callback}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          heading,
-          style: TextStyle(
-              fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
+          heading!,
+          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -334,14 +307,11 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
           children: [
             Flexible(
               child: Text(
-                title,
+                title!,
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
               ),
             ),
-            InkWell(
-                child: Container(
-                    margin: EdgeInsets.only(left: 8), child: trailingWidget),
-                onTap: callback),
+            InkWell(child: Container(margin: EdgeInsets.only(left: 8), child: trailingWidget), onTap: () {}),
           ],
         ),
       ],
@@ -349,22 +319,21 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
   }
 
   Widget buildSalesOrderDateCardRowTile({
-    String heading,
-    String title,
+    String? heading,
+    String? title,
   }) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          heading,
-          style: TextStyle(
-              fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
+          heading!,
+          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Text(
-            title,
+            title!,
             style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
           ),
         ),

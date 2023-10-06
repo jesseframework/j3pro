@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/pro/ui/items/add_item_page.dart';
@@ -6,18 +8,18 @@ import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
 
 class ItemsPage extends StatelessWidget {
-  static final route = '/itempage';
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            AppLocalization.of(context).translate('items_appbar_title') ??
+            AppLocalization.of(context)!.translate('items_appbar_title') ??
                 "Items"),
         actions: [
           InkWell(
             onTap: () {
-              Navigator.push(context, EnterExitRoute(enterPage: AddItemPage()));
+              //Navigator.push(context, EnterExitRoute(enterPage: AddItemPage(), exitPage: ));
             },
             child: Row(
               children: [
@@ -61,7 +63,7 @@ class ItemsPage extends StatelessWidget {
                       'COVID-19 N95 MASKS',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText1
+                          .bodyText1!
                           .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('SKU: 0001-202'),

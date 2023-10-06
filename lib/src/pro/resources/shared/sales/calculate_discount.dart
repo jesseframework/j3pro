@@ -1,5 +1,5 @@
 import 'package:intl/intl.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/account/currency/currency_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/customer/customer_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/items/item_master_crud.dart';
@@ -11,41 +11,41 @@ import 'package:drift/drift.dart' as moor;
 class CalculateDiscount {
   var db;
 
-  String customerGroup;
-  String salesTerritory;
-  String salesPartner;
-  String campaign;
-  bool enableHeaderDiscount = false;
-  double minPurchase = 0;
-  double amountOff = 0;
-  DateTime validFrom = DateTime.now();
-  DateTime validTo = DateTime.now();
-  double accumulatedPurchase = 0;
-  String priceOrDiscount;
-  double numOfItemOnRegister = 0;
-  double numOfItemGroupOnRegister = 0;
-  double numOfBrandOnRegister = 0;
-  double numOfAllItemsOnRegister = 0;
-  double minPurchaseOfItemOnRegister = 0;
-  double minPurchaseOfItemGroupOnRegister = 0;
-  double minPurchaseOfBrandOnRegister = 0;
-  double minPurchaseAllItemsOnRegister = 0;
-  double subTotalOnRegisterSum = 0;
-  double minCouponSpentOnRegister = 0;
-  double numOfcategoryOnRegister = 0;
-  double discountAmount = 0;
-  double listPrice = 0;
-  double lineSubTotal = 0;
+  late String customerGroup;
+  late String salesTerritory;
+  late String salesPartner;
+  late String campaign;
+  late bool enableHeaderDiscount = false;
+  late double minPurchase = 0;
+  late double amountOff = 0;
+  late DateTime validFrom = DateTime.now();
+  late DateTime validTo = DateTime.now();
+  late double accumulatedPurchase = 0;
+  late String priceOrDiscount;
+  late double numOfItemOnRegister = 0;
+  late double numOfItemGroupOnRegister = 0;
+  late double numOfBrandOnRegister = 0;
+  late double numOfAllItemsOnRegister = 0;
+  late double minPurchaseOfItemOnRegister = 0;
+  late double minPurchaseOfItemGroupOnRegister = 0;
+  late double minPurchaseOfBrandOnRegister = 0;
+  late double minPurchaseAllItemsOnRegister = 0;
+  late double subTotalOnRegisterSum = 0;
+  late double minCouponSpentOnRegister = 0;
+  late double numOfcategoryOnRegister = 0;
+  late double discountAmount = 0;
+  late double listPrice = 0;
+  late double lineSubTotal = 0;
   //DAOs
-  ItemsDao itemsDao;
-  ItemPriceDao itemPriceDao;
-  CustomerDao customerDao;
-  SalesOrderDetailTempDao salesOrderDetailTempDao;
-  SystemCurrencyDao systemCurrencyDao;
-  ItemPricingRuleDao itemPricingRuleDao;
+  late ItemsDao itemsDao;
+  late ItemPriceDao itemPriceDao;
+  late CustomerDao customerDao;
+  late SalesOrderDetailTempDao salesOrderDetailTempDao;
+  late SystemCurrencyDao systemCurrencyDao;
+  late ItemPricingRuleDao itemPricingRuleDao;
 
   CalculateDiscount() {
-    db = AppDatabase();
+    db = MyDatabase();
     //DAOs
     itemsDao = new ItemsDao(db);
     itemPriceDao = new ItemPriceDao(db);
@@ -73,22 +73,20 @@ class CalculateDiscount {
       String salesUom) async {
     var customer = await customerDao.getAllCustomerById(customerId);
     if (customer != null && customer.length > 0) {
-      customerGroup = customer[0].customerGroup;
-      salesTerritory = customer[0].customerTerritory;
+      customerGroup = customer[0].customerGroup!;
+      salesTerritory = customer[0].customerTerritory!;
       //enableHeaderDiscount = customer[0].enableHeaderDiscount;
       salesPartner = "";
       campaign = "";
-      minPurchase = customer[0].minQuantity;
-      amountOff = customer[0].discountAmount;
-      validFrom = customer[0].validFrom;
-      validTo = customer[0].validTo;
-      accumulatedPurchase = customer[0].accumulatedPurchase;
+      minPurchase = customer[0].minQuantity!;
+      amountOff = customer[0].discountAmount!;
+      validFrom = customer[0].validFrom!;
+      validTo = customer[0].validTo!;
+      accumulatedPurchase = customer[0].accumulatedPurchase!;
       //priceOrDiscount = customer[0].;
     }
 
-    salesOrderDetailTempDao
-        .qtyOfItemOnRegister(transactionNumber, itemId, uom, transactionStatus)
-        .listen((e) {
+    salesOrderDetailTempDao.qtyOfItemOnRegister(transactionNumber, itemId, uom, transactionStatus).listen((e) {
       if (e.isNotEmpty) {
         numOfItemOnRegister = e.single.quantity;
         minPurchaseOfItemOnRegister = e.single.subTotal;
@@ -97,20 +95,14 @@ class CalculateDiscount {
 
     //qty.map((e) => e.single.quantity).listen(print, onError: (e, s) => print('Got error $e at $s'));
 
-    salesOrderDetailTempDao
-        .qtyOfItemGroupOnRegister(
-            transactionNumber, itemGroup, uom, transactionStatus)
-        .listen((e) {
+    salesOrderDetailTempDao.qtyOfItemGroupOnRegister(transactionNumber, itemGroup, uom, transactionStatus).listen((e) {
       if (e.isNotEmpty) {
         numOfItemGroupOnRegister = e.single.quantity;
         minPurchaseOfItemGroupOnRegister = e.single.subTotal;
       }
     });
 
-    salesOrderDetailTempDao
-        .qtyOfBrandOnRegister(
-            transactionNumber, category, uom, transactionStatus)
-        .listen((e) {
+    salesOrderDetailTempDao.qtyOfBrandOnRegister(transactionNumber, category, uom, transactionStatus).listen((e) {
       if (e.isNotEmpty) {
         numOfcategoryOnRegister = e.single.quantity;
         minPurchaseOfBrandOnRegister = e.single.subTotal;
@@ -119,23 +111,8 @@ class CalculateDiscount {
 
     bool isActive = true;
 
-    var isDiscount = await itemPricingRuleDao.getAllDiscount(
-        itemCode,
-        itemGroup,
-        itemName,
-        category,
-        customerGroup,
-        customerId,
-        territory,
-        partner,
-        priceList,
-        validFrom,
-        validTo,
-        isActive,
-        numOfItemOnRegister,
-        numOfItemGroupOnRegister,
-        numOfAllItemsOnRegister,
-        numOfcategoryOnRegister);
+    var isDiscount = await itemPricingRuleDao.getAllDiscount(itemCode, itemGroup, itemName, category, customerGroup, customerId, territory, partner,
+        priceList, validFrom, validTo, isActive, numOfItemOnRegister, numOfItemGroupOnRegister, numOfAllItemsOnRegister, numOfcategoryOnRegister);
 
     if (isDiscount.length > 0) {
       double formateddiscountAmount = 0;
@@ -143,7 +120,7 @@ class CalculateDiscount {
       double formatedlineSubTotal = 0;
 
       amountOff = isDiscount.single.discountPercentage;
-      priceOrDiscount = isDiscount.single.priceOrDiscount;
+      priceOrDiscount = isDiscount.single.priceOrDiscount!;
 
       if (priceOrDiscount == "Percentage") {
         discountAmount = amountOff / 100 * unitPrice;
@@ -158,19 +135,19 @@ class CalculateDiscount {
       var currency = await systemCurrencyDao.getAllSystemCurrencyByName("JMD");
       if (currency.length > 0) {
         var f = new NumberFormat(currency[0].numberFormat, "en_US");
-        formateddiscountAmount = double.tryParse(f.format(discountAmount));
+        formateddiscountAmount = double.tryParse(f.format(discountAmount))!;
         var flistprice = new NumberFormat(currency[0].numberFormat, "en_US");
-        formatedListPrice = double.tryParse(flistprice.format(listPrice));
+        formatedListPrice = double.tryParse(flistprice.format(listPrice))!;
         var flinetotal = new NumberFormat(currency[0].numberFormat, "en_US");
-        formatedlineSubTotal = double.tryParse(flinetotal.format(lineSubTotal));
+        formatedlineSubTotal = double.tryParse(flinetotal.format(lineSubTotal))!;
       } else {
         var f = new NumberFormat("###.0#", "en_US");
-        formateddiscountAmount = double.tryParse(f.format(discountAmount));
+        formateddiscountAmount = double.tryParse(f.format(discountAmount))!;
 
         var flistprice = new NumberFormat("###.0#", "en_US");
-        formatedListPrice = double.tryParse(flistprice.format(listPrice));
+        formatedListPrice = double.tryParse(flistprice.format(listPrice))!;
         var flinetotal = new NumberFormat("###.0#", "en_US");
-        formatedlineSubTotal = double.tryParse(flinetotal.format(lineSubTotal));
+        formatedlineSubTotal = double.tryParse(flinetotal.format(lineSubTotal))!;
       }
 
       //Now Update the list price and call recalcualte
@@ -183,8 +160,7 @@ class CalculateDiscount {
           lineDiscountTotal: moor.Value(formateddiscountAmount),
           discountType: moor.Value(priceOrDiscount));
 
-      await salesOrderDetailTempDao.updateInvoiceTotal(
-          tempOrder, transactionNumber, transactionStatus, itemId, salesUom);
+      await salesOrderDetailTempDao.updateInvoiceTotal(tempOrder, transactionNumber, transactionStatus, itemId, salesUom);
     }
   }
 }

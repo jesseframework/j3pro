@@ -45,7 +45,7 @@ class _BackgroundFetchPageState extends State<BackgroundFetchPage> {
   Future<void> initPlatformState() async {
     // Load persisted fetch events from SharedPreferences
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String json = prefs.getString(EVENTS_KEY);
+    String? json = prefs.getString(EVENTS_KEY);
     if (json != null) {
       setState(() {
         _events = jsonDecode(json).cast<String>();
@@ -149,8 +149,8 @@ class _BackgroundFetchPageState extends State<BackgroundFetchPage> {
   @override
   Widget build(BuildContext context) {
     const EMPTY_TEXT = Center(
-        child: Text(
-            'Waiting for fetch events.  Simulate one.\n [Android] \$ ./scripts/simulate-fetch\n [iOS] XCode->Debug->Simulate Background Fetch'));
+        child:
+            Text('Waiting for fetch events.  Simulate one.\n [Android] \$ ./scripts/simulate-fetch\n [iOS] XCode->Debug->Simulate Background Fetch'));
 
     return Scaffold(
       body: (_events.isEmpty)
@@ -162,26 +162,19 @@ class _BackgroundFetchPageState extends State<BackgroundFetchPage> {
                     List<String> event = _events[index].split("@");
                     return InputDecorator(
                         decoration: InputDecoration(
-                            contentPadding: EdgeInsets.only(
-                                left: 5.0, top: 5.0, bottom: 5.0),
-                            labelStyle:
-                                TextStyle(color: Colors.blue, fontSize: 20.0),
+                            contentPadding: EdgeInsets.only(left: 5.0, top: 5.0, bottom: 5.0),
+                            labelStyle: TextStyle(color: Colors.blue, fontSize: 20.0),
                             labelText: "[${event[0].toString()}]"),
-                        child: new Text(event[1],
-                            style: TextStyle(fontSize: 16.0)));
+                        child: new Text(event[1], style: TextStyle(fontSize: 16.0)));
                   }),
             ),
       bottomNavigationBar: BottomAppBar(
           child: Container(
               padding: EdgeInsets.only(left: 5.0, right: 5.0),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    RaisedButton(
-                        onPressed: _onClickStatus,
-                        child: Text('Status: $_status')),
-                    RaisedButton(onPressed: _onClickClear, child: Text('Clear'))
-                  ]))),
+              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                ElevatedButton(onPressed: _onClickStatus, child: Text('Status: $_status')),
+                ElevatedButton(onPressed: _onClickClear, child: Text('Clear'))
+              ]))),
     );
   }
 }

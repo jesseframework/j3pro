@@ -9,9 +9,10 @@ part 'journey_plan_event.dart';
 part 'journey_plan_state.dart';
 
 class JourneyPlanBloc extends Bloc<JourneyPlanEvent, JourneyPlanState> {
-  GeoLocation geolocation;
+  late GeoLocation geolocation;
   JourneyPlanBloc() : super(JourneyPlanInitial()) {
     geolocation = new GeoLocation();
+    on<SyncGPSDistancEvent>((event, emit) => _mapSyncGPSDistancEventToState(event, emit));
   }
 
   void getInitialLocation() {
@@ -22,14 +23,12 @@ class JourneyPlanBloc extends Bloc<JourneyPlanEvent, JourneyPlanState> {
   @override
   JourneyPlanState get initialState => JourneyPlanInitial();
 
-  @override
-  Stream<JourneyPlanState> mapEventToState(
-    JourneyPlanEvent event,
-  ) async* {
-    if (event is SyncGPSDistancEvent) {
-      // print("I am getting here");
-      // await geolocation.getUserLocation();
-      // await geolocation.getDistance("");
-    }
+
+ 
+  
+  _mapSyncGPSDistancEventToState(SyncGPSDistancEvent event, Emitter<JourneyPlanState> emit) async{
+      print("I am getting here");
+    await geolocation.getUserLocation();
+    await geolocation.getDistance("");
   }
 }

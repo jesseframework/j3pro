@@ -20,7 +20,7 @@
 import 'package:crypto/crypto.dart';
 import 'package:convert/convert.dart';
 import 'package:j3enterprise/src/database/crud/user/user_crud.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 
 import 'dart:convert';
@@ -30,21 +30,17 @@ import 'package:drift/drift.dart' as moor;
 
 class UserHash {
   final UserRepository userRepository;
-  UserDao userDao;
+  late UserDao userDao;
   var db;
 
-  UserHash({@required this.userRepository}) {
+  UserHash({required this.userRepository}) {
     //assert(userRepository != null);
-    db = AppDatabase();
+    db = MyDatabase();
     userDao = UserDao(db);
   }
 
   Future<String> createHash(String password, int tenantId, int userId) async {
-    List<List<int>> bytesChunks = [
-      utf8.encode(password),
-      utf8.encode(userId.toString()),
-      utf8.encode(tenantId.toString())
-    ];
+    List<List<int>> bytesChunks = [utf8.encode(password), utf8.encode(userId.toString()), utf8.encode(tenantId.toString())];
 
     var output = new AccumulatorSink<Digest>();
 
@@ -66,12 +62,12 @@ class UserHash {
 class UserHashSave {
   final UserRepository userRepository;
   var db;
-  UserDao userDao;
-  UserHash userHash;
+  late UserDao userDao;
+  late UserHash userHash;
 
-  UserHashSave({@required this.userRepository}) {
+  UserHashSave({required this.userRepository}) {
     //assert(userRepository != null);
-    db = AppDatabase();
+    db = MyDatabase();
     userDao = UserDao(db);
     userHash = new UserHash(userRepository: userRepository);
   }
@@ -81,8 +77,7 @@ class UserHashSave {
     var formData = UsersCompanion(mobileHash: moor.Value(_result.toString()));
 
     await userDao.saveMobileHash(formData, userId);
-    await userRepository.putUserHash(
-        userId: userId, mobileHashCode: _result.toString(), tenantId: tenantId);
+    await userRepository.putUserHash(userId: userId, mobileHashCode: _result.toString(), tenantId: tenantId);
 
     print('Result: $_result');
   }

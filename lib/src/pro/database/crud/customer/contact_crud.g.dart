@@ -2,10 +2,7 @@
 
 part of 'contact_crud.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$ContactDaoMixin on DatabaseAccessor<AppDatabase> {
+// ignore_for_file: type=lint
+mixin _$ContactDaoMixin on DatabaseAccessor<MyDatabase> {
   $ContactTable get contact => attachedDatabase.contact;
 }

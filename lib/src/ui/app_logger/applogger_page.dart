@@ -36,7 +36,7 @@ class AppLoggerPage extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        title: Text(AppLocalization.of(context).translate('title_applogger') ??
+        title: Text(AppLocalization.of(context)!.translate('title_applogger') ??
             'App Logger'),
         actions: [
           IconButton(

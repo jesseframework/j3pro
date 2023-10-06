@@ -21,34 +21,34 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class UserSharedData {
   Future<void> setUserSharedPref(
-      String deviceId,
-      String deviceState,
-      String tenantState,
-      String userName,
-      String tenantName,
-      String tenantId,
-      String userId) async {
+      String? deviceId,
+      String? deviceState,
+      String? tenantState,
+      String? userName,
+      String? tenantName,
+      String? tenantId,
+      String? userId) async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    await _prefs.setString('deviceId', deviceId);
-    await _prefs.setString('deviceState', deviceState);
+    await _prefs.setString('deviceId', deviceId!);
+    await _prefs.setString('deviceState', deviceState!);
     await _prefs.setString('tenantState', deviceState);
-    await _prefs.setString('userName', userName);
-    await _prefs.setString('tenantName', tenantName);
-    await _prefs.setString('tenantId', tenantId);
-    await _prefs.setString('userId', userId);
+    await _prefs.setString('userName', userName!);
+    await _prefs.setString('tenantName', tenantName!);
+    await _prefs.setString('tenantId', tenantId!);
+    await _prefs.setString('userId', userId!);
 
     return;
   }
 
   Future<Map> getUserSharedPref() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    String deviceId = await _prefs.get('deviceId');
-    String deviceState = await _prefs.get('deviceState');
-    String tenantState = await _prefs.get('tenantState');
-    String userName = await _prefs.get('userName');
-    String tenantName = await _prefs.get('tenantName');
-    String tenantId = await _prefs.get('tenantId');
-    String userId = await _prefs.get('userId');
+    String? deviceId = (await _prefs.get('deviceId')) as String?;
+    String? deviceState = (await _prefs.get('deviceState')) as String?;
+    String? tenantState = (await _prefs.get('tenantState')) as String?;
+    String? userName = (await _prefs.get('userName')) as String?;
+    String? tenantName = (await _prefs.get('tenantName')) as String?;
+    String? tenantId = (await _prefs.get('tenantId')) as String?;
+    String? userId = (await _prefs.get('userId')) as String?;
 
     Map<String, String> map = {
       "deviceId": "$deviceId",

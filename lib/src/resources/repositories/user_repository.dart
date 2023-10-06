@@ -33,8 +33,8 @@ import 'dart:io' show Platform;
 class UserRepository {
   var api = ApiClient.chopper.getService<RestApiService>();
   Future<Response> authenticate({
-    @required String username,
-    @required String password,
+    required String username,
+    required String password,
   }) async {
     return await api.login({
       "rememberClient": true,
@@ -43,14 +43,14 @@ class UserRepository {
     });
   }
 
-  Future<Response> getUser({@required int userID}) async {
+  Future<Response> getUser({required int userID}) async {
     return await api.getUser(userID);
   }
 
   Future<Response> putUserHash({
-    @required int userId,
-    @required String mobileHashCode,
-    @required int tenantId,
+    required int userId,
+    required String mobileHashCode,
+    required int tenantId,
   }) async {
     return await api.updateUserHash({
       "userID": userId,
@@ -59,7 +59,7 @@ class UserRepository {
     });
   }
 
-  Future<Response> checkTenant({@required String tenancyName}) async {
+  Future<Response> checkTenant({required String tenancyName}) async {
     return await api.isTenantAvailable({"tenancyName": tenancyName});
   }
 
@@ -100,13 +100,13 @@ class UserRepository {
 
   Future<Map> getUserSharedPref() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    String deviceId = await _prefs.get('deviceId');
-    String deviceState = await _prefs.get('deviceState');
-    String tenantState = await _prefs.get('tenantState');
-    String userName = await _prefs.get('userName');
-    String tenantName = await _prefs.get('tenantName');
-    String tenantId = await _prefs.get('tenantId');
-    String userId = await _prefs.get('userId');
+    String? deviceId = (await _prefs.get('deviceId')) as String?;
+    String? deviceState = (await _prefs.get('deviceState')) as String?;
+    String? tenantState = (await _prefs.get('tenantState')) as String?;
+    String? userName = (await _prefs.get('userName')) as String?;
+    String? tenantName = (await _prefs.get('tenantName')) as String?;
+    String? tenantId = (await _prefs.get('tenantId')) as String?;
+    String? userId = (await _prefs.get('userId')) as String?;
 
     Map<String, String> map = {
       "deviceId": "$deviceId",
@@ -120,9 +120,9 @@ class UserRepository {
     return map;
   }
 
-  Future<String> getTenantFromSharedPref() async {
+  Future<String?> getTenantFromSharedPref() async {
     final _prefs = await SharedPreferences.getInstance();
-    String result = _prefs.getString('tenatName');
+    String? result = _prefs.getString('tenatName');
     return result;
   }
 
@@ -139,9 +139,9 @@ class UserRepository {
 
   Future<Map> getPreferenceData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = await prefs.get("access_token");
-    int userId = int.tryParse(await prefs.get("userId"));
-    int tenantId = int.tryParse(await prefs.get("tenantid"));
+    String? token = (await prefs.get("access_token")) as String?;
+    int? userId = int.tryParse(await prefs.get("userId") as String);
+    int? tenantId = int.tryParse(await prefs.get("tenantid") as String);
 
     Map<String, String> map = {
       "token": "$token",
@@ -183,19 +183,19 @@ class UserRepository {
   Future<Locale> getLocale() async {
     String finalLocale;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String userLocale = prefs.getString(USER_LANGUAGE_CODE_KEY);
-    String deviceLocale = prefs.getString(DEVICE_LANGUAGE_CODE_KEY);
-    String defalutDeviceLocale = await getDeviceLocale();
+    String? userLocale = prefs.getString(USER_LANGUAGE_CODE_KEY);
+    String? deviceLocale = prefs.getString(DEVICE_LANGUAGE_CODE_KEY);
+    String? defalutDeviceLocale = await getDeviceLocale();
     if (deviceLocale == null) {
-      prefs.setString(DEVICE_LANGUAGE_CODE_KEY, defalutDeviceLocale);
+      prefs.setString(DEVICE_LANGUAGE_CODE_KEY, defalutDeviceLocale!);
       finalLocale = defalutDeviceLocale;
     } else if (userLocale != null) {
       finalLocale = userLocale;
     } else {
-      finalLocale = defalutDeviceLocale;
+      finalLocale = defalutDeviceLocale!;
     }
     if (defalutDeviceLocale != deviceLocale) {
-      prefs.setString(DEVICE_LANGUAGE_CODE_KEY, defalutDeviceLocale);
+      prefs.setString(DEVICE_LANGUAGE_CODE_KEY, defalutDeviceLocale!);
     }
     return _locale(finalLocale);
   }
@@ -205,14 +205,14 @@ class UserRepository {
     String currentLocale;
     if (Platform.isAndroid || Platform.isIOS) {
       try {
-        languages = await Devicelocale.preferredLanguages;
+        languages = (await Devicelocale.preferredLanguages)!;
         print(languages);
       } on PlatformException {
         print("Error obtaining preferred languages");
         return null;
       }
       try {
-        currentLocale = await Devicelocale.currentLocale;
+        currentLocale = (await Devicelocale.currentLocale)!;
       } on PlatformException {
         print("Error obtaining current locale");
         return null;
@@ -228,9 +228,9 @@ class UserRepository {
     await _prefs.setString('theme', theme);
   }
 
-  Future<String> getTheme() async {
+  Future<String?> getTheme() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    String theme = await _prefs.getString('theme');
+    String? theme = await _prefs.getString('theme');
     return theme;
   }
 }

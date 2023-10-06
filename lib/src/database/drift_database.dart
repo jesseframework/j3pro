@@ -1,25 +1,9 @@
-/*
- * Jesseframework - Computer Expertz Ltd - https://cpxz.us
- * Copyright (C) 2019-2021 Jesseframework
- *
- * This file is part of Jesseframework - https://github.com/jesseframework/j3.
- *
- * Jesseframework is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version. 
- *
- * Jesseframework is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- */
-
 import 'dart:io';
-
-import 'package:flutter/material.dart';
+import 'package:drift/drift.dart';
+import 'package:j3enterprise/src/resources/shared/utils/date_formating.dart';
+import 'package:path/path.dart' as p;
+import 'package:drift/native.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:j3enterprise/src/models/application_logger_model.dart';
 import 'package:j3enterprise/src/models/background_job_schedule_model.dart';
 import 'package:j3enterprise/src/models/background_jobs_logs_model.dart';
@@ -57,13 +41,9 @@ import 'package:j3enterprise/src/pro/models/series_number/series_number_model.da
 import 'package:j3enterprise/src/pro/models/series_number/temp_number_logs.dart';
 import 'package:j3enterprise/src/pro/models/warehouse/inventory_items_model.dart';
 import 'package:j3enterprise/src/pro/models/warehouse/inventory_transaction_model.dart';
-import 'package:j3enterprise/src/resources/shared/utils/date_formating.dart';
-import 'package:drift/drift.dart';
-import 'package:drift/native.dart';
-import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart' as paths;
+ 
 
-part 'moor_database.g.dart';
+part 'drift_database.g.dart';
 
 @DriftDatabase(tables: [
   Users,
@@ -103,59 +83,50 @@ part 'moor_database.g.dart';
   ClockIn,
   SystemCurrency,
   ExchangeRate
-])
-class AppDatabase extends _$AppDatabase {
-  static AppDatabase _db = _constructDb();
+],)  
+ 
+class MyDatabase extends _$MyDatabase {
+  // we tell the database where to store the data with this constructor
+  // MyDatabase() : super(_openConnection());
 
-  factory AppDatabase() {
-    return _db;
+  static final MyDatabase instance = MyDatabase._internal(_openConnection());
+  factory MyDatabase() {
+    return instance;
   }
+  MyDatabase._internal(QueryExecutor e) : super(e);
 
-  AppDatabase._internal(QueryExecutor e) : super(e);
-
+  // you should bump this number whenever you change or add a table definition.
+  // Migrations are covered later in the documentation.
   @override
-  int get schemaVersion => 3;
-
+  int get schemaVersion => 1;
   @override
   MigrationStrategy get migration => MigrationStrategy(
-          // Runs if the database has already been opened on the device with a lower version
-          onUpgrade: (doMigration, from, to) async {
-        if (from == 2) {
-          //await migrator.addColumn(tasks, tasks.tagName);
-          //await doMigration.createTable(ApplicationLogger);
-        }
-
-        // ignore: unnecessary_statements
-        (db, details) async {
-          await db.customStatement(
-              'PRAGMA foreign_keys = ON ' + 'PRAGMA journal_mode=WAL');
-        };
-      }, beforeOpen: (details) async {
-        if (details.wasCreated) {
-          String systemDate = await formatDate(DateTime.now().toString());
+        onCreate: (Migrator m) async {
+          await m.createAll();
+             String systemDate = await formatDate(DateTime.now().toString());
           await into(backgroundJobSchedule).insert(BackgroundJobScheduleData(
               id: 1,
               jobName: "Mobile Desktop",
-              startDateTime: DateTime.tryParse(systemDate),
+              startDateTime: DateTime.tryParse(systemDate)!,
               syncFrequency: "Every 20 Minutes",
               enableJob: true,
-              lastRun: DateTime.tryParse(systemDate),
+              lastRun: DateTime.tryParse(systemDate)!,
               jobStatus: "Never Run"));
           await into(backgroundJobSchedule).insert(BackgroundJobScheduleData(
               id: 2,
               jobName: "Configuration",
-              startDateTime: DateTime.tryParse(systemDate),
+              startDateTime: DateTime.tryParse(systemDate)!,
               syncFrequency: "Every 20 Minutes",
               enableJob: true,
-              lastRun: DateTime.tryParse(systemDate),
+              lastRun: DateTime.tryParse(systemDate)!,
               jobStatus: "Never Run"));
           await into(backgroundJobSchedule).insert(BackgroundJobScheduleData(
               id: 3,
               jobName: "Log Shipping",
-              startDateTime: DateTime.tryParse(systemDate),
+              startDateTime: DateTime.tryParse(systemDate)!,
               syncFrequency: "Every Day",
               enableJob: true,
-              lastRun: DateTime.tryParse(systemDate),
+              lastRun: DateTime.tryParse(systemDate)!,
               jobStatus: "Never Run"));
 
           await into(seriesNumberGenerator).insert(SeriesNumberGeneratorData(
@@ -215,30 +186,17 @@ class AppDatabase extends _$AppDatabase {
               nextSeriesNumber: "INC10000000001",
               lastSeriesNumber: "INC10000000001",
               typeOfNumber: "Inventory Cycle"));
-        }
-      });
+        },
+      );
+ 
+}
 
-  static AppDatabase _constructDb({bool logStatements = false}) {
-    if (Platform.isIOS || Platform.isAndroid) {
-      final executor = LazyDatabase(() async {
-        final dataDir = await paths.getApplicationDocumentsDirectory();
-        final dbFile = File(p.join(dataDir.path, 'db.sqlite'));
-        return NativeDatabase(dbFile, logStatements: logStatements);
-      });
-      return AppDatabase._internal(executor);
-    }
-    if (Platform.isMacOS || Platform.isLinux) {
-      final file = File('db.sqlite');
-      return AppDatabase._internal(
-          NativeDatabase(file, logStatements: logStatements));
-    }
-    if (Platform.isWindows) {
-      final file = File('db.sqlite');
-      return AppDatabase._internal(
-          NativeDatabase(file, logStatements: logStatements));
-    }
-
-    return AppDatabase._internal(
-        NativeDatabase.memory(logStatements: logStatements));
-  }
+LazyDatabase _openConnection() {
+  // the LazyDatabase util lets us find the right location for the file async.
+  return LazyDatabase(() async {
+   
+    final dbFolder = await getApplicationDocumentsDirectory();
+    final file = File(p.join(dbFolder.path, 'meter.sqlite'));
+    return NativeDatabase.createInBackground(file);
+  });
 }

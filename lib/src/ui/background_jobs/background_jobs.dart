@@ -68,13 +68,13 @@ class _SetupBackgroundPageState extends State<SetupBackgroundPage> {
                   tabs: [
                     Tab(
                       icon: Icon(CustomIcons.wrench_solid),
-                      text: AppLocalization.of(context)
+                      text: AppLocalization.of(context)!
                               .translate('tab_app_servies') ??
                           'App Servies',
                     ),
                     Tab(
                       icon: Icon(CustomIcons.cog_regular),
-                      text: AppLocalization.of(context)
+                      text: AppLocalization.of(context)!
                               .translate('tab_device_servies') ??
                           'Device Serives',
                     )
@@ -82,7 +82,7 @@ class _SetupBackgroundPageState extends State<SetupBackgroundPage> {
                 )
               : null,
           title: Text(
-              AppLocalization.of(context).translate('title_background_jobs') ??
+              AppLocalization.of(context)!.translate('title_background_jobs') ??
                   'Background Jobs'),
           actions: <Widget>[
             Switch(

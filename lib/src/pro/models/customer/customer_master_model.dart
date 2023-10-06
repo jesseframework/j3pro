@@ -5,33 +5,34 @@ import 'package:drift/drift.dart';
 class Customer extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
   IntColumn get tenantId => integer().nullable()();
-  TextColumn get customerId => text()();
-  TextColumn get customerName => text()();
-  TextColumn get companyName => text()();
-  TextColumn get customerType => text()();
-  TextColumn get customerGroup => text()();
-  TextColumn get customerTerritory => text()();
-  TextColumn get defaultCurrency => text()();
-  TextColumn get paymentTerms => text()();
-  TextColumn get language => text()();
-  RealColumn get creditLimit => real()();
-  TextColumn get billingAddressName => text().nullable()();
-  TextColumn get shippingAddressName => text().nullable()();
-  TextColumn get contactName => text().nullable()();
-  TextColumn get priceList => text().nullable()();
-  RealColumn get minQuantity => real()();
-  RealColumn get maxQuantity => real()();
-  TextColumn get discountType => text()();
-  RealColumn get discountPercentage => real()();
-  RealColumn get discountAmount => real()();
+  TextColumn get customerId => text().nullable()();
+  TextColumn get customerName => text().nullable()();
+  TextColumn get companyName => text().nullable()();
+  TextColumn get customerType => text().nullable()();
+  TextColumn get customerGroup => text().nullable()();
+  TextColumn get customerTerritory => text().nullable()();
+  TextColumn get defaultCurrency => text().nullable()();
+  TextColumn get paymentTerms => text().nullable()();
+  TextColumn get language => text().nullable()();
+  RealColumn get creditLimit => real().nullable()();
+  TextColumn get billingAddressName => text().nullable().nullable()();
+  TextColumn get shippingAddressName => text().nullable().nullable()();
+  TextColumn get contactName => text().nullable().nullable()();
+  TextColumn get priceList => text().nullable().nullable()();
+  RealColumn get minQuantity => real().nullable()();
+  RealColumn get maxQuantity => real().nullable()();
+  TextColumn get discountType => text().nullable()();
+  RealColumn get discountPercentage => real().nullable()();
+  RealColumn get discountAmount => real().nullable()();
   BoolColumn get enableHeaderDiscount =>
-      boolean().withDefault(Constant(false))();
-  RealColumn get accumulatedPurchase => real()();
-  DateTimeColumn get validFrom => dateTime()();
-  DateTimeColumn get validTo => dateTime()();
-  TextColumn get taxId => text()();
-  TextColumn get taxGroup => text()();
-
+      boolean().withDefault(Constant(false)).nullable()();
+  RealColumn get accumulatedPurchase => real().nullable()();
+  DateTimeColumn get validFrom => dateTime().nullable()();
+  DateTimeColumn get validTo => dateTime().nullable()();
+  TextColumn get taxId => text().nullable()();
+  TextColumn get taxGroup => text().nullable()();
   @override
   Set<Column> get primaryKey => {id};
+
+ 
 }

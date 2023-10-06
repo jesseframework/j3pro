@@ -2,8 +2,5 @@
 
 part of 'item_group_crud.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$ItemGroupDaoMixin on DatabaseAccessor<AppDatabase> {}
+// ignore_for_file: type=lint
+mixin _$ItemGroupDaoMixin on DatabaseAccessor<MyDatabase> {}

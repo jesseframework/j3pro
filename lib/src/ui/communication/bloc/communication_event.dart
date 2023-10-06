@@ -26,7 +26,7 @@ abstract class CommunicationEvent extends Equatable {
 class SaveCommunicationButtonPressed extends CommunicationEvent {
   final CommunicationCompanion data;
 
-  const SaveCommunicationButtonPressed({@required this.data});
+  const SaveCommunicationButtonPressed({required this.data});
 
   @override
   List<Object> get props => [data];
@@ -38,7 +38,7 @@ class SaveCommunicationButtonPressed extends CommunicationEvent {
 class UpdateAPICommunicationButtonPressed extends CommunicationEvent {
   final CommunicationCompanion data;
 
-  const UpdateAPICommunicationButtonPressed({@required this.data});
+  const UpdateAPICommunicationButtonPressed({required this.data});
 
   @override
   List<Object> get props => [data];
@@ -50,7 +50,7 @@ class UpdateAPICommunicationButtonPressed extends CommunicationEvent {
 class UpdateERPCommunicationButtonPressed extends CommunicationEvent {
   final CommunicationCompanion data;
 
-  const UpdateERPCommunicationButtonPressed({@required this.data});
+  const UpdateERPCommunicationButtonPressed({required this.data});
 
   @override
   List<Object> get props => [data];
@@ -62,7 +62,7 @@ class UpdateERPCommunicationButtonPressed extends CommunicationEvent {
 class OnFormLoadGetSaveCommunication extends CommunicationEvent {
   final String communicationType;
 
-  OnFormLoadGetSaveCommunication({@required this.communicationType});
+  OnFormLoadGetSaveCommunication({required this.communicationType});
 
   @override
   List<Object> get props => [communicationType];

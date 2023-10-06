@@ -3,66 +3,66 @@ description: A new Flutter application.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.10.0 <3.0.0"
+  sdk: ">=2.14.0 <3.0.0"
 dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  flutter_svg: ^1.0.1
-  google_maps_flutter: ^2.1.1
-  http: ^0.13.4
-  geolocator: ^8.0.3
-  vector_math: ^2.1.1
+  flutter_svg: ^2.0.4
+  google_maps_flutter: ^2.2.5
+  http: ^0.13.5
+  geolocator: ^9.0.2
+  vector_math: ^2.1.4
   sensors: ^2.0.3
   battery: ^2.0.3
-  material_floating_search_bar: ^0.3.6
-  dropdown_search: ^2.0.1
-  cupertino_icons: ^1.0.4
+  material_floating_search_bar: ^0.3.7
+  dropdown_search: ^5.0.6
+  cupertino_icons: ^1.0.5
   #xlive_switch: ^1.0.5
   flutter_switch: ^0.3.2
   #flushbar: ^1.10.4
-  another_flushbar: ^1.10.28
-  signature: ^5.0.0
-  font_awesome_flutter: ^9.2.0
-  google_fonts: ^2.2.0
-  chopper: ^4.0.4
-  flutter_simple_treeview: ^3.0.0-nullsafety.1
+  another_flushbar: ^1.12.29
+  signature: ^5.3.2
+  font_awesome_flutter: ^10.4.0
+  google_fonts: ^4.0.3
+  chopper: ^6.1.1
+  flutter_simple_treeview: ^3.0.2
   #barcode_keyboard_listener: ^0.0.1
-  flutter_barcode_listener: ^0.1.1
+  flutter_barcode_listener: ^0.1.3
   intl: ^0.17.0
-  easy_localization: ^3.0.0
-  background_fetch: ^1.0.3
-  devicelocale: ^0.5.0
+  easy_localization: ^3.0.1
+  background_fetch: ^1.1.5
+  devicelocale: ^0.6.0
   rflutter_alert: ^2.0.4
-  sqflite: ^2.0.2
-  provider: ^6.0.2
-  badges: ^2.0.2
-  shared_preferences: ^2.0.12
-  flutter_bloc: ^7.2.0
-  meta: ^1.7.0
-  equatable: ^2.0.3
-  drift: ^1.0.0
+  sqflite: ^2.2.6
+  provider: ^6.0.5
+  badges: ^3.0.3
+  shared_preferences: ^2.1.0
+  flutter_bloc: ^8.1.2
+  meta: ^1.8.0
+  equatable: ^2.0.5
+  drift: ^2.6.0
   #moor_ffi: ^0.8.0
-  sqlite3_flutter_libs: ^0.5.3
-  path_provider: ^2.0.8
+  sqlite3_flutter_libs: ^0.5.13
+  path_provider: ^2.0.14
   # firebase_core: ^0.4.0+9
   # firebase_analytics: ^5.0.2
   # firebase_auth: ^0.14.0+5
-  firebase_messaging: ^11.2.5
-  bot_toast: ^4.0.1
+  firebase_messaging: ^14.4.0
+  bot_toast: ^4.0.3
   device_info: ^2.0.3
   encrypt: ^5.0.1
   #cryptor: ^0.1.6
-  crypto: ^3.0.1
+  crypto: ^3.0.2
   random_string_generator: ^2.0.0
   connectivity: ^3.0.6
-  quiver: ^3.0.1+1
-  logging: ^1.0.2
+  quiver: ^3.2.1
+  logging: ^1.1.1
   flutter_barcode_scanner: ^2.0.0
-  kiwi: ^4.0.1
-  built_value: ^8.1.4
-  flutter_local_notifications: ^9.2.0
+  kiwi: ^4.1.0
+  built_value: ^8.4.4
+  flutter_local_notifications: ^14.0.0+1
   get_it: ^7.2.0
   built_collection: ^5.1.1
   shamsi_date: ^1.0.1
@@ -72,9 +72,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  chopper_generator: ^4.0.0
-  drift_dev: ^1.0.0
-  build_runner: ^2.1.7
+  chopper_generator: ^6.0.0
+  drift_dev: ^2.6.0
+  build_runner: ^2.3.3
 # dependency_overrides:
 #   analyzer: ^2.3.0
 

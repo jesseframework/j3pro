@@ -14,7 +14,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalization.of(context)
+        title: Text(AppLocalization.of(context)!
                 .translate('add_customer_appbar_title') ??
             "New Customer"),
         actions: [
@@ -49,25 +49,25 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                     borderRadius: BorderRadius.circular(8)),
                 child: Column(
                   children: [
-                    TextFromFieldNullableReusable(
+                    TextFromFieldReusable(
                       fieldDecoration: InputDecoration(
-                        labelText: AppLocalization.of(context).translate(
+                        labelText: AppLocalization.of(context)!.translate(
                                 'customer_number_label_add_customer') ??
                             'Customer Number',
                       ),
                       validationText: 'Test',
                     ),
-                    TextFromFieldNullableReusable(
+                    TextFromFieldReusable(
                       fieldDecoration: InputDecoration(
-                        labelText: AppLocalization.of(context).translate(
+                        labelText: AppLocalization.of(context)!.translate(
                                 'customer_name_label_add_customer') ??
                             'Customer Name *',
                       ),
                       validationText: 'Test',
                     ),
-                    TextFromFieldNullableReusable(
+                    TextFromFieldReusable(
                       fieldDecoration: InputDecoration(
-                          labelText: AppLocalization.of(context).translate(
+                          labelText: AppLocalization.of(context)!.translate(
                                   'customer_type_label_add_customer') ??
                               'Customer Type *',
                           suffixIcon: InkWell(
@@ -75,9 +75,9 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                               child: Icon(Icons.arrow_drop_down))),
                       validationText: 'Test',
                     ),
-                    TextFromFieldNullableReusable(
+                    TextFromFieldReusable(
                       fieldDecoration: InputDecoration(
-                          labelText: AppLocalization.of(context).translate(
+                          labelText: AppLocalization.of(context)!.translate(
                                   'customer_group_label_add_customer') ??
                               'Customer Group *',
                           suffixIcon: InkWell(
@@ -94,17 +94,17 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                     borderRadius: BorderRadius.circular(8)),
                 child: Column(
                   children: [
-                    TextFromFieldNullableReusable(
+                    TextFromFieldReusable(
                       fieldDecoration: InputDecoration(
-                        labelText: AppLocalization.of(context)
+                        labelText: AppLocalization.of(context)!
                                 .translate('company_name_label_add_customer') ??
                             'Company Name',
                       ),
                       validationText: 'Test',
                     ),
-                    TextFromFieldNullableReusable(
+                    TextFromFieldReusable(
                       fieldDecoration: InputDecoration(
-                          labelText: AppLocalization.of(context)
+                          labelText: AppLocalization.of(context)!
                                   .translate('territory_label_add_customer') ??
                               'Territory',
                           suffixIcon: InkWell(
@@ -121,9 +121,9 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                     borderRadius: BorderRadius.circular(8)),
                 child: Column(
                   children: [
-                    TextFromFieldNullableReusable(
+                    TextFromFieldReusable(
                       fieldDecoration: InputDecoration(
-                          labelText: AppLocalization.of(context)
+                          labelText: AppLocalization.of(context)!
                                   .translate('currency_label_add_customer') ??
                               'Currency',
                           suffixIcon: InkWell(
@@ -131,9 +131,9 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                               child: Icon(Icons.arrow_drop_down))),
                       validationText: 'Test',
                     ),
-                    TextFromFieldNullableReusable(
+                    TextFromFieldReusable(
                       fieldDecoration: InputDecoration(
-                          labelText: AppLocalization.of(context)
+                          labelText: AppLocalization.of(context)!
                                   .translate('price_list_add_customer') ??
                               'Price List',
                           suffixIcon: InkWell(
@@ -141,9 +141,9 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                               child: Icon(Icons.arrow_drop_down))),
                       validationText: 'Test',
                     ),
-                    TextFromFieldNullableReusable(
+                    TextFromFieldReusable(
                       fieldDecoration: InputDecoration(
-                          labelText: AppLocalization.of(context)
+                          labelText: AppLocalization.of(context)!
                                   .translate('tax group_add_customer') ??
                               'Tax Group',
                           suffixIcon: InkWell(
@@ -158,9 +158,9 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8)),
-                child: TextFromFieldNullableReusable(
+                child: TextFromFieldReusable(
                   fieldDecoration: InputDecoration(
-                      labelText: AppLocalization.of(context)
+                      labelText: AppLocalization.of(context)!
                               .translate('contacts_label_add_customer') ??
                           'Add Contact',
                       suffixIcon: InkWell(
@@ -175,9 +175,9 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                     borderRadius: BorderRadius.circular(8)),
                 child: Column(
                   children: [
-                    TextFromFieldNullableReusable(
+                    TextFromFieldReusable(
                       fieldDecoration: InputDecoration(
-                          labelText: AppLocalization.of(context)
+                          labelText: AppLocalization.of(context)!
                                   .translate('billing_address_add_customer') ??
                               'Billing Address',
                           suffixIcon: InkWell(
@@ -185,9 +185,9 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                               child: Icon(Icons.add_circle_outline_rounded))),
                       validationText: 'Test',
                     ),
-                    TextFromFieldNullableReusable(
+                    TextFromFieldReusable(
                       fieldDecoration: InputDecoration(
-                          labelText: AppLocalization.of(context)
+                          labelText: AppLocalization.of(context)!
                                   .translate('shipping_address_add_customer') ??
                               'Shipping Address',
                           suffixIcon: InkWell(
@@ -202,9 +202,9 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8)),
-                child: TextFromFieldNullableReusable(
+                child: TextFromFieldReusable(
                   fieldDecoration: InputDecoration(
-                      labelText: AppLocalization.of(context)
+                      labelText: AppLocalization.of(context)!
                               .translate('payment_terms_add_customer') ??
                           'Payment Terms',
                       suffixIcon: InkWell(
@@ -277,9 +277,9 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8)),
-                child: TextFromFieldNullableReusable(
+                child: TextFromFieldReusable(
                   fieldDecoration: InputDecoration(
-                      labelText: AppLocalization.of(context)
+                      labelText: AppLocalization.of(context)!
                               .translate('additional_info_add_customer') ??
                           'Additional Info',
                       suffixIcon: InkWell(
@@ -303,7 +303,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
       child: Text(title,
-          style: Theme.of(context).textTheme.bodyText2.copyWith(
+          style: Theme.of(context).textTheme.bodyText2!.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
               )),

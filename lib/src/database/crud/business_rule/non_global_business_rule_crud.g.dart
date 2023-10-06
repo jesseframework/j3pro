@@ -2,11 +2,8 @@
 
 part of 'non_global_business_rule_crud.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$NonGlobalBusinessRuleDaoMixin on DatabaseAccessor<AppDatabase> {
+// ignore_for_file: type=lint
+mixin _$NonGlobalBusinessRuleDaoMixin on DatabaseAccessor<MyDatabase> {
   $NonGlobalBusinessRuleTable get nonGlobalBusinessRule =>
       attachedDatabase.nonGlobalBusinessRule;
 }

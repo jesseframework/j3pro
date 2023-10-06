@@ -14,7 +14,7 @@ class _AddItemPageState extends State<AddItemPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            AppLocalization.of(context).translate('add_item_appbar_title') ??
+            AppLocalization.of(context)!.translate('add_item_appbar_title') ??
                 "New Item"),
         actions: [
           InkWell(
@@ -50,7 +50,7 @@ class _AddItemPageState extends State<AddItemPage> {
                   'Item Photo',
                   style: Theme.of(context)
                       .textTheme
-                      .bodyText2
+                      .bodyMedium!
                       .copyWith(fontWeight: FontWeight.bold),
                 ),
                 children: [
@@ -65,10 +65,10 @@ class _AddItemPageState extends State<AddItemPage> {
                             Text(
                               'Attach Photo',
                               style: TextStyle(
-                                  color: Theme.of(context).textSelectionColor),
+                                  color: Theme.of(context).textSelectionTheme.selectionColor),
                             ),
                             Icon(Icons.attach_file,
-                                color: Theme.of(context).textSelectionColor)
+                                color: Theme.of(context).textSelectionTheme.selectionColor)
                           ],
                         ),
                       ),
@@ -84,25 +84,25 @@ class _AddItemPageState extends State<AddItemPage> {
                   borderRadius: BorderRadius.circular(8)),
               child: Column(
                 children: [
-                  TextFromFieldNullableReusable(
+                  TextFromFieldReusable(
                     fieldDecoration: InputDecoration(
-                      labelText: AppLocalization.of(context)
+                      labelText: AppLocalization.of(context)!
                               .translate('item_code_label_add_item') ??
                           'Item Code',
                     ),
                     validationText: 'Test',
                   ),
-                  TextFromFieldNullableReusable(
+                  TextFromFieldReusable(
                     fieldDecoration: InputDecoration(
-                      labelText: AppLocalization.of(context)
+                      labelText: AppLocalization.of(context)!
                               .translate('item_name_label_add_item') ??
                           'Item Name *',
                     ),
                     validationText: 'Test',
                   ),
-                  TextFromFieldNullableReusable(
+                  TextFromFieldReusable(
                     fieldDecoration: InputDecoration(
-                      labelText: AppLocalization.of(context)
+                      labelText: AppLocalization.of(context)!
                               .translate('description_label_add_item') ??
                           'Description',
                     ),
@@ -111,9 +111,9 @@ class _AddItemPageState extends State<AddItemPage> {
                   Row(
                     children: [
                       Expanded(
-                        child: TextFromFieldNullableReusable(
+                        child: TextFromFieldReusable(
                           fieldDecoration: InputDecoration(
-                              labelText: AppLocalization.of(context)
+                              labelText: AppLocalization.of(context)!
                                       .translate('upc_code_label_add_item') ??
                                   'UPC Code *',
                               suffixIcon: InkWell(
@@ -180,27 +180,27 @@ class _AddItemPageState extends State<AddItemPage> {
                       ),
                     ],
                   ),
-                  TextFromFieldNullableReusable(
+                  TextFromFieldReusable(
                     fieldDecoration: InputDecoration(
-                        labelText: AppLocalization.of(context)
+                        labelText: AppLocalization.of(context)!
                                 .translate('product_group_label_add_item') ??
                             'Product Group *',
                         suffixIcon: InkWell(
                             onTap: () {}, child: Icon(Icons.arrow_drop_down))),
                     validationText: 'Test',
                   ),
-                  TextFromFieldNullableReusable(
+                  TextFromFieldReusable(
                     fieldDecoration: InputDecoration(
-                        labelText: AppLocalization.of(context)
+                        labelText: AppLocalization.of(context)!
                                 .translate('unit_of_measure_label_add_item') ??
                             'Unit of Measure *',
                         suffixIcon: InkWell(
                             onTap: () {}, child: Icon(Icons.arrow_drop_down))),
                     validationText: 'Test',
                   ),
-                  TextFromFieldNullableReusable(
+                  TextFromFieldReusable(
                     fieldDecoration: InputDecoration(
-                        labelText: AppLocalization.of(context)
+                        labelText: AppLocalization.of(context)!
                                 .translate('category_label_add_item') ??
                             'Category *',
                         suffixIcon: InkWell(
@@ -255,7 +255,7 @@ class _AddItemPageState extends State<AddItemPage> {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
       child: Text(title,
-          style: Theme.of(context).textTheme.bodyText1.copyWith(
+          style: Theme.of(context).textTheme.bodyText1!.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
               )),

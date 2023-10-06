@@ -17,42 +17,35 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-import 'package:j3enterprise/src/database/moor_database.dart';
+
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/models/non_global_preference_setting.dart';
 import 'package:drift/drift.dart';
 
 part 'non_preference_crud.g.dart';
 
 @DriftAccessor(tables: [NonGlobalPreference])
-class NonGlobalPreferenceDao extends DatabaseAccessor<AppDatabase>
-    with _$NonGlobalPreferenceDaoMixin {
-  final AppDatabase db;
+class NonGlobalPreferenceDao extends DatabaseAccessor<MyDatabase> with _$NonGlobalPreferenceDaoMixin {
+  final MyDatabase db;
   NonGlobalPreferenceDao(this.db) : super(db);
 
   Future<void> createOrUpdatePref(NonGlobalPreferenceData pref) {
     return into(db.nonGlobalPreference).insertOnConflictUpdate(pref);
   }
 
-  Future<NonGlobalPreferenceData> getSingleNonGlobalPref(String parentCode,
-      String code, String userName, String deviceId, String screen) {
+  Future<NonGlobalPreferenceData> getSingleNonGlobalPref(String parentCode, String code, String userName, String deviceId, String? screen) {
     return (select(db.nonGlobalPreference)
           ..where((u) =>
               u.code.equals(code) &
               u.parentCode.equals(parentCode) &
-              (u.userName.like(userName) |
-                  u.deviceId.like(deviceId) |
-                  u.screen.like(screen))))
+              (u.userName.equals(userName) | u.deviceId.equals(deviceId) | u.screen.equals(screen ?? ''))))
         .getSingle();
   }
 
-  Stream<List<NonGlobalPreferenceData>> watchAllNonGlobalPreferences(
-      String parentCode) {
-    return (select(db.nonGlobalPreference)
-          ..where((t) => t.parentCode.equals(parentCode)))
-        .watch();
+  Stream<List<NonGlobalPreferenceData>> watchAllNonGlobalPreferences(String parentCode) {
+    return (select(db.nonGlobalPreference)..where((t) => t.parentCode.equals(parentCode))).watch();
   }
 
-  Future updateNonGlobalPreferenceValue(
-          NonGlobalPreferenceData nonGlobalPreferenceData) =>
+  Future updateNonGlobalPreferenceValue(NonGlobalPreferenceData nonGlobalPreferenceData) =>
       update(db.nonGlobalPreference).replace(nonGlobalPreferenceData);
 }

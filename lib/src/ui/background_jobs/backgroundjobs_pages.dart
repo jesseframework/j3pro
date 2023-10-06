@@ -24,7 +24,7 @@ import 'package:j3enterprise/src/ui/background_jobs/bloc/backgroundjobs_bloc.dar
 import 'backgroundjobs_page.dart';
 
 class BackgroundJobsPage extends StatefulWidget {
-  static final route = '/BackgroundJobs';
+ 
 
   @override
   _BackgroundJobsPageState createState() => _BackgroundJobsPageState();
@@ -40,7 +40,7 @@ class _BackgroundJobsPageState extends State<BackgroundJobsPage> {
         child: Scaffold(
           body: RefreshIndicator(
             onRefresh: () async {
-              return Duration(milliseconds: 3000);
+              return Duration(milliseconds: 3000) as Future<void>;
             },
             child: BlocProvider(
               create: (context) {

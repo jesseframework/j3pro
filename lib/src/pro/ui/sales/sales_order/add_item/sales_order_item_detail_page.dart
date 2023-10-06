@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 
 class SalesOrderItemDetailPage extends StatelessWidget {
-  static final route = '/SalesOrderItemDetailPage';
+   
   int index;
 
-  SalesOrderItemDetailPage({this.index});
+  SalesOrderItemDetailPage({required this.index});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(AppLocalization.of(context)
+          title: Text(AppLocalization.of(context)!
                   .translate('sales_order_item_appbar_title') ??
               "Sales Order"),
         ),

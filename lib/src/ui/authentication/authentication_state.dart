@@ -42,7 +42,7 @@ class AuthenticationNotificationScreen extends AuthenticationState {}
 
 class PushNotificationState extends AuthenticationState {
   String route;
-  PushNotificationState({this.route});
+  PushNotificationState({required this.route});
   @override
   List<Object> get props => [route];
 }

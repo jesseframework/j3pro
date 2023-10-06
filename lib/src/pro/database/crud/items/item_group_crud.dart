@@ -1,12 +1,11 @@
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:drift/drift.dart';
 
 part 'item_group_crud.g.dart';
 
 @DriftAccessor(tables: [ItemGroup])
-class ItemGroupDao extends DatabaseAccessor<AppDatabase>
-    with _$ItemGroupDaoMixin {
-  final AppDatabase db;
+class ItemGroupDao extends DatabaseAccessor<MyDatabase> with _$ItemGroupDaoMixin {
+  final MyDatabase db;
   ItemGroupDao(this.db) : super(db);
 
   Future<List<ItemGroup>> getAllItemGroup() {
@@ -14,13 +13,11 @@ class ItemGroupDao extends DatabaseAccessor<AppDatabase>
   }
 
   Stream<List<ItemGroup>> watchAllItemGroupByName(String itemGroupName) {
-    return (select(db.itemGroups)..where((t) => t.group.equals(itemGroupName)))
-        .watch();
+    return (select(db.itemGroups)..where((t) => t.group.equals(itemGroupName))).watch();
   }
 
   Future<List<ItemGroup>> getAllItemGroupByName(String itemGroupName) {
-    return (select(db.itemGroups)..where((t) => t.group.equals(itemGroupName)))
-        .get();
+    return (select(db.itemGroups)..where((t) => t.group.equals(itemGroupName))).get();
   }
 
   Future<void> createOrUpdateItemGroup(ItemGroup itemGroup) {

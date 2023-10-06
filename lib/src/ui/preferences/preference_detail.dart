@@ -17,22 +17,22 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
+import 'package:drift/drift.dart' hide Column;
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/non_preference_crud.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/preference_crud.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 //import 'package:xlive_switch/xlive_switch.dart';
 
 class PreferenceDetailPage extends StatefulWidget {
   final code;
-  NonGlobalPreferenceDao nonGlobalPreferenceDao;
-  PreferenceDao preferenceDao;
+  late NonGlobalPreferenceDao nonGlobalPreferenceDao;
+  late PreferenceDao preferenceDao;
   PreferenceDetailPage(this.code) {
-    db = AppDatabase();
+    db = MyDatabase();
     nonGlobalPreferenceDao = NonGlobalPreferenceDao(db);
     preferenceDao = PreferenceDao(db);
   }
@@ -44,15 +44,13 @@ class PreferenceDetailPage extends StatefulWidget {
 
 class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
   TextEditingController _textFieldController = TextEditingController();
-  String selectedValue;
+  late String selectedValue;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         //ToDo add translation for preferences title
-        title: Text(
-            AppLocalization.of(context).translate('preferences_title') ??
-                "Preferences"),
+        title: Text(AppLocalization.of(context)!.translate('preferences_title') ?? "Preferences"),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 18),
@@ -82,19 +80,17 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                 ),
               ),
               StreamBuilder(
-                  stream:
-                      widget.preferenceDao.watchSinglePreferences(widget.code),
+                  stream: widget.preferenceDao.watchSinglePreferences(widget.code),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      PreferenceData prefData;
-                      prefData = snapshot.data;
+                      PreferenceData? prefData;
+                      prefData = snapshot.data as PreferenceData?;
 
                       //  print(prefData[1]);
                       return Container(
                         height: 200,
                         child: Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                           elevation: 4.0,
                           //  height: 150,
                           child: Padding(
@@ -103,45 +99,33 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'Name',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16),
+                                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                                     ),
                                     Container(
                                       margin: EdgeInsets.only(right: 5),
                                       child: Text(
-                                        prefData.preferenceName,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                        prefData!.preferenceName!,
+                                        style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
                                       ),
                                     ),
                                   ],
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'Is Global',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16),
+                                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                                     ),
                                     Container(
                                       child: FlutterSwitch(
-                                          value: prefData.isGlobal == false
-                                              ? false
-                                              : true,
+                                          value: prefData.isGlobal == false ? false : true,
                                           onToggle: (value) async {
-                                            await widget.preferenceDao
-                                                .updatePreferenceValue(
-                                                    prefData.copyWith(
+                                            await widget.preferenceDao.updatePreferenceValue(prefData!.copyWith(
                                               isGlobal: value,
                                             ));
                                           }),
@@ -149,28 +133,19 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                   ],
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'Option',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16),
+                                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                                     ),
                                     Container(
                                         child: prefData.dataType == 'Bool'
                                             ? FlutterSwitch(
-                                                value: prefData.value == 'OFF'
-                                                    ? false
-                                                    : true,
+                                                value: prefData.value == 'OFF' ? false : true,
                                                 onToggle: (value) async {
-                                                  await widget.preferenceDao
-                                                      .updatePreferenceValue(
-                                                          prefData.copyWith(
-                                                    value: value == true
-                                                        ? 'ON'
-                                                        : 'OFF',
+                                                  await widget.preferenceDao.updatePreferenceValue(prefData!.copyWith(
+                                                    value: value == true ? 'ON' : 'OFF',
                                                   ));
                                                 })
 //
@@ -179,97 +154,59 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                                     children: [
                                                       Text(
                                                         prefData.value,
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            color:
-                                                                Colors.black45,
-                                                            fontSize: 16),
+                                                        style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black45, fontSize: 16),
                                                       ),
                                                       InkWell(
                                                         child: Container(
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .cardColor,
-                                                            margin:
-                                                                EdgeInsets.only(
-                                                                    left: 8),
-                                                            child: Icon(
-                                                                Icons.edit)),
+                                                            color: Theme.of(context).cardColor,
+                                                            margin: EdgeInsets.only(left: 8),
+                                                            child: Icon(Icons.edit)),
                                                         onTap: () {
-                                                          _textFieldController =
-                                                              TextEditingController(
-                                                                  text: prefData
-                                                                      .value);
+                                                          _textFieldController = TextEditingController(text: prefData!.value);
                                                           _displayDialog(
                                                               context,
-                                                              () => widget
-                                                                  .preferenceDao
-                                                                  .updatePreferenceValue(
-                                                                      prefData.copyWith(
-                                                                          value:
-                                                                              _textFieldController.text)));
+                                                              () => widget.preferenceDao
+                                                                  .updatePreferenceValue(prefData!.copyWith(value: _textFieldController.text)));
                                                         },
                                                       ),
                                                     ],
                                                   )
                                                 : DropdownSearch(
+                                                    popupProps: PopupProps.menu(
+                                                      showSelectedItems: true,
+                                                      disabledItemFn: (String s) => s.startsWith('I'),
+                                                    ),
                                                     //backgroundColor: Theme.of(context).cardColor,
-                                                    onFind: (value) async {
-                                                      print(value);
-                                                      return prefData.dataValue
-                                                          .split(',')
-                                                          .map((e) => e)
-                                                          .toList();
-                                                    },
-                                                    selectedItem:
-                                                        prefData.value,
-                                                    showSearchBox: true,
-                                                    items: prefData.dataValue
-                                                        .split(',')
-                                                        .map((e) => e)
-                                                        .toList(),
+                                                    // onFind: (value) async {
+                                                    //   print(value);
+                                                    //   return prefData!.dataValue!.split(',').map((e) => e).toList();
+                                                    // },
+                                                    selectedItem: prefData.value,
+                                                    items: prefData.dataValue!.split(',').map((e) => e).toList(),
                                                     onChanged: (value) async {
-                                                      await widget.preferenceDao
-                                                          .updatePreferenceValue(
-                                                              prefData.copyWith(
-                                                                  value:
-                                                                      value));
+                                                      await widget.preferenceDao.updatePreferenceValue(prefData!.copyWith(value: value.toString()));
                                                     })),
                                   ],
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'Expiry Date',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16),
+                                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                                     ),
                                     Expanded(child: Container()),
                                     Text(
-                                      "${prefData.expiredDateTime.day}-${prefData.expiredDateTime.month}-${prefData.expiredDateTime.year}",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16),
+                                      "${prefData.expiredDateTime!.day}-${prefData.expiredDateTime!.month}-${prefData.expiredDateTime!.year}",
+                                      style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
                                     ),
                                     InkWell(
                                         onTap: () async {
                                           var result = await showDatePicker(
-                                              context: context,
-                                              initialDate: DateTime.now(),
-                                              firstDate: DateTime(1970),
-                                              lastDate: DateTime(2100));
-                                          await widget.preferenceDao
-                                              .updatePreferenceValue(
-                                                  prefData.copyWith(
-                                                      expiredDateTime: result));
+                                              context: context, initialDate: DateTime.now(), firstDate: DateTime(1970), lastDate: DateTime(2100));
+                                          await widget.preferenceDao.updatePreferenceValue(prefData!.copyWith(expiredDateTime: Value(result)));
                                         },
-                                        child: Container(
-                                            margin: EdgeInsets.only(left: 8),
-                                            child: Icon(Icons.calendar_today))),
+                                        child: Container(margin: EdgeInsets.only(left: 8), child: Icon(Icons.calendar_today))),
                                   ],
                                 ),
                               ],
@@ -295,20 +232,16 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
               Container(
                 height: 300,
                 child: StreamBuilder(
-                    stream: widget.nonGlobalPreferenceDao
-                        .watchAllNonGlobalPreferences(widget.code),
+                    stream: widget.nonGlobalPreferenceDao.watchAllNonGlobalPreferences(widget.code),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        List<NonGlobalPreferenceData> nonGloblePrefData;
-                        nonGloblePrefData = snapshot.data;
-                        if (nonGloblePrefData.isEmpty) {
+                        List<NonGlobalPreferenceData>? nonGloblePrefData;
+                        nonGloblePrefData = snapshot.data as List<NonGlobalPreferenceData>?;
+                        if (nonGloblePrefData!.isEmpty) {
                           return Center(
                             child: Text(
                               "No Preference Foud",
-                              style: TextStyle(
-                                  fontStyle: FontStyle.italic,
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 25),
+                              style: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.w800, fontSize: 25),
                             ),
                           );
                         }
@@ -319,42 +252,26 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                             return Card(
                               elevation: 4.0,
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 5, horizontal: 12),
+                                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 12),
                                 child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          'DeviceId: ${nonGloblePrefData[index].deviceId}',
+                                          'DeviceId: ${nonGloblePrefData![index].deviceId}',
                                           style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textSelectionColor,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18),
+                                              color: Theme.of(context).textSelectionTheme.selectionColor, fontWeight: FontWeight.bold, fontSize: 18),
                                         ),
                                         Container(
                                             //  height: 20,
                                             child: FlutterSwitch(
-                                                value: nonGloblePrefData[index]
-                                                            .value ==
-                                                        'OFF'
-                                                    ? false
-                                                    : true,
+                                                value: nonGloblePrefData[index].value == 'OFF' ? false : true,
                                                 onToggle: (value) async {
-                                                  await widget
-                                                      .nonGlobalPreferenceDao
-                                                      .updateNonGlobalPreferenceValue(
-                                                          nonGloblePrefData[
-                                                                  index]
-                                                              .copyWith(
-                                                    value: value == true
-                                                        ? 'ON'
-                                                        : 'OFF',
+                                                  await widget.nonGlobalPreferenceDao
+                                                      .updateNonGlobalPreferenceValue(nonGloblePrefData![index].copyWith(
+                                                    value: value == true ? 'ON' : 'OFF',
                                                   ));
                                                 })),
                                       ],
@@ -363,33 +280,25 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                       height: 8,
                                     ),
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
                                           'User: ${nonGloblePrefData[index].userName.toString()}',
                                           style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              color: Theme.of(context)
-                                                  .textSelectionColor,
-                                              fontSize: 16),
+                                              fontWeight: FontWeight.w500, color: Theme.of(context).textSelectionTheme.selectionColor, fontSize: 16),
                                         ),
                                         Text(
                                           'Screen: ${nonGloblePrefData[index].screen}',
                                           style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              color: Theme.of(context)
-                                                  .textSelectionColor,
-                                              fontSize: 16),
+                                              fontWeight: FontWeight.w500, color: Theme.of(context).textSelectionTheme.selectionColor, fontSize: 16),
                                         ),
                                         Container(
                                           margin: EdgeInsets.only(right: 7),
                                           child: Text(
-                                            "${nonGloblePrefData[index].expiredDateTime.day}-${nonGloblePrefData[index].expiredDateTime.month}-${nonGloblePrefData[index].expiredDateTime.year}",
+                                            "${nonGloblePrefData[index].expiredDateTime!.day}-${nonGloblePrefData[index].expiredDateTime!.month}-${nonGloblePrefData[index].expiredDateTime!.year}",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w500,
-                                                color: Theme.of(context)
-                                                    .textSelectionColor,
+                                                color: Theme.of(context).textSelectionTheme.selectionColor,
                                                 fontSize: 16),
                                           ),
                                         ),
@@ -420,20 +329,19 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             title: Text('Option'),
             content: TextField(
               controller: _textFieldController,
             ),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text('Discard'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
-              FlatButton(
+              TextButton(
                 child: Text('Save'),
                 onPressed: () async {
                   await callBack();

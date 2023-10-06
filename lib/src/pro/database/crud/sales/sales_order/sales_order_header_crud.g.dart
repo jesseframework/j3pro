@@ -2,11 +2,8 @@
 
 part of 'sales_order_header_crud.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$SalesOrderHeaderDaoMixin on DatabaseAccessor<AppDatabase> {
+// ignore_for_file: type=lint
+mixin _$SalesOrderHeaderDaoMixin on DatabaseAccessor<MyDatabase> {
   $SalesOrderHeaderTable get salesOrderHeader =>
       attachedDatabase.salesOrderHeader;
 }

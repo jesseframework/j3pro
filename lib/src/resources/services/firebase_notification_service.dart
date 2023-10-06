@@ -22,37 +22,35 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:j3enterprise/src/resources/services/message_stream.dart';
 
 class FirebaseNotificationService {
-  FirebaseNotificationService._internal() {
-    // save the client so that it can be used else where
-    //_firebaseMessaging = FirebaseMessaging.instance;
-    // setup listeners
-    firebaseCloudMessagingListeners();
-  }
+  //FirebaseNotificationService._internal() {
+  // save the client so that it can be used else where
+  //_firebaseMessaging = FirebaseMessaging.instance;
+  // setup listeners
+  //firebaseCloudMessagingListeners();
+}
 
-  static final FirebaseNotificationService _instance =
-      FirebaseNotificationService._internal();
+// static final FirebaseNotificationService _instance =
+//     FirebaseNotificationService._internal();
 
-  // static FirebaseNotificationService get instance {
-  //   return _instance;
-  // }
+// static FirebaseNotificationService get instance {
+//   return _instance;
+// }
 
-  //Api api = Api.instance;
+//Api api = Api.instance;
 
-  // get the message stream
-  MessageStream _messageStream = MessageStream.instance;
-  FirebaseMessaging _firebaseMessaging;
-  // getter for firebase messaging client
-  get firebaseMessaging => _firebaseMessaging;
+// get the message stream
+// MessageStream _messageStream = MessageStream.instance;
+// FirebaseMessaging _firebaseMessaging;
+// getter for firebase messaging client
+//get firebaseMessaging => _firebaseMessaging;
 
-  // method for getting the messaging token
-  void sendDeviceToken() {
-    _firebaseMessaging.getToken().then((token) {
-      print("MESSAGING TOKEN: " + token);
-      //api.sendDeviceToken(token: token);
-    });
-  }
+// method for getting the messaging token
+void sendDeviceToken() {
+  //_firebaseMessaging.getToken().then((token) {
+  // print("MESSAGING TOKEN: " + token);
+  //api.sendDeviceToken(token: token);
+}
 
-  void firebaseCloudMessagingListeners() async {
-    if (Platform.isIOS) {}
-  }
+void firebaseCloudMessagingListeners() async {
+  if (Platform.isIOS) {}
 }

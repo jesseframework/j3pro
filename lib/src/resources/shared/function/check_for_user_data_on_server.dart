@@ -21,7 +21,7 @@ import 'dart:convert';
 
 import 'package:chopper/chopper.dart';
 import 'package:j3enterprise/src/database/crud/user/user_crud.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:drift/drift.dart' as moor;
 import 'package:quiver/strings.dart';
@@ -29,11 +29,10 @@ import 'package:quiver/strings.dart';
 class UserFromServer {
   final UserRepository userRepository;
   var db;
-  bool isofflineready = false;
-  UserDao userDao;
-  UserFromServer({this.userRepository}) {
-    assert(userRepository != null);
-    db = AppDatabase();
+  late bool isofflineready = false;
+  late UserDao userDao;
+  UserFromServer({required this.userRepository}) {
+    db = MyDatabase();
     userDao = UserDao(db);
   }
   Future<bool> validateUser(int id, int tenantId) async {
@@ -62,8 +61,7 @@ class UserFromServer {
 
         //We will check server for mobilehash everytime user logon to mobile device.
         //if (routeinfo["no_route"]?.isEmpty ?? true)
-        if (isBlank(isUserInDb.mobileHash) &&
-            isUserInDb.enableOfflineLogin == true) {
+        if (isBlank(isUserInDb.mobileHash) && isUserInDb.enableOfflineLogin == true) {
           isofflineready = true;
         } else {
           isofflineready = false;

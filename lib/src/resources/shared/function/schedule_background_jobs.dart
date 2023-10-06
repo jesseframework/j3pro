@@ -21,7 +21,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/resources/repositories/applogger_repositiry.dart';
 import 'package:logging/logging.dart';
 
@@ -32,7 +32,7 @@ import 'package:logging/logging.dart';
 class TimerData {
   final String name;
   final Timer timer;
-  TimerData({@required this.name, @required this.timer});
+  TimerData({required this.name, required this.timer});
 }
 
 class Scheduler {
@@ -50,7 +50,7 @@ class Scheduler {
     } catch (error) {}
   }
 
-  Duration _getFromString(String setFrequency) {
+  Duration? _getFromString(String setFrequency) {
     if (setFrequency == "Every Minute")
       return Duration(minutes: 1);
     else if (setFrequency == "Every 5 Minutes")
@@ -65,50 +65,41 @@ class Scheduler {
     return null;
   }
 
-  Future<void> scheduleJobs(
-      String setFrequency, String jobName, Function(Timer) callback) async {
+  Future<void> scheduleJobs(String setFrequency, String jobName, Function(Timer) callback) async {
     var duration = _getFromString(setFrequency);
 
     if (duration == null) return;
 
-    timers.add(new TimerData(
-        name: jobName, timer: Timer.periodic(duration, callback)));
+    timers.add(new TimerData(name: jobName, timer: Timer.periodic(duration, callback)));
   }
 
-  Future<void> runNowJobs(
-      String setFrequency, String jobName, Function(Timer) callback) async {
+  Future<void> runNowJobs(String setFrequency, String jobName, Function(Timer) callback) async {
     var duration = _getFromString(setFrequency);
     if (duration == null) return;
 
-    timers.add(
-        new TimerData(name: jobName, timer: Timer(duration, () => callback)));
+    timers.add(new TimerData(name: jobName, timer: Timer(duration, () => callback)));
   }
 }
 
 Future<void> syncClickScheduler() async {
   var db;
-  db = AppDatabase();
-  BackgroundJobScheduleDao backgroundJobScheduleDao =
-      new BackgroundJobScheduleDao(db);
+  db = MyDatabase();
+  BackgroundJobScheduleDao backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
   AppLoggerRepository appLoggerRepository = new AppLoggerRepository();
   Scheduler scheduler = new Scheduler();
   var jobData = await backgroundJobScheduleDao.getAllJobs();
   for (var eachJob in jobData) {
     if (eachJob.jobName == "Log Shipping") {
       scheduler.runNowJobs(
-          eachJob.syncFrequency,
-          eachJob.jobName,
-          (Timer timer) async =>
-              await appLoggerRepository.putAppLogOnServer(eachJob.jobName));
+          eachJob.syncFrequency, eachJob.jobName, (Timer timer) async => await appLoggerRepository.putAppLogOnServer(eachJob.jobName));
     }
   }
 }
 
 Future<void> syncClickCancel() async {
   var db;
-  db = AppDatabase();
-  BackgroundJobScheduleDao backgroundJobScheduleDao =
-      new BackgroundJobScheduleDao(db);
+  db = MyDatabase();
+  BackgroundJobScheduleDao backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
 
   Scheduler scheduleler = new Scheduler();
   var jobData = await backgroundJobScheduleDao.getAllJobs();

@@ -2,10 +2,7 @@
 
 part of 'currency_crud.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$SystemCurrencyDaoMixin on DatabaseAccessor<AppDatabase> {
+// ignore_for_file: type=lint
+mixin _$SystemCurrencyDaoMixin on DatabaseAccessor<MyDatabase> {
   $SystemCurrencyTable get systemCurrency => attachedDatabase.systemCurrency;
 }

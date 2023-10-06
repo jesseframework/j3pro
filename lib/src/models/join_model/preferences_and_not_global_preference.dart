@@ -26,7 +26,7 @@ class PreferenceWithNonGlobalPreference {
   final NonGlobalPreference nonGlobalPreference;
 
   PreferenceWithNonGlobalPreference({
-    @required this.preference,
-    @required this.nonGlobalPreference,
+    required this.preference,
+    required this.nonGlobalPreference,
   });
 }

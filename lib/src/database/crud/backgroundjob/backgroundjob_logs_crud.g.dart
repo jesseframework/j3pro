@@ -2,11 +2,8 @@
 
 part of 'backgroundjob_logs_crud.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$BackgroundJobLogsDaoMixin on DatabaseAccessor<AppDatabase> {
+// ignore_for_file: type=lint
+mixin _$BackgroundJobLogsDaoMixin on DatabaseAccessor<MyDatabase> {
   $BackgroundJobLogsTable get backgroundJobLogs =>
       attachedDatabase.backgroundJobLogs;
 }

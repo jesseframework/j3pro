@@ -24,17 +24,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AppLocalization {
+  late Map<String, String> _localizedStrings;
   final locale;
   AppLocalization(this.locale);
 
   static const LocalizationsDelegate<AppLocalization> delegate =
       AppLocalizationDelegate();
 
-  static AppLocalization of(BuildContext context) {
+  static AppLocalization? of(BuildContext context) {
     return Localizations.of<AppLocalization>(context, AppLocalization);
   }
-
-  Map<String, String> _localizedStrings;
 
   Future<bool> load() async {
     // Load the language JSON file from the "lang" folder
@@ -50,7 +49,7 @@ class AppLocalization {
   }
 
   // This method will be called from every widget which needs a localized text
-  String translate(String key) {
+  String? translate(String key) {
     return _localizedStrings[key];
   }
 }

@@ -19,7 +19,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/preference_crud.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/resources/shared/colors/my_color.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dart';
@@ -29,11 +29,11 @@ import 'package:j3enterprise/src/ui/authentication/authentication.dart';
 import 'package:j3enterprise/src/ui/preferences/preference_detail.dart';
 
 class PreferencesPage extends StatefulWidget {
-  static final route = '/preferences';
+ 
   var db;
-  PreferenceDao preferenceDao;
+  late PreferenceDao preferenceDao;
   PreferencesPage() {
-    db = AppDatabase();
+    db = MyDatabase();
     preferenceDao = PreferenceDao(db);
   }
   @override
@@ -54,9 +54,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
     return Scaffold(
       appBar: AppBar(
         //ToDo add translation for preferences title
-        title: Text(
-            AppLocalization.of(context).translate('preferences_title') ??
-                "Preferences"),
+        title: Text(AppLocalization.of(context)!.translate('preferences_title') ?? "Preferences"),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 18),
@@ -67,30 +65,28 @@ class _PreferencesPageState extends State<PreferencesPage> {
           ),
         ],
       ),
-      body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 3),
-                child: Container(
-                    height: 55,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 5, vertical: 5),
-                      child: Center(
-                        child: ListFilter(
-                            placeholder: 'Search',
-                            filter: searchText,
-                            onFilterChanged: (search) {
-                              setState(() {
-                                searchText = search;
-                              });
-                            }),
-                      ),
-                    ))),
-            _buildStreamBuilder(),
-          ]),
+      body: Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 3),
+            child: Container(
+                height: 55,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                  child: Center(
+                    child: ListFilter(
+                      placeholder: 'Search',
+                      filter: searchText,
+                      onFilterChanged: (search) {
+                        setState(() {
+                          searchText = search;
+                        });
+                      },
+                      function: () {},
+                    ),
+                  ),
+                ))),
+        _buildStreamBuilder(),
+      ]),
     );
   }
 
@@ -99,11 +95,11 @@ class _PreferencesPageState extends State<PreferencesPage> {
         stream: widget.preferenceDao.watchAllPreferences(searchText),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            List<PreferenceData> prefData = snapshot.data;
-            List<String> groupsCollection = List<String>();
-            prefData.forEach((element) {
+            List<PreferenceData>? prefData = snapshot.data as List<PreferenceData>?;
+            List<String> groupsCollection = <String>[];
+            prefData!.forEach((element) {
               if (!groupsCollection.contains(element.groups)) {
-                groupsCollection.add(element.groups);
+                groupsCollection.add(element.groups!);
               }
             });
             if (prefData.isEmpty) {
@@ -136,90 +132,62 @@ class _PreferencesPageState extends State<PreferencesPage> {
                             child: Padding(
                                 padding: const EdgeInsets.all(5.0),
                                 child: Card(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5)),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                     elevation: 5,
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),
                                       child: Column(children: [
                                         ...prefData.map((e) {
-                                          if (e.groups ==
-                                              groupsCollection[index]) {
+                                          if (e.groups == groupsCollection[index]) {
                                             return InkWell(
                                               onTap: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            PreferenceDetailPage(
-                                                                e.code)));
+                                                Navigator.push(context, MaterialPageRoute(builder: (context) => PreferenceDetailPage(e.code)));
                                               },
                                               child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 10,
-                                                        horizontal: 5),
+                                                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                                                 child: Container(
                                                     height: 50,
                                                     child: Column(children: [
                                                       Row(children: [
                                                         Expanded(
-                                                          child: Column(
+                                                          child: Column(children: [
+                                                            Row(
+                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                               children: [
-                                                                Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceBetween,
-                                                                  children: [
-                                                                    Text(
-                                                                      e.preferenceName,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                        fontSize:
-                                                                            16,
-                                                                      ),
-                                                                    ),
-                                                                    Expanded(
-                                                                        child:
-                                                                            Container()),
-                                                                    Text(
-                                                                      e.value,
-                                                                      style: TextStyle(
-                                                                          fontWeight: FontWeight
-                                                                              .bold,
-                                                                          fontSize:
-                                                                              14,
-                                                                          color: e.value == 'OFF'
-                                                                              ? Colors.red
-                                                                              : Colors.green),
-                                                                    ),
-                                                                  ],
+                                                                Text(
+                                                                  e.preferenceName!,
+                                                                  style: TextStyle(
+                                                                    fontWeight: FontWeight.bold,
+                                                                    fontSize: 16,
+                                                                  ),
                                                                 ),
-                                                                Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      e.description,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.w600,
-                                                                        fontSize:
-                                                                            14,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                )
-                                                              ]),
+                                                                Expanded(child: Container()),
+                                                                Text(
+                                                                  e.value,
+                                                                  style: TextStyle(
+                                                                      fontWeight: FontWeight.bold,
+                                                                      fontSize: 14,
+                                                                      color: e.value == 'OFF' ? Colors.red : Colors.green),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Text(
+                                                                  e.description!,
+                                                                  style: TextStyle(
+                                                                    fontWeight: FontWeight.w600,
+                                                                    fontSize: 14,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            )
+                                                          ]),
                                                         ),
                                                         Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(5.0),
+                                                          padding: const EdgeInsets.all(5.0),
                                                           child: Icon(
-                                                            Icons
-                                                                .arrow_forward_ios,
+                                                            Icons.arrow_forward_ios,
                                                             size: 20,
                                                           ),
                                                         )
@@ -237,7 +205,6 @@ class _PreferencesPageState extends State<PreferencesPage> {
                     );
                   }),
             ); //                       return SingleChildScrollView(
-
           }
           return BuildProgressIndicator();
         });

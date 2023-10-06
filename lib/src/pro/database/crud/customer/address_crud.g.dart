@@ -2,10 +2,7 @@
 
 part of 'address_crud.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$AddressDaoMixin on DatabaseAccessor<AppDatabase> {
+// ignore_for_file: type=lint
+mixin _$AddressDaoMixin on DatabaseAccessor<MyDatabase> {
   $AddressTable get address => attachedDatabase.address;
 }

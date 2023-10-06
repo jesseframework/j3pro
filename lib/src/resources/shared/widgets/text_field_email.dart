@@ -25,7 +25,9 @@ class TextFromFieldEmailReusable extends StatelessWidget {
   final String validationText;
 
   TextFromFieldEmailReusable(
-      {this.labelName, this.controllerName, this.validationText});
+      {required this.labelName,
+      required this.controllerName,
+      required this.validationText});
 
   @override
   Widget build(BuildContext context) {

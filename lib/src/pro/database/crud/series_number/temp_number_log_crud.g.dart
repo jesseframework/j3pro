@@ -2,10 +2,7 @@
 
 part of 'temp_number_log_crud.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$TempNumberLogsDaoMixin on DatabaseAccessor<AppDatabase> {
+// ignore_for_file: type=lint
+mixin _$TempNumberLogsDaoMixin on DatabaseAccessor<MyDatabase> {
   $TempNumberLogsTable get tempNumberLogs => attachedDatabase.tempNumberLogs;
 }

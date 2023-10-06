@@ -219,6 +219,6 @@ abstract class RestApiService extends ChopperService {
   @Post(path: '/logout')
   Future<Response> logout();
 
-  static RestApiService create([ChopperClient client]) =>
+  static RestApiService create([ChopperClient? client]) =>
       _$RestApiService(client);
 }

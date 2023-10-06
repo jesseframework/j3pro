@@ -1,12 +1,12 @@
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/models/items/upc_code_model.dart';
 import 'package:drift/drift.dart';
 
 part 'upccode_crud.g.dart';
 
 @DriftAccessor(tables: [UPCCode])
-class UPCCodeDao extends DatabaseAccessor<AppDatabase> with _$UPCCodeDaoMixin {
-  final AppDatabase db;
+class UPCCodeDao extends DatabaseAccessor<MyDatabase> with _$UPCCodeDaoMixin {
+  final MyDatabase db;
   UPCCodeDao(this.db) : super(db);
 
   Future<List<UPCCodeData>> getAllUPCCodeData() {
@@ -14,8 +14,7 @@ class UPCCodeDao extends DatabaseAccessor<AppDatabase> with _$UPCCodeDaoMixin {
   }
 
   Stream<List<UPCCodeData>> watchAllUPCCodeByUPC(String upcCode) {
-    return (select(db.uPCCode)..where((t) => t.upcCode.equals(upcCode)))
-        .watch();
+    return (select(db.uPCCode)..where((t) => t.upcCode.equals(upcCode))).watch();
   }
 
   Future<List<UPCCodeData>> getAllUPCCodeByUPC(String upcCode) {

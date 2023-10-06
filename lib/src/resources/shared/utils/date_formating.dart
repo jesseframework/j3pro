@@ -20,10 +20,14 @@
 //ToDo Add more date format from setting
 
 import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 Future<String> formatDate(String dateToConvert) async {
-  var now = DateTime.tryParse(dateToConvert);
-  var formatter = new DateFormat('yyyy-MM-dd hh:mm:ss');
-  String formatted = formatter.format(now);
-  return formatted;
+  // var now = DateTime.tryParse(dateToConvert);
+  // var formatter = new DateFormat('yyyy-MM-dd hh:mm:ss');
+  // String formatted = formatter.format(now);
+  initializeDateFormatting('en');
+  DateTime now = DateTime.now();
+  var dateString = DateFormat('yyyy-MM-dd hh:mm:ss').format(now);
+  return dateString;
 }

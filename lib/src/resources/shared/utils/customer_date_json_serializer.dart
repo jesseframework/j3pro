@@ -22,10 +22,13 @@ import 'package:drift/drift.dart';
 class CustomSerializer extends ValueSerializer {
   @override
   T fromJson<T>(json) {
-    if (T == DateTime) {
-      return DateTime.parse(json.toString()) as T;
-    } else if (json == 'set to null') {
-      return null;
+    print(json);
+    final temp = DateTime.tryParse(json.toString());
+    if (temp != null) {
+      return temp as T;
+    }
+    if (json == '') {
+      return json;
     } else {
       return json as T;
     }
@@ -36,7 +39,7 @@ class CustomSerializer extends ValueSerializer {
     if (T == DateTime) {
       return (value as DateTime).toIso8601String();
     } else if (value == null) {
-      return 'set to null';
+      return '';
     } else {
       return value;
     }

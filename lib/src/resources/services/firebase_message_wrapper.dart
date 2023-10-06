@@ -24,7 +24,7 @@ import 'package:j3enterprise/main.dart';
 class FirebaseMessageWrapper extends StatefulWidget {
   final Widget child;
 
-  FirebaseMessageWrapper({this.child});
+  FirebaseMessageWrapper({required this.child});
   @override
   _FirebaseMessageWrapperState createState() => _FirebaseMessageWrapperState();
 }
@@ -44,22 +44,22 @@ class _FirebaseMessageWrapperState extends State<FirebaseMessageWrapper> {
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder(
-        initialData: null,
-        //stream: _messageStream.messageStream,
-        builder: (BuildContext context,
-            AsyncSnapshot<Map<String, dynamic>> snapshot) {
-          if (snapshot.hasData) {
-            Map<String, dynamic> message = snapshot.data;
-            print('hasData');
-            _serialiseAndNavigate(message, context);
-            //snapshot.data.clear();
-          }
-          return widget.child;
-        });
-  }
+  //@override
+  //Widget build(BuildContext context) {
+  // return StreamBuilder(
+  //     initialData: null,
+  //     //stream: _messageStream.messageStream,
+  //     builder: (BuildContext context,
+  //         AsyncSnapshot<Map<String, dynamic>> snapshot) {
+  //       if (snapshot.hasData) {
+  //         Map<String, dynamic> message = snapshot.data;
+  //         print('hasData');
+  //         _serialiseAndNavigate(message, context);
+  //         //snapshot.data.clear();
+  //       }
+  //       return widget.child;
+  //     });
+  //}
 
   void _serialiseAndNavigate(Map<String, dynamic> message, context) async {
     bool hasToken = await getIt<UserRepository>().hasToken();
@@ -137,6 +137,9 @@ class _FirebaseMessageWrapperState extends State<FirebaseMessageWrapper> {
         break;
     }
   }
+
+  @override
+  noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
 enum Priority { HIGH, MEDIUM, LOW }

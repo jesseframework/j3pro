@@ -31,7 +31,7 @@ class ApploggerInitial extends ApploggerState {
 class ApploggerFailure extends ApploggerState {
   final String error;
 
-  const ApploggerFailure({@required this.error});
+  const ApploggerFailure({required this.error});
 
   @override
   List<Object> get props => [error];

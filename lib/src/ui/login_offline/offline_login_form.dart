@@ -34,7 +34,7 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
   //final UserRepository userRepository;
   final formKey = new GlobalKey<FormState>();
   bool pass = true;
-  String selected;
+  late String selected;
   bool isSwitched = false;
   Map<String, String> mappref = Map();
   UserRepository userRepository = new UserRepository();
@@ -48,22 +48,19 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
   @override
   Widget build(BuildContext context) {
     _onLoginButtonPressed() async {
-      formKey.currentState.validate();
+      formKey.currentState!.validate();
+      int? _userId = int.tryParse(mappref['userId'].toString());
+      int? _tenantId = int.tryParse(mappref['tenantid'].toString());
 
-      mappref = await userRepository.getPreferenceData();
-      BlocProvider.of<AuthenticationBloc>(context).add(
-        OfflineLoginButtonPressed(
-            userId: int.tryParse(mappref['userId']),
-            password: _passwordController.text,
-            tenantId: int.tryParse(mappref['tenantid'])),
-      );
+      mappref = await userRepository.getPreferenceData() as Map<String, String>;
+      BlocProvider.of<AuthenticationBloc>(context)
+          .add(OfflineLoginButtonPressed(userId: _userId!, password: _passwordController.text, tenantId: _tenantId!));
     }
 
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state is LoginFailure) {
-          Scaffold.of(context)
-              .showSnackBar(new SnackBar(content: new Text(state.error)));
+          ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: new Text(state.error)));
         }
       },
       child: BlocBuilder<LoginBloc, LoginState>(
@@ -80,20 +77,13 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
                       borderRadius: BorderRadius.circular(10.0),
                       child: Container(
                         color: Colors.yellow.withOpacity(0.8),
-                        constraints: BoxConstraints(
-                            minWidth: 100,
-                            maxWidth: 380,
-                            minHeight: 100,
-                            maxHeight: 500),
+                        constraints: BoxConstraints(minWidth: 100, maxWidth: 380, minHeight: 100, maxHeight: 500),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            AppLocalization.of(context)
-                                    .translate('offline_login_message') ??
+                            AppLocalization.of(context)!.translate('offline_login_message') ??
                                 'Warning!!! You are about to enable mobile offline login on this device. This option will allow this device to store encrypted data for your profile. If this device is stolen, hackers may be able to crack encryption and retrieved profile data. By completing this step you agree to accept this risk.',
-                            style: TextStyle(
-                                color: Colors.red.shade900,
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(color: Colors.red.shade900, fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
@@ -103,11 +93,7 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
                 Flexible(
                   flex: 4,
                   child: Container(
-                    constraints: BoxConstraints(
-                        minWidth: 100,
-                        maxWidth: 400,
-                        minHeight: 100,
-                        maxHeight: 450),
+                    constraints: BoxConstraints(minWidth: 100, maxWidth: 400, minHeight: 100, maxHeight: 450),
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: ClipRRect(
@@ -123,11 +109,8 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
                                   //Fit and size widgets widgets according to container size
                                   child: TextFormField(
                                     validator: (val) {
-                                      if (val.isEmpty) {
-                                        return AppLocalization.of(context)
-                                                .translate(
-                                                    'offline_password_error_message') ??
-                                            'Password';
+                                      if (val!.isEmpty) {
+                                        return AppLocalization.of(context)!.translate('offline_password_error_message') ?? 'Password';
                                       }
                                       return null;
                                     },
@@ -136,18 +119,14 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
                                       filled: true,
                                       icon: Icon(Icons.lock),
                                       suffixIcon: IconButton(
-                                        icon: !showPassword
-                                            ? Icon(CustomIcons.eye_off)
-                                            : Icon(CustomIcons.eye),
+                                        icon: !showPassword ? Icon(CustomIcons.eye_off) : Icon(CustomIcons.eye),
                                         onPressed: () {
                                           setState(() {
                                             showPassword = !showPassword;
                                           });
                                         },
                                       ),
-                                      labelText: AppLocalization.of(context)
-                                              .translate('password_label') ??
-                                          'Password',
+                                      labelText: AppLocalization.of(context)!.translate('password_label') ?? 'Password',
                                     ),
                                     obscureText: showPassword, // Hide password
                                   ),
@@ -156,17 +135,11 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
                                   //Fit and size widgets widgets according to container size
                                   child: TextFormField(
                                     validator: (val) {
-                                      if (val.isEmpty) {
-                                        return AppLocalization.of(context)
-                                                .translate(
-                                                    'offline_password_Confirm_error_message') ??
-                                            'Password';
+                                      if (val!.isEmpty) {
+                                        return AppLocalization.of(context)!.translate('offline_password_Confirm_error_message') ?? 'Password';
                                       }
                                       if (val != _passwordController.text) {
-                                        return AppLocalization.of(context)
-                                                .translate(
-                                                    'offline_password_Not_Match_error_message') ??
-                                            'Password';
+                                        return AppLocalization.of(context)!.translate('offline_password_Not_Match_error_message') ?? 'Password';
                                       }
                                       return null;
                                     },
@@ -175,42 +148,34 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
                                       filled: true,
                                       icon: Icon(Icons.lock),
                                       suffixIcon: IconButton(
-                                        icon: !showPassword
-                                            ? Icon(CustomIcons.eye_off)
-                                            : Icon(CustomIcons.eye),
+                                        icon: !showPassword ? Icon(CustomIcons.eye_off) : Icon(CustomIcons.eye),
                                         onPressed: () {
                                           setState(() {
                                             showPassword = !showPassword;
                                           });
                                         },
                                       ),
-                                      labelText: AppLocalization.of(context)
-                                              .translate(
-                                                  'confirm_password_label') ??
-                                          'Confirm Password',
+                                      labelText: AppLocalization.of(context)!.translate('confirm_password_label') ?? 'Confirm Password',
                                     ),
                                     obscureText: showPassword, // Hide password
                                   ),
                                 ),
                                 ButtonTheme(
                                   minWidth: double.infinity,
-                                  child: RaisedButton(
-                                    color: Colors.blue.shade500,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.blue.shade500,
+                                    )
+                                     ,
                                     child: Text(
-                                      AppLocalization.of(context).translate(
-                                              'offline_login_button') ??
-                                          'Complete offline setup',
+                                      AppLocalization.of(context)!.translate('offline_login_button') ?? 'Complete offline setup',
                                       style: TextStyle(color: Colors.white),
                                     ),
-                                    onPressed: state is! LinearProgressIndicator
-                                        ? _onLoginButtonPressed
-                                        : null,
+                                    onPressed: state is! LinearProgressIndicator ? _onLoginButtonPressed : null,
                                   ),
                                 ),
                                 Container(
-                                  child: state is LinearProgressIndicator
-                                      ? LinearProgressIndicator()
-                                      : null,
+                                  child: state is LinearProgressIndicator ? LinearProgressIndicator() : null,
                                 )
                               ],
                             ),

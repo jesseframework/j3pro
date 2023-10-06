@@ -17,23 +17,23 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/models/user_model.dart';
 import 'package:drift/drift.dart';
 
 part 'user_crud.g.dart';
 
 @DriftAccessor(tables: [Users])
-class UserDao extends DatabaseAccessor<AppDatabase> with _$UserDaoMixin {
-  final AppDatabase db;
+class UserDao extends DatabaseAccessor<MyDatabase> with _$UserDaoMixin {
+  final MyDatabase db;
   UserDao(this.db) : super(db);
 
-  Future<User> getSingleUser(int id) {
-    return (select(db.users)..where((u) => u.id.equals(id))).getSingle();
+  Future<User?> getSingleUser(int id) {
+    return (select(db.users)..where((u) => u.id.equals(id))).getSingleOrNull();
   }
 
-  Stream<User> watchSingleUser(int id) {
-    return (select(db.users)..where((u) => u.id.equals(id))).watchSingle();
+  Stream<User?> watchSingleUser(int? id) {
+    return (select(db.users)..where((u) => u.id.equals(id!))).watchSingleOrNull();
   }
 
   Future<User> getSingleByName(int id) {
@@ -41,15 +41,11 @@ class UserDao extends DatabaseAccessor<AppDatabase> with _$UserDaoMixin {
   }
 
   Future<User> getSingleUserByUserName(String userName) {
-    return (select(db.users)..where((u) => u.userName.equals(userName)))
-        .getSingle();
+    return (select(db.users)..where((u) => u.userName.equals(userName))).getSingle();
   }
 
   Future<User> getSingleTenantUser(String userName, int tenantId) {
-    return (select(db.users)
-          ..where(
-              (u) => u.userName.equals(userName) & u.tenantId.equals(tenantId)))
-        .getSingle();
+    return (select(db.users)..where((u) => u.userName.equals(userName) & u.tenantId.equals(tenantId))).getSingle();
   }
 
   Future updateSingleUser(User user) {
