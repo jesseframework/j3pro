@@ -154,7 +154,8 @@ dropdownSearchDecoration: InputDecoration(
                                 height: 30,
                                 child: FloatingActionButton(
                                   onPressed: () {},
-                                  backgroundColor: Theme.of(context).accentColor,
+                                  backgroundColor: Theme.of(context).secondaryHeaderColor,
+                                  //ToDo    backgroundColor: Theme.of(context).accentColor, is not working changing it to secondaryColor
                                   child: Icon(Icons.add),
                                 ),
                               )),
@@ -187,7 +188,8 @@ dropdownSearchDecoration: InputDecoration(
                             height: 30,
                             child: FloatingActionButton(
                               onPressed: () {},
-                              backgroundColor: Theme.of(context).accentColor,
+                             backgroundColor: Theme.of(context).secondaryHeaderColor,
+                              //ToDo    backgroundColor: Theme.of(context).accentColor, is not working changing it to secondaryColor
                               child: Icon(Icons.add),
                             ),
                           )),
@@ -246,7 +248,8 @@ dropdownSearchDecoration: InputDecoration(
                             height: 30,
                             child: FloatingActionButton(
                               onPressed: () {},
-                              backgroundColor: Theme.of(context).accentColor,
+                             backgroundColor: Theme.of(context).secondaryHeaderColor,
+                              //ToDo    backgroundColor: Theme.of(context).accentColor, is not working changing it to secondaryColor
                               child: Icon(Icons.add),
                             ),
                           )),
@@ -390,7 +393,8 @@ dropdownSearchDecoration: InputDecoration(
                                         height: 30,
                                         child: FloatingActionButton(
                                           onPressed: () {},
-                                          backgroundColor: Theme.of(context).accentColor,
+                                        backgroundColor: Theme.of(context).secondaryHeaderColor,
+                                          //ToDo    backgroundColor: Theme.of(context).accentColor, is not working changing it to secondaryColor
                                           child: Icon(Icons.add),
                                         ),
                                       )),
