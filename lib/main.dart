@@ -35,6 +35,7 @@ import 'package:j3enterprise/src/resources/shared/utils/theme.dart';
 import 'package:j3enterprise/src/ui/home/home.dart';
 import 'package:j3enterprise/src/ui/login/login_page.dart';
 import 'package:j3enterprise/src/ui/login_offline/offline_login_page.dart';
+import 'package:j3enterprise/src/pro/ui/shipments/shipments.dart';
 import 'package:j3enterprise/src/ui/splash/splash_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'src/resources/repositories/user_repository.dart';
@@ -83,8 +84,7 @@ class App extends StatefulWidget {
   final UserRepository userRepository;
   //late ThemeData themeData;
 
-  App({Key? key, required this.userRepository, ThemeData? themeData})
-      : super(key: key);
+  App({Key? key, required this.userRepository, ThemeData? themeData}) : super(key: key);
   static void setLocale(BuildContext context, Locale locale) {
     _AppState? state = context.findAncestorStateOfType<_AppState>();
     state!.setLocale(locale);
@@ -100,7 +100,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  Locale _locale= Locale(ENGLISH, 'US');
+  Locale _locale = Locale(ENGLISH, 'US');
   ThemeData? themeData;
 
   void setLocale(locale) {
@@ -150,7 +150,7 @@ class _AppState extends State<App> {
               return HomePage();
             }
             if (state is AuthenticationUnauthenticated) {
-              return LoginPage();
+              return ShipmentScreen();
             }
             if (state is AuthenticationLoading) {
               return LoadingIndicator();
@@ -175,15 +175,13 @@ class _AppState extends State<App> {
           // Check if the current device locale is supported
           if (Platform.isAndroid) {
             for (var supportedLocale in supportedLocales) {
-              if (supportedLocale.languageCode == locale!.languageCode &&
-                  supportedLocale.countryCode == locale.countryCode) {
+              if (supportedLocale.languageCode == locale!.languageCode && supportedLocale.countryCode == locale.countryCode) {
                 return supportedLocale;
               }
             }
           } else if (Platform.isIOS) {
             for (var supportedLocale in supportedLocales) {
-              if (supportedLocale.languageCode == locale!.languageCode &&
-                  supportedLocale.countryCode == locale.countryCode) {
+              if (supportedLocale.languageCode == locale!.languageCode && supportedLocale.countryCode == locale.countryCode) {
                 return supportedLocale;
               }
             }
