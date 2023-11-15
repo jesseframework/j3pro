@@ -20,29 +20,40 @@
 import 'package:chopper/chopper.dart';
 import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
 import 'package:j3enterprise/src/resources/shared/preferences/user_share_data.dart';
+import 'package:oauth_chopper/oauth_chopper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:chopper/chopper.dart';
+import 'package:oauth2/oauth2.dart' as oauth2;
 
 class ApiClient {
-  // final String apiConnection = 'API';
-
-  static const String URL = 'http://app.j3enterprisecloud.com';
-
+  static const String URL = 'https://uat-api.quickstoreapp.com:10441';
+  // ignore_for_file: unused_local_variable
   static late ChopperClient chopper;
-
   static void updateClient(String baseUrl) {
-    chopper = ChopperClient(
-        baseUrl: Uri.parse(baseUrl),
-        services: [
-          // inject the generated service
-          RestApiService.create()
-        ],
+    final authorizationEndpoint =
+        Uri.parse('https://uat-auth.quickstoreapp.com:10442/connect/authorize');
+    final identifier = 'QuickStore_Web';
+    final secret = '1q2w3e*';
+
+    /// Create OAuthChopper instance.
+    final oauthChopper = OAuthChopper(
+      authorizationEndpoint: authorizationEndpoint,
+      identifier: identifier,
+      secret: secret,
+    );
+
+    /// Add the oauth authenticator and interceptor to the chopper client.
+    final chopperClient = ChopperClient(
+        baseUrl:
+            Uri.parse('https://uat-auth.quickstoreapp.com:10442/connect/token'),
+        services: [RestApiService.create()],
+        authenticator: oauthChopper.authenticator(),
         interceptors: [
-          //MobileDataInterceptor(),
+          oauthChopper.interceptor,
           HeadersInterceptor({
             'content-type': 'application/json',
             'Accept': 'application/json'
           }),
-          //HttpLoggingInterceptor(),
           (Response response) async {
             if (response.statusCode == 401) {
               SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -72,5 +83,13 @@ class ApiClient {
           },
         ],
         converter: JsonConverter());
+
+    /// Request grant
+    oauthChopper.requestGrant(
+      ResourceOwnerPasswordGrant(
+        username: 'cbladmin@cpxz.us',
+        password: 'P@99w0rd',
+      ),
+    );
   }
 }

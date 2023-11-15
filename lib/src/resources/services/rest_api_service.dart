@@ -24,13 +24,13 @@ part 'rest_api_service.chopper.dart';
 @ChopperApi(baseUrl: "/api")
 abstract class RestApiService extends ChopperService {
   //Authenticate
-  @Post(path: '/TokenAuth/Authenticate')
-  Future<Response> login(@Body() Map<String, dynamic> body);
+  //@Post(path: '/TokenAuth/Authenticate')
+  //Future<Response> login(@Body() Map<String, dynamic> body);
 
-  @Post(path: '/services/app/Account/IsTenantAvailable')
-  Future<Response> isTenantAvailable(@Body() Map<String, dynamic> body);
+  @Get(path: '/abp/multi-tenancy/tenants/by-name')
+  Future<Response> isTenantAvailable();
 
-  @Get(path: '/services/app/User/Get')
+  @Get(path: '/identity/users/by-email')
   Future<Response> getUser(@Query() int id);
 
   @Put(path: '/services/app/User/UpdateMobileHash')
