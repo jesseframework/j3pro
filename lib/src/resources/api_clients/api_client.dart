@@ -22,8 +22,6 @@ import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
 import 'package:j3enterprise/src/resources/shared/preferences/user_share_data.dart';
 import 'package:oauth_chopper/oauth_chopper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:chopper/chopper.dart';
-import 'package:oauth2/oauth2.dart' as oauth2;
 
 class ApiClient {
   static const String URL = 'https://uat-api.quickstoreapp.com:10441';
