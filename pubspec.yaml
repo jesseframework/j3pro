@@ -69,6 +69,8 @@ dependencies:
   #random_string_one: ^1.0.2
   dotted_line: ^3.1.0
   twilio_flutter: ^0.0.9
+  oauth2: ^2.0.2
+  oauth_chopper: ^0.1.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
