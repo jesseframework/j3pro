@@ -17,30 +17,25 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-import 'package:j3enterprise/src/database/moor_database.dart';
+
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/models/communication_model.dart';
 import 'package:drift/drift.dart';
 
 part 'communication_setup_crud.g.dart';
 
 @DriftAccessor(tables: [Communication])
-class CommunicationDao extends DatabaseAccessor<AppDatabase>
-    with _$CommunicationDaoMixin {
-  final AppDatabase db;
+class CommunicationDao extends DatabaseAccessor<MyDatabase> with _$CommunicationDaoMixin {
+  final MyDatabase db;
   CommunicationDao(this.db) : super(db);
 //Get communication
-  Future<List<CommunicationData>> getCommunicationDataByType(
-      String communicationType) {
-    return (select(db.communication)
-          ..where((t) => t.communicationType.equals(communicationType)))
-        .get();
+  Future<List<CommunicationData>> getCommunicationDataByType(String communicationType) {
+    return (select(db.communication)..where((t) => t.communicationType.equals(communicationType))).get();
   }
 
   //Update communication
   Future updateERPCommunnication(CommunicationCompanion comsset) {
-    return (update(db.communication)
-          ..where((t) => t.communicationType.equals('ERP')))
-        .write(
+    return (update(db.communication)..where((t) => t.communicationType.equals('ERP'))).write(
       CommunicationCompanion(
           typeofErp: comsset.typeofErp,
           serverUrl: comsset.serverUrl,
@@ -52,9 +47,7 @@ class CommunicationDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future updateAPICommunnication(CommunicationCompanion comsset) {
-    return (update(db.communication)
-          ..where((t) => t.communicationType.equals('API')))
-        .write(
+    return (update(db.communication)..where((t) => t.communicationType.equals('API'))).write(
       CommunicationCompanion(
           serverUrl: comsset.serverUrl,
           userName: comsset.userName,
@@ -65,8 +58,7 @@ class CommunicationDao extends DatabaseAccessor<AppDatabase>
   }
 
 //Create communication
-  Future insertCommunnication(CommunicationCompanion comsset) =>
-      into(db.communication).insert(comsset);
+  Future insertCommunnication(CommunicationCompanion comsset) => into(db.communication).insert(comsset);
 
 //Wipe communication table
   Future deleteAllCommuniction() => delete(db.communication).go();

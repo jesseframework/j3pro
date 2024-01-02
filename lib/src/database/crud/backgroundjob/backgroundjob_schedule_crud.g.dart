@@ -2,11 +2,8 @@
 
 part of 'backgroundjob_schedule_crud.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$BackgroundJobScheduleDaoMixin on DatabaseAccessor<AppDatabase> {
+// ignore_for_file: type=lint
+mixin _$BackgroundJobScheduleDaoMixin on DatabaseAccessor<MyDatabase> {
   $BackgroundJobScheduleTable get backgroundJobSchedule =>
       attachedDatabase.backgroundJobSchedule;
 }

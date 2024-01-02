@@ -296,7 +296,7 @@ class _SalesOrderCheckOutPageState extends State<SalesOrderCheckOutPage> {
     return TextStyle(
       fontWeight: FontWeight.w500,
       fontSize: 10,
-      color: Theme.of(context).textSelectionColor,
+      color: Theme.of(context).textSelectionTheme.selectionColor,
     );
   }
 
@@ -313,7 +313,7 @@ class _SalesOrderCheckOutPageState extends State<SalesOrderCheckOutPage> {
           heading!,
           style: TextStyle(
               fontWeight: FontWeight.w600,
-              color: Theme.of(context).textSelectionColor,
+              color: Theme.of(context).textSelectionTheme.selectionColor,
               fontSize: 12),
         ),
         Row(

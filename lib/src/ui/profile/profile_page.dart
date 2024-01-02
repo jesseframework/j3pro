@@ -17,11 +17,12 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
+import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get_it/get_it.dart';
 import 'package:j3enterprise/src/database/crud/user/user_crud.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
@@ -38,7 +39,7 @@ class ProfilePage extends StatefulWidget {
   var db;
   late UserDao userDao;
   ProfilePage() {
-    db = AppDatabase();
+    db = MyDatabase();
     userDao = UserDao(db);
   }
 
@@ -63,8 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final data = await UserSharedData().getUserSharedPref();
     tenantName = data['tenantName'];
     if (data['userId'] != null) {
-      final profileData =
-          await widget.userDao.getSingleUser(int.tryParse(data['userId'])!);
+      final profileData = await widget.userDao.getSingleUser(int.tryParse(data['userId'])!);
       return profileData;
     }
     return null;
@@ -77,8 +77,7 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         centerTitle: false,
         //ToDo add translation for preferences title
-        title: Text(AppLocalization.of(context)!.translate('profile_title') ??
-            "Profile"),
+        title: Text(AppLocalization.of(context)!.translate('profile_title') ?? "Profile"),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 18),
@@ -115,29 +114,18 @@ class _ProfilePageState extends State<ProfilePage> {
                             Container(
                               padding: EdgeInsets.all(16.0),
                               margin: EdgeInsets.only(top: 16.0),
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .cardColor
-                                      .withOpacity(.8),
-                                  borderRadius: BorderRadius.circular(5.0)),
+                              decoration: BoxDecoration(color: Theme.of(context).cardColor.withOpacity(.8), borderRadius: BorderRadius.circular(5.0)),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Container(
                                     margin: EdgeInsets.only(left: 96.0),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        Text(
-                                          user!.fullName,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline1,
-                                        ),
                                         ListTile(
                                           contentPadding: EdgeInsets.all(0),
-                                          title: Text(user.userName),
+                                          title: Text(user!.userName),
                                           subtitle: Text(tenantName),
                                         ),
                                       ],
@@ -186,9 +174,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       });
                                 },
                                 title: Text(
-                                  AppLocalization.of(context)!
-                                          .translate('language_appdraw') ??
-                                      'Language',
+                                  AppLocalization.of(context)!.translate('language_appdraw') ?? 'Language',
                                 ),
                                 subtitle: Text(selecteditem == 'es'
                                     ? 'Spanish'
@@ -205,15 +191,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                       value: theme == 'dark' ? true : false,
                                       onChanged: (theme) async {
                                         if (theme == true) {
-                                          await getIt<UserRepository>()
-                                              .setTheme('dark');
-                                          widget.userDao.updateSingleUser(
-                                              user.copyWith(themeData: 'dark'));
+                                          await getIt<UserRepository>().setTheme('dark');
+                                          widget.userDao.updateSingleUser(user.copyWith(themeData: Value('dark')));
                                         } else {
-                                          await getIt<UserRepository>()
-                                              .setTheme('light');
-                                          widget.userDao.updateSingleUser(user
-                                              .copyWith(themeData: 'Light'));
+                                          await getIt<UserRepository>().setTheme('light');
+                                          widget.userDao.updateSingleUser(user.copyWith(themeData: Value('Light')));
                                         }
                                         App.setTheme(
                                           context,

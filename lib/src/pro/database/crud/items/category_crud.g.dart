@@ -2,10 +2,7 @@
 
 part of 'category_crud.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$CategoryDaoMixin on DatabaseAccessor<AppDatabase> {
+// ignore_for_file: type=lint
+mixin _$CategoryDaoMixin on DatabaseAccessor<MyDatabase> {
   $CategoresTable get categores => attachedDatabase.categores;
 }

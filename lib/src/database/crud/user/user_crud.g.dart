@@ -2,10 +2,7 @@
 
 part of 'user_crud.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$UserDaoMixin on DatabaseAccessor<AppDatabase> {
+// ignore_for_file: type=lint
+mixin _$UserDaoMixin on DatabaseAccessor<MyDatabase> {
   $UsersTable get users => attachedDatabase.users;
 }

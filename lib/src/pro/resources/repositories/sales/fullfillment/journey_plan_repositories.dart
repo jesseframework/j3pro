@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:chopper/chopper.dart';
 import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/items/uom_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/sales/fullfillment/journey_plan_crud.dart';
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
@@ -27,7 +27,7 @@ class JourneyPlanRepository {
 
   JourneyPlanRepository() {
     _log.finest("Preference repository constructer call");
-    db = AppDatabase();
+    db = MyDatabase();
     updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
     backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
     journeyPlanDao = new JourneyPlanDao(db);
@@ -41,7 +41,7 @@ class JourneyPlanRepository {
       _log.finest("Executing $className date from server");
       var isSchedulerEnable = await backgroundJobScheduleDao.getJob(jobName);
       _log.finest("$className job found in background Jobs scheduler");
-      if (isSchedulerEnable.startDateTime.isBefore(DateTime.now())) {
+      if (isSchedulerEnable!.startDateTime.isBefore(DateTime.now())) {
         if (isSchedulerEnable.enableJob == true) {
           DateTime startDate = isSchedulerEnable.startDateTime;
           _log.finest("$className jobs start date is $startDate ");
@@ -52,8 +52,7 @@ class JourneyPlanRepository {
             _log.finest("Server resopnses successful for $className ");
             Map<String, dynamic> result = map['result'];
             var items = (result['items'] as List).map((e) {
-              return JourneyPlanData.fromJson(e,
-                  serializer: CustomSerializer());
+              return JourneyPlanData.fromJson(e, serializer: CustomSerializer());
             });
 
             for (var item in items) {
@@ -64,8 +63,7 @@ class JourneyPlanRepository {
           } else {
             String error = map["error"]["details"].toString();
             updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-            _log.shout(
-                "Customer API call failed. Server respond with error : $error  ");
+            _log.shout("Customer API call failed. Server respond with error : $error  ");
           }
         }
       }

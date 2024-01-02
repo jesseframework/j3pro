@@ -18,7 +18,7 @@
  */
 
 import 'package:intl/intl.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/models/non_global_preference_setting.dart';
 import 'package:j3enterprise/src/models/preference_model.dart';
 import 'package:drift/drift.dart';
@@ -26,9 +26,8 @@ import 'package:drift/drift.dart';
 part 'preference_crud.g.dart';
 
 @DriftAccessor(tables: [Preference, NonGlobalPreference])
-class PreferenceDao extends DatabaseAccessor<AppDatabase>
-    with _$PreferenceDaoMixin {
-  final AppDatabase db;
+class PreferenceDao extends DatabaseAccessor<MyDatabase> with _$PreferenceDaoMixin {
+  final MyDatabase db;
   PreferenceDao(this.db) : super(db);
 
   Future<List<PreferenceData>> getPreferences(String prefCode) {
@@ -36,8 +35,7 @@ class PreferenceDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future<PreferenceData?> getSinglePreferences(String prefCode) {
-    return (select(db.preference)..where((u) => u.code.equals(prefCode)))
-        .getSingleOrNull();
+    return (select(db.preference)..where((u) => u.code.equals(prefCode))).getSingleOrNull();
   }
 
   Future<List<PreferenceData>> getAllPreferences() {
@@ -45,18 +43,14 @@ class PreferenceDao extends DatabaseAccessor<AppDatabase>
   }
 
   Stream<List<PreferenceData>> watchAllPreferences(String searchText) {
-    return (select(db.preference)
-          ..where((t) => t.preferenceName.contains(searchText)))
-        .watch();
+    return (select(db.preference)..where((t) => t.preferenceName.equals(searchText))).watch();
   }
 
   Stream<PreferenceData> watchSinglePreferences(String prefCode) {
-    return (select(db.preference)..where((u) => u.code.equals(prefCode)))
-        .watchSingle();
+    return (select(db.preference)..where((u) => u.code.equals(prefCode))).watchSingle();
   }
 
-  Future updatePreferenceValue(PreferenceData preferenceData) =>
-      update(db.preference).replace(preferenceData);
+  Future updatePreferenceValue(PreferenceData preferenceData) => update(db.preference).replace(preferenceData);
 
 //  Stream<List<PreferenceWithNonGlobalPreference>> watchAllTasks() {
 //    return (select(db.preference)
@@ -88,8 +82,7 @@ class PreferenceDao extends DatabaseAccessor<AppDatabase>
 //        );
 //  }
 
-  Future insertPreferences(PreferenceData preferenceData) =>
-      into(db.preference).insert(preferenceData);
+  Future insertPreferences(PreferenceData preferenceData) => into(db.preference).insert(preferenceData);
 
   Future<void> createOrUpdatePref(PreferenceData pref) {
     return into(db.preference).insertOnConflictUpdate(pref);
@@ -104,8 +97,7 @@ class PreferenceDao extends DatabaseAccessor<AppDatabase>
           description: preferenceData.description,
           domain: preferenceData.domain,
           isGlobal: preferenceData.isGlobal,
-          expiredDateTime: DateTime.parse(DateFormat('yyyy-MM-dd hh:mm:ss')
-              .format(preferenceData.expiredDateTime!)),
+          expiredDateTime: DateTime.parse(DateFormat('yyyy-MM-dd hh:mm:ss').format(preferenceData.expiredDateTime!)),
           tenantId: preferenceData.tenantId,
           id: preferenceData.id),
     ));

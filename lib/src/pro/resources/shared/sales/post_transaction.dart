@@ -1,4 +1,4 @@
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/customer/address_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/customer/contact_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/customer/customer_crud.dart';
@@ -33,7 +33,7 @@ class PostTransaction {
   late TempNumberLogsDao tempNumberLogsDao;
 
   PostTransaction() {
-    db = AppDatabase();
+    db = MyDatabase();
     numberGenerator = new NumberGenerator();
     transferInventory = new TransferInventory();
     salesOrderDetailTempDao = new SalesOrderDetailTempDao(db);
@@ -83,8 +83,7 @@ class PostTransaction {
       var getCustomer = await customerDao.getAllCustomerById(customerId!);
       if (getCustomer.length > 0 && getCustomer != null) {}
 
-      var salesDetail = await salesOrderDetailTempDao
-          .getAllSalesOrderDetailTemp(transactionNumber!, transactionStatus!);
+      var salesDetail = await salesOrderDetailTempDao.getAllSalesOrderDetailTemp(transactionNumber!, transactionStatus!);
       for (var detail in salesDetail) {
         salesDetailData = new SalesOrderDetailCompanion(
             userName: moor.Value(detail.userName),
@@ -121,9 +120,7 @@ class PostTransaction {
             conversionFactor: moor.Value(detail.conversionFactor!));
       }
 
-      salesOrderDetailTempDao
-          .transactionTotal(transactionNumber, transactionStatus)
-          .listen((e) {
+      salesOrderDetailTempDao.transactionTotal(transactionNumber, transactionStatus).listen((e) {
         if (e.isNotEmpty) {
           subTotal = e.single.subTotal;
           taxTotal = e.single.taxTotal!;
@@ -173,17 +170,14 @@ class PostTransaction {
           longitude: moor.Value(longitude),
           transactionEnd: moor.Value(DateTime.now()));
 
-      var isPost = await salesOrderDetailDao.postSalesOrderData(
-          salesDetailData, salesHeader);
+      var isPost = await salesOrderDetailDao.postSalesOrderData(salesDetailData, salesHeader);
 
       if (isPost == true) {
         var lastInvoice = await salesOrderHeaderDao.getAllSalesOrderHeader();
         if (lastInvoice.length > 0) {
-          var sn = await seriesNumberGeneratorDao
-              .getAllSeriesNumberByType(transactionType!);
+          var sn = await seriesNumberGeneratorDao.getAllSeriesNumberByType(transactionType!);
           if (sn.length > 0 && sn != null) {
-            await numberGenerator.getSerialNumber(
-                transactionType, lastInvoice.length, sn.single.endingLength!);
+            await numberGenerator.getSerialNumber(transactionType, lastInvoice.length, sn.single.endingLength!);
 
             var tempNumber = new TempNumberLogsCompanion(
                 tenantId: moor.Value(0),
@@ -196,11 +190,9 @@ class PostTransaction {
             await tempNumberLogsDao.createOrUpdateTempNumber(tempNumber);
           }
         } else {
-          var sn = await seriesNumberGeneratorDao
-              .getAllSeriesNumberByType(transactionType!);
+          var sn = await seriesNumberGeneratorDao.getAllSeriesNumberByType(transactionType!);
           if (sn.length > 0 && sn != null) {
-            await numberGenerator.getSerialNumber(
-                transactionType, 0, sn.single.endingLength!);
+            await numberGenerator.getSerialNumber(transactionType, 0, sn.single.endingLength!);
 
             var tempNumber = new TempNumberLogsCompanion(
                 tenantId: moor.Value(0),

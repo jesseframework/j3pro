@@ -2,10 +2,7 @@
 
 part of 'desktop_crud.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$DesktopDaoMixin on DatabaseAccessor<AppDatabase> {
+// ignore_for_file: type=lint
+mixin _$DesktopDaoMixin on DatabaseAccessor<MyDatabase> {
   $DesktopTable get desktop => attachedDatabase.desktop;
 }

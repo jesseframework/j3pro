@@ -7,7 +7,7 @@ import 'package:j3enterprise/src/pro/ui/activities_menu/bloc/activities_menu_blo
 
 // ignore: must_be_immutable
 class ActivitiesMenuPage extends StatefulWidget {
-  static final route = '/activities_menu';
+ 
   JourneyWithAddress journeyWithAddress;
 
   ActivitiesMenuPage({required this.journeyWithAddress});

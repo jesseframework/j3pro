@@ -20,7 +20,7 @@
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/dropdown_box.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/password_field.dart';
@@ -34,8 +34,7 @@ class CommunicationTabOneWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CommunicationTabOneWidgetState createState() =>
-      _CommunicationTabOneWidgetState();
+  _CommunicationTabOneWidgetState createState() => _CommunicationTabOneWidgetState();
 }
 
 class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
@@ -90,7 +89,7 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
     }
   }
 
-  late List<CommunicationData> _communicationData;
+    List<CommunicationData>? _communicationData;
   final erpList = ['SAP', 'ERP Next', 'Quick Books'];
 
   @override
@@ -112,10 +111,9 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
             // if data was loaded set it
             _communicationData = state.data;
             _setupControllers();
-          } else if (_communicationData == null) {
+          } else if (_communicationData==null) {
             // else if data is not present retrieve it
-            var event = OnFormLoadGetSaveCommunication(
-                communicationType: erpConnection);
+            var event = OnFormLoadGetSaveCommunication(communicationType: erpConnection);
             bloc.add(event);
           }
 
@@ -127,16 +125,13 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
   }
 
   void _setupControllers() {
-    if (_communicationData.length > 0) {
-      _serverurlController =
-          TextEditingController(text: _communicationData[0].serverUrl);
-      _usernameController =
-          TextEditingController(text: _communicationData[0].userName);
-      _confirmpasswordController =
-          TextEditingController(text: _communicationData[0].confirmPasskey);
+    if (_communicationData!.length > 0) {
+      _serverurlController = TextEditingController(text: _communicationData![0].serverUrl);
+      _usernameController = TextEditingController(text: _communicationData![0].userName);
+      _confirmpasswordController = TextEditingController(text: _communicationData![0].confirmPasskey);
 
-      erpSelecteditem = _communicationData[0].typeofErp;
-      syncfrequencySelectedItem = _communicationData[0].syncFrequency;
+      erpSelecteditem = _communicationData![0].typeofErp;
+      syncfrequencySelectedItem = _communicationData![0].syncFrequency;
     }
   }
 
@@ -150,9 +145,7 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
                 padding: const EdgeInsets.all(0.00),
                 child: DropdownFormFieldNormalReuse(
                   _onUpdateERBSelection,
-                  hintText: AppLocalization.of(context)!
-                          .translate('type_of_erp_label_communication') ??
-                      'Type of ERP',
+                  hintText: AppLocalization.of(context)!.translate('type_of_erp_label_communication') ?? 'Type of ERP',
                   selectedValue: erpSelecteditem,
                   listData: erpList,
                 )),
@@ -160,9 +153,7 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
               padding: const EdgeInsets.all(0.00),
               child: TextFromFieldNullableReusable(
                 fieldDecoration: InputDecoration(
-                  labelText: AppLocalization.of(context)!
-                          .translate('server_url_label_communication') ??
-                      'Server Url',
+                  labelText: AppLocalization.of(context)!.translate('server_url_label_communication') ?? 'Server Url',
                 ),
                 controllerName: _serverurlController,
                 validationText: 'Test',
@@ -172,9 +163,7 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
               padding: const EdgeInsets.all(0.00),
               child: TextFromFieldNullableReusable(
                 fieldDecoration: InputDecoration(
-                  labelText: AppLocalization.of(context)!
-                          .translate('username_label_communication') ??
-                      'Username',
+                  labelText: AppLocalization.of(context)!.translate('username_label_communication') ?? 'Username',
                 ),
                 controllerName: _usernameController,
                 validationText: 'Test',
@@ -182,11 +171,10 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
             ),
             Padding(
               padding: const EdgeInsets.all(0.00),
-              child: TextNoNullFieldPasswordReusable(
+              child: TextFromFieldPasswordReusable(
+                controllerName:TextEditingController(),
                 fieldDecoration: InputDecoration(
-                  labelText: AppLocalization.of(context)!
-                          .translate('new_password_label_communication') ??
-                      'New Password',
+                  labelText: AppLocalization.of(context)!.translate('new_password_label_communication') ?? 'New Password',
                 ),
                 validationText: 'Test',
               ),
@@ -195,9 +183,7 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
               padding: const EdgeInsets.all(0.00),
               child: TextFromFieldPasswordReusable(
                 fieldDecoration: InputDecoration(
-                  labelText: AppLocalization.of(context)!
-                          .translate('confirm_password_label_communication') ??
-                      'Confirm Password',
+                  labelText: AppLocalization.of(context)!.translate('confirm_password_label_communication') ?? 'Confirm Password',
                 ),
                 controllerName: _confirmpasswordController,
                 validationText: 'Test',
@@ -207,36 +193,26 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
               padding: const EdgeInsets.all(0.00),
               child: DropdownFormFieldNormalReuse(
                 _onUpdateeFrequencySelection,
-                hintText: AppLocalization.of(context)!
-                        .translate('sync_frequency_label_communication') ??
-                    'Sync Frequency',
+                hintText: AppLocalization.of(context)!.translate('sync_frequency_label_communication') ?? 'Sync Frequency',
                 selectedValue: syncfrequencySelectedItem,
-                listData: [
-                  'Every Minute',
-                  'Every 5 Minutes',
-                  'Every 20 Minutes',
-                  'Every Day',
-                  'Every Month',
-                  'Every Year'
-                ],
+                listData: ['Every Minute', 'Every 5 Minutes', 'Every 20 Minutes', 'Every Day', 'Every Month', 'Every Year'],
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(10.00),
               child: ButtonTheme(
                 height: 50,
-                child: FlatButton(
-                  color: Colors.green[400],
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.green[400],
+                  ),
                   onPressed: () {
                     submitERPTab(bloc);
                   },
                   child: Center(
                       child: Text(
-                    AppLocalization.of(context)!
-                            .translate('save_changes_button_serversetup') ??
-                        'Save Changes',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.white),
+                    AppLocalization.of(context)!.translate('save_changes_button_serversetup') ?? 'Save Changes',
+                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
                   )),
                 ),
               ),

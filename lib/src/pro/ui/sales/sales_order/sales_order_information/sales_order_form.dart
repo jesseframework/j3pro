@@ -1,7 +1,7 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/account/currency/currency_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/account/exchange_rate/exchange_rate.dart';
 import 'package:j3enterprise/src/pro/database/crud/customer/address_crud.dart';
@@ -28,12 +28,8 @@ class SalesOrderForm extends StatefulWidget {
   late SystemCurrencyDao systemCurrencyDao;
   late ExchangeRateDao exchangeRateDao;
   late SalesOrderHeaderDao salesOrderHeaderDao;
-  SalesOrderForm(
-      {required this.defaultCurrency,
-      required this.currenciesData,
-      required this.exchangeRate,
-      required this.address}) {
-    db = AppDatabase();
+  SalesOrderForm({required this.defaultCurrency, required this.currenciesData, required this.exchangeRate, required this.address}) {
+    db = MyDatabase();
     addressDao = AddressDao(db);
     customerDao = CustomerDao(db);
     salesOrderHeaderDao = SalesOrderHeaderDao(db);
@@ -78,14 +74,11 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
     // journeyWithAddress = ModalRoute.of(context).settings.arguments;
     return Scaffold(
         appBar: AppBar(
-          title: Text(AppLocalization.of(context)!
-                  .translate('sales_order_information_appbar_title') ??
-              'Sales Order Information'),
+          title: Text(AppLocalization.of(context)!.translate('sales_order_information_appbar_title') ?? 'Sales Order Information'),
           actions: [
             InkWell(
               onTap: () {
-                BlocProvider.of<SalesOderBloc>(context)
-                    .add(CreateSalesOrderHeader(
+                BlocProvider.of<SalesOderBloc>(context).add(CreateSalesOrderHeader(
                   currencyCode: defaultCurrency,
                   exchangeRate: exchangeRate,
                   orderType: swipeDiscountTpye,
@@ -105,10 +98,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                   userName: '',
                 ));
                 addItemBloc.setDilveryDate(dilverydate: dateTime);
-                Navigator.push(
-                    context,
-                    EnterExitRoute(
-                        enterPage: SalesOrderAddItemPage(), exitPage: widget));
+                Navigator.push(context, EnterExitRoute(enterPage: SalesOrderAddItemPage(), exitPage: widget));
               },
               child: Row(
                 children: [
@@ -129,8 +119,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
           child: Column(
             children: [
               Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                 elevation: 4.0,
                 //  height: 150,
                 child: Padding(
@@ -144,38 +133,34 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           DropdownSearch(
-                            mode: Mode.MENU,
+                            popupProps: PopupProps.menu(),
                             // backgroundColor: Theme.of(context).cardColor,
                             // labelStyle: TextStyle(
                             //     fontWeight: FontWeight.w600,
                             //     color:
-                            //         Theme.of(context).textSelectionColor,
+                            //         Theme.of(context)                                          .textSelectionTheme.selectionColor,
                             //     fontSize: 12),
-                            label: "Shipping Address",
-                            selectedItem: widget.address.isEmpty
-                                ? 'No address found '
-                                : primaryAddress.addressLine1,
-                            showSearchBox: true,
-                            items: widget.address.isEmpty
-                                ? null
-                                : widget.address
-                                    .map((e) => e.addressLine1)
-                                    .toList(),
-                            onChanged: (value) async {
-                              addItemBloc.setShippingAddress(
-                                  address: widget.address.firstWhere(
-                                      (e) => e.addressLine1 == value));
+                            // label: "Shipping Address",
+                            selectedItem: widget.address.isEmpty ? 'No address found ' : primaryAddress.addressLine1,
+                            // showSearchBox: true,
+                            // items: widget.address.isEmpty ? null : widget.address.map((e) => e.addressLine1).toList(),
+                            onChanged: (dynamic value) async {
+                              addItemBloc.setShippingAddress(address: widget.address.firstWhere((e) => e.addressLine1 == value));
                             },
                             // autofocus: true,
-                            dropdownSearchDecoration: InputDecoration(
-                                suffix: Container(
-                              height: 30,
-                              child: FloatingActionButton(
-                                onPressed: () {},
-                                backgroundColor: Theme.of(context).accentColor,
-                                child: Icon(Icons.add),
-                              ),
-                            )),
+                            dropdownDecoratorProps: DropDownDecoratorProps(
+dropdownSearchDecoration: InputDecoration(
+                                  suffix: Container(
+                                height: 30,
+                                child: FloatingActionButton(
+                                  onPressed: () {},
+                                  backgroundColor: Theme.of(context).secondaryHeaderColor,
+                                  //ToDo    backgroundColor: Theme.of(context).accentColor, is not working changing it to secondaryColor
+                                  child: Icon(Icons.add),
+                                ),
+                              )),
+                            ),
+                          
                           )
                         ],
                       ),
@@ -183,20 +168,12 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                         height: 15,
                       ),
                       DropdownSearch(
-                        mode: Mode.MENU,
-                        showSearchBox: true,
-                        label: 'Contact',
-                        selectedItem: widget.address.isEmpty
-                            ? 'No Contact Found'
-                            : widget.address[0].phoneNumber,
+                        popupProps: PopupProps.menu(),
+                        //  label: 'Contact',
+                        selectedItem: widget.address.isEmpty ? 'No Contact Found' : widget.address[0].phoneNumber,
 
-                        items: widget.address.isEmpty
-                            ? null
-                            : widget.address
-                                .map((e) =>
-                                    e.contactPerson + ' ' + e.phoneNumber)
-                                .toList(),
-                        onChanged: (value) async {
+                        // items: widget.address.isEmpty ? null : widget.address.map((e) => e.contactPerson + ' ' + e.phoneNumber).toList() ,
+                        onChanged: (dynamic value) async {
                           // await widget
                           //     .businessRuleDao
                           //     .updateBussinessRule(
@@ -205,15 +182,19 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                           //         value:
                           //         value));
                         },
-                        dropdownSearchDecoration: InputDecoration(
-                            suffix: Container(
-                          height: 30,
-                          child: FloatingActionButton(
-                            onPressed: () {},
-                            backgroundColor: Theme.of(context).accentColor,
-                            child: Icon(Icons.add),
-                          ),
-                        )),
+                        dropdownDecoratorProps: DropDownDecoratorProps(
+                          dropdownSearchDecoration: InputDecoration(
+                              suffix: Container(
+                            height: 30,
+                            child: FloatingActionButton(
+                              onPressed: () {},
+                             backgroundColor: Theme.of(context).secondaryHeaderColor,
+                              //ToDo    backgroundColor: Theme.of(context).accentColor, is not working changing it to secondaryColor
+                              child: Icon(Icons.add),
+                            ),
+                          )),
+                        ),
+
                         // autofocus: true,
                       ),
                     ],
@@ -221,8 +202,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                 ),
               ),
               Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                 elevation: 4.0,
                 //  height: 150,
                 child: Padding(
@@ -232,12 +212,12 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       DropdownSearch(
-                        mode: Mode.MENU,
+                        popupProps: PopupProps.menu(),
                         // labelStyle: TextStyle(
-                        //     color: Theme.of(context).textSelectionColor,
+                        //     color: Theme.of(context)                                          .textSelectionTheme.selectionColor,
                         //     fontWeight: FontWeight.w600,
                         //     fontSize: 12),
-                        label: "Order Type",
+                        // label: "Order Type",
                         selectedItem: 'Standard Order',
 
                         items: [
@@ -253,7 +233,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                           'Pick Up Order',
                           'Ullage Order ',
                         ],
-                        onChanged: (value) async {
+                        onChanged: (dynamic value) async {
                           // await widget
                           //     .businessRuleDao
                           //     .updateBussinessRule(
@@ -262,18 +242,23 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                           //         value:
                           //         value));
                         },
-                        dropdownSearchDecoration: InputDecoration(
-                            suffix: Container(
-                          height: 30,
-                          child: FloatingActionButton(
-                            onPressed: () {},
-                            backgroundColor: Theme.of(context).accentColor,
-                            child: Icon(Icons.add),
-                          ),
-                        )),
-                        // autofocus: true,
-                        // backgroundColor: Theme.of(context).cardColor,
+                        dropdownDecoratorProps: DropDownDecoratorProps(
+                          dropdownSearchDecoration: InputDecoration(
+                              suffix: Container(
+                            height: 30,
+                            child: FloatingActionButton(
+                              onPressed: () {},
+                             backgroundColor: Theme.of(context).secondaryHeaderColor,
+                              //ToDo    backgroundColor: Theme.of(context).accentColor, is not working changing it to secondaryColor
+                              child: Icon(Icons.add),
+                            ),
+                          )),
+                        ),
                       ),
+
+                      // autofocus: true,
+                      // backgroundColor: Theme.of(context).cardColor,
+
                       SizedBox(
                         height: 15,
                       ),
@@ -291,21 +276,16 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                       ),
                       buildSalesOrderCardTile(
                           heading: 'Delivery Date',
-                          title:
-                              '${dateTime.year}-${dateTime.month}-${dateTime.day}',
+                          title: '${dateTime.year}-${dateTime.month}-${dateTime.day}',
                           trailingWidget: InkWell(
                             child: Icon(Icons.date_range),
                             onTap: () async {
                               DateTime? result = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(1970),
-                                  lastDate: DateTime(2100));
+                                  context: context, initialDate: DateTime.now(), firstDate: DateTime(1970), lastDate: DateTime(2100));
                               if (result != null) {
                                 setState(() {
                                   dateTime = result;
-                                  addItemBloc.setDilveryDate(
-                                      dilverydate: result);
+                                  addItemBloc.setDilveryDate(dilverydate: result);
                                 });
                               }
                             },
@@ -318,8 +298,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                 ),
               ),
               Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                   elevation: 4.0,
                   //  height: 150,
                   child: Padding(
@@ -331,12 +310,11 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                           children: [
                             Expanded(
                               child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   DropdownSearch(
-                                      // mode: Mode.MENU,
+                                      // popupProps:  PopupProps.menu(),
                                       // label: "Currency",
                                       // selectedItem: defaultCurrency,
                                       // items: defaultCurrencyList
@@ -390,35 +368,38 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                             ),
                             Expanded(
                               child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   DropdownSearch(
-                                    mode: Mode.MENU,
+                                    popupProps: PopupProps.menu(),
 
-                                    label: "Discount Type",
+                                    // label: "Discount Type",
                                     selectedItem: swipeDiscountTpye,
 
                                     items: [
                                       'Percentage',
                                       'Amount',
                                     ],
-                                    onChanged: (value) async {
+                                    onChanged: (
+                                     dynamic value) async {
                                       setState(() {
                                         swipeDiscountTpye = value.toString();
                                       });
                                     },
-                                    dropdownSearchDecoration: InputDecoration(
-                                        suffix: Container(
-                                      height: 30,
-                                      child: FloatingActionButton(
-                                        onPressed: () {},
-                                        backgroundColor:
-                                            Theme.of(context).accentColor,
-                                        child: Icon(Icons.add),
-                                      ),
-                                    )),
+                                    dropdownDecoratorProps: DropDownDecoratorProps(
+                                      dropdownSearchDecoration: InputDecoration(
+                                          suffix: Container(
+                                        height: 30,
+                                        child: FloatingActionButton(
+                                          onPressed: () {},
+                                        backgroundColor: Theme.of(context).secondaryHeaderColor,
+                                          //ToDo    backgroundColor: Theme.of(context).accentColor, is not working changing it to secondaryColor
+                                          child: Icon(Icons.add),
+                                        ),
+                                      )),
+                                    ),
+
                                     // autofocus: true,
                                     // backgroundColor: Theme.of(context).cardColor,
                                   ),
@@ -447,8 +428,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
 //
                       )),
               Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                   elevation: 4.0,
                   //  height: 150,
                   child: Padding(
@@ -471,20 +451,14 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
         ));
   }
 
-  Widget buildSalesOrderCardTile(
-      {String? heading,
-      String? title,
-      bool? formatter = false,
-      Widget? trailingWidget,
-      Function? callback}) {
+  Widget buildSalesOrderCardTile({String? heading, String? title, bool? formatter = false, Widget? trailingWidget, Function? callback}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           heading!,
-          style: TextStyle(
-              fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
+          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -497,8 +471,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
               ),
             ),
             InkWell(
-              child: Container(
-                  margin: EdgeInsets.only(left: 8), child: trailingWidget),
+              child: Container(margin: EdgeInsets.only(left: 8), child: trailingWidget),
               onTap: () {
                 displayDialog(
                   context: context,
@@ -517,19 +490,14 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
     );
   }
 
-  Widget buildSalesOrderCardRowTile(
-      {String? heading,
-      String? title,
-      Widget? trailingWidget,
-      Function? callback}) {
+  Widget buildSalesOrderCardRowTile({String? heading, String? title, Widget? trailingWidget, Function? callback}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           heading!,
-          style: TextStyle(
-              fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
+          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -539,10 +507,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
               title!,
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
             ),
-            InkWell(
-                child: Container(
-                    margin: EdgeInsets.only(left: 8), child: trailingWidget),
-                onTap: () {}),
+            InkWell(child: Container(margin: EdgeInsets.only(left: 8), child: trailingWidget), onTap: () {}),
           ],
         ),
       ],

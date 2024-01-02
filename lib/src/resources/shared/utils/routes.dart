@@ -18,7 +18,7 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/models/sales/fullfillment/jounery_with_address.dart';
 import 'package:j3enterprise/src/pro/ui/activities_menu/activities_menu_page.dart';
 
@@ -29,6 +29,7 @@ import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/sales_order_a
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/sales_order_item_detail_page.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_information/sales_order_form.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_information/sales_order_page.dart';
+import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 
 import 'package:j3enterprise/src/ui/about/about.dart';
 import 'package:j3enterprise/src/ui/background_jobs/backgroundjobs_pages.dart';
@@ -36,36 +37,83 @@ import 'package:j3enterprise/src/ui/bussiness_rule/bussiness_rule_page.dart';
 import 'package:j3enterprise/src/ui/communication/setup_communication_page.dart';
 import 'package:j3enterprise/src/ui/home/home_page.dart';
 import 'package:j3enterprise/src/ui/login/login_page.dart';
+import 'package:j3enterprise/src/ui/login_offline/offline_login_page.dart';
 import 'package:j3enterprise/src/ui/preferences/preferences.dart';
 import 'package:j3enterprise/src/ui/splash/splash_page.dart';
 
-final routes = {
-  //OfflineLoginPage.route: (BuildContext context) => OfflineLoginPage(),
-  SalesOrderItemDetailPage.route: (BuildContext context) =>
-      SalesOrderItemDetailPage(
-        index: 0,
-      ),
-  BackgroundJobsPage.route: (BuildContext context) => BackgroundJobsPage(),
+class Routes {
+  static const String splasScreen = '/splash';
+  static const String itemScreen = '/itempage';
+  static const String customerScreen = '/customerpage';
+  static const String journeyPlanScreen = '/journey_plan_page';
+  static const String activitiesMenuScreen = '/activitiesmenupage';
+  static const String salesOrderScreen = '/SalesOrderPage';
+  static const String salesOrderAddItemScreen = '/SalesOrderAddItemPage';
+  static const String salesOrderItemDetailScreen = '/SalesOrderItemDetailPage';
+  static const String homeScreen = '/home';
+  static const String loginScreen = '/login';
+  static const String aboutScreen = '/about';
+  static const String preferencesScreen = '/preferences';
+  static const String bussinessRuleScreen = '/businessrule';
+  static const String communicationScreen = '/communication';
+  static const String backgroundJobsScreen = '/BackgroundJobs';
+  static const String acitvitesMenu = '/activities_menu';
+  static const String offlineLogin = '/offline_login';
 
-  SalesOrderPage.route: (BuildContext context) => SalesOrderForm(
-        address: [],
-        currenciesData: [],
-        defaultCurrency: '',
-        exchangeRate: 1,
-      ),
-  CommunicationPage.route: (BuildContext context) => CommunicationPage(),
-  BussinessRulePage.route: (BuildContext context) => BussinessRulePage(),
-  PreferencesPage.route: (BuildContext context) => PreferencesPage(),
-  SalesOrderPage.route: (BuildContext context) => SalesOrderPage(),
-  SplashPage.route: (BuildContext context) => SplashPage(),
-  LoginPage.route: (BuildContext context) => LoginPage(),
-  HomePage.route: (BuildContext context) => HomePage(),
-  About.route: (BuildContext context) => About(),
-  SalesOrderAddItemPage.route: (BuildContext context) =>
-      SalesOrderAddItemPage(),
-  // JourneyPlanPage.route: (BuildContext context) =>
-  //     JourneyPlanPage(journeyWithAddress: []),
-  //ActivitiesMenuPage.route: (BuildContext context) => ActivitiesMenuPage(journeyWithAddress: null,),
-  CustomerListPage.route: (BuildContext context) => CustomerListPage(),
-  ItemsPage.route: (BuildContext context) => ItemsPage(),
-};
+  Route<dynamic> generateRoute(RouteSettings routeSettings) {
+    switch (routeSettings.name) {
+      case splasScreen:
+        return MaterialPageRoute(builder: (_) => SplashPage());
+      case itemScreen:
+        return MaterialPageRoute(builder: (_) => ItemsPage());
+      case customerScreen:
+        return MaterialPageRoute(builder: (_) => CustomerListPage());
+      case journeyPlanScreen:
+        return MaterialPageRoute(
+            builder: (_) => JourneyPlanPage(
+                  
+                ));
+      case activitiesMenuScreen:
+        return MaterialPageRoute(
+            builder: (_) => ActivitiesMenuPage(
+                  journeyWithAddress: routeSettings.arguments as JourneyWithAddress,
+                ));
+      case salesOrderScreen:
+        return MaterialPageRoute(builder: (_) => SalesOrderPage());
+      case salesOrderAddItemScreen:
+        return MaterialPageRoute(builder: (_) => SalesOrderAddItemPage());
+      case salesOrderItemDetailScreen:
+        return MaterialPageRoute(
+            builder: (_) => SalesOrderItemDetailPage(
+                  index: routeSettings.arguments as int,
+                ));
+      case homeScreen:
+        return MaterialPageRoute(builder: (_) => HomePage());
+      case loginScreen:
+        return MaterialPageRoute(builder: (_) => LoginPage());
+      case aboutScreen:
+        return MaterialPageRoute(builder: (_) => About());
+      case preferencesScreen:
+        return MaterialPageRoute(builder: (_) => PreferencesPage());
+      case bussinessRuleScreen:
+        return MaterialPageRoute(builder: (_) => BussinessRulePage());
+      case communicationScreen:
+        return MaterialPageRoute(builder: (_) => CommunicationPage());
+      case backgroundJobsScreen:
+        return MaterialPageRoute(builder: (_) => BackgroundJobsPage());
+      case acitvitesMenu:
+        return MaterialPageRoute(
+            builder: (_) => ActivitiesMenuPage(
+                  journeyWithAddress: routeSettings.arguments as JourneyWithAddress,
+                ));
+      case offlineLogin:
+        return MaterialPageRoute(
+            builder: (_) => OfflineLoginPage(
+                  userRepository: routeSettings.arguments as UserRepository,
+                ));
+
+      default:
+        return MaterialPageRoute(builder: (_) => SplashPage());
+    }
+  }
+}

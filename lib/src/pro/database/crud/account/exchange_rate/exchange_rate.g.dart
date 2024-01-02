@@ -2,10 +2,7 @@
 
 part of 'exchange_rate.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$ExchangeRateDaoMixin on DatabaseAccessor<AppDatabase> {
+// ignore_for_file: type=lint
+mixin _$ExchangeRateDaoMixin on DatabaseAccessor<MyDatabase> {
   $ExchangeRateTable get exchangeRate => attachedDatabase.exchangeRate;
 }

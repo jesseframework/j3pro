@@ -1,4 +1,4 @@
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/models/items/ItemsWithPrices.dart';
 import 'package:j3enterprise/src/pro/models/items/item_master_model.dart';
 import 'package:drift/drift.dart';
@@ -6,8 +6,8 @@ import 'package:drift/drift.dart';
 part 'item_master_crud.g.dart';
 
 @DriftAccessor(tables: [Items])
-class ItemsDao extends DatabaseAccessor<AppDatabase> with _$ItemsDaoMixin {
-  final AppDatabase db;
+class ItemsDao extends DatabaseAccessor<MyDatabase> with _$ItemsDaoMixin {
+  final MyDatabase db;
   ItemsDao(this.db) : super(db);
 
   Future<List<Item>> getAllItem() {
@@ -15,8 +15,7 @@ class ItemsDao extends DatabaseAccessor<AppDatabase> with _$ItemsDaoMixin {
   }
 
   Stream<List<Item>> watchAllItemByCode(String itemCode) {
-    return (select(db.items)..where((t) => t.itemCode.equals(itemCode)))
-        .watch();
+    return (select(db.items)..where((t) => t.itemCode.equals(itemCode))).watch();
   }
 
   Future<List<Item>> getAllItemByCode(String itemCode) {
@@ -30,42 +29,28 @@ class ItemsDao extends DatabaseAccessor<AppDatabase> with _$ItemsDaoMixin {
   Future deleteAllItem() => delete(db.items).go();
 
   Stream<List<Item>> itemSearch(String searchText) {
-    return (select(db.items)
-          ..where((t) =>
-              t.itemCode.contains(searchText) |
-              t.itemName.contains(searchText) |
-              t.description.contains(searchText)))
+    return (select(db.items)..where((t) => t.itemCode.contains(searchText) | t.itemName.contains(searchText) | t.description.contains(searchText)))
         .watch();
   }
 
   //AddItem and Pricing Logic
   Future<List<Item>> getItemForSales(String searchText) {
-    return (select(db.items)
-          ..where((t) =>
-              t.itemCode.equals(searchText) |
-              t.itemName.equals(searchText) |
-              t.description.equals(searchText)))
-        .get();
+    return (select(db.items)..where((t) => t.itemCode.equals(searchText) | t.itemName.equals(searchText) | t.description.equals(searchText))).get();
   }
 
 //ToDo can be remove using
-  Stream<List<ItemsWithPrices>> watchItemsWithPricesJoin(
-      String searchText, bool isDelete) {
+  Stream<List<ItemsWithPrices>> watchItemsWithPricesJoin(String searchText, bool isDelete) {
     final query = select(db.items).join([
-      leftOuterJoin(
-          db.itemsPrices, db.items.itemId.equalsExp(db.itemsPrices.itemId)),
-      leftOuterJoin(db.inventoryItems,
-          db.items.itemId.equalsExp(db.inventoryItems.itemCode)),
+      leftOuterJoin(db.itemsPrices, db.items.itemId.equalsExp(db.itemsPrices.itemId)),
+      leftOuterJoin(db.inventoryItems, db.items.itemId.equalsExp(db.inventoryItems.itemCode)),
     ])
       ..where(db.items.itemName.contains(searchText) |
           db.items.itemCode.contains(searchText) |
-          db.items.description.contains(searchText) &
-              db.items.isDeleted.equals(isDelete));
+          db.items.description.contains(searchText) & db.items.isDeleted.equals(isDelete));
 
     return query.watch().map((rows) {
       return rows.map((row) {
-        return ItemsWithPrices(row.readTable(db.items),
-            row.readTable(db.itemsPrices), row.readTable(db.inventoryItems));
+        return ItemsWithPrices(row.readTable(db.items), row.readTable(db.itemsPrices), row.readTable(db.inventoryItems));
       }).toList();
     });
   }
@@ -103,12 +88,7 @@ class ItemsDao extends DatabaseAccessor<AppDatabase> with _$ItemsDaoMixin {
           Variable.withString(searchText),
           Variable.withString(searchText)
         ]).watch().map((rows) {
-      return rows
-          .map((e) => ItemsWithPrices(
-              Item.fromData(e.data),
-              ItemsPrice.fromData(e.data),
-              InventoryItem.fromData(e.data)))
-          .toList();
+      return rows.map((e) => ItemsWithPrices(Item.fromJson(e.data), ItemsPrice.fromJson(e.data), InventoryItem.fromJson(e.data))).toList();
     });
   }
 }

@@ -2,11 +2,8 @@
 
 part of 'stock_uom_crud.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$StockUnitOfMeasureDaoMixin on DatabaseAccessor<AppDatabase> {
+// ignore_for_file: type=lint
+mixin _$StockUnitOfMeasureDaoMixin on DatabaseAccessor<MyDatabase> {
   $StockUnitOfMeasureTable get stockUnitOfMeasure =>
       attachedDatabase.stockUnitOfMeasure;
 }

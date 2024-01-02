@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 
 class SalesOrderItemDetailPage extends StatelessWidget {
-  static final route = '/SalesOrderItemDetailPage';
+   
   int index;
 
   SalesOrderItemDetailPage({required this.index});

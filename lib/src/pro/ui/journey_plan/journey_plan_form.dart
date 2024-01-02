@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/main.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/sales/fullfillment/journey_plan_crud.dart';
 import 'package:j3enterprise/src/pro/models/sales/fullfillment/jounery_with_address.dart';
 import 'package:j3enterprise/src/pro/ui/activities_menu/activities_menu_page.dart';
@@ -16,10 +16,10 @@ import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
 
 class JourneyPlanForm extends StatefulWidget {
   var db;
-  late JourneyPlanDao journeyPlanDao;
-  late JourneyWithAddress journeyWithAddress;
-  JourneyPlanForm(this.journeyWithAddress) {
-    db = AppDatabase();
+    JourneyPlanDao? journeyPlanDao;
+    
+  JourneyPlanForm( ) {
+    db = MyDatabase();
     journeyPlanDao = JourneyPlanDao(db);
   }
 
@@ -29,13 +29,15 @@ class JourneyPlanForm extends StatefulWidget {
 
 class _JourneyPlanFormState extends State<JourneyPlanForm> {
   final formKey = new GlobalKey<FormState>();
-  String? userName;
+  String userName='';
   String searchText = '';
   @override
   void didChangeDependencies() async {
-    await getIt<UserRepository>().getUserSharedPref().then((value) {
+    await getIt<UserRepository>().getUserSharedPref().then((value)async {
+        
       setState(() {
         userName = value['userName'];
+    
       });
     });
     super.didChangeDependencies();
@@ -56,7 +58,6 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
         listener: (context, state) {
           if (state is JourneyPlanLoad) {
             // if data was loaded set it
-
           }
         },
         buildWhen: (previous, current) {
@@ -82,15 +83,12 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
         key: formKey,
         child: Scaffold(
             appBar: AppBar(
-              title: Text(AppLocalization.of(context)!
-                      .translate('journey_plan_appbar_title') ??
-                  "Journey Plan"),
+              title: Text(AppLocalization.of(context)!.translate('journey_plan_appbar_title') ?? "Journey Plan"),
             ),
             body: Column(
               children: [
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                   child: Row(
                     children: [
                       Expanded(
@@ -126,11 +124,12 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
                       trailing: Container(
                         height: 30,
                         width: 90,
-                        child: RaisedButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5)),
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.deepPurple,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                            ),
                             child: Text('1'),
-                            color: Colors.deepPurple,
                             onPressed: () {}),
                       ),
                     ),
@@ -143,11 +142,12 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
                       trailing: Container(
                         height: 30,
                         width: 90,
-                        child: RaisedButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5)),
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                            ),
                             child: Text('1'),
-                            color: Colors.green,
                             onPressed: () {}),
                       ),
                     ),
@@ -160,29 +160,27 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
                       trailing: Container(
                         height: 30,
                         width: 90,
-                        child: RaisedButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5)),
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.amber,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                            ),
                             child: Text('1'),
-                            color: Colors.amber,
                             onPressed: () {}),
                       ),
                     )
                   ],
                 ),
                 StreamBuilder(
-                  stream: widget.journeyPlanDao.watchJourneyWithAddressJoin(
-                      userName!, 'Billing', false, searchText),
+                  stream: widget.journeyPlanDao!.watchJourneyWithAddressJoin(userName, 'Billing', false, searchText),
                   //  future: widget.journeyPlanDao.getAllJourneyPlanData(),
                   builder: (context, snapshot) {
                     //print(snapshot.data.toString());
                     if (snapshot.hasData) {
                       //print(snapshot.data.toString());
                       if (snapshot.hasData) {
-                        List<JourneyWithAddress>? journeyWithAddressData =
-                            <JourneyWithAddress>[];
-                        journeyWithAddressData =
-                            snapshot.data as List<JourneyWithAddress>?;
+                        List<JourneyWithAddress>? journeyWithAddressData = <JourneyWithAddress>[];
+                        journeyWithAddressData = snapshot.data as List<JourneyWithAddress>?;
 
                         if (journeyWithAddressData!.isEmpty) {
                           return Text("Empty List");
@@ -193,62 +191,38 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
                             itemBuilder: (context, index) {
                               return InkWell(
                                 onTap: () async {
-                                  addItemBloc.setId(
-                                      cusID: journeyWithAddressData![index]
-                                          .jplan
-                                          .customerId);
+                                  addItemBloc.setId(cusID: journeyWithAddressData![index].jplan.customerId);
                                   Navigator.push(
                                       context,
                                       EnterExitRoute(
                                           enterPage: ActivitiesMenuPage(
-                                            journeyWithAddress:
-                                                journeyWithAddressData[index],
+                                            journeyWithAddress: journeyWithAddressData[index],
                                           ),
                                           exitPage: widget));
                                 },
                                 child: Container(
                                   color: (index % 2 == 0)
-                                      ? Theme.of(context)
-                                          .primaryColor
-                                          .withOpacity(0.1)
-                                      : Theme.of(context)
-                                          .cardColor
-                                          .withOpacity(0.1),
+                                      ? Theme.of(context).primaryColor.withOpacity(0.1)
+                                      : Theme.of(context).cardColor.withOpacity(0.1),
                                   child: ListTile(
                                     leading: Icon(
                                       Icons.image,
                                       size: 30,
                                     ),
                                     subtitle: Text(
-                                      journeyWithAddressData![index]
-                                              .addr
-                                              .addressLine1 +
+                                      journeyWithAddressData![index].addr.addressLine1! +
                                           " " +
-                                          journeyWithAddressData[index]
-                                              .jplan
-                                              .distanceUsed
-                                              .toString() +
+                                          journeyWithAddressData[index].jplan.distanceUsed.toString() +
                                           " " +
-                                          journeyWithAddressData[index]
-                                              .jplan
-                                              .distanceLabel
-                                              .toString(),
+                                          journeyWithAddressData[index].jplan.distanceLabel.toString(),
                                     ),
                                     title: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
+                                        Text(journeyWithAddressData[index].jplan.companyName,
+                                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
                                         Text(
-                                            journeyWithAddressData[index]
-                                                .jplan
-                                                .companyName,
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w700)),
-                                        Text(
-                                          journeyWithAddressData[index]
-                                              .jplan
-                                              .customerId,
+                                          journeyWithAddressData[index].jplan.customerId,
                                         ),
                                       ],
                                     ),

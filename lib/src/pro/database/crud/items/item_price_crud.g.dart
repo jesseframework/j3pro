@@ -2,10 +2,7 @@
 
 part of 'item_price_crud.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$ItemPriceDaoMixin on DatabaseAccessor<AppDatabase> {
+// ignore_for_file: type=lint
+mixin _$ItemPriceDaoMixin on DatabaseAccessor<MyDatabase> {
   $ItemsPricesTable get itemsPrices => attachedDatabase.itemsPrices;
 }

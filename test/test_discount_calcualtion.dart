@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/sales/sales_order/sales_order_detail_temp_crud.dart';
 
 void main() {
@@ -11,13 +11,10 @@ void main() {
     double numOfItemOnRegister = 0;
     double minPurchaseOfItemOnRegister = 0;
     var db;
-    db = AppDatabase();
-    SalesOrderDetailTempDao salesOrderDetailTempDao =
-        new SalesOrderDetailTempDao(db);
+    db = MyDatabase();
+    SalesOrderDetailTempDao salesOrderDetailTempDao = new SalesOrderDetailTempDao(db);
 
-    salesOrderDetailTempDao
-        .qtyOfItemOnRegister(transactionNumber, itemId, uom, transactionStatus)
-        .listen((e) {
+    salesOrderDetailTempDao.qtyOfItemOnRegister(transactionNumber, itemId, uom, transactionStatus).listen((e) {
       numOfItemOnRegister = e.single.quantity;
       minPurchaseOfItemOnRegister = e.single.subTotal;
       print(numOfItemOnRegister.toString());

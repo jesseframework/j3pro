@@ -25,7 +25,7 @@ import 'package:j3enterprise/src/database/crud/application_logger/app_logger_cru
 import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/non_preference_crud.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/preference_crud.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
 import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
 import 'package:j3enterprise/src/resources/shared/function/update_backgroung_job_schedule_status.dart';
@@ -40,7 +40,7 @@ class AppLoggerRepository {
   late bool isStopped = false;
 
   static final _log = Logger('AppLoggerRepository');
-  late ApplicationLoggerDao applicationLoggerDao;
+  late ApplicationLoggerView applicationLoggerDao;
   late UpdateBackgroundJobStatus updateBackgroundJobStatus;
   late BackgroundJobScheduleDao backgroundJobScheduleDao;
   late PreferenceDao preferenceDao;
@@ -49,8 +49,8 @@ class AppLoggerRepository {
   late UserSharedData userSharedData;
 
   AppLoggerRepository() {
-    db = AppDatabase();
-    applicationLoggerDao = new ApplicationLoggerDao(db);
+    db = MyDatabase();
+    applicationLoggerDao = new ApplicationLoggerView(db);
     updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
     backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
     preferenceDao = PreferenceDao(db);
@@ -62,22 +62,20 @@ class AppLoggerRepository {
     try {
       //ToDo code review to get a better way to push bulk data to API and update bulk data in database
       var isSchedulerEnable = await backgroundJobScheduleDao.getJob(jobName);
-      if (isSchedulerEnable.startDateTime.isBefore(DateTime.now())) {
+      if (isSchedulerEnable!.startDateTime.isBefore(DateTime.now())) {
         if (isSchedulerEnable.enableJob == true) {
           var appLogData = await applicationLoggerDao.getAppLog("Pending");
 
           Map<String, String>? mapUserSharedData = Map();
           UserSharedData userSharedData = new UserSharedData();
-          mapUserSharedData =
-              (await userSharedData.getUserSharedPref()).cast<String, String>();
+          mapUserSharedData = (await userSharedData.getUserSharedPref()).cast<String, String>();
           String? _tenantId = mapUserSharedData['tenantId'];
           String? userName = mapUserSharedData['userName'];
           String? deviceId = mapUserSharedData['deviceId'];
 
           for (var fromDb in appLogData) {
             if (isStopped) break;
-            await updateBackgroundJobStatus.updateJobStatus(
-                jobName, "In Progress");
+            await updateBackgroundJobStatus.updateJobStatus(jobName, "In Progress");
             String formatted = await formatDate(fromDb.logDateTime.toString());
 
             final Response response = await api.mobileAppLogger({
@@ -110,18 +108,11 @@ class AppLoggerRepository {
 
               await applicationLoggerDao.updateAppLoggerReplace(fromDate);
 
-              var logPurging =
-                  await preferenceDao.getSinglePreferences('LOGGERPURGE');
+              var logPurging = await preferenceDao.getSinglePreferences('LOGGERPURGE');
               if (logPurging != null) {
                 if (logPurging.value == "After Upload") {
                   if (logPurging.isGlobal == false) {
-                    var globalData =
-                        await nonGlobalPreferenceDao.getSingleNonGlobalPref(
-                            logPurging.code,
-                            logPurging.code,
-                            userName!,
-                            deviceId!,
-                            "");
+                    var globalData = await nonGlobalPreferenceDao.getSingleNonGlobalPref(logPurging.code, logPurging.code, userName!, deviceId!, "");
                     if (globalData.expiredDateTime!.isBefore(DateTime.now())) {
                       await applicationLoggerDao.deleteById(fromDate.id);
                     }
@@ -132,8 +123,7 @@ class AppLoggerRepository {
               } else {
                 //applicationLoggerDao.purgeData(1000);
               }
-              await updateBackgroundJobStatus.updateJobStatus(
-                  jobName, "Success");
+              await updateBackgroundJobStatus.updateJobStatus(jobName, "Success");
             } else {
               await updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
               break;

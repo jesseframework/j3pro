@@ -26,7 +26,7 @@ displayDialog(
                       : [],
                 ),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               child: Text(onlyMessage ? 'Ok' : 'Discard'),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -34,7 +34,7 @@ displayDialog(
             ),
             onlyMessage
                 ? SizedBox()
-                : FlatButton(
+                : TextButton(
                     child: Text('Save'),
                     onPressed: () async {
                       await callBack!(textcontroller!.text.toString());

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:chopper/chopper.dart';
 import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/account/sales_tax/sales_tax_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/customer/address_crud.dart';
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
@@ -27,7 +27,7 @@ class SalesTaxRepository {
 
   SalesTaxRepository() {
     _log.finest("Sales repository constructer call");
-    db = AppDatabase();
+    db = MyDatabase();
     updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
     backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
     salesTaxDao = new SalesTaxDao(db);
@@ -40,7 +40,7 @@ class SalesTaxRepository {
       _log.finest("Executing sales tax date from server");
       var isSchedulerEnable = await backgroundJobScheduleDao.getJob(jobName);
       _log.finest("Sales tax  job found in background Jobs scheduler");
-      if (isSchedulerEnable.startDateTime.isBefore(DateTime.now())) {
+      if (isSchedulerEnable!.startDateTime.isBefore(DateTime.now())) {
         if (isSchedulerEnable.enableJob == true) {
           DateTime startDate = isSchedulerEnable.startDateTime;
           _log.finest("Sales tax  jobs start date is $startDate ");
@@ -62,8 +62,7 @@ class SalesTaxRepository {
           } else {
             String error = map["error"]["details"].toString();
             updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-            _log.shout(
-                "Sales tax API call failed. Server respond with error : $error  ");
+            _log.shout("Sales tax API call failed. Server respond with error : $error  ");
           }
         }
       }

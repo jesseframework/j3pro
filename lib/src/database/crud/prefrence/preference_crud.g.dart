@@ -2,11 +2,8 @@
 
 part of 'preference_crud.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$PreferenceDaoMixin on DatabaseAccessor<AppDatabase> {
+// ignore_for_file: type=lint
+mixin _$PreferenceDaoMixin on DatabaseAccessor<MyDatabase> {
   $PreferenceTable get preference => attachedDatabase.preference;
   $NonGlobalPreferenceTable get nonGlobalPreference =>
       attachedDatabase.nonGlobalPreference;

@@ -17,15 +17,15 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/models/desktop_model.dart';
 import 'package:drift/drift.dart';
 
 part 'desktop_crud.g.dart';
 
 @DriftAccessor(tables: [Desktop])
-class DesktopDao extends DatabaseAccessor<AppDatabase> with _$DesktopDaoMixin {
-  final AppDatabase db;
+class DesktopDao extends DatabaseAccessor<MyDatabase> with _$DesktopDaoMixin {
+  final MyDatabase db;
   DesktopDao(this.db) : super(db);
 
   Future<List<DesktopData>> getAllDesktop() {
@@ -36,8 +36,7 @@ class DesktopDao extends DatabaseAccessor<AppDatabase> with _$DesktopDaoMixin {
     return into(db.desktop).insertOnConflictUpdate(desktopData);
   }
 
-  Stream<List<DesktopData>> watchAllDesktop(String functionName, bool isDelete,
-      String featureCode, String userPermission, String showInLoaction) {
+  Stream<List<DesktopData>> watchAllDesktop(String functionName, bool isDelete, String featureCode, String userPermission, String showInLoaction) {
     return (select(db.desktop)
           ..where((t) =>
               t.iconName.contains(functionName) &
@@ -48,18 +47,11 @@ class DesktopDao extends DatabaseAccessor<AppDatabase> with _$DesktopDaoMixin {
         .watch();
   }
 
-  Stream<List<DesktopData>> watchAllActivitiesMenu(String functionName,
-      bool isDelete, String featureCode, String userPermission) {
-    return (select(db.desktop)
-          ..where((t) =>
-              t.iconGroup.equals(functionName) &
-              t.isDeleted.equals(isDelete) &
-              t.userPermission.contains(userPermission)))
-        .watch();
+  Stream<List<DesktopData>> watchAllActivitiesMenu(String functionName, bool isDelete, String featureCode, String userPermission) {
+    return (select(db.desktop).watch());
   }
 
-  Future insertBusinessRule(DesktopData desktopData) =>
-      into(db.desktop).insert(desktopData);
+  Future insertBusinessRule(DesktopData desktopData) => into(db.desktop).insert(desktopData);
 
   Future deleteAllBusinessRule() => delete(db.desktop).go();
 }

@@ -1,4 +1,5 @@
-import 'package:j3enterprise/src/database/moor_database.dart';
+
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/models/account/sales_tax/sales_tax_model.dart';
 
 import 'package:drift/drift.dart';
@@ -6,9 +7,9 @@ import 'package:drift/drift.dart';
 part 'sales_tax_crud.g.dart';
 
 @DriftAccessor(tables: [SalesTax])
-class SalesTaxDao extends DatabaseAccessor<AppDatabase>
+class SalesTaxDao extends DatabaseAccessor<MyDatabase>
     with _$SalesTaxDaoMixin {
-  final AppDatabase db;
+  final MyDatabase db;
   SalesTaxDao(this.db) : super(db);
 
   Future<List<SalesTaxData>> getAllSalesTax() {

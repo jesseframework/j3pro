@@ -2,10 +2,7 @@
 
 part of 'tenant_crud.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$TenantDaoMixin on DatabaseAccessor<AppDatabase> {
+// ignore_for_file: type=lint
+mixin _$TenantDaoMixin on DatabaseAccessor<MyDatabase> {
   $TenantTable get tenant => attachedDatabase.tenant;
 }

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:chopper/chopper.dart';
 import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/items/item_master_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/items/item_price_crud.dart';
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
@@ -27,7 +27,7 @@ class ItemMasterRepository {
 
   ItemMasterRepository() {
     _log.finest("Preference repository constructer call");
-    db = AppDatabase();
+    db = MyDatabase();
     updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
     backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
     itemsDao = new ItemsDao(db);
@@ -41,7 +41,7 @@ class ItemMasterRepository {
       _log.finest("Executing $className date from server");
       var isSchedulerEnable = await backgroundJobScheduleDao.getJob(jobName);
       _log.finest("$className job found in background Jobs scheduler");
-      if (isSchedulerEnable.startDateTime.isBefore(DateTime.now())) {
+      if (isSchedulerEnable!.startDateTime.isBefore(DateTime.now())) {
         if (isSchedulerEnable.enableJob == true) {
           DateTime startDate = isSchedulerEnable.startDateTime;
           _log.finest("$className jobs start date is $startDate ");
@@ -63,8 +63,7 @@ class ItemMasterRepository {
           } else {
             String error = map["error"]["details"].toString();
             updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-            _log.shout(
-                "Customer API call failed. Server respond with error : $error  ");
+            _log.shout("Customer API call failed. Server respond with error : $error  ");
           }
         }
       }

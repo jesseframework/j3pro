@@ -2,10 +2,7 @@
 
 part of 'item_master_crud.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$ItemsDaoMixin on DatabaseAccessor<AppDatabase> {
+// ignore_for_file: type=lint
+mixin _$ItemsDaoMixin on DatabaseAccessor<MyDatabase> {
   $ItemsTable get items => attachedDatabase.items;
 }

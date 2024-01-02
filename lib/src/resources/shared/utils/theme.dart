@@ -7,25 +7,40 @@ final darkTheme = ThemeData(
 
 final lightTheme = ThemeData(
   textTheme: TextTheme(
-    bodyText1: TextStyle().copyWith(
+    bodyLarge: TextStyle().copyWith(
       color: Colors.black,
     ),
-    bodyText2: TextStyle().copyWith(
+    bodyMedium: TextStyle().copyWith(
       color: Colors.black,
     ),
   ),
   primaryColor: Colors.blue,
   cardColor: Colors.white,
   brightness: Brightness.light,
-  backgroundColor: Color(0xffe7ebee),
+   
+  // backgroundColor: Color(0xffe7ebee),
+
   scaffoldBackgroundColor: Color(0xffe7ebee),
-  accentColor: Colors.black54,
-  accentIconTheme: IconThemeData(color: Colors.white),
+  // accentColor: Colors.black54,
+  colorScheme: ColorScheme.light(
+    primary: Colors.blue,
+    secondary: Colors.black54,
+    background:  Color(0xffe7ebee)
+    
+  ),
+ 
+  // accentIconTheme: IconThemeData(color: Colors.white),
   dividerColor: Colors.white54,
-  textSelectionColor: Colors.grey,
+  textSelectionTheme: TextSelectionThemeData(
+    
+    selectionColor:  Colors.grey,
+    selectionHandleColor: Colors.black45,
+    
+  ),
+  
   appBarTheme: AppBarTheme(
     color: Colors.blue,
   ),
   fontFamily: 'MyFont',
-  textSelectionHandleColor: Colors.black45,
+  
 );

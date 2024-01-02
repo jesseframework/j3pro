@@ -1,13 +1,12 @@
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/models/warehouse/inventory_items_model.dart';
 import 'package:drift/drift.dart';
 
 part 'inventory_items_crud.g.dart';
 
 @DriftAccessor(tables: [InventoryItems])
-class InventoryItemsDao extends DatabaseAccessor<AppDatabase>
-    with _$InventoryItemsDaoMixin {
-  final AppDatabase db;
+class InventoryItemsDao extends DatabaseAccessor<MyDatabase> with _$InventoryItemsDaoMixin {
+  final MyDatabase db;
   InventoryItemsDao(this.db) : super(db);
 
   Future<List<InventoryItem>> getAllInventoryItem() {
@@ -15,25 +14,18 @@ class InventoryItemsDao extends DatabaseAccessor<AppDatabase>
   }
 
   Stream<List<InventoryItem>> watchAllInventoryItemByCode(String itemCode) {
-    return (select(db.inventoryItems)
-          ..where((t) => t.itemCode.equals(itemCode)))
-        .watch();
+    return (select(db.inventoryItems)..where((t) => t.itemCode.equals(itemCode))).watch();
   }
 
   Future<List<InventoryItem>> getAllInventoryByCode(String itemCode) {
-    return (select(db.inventoryItems)
-          ..where((t) => t.itemCode.equals(itemCode)))
-        .get();
+    return (select(db.inventoryItems)..where((t) => t.itemCode.equals(itemCode))).get();
   }
 
   Future<InventoryItem> getSingleInventoryByCode(String itemCode) {
-    return (select(db.inventoryItems)
-          ..where((t) => t.itemCode.equals(itemCode)))
-        .getSingle();
+    return (select(db.inventoryItems)..where((t) => t.itemCode.equals(itemCode))).getSingle();
   }
 
-  Future<void> createOrUpdateInventoryItems(
-      InventoryItemsCompanion inventoryItem) {
+  Future<void> createOrUpdateInventoryItems(InventoryItemsCompanion inventoryItem) {
     return into(db.inventoryItems).insertOnConflictUpdate(inventoryItem);
   }
 

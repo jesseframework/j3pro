@@ -1,17 +1,14 @@
 import 'dart:io';
 
-import 'package:badges/badges.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/items/item_master_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/sales/sales_order/sales_order_detail_temp_crud.dart';
 import 'package:j3enterprise/src/pro/models/items/ItemsWithPrices.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/bloc/add_item_bloc.dart';
-import 'package:j3enterprise/src/pro/ui/sales/sales_order/check_out/sales_order_checkout_page.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/sales_order_item_detail_page.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/check_out/sales_order_finalized.dart';
 import 'package:j3enterprise/src/pro/utils/show_flushbar.dart';
@@ -19,7 +16,6 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
-import 'package:flutter_barcode_listener/flutter_barcode_listener.dart';
 
 class SalesOrderAddItemForm extends StatefulWidget {
   var db;
@@ -28,7 +24,7 @@ class SalesOrderAddItemForm extends StatefulWidget {
   late SalesOrderDetailTempDao salesOrderDetailTempDao;
 
   SalesOrderAddItemForm() {
-    db = AppDatabase();
+    db = MyDatabase();
     itemsDao = ItemsDao(db);
     salesOrderDetailTempDao = SalesOrderDetailTempDao(db);
   }
@@ -93,25 +89,19 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
   Widget _additemForm() {
     final widgetList = <Widget>[];
     widgetList.addAll([
-      Text(
-          'Press the scan button, its code will appear in the text field below'),
+      Text('Press the scan button, its code will appear in the text field below'),
       TextField(
         controller: _tecScanKeyCode,
-        decoration: InputDecoration(
-            suffix: IconButton(
-                icon: Icon(Icons.check), onPressed: _setScanButtonKeyCode)),
+        decoration: InputDecoration(suffix: IconButton(icon: Icon(Icons.check), onPressed: _setScanButtonKeyCode)),
       )
     ]);
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalization.of(context)!
-                .translate('new_ales_order_detail_appbar_title') ??
-            "New Sales Order Detail"),
+        title: Text(AppLocalization.of(context)!.translate('new_ales_order_detail_appbar_title') ?? "New Sales Order Detail"),
         actions: [
           InkWell(
             onTap: () {
-              Navigator.push(
-                  context, SizeRoute(page: SalesOrderFinslizedPage()));
+              Navigator.push(context, SizeRoute(page: SalesOrderFinslizedPage()));
             },
             child: Row(
               children: [
@@ -120,37 +110,31 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                   style: TextStyle(fontSize: 20),
                 ),
                 StreamBuilder(
-                    stream: widget.salesOrderDetailTempDao
-                        .transactionTotal(salesOrderNo, 'Pending'),
+                    stream: widget.salesOrderDetailTempDao.transactionTotal(salesOrderNo, 'Pending'),
                     builder: (context, snapshot) {
                       print(salesOrderNo);
                       if (snapshot.connectionState == ConnectionState.active) {
-                        List<SalesOrderDetailTempData>? totalData =
-                            snapshot.data as List<SalesOrderDetailTempData>?;
+                        List<SalesOrderDetailTempData>? totalData = snapshot.data as List<SalesOrderDetailTempData>?;
                         if (totalData!.isNotEmpty) {
                           return Badge(
-                              badgeContent:
-                                  Text(totalData[0].itemCount.toString()),
+                              label: Text(totalData[0].itemCount.toString()),
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 8),
+                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                                 child: Icon(Icons.shopping_cart),
                               ));
                         } else {
                           return Badge(
-                              badgeContent: Text(itemCount.toString()),
+                              label: Text(itemCount.toString()),
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 4, vertical: 4),
+                                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                                 child: Icon(Icons.shopping_cart),
                               ));
                         }
                       }
                       return Badge(
-                          badgeContent: Text(itemCount.toString()),
+                          label: Text(itemCount.toString()),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 4, vertical: 4),
+                            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                             child: Icon(Icons.shopping_cart),
                           ));
                     }),
@@ -178,9 +162,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: Container(
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).cardColor,
-                            borderRadius: BorderRadius.circular(5)),
+                        decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(5)),
                         alignment: Alignment.center,
                         width: 65,
                         child: TextField(
@@ -192,9 +174,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                             contentPadding: EdgeInsets.only(
                               bottom: 25 / 2, // HERE THE IMPORTANT PART
                             ),
-                            border: new OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5),
-                                borderSide: new BorderSide(color: Colors.teal)),
+                            border: new OutlineInputBorder(borderRadius: BorderRadius.circular(5), borderSide: new BorderSide(color: Colors.teal)),
                           ),
                         )),
                   ),
@@ -225,10 +205,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                           child: Container(
                             width: 80,
                             decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 1.5,
-                                    color: Theme.of(context).iconTheme.color!),
-                                borderRadius: BorderRadius.circular(5)),
+                                border: Border.all(width: 1.5, color: Theme.of(context).iconTheme.color!), borderRadius: BorderRadius.circular(5)),
                             child: Row(
                               children: [
                                 Expanded(
@@ -239,33 +216,23 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                       });
                                     },
                                     child: Container(
-                                      color: toggleList == true
-                                          ? Theme.of(context)
-                                              .scaffoldBackgroundColor
-                                          : Theme.of(context).primaryColorLight,
+                                      color: toggleList == true ? Theme.of(context).scaffoldBackgroundColor : Theme.of(context).primaryColorLight,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
+                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                                           children: [
                                             Container(
                                               height: 1.5,
-                                              color: Theme.of(context)
-                                                  .iconTheme
-                                                  .color,
+                                              color: Theme.of(context).iconTheme.color,
                                             ),
                                             Container(
                                               height: 1.5,
-                                              color: Theme.of(context)
-                                                  .iconTheme
-                                                  .color,
+                                              color: Theme.of(context).iconTheme.color,
                                             ),
                                             Container(
                                               height: 1.5,
-                                              color: Theme.of(context)
-                                                  .iconTheme
-                                                  .color,
+                                              color: Theme.of(context).iconTheme.color,
                                             )
                                           ],
                                         ),
@@ -285,85 +252,49 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                       });
                                     },
                                     child: Container(
-                                      color: toggleList == true
-                                          ? Theme.of(context).primaryColorLight
-                                          : Theme.of(context)
-                                              .scaffoldBackgroundColor,
+                                      color: toggleList == true ? Theme.of(context).primaryColorLight : Theme.of(context).scaffoldBackgroundColor,
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 7, vertical: 4),
+                                        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
                                         child: Column(
                                           children: [
                                             Expanded(
                                               child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
                                                   Container(
                                                     height: 10,
                                                     width: 10,
                                                     decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .iconTheme
-                                                                .color!,
-                                                            width: 1.5),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(2)),
+                                                        border: Border.all(color: Theme.of(context).iconTheme.color!, width: 1.5),
+                                                        borderRadius: BorderRadius.circular(2)),
                                                   ),
                                                   Container(
                                                     height: 10,
                                                     width: 10,
                                                     decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .iconTheme
-                                                                .color!,
-                                                            width: 1.5),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(2)),
+                                                        border: Border.all(color: Theme.of(context).iconTheme.color!, width: 1.5),
+                                                        borderRadius: BorderRadius.circular(2)),
                                                   ),
                                                 ],
                                               ),
                                             ),
                                             Expanded(
                                               child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
                                                   Container(
                                                     height: 10,
                                                     width: 10,
                                                     decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .iconTheme
-                                                                .color!,
-                                                            width: 1.5),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(2)),
+                                                        border: Border.all(color: Theme.of(context).iconTheme.color!, width: 1.5),
+                                                        borderRadius: BorderRadius.circular(2)),
                                                   ),
                                                   Container(
                                                     height: 10,
                                                     width: 10,
                                                     decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .iconTheme
-                                                                .color!,
-                                                            width: 1.5),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(2)),
+                                                        border: Border.all(color: Theme.of(context).iconTheme.color!, width: 1.5),
+                                                        borderRadius: BorderRadius.circular(2)),
                                                   ),
                                                 ],
                                               ),
@@ -382,13 +313,10 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                   Padding(
                     padding: const EdgeInsets.only(right: 10, left: 5),
                     child: InkWell(
-                      child: Container(
-                          width: 60, child: Image.asset('images/bar_code.png')),
+                      child: Container(width: 60, child: Image.asset('images/bar_code.png')),
                       onTap: () async {
                         if (Platform.isAndroid || Platform.isIOS) {
-                          String barcodeScanRes =
-                              await FlutterBarcodeScanner.scanBarcode(
-                                  "#ff6666", "Cancel", false, ScanMode.DEFAULT);
+                          String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode("#ff6666", "Cancel", false, ScanMode.DEFAULT);
                         }
                       },
                     ),
@@ -400,8 +328,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
           Expanded(
             child: AnimatedSwitcher(
               duration: Duration(milliseconds: 300),
-              child:
-                  searchFoused == true ? buildSearchScreeen() : buildItemList(),
+              child: searchFoused == true ? buildSearchScreeen() : buildItemList(),
               transitionBuilder: (widget, animation) => ScaleTransition(
                 scale: animation,
                 child: widget,
@@ -416,12 +343,10 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
 
   buildBottomSheet() {
     return StreamBuilder(
-      stream: widget.salesOrderDetailTempDao
-          .transactionTotal(salesOrderNo, 'Pending'),
+      stream: widget.salesOrderDetailTempDao.transactionTotal(salesOrderNo, 'Pending'),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<SalesOrderDetailTempData>? totalData =
-              snapshot.data as List<SalesOrderDetailTempData>?;
+          List<SalesOrderDetailTempData>? totalData = snapshot.data as List<SalesOrderDetailTempData>?;
           // setState(() {
           //   itemCount=totalData[0].itemCount.toInt();
           // });
@@ -436,55 +361,23 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                     children: [
                       Text(
                         "Grand Total:",
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        totalData!.isNotEmpty
-                            ? '\$ ${totalData[0].grandTotal.toString()}'
-                            : '\$0',
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold),
+                        totalData!.isNotEmpty ? '\$ ${totalData[0].grandTotal.toString()}' : '\$0',
+                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
                 ),
                 children: [
-                  buildGrandTotalListTile(
-                      'Subtotal:',
-                      totalData.isNotEmpty
-                          ? '\$ ${totalData[0].subTotal.toString()}'
-                          : '\$0'),
-                  buildGrandTotalListTile(
-                      'Deposit:',
-                      totalData.isNotEmpty
-                          ? '\$ ${totalData[0].depositTotal.toString()}'
-                          : '\$0'),
-                  buildGrandTotalListTile(
-                      'Discount:',
-                      totalData.isNotEmpty
-                          ? '\$ ${totalData[0].lineDiscountTotal.toString()}'
-                          : '\$0'),
-                  buildGrandTotalListTile(
-                      'Shipping:',
-                      totalData.isNotEmpty
-                          ? '\$ ${totalData[0].shippingTotal.toString()}'
-                          : '\$0'),
-                  buildGrandTotalListTile(
-                      'Tax:',
-                      totalData.isNotEmpty
-                          ? '\$ ${totalData[0].taxTotal.toString()}'
-                          : '\$0'),
-                  buildGrandTotalListTile(
-                      'Item Count:',
-                      totalData.isNotEmpty
-                          ? '\ ${totalData[0].itemCount.toString()}'
-                          : '\$0'),
-                  buildGrandTotalListTile(
-                      'Grand Total:',
-                      totalData.isNotEmpty
-                          ? '\$ ${totalData[0].grandTotal.toString()}'
-                          : '\$0'),
+                  buildGrandTotalListTile('Subtotal:', totalData.isNotEmpty ? '\$ ${totalData[0].subTotal.toString()}' : '\$0'),
+                  buildGrandTotalListTile('Deposit:', totalData.isNotEmpty ? '\$ ${totalData[0].depositTotal.toString()}' : '\$0'),
+                  buildGrandTotalListTile('Discount:', totalData.isNotEmpty ? '\$ ${totalData[0].lineDiscountTotal.toString()}' : '\$0'),
+                  buildGrandTotalListTile('Shipping:', totalData.isNotEmpty ? '\$ ${totalData[0].shippingTotal.toString()}' : '\$0'),
+                  buildGrandTotalListTile('Tax:', totalData.isNotEmpty ? '\$ ${totalData[0].taxTotal.toString()}' : '\$0'),
+                  buildGrandTotalListTile('Item Count:', totalData.isNotEmpty ? '\ ${totalData[0].itemCount.toString()}' : '\$0'),
+                  buildGrandTotalListTile('Grand Total:', totalData.isNotEmpty ? '\$ ${totalData[0].grandTotal.toString()}' : '\$0'),
                 ]),
           );
         }
@@ -509,10 +402,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                           crossAxisAlignment: WrapCrossAlignment.start,
                           direction: Axis.horizontal,
                           children: List.generate(
-                              _hasMore &&
-                                      pageData.length < itemsWithPrices.length
-                                  ? pageData.length + 1
-                                  : pageData.length,
+                              _hasMore && pageData.length < itemsWithPrices.length ? pageData.length + 1 : pageData.length,
                               (index) => index >= pageData.length
                                   ? circularbar()
                                   : Padding(
@@ -522,27 +412,19 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                         width: 170,
                                         child: Card(
                                           child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.stretch,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment: CrossAxisAlignment.stretch,
                                             children: [
                                               Hero(
                                                 transitionOnUserGestures: true,
                                                 tag: 'mask${index}',
                                                 child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
+                                                  padding: const EdgeInsets.all(8.0),
                                                   child: Container(
-                                                    alignment:
-                                                        Alignment.topCenter,
+                                                    alignment: Alignment.topCenter,
                                                     decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                            image: AssetImage(
-                                                                'images/mask.png')),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(5)),
+                                                        image: DecorationImage(image: AssetImage('images/mask.png')),
+                                                        borderRadius: BorderRadius.circular(5)),
                                                     height: 84,
                                                     width: 84,
                                                   ),
@@ -550,12 +432,9 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                               ),
                                               Flexible(
                                                 child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(horizontal: 5),
+                                                  padding: const EdgeInsets.symmetric(horizontal: 5),
                                                   child: Text(
-                                                    itemsWithPrices[index]
-                                                        .item
-                                                        .itemName!,
+                                                    itemsWithPrices[index].item.itemName!,
                                                     maxLines: 2,
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
@@ -565,9 +444,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                                 ),
                                               ),
                                               Text(
-                                                itemsWithPrices[index]
-                                                    .item
-                                                    .itemCode!,
+                                                itemsWithPrices[index].item.itemCode!,
                                                 overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
@@ -578,10 +455,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                               Text(
                                                 "IN STOCK:  0",
                                                 textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.green),
+                                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.green),
                                               ),
                                               Text(
                                                 '${itemsWithPrices[index].price.itemPrice.toString()}\$',
@@ -594,54 +468,32 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                               ),
                                               Divider(
                                                 thickness: 2,
-                                                color: Theme.of(context)
-                                                    .scaffoldBackgroundColor,
+                                                color: Theme.of(context).scaffoldBackgroundColor,
                                               ),
                                               InkWell(
                                                 onTap: () async {
                                                   try {
-                                                    BlocProvider.of<
-                                                                AddItemBloc>(
-                                                            context)
-                                                        .add(AddItemButtonPress(
-                                                            searchText:
-                                                                searchText,
-                                                            itemNumber:
-                                                                itemsWithPrices[
-                                                                        index]
-                                                                    .item
-                                                                    .itemId,
-                                                            context: context,
-                                                            setQty:
-                                                                double.parse(
-                                                              _qtyController
-                                                                  .text
-                                                                  .toString(),
-                                                            )));
+                                                    BlocProvider.of<AddItemBloc>(context).add(AddItemButtonPress(
+                                                        searchText: searchText,
+                                                        itemNumber: itemsWithPrices[index].item.itemId,
+                                                        context: context,
+                                                        setQty: double.parse(
+                                                          _qtyController.text.toString(),
+                                                        )));
                                                     showSnackBar(
                                                       context: context,
-                                                      value:
-                                                          "${itemsWithPrices[index].item.itemName} is saved",
+                                                      value: "${itemsWithPrices[index].item.itemName} is saved",
                                                     );
                                                   } catch (e) {
-                                                    showSnackBar(
-                                                        context: context,
-                                                        value:
-                                                            "Item is not saved please try again");
+                                                    showSnackBar(context: context, value: "Item is not saved please try again");
                                                   }
                                                 },
                                                 child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          bottom: 5),
+                                                  padding: const EdgeInsets.only(bottom: 5),
                                                   child: Text(
                                                     "Add",
                                                     textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: Colors.green),
+                                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.green),
                                                   ),
                                                 ),
                                               ),
@@ -660,9 +512,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                     return ExpansionTile(
                       tilePadding: EdgeInsets.zero,
                       title: Container(
-                        color: (index % 2 == 0)
-                            ? Theme.of(context).primaryColor.withOpacity(0.1)
-                            : Theme.of(context).cardColor.withOpacity(0.1),
+                        color: (index % 2 == 0) ? Theme.of(context).primaryColor.withOpacity(0.1) : Theme.of(context).cardColor.withOpacity(0.1),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ListTile(
@@ -680,9 +530,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                               child: Container(
                                 alignment: Alignment.topCenter,
                                 decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: AssetImage('images/mask.png')),
-                                    borderRadius: BorderRadius.circular(5)),
+                                    image: DecorationImage(image: AssetImage('images/mask.png')), borderRadius: BorderRadius.circular(5)),
                                 height: 84,
                                 width: 84,
                               ),
@@ -722,34 +570,23 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                               child: Material(
                                 color: Colors.green, // button color
                                 child: InkWell(
-                                  splashColor: Theme.of(context)
-                                      .primaryColor, // inkwell color
-                                  child: SizedBox(
-                                      width: 35,
-                                      height: 35,
-                                      child: Icon(Icons.add)),
+                                  splashColor: Theme.of(context).primaryColor, // inkwell color
+                                  child: SizedBox(width: 35, height: 35, child: Icon(Icons.add)),
                                   onTap: () {
                                     try {
-                                      BlocProvider.of<AddItemBloc>(context).add(
-                                          AddItemButtonPress(
-                                              searchText: searchText,
-                                              itemNumber: itemsWithPrices[index]
-                                                  .item
-                                                  .itemCode!,
-                                              setQty: double.parse(
-                                                _qtyController.text.toString(),
-                                              ),
-                                              context: context));
+                                      BlocProvider.of<AddItemBloc>(context).add(AddItemButtonPress(
+                                          searchText: searchText,
+                                          itemNumber: itemsWithPrices[index].item.itemCode!,
+                                          setQty: double.parse(
+                                            _qtyController.text.toString(),
+                                          ),
+                                          context: context));
                                       showSnackBar(
                                         context: context,
-                                        value:
-                                            "${itemsWithPrices[index].item.itemName} is saved",
+                                        value: "${itemsWithPrices[index].item.itemName} is saved",
                                       );
                                     } catch (e) {
-                                      showSnackBar(
-                                          context: context,
-                                          value:
-                                              "Item is not saved please try again");
+                                      showSnackBar(context: context, value: "Item is not saved please try again");
                                     }
                                   },
                                 ),
@@ -762,36 +599,26 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                         Padding(
                           padding: const EdgeInsets.only(),
                           child: Container(
-                            color: (index % 2 == 0)
-                                ? Theme.of(context)
-                                    .primaryColor
-                                    .withOpacity(0.1)
-                                : Theme.of(context).cardColor.withOpacity(0.1),
+                            color: (index % 2 == 0) ? Theme.of(context).primaryColor.withOpacity(0.1) : Theme.of(context).cardColor.withOpacity(0.1),
                             //  height: 150,
                             child: Padding(
                               padding: const EdgeInsets.all(12.0),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             "Covid-19 N95 Face Masks",
                                             overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold),
+                                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                                           ),
                                           Text(
                                             "ITEM-0001",
@@ -806,17 +633,13 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                   ),
                                   Expanded(
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                                       children: [
                                         Column(
                                           children: [Text('Each'), Text('1')],
                                         ),
                                         Column(
-                                          children: [
-                                            Text('Books'),
-                                            Text('Studies')
-                                          ],
+                                          children: [Text('Books'), Text('Studies')],
                                         ),
                                         Text('1000.00')
                                       ],
@@ -839,12 +662,10 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
 
   buildItemList() {
     return StreamBuilder(
-      stream: widget.salesOrderDetailTempDao
-          .watchAllSalesOrderDetail(salesOrderNo, 'Pending'),
+      stream: widget.salesOrderDetailTempDao.watchAllSalesOrderDetail(salesOrderNo, 'Pending'),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<SalesOrderDetailTempData>? salesOrderDetailTempData =
-              snapshot.data as List<SalesOrderDetailTempData>?;
+          List<SalesOrderDetailTempData>? salesOrderDetailTempData = snapshot.data as List<SalesOrderDetailTempData>?;
           return ListView.builder(
             itemCount: salesOrderDetailTempData!.length,
             key: UniqueKey(),
@@ -861,8 +682,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                 child: Dismissible(
                   key: Key(salesOrderDetailTempData[index].id.toString()),
                   onDismissed: (value) async {
-                    BlocProvider.of<AddItemBloc>(context)
-                        .add(DeleteLineItemPress(
+                    BlocProvider.of<AddItemBloc>(context).add(DeleteLineItemPress(
                       id: salesOrderDetailTempData[index].id,
                       itemNumber: salesOrderDetailTempData[index].itemId!,
                       uom: salesOrderDetailTempData[index].salesUOM!,
@@ -882,9 +702,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                     ),
                   ),
                   child: Container(
-                    color: (index % 2 == 0)
-                        ? Theme.of(context).primaryColor.withOpacity(0.1)
-                        : Theme.of(context).cardColor.withOpacity(0.1),
+                    color: (index % 2 == 0) ? Theme.of(context).primaryColor.withOpacity(0.1) : Theme.of(context).cardColor.withOpacity(0.1),
                     //  height: 150,
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
@@ -903,22 +721,16 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                   children: [
                                     Expanded(
                                       child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Container(
                                             child: Text(
-                                              salesOrderDetailTempData[index]
-                                                  .description,
+                                              salesOrderDetailTempData[index].description,
                                               softWrap: false,
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 2,
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight:
-                                                      FontWeight.normal),
+                                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
                                             ),
                                           ),
                                           Row(
@@ -935,10 +747,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                               ),
                                               Text(
                                                 "UOM: ${salesOrderDetailTempData[index].salesUOM}",
-                                                style: TextStyle(
-                                                    fontSize: 12,
-                                                    fontWeight:
-                                                        FontWeight.w600),
+                                                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
                                               ),
                                             ],
                                           ),
@@ -948,19 +757,14 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                   ],
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 20, right: 10),
+                                  padding: const EdgeInsets.only(top: 20, right: 10),
                                   child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
                                           Text(
                                             'Unit Price  \$${salesOrderDetailTempData[index].unitPrice}',
@@ -982,10 +786,8 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                         ],
                                       ),
                                       Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
                                           Text(
                                             'Line Total  \$${salesOrderDetailTempData[index].subTotal}',
@@ -999,10 +801,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                           ),
                                           Text(
                                             'Discount    \$${salesOrderDetailTempData[index].lineDiscountTotal}',
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.red),
+                                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.red),
                                           ),
                                         ],
                                       ),
@@ -1016,8 +815,7 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                             height: 100,
                             alignment: Alignment.centerRight,
                             child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
                               child: Container(
                                   alignment: Alignment.center,
                                   height: 35,
@@ -1027,31 +825,20 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
                                     textAlignVertical: TextAlignVertical.center,
                                     textAlign: TextAlign.justify,
                                     inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.allow(
-                                          RegExp(r'[0-9 -]')),
+                                      FilteringTextInputFormatter.allow(RegExp(r'[0-9 -]')),
                                     ],
                                     decoration: InputDecoration(
-                                      labelText: salesOrderDetailTempData[index]
-                                          .quantity
-                                          .toString(),
-                                      contentPadding: EdgeInsets.only(
-                                          bottom: 25 / 2,
-                                          left: 10 // HERE THE IMPORTANT PART
+                                      labelText: salesOrderDetailTempData[index].quantity.toString(),
+                                      contentPadding: EdgeInsets.only(bottom: 25 / 2, left: 10 // HERE THE IMPORTANT PART
                                           ),
-                                      border: new OutlineInputBorder(
-                                          borderSide: new BorderSide(
-                                              color: Colors.teal)),
+                                      border: new OutlineInputBorder(borderSide: new BorderSide(color: Colors.teal)),
                                     ),
                                     onSubmitted: (value) async {
-                                      BlocProvider.of<AddItemBloc>(context).add(
-                                          AddItemButtonPress(
-                                              searchText: searchText,
-                                              itemNumber:
-                                                  salesOrderDetailTempData[
-                                                          index]
-                                                      .itemCode,
-                                              setQty: double.parse(value),
-                                              context: context));
+                                      BlocProvider.of<AddItemBloc>(context).add(AddItemButtonPress(
+                                          searchText: searchText,
+                                          itemNumber: salesOrderDetailTempData[index].itemCode,
+                                          setQty: double.parse(value),
+                                          context: context));
                                     },
                                   )),
                             ),
@@ -1071,14 +858,12 @@ class _SalesOrderAddItemFormState extends State<SalesOrderAddItemForm> {
   }
 
   _scrollListener() {
-    if (_controller.offset >= _controller.position.maxScrollExtent &&
-        !_controller.position.outOfRange) {
+    if (_controller.offset >= _controller.position.maxScrollExtent && !_controller.position.outOfRange) {
       setState(() {
         _hasMore = true;
       });
     }
-    if (_controller.offset <= _controller.position.minScrollExtent &&
-        !_controller.position.outOfRange) {
+    if (_controller.offset <= _controller.position.minScrollExtent && !_controller.position.outOfRange) {
       setState(() {
         print('h the top');
       });
