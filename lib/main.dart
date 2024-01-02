@@ -150,12 +150,12 @@ class _AppState extends State<App> {
               return HomePage();
             }
             if (state is AuthenticationUnauthenticated) {
-              return ShipmentScreen();
+              return LoginPage();
             }
             if (state is AuthenticationLoading) {
               return LoadingIndicator();
             }
-            return SplashPage();
+            return LoginPage();
           },
         ),
         theme: themeData,
