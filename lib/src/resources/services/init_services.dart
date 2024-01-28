@@ -150,7 +150,7 @@ Future<void> systemInitelSetup() async {
   var dao = CommunicationDao(MyDatabase());
   var communicationData = await dao.getCommunicationDataByType("API");
   var serverUrl = communicationData.isEmpty ? ApiClient.URL : communicationData[0].serverUrl;
-  ApiClient.updateClient(serverUrl);
+  await ApiClient.updateClient(serverUrl);
   if (!Platform.isWindows && !Platform.isMacOS) {
     //FirebaseNotificationService.instance;
   }

@@ -32,16 +32,16 @@ import 'dart:io' show Platform;
 
 class UserRepository {
   var api = ApiClient.chopper.getService<RestApiService>();
-  Future<Response> authenticate({
-    required String username,
-    required String password,
-  }) async {
-    return await api.login({
-      "rememberClient": true,
-      "userNameOrEmailAddress": username,
-      "password": password
-    });
-  }
+  // Future<Response> authenticate({
+  //   required String username,
+  //   required String password,
+  // }) async {
+  //   return await api.login({
+  //     "rememberClient": true,
+  //     "userNameOrEmailAddress": username,
+  //     "password": password
+  //   });
+  // }
 
   Future<Response> getUser({required int userID}) async {
     return await api.getUser(userID);
@@ -60,7 +60,7 @@ class UserRepository {
   }
 
   Future<Response> checkTenant({required String tenancyName}) async {
-    return await api.isTenantAvailable({"tenancyName": tenancyName});
+    return await api.isTenantAvailable( );
   }
 
   Future<void> deleteToken() async {

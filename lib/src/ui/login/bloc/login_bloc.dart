@@ -149,41 +149,40 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
             //Check user and validate password
             _log.finest('Start validate username and password');
-            final Response response = await userRepository.authenticate(
-              username: event.username,
-              password: event.password,
-            );
-            Map<String, dynamic> map = json.decode(response.bodyString);
-            if (response.isSuccessful && map['success']) {
-              //decode the response body
-              _log.finest('API response is successful');
-              Map<String, dynamic> result = map['result'];
-              _log.finest('Create share preference for user');
-              int? userId = int.tryParse(result['userId'].toString());
-              userSharedData.setUserSharedPref(
-                  event.deviceId, deviceState, tenantState, event.username, event.tenantName, tenantId.toString(), userId.toString());
+          
+          
+          
+            // Map<String, dynamic> map = json.decode(response.bodyString);
+            // if (response.isSuccessful && map['success']) {
+            //   //decode the response body
+            //   _log.finest('API response is successful');
+            //   Map<String, dynamic> result = map['result'];
+            //   _log.finest('Create share preference for user');
+            //   int? userId = int.tryParse(result['userId'].toString());
+            //   userSharedData.setUserSharedPref(
+            //       event.deviceId, deviceState, tenantState, event.username, event.tenantName, tenantId.toString(), userId.toString());
 
-              _log.finest('Add user teanant in Tenant Db');
-              var tenantData = new TenantCompanion(
-                  tenantId: moor.Value(int.tryParse(tenantId)!),
-                  tenantName: moor.Value(event.tenantName),
-                  userId: moor.Value(userId),
-                  userName: moor.Value(event.username));
-              await tenantDao.createOrUpdate(tenantData);
+            //   _log.finest('Add user teanant in Tenant Db');
+            //   var tenantData = new TenantCompanion(
+            //       tenantId: moor.Value(int.tryParse(tenantId)!),
+            //       tenantName: moor.Value(event.tenantName),
+            //       userId: moor.Value(userId),
+            //       userName: moor.Value(event.username));
+            //   await tenantDao.createOrUpdate(tenantData);
 
-              _log.finest('Moveing to authenticationBloc');
-              authenticationBloc.add(LoggedIn(token: result['accessToken'], userId: result['userId'], tenantId: int.tryParse(tenantId)!));
+            //   _log.finest('Moveing to authenticationBloc');
+            //   authenticationBloc.add(LoggedIn(token: result['accessToken'], userId: result['userId'], tenantId: int.tryParse(tenantId)!));
 
-              emit( LoginInitial(tenantName: ''));
-            } else {
-              //display errors
-              String error = map["error"]["details"].toString();
-              _log.info(error, StackTrace.current);
-              if (error == null) {
-                error = AppLocalization.of(event.context)!.translate('online_login_failed') ?? "Something went wrong! Please try again";
-              }
-              emit( LoginFailure(error: error));
-            }
+            //   emit( LoginInitial(tenantName: ''));
+            // } else {
+            //   //display errors
+            //   String error = map["error"]["details"].toString();
+            //   _log.info(error, StackTrace.current);
+            //   if (error == null) {
+            //     error = AppLocalization.of(event.context)!.translate('online_login_failed') ?? "Something went wrong! Please try again";
+            //   }
+            //   emit( LoginFailure(error: error));
+            // }
           } else {
             //Login offline with hash
             _log.finest('Trying to loging offline');
@@ -262,29 +261,29 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             emit( LoginFailure(error: error));
             return;
           }
-          final Response response = await userRepository.authenticate(
-            username: event.username,
-            password: event.password,
-          );
-          Map<String, dynamic> map = json.decode(response.bodyString);
-          if (response.isSuccessful && map['success']) {
-            //decode the response body
-            Map<String, dynamic> result = map['result'];
-            _log.finest('Moveing to authenticationBloc');
-            _log.finest('Create share preference for user');
-            int? userId = int.tryParse(result['userId'].toString());
-            userSharedData.setUserSharedPref(event.deviceId, "", "", event.username, tenantName, tenantId, userId.toString());
-            authenticationBloc.add(LoggedIn(token: result['accessToken'], userId: result['userId'], tenantId: int.tryParse(tenantId)!));
-            emit( LoginInitial(tenantName: ''));
-          } else {
-            //display errors
-            // can have an error class and use from map here as well
-            String error = map["error"]["details"].toString();
-            if (error == null) {
-              error = AppLocalization.of(event.context)!.translate('online_login_failed') ?? "Something went wrong! Please try again";
-            }
-            emit( LoginFailure(error: error));
-          }
+          // final Response response = await userRepository.authenticate(
+          //   username: event.username,
+          //   password: event.password,
+          // );
+          // Map<String, dynamic> map = json.decode(response.bodyString);
+          // if (response.isSuccessful && map['success']) {
+          //   //decode the response body
+          //   Map<String, dynamic> result = map['result'];
+          //   _log.finest('Moveing to authenticationBloc');
+          //   _log.finest('Create share preference for user');
+          //   int? userId = int.tryParse(result['userId'].toString());
+          //   userSharedData.setUserSharedPref(event.deviceId, "", "", event.username, tenantName, tenantId, userId.toString());
+          //   authenticationBloc.add(LoggedIn(token: result['accessToken'], userId: result['userId'], tenantId: int.tryParse(tenantId)!));
+          //   emit( LoginInitial(tenantName: ''));
+          // } else {
+          //   //display errors
+          //   // can have an error class and use from map here as well
+          //   String error = map["error"]["details"].toString();
+          //   if (error == null) {
+          //     error = AppLocalization.of(event.context)!.translate('online_login_failed') ?? "Something went wrong! Please try again";
+          //   }
+          //   emit( LoginFailure(error: error));
+          // }
         }
     
     } catch (error) {

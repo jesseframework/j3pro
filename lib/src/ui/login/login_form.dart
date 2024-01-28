@@ -20,6 +20,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/main.dart';
+import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/password_field.dart';
@@ -54,16 +55,18 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     _onLoginButtonPressed() async {
-      formKey.currentState!.validate();
-      await getIt<UserRepository>().setTenantIntoSharedPref(_tenantController.text);
-      BlocProvider.of<LoginBloc>(context).add(
-        LoginButtonPressed(
-            username: _usernameController.text.trim(),
-            password: _passwordController.text.trim(),
-            context: context,
-            deviceId: '444444',
-            tenantName: _tenantController.text.trim()),
-      );
+      // formKey.currentState!.validate();
+      // await getIt<UserRepository>().setTenantIntoSharedPref(_tenantController.text);
+      // BlocProvider.of<LoginBloc>(context).add(
+      //   LoginButtonPressed(
+      //       username: _usernameController.text.trim(),
+      //       password: _passwordController.text.trim(),
+      //       context: context,
+      //       deviceId: '444444',
+      //       tenantName: _tenantController.text.trim()),
+      // );
+
+      final api=ApiClient.chopper.
     }
 
     return BlocListener<LoginBloc, LoginState>(

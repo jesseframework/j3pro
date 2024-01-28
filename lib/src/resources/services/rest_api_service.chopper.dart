@@ -16,21 +16,21 @@ class _$RestApiService extends RestApiService {
   @override
   final definitionType = RestApiService;
 
-  @override
-  Future<Response<dynamic>> login(Map<String, dynamic> body) {
-    final Uri $url = Uri.parse('/api/TokenAuth/Authenticate');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
+  // @override
+  // Future<Response<dynamic>> login(Map<String, dynamic> body) {
+  //   final Uri $url = Uri.parse('/api/TokenAuth/Authenticate');
+  //   final $body = body;
+  //   final Request $request = Request(
+  //     'POST',
+  //     $url,
+  //     client.baseUrl,
+  //     body: $body,
+  //   );
+  //   return client.send<dynamic, dynamic>($request);
+  // }
 
   @override
-  Future<Response<dynamic>> isTenantAvailable(Map<String, dynamic> body) {
+  Future<Response<dynamic>> isTenantAvailable()  {
     final Uri $url = Uri.parse('/api/services/app/Account/IsTenantAvailable');
     final $body = body;
     final Request $request = Request(
