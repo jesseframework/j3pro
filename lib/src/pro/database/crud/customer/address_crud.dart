@@ -4,32 +4,32 @@ import 'package:drift/drift.dart';
 
 part 'address_crud.g.dart';
 
-@DriftAccessor(tables: [Address])
+@DriftAccessor(tables: [Addres])
 class AddressDao extends DatabaseAccessor<MyDatabase> with _$AddressDaoMixin {
   final MyDatabase db;
   AddressDao(this.db) : super(db);
 
-  Future<List<Addres>> getAllAddress() {
-    return (select(db.address).get());
+  Future<List<Addre>> getAllAddress() {
+    return (select(db.addres).get());
   }
 
-  Stream<List<Addres>> watchAllAddressByTitle({String? customerId, bool? isShippingAddress, bool? isDisable}) {
-    return (select(db.address)
+  Stream<List<Addre>> watchAllAddressByTitle({String? customerId, bool? isShippingAddress, bool? isDisable}) {
+    return (select(db.addres)
           ..where((t) => t.customerId.equals(customerId!) & t.isShippingAddress.equals(isShippingAddress!) & t.isDeleted.equals(isDisable!)))
         .watch();
   }
 
-  Stream<List<Addres>> watchAllAddressByTitleDual({String? customerId, String? addressType, bool? isDisable}) {
-    return (select(db.address)..where((t) => t.customerId.equals(customerId!) & t.isDeleted.equals(isDisable!))).watch();
+  Stream<List<Addre>> watchAllAddressByTitleDual({String? customerId, String? addressType, bool? isDisable}) {
+    return (select(db.addres)..where((t) => t.customerId.equals(customerId!) & t.isDeleted.equals(isDisable!))).watch();
   }
 
-  Future<List<Addres>> getAllAddressByTitle(String customerId) {
-    return (select(db.address)..where((t) => t.customerId.equals(customerId) & t.latitude.isBiggerThanValue(0) & t.longitude.isSmallerThanValue(0)))
+  Future<List<Addre>> getAllAddressByTitle(String customerId) {
+    return (select(db.addres)..where((t) => t.customerId.equals(customerId) & t.latitude.isBiggerThanValue(0) & t.longitude.isSmallerThanValue(0)))
         .get();
   }
 
-  Future<void> createOrUpdateAddress(Addres address) {
-    return into(db.address).insertOnConflictUpdate(address);
+  Future<void> createOrUpdateAddress(Addre address) {
+    return into(db.addres).insertOnConflictUpdate(address);
   }
 
   Future deleteAllSeriesNumberGenerator() => delete(db.seriesNumberGenerator).go();

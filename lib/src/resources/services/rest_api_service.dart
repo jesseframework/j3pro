@@ -27,8 +27,8 @@ abstract class RestApiService extends ChopperService {
   //@Post(path: '/TokenAuth/Authenticate')
   //Future<Response> login(@Body() Map<String, dynamic> body);
 
-  @Get(path: '/abp/multi-tenancy/tenants/by-name')
-  Future<Response> isTenantAvailable();
+  @Get(path: '/abp/multi-tenancy/tenants/by-name/{tenantName}')
+  Future<Response> isTenantAvailable( @Path() String tenantName);
 
   @Get(path: '/identity/users/by-email')
   Future<Response> getUser(@Query() int id);

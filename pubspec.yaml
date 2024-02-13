@@ -41,7 +41,7 @@ dependencies:
   flutter_bloc: ^8.1.2
   meta: ^1.8.0
   equatable: ^2.0.5
-  drift: ^2.6.0
+  drift: ^2.15.0
   #moor_ffi: ^0.8.0
   sqlite3_flutter_libs: ^0.5.13
   path_provider: ^2.0.14
@@ -57,7 +57,6 @@ dependencies:
   random_string_generator: ^2.0.0
   connectivity: ^3.0.6
   quiver: ^3.2.1
-  logging: ^1.1.1
   flutter_barcode_scanner: ^2.0.0
   kiwi: ^4.1.0
   built_value: ^8.4.4
@@ -67,16 +66,16 @@ dependencies:
   shamsi_date: ^1.0.1
   #random_string_one: ^1.0.2
   dotted_line: ^3.1.0
-
   chopper: ^7.0.4
   oauth_chopper: ^0.3.0
   oauth2: ^2.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   chopper_generator: ^7.1.1
-  drift_dev: ^2.6.0
-  build_runner: ^2.3.3
+  drift_dev: ^2.15.0
+  build_runner: ^2.4.8
 # dependency_overrides:
 #   analyzer: ^2.3.0
 

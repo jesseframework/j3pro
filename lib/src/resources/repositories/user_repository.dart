@@ -60,7 +60,7 @@ class UserRepository {
   }
 
   Future<Response> checkTenant({required String tenancyName}) async {
-    return await api.isTenantAvailable( );
+    return await api.isTenantAvailable('' );
   }
 
   Future<void> deleteToken() async {

@@ -255,9 +255,10 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
         transactionEnd
       ];
   @override
-  String get aliasedName => _alias ?? 'sales_order_header';
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  String get actualTableName => 'sales_order_header';
+  String get actualTableName => $name;
+  static const String $name = 'sales_order_header';
   @override
   VerificationContext validateIntegrity(
       Insertable<SalesOrderHeaderData> instance,
@@ -1795,9 +1796,10 @@ class $SalesOrderDetailTable extends SalesOrderDetail
         conversionFactor
       ];
   @override
-  String get aliasedName => _alias ?? 'sales_order_detail';
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  String get actualTableName => 'sales_order_detail';
+  String get actualTableName => $name;
+  static const String $name = 'sales_order_detail';
   @override
   VerificationContext validateIntegrity(
       Insertable<SalesOrderDetailData> instance,

@@ -1,7 +1,7 @@
 import 'package:j3enterprise/src/resources/shared/extension/must_have_tenant.dart';
 import 'package:drift/drift.dart';
 
-class Address extends Table implements MustHaveTenant {
+class Addres extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
   IntColumn get tenantId => integer().nullable()();
   TextColumn get customerId => text().nullable()();

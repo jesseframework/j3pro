@@ -4,5 +4,5 @@ part of 'address_crud.dart';
 
 // ignore_for_file: type=lint
 mixin _$AddressDaoMixin on DatabaseAccessor<MyDatabase> {
-  $AddressTable get address => attachedDatabase.address;
+  $AddresTable get addres => attachedDatabase.addres;
 }

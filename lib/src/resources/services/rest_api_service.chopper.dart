@@ -6,45 +6,32 @@ part of 'rest_api_service.dart';
 // ChopperGenerator
 // **************************************************************************
 
-// ignore_for_file: always_put_control_body_on_new_line, always_specify_types, prefer_const_declarations, unnecessary_brace_in_string_interps
-class _$RestApiService extends RestApiService {
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _$RestApiService extends RestApiService {
   _$RestApiService([ChopperClient? client]) {
     if (client == null) return;
     this.client = client;
   }
 
   @override
-  final definitionType = RestApiService;
-
-  // @override
-  // Future<Response<dynamic>> login(Map<String, dynamic> body) {
-  //   final Uri $url = Uri.parse('/api/TokenAuth/Authenticate');
-  //   final $body = body;
-  //   final Request $request = Request(
-  //     'POST',
-  //     $url,
-  //     client.baseUrl,
-  //     body: $body,
-  //   );
-  //   return client.send<dynamic, dynamic>($request);
-  // }
+  final Type definitionType = RestApiService;
 
   @override
-  Future<Response<dynamic>> isTenantAvailable()  {
-    final Uri $url = Uri.parse('/api/services/app/Account/IsTenantAvailable');
-    final $body = body;
+  Future<Response<dynamic>> isTenantAvailable(String tenantName) {
+    final Uri $url =
+        Uri.parse('/api/abp/multi-tenancy/tenants/by-name/${tenantName}');
     final Request $request = Request(
-      'POST',
+      'GET',
       $url,
       client.baseUrl,
-      body: $body,
     );
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
   Future<Response<dynamic>> getUser(int id) {
-    final Uri $url = Uri.parse('/api/services/app/User/Get');
+    final Uri $url = Uri.parse('/api/identity/users/by-email');
     final Map<String, dynamic> $params = <String, dynamic>{'id': id};
     final Request $request = Request(
       'GET',

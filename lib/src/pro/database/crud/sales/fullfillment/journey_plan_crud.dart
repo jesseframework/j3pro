@@ -21,7 +21,7 @@ class JourneyPlanDao extends DatabaseAccessor<MyDatabase> with _$JourneyPlanDaoM
   // in the database class, we can then load the category for each entry
   Stream<List<JourneyWithAddress>> watchJourneyWithAddressJoin(String userName, String addressType, bool isDelete, String searchText) {
     final query = select(db.journeyPlan).join([
-      leftOuterJoin(db.address, db.journeyPlan.customerId.equalsExp(db.address.customerId)),
+      leftOuterJoin(db.addres, db.journeyPlan.customerId.equalsExp(db.addres.customerId)),
       leftOuterJoin(db.contact, db.journeyPlan.customerId.equalsExp(db.contact.customerId))
     ]);
 
@@ -35,7 +35,7 @@ class JourneyPlanDao extends DatabaseAccessor<MyDatabase> with _$JourneyPlanDaoM
     //         db.address.addressLine2.contains(searchText)));
     return query.watch().map((rows) {
       return rows.map((row) {
-        return JourneyWithAddress(row.readTable(db.address), row.readTable(db.journeyPlan), row.readTable(db.contact));
+        return JourneyWithAddress(row.readTable(db.addres), row.readTable(db.journeyPlan), row.readTable(db.contact));
       }).toList();
     });
   }

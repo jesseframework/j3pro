@@ -16,7 +16,7 @@ import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/dialog.dart';
 
 class SalesOrderForm extends StatefulWidget {
-  late List<Addres> address;
+  late List<Addre> address;
   late String defaultCurrency;
   late double exchangeRate;
   late List<SystemCurrencyData> currenciesData;
@@ -42,7 +42,7 @@ class SalesOrderForm extends StatefulWidget {
 
 class _SalesOrderFormState extends State<SalesOrderForm> {
   late JourneyWithAddress journeyWithAddress;
-  late Addres primaryAddress;
+  late Addre primaryAddress;
 
   late String poNumber = '';
   late double exchangeRate;
@@ -60,7 +60,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
     defaultCurrencyList = widget.currenciesData;
     if (widget.address.isNotEmpty) {
       widget.address.forEach((element) {
-        if (element.isPrimaryAddress == true) {
+        if (element?.isPrimaryAddress! == true) {
           primaryAddress = element;
         }
       });

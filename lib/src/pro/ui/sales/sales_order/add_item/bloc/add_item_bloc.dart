@@ -35,7 +35,7 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
   late String currency = "";
   late double exchangeRate = 0;
   late String customerId = "";
-  late Addres shippingAddress;
+  late Addre shippingAddress;
   late DateTime dateTime;
   void setId({required String cusID}) {
     customerId = cusID;
@@ -45,12 +45,12 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
     dateTime = dilverydate;
   }
 
-  void setShippingAddress({required Addres address}) {
+  void setShippingAddress({required Addre address}) {
     shippingAddress = address;
   }
 
   String get getCusID => customerId;
-  Addres get getShippingAddress => shippingAddress;
+  Addre get getShippingAddress => shippingAddress;
   String get getOderNumber => tempSalesOrderNo;
   DateTime get getDilveryDate => dateTime;
 

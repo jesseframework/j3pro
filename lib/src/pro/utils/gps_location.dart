@@ -38,7 +38,7 @@ class GeoLocation {
     journeyPlanDao = new JourneyPlanDao(db);
     addressDao = new AddressDao(db);
     userSharedData = new UserSharedData();
-    _currentPosition = new Position(accuracy: 0, altitude: 0, heading: 0, latitude: 0, longitude: 0, speed: 0, speedAccuracy: 0, timestamp: null);
+    _currentPosition = new Position(accuracy: 0, altitude: 0, heading: 0, latitude: 0, longitude: 0, speed: 0, speedAccuracy: 0, timestamp: DateTime.now(),altitudeAccuracy: 0.0,headingAccuracy: 0.0);
     systemCurrencyDao = new SystemCurrencyDao(db);
   }
 

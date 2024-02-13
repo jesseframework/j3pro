@@ -26,7 +26,7 @@ class SalesOrderPage extends StatelessWidget {
               stream: addressDao.watchAllAddressByTitle(customerId: addItemBloc.customerId, isShippingAddress: true, isDisable: false),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.active) {
-                  List<Addres>? addres = snapshot.data as List<Addres>?;
+                  List<Addre>? addres = snapshot.data as List<Addre>?;
                   return SalesOrderForm(
                       address: addres!,
                       exchangeRate: state.exchangeRate,

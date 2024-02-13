@@ -55,16 +55,16 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     _onLoginButtonPressed() async {
-      // formKey.currentState!.validate();
-      // await getIt<UserRepository>().setTenantIntoSharedPref(_tenantController.text);
-      // BlocProvider.of<LoginBloc>(context).add(
-      //   LoginButtonPressed(
-      //       username: _usernameController.text.trim(),
-      //       password: _passwordController.text.trim(),
-      //       context: context,
-      //       deviceId: '444444',
-      //       tenantName: _tenantController.text.trim()),
-      // );
+      formKey.currentState!.validate();
+      await getIt<UserRepository>().setTenantIntoSharedPref(_tenantController.text);
+      BlocProvider.of<LoginBloc>(context).add(
+        LoginButtonPressed(
+            username: _usernameController.text.trim(),
+            password: _passwordController.text.trim(),
+            context: context,
+            deviceId: '444444',
+            tenantName: _tenantController.text.trim()),
+      );
 
       
     }

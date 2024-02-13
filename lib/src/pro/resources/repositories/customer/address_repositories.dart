@@ -50,7 +50,7 @@ class AddressRepository {
             _log.finest("Server resopnses successful for address ");
             Map<String, dynamic> result = map['result'];
             var items = (result['items'] as List).map((e) {
-              return Addres.fromJson(e, serializer: CustomSerializer());
+              return Addre.fromJson(e, serializer: CustomSerializer());
             });
 
             for (var item in items) {

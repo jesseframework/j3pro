@@ -65,7 +65,7 @@ part 'drift_database.g.dart';
   SalesTax,
   TempNumberLogs,
   Customer,
-  Address,
+  Addres,
   Contact,
   Items,
   ItemsPrices,

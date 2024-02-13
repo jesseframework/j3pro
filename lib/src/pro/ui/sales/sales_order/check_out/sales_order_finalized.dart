@@ -95,7 +95,7 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
               isDisable: false),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {
-              List<Addres>? addres = snapshot.data as List<Addres>?;
+              List<Addre>? addres = snapshot.data as List<Addre>?;
 
               return Padding(
                 padding: const EdgeInsets.all(8.0),
