@@ -7,7 +7,7 @@ class UPCCode extends Table implements MustHaveTenant {
   TextColumn get upcCode => text().nullable()();
   TextColumn get codeType => text().nullable()();
   TextColumn get itemId => text().nullable()();
-  IntColumn get tenantId => integer().nullable()();
+  TextColumn get tenantId => text().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};

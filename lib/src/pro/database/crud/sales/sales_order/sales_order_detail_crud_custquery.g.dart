@@ -12,9 +12,9 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _userNameMeta =
       const VerificationMeta('userName');
   @override
@@ -502,7 +502,7 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return SalesOrderHeaderData(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       userName: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}user_name'])!,
       userId: attachedDatabase.typeMapping
@@ -583,7 +583,7 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
 
 class SalesOrderHeaderData extends DataClass
     implements Insertable<SalesOrderHeaderData> {
-  final int? tenantId;
+  final String? tenantId;
   final String userName;
   final int userId;
   final int id;
@@ -658,7 +658,7 @@ class SalesOrderHeaderData extends DataClass
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['user_name'] = Variable<String>(userName);
     map['user_id'] = Variable<int>(userId);
@@ -786,7 +786,7 @@ class SalesOrderHeaderData extends DataClass
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return SalesOrderHeaderData(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       userName: serializer.fromJson<String>(json['userName']),
       userId: serializer.fromJson<int>(json['userId']),
       id: serializer.fromJson<int>(json['id']),
@@ -833,7 +833,7 @@ class SalesOrderHeaderData extends DataClass
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'userName': serializer.toJson<String>(userName),
       'userId': serializer.toJson<int>(userId),
       'id': serializer.toJson<int>(id),
@@ -872,7 +872,7 @@ class SalesOrderHeaderData extends DataClass
   }
 
   SalesOrderHeaderData copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           String? userName,
           int? userId,
           int? id,
@@ -1077,7 +1077,7 @@ class SalesOrderHeaderData extends DataClass
 }
 
 class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<String> userName;
   final Value<int> userId;
   final Value<int> id;
@@ -1208,7 +1208,7 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
         discountPercentage = Value(discountPercentage),
         discountAmount = Value(discountAmount);
   static Insertable<SalesOrderHeaderData> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<String>? userName,
     Expression<int>? userId,
     Expression<int>? id,
@@ -1287,7 +1287,7 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
   }
 
   SalesOrderHeaderCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<String>? userName,
       Value<int>? userId,
       Value<int>? id,
@@ -1365,7 +1365,7 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (userName.present) {
       map['user_name'] = Variable<String>(userName.value);
@@ -1526,9 +1526,9 @@ class $SalesOrderDetailTable extends SalesOrderDetail
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _userNameMeta =
       const VerificationMeta('userName');
   @override
@@ -2067,7 +2067,7 @@ class $SalesOrderDetailTable extends SalesOrderDetail
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return SalesOrderDetailData(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       userName: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}user_name'])!,
       userId: attachedDatabase.typeMapping
@@ -2156,7 +2156,7 @@ class $SalesOrderDetailTable extends SalesOrderDetail
 
 class SalesOrderDetailData extends DataClass
     implements Insertable<SalesOrderDetailData> {
-  final int? tenantId;
+  final String? tenantId;
   final String userName;
   final int userId;
   final int id;
@@ -2239,7 +2239,7 @@ class SalesOrderDetailData extends DataClass
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['user_name'] = Variable<String>(userName);
     map['user_id'] = Variable<int>(userId);
@@ -2354,7 +2354,7 @@ class SalesOrderDetailData extends DataClass
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return SalesOrderDetailData(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       userName: serializer.fromJson<String>(json['userName']),
       userId: serializer.fromJson<int>(json['userId']),
       id: serializer.fromJson<int>(json['id']),
@@ -2402,7 +2402,7 @@ class SalesOrderDetailData extends DataClass
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'userName': serializer.toJson<String>(userName),
       'userId': serializer.toJson<int>(userId),
       'id': serializer.toJson<int>(id),
@@ -2445,7 +2445,7 @@ class SalesOrderDetailData extends DataClass
   }
 
   SalesOrderDetailData copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           String? userName,
           int? userId,
           int? id,
@@ -2663,7 +2663,7 @@ class SalesOrderDetailData extends DataClass
 }
 
 class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<String> userName;
   final Value<int> userId;
   final Value<int> id;
@@ -2815,7 +2815,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
         shippingTotal = Value(shippingTotal),
         conversionFactor = Value(conversionFactor);
   static Insertable<SalesOrderDetailData> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<String>? userName,
     Expression<int>? userId,
     Expression<int>? id,
@@ -2900,7 +2900,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
   }
 
   SalesOrderDetailCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<String>? userName,
       Value<int>? userId,
       Value<int>? id,
@@ -2986,7 +2986,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (userName.present) {
       map['user_name'] = Variable<String>(userName.value);

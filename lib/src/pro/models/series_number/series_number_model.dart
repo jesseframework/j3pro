@@ -4,7 +4,7 @@ import 'package:drift/drift.dart';
 class SeriesNumberGenerator extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
   TextColumn get numberPrefix => text().nullable()();
-  IntColumn get tenantId => integer().nullable()();
+  TextColumn get tenantId => text().nullable()();
   BoolColumn get includePrefix => boolean().withDefault(Constant(false))();
   BoolColumn get includeJulianDate => boolean().withDefault(Constant(false))();
   BoolColumn get includeUserID => boolean().withDefault(Constant(false))();

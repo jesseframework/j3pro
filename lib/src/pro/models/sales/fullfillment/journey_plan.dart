@@ -4,7 +4,7 @@ import 'package:drift/drift.dart';
 
 class JourneyPlan extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
-  IntColumn get tenantId => integer().nullable()();
+  TextColumn get tenantId => text().nullable()();
   TextColumn get customerId => text()();
   TextColumn get customerName => text()();
   TextColumn get companyName => text()();

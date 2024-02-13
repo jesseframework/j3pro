@@ -31,7 +31,7 @@ class Desktop extends Table {
   TextColumn get iconGroup => text()();
   BoolColumn get isFavorit => boolean().withDefault(Constant(false))();
   TextColumn get userPermission => text()();
-  IntColumn get tenantId => integer().nullable()();
+  TextColumn get tenantId => text().nullable()();
   TextColumn get tag => text().nullable()();
   BoolColumn get isDeleted => boolean().withDefault(Constant(false))();
   BoolColumn get isFreeTrial => boolean().withDefault(Constant(false))();

@@ -31,7 +31,7 @@ class PostTransactionHeader {
       required String? orderType,
       required String? userName,
       required int? userId,
-      required int? tenantId,
+      required String? tenantId,
       required String? soldTo,
       required String? billingAddressName,
       required String? shippingAddressName,

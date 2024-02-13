@@ -12,7 +12,7 @@ class TransferInventory {
   }
 
   Future<void> transferStock(
-    int tenantId,
+    String tenantId,
     String itemCode,
     String itemName,
     String itemId,

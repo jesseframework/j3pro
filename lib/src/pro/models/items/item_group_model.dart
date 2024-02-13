@@ -7,7 +7,7 @@ class ItemGroups extends Table implements MustHaveTenant {
   TextColumn get itemId => text().nullable()();
   TextColumn get parentGroup => text().nullable()();
   TextColumn get group => text().nullable()();
-  IntColumn get tenantId => integer().nullable()();
+  TextColumn get tenantId => text().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};

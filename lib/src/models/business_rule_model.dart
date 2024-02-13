@@ -29,7 +29,7 @@ class BusinessRule extends Table {
   TextColumn get userRule => text().nullable()();
   TextColumn get domain => text().nullable()();
   DateTimeColumn get expiredDateTime => dateTime().nullable()();
-  IntColumn get tenantId => integer().nullable()();
+  TextColumn get tenantId => text().nullable()();
 
   TextColumn get syncError => text().nullable()();
   TextColumn get dataType => text().nullable()();

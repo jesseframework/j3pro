@@ -3,7 +3,7 @@ import 'package:drift/drift.dart';
 
 class SystemCurrency extends Table implements MustHaveTenant {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get tenantId => integer().nullable()();
+  TextColumn get tenantId => text().nullable()();
   TextColumn get currencyName => text().nullable()();
   TextColumn get fraction => text().nullable()();
   TextColumn get numberFormat => text().nullable()();

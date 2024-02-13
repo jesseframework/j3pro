@@ -6,7 +6,7 @@ class ItemPricingRule extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
   IntColumn get priority => integer()();
   TextColumn get itemId => text().nullable()();
-  IntColumn get tenantId => integer().nullable()();
+  TextColumn get tenantId => text().nullable()();
   TextColumn get itemCode => text().nullable()();
   TextColumn get priceList => text().nullable()();
   TextColumn get customerId => text().nullable()();

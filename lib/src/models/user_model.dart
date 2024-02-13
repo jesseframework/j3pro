@@ -33,7 +33,7 @@ class Users extends Table implements MustHaveTenant {
   TextColumn get firebaseToken => text().nullable()();
   DateTimeColumn get creationTime => dateTime().nullable()();
   DateTimeColumn get lastLoginTime => dateTime().nullable()();
-  IntColumn get tenantId => integer().nullable()();
+  TextColumn get tenantId => text().nullable()();
   TextColumn get currency => text().nullable()();
   TextColumn get themeData => text().nullable()();
 

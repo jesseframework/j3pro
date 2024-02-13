@@ -34,7 +34,7 @@ class ApplicationLogger extends Table implements MustHaveTenant, MultiUser {
   DateTimeColumn get exportDateTime => dateTime().nullable()();
   TextColumn get exportStatus => text().withDefault(Constant('Pending'))();
   TextColumn get syncError => text().nullable()();
-  IntColumn get tenantId => integer().nullable()();
+  TextColumn get tenantId => text().nullable()();
   TextColumn get userName => text().nullable()();
   IntColumn get userId => integer().nullable()();
 }

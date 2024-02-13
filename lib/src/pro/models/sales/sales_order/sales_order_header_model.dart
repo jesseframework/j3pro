@@ -17,7 +17,7 @@ class SalesOrderHeader extends Table implements MustHaveTenant, MultiUser {
   TextColumn get purchaseOrderNo => text().nullable()();
   TextColumn get currency => text()();
   RealColumn get exchangeRate => real()();
-  IntColumn get tenantId => integer().nullable()();
+  TextColumn get tenantId => text().nullable()();
   IntColumn get couponCode => integer().nullable()();
   TextColumn get billingAddressName => text().nullable()();
   TextColumn get shippingAddressName => text().nullable()();

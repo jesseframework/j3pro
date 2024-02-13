@@ -50,17 +50,13 @@ class UserRepository {
   Future<Response> putUserHash({
     required int userId,
     required String mobileHashCode,
-    required int tenantId,
+    required String tenantId,
   }) async {
-    return await api.updateUserHash({
-      "userID": userId,
-      "mobileHashCode": mobileHashCode,
-      "tenantId": tenantId
-    });
+    return await api.updateUserHash({"userID": userId, "mobileHashCode": mobileHashCode, "tenantId": tenantId});
   }
 
   Future<Response> checkTenant({required String tenancyName}) async {
-    return await api.isTenantAvailable('' );
+    return await api.isTenantAvailable(tenancyName);
   }
 
   Future<void> deleteToken() async {
@@ -71,7 +67,7 @@ class UserRepository {
     return;
   }
 
-  Future<void> persistToken(String token, int userId, int tenantId) async {
+  Future<void> persistToken(String token, int userId, String tenantId) async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     await _prefs.setString("access_token", token);
     await _prefs.setString("userId", userId.toString());
@@ -80,13 +76,7 @@ class UserRepository {
   }
 
   Future<void> setUserSharedPref(
-      String deviceId,
-      String deviceState,
-      String tenantState,
-      String userName,
-      String tenantName,
-      int tenantId,
-      int userId) async {
+      String deviceId, String deviceState, String tenantState, String userName, String tenantName, int tenantId, int userId) async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     await _prefs.setString('deviceId', deviceId);
     await _prefs.setString('deviceState', deviceState);

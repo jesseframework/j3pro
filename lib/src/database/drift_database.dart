@@ -153,28 +153,28 @@ class MyDatabase extends _$MyDatabase {
           await into(tempNumberLogs).insert(TempNumberLog(
               id: 1,
               lastUsageDate: DateTime.now(),
-              tenantId: 1,
+              tenantId: '1',
               nextSeriesNumber: "SO10000000001",
               lastSeriesNumber: "SO10000000002",
               typeOfNumber: "Sales Order"));
           await into(tempNumberLogs).insert(TempNumberLog(
               id: 2,
               lastUsageDate: DateTime.now(),
-              tenantId: 1,
+              tenantId: '1',
               nextSeriesNumber: "CLI10000000001",
               lastSeriesNumber: "CLI10000000002",
               typeOfNumber: "Clock In"));
           await into(tempNumberLogs).insert(TempNumberLog(
               id: 3,
               lastUsageDate: DateTime.now(),
-              tenantId: 1,
+              tenantId: '1',
               nextSeriesNumber: "CLO10000000001",
               lastSeriesNumber: "CLO10000000002",
               typeOfNumber: "Clock Out"));
           await into(tempNumberLogs).insert(TempNumberLog(
               id: 4,
               lastUsageDate: DateTime.now(),
-              tenantId: 1,
+              tenantId: '1',
               nextSeriesNumber: "INV10000000001",
               lastSeriesNumber: "INV10000000002",
               typeOfNumber: "Invoice"));
@@ -182,7 +182,7 @@ class MyDatabase extends _$MyDatabase {
           await into(tempNumberLogs).insert(TempNumberLog(
               id: 5,
               lastUsageDate: DateTime.now(),
-              tenantId: 1,
+              tenantId: '1',
               nextSeriesNumber: "INC10000000001",
               lastSeriesNumber: "INC10000000001",
               typeOfNumber: "Inventory Cycle"));

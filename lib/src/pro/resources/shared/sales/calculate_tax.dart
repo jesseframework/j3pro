@@ -34,7 +34,7 @@ class CalculateTax {
     salesTaxDao = new SalesTaxDao(db);
     systemCurrencyDao = new SystemCurrencyDao(db);
   }
-  Future<void> getTotalTax(String searchText, String transactionNumber, String transactionStatus, String salesUom, int tenantId, String userName,
+  Future<void> getTotalTax(String searchText, String transactionNumber, String transactionStatus, String salesUom, String tenantId, String userName,
       int userId, String itemId, String customerId, String taxGroup, DateTime salesDate, double lineSubTotal) async {
     var setTaxGroup = await salesTaxDao.getAllSalesTaxByGroup(taxGroup, salesDate);
     if (setTaxGroup.length > 0 && setTaxGroup != null) {

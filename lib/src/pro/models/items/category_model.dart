@@ -7,7 +7,7 @@ class Categores extends Table implements MustHaveTenant {
   TextColumn get itemId => text().nullable()();
   TextColumn get parentCategory => text().nullable()();
   TextColumn get category => text().nullable()();
-  IntColumn get tenantId => integer().nullable()();
+  TextColumn get tenantId => text().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};

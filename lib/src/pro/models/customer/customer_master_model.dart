@@ -4,7 +4,7 @@ import 'package:drift/drift.dart';
 
 class Customer extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
-  IntColumn get tenantId => integer().nullable()();
+  TextColumn get tenantId => text().nullable()();
   TextColumn get customerId => text().nullable()();
   TextColumn get customerName => text().nullable()();
   TextColumn get companyName => text().nullable()();
@@ -24,8 +24,7 @@ class Customer extends Table implements MustHaveTenant {
   TextColumn get discountType => text().nullable()();
   RealColumn get discountPercentage => real().nullable()();
   RealColumn get discountAmount => real().nullable()();
-  BoolColumn get enableHeaderDiscount =>
-      boolean().withDefault(Constant(false)).nullable()();
+  BoolColumn get enableHeaderDiscount => boolean().withDefault(Constant(false)).nullable()();
   RealColumn get accumulatedPurchase => real().nullable()();
   DateTimeColumn get validFrom => dateTime().nullable()();
   DateTimeColumn get validTo => dateTime().nullable()();
@@ -33,6 +32,4 @@ class Customer extends Table implements MustHaveTenant {
   TextColumn get taxGroup => text().nullable()();
   @override
   Set<Column> get primaryKey => {id};
-
- 
 }

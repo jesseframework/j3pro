@@ -20,10 +20,10 @@
 import 'package:drift/drift.dart';
 
 class Tenant extends Table {
-  IntColumn get tenantId => integer().autoIncrement()();
+  TextColumn get tenantId => text()();
   TextColumn get tenantName => text().nullable()();
   IntColumn get tenantState => integer().nullable()();
-  IntColumn get userId => integer().nullable()();
+  TextColumn get userId => text().nullable()();
   TextColumn get userName => text().nullable()();
 
   @override

@@ -22,5 +22,5 @@ import 'package:drift/drift.dart';
 mixin MultiUser implements Table {
   TextColumn get userName => text()();
   IntColumn get userId => integer()();
-  IntColumn get tenantId => integer()();
+  TextColumn get tenantId => text()();
 }

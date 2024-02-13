@@ -4,7 +4,7 @@ import 'package:drift/drift.dart';
 
 class InventoryItems extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
-  IntColumn get tenantId => integer().nullable()();
+  TextColumn get tenantId => text().nullable()();
   TextColumn get itemCode => text().nullable()();
   TextColumn get itemName => text().nullable()();
   TextColumn get uom => text().nullable()();

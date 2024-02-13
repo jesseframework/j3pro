@@ -28,7 +28,7 @@ class UserDao extends DatabaseAccessor<MyDatabase> with _$UserDaoMixin {
   final MyDatabase db;
   UserDao(this.db) : super(db);
 
-  Future<User?> getSingleUser(int id) {
+  Future<User?> getSingleUser(String id) {
     return (select(db.users)..where((u) => u.id.equals(id))).getSingleOrNull();
   }
 
@@ -44,7 +44,7 @@ class UserDao extends DatabaseAccessor<MyDatabase> with _$UserDaoMixin {
     return (select(db.users)..where((u) => u.userName.equals(userName))).getSingle();
   }
 
-  Future<User> getSingleTenantUser(String userName, int tenantId) {
+  Future<User> getSingleTenantUser(String userName, String tenantId) {
     return (select(db.users)..where((u) => u.userName.equals(userName) & u.tenantId.equals(tenantId))).getSingle();
   }
 

@@ -6,12 +6,11 @@ class PriceList extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
   TextColumn get priceListName => text()();
   TextColumn get currency => text().nullable()();
-  IntColumn get tenantId => integer().nullable()();
+  TextColumn get tenantId => text().nullable()();
   BoolColumn get isActive => boolean().withDefault(Constant(false))();
   BoolColumn get isBuying => boolean().withDefault(Constant(false))();
   BoolColumn get isSelling => boolean().withDefault(Constant(false))();
-  BoolColumn get isPriceNotUOMDependency =>
-      boolean().withDefault(Constant(false))();
+  BoolColumn get isPriceNotUOMDependency => boolean().withDefault(Constant(false))();
 
   @override
   Set<Column> get primaryKey => {id};

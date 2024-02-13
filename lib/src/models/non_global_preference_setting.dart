@@ -34,7 +34,7 @@ class NonGlobalPreference extends Table {
   TextColumn get dataType => text().nullable()();
   TextColumn get dataValue => text().nullable()();
   TextColumn get groups => text().nullable()();
-  IntColumn get tenantId => integer().nullable()();
+  TextColumn get tenantId => text().nullable()();
 
   @override
   Set<Column> get primaryKey => {code};

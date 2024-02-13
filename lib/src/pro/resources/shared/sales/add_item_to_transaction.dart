@@ -124,7 +124,7 @@ class AddItemToTransaction {
       DateTime deliveryDate,
       String currency,
       double exchangeRate,
-      int tenantId,
+      String tenantId,
       String userName,
       int userId,
       String customerId) async {

@@ -6,7 +6,7 @@ class StockUnitOfMeasure extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
   TextColumn get itemId => text().nullable()();
   TextColumn get uom => text().nullable()();
-  IntColumn get tenantId => integer().nullable()();
+  TextColumn get tenantId => text().nullable()();
   IntColumn get createUserId => integer().nullable()();
   DateTimeColumn get creationTime => dateTime().nullable()();
   DateTimeColumn get deleteTime => dateTime().nullable()();

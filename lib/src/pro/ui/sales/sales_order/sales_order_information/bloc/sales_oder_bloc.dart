@@ -70,7 +70,7 @@ class SalesOderBloc extends Bloc<SalesOderEvent, SalesOderState> {
         daySessionNumber: await tempSerialNumberReader.getTempNumber(typeOfNumber: 'Clock In'),
         billingAddressName: event.billingAddressName,
         purchaseOrderNo: event.purchaseOrderNo,
-        tenantId: int.parse(shredPrefData['tenantId']),
+        tenantId: shredPrefData['tenantId'],
         customerId: event.customerId,
         shippingAddressName: event.shippingAddressName,
         currencyCode: event.currencyCode,

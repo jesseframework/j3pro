@@ -3,7 +3,7 @@ import 'package:drift/drift.dart';
 
 class Addres extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
-  IntColumn get tenantId => integer().nullable()();
+  TextColumn get tenantId => text().nullable()();
   TextColumn get customerId => text().nullable()();
   TextColumn get addressTitle => text().nullable()();
   TextColumn get addressType => text().nullable()();
@@ -16,14 +16,13 @@ class Addres extends Table implements MustHaveTenant {
   TextColumn get zipCode => text().nullable()();
   TextColumn get contactPerson => text().nullable()();
   TextColumn get phoneNumber => text().nullable()();
-  BoolColumn get isYourCompanyAddress =>
-      boolean().withDefault(Constant(false)).nullable()();
+  BoolColumn get isYourCompanyAddress => boolean().withDefault(Constant(false)).nullable()();
   BoolColumn get isPrimaryAddress => boolean().withDefault(Constant(false)).nullable()();
   BoolColumn get isShippingAddress => boolean().withDefault(Constant(false)).nullable()();
   RealColumn get latitude => real().nullable()();
   RealColumn get longitude => real().nullable()();
   BoolColumn get isDeleted => boolean().withDefault(Constant(false)).nullable()();
 
- @override
+  @override
   Set<Column> get primaryKey => {id};
 }

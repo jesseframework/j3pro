@@ -3,7 +3,7 @@ import 'package:drift/drift.dart';
 
 class SalesTax extends Table implements MustHaveTenant {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get tenantId => integer().nullable()();
+  TextColumn get tenantId => text().nullable()();
   TextColumn get type => text().nullable()();
   TextColumn get taxAccount => text().nullable()();
   RealColumn get accountRate => real().nullable()();

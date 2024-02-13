@@ -3,7 +3,7 @@ import 'package:drift/drift.dart';
 
 class ExchangeRate extends Table implements MustHaveTenant {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get tenantId => integer().nullable()();
+  TextColumn get tenantId => text().nullable()();
   TextColumn get toCurrency => text().nullable()();
   TextColumn get fromCurrency => text().nullable()();
   RealColumn get exchangeRate => real().nullable()();

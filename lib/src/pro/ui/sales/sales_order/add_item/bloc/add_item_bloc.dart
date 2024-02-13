@@ -158,7 +158,7 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
         setQty = 1;
       }
       var result = await _addItemToTransaction.getItem(setQty, getItemNumber, tempSalesOrderNo, tempTransactionStatus, tempInventoryCycle,
-          tempDaySessionNumber, deliveryDate, currency, exchangeRate, int.tryParse(tenantId!)!, userName!, int.tryParse(userId!)!, customerId);
+          tempDaySessionNumber, deliveryDate, currency, exchangeRate,  tenantId!, userName!, int.tryParse(userId!)!, customerId);
 
       displayDialog(onlyMessage: true, title: result.toString(), context: event.context);
     }

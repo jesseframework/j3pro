@@ -72,7 +72,7 @@ class AppLogger {
   //ToDo Implement connectivity and batry setting for saving log to server. Server setting must be set to allow for log save over wify and log battery
 
   Future<void> saveAppLog(String functionName, DateTime logDateTime, String syncFrequency, String logDescription, String documentNo, String deviceId,
-      String logCode, String logSeverity, int tenantId, String userName, int userId) async {
+      String logCode, String logSeverity, String tenantId, String userName, int userId) async {
     try {
       mapDevicePref = await userSharedData.getUserSharedPref() as Map<String, String>;
       String? screen = mapDevicePref['screen'];

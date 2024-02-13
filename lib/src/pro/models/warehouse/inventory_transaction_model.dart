@@ -3,7 +3,7 @@ import 'package:drift/drift.dart';
 
 class InventoryTransaction extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
-  IntColumn get tenantId => integer().nullable()();
+  TextColumn get tenantId => text().nullable()();
   TextColumn get itemCode => text().nullable()();
   TextColumn get itemName => text().nullable()();
   TextColumn get itemId => text().nullable()();

@@ -11,9 +11,9 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -238,7 +238,7 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return User(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       userName: attachedDatabase.typeMapping
@@ -277,7 +277,7 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
 }
 
 class User extends DataClass implements Insertable<User> {
-  final int? tenantId;
+  final String? tenantId;
   final int id;
   final String userName;
   final String name;
@@ -312,7 +312,7 @@ class User extends DataClass implements Insertable<User> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['id'] = Variable<int>(id);
     map['user_name'] = Variable<String>(userName);
@@ -381,7 +381,7 @@ class User extends DataClass implements Insertable<User> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return User(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
       userName: serializer.fromJson<String>(json['userName']),
       name: serializer.fromJson<String>(json['name']),
@@ -402,7 +402,7 @@ class User extends DataClass implements Insertable<User> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'id': serializer.toJson<int>(id),
       'userName': serializer.toJson<String>(userName),
       'name': serializer.toJson<String>(name),
@@ -421,7 +421,7 @@ class User extends DataClass implements Insertable<User> {
   }
 
   User copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           int? id,
           String? userName,
           String? name,
@@ -517,7 +517,7 @@ class User extends DataClass implements Insertable<User> {
 }
 
 class UsersCompanion extends UpdateCompanion<User> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> id;
   final Value<String> userName;
   final Value<String> name;
@@ -571,7 +571,7 @@ class UsersCompanion extends UpdateCompanion<User> {
         emailAddress = Value(emailAddress),
         fullName = Value(fullName);
   static Insertable<User> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? id,
     Expression<String>? userName,
     Expression<String>? name,
@@ -608,7 +608,7 @@ class UsersCompanion extends UpdateCompanion<User> {
   }
 
   UsersCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<int>? id,
       Value<String>? userName,
       Value<String>? name,
@@ -646,7 +646,7 @@ class UsersCompanion extends UpdateCompanion<User> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -868,9 +868,9 @@ class $CommunicationTable extends Communication
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [
         creationTime,
@@ -1090,7 +1090,7 @@ class $CommunicationTable extends Communication
       typeofErp: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}typeof_erp']),
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
     );
   }
 
@@ -1124,7 +1124,7 @@ class CommunicationData extends DataClass
   final String syncFrequency;
   final String communicationType;
   final String? typeofErp;
-  final int? tenantId;
+  final String? tenantId;
   const CommunicationData(
       {this.creationTime,
       this.deleteTime,
@@ -1205,7 +1205,7 @@ class CommunicationData extends DataClass
       map['typeof_erp'] = Variable<String>(typeofErp);
     }
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     return map;
   }
@@ -1296,7 +1296,7 @@ class CommunicationData extends DataClass
       syncFrequency: serializer.fromJson<String>(json['syncFrequency']),
       communicationType: serializer.fromJson<String>(json['communicationType']),
       typeofErp: serializer.fromJson<String?>(json['typeofErp']),
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
     );
   }
   @override
@@ -1325,7 +1325,7 @@ class CommunicationData extends DataClass
       'syncFrequency': serializer.toJson<String>(syncFrequency),
       'communicationType': serializer.toJson<String>(communicationType),
       'typeofErp': serializer.toJson<String?>(typeofErp),
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
     };
   }
 
@@ -1352,7 +1352,7 @@ class CommunicationData extends DataClass
           String? syncFrequency,
           String? communicationType,
           Value<String?> typeofErp = const Value.absent(),
-          Value<int?> tenantId = const Value.absent()}) =>
+          Value<String?> tenantId = const Value.absent()}) =>
       CommunicationData(
         creationTime:
             creationTime.present ? creationTime.value : this.creationTime,
@@ -1497,7 +1497,7 @@ class CommunicationCompanion extends UpdateCompanion<CommunicationData> {
   final Value<String> syncFrequency;
   final Value<String> communicationType;
   final Value<String?> typeofErp;
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   const CommunicationCompanion({
     this.creationTime = const Value.absent(),
     this.deleteTime = const Value.absent(),
@@ -1573,7 +1573,7 @@ class CommunicationCompanion extends UpdateCompanion<CommunicationData> {
     Expression<String>? syncFrequency,
     Expression<String>? communicationType,
     Expression<String>? typeofErp,
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
   }) {
     return RawValuesInsertable({
       if (creationTime != null) 'creation_time': creationTime,
@@ -1626,7 +1626,7 @@ class CommunicationCompanion extends UpdateCompanion<CommunicationData> {
       Value<String>? syncFrequency,
       Value<String>? communicationType,
       Value<String?>? typeofErp,
-      Value<int?>? tenantId}) {
+      Value<String?>? tenantId}) {
     return CommunicationCompanion(
       creationTime: creationTime ?? this.creationTime,
       deleteTime: deleteTime ?? this.deleteTime,
@@ -1724,7 +1724,7 @@ class CommunicationCompanion extends UpdateCompanion<CommunicationData> {
       map['typeof_erp'] = Variable<String>(typeofErp.value);
     }
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     return map;
   }
@@ -1818,9 +1818,9 @@ class $BackgroundJobScheduleTable extends BackgroundJobSchedule
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -1913,7 +1913,7 @@ class $BackgroundJobScheduleTable extends BackgroundJobSchedule
       jobStatus: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}job_status'])!,
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
     );
   }
 
@@ -1932,7 +1932,7 @@ class BackgroundJobScheduleData extends DataClass
   final bool enableJob;
   final DateTime lastRun;
   final String jobStatus;
-  final int? tenantId;
+  final String? tenantId;
   const BackgroundJobScheduleData(
       {required this.id,
       required this.jobName,
@@ -1953,7 +1953,7 @@ class BackgroundJobScheduleData extends DataClass
     map['last_run'] = Variable<DateTime>(lastRun);
     map['job_status'] = Variable<String>(jobStatus);
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     return map;
   }
@@ -1984,7 +1984,7 @@ class BackgroundJobScheduleData extends DataClass
       enableJob: serializer.fromJson<bool>(json['enableJob']),
       lastRun: serializer.fromJson<DateTime>(json['lastRun']),
       jobStatus: serializer.fromJson<String>(json['jobStatus']),
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
     );
   }
   @override
@@ -1998,7 +1998,7 @@ class BackgroundJobScheduleData extends DataClass
       'enableJob': serializer.toJson<bool>(enableJob),
       'lastRun': serializer.toJson<DateTime>(lastRun),
       'jobStatus': serializer.toJson<String>(jobStatus),
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
     };
   }
 
@@ -2010,7 +2010,7 @@ class BackgroundJobScheduleData extends DataClass
           bool? enableJob,
           DateTime? lastRun,
           String? jobStatus,
-          Value<int?> tenantId = const Value.absent()}) =>
+          Value<String?> tenantId = const Value.absent()}) =>
       BackgroundJobScheduleData(
         id: id ?? this.id,
         jobName: jobName ?? this.jobName,
@@ -2062,7 +2062,7 @@ class BackgroundJobScheduleCompanion
   final Value<bool> enableJob;
   final Value<DateTime> lastRun;
   final Value<String> jobStatus;
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   const BackgroundJobScheduleCompanion({
     this.id = const Value.absent(),
     this.jobName = const Value.absent(),
@@ -2095,7 +2095,7 @@ class BackgroundJobScheduleCompanion
     Expression<bool>? enableJob,
     Expression<DateTime>? lastRun,
     Expression<String>? jobStatus,
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -2117,7 +2117,7 @@ class BackgroundJobScheduleCompanion
       Value<bool>? enableJob,
       Value<DateTime>? lastRun,
       Value<String>? jobStatus,
-      Value<int?>? tenantId}) {
+      Value<String?>? tenantId}) {
     return BackgroundJobScheduleCompanion(
       id: id ?? this.id,
       jobName: jobName ?? this.jobName,
@@ -2155,7 +2155,7 @@ class BackgroundJobScheduleCompanion
       map['job_status'] = Variable<String>(jobStatus.value);
     }
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     return map;
   }
@@ -2214,9 +2214,9 @@ class $BackgroundJobLogsTable extends BackgroundJobLogs
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns =>
       [id, jobName, lastRun, jobStatus, jobDescription, tenantId];
@@ -2283,7 +2283,7 @@ class $BackgroundJobLogsTable extends BackgroundJobLogs
       jobDescription: attachedDatabase.typeMapping.read(
           DriftSqlType.string, data['${effectivePrefix}job_description'])!,
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
     );
   }
 
@@ -2300,7 +2300,7 @@ class BackgroundJobLog extends DataClass
   final DateTime lastRun;
   final String jobStatus;
   final String jobDescription;
-  final int? tenantId;
+  final String? tenantId;
   const BackgroundJobLog(
       {required this.id,
       required this.jobName,
@@ -2317,7 +2317,7 @@ class BackgroundJobLog extends DataClass
     map['job_status'] = Variable<String>(jobStatus);
     map['job_description'] = Variable<String>(jobDescription);
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     return map;
   }
@@ -2344,7 +2344,7 @@ class BackgroundJobLog extends DataClass
       lastRun: serializer.fromJson<DateTime>(json['lastRun']),
       jobStatus: serializer.fromJson<String>(json['jobStatus']),
       jobDescription: serializer.fromJson<String>(json['jobDescription']),
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
     );
   }
   @override
@@ -2356,7 +2356,7 @@ class BackgroundJobLog extends DataClass
       'lastRun': serializer.toJson<DateTime>(lastRun),
       'jobStatus': serializer.toJson<String>(jobStatus),
       'jobDescription': serializer.toJson<String>(jobDescription),
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
     };
   }
 
@@ -2366,7 +2366,7 @@ class BackgroundJobLog extends DataClass
           DateTime? lastRun,
           String? jobStatus,
           String? jobDescription,
-          Value<int?> tenantId = const Value.absent()}) =>
+          Value<String?> tenantId = const Value.absent()}) =>
       BackgroundJobLog(
         id: id ?? this.id,
         jobName: jobName ?? this.jobName,
@@ -2409,7 +2409,7 @@ class BackgroundJobLogsCompanion extends UpdateCompanion<BackgroundJobLog> {
   final Value<DateTime> lastRun;
   final Value<String> jobStatus;
   final Value<String> jobDescription;
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   const BackgroundJobLogsCompanion({
     this.id = const Value.absent(),
     this.jobName = const Value.absent(),
@@ -2435,7 +2435,7 @@ class BackgroundJobLogsCompanion extends UpdateCompanion<BackgroundJobLog> {
     Expression<DateTime>? lastRun,
     Expression<String>? jobStatus,
     Expression<String>? jobDescription,
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -2453,7 +2453,7 @@ class BackgroundJobLogsCompanion extends UpdateCompanion<BackgroundJobLog> {
       Value<DateTime>? lastRun,
       Value<String>? jobStatus,
       Value<String>? jobDescription,
-      Value<int?>? tenantId}) {
+      Value<String?>? tenantId}) {
     return BackgroundJobLogsCompanion(
       id: id ?? this.id,
       jobName: jobName ?? this.jobName,
@@ -2483,7 +2483,7 @@ class BackgroundJobLogsCompanion extends UpdateCompanion<BackgroundJobLog> {
       map['job_description'] = Variable<String>(jobDescription.value);
     }
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     return map;
   }
@@ -3359,9 +3359,9 @@ class $MobileDeviceTable extends MobileDevice
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [
         creationTime,
@@ -3694,7 +3694,7 @@ class $MobileDeviceTable extends MobileDevice
       longitude: attachedDatabase.typeMapping
           .read(DriftSqlType.double, data['${effectivePrefix}longitude']),
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
     );
   }
 
@@ -3742,7 +3742,7 @@ class MobileDeviceData extends DataClass
   final String? deviceNickName;
   final double? latitude;
   final double? longitude;
-  final int? tenantId;
+  final String? tenantId;
   const MobileDeviceData(
       {this.creationTime,
       this.deleteTime,
@@ -3887,7 +3887,7 @@ class MobileDeviceData extends DataClass
       map['longitude'] = Variable<double>(longitude);
     }
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     return map;
   }
@@ -4041,7 +4041,7 @@ class MobileDeviceData extends DataClass
       deviceNickName: serializer.fromJson<String?>(json['deviceNickName']),
       latitude: serializer.fromJson<double?>(json['latitude']),
       longitude: serializer.fromJson<double?>(json['longitude']),
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
     );
   }
   @override
@@ -4084,7 +4084,7 @@ class MobileDeviceData extends DataClass
       'deviceNickName': serializer.toJson<String?>(deviceNickName),
       'latitude': serializer.toJson<double?>(latitude),
       'longitude': serializer.toJson<double?>(longitude),
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
     };
   }
 
@@ -4125,7 +4125,7 @@ class MobileDeviceData extends DataClass
           Value<String?> deviceNickName = const Value.absent(),
           Value<double?> latitude = const Value.absent(),
           Value<double?> longitude = const Value.absent(),
-          Value<int?> tenantId = const Value.absent()}) =>
+          Value<String?> tenantId = const Value.absent()}) =>
       MobileDeviceData(
         creationTime:
             creationTime.present ? creationTime.value : this.creationTime,
@@ -4347,7 +4347,7 @@ class MobileDeviceCompanion extends UpdateCompanion<MobileDeviceData> {
   final Value<String?> deviceNickName;
   final Value<double?> latitude;
   final Value<double?> longitude;
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> rowid;
   const MobileDeviceCompanion({
     this.creationTime = const Value.absent(),
@@ -4466,7 +4466,7 @@ class MobileDeviceCompanion extends UpdateCompanion<MobileDeviceData> {
     Expression<String>? deviceNickName,
     Expression<double>? latitude,
     Expression<double>? longitude,
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -4549,7 +4549,7 @@ class MobileDeviceCompanion extends UpdateCompanion<MobileDeviceData> {
       Value<String?>? deviceNickName,
       Value<double?>? latitude,
       Value<double?>? longitude,
-      Value<int?>? tenantId,
+      Value<String?>? tenantId,
       Value<int>? rowid}) {
     return MobileDeviceCompanion(
       creationTime: creationTime ?? this.creationTime,
@@ -4705,7 +4705,7 @@ class MobileDeviceCompanion extends UpdateCompanion<MobileDeviceData> {
       map['longitude'] = Variable<double>(longitude.value);
     }
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -4823,9 +4823,9 @@ class $BusinessRuleTable extends BusinessRule
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _syncErrorMeta =
       const VerificationMeta('syncError');
   @override
@@ -4972,7 +4972,7 @@ class $BusinessRuleTable extends BusinessRule
       expiredDateTime: attachedDatabase.typeMapping.read(
           DriftSqlType.dateTime, data['${effectivePrefix}expired_date_time']),
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       syncError: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}sync_error']),
       dataType: attachedDatabase.typeMapping
@@ -5001,7 +5001,7 @@ class BusinessRuleData extends DataClass
   final String? userRule;
   final String? domain;
   final DateTime? expiredDateTime;
-  final int? tenantId;
+  final String? tenantId;
   final String? syncError;
   final String? dataType;
   final String? dataValue;
@@ -5046,7 +5046,7 @@ class BusinessRuleData extends DataClass
       map['expired_date_time'] = Variable<DateTime>(expiredDateTime);
     }
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     if (!nullToAbsent || syncError != null) {
       map['sync_error'] = Variable<String>(syncError);
@@ -5115,7 +5115,7 @@ class BusinessRuleData extends DataClass
       userRule: serializer.fromJson<String?>(json['userRule']),
       domain: serializer.fromJson<String?>(json['domain']),
       expiredDateTime: serializer.fromJson<DateTime?>(json['expiredDateTime']),
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       syncError: serializer.fromJson<String?>(json['syncError']),
       dataType: serializer.fromJson<String?>(json['dataType']),
       dataValue: serializer.fromJson<String?>(json['dataValue']),
@@ -5135,7 +5135,7 @@ class BusinessRuleData extends DataClass
       'userRule': serializer.toJson<String?>(userRule),
       'domain': serializer.toJson<String?>(domain),
       'expiredDateTime': serializer.toJson<DateTime?>(expiredDateTime),
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'syncError': serializer.toJson<String?>(syncError),
       'dataType': serializer.toJson<String?>(dataType),
       'dataValue': serializer.toJson<String?>(dataValue),
@@ -5153,7 +5153,7 @@ class BusinessRuleData extends DataClass
           Value<String?> userRule = const Value.absent(),
           Value<String?> domain = const Value.absent(),
           Value<DateTime?> expiredDateTime = const Value.absent(),
-          Value<int?> tenantId = const Value.absent(),
+          Value<String?> tenantId = const Value.absent(),
           Value<String?> syncError = const Value.absent(),
           Value<String?> dataType = const Value.absent(),
           Value<String?> dataValue = const Value.absent(),
@@ -5243,7 +5243,7 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
   final Value<String?> userRule;
   final Value<String?> domain;
   final Value<DateTime?> expiredDateTime;
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<String?> syncError;
   final Value<String?> dataType;
   final Value<String?> dataValue;
@@ -5294,7 +5294,7 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
     Expression<String>? userRule,
     Expression<String>? domain,
     Expression<DateTime>? expiredDateTime,
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<String>? syncError,
     Expression<String>? dataType,
     Expression<String>? dataValue,
@@ -5330,7 +5330,7 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
       Value<String?>? userRule,
       Value<String?>? domain,
       Value<DateTime?>? expiredDateTime,
-      Value<int?>? tenantId,
+      Value<String?>? tenantId,
       Value<String?>? syncError,
       Value<String?>? dataType,
       Value<String?>? dataValue,
@@ -5386,7 +5386,7 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
       map['expired_date_time'] = Variable<DateTime>(expiredDateTime.value);
     }
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (syncError.present) {
       map['sync_error'] = Variable<String>(syncError.value);
@@ -5539,9 +5539,9 @@ class $NonGlobalBusinessRuleTable extends NonGlobalBusinessRule
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [
         code,
@@ -5705,7 +5705,7 @@ class $NonGlobalBusinessRuleTable extends NonGlobalBusinessRule
       groups: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}groups']),
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
     );
   }
 
@@ -5734,7 +5734,7 @@ class NonGlobalBusinessRuleData extends DataClass
   final String? dataType;
   final String? dataValue;
   final String? groups;
-  final int? tenantId;
+  final String? tenantId;
   const NonGlobalBusinessRuleData(
       {required this.code,
       required this.parentCode,
@@ -5801,7 +5801,7 @@ class NonGlobalBusinessRuleData extends DataClass
       map['groups'] = Variable<String>(groups);
     }
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     return map;
   }
@@ -5875,7 +5875,7 @@ class NonGlobalBusinessRuleData extends DataClass
       dataType: serializer.fromJson<String?>(json['dataType']),
       dataValue: serializer.fromJson<String?>(json['dataValue']),
       groups: serializer.fromJson<String?>(json['groups']),
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
     );
   }
   @override
@@ -5899,7 +5899,7 @@ class NonGlobalBusinessRuleData extends DataClass
       'dataType': serializer.toJson<String?>(dataType),
       'dataValue': serializer.toJson<String?>(dataValue),
       'groups': serializer.toJson<String?>(groups),
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
     };
   }
 
@@ -5921,7 +5921,7 @@ class NonGlobalBusinessRuleData extends DataClass
           Value<String?> dataType = const Value.absent(),
           Value<String?> dataValue = const Value.absent(),
           Value<String?> groups = const Value.absent(),
-          Value<int?> tenantId = const Value.absent()}) =>
+          Value<String?> tenantId = const Value.absent()}) =>
       NonGlobalBusinessRuleData(
         code: code ?? this.code,
         parentCode: parentCode ?? this.parentCode,
@@ -6032,7 +6032,7 @@ class NonGlobalBusinessRuleCompanion
   final Value<String?> dataType;
   final Value<String?> dataValue;
   final Value<String?> groups;
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> rowid;
   const NonGlobalBusinessRuleCompanion({
     this.code = const Value.absent(),
@@ -6096,7 +6096,7 @@ class NonGlobalBusinessRuleCompanion
     Expression<String>? dataType,
     Expression<String>? dataValue,
     Expression<String>? groups,
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -6140,7 +6140,7 @@ class NonGlobalBusinessRuleCompanion
       Value<String?>? dataType,
       Value<String?>? dataValue,
       Value<String?>? groups,
-      Value<int?>? tenantId,
+      Value<String?>? tenantId,
       Value<int>? rowid}) {
     return NonGlobalBusinessRuleCompanion(
       code: code ?? this.code,
@@ -6220,7 +6220,7 @@ class NonGlobalBusinessRuleCompanion
       map['groups'] = Variable<String>(groups.value);
     }
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -6264,9 +6264,9 @@ class $ApplicationLoggerTable extends ApplicationLogger
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _userNameMeta =
       const VerificationMeta('userName');
   @override
@@ -6485,7 +6485,7 @@ class $ApplicationLoggerTable extends ApplicationLogger
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return ApplicationLoggerData(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       userName: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}user_name']),
       userId: attachedDatabase.typeMapping
@@ -6525,7 +6525,7 @@ class $ApplicationLoggerTable extends ApplicationLogger
 
 class ApplicationLoggerData extends DataClass
     implements Insertable<ApplicationLoggerData> {
-  final int? tenantId;
+  final String? tenantId;
   final String? userName;
   final int? userId;
   final int id;
@@ -6560,7 +6560,7 @@ class ApplicationLoggerData extends DataClass
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     if (!nullToAbsent || userName != null) {
       map['user_name'] = Variable<String>(userName);
@@ -6620,7 +6620,7 @@ class ApplicationLoggerData extends DataClass
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return ApplicationLoggerData(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       userName: serializer.fromJson<String?>(json['userName']),
       userId: serializer.fromJson<int?>(json['userId']),
       id: serializer.fromJson<int>(json['id']),
@@ -6641,7 +6641,7 @@ class ApplicationLoggerData extends DataClass
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'userName': serializer.toJson<String?>(userName),
       'userId': serializer.toJson<int?>(userId),
       'id': serializer.toJson<int>(id),
@@ -6660,7 +6660,7 @@ class ApplicationLoggerData extends DataClass
   }
 
   ApplicationLoggerData copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           Value<String?> userName = const Value.absent(),
           Value<int?> userId = const Value.absent(),
           int? id,
@@ -6755,7 +6755,7 @@ class ApplicationLoggerData extends DataClass
 
 class ApplicationLoggerCompanion
     extends UpdateCompanion<ApplicationLoggerData> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<String?> userName;
   final Value<int?> userId;
   final Value<int> id;
@@ -6812,7 +6812,7 @@ class ApplicationLoggerCompanion
         logCode = Value(logCode),
         logSeverity = Value(logSeverity);
   static Insertable<ApplicationLoggerData> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<String>? userName,
     Expression<int>? userId,
     Expression<int>? id,
@@ -6848,7 +6848,7 @@ class ApplicationLoggerCompanion
   }
 
   ApplicationLoggerCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<String?>? userName,
       Value<int?>? userId,
       Value<int>? id,
@@ -6886,7 +6886,7 @@ class ApplicationLoggerCompanion
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (userName.present) {
       map['user_name'] = Variable<String>(userName.value);
@@ -6964,13 +6964,9 @@ class $TenantTable extends Tenant with TableInfo<$TenantTable, TenantData> {
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _tenantNameMeta =
       const VerificationMeta('tenantName');
   @override
@@ -6985,9 +6981,9 @@ class $TenantTable extends Tenant with TableInfo<$TenantTable, TenantData> {
       type: DriftSqlType.int, requiredDuringInsert: false);
   static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
   @override
-  late final GeneratedColumn<int> userId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> userId = GeneratedColumn<String>(
       'user_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _userNameMeta =
       const VerificationMeta('userName');
   @override
@@ -7010,6 +7006,8 @@ class $TenantTable extends Tenant with TableInfo<$TenantTable, TenantData> {
     if (data.containsKey('tenant_id')) {
       context.handle(_tenantIdMeta,
           tenantId.isAcceptableOrUnknown(data['tenant_id']!, _tenantIdMeta));
+    } else if (isInserting) {
+      context.missing(_tenantIdMeta);
     }
     if (data.containsKey('tenant_name')) {
       context.handle(
@@ -7041,13 +7039,13 @@ class $TenantTable extends Tenant with TableInfo<$TenantTable, TenantData> {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return TenantData(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id'])!,
       tenantName: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}tenant_name']),
       tenantState: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}tenant_state']),
       userId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}user_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}user_id']),
       userName: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}user_name']),
     );
@@ -7060,10 +7058,10 @@ class $TenantTable extends Tenant with TableInfo<$TenantTable, TenantData> {
 }
 
 class TenantData extends DataClass implements Insertable<TenantData> {
-  final int tenantId;
+  final String tenantId;
   final String? tenantName;
   final int? tenantState;
-  final int? userId;
+  final String? userId;
   final String? userName;
   const TenantData(
       {required this.tenantId,
@@ -7074,7 +7072,7 @@ class TenantData extends DataClass implements Insertable<TenantData> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['tenant_id'] = Variable<int>(tenantId);
+    map['tenant_id'] = Variable<String>(tenantId);
     if (!nullToAbsent || tenantName != null) {
       map['tenant_name'] = Variable<String>(tenantName);
     }
@@ -7082,7 +7080,7 @@ class TenantData extends DataClass implements Insertable<TenantData> {
       map['tenant_state'] = Variable<int>(tenantState);
     }
     if (!nullToAbsent || userId != null) {
-      map['user_id'] = Variable<int>(userId);
+      map['user_id'] = Variable<String>(userId);
     }
     if (!nullToAbsent || userName != null) {
       map['user_name'] = Variable<String>(userName);
@@ -7111,10 +7109,10 @@ class TenantData extends DataClass implements Insertable<TenantData> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return TenantData(
-      tenantId: serializer.fromJson<int>(json['tenantId']),
+      tenantId: serializer.fromJson<String>(json['tenantId']),
       tenantName: serializer.fromJson<String?>(json['tenantName']),
       tenantState: serializer.fromJson<int?>(json['tenantState']),
-      userId: serializer.fromJson<int?>(json['userId']),
+      userId: serializer.fromJson<String?>(json['userId']),
       userName: serializer.fromJson<String?>(json['userName']),
     );
   }
@@ -7122,19 +7120,19 @@ class TenantData extends DataClass implements Insertable<TenantData> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int>(tenantId),
+      'tenantId': serializer.toJson<String>(tenantId),
       'tenantName': serializer.toJson<String?>(tenantName),
       'tenantState': serializer.toJson<int?>(tenantState),
-      'userId': serializer.toJson<int?>(userId),
+      'userId': serializer.toJson<String?>(userId),
       'userName': serializer.toJson<String?>(userName),
     };
   }
 
   TenantData copyWith(
-          {int? tenantId,
+          {String? tenantId,
           Value<String?> tenantName = const Value.absent(),
           Value<int?> tenantState = const Value.absent(),
-          Value<int?> userId = const Value.absent(),
+          Value<String?> userId = const Value.absent(),
           Value<String?> userName = const Value.absent()}) =>
       TenantData(
         tenantId: tenantId ?? this.tenantId,
@@ -7170,31 +7168,35 @@ class TenantData extends DataClass implements Insertable<TenantData> {
 }
 
 class TenantCompanion extends UpdateCompanion<TenantData> {
-  final Value<int> tenantId;
+  final Value<String> tenantId;
   final Value<String?> tenantName;
   final Value<int?> tenantState;
-  final Value<int?> userId;
+  final Value<String?> userId;
   final Value<String?> userName;
+  final Value<int> rowid;
   const TenantCompanion({
     this.tenantId = const Value.absent(),
     this.tenantName = const Value.absent(),
     this.tenantState = const Value.absent(),
     this.userId = const Value.absent(),
     this.userName = const Value.absent(),
+    this.rowid = const Value.absent(),
   });
   TenantCompanion.insert({
-    this.tenantId = const Value.absent(),
+    required String tenantId,
     this.tenantName = const Value.absent(),
     this.tenantState = const Value.absent(),
     this.userId = const Value.absent(),
     this.userName = const Value.absent(),
-  });
+    this.rowid = const Value.absent(),
+  }) : tenantId = Value(tenantId);
   static Insertable<TenantData> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<String>? tenantName,
     Expression<int>? tenantState,
-    Expression<int>? userId,
+    Expression<String>? userId,
     Expression<String>? userName,
+    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
@@ -7202,21 +7204,24 @@ class TenantCompanion extends UpdateCompanion<TenantData> {
       if (tenantState != null) 'tenant_state': tenantState,
       if (userId != null) 'user_id': userId,
       if (userName != null) 'user_name': userName,
+      if (rowid != null) 'rowid': rowid,
     });
   }
 
   TenantCompanion copyWith(
-      {Value<int>? tenantId,
+      {Value<String>? tenantId,
       Value<String?>? tenantName,
       Value<int?>? tenantState,
-      Value<int?>? userId,
-      Value<String?>? userName}) {
+      Value<String?>? userId,
+      Value<String?>? userName,
+      Value<int>? rowid}) {
     return TenantCompanion(
       tenantId: tenantId ?? this.tenantId,
       tenantName: tenantName ?? this.tenantName,
       tenantState: tenantState ?? this.tenantState,
       userId: userId ?? this.userId,
       userName: userName ?? this.userName,
+      rowid: rowid ?? this.rowid,
     );
   }
 
@@ -7224,7 +7229,7 @@ class TenantCompanion extends UpdateCompanion<TenantData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (tenantName.present) {
       map['tenant_name'] = Variable<String>(tenantName.value);
@@ -7233,10 +7238,13 @@ class TenantCompanion extends UpdateCompanion<TenantData> {
       map['tenant_state'] = Variable<int>(tenantState.value);
     }
     if (userId.present) {
-      map['user_id'] = Variable<int>(userId.value);
+      map['user_id'] = Variable<String>(userId.value);
     }
     if (userName.present) {
       map['user_name'] = Variable<String>(userName.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
     }
     return map;
   }
@@ -7248,7 +7256,8 @@ class TenantCompanion extends UpdateCompanion<TenantData> {
           ..write('tenantName: $tenantName, ')
           ..write('tenantState: $tenantState, ')
           ..write('userId: $userId, ')
-          ..write('userName: $userName')
+          ..write('userName: $userName, ')
+          ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }
@@ -7346,9 +7355,9 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -7490,7 +7499,7 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
       groups: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}groups']),
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
     );
   }
 
@@ -7516,7 +7525,7 @@ class NonGlobalPreferenceData extends DataClass
   final String? dataType;
   final String? dataValue;
   final String? groups;
-  final int? tenantId;
+  final String? tenantId;
   const NonGlobalPreferenceData(
       {required this.id,
       required this.parentCode,
@@ -7569,7 +7578,7 @@ class NonGlobalPreferenceData extends DataClass
       map['groups'] = Variable<String>(groups);
     }
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     return map;
   }
@@ -7630,7 +7639,7 @@ class NonGlobalPreferenceData extends DataClass
       dataType: serializer.fromJson<String?>(json['dataType']),
       dataValue: serializer.fromJson<String?>(json['dataValue']),
       groups: serializer.fromJson<String?>(json['groups']),
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
     );
   }
   @override
@@ -7651,7 +7660,7 @@ class NonGlobalPreferenceData extends DataClass
       'dataType': serializer.toJson<String?>(dataType),
       'dataValue': serializer.toJson<String?>(dataValue),
       'groups': serializer.toJson<String?>(groups),
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
     };
   }
 
@@ -7670,7 +7679,7 @@ class NonGlobalPreferenceData extends DataClass
           Value<String?> dataType = const Value.absent(),
           Value<String?> dataValue = const Value.absent(),
           Value<String?> groups = const Value.absent(),
-          Value<int?> tenantId = const Value.absent()}) =>
+          Value<String?> tenantId = const Value.absent()}) =>
       NonGlobalPreferenceData(
         id: id ?? this.id,
         parentCode: parentCode ?? this.parentCode,
@@ -7766,7 +7775,7 @@ class NonGlobalPreferenceCompanion
   final Value<String?> dataType;
   final Value<String?> dataValue;
   final Value<String?> groups;
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> rowid;
   const NonGlobalPreferenceCompanion({
     this.id = const Value.absent(),
@@ -7822,7 +7831,7 @@ class NonGlobalPreferenceCompanion
     Expression<String>? dataType,
     Expression<String>? dataValue,
     Expression<String>? groups,
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -7860,7 +7869,7 @@ class NonGlobalPreferenceCompanion
       Value<String?>? dataType,
       Value<String?>? dataValue,
       Value<String?>? groups,
-      Value<int?>? tenantId,
+      Value<String?>? tenantId,
       Value<int>? rowid}) {
     return NonGlobalPreferenceCompanion(
       id: id ?? this.id,
@@ -7928,7 +7937,7 @@ class NonGlobalPreferenceCompanion
       map['groups'] = Variable<String>(groups.value);
     }
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -8037,9 +8046,9 @@ class $DesktopTable extends Desktop with TableInfo<$DesktopTable, DesktopData> {
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _tagMeta = const VerificationMeta('tag');
   @override
   late final GeneratedColumn<String> tag = GeneratedColumn<String>(
@@ -8236,7 +8245,7 @@ class $DesktopTable extends Desktop with TableInfo<$DesktopTable, DesktopData> {
       userPermission: attachedDatabase.typeMapping.read(
           DriftSqlType.string, data['${effectivePrefix}user_permission'])!,
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       tag: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}tag']),
       isDeleted: attachedDatabase.typeMapping
@@ -8268,7 +8277,7 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
   final String iconGroup;
   final bool isFavorit;
   final String userPermission;
-  final int? tenantId;
+  final String? tenantId;
   final String? tag;
   final bool isDeleted;
   final bool isFreeTrial;
@@ -8309,7 +8318,7 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
     map['is_favorit'] = Variable<bool>(isFavorit);
     map['user_permission'] = Variable<String>(userPermission);
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     if (!nullToAbsent || tag != null) {
       map['tag'] = Variable<String>(tag);
@@ -8370,7 +8379,7 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
       iconGroup: serializer.fromJson<String>(json['iconGroup']),
       isFavorit: serializer.fromJson<bool>(json['isFavorit']),
       userPermission: serializer.fromJson<String>(json['userPermission']),
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       tag: serializer.fromJson<String?>(json['tag']),
       isDeleted: serializer.fromJson<bool>(json['isDeleted']),
       isFreeTrial: serializer.fromJson<bool>(json['isFreeTrial']),
@@ -8393,7 +8402,7 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
       'iconGroup': serializer.toJson<String>(iconGroup),
       'isFavorit': serializer.toJson<bool>(isFavorit),
       'userPermission': serializer.toJson<String>(userPermission),
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'tag': serializer.toJson<String?>(tag),
       'isDeleted': serializer.toJson<bool>(isDeleted),
       'isFreeTrial': serializer.toJson<bool>(isFreeTrial),
@@ -8414,7 +8423,7 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
           String? iconGroup,
           bool? isFavorit,
           String? userPermission,
-          Value<int?> tenantId = const Value.absent(),
+          Value<String?> tenantId = const Value.absent(),
           Value<String?> tag = const Value.absent(),
           bool? isDeleted,
           bool? isFreeTrial,
@@ -8518,7 +8527,7 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
   final Value<String> iconGroup;
   final Value<bool> isFavorit;
   final Value<String> userPermission;
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<String?> tag;
   final Value<bool> isDeleted;
   final Value<bool> isFreeTrial;
@@ -8581,7 +8590,7 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
     Expression<String>? iconGroup,
     Expression<bool>? isFavorit,
     Expression<String>? userPermission,
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<String>? tag,
     Expression<bool>? isDeleted,
     Expression<bool>? isFreeTrial,
@@ -8621,7 +8630,7 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
       Value<String>? iconGroup,
       Value<bool>? isFavorit,
       Value<String>? userPermission,
-      Value<int?>? tenantId,
+      Value<String?>? tenantId,
       Value<String?>? tag,
       Value<bool>? isDeleted,
       Value<bool>? isFreeTrial,
@@ -8685,7 +8694,7 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
       map['user_permission'] = Variable<String>(userPermission.value);
     }
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (tag.present) {
       map['tag'] = Variable<String>(tag.value);
@@ -8739,9 +8748,9 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _userNameMeta =
       const VerificationMeta('userName');
   @override
@@ -9229,7 +9238,7 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return SalesOrderHeaderData(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       userName: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}user_name'])!,
       userId: attachedDatabase.typeMapping
@@ -9310,7 +9319,7 @@ class $SalesOrderHeaderTable extends SalesOrderHeader
 
 class SalesOrderHeaderData extends DataClass
     implements Insertable<SalesOrderHeaderData> {
-  final int? tenantId;
+  final String? tenantId;
   final String userName;
   final int userId;
   final int id;
@@ -9385,7 +9394,7 @@ class SalesOrderHeaderData extends DataClass
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['user_name'] = Variable<String>(userName);
     map['user_id'] = Variable<int>(userId);
@@ -9513,7 +9522,7 @@ class SalesOrderHeaderData extends DataClass
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return SalesOrderHeaderData(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       userName: serializer.fromJson<String>(json['userName']),
       userId: serializer.fromJson<int>(json['userId']),
       id: serializer.fromJson<int>(json['id']),
@@ -9560,7 +9569,7 @@ class SalesOrderHeaderData extends DataClass
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'userName': serializer.toJson<String>(userName),
       'userId': serializer.toJson<int>(userId),
       'id': serializer.toJson<int>(id),
@@ -9599,7 +9608,7 @@ class SalesOrderHeaderData extends DataClass
   }
 
   SalesOrderHeaderData copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           String? userName,
           int? userId,
           int? id,
@@ -9804,7 +9813,7 @@ class SalesOrderHeaderData extends DataClass
 }
 
 class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<String> userName;
   final Value<int> userId;
   final Value<int> id;
@@ -9935,7 +9944,7 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
         discountPercentage = Value(discountPercentage),
         discountAmount = Value(discountAmount);
   static Insertable<SalesOrderHeaderData> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<String>? userName,
     Expression<int>? userId,
     Expression<int>? id,
@@ -10014,7 +10023,7 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
   }
 
   SalesOrderHeaderCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<String>? userName,
       Value<int>? userId,
       Value<int>? id,
@@ -10092,7 +10101,7 @@ class SalesOrderHeaderCompanion extends UpdateCompanion<SalesOrderHeaderData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (userName.present) {
       map['user_name'] = Variable<String>(userName.value);
@@ -10253,9 +10262,9 @@ class $SalesOrderDetailTable extends SalesOrderDetail
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _userNameMeta =
       const VerificationMeta('userName');
   @override
@@ -10794,7 +10803,7 @@ class $SalesOrderDetailTable extends SalesOrderDetail
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return SalesOrderDetailData(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       userName: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}user_name'])!,
       userId: attachedDatabase.typeMapping
@@ -10883,7 +10892,7 @@ class $SalesOrderDetailTable extends SalesOrderDetail
 
 class SalesOrderDetailData extends DataClass
     implements Insertable<SalesOrderDetailData> {
-  final int? tenantId;
+  final String? tenantId;
   final String userName;
   final int userId;
   final int id;
@@ -10966,7 +10975,7 @@ class SalesOrderDetailData extends DataClass
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['user_name'] = Variable<String>(userName);
     map['user_id'] = Variable<int>(userId);
@@ -11081,7 +11090,7 @@ class SalesOrderDetailData extends DataClass
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return SalesOrderDetailData(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       userName: serializer.fromJson<String>(json['userName']),
       userId: serializer.fromJson<int>(json['userId']),
       id: serializer.fromJson<int>(json['id']),
@@ -11129,7 +11138,7 @@ class SalesOrderDetailData extends DataClass
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'userName': serializer.toJson<String>(userName),
       'userId': serializer.toJson<int>(userId),
       'id': serializer.toJson<int>(id),
@@ -11172,7 +11181,7 @@ class SalesOrderDetailData extends DataClass
   }
 
   SalesOrderDetailData copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           String? userName,
           int? userId,
           int? id,
@@ -11390,7 +11399,7 @@ class SalesOrderDetailData extends DataClass
 }
 
 class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<String> userName;
   final Value<int> userId;
   final Value<int> id;
@@ -11542,7 +11551,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
         shippingTotal = Value(shippingTotal),
         conversionFactor = Value(conversionFactor);
   static Insertable<SalesOrderDetailData> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<String>? userName,
     Expression<int>? userId,
     Expression<int>? id,
@@ -11627,7 +11636,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
   }
 
   SalesOrderDetailCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<String>? userName,
       Value<int>? userId,
       Value<int>? id,
@@ -11713,7 +11722,7 @@ class SalesOrderDetailCompanion extends UpdateCompanion<SalesOrderDetailData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (userName.present) {
       map['user_name'] = Variable<String>(userName.value);
@@ -11889,9 +11898,9 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _userNameMeta =
       const VerificationMeta('userName');
   @override
@@ -12380,7 +12389,7 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return SalesOrderDetailTempData(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       userName: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}user_name'])!,
       userId: attachedDatabase.typeMapping
@@ -12467,7 +12476,7 @@ class $SalesOrderDetailTempTable extends SalesOrderDetailTemp
 
 class SalesOrderDetailTempData extends DataClass
     implements Insertable<SalesOrderDetailTempData> {
-  final int? tenantId;
+  final String? tenantId;
   final String userName;
   final int userId;
   final int id;
@@ -12548,7 +12557,7 @@ class SalesOrderDetailTempData extends DataClass
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['user_name'] = Variable<String>(userName);
     map['user_id'] = Variable<int>(userId);
@@ -12741,7 +12750,7 @@ class SalesOrderDetailTempData extends DataClass
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return SalesOrderDetailTempData(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       userName: serializer.fromJson<String>(json['userName']),
       userId: serializer.fromJson<int>(json['userId']),
       id: serializer.fromJson<int>(json['id']),
@@ -12789,7 +12798,7 @@ class SalesOrderDetailTempData extends DataClass
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'userName': serializer.toJson<String>(userName),
       'userId': serializer.toJson<int>(userId),
       'id': serializer.toJson<int>(id),
@@ -12831,7 +12840,7 @@ class SalesOrderDetailTempData extends DataClass
   }
 
   SalesOrderDetailTempData copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           String? userName,
           int? userId,
           int? id,
@@ -13059,7 +13068,7 @@ class SalesOrderDetailTempData extends DataClass
 
 class SalesOrderDetailTempCompanion
     extends UpdateCompanion<SalesOrderDetailTempData> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<String> userName;
   final Value<int> userId;
   final Value<int> id;
@@ -13187,7 +13196,7 @@ class SalesOrderDetailTempCompanion
         grandTotal = Value(grandTotal),
         shippingTotal = Value(shippingTotal);
   static Insertable<SalesOrderDetailTempData> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<String>? userName,
     Expression<int>? userId,
     Expression<int>? id,
@@ -13270,7 +13279,7 @@ class SalesOrderDetailTempCompanion
   }
 
   SalesOrderDetailTempCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<String>? userName,
       Value<int>? userId,
       Value<int>? id,
@@ -13354,7 +13363,7 @@ class SalesOrderDetailTempCompanion
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (userName.present) {
       map['user_name'] = Variable<String>(userName.value);
@@ -13526,9 +13535,9 @@ class $SeriesNumberGeneratorTable extends SeriesNumberGenerator
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -13692,7 +13701,7 @@ class $SeriesNumberGeneratorTable extends SeriesNumberGenerator
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return SeriesNumberGeneratorData(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       numberPrefix: attachedDatabase.typeMapping
@@ -13722,7 +13731,7 @@ class $SeriesNumberGeneratorTable extends SeriesNumberGenerator
 
 class SeriesNumberGeneratorData extends DataClass
     implements Insertable<SeriesNumberGeneratorData> {
-  final int? tenantId;
+  final String? tenantId;
   final int id;
   final String? numberPrefix;
   final bool includePrefix;
@@ -13747,7 +13756,7 @@ class SeriesNumberGeneratorData extends DataClass
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['id'] = Variable<int>(id);
     if (!nullToAbsent || numberPrefix != null) {
@@ -13794,7 +13803,7 @@ class SeriesNumberGeneratorData extends DataClass
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return SeriesNumberGeneratorData(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
       numberPrefix: serializer.fromJson<String?>(json['numberPrefix']),
       includePrefix: serializer.fromJson<bool>(json['includePrefix']),
@@ -13810,7 +13819,7 @@ class SeriesNumberGeneratorData extends DataClass
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'id': serializer.toJson<int>(id),
       'numberPrefix': serializer.toJson<String?>(numberPrefix),
       'includePrefix': serializer.toJson<bool>(includePrefix),
@@ -13824,7 +13833,7 @@ class SeriesNumberGeneratorData extends DataClass
   }
 
   SeriesNumberGeneratorData copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           int? id,
           Value<String?> numberPrefix = const Value.absent(),
           bool? includePrefix,
@@ -13896,7 +13905,7 @@ class SeriesNumberGeneratorData extends DataClass
 
 class SeriesNumberGeneratorCompanion
     extends UpdateCompanion<SeriesNumberGeneratorData> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> id;
   final Value<String?> numberPrefix;
   final Value<bool> includePrefix;
@@ -13931,7 +13940,7 @@ class SeriesNumberGeneratorCompanion
     this.typeOfNumber = const Value.absent(),
   });
   static Insertable<SeriesNumberGeneratorData> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? id,
     Expression<String>? numberPrefix,
     Expression<bool>? includePrefix,
@@ -13957,7 +13966,7 @@ class SeriesNumberGeneratorCompanion
   }
 
   SeriesNumberGeneratorCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<int>? id,
       Value<String?>? numberPrefix,
       Value<bool>? includePrefix,
@@ -13985,7 +13994,7 @@ class SeriesNumberGeneratorCompanion
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -14044,9 +14053,9 @@ class $SalesTaxTable extends SalesTax
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -14162,7 +14171,7 @@ class $SalesTaxTable extends SalesTax
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return SalesTaxData(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       type: attachedDatabase.typeMapping
@@ -14187,7 +14196,7 @@ class $SalesTaxTable extends SalesTax
 }
 
 class SalesTaxData extends DataClass implements Insertable<SalesTaxData> {
-  final int? tenantId;
+  final String? tenantId;
   final int id;
   final String? type;
   final String? taxAccount;
@@ -14208,7 +14217,7 @@ class SalesTaxData extends DataClass implements Insertable<SalesTaxData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['id'] = Variable<int>(id);
     if (!nullToAbsent || type != null) {
@@ -14256,7 +14265,7 @@ class SalesTaxData extends DataClass implements Insertable<SalesTaxData> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return SalesTaxData(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
       type: serializer.fromJson<String?>(json['type']),
       taxAccount: serializer.fromJson<String?>(json['taxAccount']),
@@ -14270,7 +14279,7 @@ class SalesTaxData extends DataClass implements Insertable<SalesTaxData> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'id': serializer.toJson<int>(id),
       'type': serializer.toJson<String?>(type),
       'taxAccount': serializer.toJson<String?>(taxAccount),
@@ -14282,7 +14291,7 @@ class SalesTaxData extends DataClass implements Insertable<SalesTaxData> {
   }
 
   SalesTaxData copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           int? id,
           Value<String?> type = const Value.absent(),
           Value<String?> taxAccount = const Value.absent(),
@@ -14334,7 +14343,7 @@ class SalesTaxData extends DataClass implements Insertable<SalesTaxData> {
 }
 
 class SalesTaxCompanion extends UpdateCompanion<SalesTaxData> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> id;
   final Value<String?> type;
   final Value<String?> taxAccount;
@@ -14363,7 +14372,7 @@ class SalesTaxCompanion extends UpdateCompanion<SalesTaxData> {
     this.taxIndicator = const Value.absent(),
   }) : effectiveDate = Value(effectiveDate);
   static Insertable<SalesTaxData> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? id,
     Expression<String>? type,
     Expression<String>? taxAccount,
@@ -14385,7 +14394,7 @@ class SalesTaxCompanion extends UpdateCompanion<SalesTaxData> {
   }
 
   SalesTaxCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<int>? id,
       Value<String?>? type,
       Value<String?>? taxAccount,
@@ -14409,7 +14418,7 @@ class SalesTaxCompanion extends UpdateCompanion<SalesTaxData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -14460,9 +14469,9 @@ class $TempNumberLogsTable extends TempNumberLogs
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -14571,7 +14580,7 @@ class $TempNumberLogsTable extends TempNumberLogs
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return TempNumberLog(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       nextSeriesNumber: attachedDatabase.typeMapping.read(
@@ -14594,7 +14603,7 @@ class $TempNumberLogsTable extends TempNumberLogs
 }
 
 class TempNumberLog extends DataClass implements Insertable<TempNumberLog> {
-  final int? tenantId;
+  final String? tenantId;
   final int id;
   final String? nextSeriesNumber;
   final String? lastSeriesNumber;
@@ -14613,7 +14622,7 @@ class TempNumberLog extends DataClass implements Insertable<TempNumberLog> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['id'] = Variable<int>(id);
     if (!nullToAbsent || nextSeriesNumber != null) {
@@ -14658,7 +14667,7 @@ class TempNumberLog extends DataClass implements Insertable<TempNumberLog> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return TempNumberLog(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
       nextSeriesNumber: serializer.fromJson<String?>(json['nextSeriesNumber']),
       lastSeriesNumber: serializer.fromJson<String?>(json['lastSeriesNumber']),
@@ -14671,7 +14680,7 @@ class TempNumberLog extends DataClass implements Insertable<TempNumberLog> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'id': serializer.toJson<int>(id),
       'nextSeriesNumber': serializer.toJson<String?>(nextSeriesNumber),
       'lastSeriesNumber': serializer.toJson<String?>(lastSeriesNumber),
@@ -14682,7 +14691,7 @@ class TempNumberLog extends DataClass implements Insertable<TempNumberLog> {
   }
 
   TempNumberLog copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           int? id,
           Value<String?> nextSeriesNumber = const Value.absent(),
           Value<String?> lastSeriesNumber = const Value.absent(),
@@ -14734,7 +14743,7 @@ class TempNumberLog extends DataClass implements Insertable<TempNumberLog> {
 }
 
 class TempNumberLogsCompanion extends UpdateCompanion<TempNumberLog> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> id;
   final Value<String?> nextSeriesNumber;
   final Value<String?> lastSeriesNumber;
@@ -14764,7 +14773,7 @@ class TempNumberLogsCompanion extends UpdateCompanion<TempNumberLog> {
   })  : id = Value(id),
         lastUsageDate = Value(lastUsageDate);
   static Insertable<TempNumberLog> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? id,
     Expression<String>? nextSeriesNumber,
     Expression<String>? lastSeriesNumber,
@@ -14786,7 +14795,7 @@ class TempNumberLogsCompanion extends UpdateCompanion<TempNumberLog> {
   }
 
   TempNumberLogsCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<int>? id,
       Value<String?>? nextSeriesNumber,
       Value<String?>? lastSeriesNumber,
@@ -14810,7 +14819,7 @@ class TempNumberLogsCompanion extends UpdateCompanion<TempNumberLog> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -14861,9 +14870,9 @@ class $CustomerTable extends Customer
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -15217,7 +15226,7 @@ class $CustomerTable extends Customer
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return CustomerData(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       customerId: attachedDatabase.typeMapping
@@ -15280,7 +15289,7 @@ class $CustomerTable extends Customer
 }
 
 class CustomerData extends DataClass implements Insertable<CustomerData> {
-  final int? tenantId;
+  final String? tenantId;
   final int id;
   final String? customerId;
   final String? customerName;
@@ -15339,7 +15348,7 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['id'] = Variable<int>(id);
     if (!nullToAbsent || customerId != null) {
@@ -15507,7 +15516,7 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return CustomerData(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
       customerId: serializer.fromJson<String?>(json['customerId']),
       customerName: serializer.fromJson<String?>(json['customerName']),
@@ -15546,7 +15555,7 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'id': serializer.toJson<int>(id),
       'customerId': serializer.toJson<String?>(customerId),
       'customerName': serializer.toJson<String?>(customerName),
@@ -15577,7 +15586,7 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
   }
 
   CustomerData copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           int? id,
           Value<String?> customerId = const Value.absent(),
           Value<String?> customerName = const Value.absent(),
@@ -15751,7 +15760,7 @@ class CustomerData extends DataClass implements Insertable<CustomerData> {
 }
 
 class CustomerCompanion extends UpdateCompanion<CustomerData> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> id;
   final Value<String?> customerId;
   final Value<String?> customerName;
@@ -15837,7 +15846,7 @@ class CustomerCompanion extends UpdateCompanion<CustomerData> {
     this.taxGroup = const Value.absent(),
   });
   static Insertable<CustomerData> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? id,
     Expression<String>? customerId,
     Expression<String>? customerName,
@@ -15901,7 +15910,7 @@ class CustomerCompanion extends UpdateCompanion<CustomerData> {
   }
 
   CustomerCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<int>? id,
       Value<String?>? customerId,
       Value<String?>? customerName,
@@ -15963,7 +15972,7 @@ class CustomerCompanion extends UpdateCompanion<CustomerData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -16091,9 +16100,9 @@ class $AddresTable extends Addres with TableInfo<$AddresTable, Addre> {
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -16363,7 +16372,7 @@ class $AddresTable extends Addres with TableInfo<$AddresTable, Addre> {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Addre(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       customerId: attachedDatabase.typeMapping
@@ -16412,7 +16421,7 @@ class $AddresTable extends Addres with TableInfo<$AddresTable, Addre> {
 }
 
 class Addre extends DataClass implements Insertable<Addre> {
-  final int? tenantId;
+  final String? tenantId;
   final int id;
   final String? customerId;
   final String? addressTitle;
@@ -16457,7 +16466,7 @@ class Addre extends DataClass implements Insertable<Addre> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['id'] = Variable<int>(id);
     if (!nullToAbsent || customerId != null) {
@@ -16581,7 +16590,7 @@ class Addre extends DataClass implements Insertable<Addre> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Addre(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
       customerId: serializer.fromJson<String?>(json['customerId']),
       addressTitle: serializer.fromJson<String?>(json['addressTitle']),
@@ -16608,7 +16617,7 @@ class Addre extends DataClass implements Insertable<Addre> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'id': serializer.toJson<int>(id),
       'customerId': serializer.toJson<String?>(customerId),
       'addressTitle': serializer.toJson<String?>(addressTitle),
@@ -16632,7 +16641,7 @@ class Addre extends DataClass implements Insertable<Addre> {
   }
 
   Addre copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           int? id,
           Value<String?> customerId = const Value.absent(),
           Value<String?> addressTitle = const Value.absent(),
@@ -16760,7 +16769,7 @@ class Addre extends DataClass implements Insertable<Addre> {
 }
 
 class AddresCompanion extends UpdateCompanion<Addre> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> id;
   final Value<String?> customerId;
   final Value<String?> addressTitle;
@@ -16825,7 +16834,7 @@ class AddresCompanion extends UpdateCompanion<Addre> {
     this.isDeleted = const Value.absent(),
   });
   static Insertable<Addre> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? id,
     Expression<String>? customerId,
     Expression<String>? addressTitle,
@@ -16872,7 +16881,7 @@ class AddresCompanion extends UpdateCompanion<Addre> {
   }
 
   AddresCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<int>? id,
       Value<String?>? customerId,
       Value<String?>? addressTitle,
@@ -16920,7 +16929,7 @@ class AddresCompanion extends UpdateCompanion<Addre> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -17019,9 +17028,9 @@ class $ContactTable extends Contact with TableInfo<$ContactTable, ContactData> {
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -17199,7 +17208,7 @@ class $ContactTable extends Contact with TableInfo<$ContactTable, ContactData> {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return ContactData(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       contactTitle: attachedDatabase.typeMapping
@@ -17232,7 +17241,7 @@ class $ContactTable extends Contact with TableInfo<$ContactTable, ContactData> {
 }
 
 class ContactData extends DataClass implements Insertable<ContactData> {
-  final int? tenantId;
+  final String? tenantId;
   final int id;
   final String? contactTitle;
   final String? customerId;
@@ -17261,7 +17270,7 @@ class ContactData extends DataClass implements Insertable<ContactData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['id'] = Variable<int>(id);
     if (!nullToAbsent || contactTitle != null) {
@@ -17340,7 +17349,7 @@ class ContactData extends DataClass implements Insertable<ContactData> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return ContactData(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
       contactTitle: serializer.fromJson<String?>(json['contactTitle']),
       customerId: serializer.fromJson<String?>(json['customerId']),
@@ -17359,7 +17368,7 @@ class ContactData extends DataClass implements Insertable<ContactData> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'id': serializer.toJson<int>(id),
       'contactTitle': serializer.toJson<String?>(contactTitle),
       'customerId': serializer.toJson<String?>(customerId),
@@ -17375,7 +17384,7 @@ class ContactData extends DataClass implements Insertable<ContactData> {
   }
 
   ContactData copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           int? id,
           Value<String?> contactTitle = const Value.absent(),
           Value<String?> customerId = const Value.absent(),
@@ -17461,7 +17470,7 @@ class ContactData extends DataClass implements Insertable<ContactData> {
 }
 
 class ContactCompanion extends UpdateCompanion<ContactData> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> id;
   final Value<String?> contactTitle;
   final Value<String?> customerId;
@@ -17502,7 +17511,7 @@ class ContactCompanion extends UpdateCompanion<ContactData> {
     this.userName = const Value.absent(),
   });
   static Insertable<ContactData> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? id,
     Expression<String>? contactTitle,
     Expression<String>? customerId,
@@ -17533,7 +17542,7 @@ class ContactCompanion extends UpdateCompanion<ContactData> {
   }
 
   ContactCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<int>? id,
       Value<String?>? contactTitle,
       Value<String?>? customerId,
@@ -17565,7 +17574,7 @@ class ContactCompanion extends UpdateCompanion<ContactData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -17632,9 +17641,9 @@ class $ItemsTable extends Items with TableInfo<$ItemsTable, Item> {
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -17888,7 +17897,7 @@ class $ItemsTable extends Items with TableInfo<$ItemsTable, Item> {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Item(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       itemId: attachedDatabase.typeMapping
@@ -17934,7 +17943,7 @@ class $ItemsTable extends Items with TableInfo<$ItemsTable, Item> {
 }
 
 class Item extends DataClass implements Insertable<Item> {
-  final int? tenantId;
+  final String? tenantId;
   final int id;
   final String itemId;
   final String? description;
@@ -17975,7 +17984,7 @@ class Item extends DataClass implements Insertable<Item> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['id'] = Variable<int>(id);
     map['item_id'] = Variable<String>(itemId);
@@ -18060,7 +18069,7 @@ class Item extends DataClass implements Insertable<Item> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Item(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
       itemId: serializer.fromJson<String>(json['itemId']),
       description: serializer.fromJson<String?>(json['description']),
@@ -18085,7 +18094,7 @@ class Item extends DataClass implements Insertable<Item> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'id': serializer.toJson<int>(id),
       'itemId': serializer.toJson<String>(itemId),
       'description': serializer.toJson<String?>(description),
@@ -18107,7 +18116,7 @@ class Item extends DataClass implements Insertable<Item> {
   }
 
   Item copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           int? id,
           String? itemId,
           Value<String?> description = const Value.absent(),
@@ -18218,7 +18227,7 @@ class Item extends DataClass implements Insertable<Item> {
 }
 
 class ItemsCompanion extends UpdateCompanion<Item> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> id;
   final Value<String> itemId;
   final Value<String?> description;
@@ -18281,7 +18290,7 @@ class ItemsCompanion extends UpdateCompanion<Item> {
   })  : id = Value(id),
         itemId = Value(itemId);
   static Insertable<Item> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? id,
     Expression<String>? itemId,
     Expression<String>? description,
@@ -18326,7 +18335,7 @@ class ItemsCompanion extends UpdateCompanion<Item> {
   }
 
   ItemsCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<int>? id,
       Value<String>? itemId,
       Value<String?>? description,
@@ -18373,7 +18382,7 @@ class ItemsCompanion extends UpdateCompanion<Item> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -18469,9 +18478,9 @@ class $ItemsPricesTable extends ItemsPrices
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -18760,7 +18769,7 @@ class $ItemsPricesTable extends ItemsPrices
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return ItemsPrice(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       itemId: attachedDatabase.typeMapping
@@ -18811,7 +18820,7 @@ class $ItemsPricesTable extends ItemsPrices
 }
 
 class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
-  final int? tenantId;
+  final String? tenantId;
   final int id;
   final String itemId;
   final String? itemCode;
@@ -18858,7 +18867,7 @@ class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['id'] = Variable<int>(id);
     map['item_id'] = Variable<String>(itemId);
@@ -18941,7 +18950,7 @@ class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return ItemsPrice(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
       itemId: serializer.fromJson<String>(json['itemId']),
       itemCode: serializer.fromJson<String?>(json['itemCode']),
@@ -18968,7 +18977,7 @@ class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'id': serializer.toJson<int>(id),
       'itemId': serializer.toJson<String>(itemId),
       'itemCode': serializer.toJson<String?>(itemCode),
@@ -18993,7 +19002,7 @@ class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
   }
 
   ItemsPrice copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           int? id,
           String? itemId,
           Value<String?> itemCode = const Value.absent(),
@@ -19117,7 +19126,7 @@ class ItemsPrice extends DataClass implements Insertable<ItemsPrice> {
 }
 
 class ItemsPricesCompanion extends UpdateCompanion<ItemsPrice> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> id;
   final Value<String> itemId;
   final Value<String?> itemCode;
@@ -19194,7 +19203,7 @@ class ItemsPricesCompanion extends UpdateCompanion<ItemsPrice> {
         actualPoints = Value(actualPoints),
         pricingScheduleNo = Value(pricingScheduleNo);
   static Insertable<ItemsPrice> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? id,
     Expression<String>? itemId,
     Expression<String>? itemCode,
@@ -19242,7 +19251,7 @@ class ItemsPricesCompanion extends UpdateCompanion<ItemsPrice> {
   }
 
   ItemsPricesCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<int>? id,
       Value<String>? itemId,
       Value<String?>? itemCode,
@@ -19292,7 +19301,7 @@ class ItemsPricesCompanion extends UpdateCompanion<ItemsPrice> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -19395,9 +19404,9 @@ class $ItemPricingRuleTable extends ItemPricingRule
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -19723,7 +19732,7 @@ class $ItemPricingRuleTable extends ItemPricingRule
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return ItemPricingRuleData(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       priority: attachedDatabase.typeMapping
@@ -19783,7 +19792,7 @@ class $ItemPricingRuleTable extends ItemPricingRule
 
 class ItemPricingRuleData extends DataClass
     implements Insertable<ItemPricingRuleData> {
-  final int? tenantId;
+  final String? tenantId;
   final int id;
   final int priority;
   final String? itemId;
@@ -19838,7 +19847,7 @@ class ItemPricingRuleData extends DataClass
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['id'] = Variable<int>(id);
     map['priority'] = Variable<int>(priority);
@@ -19959,7 +19968,7 @@ class ItemPricingRuleData extends DataClass
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return ItemPricingRuleData(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
       priority: serializer.fromJson<int>(json['priority']),
       itemId: serializer.fromJson<String?>(json['itemId']),
@@ -19991,7 +20000,7 @@ class ItemPricingRuleData extends DataClass
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'id': serializer.toJson<int>(id),
       'priority': serializer.toJson<int>(priority),
       'itemId': serializer.toJson<String?>(itemId),
@@ -20020,7 +20029,7 @@ class ItemPricingRuleData extends DataClass
   }
 
   ItemPricingRuleData copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           int? id,
           int? priority,
           Value<String?> itemId = const Value.absent(),
@@ -20168,7 +20177,7 @@ class ItemPricingRuleData extends DataClass
 }
 
 class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> id;
   final Value<int> priority;
   final Value<String?> itemId;
@@ -20252,7 +20261,7 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
         price = Value(price),
         discountPercentage = Value(discountPercentage);
   static Insertable<ItemPricingRuleData> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? id,
     Expression<int>? priority,
     Expression<String>? itemId,
@@ -20308,7 +20317,7 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
   }
 
   ItemPricingRuleCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<int>? id,
       Value<int>? priority,
       Value<String?>? itemId,
@@ -20366,7 +20375,7 @@ class ItemPricingRuleCompanion extends UpdateCompanion<ItemPricingRuleData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -20485,9 +20494,9 @@ class $CategoresTable extends Categores
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -20554,7 +20563,7 @@ class $CategoresTable extends Categores
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Categore(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       itemId: attachedDatabase.typeMapping
@@ -20573,7 +20582,7 @@ class $CategoresTable extends Categores
 }
 
 class Categore extends DataClass implements Insertable<Categore> {
-  final int? tenantId;
+  final String? tenantId;
   final int id;
   final String? itemId;
   final String? parentCategory;
@@ -20588,7 +20597,7 @@ class Categore extends DataClass implements Insertable<Categore> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['id'] = Variable<int>(id);
     if (!nullToAbsent || itemId != null) {
@@ -20624,7 +20633,7 @@ class Categore extends DataClass implements Insertable<Categore> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Categore(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
       itemId: serializer.fromJson<String?>(json['itemId']),
       parentCategory: serializer.fromJson<String?>(json['parentCategory']),
@@ -20635,7 +20644,7 @@ class Categore extends DataClass implements Insertable<Categore> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'id': serializer.toJson<int>(id),
       'itemId': serializer.toJson<String?>(itemId),
       'parentCategory': serializer.toJson<String?>(parentCategory),
@@ -20644,7 +20653,7 @@ class Categore extends DataClass implements Insertable<Categore> {
   }
 
   Categore copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           int? id,
           Value<String?> itemId = const Value.absent(),
           Value<String?> parentCategory = const Value.absent(),
@@ -20684,7 +20693,7 @@ class Categore extends DataClass implements Insertable<Categore> {
 }
 
 class CategoresCompanion extends UpdateCompanion<Categore> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> id;
   final Value<String?> itemId;
   final Value<String?> parentCategory;
@@ -20704,7 +20713,7 @@ class CategoresCompanion extends UpdateCompanion<Categore> {
     this.category = const Value.absent(),
   });
   static Insertable<Categore> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? id,
     Expression<String>? itemId,
     Expression<String>? parentCategory,
@@ -20720,7 +20729,7 @@ class CategoresCompanion extends UpdateCompanion<Categore> {
   }
 
   CategoresCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<int>? id,
       Value<String?>? itemId,
       Value<String?>? parentCategory,
@@ -20738,7 +20747,7 @@ class CategoresCompanion extends UpdateCompanion<Categore> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -20777,9 +20786,9 @@ class $ItemGroupsTable extends ItemGroups
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -20845,7 +20854,7 @@ class $ItemGroupsTable extends ItemGroups
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return ItemGroup(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       itemId: attachedDatabase.typeMapping
@@ -20864,7 +20873,7 @@ class $ItemGroupsTable extends ItemGroups
 }
 
 class ItemGroup extends DataClass implements Insertable<ItemGroup> {
-  final int? tenantId;
+  final String? tenantId;
   final int id;
   final String? itemId;
   final String? parentGroup;
@@ -20879,7 +20888,7 @@ class ItemGroup extends DataClass implements Insertable<ItemGroup> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['id'] = Variable<int>(id);
     if (!nullToAbsent || itemId != null) {
@@ -20914,7 +20923,7 @@ class ItemGroup extends DataClass implements Insertable<ItemGroup> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return ItemGroup(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
       itemId: serializer.fromJson<String?>(json['itemId']),
       parentGroup: serializer.fromJson<String?>(json['parentGroup']),
@@ -20925,7 +20934,7 @@ class ItemGroup extends DataClass implements Insertable<ItemGroup> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'id': serializer.toJson<int>(id),
       'itemId': serializer.toJson<String?>(itemId),
       'parentGroup': serializer.toJson<String?>(parentGroup),
@@ -20934,7 +20943,7 @@ class ItemGroup extends DataClass implements Insertable<ItemGroup> {
   }
 
   ItemGroup copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           int? id,
           Value<String?> itemId = const Value.absent(),
           Value<String?> parentGroup = const Value.absent(),
@@ -20972,7 +20981,7 @@ class ItemGroup extends DataClass implements Insertable<ItemGroup> {
 }
 
 class ItemGroupsCompanion extends UpdateCompanion<ItemGroup> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> id;
   final Value<String?> itemId;
   final Value<String?> parentGroup;
@@ -20992,7 +21001,7 @@ class ItemGroupsCompanion extends UpdateCompanion<ItemGroup> {
     this.group = const Value.absent(),
   });
   static Insertable<ItemGroup> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? id,
     Expression<String>? itemId,
     Expression<String>? parentGroup,
@@ -21008,7 +21017,7 @@ class ItemGroupsCompanion extends UpdateCompanion<ItemGroup> {
   }
 
   ItemGroupsCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<int>? id,
       Value<String?>? itemId,
       Value<String?>? parentGroup,
@@ -21026,7 +21035,7 @@ class ItemGroupsCompanion extends UpdateCompanion<ItemGroup> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -21065,9 +21074,9 @@ class $PriceListTable extends PriceList
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -21194,7 +21203,7 @@ class $PriceListTable extends PriceList
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return PriceListData(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       priceListName: attachedDatabase.typeMapping.read(
@@ -21220,7 +21229,7 @@ class $PriceListTable extends PriceList
 }
 
 class PriceListData extends DataClass implements Insertable<PriceListData> {
-  final int? tenantId;
+  final String? tenantId;
   final int id;
   final String priceListName;
   final String? currency;
@@ -21241,7 +21250,7 @@ class PriceListData extends DataClass implements Insertable<PriceListData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['id'] = Variable<int>(id);
     map['price_list_name'] = Variable<String>(priceListName);
@@ -21277,7 +21286,7 @@ class PriceListData extends DataClass implements Insertable<PriceListData> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return PriceListData(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
       priceListName: serializer.fromJson<String>(json['priceListName']),
       currency: serializer.fromJson<String?>(json['currency']),
@@ -21292,7 +21301,7 @@ class PriceListData extends DataClass implements Insertable<PriceListData> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'id': serializer.toJson<int>(id),
       'priceListName': serializer.toJson<String>(priceListName),
       'currency': serializer.toJson<String?>(currency),
@@ -21305,7 +21314,7 @@ class PriceListData extends DataClass implements Insertable<PriceListData> {
   }
 
   PriceListData copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           int? id,
           String? priceListName,
           Value<String?> currency = const Value.absent(),
@@ -21357,7 +21366,7 @@ class PriceListData extends DataClass implements Insertable<PriceListData> {
 }
 
 class PriceListCompanion extends UpdateCompanion<PriceListData> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> id;
   final Value<String> priceListName;
   final Value<String?> currency;
@@ -21386,7 +21395,7 @@ class PriceListCompanion extends UpdateCompanion<PriceListData> {
     this.isPriceNotUOMDependency = const Value.absent(),
   }) : priceListName = Value(priceListName);
   static Insertable<PriceListData> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? id,
     Expression<String>? priceListName,
     Expression<String>? currency,
@@ -21409,7 +21418,7 @@ class PriceListCompanion extends UpdateCompanion<PriceListData> {
   }
 
   PriceListCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<int>? id,
       Value<String>? priceListName,
       Value<String?>? currency,
@@ -21434,7 +21443,7 @@ class PriceListCompanion extends UpdateCompanion<PriceListData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -21486,9 +21495,9 @@ class $UnitOfMeasureTable extends UnitOfMeasure
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -21532,7 +21541,7 @@ class $UnitOfMeasureTable extends UnitOfMeasure
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return UnitOfMeasureData(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       uom: attachedDatabase.typeMapping
@@ -21548,7 +21557,7 @@ class $UnitOfMeasureTable extends UnitOfMeasure
 
 class UnitOfMeasureData extends DataClass
     implements Insertable<UnitOfMeasureData> {
-  final int? tenantId;
+  final String? tenantId;
   final int id;
   final String? uom;
   const UnitOfMeasureData({this.tenantId, required this.id, this.uom});
@@ -21556,7 +21565,7 @@ class UnitOfMeasureData extends DataClass
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['id'] = Variable<int>(id);
     if (!nullToAbsent || uom != null) {
@@ -21579,7 +21588,7 @@ class UnitOfMeasureData extends DataClass
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return UnitOfMeasureData(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
       uom: serializer.fromJson<String?>(json['uom']),
     );
@@ -21588,14 +21597,14 @@ class UnitOfMeasureData extends DataClass
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'id': serializer.toJson<int>(id),
       'uom': serializer.toJson<String?>(uom),
     };
   }
 
   UnitOfMeasureData copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           int? id,
           Value<String?> uom = const Value.absent()}) =>
       UnitOfMeasureData(
@@ -21625,7 +21634,7 @@ class UnitOfMeasureData extends DataClass
 }
 
 class UnitOfMeasureCompanion extends UpdateCompanion<UnitOfMeasureData> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> id;
   final Value<String?> uom;
   const UnitOfMeasureCompanion({
@@ -21639,7 +21648,7 @@ class UnitOfMeasureCompanion extends UpdateCompanion<UnitOfMeasureData> {
     this.uom = const Value.absent(),
   });
   static Insertable<UnitOfMeasureData> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? id,
     Expression<String>? uom,
   }) {
@@ -21651,7 +21660,7 @@ class UnitOfMeasureCompanion extends UpdateCompanion<UnitOfMeasureData> {
   }
 
   UnitOfMeasureCompanion copyWith(
-      {Value<int?>? tenantId, Value<int>? id, Value<String?>? uom}) {
+      {Value<String?>? tenantId, Value<int>? id, Value<String?>? uom}) {
     return UnitOfMeasureCompanion(
       tenantId: tenantId ?? this.tenantId,
       id: id ?? this.id,
@@ -21663,7 +21672,7 @@ class UnitOfMeasureCompanion extends UpdateCompanion<UnitOfMeasureData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -21694,9 +21703,9 @@ class $StockUnitOfMeasureTable extends StockUnitOfMeasure
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -21874,7 +21883,7 @@ class $StockUnitOfMeasureTable extends StockUnitOfMeasure
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return StockUnitOfMeasureData(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       itemId: attachedDatabase.typeMapping
@@ -21910,7 +21919,7 @@ class $StockUnitOfMeasureTable extends StockUnitOfMeasure
 
 class StockUnitOfMeasureData extends DataClass
     implements Insertable<StockUnitOfMeasureData> {
-  final int? tenantId;
+  final String? tenantId;
   final int id;
   final String? itemId;
   final String? uom;
@@ -21941,7 +21950,7 @@ class StockUnitOfMeasureData extends DataClass
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['id'] = Variable<int>(id);
     if (!nullToAbsent || itemId != null) {
@@ -22019,7 +22028,7 @@ class StockUnitOfMeasureData extends DataClass
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return StockUnitOfMeasureData(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
       itemId: serializer.fromJson<String?>(json['itemId']),
       uom: serializer.fromJson<String?>(json['uom']),
@@ -22038,7 +22047,7 @@ class StockUnitOfMeasureData extends DataClass
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'id': serializer.toJson<int>(id),
       'itemId': serializer.toJson<String?>(itemId),
       'uom': serializer.toJson<String?>(uom),
@@ -22055,7 +22064,7 @@ class StockUnitOfMeasureData extends DataClass
   }
 
   StockUnitOfMeasureData copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           int? id,
           Value<String?> itemId = const Value.absent(),
           Value<String?> uom = const Value.absent(),
@@ -22147,7 +22156,7 @@ class StockUnitOfMeasureData extends DataClass
 
 class StockUnitOfMeasureCompanion
     extends UpdateCompanion<StockUnitOfMeasureData> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> id;
   final Value<String?> itemId;
   final Value<String?> uom;
@@ -22191,7 +22200,7 @@ class StockUnitOfMeasureCompanion
     this.lastModifierUserId = const Value.absent(),
   });
   static Insertable<StockUnitOfMeasureData> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? id,
     Expression<String>? itemId,
     Expression<String>? uom,
@@ -22224,7 +22233,7 @@ class StockUnitOfMeasureCompanion
   }
 
   StockUnitOfMeasureCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<int>? id,
       Value<String?>? itemId,
       Value<String?>? uom,
@@ -22258,7 +22267,7 @@ class StockUnitOfMeasureCompanion
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -22329,9 +22338,9 @@ class $JourneyPlanTable extends JourneyPlan
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -22622,7 +22631,7 @@ class $JourneyPlanTable extends JourneyPlan
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return JourneyPlanData(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       customerId: attachedDatabase.typeMapping
@@ -22673,7 +22682,7 @@ class $JourneyPlanTable extends JourneyPlan
 }
 
 class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
-  final int? tenantId;
+  final String? tenantId;
   final int id;
   final String customerId;
   final String customerName;
@@ -22720,7 +22729,7 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['id'] = Variable<int>(id);
     map['customer_id'] = Variable<String>(customerId);
@@ -22825,7 +22834,7 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return JourneyPlanData(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
       customerId: serializer.fromJson<String>(json['customerId']),
       customerName: serializer.fromJson<String>(json['customerName']),
@@ -22855,7 +22864,7 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'id': serializer.toJson<int>(id),
       'customerId': serializer.toJson<String>(customerId),
       'customerName': serializer.toJson<String>(customerName),
@@ -22880,7 +22889,7 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
   }
 
   JourneyPlanData copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           int? id,
           String? customerId,
           String? customerName,
@@ -23012,7 +23021,7 @@ class JourneyPlanData extends DataClass implements Insertable<JourneyPlanData> {
 }
 
 class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> id;
   final Value<String> customerId;
   final Value<String> customerName;
@@ -23085,7 +23094,7 @@ class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
         customerGroup = Value(customerGroup),
         customerTerritory = Value(customerTerritory);
   static Insertable<JourneyPlanData> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? id,
     Expression<String>? customerId,
     Expression<String>? customerName,
@@ -23135,7 +23144,7 @@ class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
   }
 
   JourneyPlanCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<int>? id,
       Value<String>? customerId,
       Value<String>? customerName,
@@ -23185,7 +23194,7 @@ class JourneyPlanCompanion extends UpdateCompanion<JourneyPlanData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -23288,9 +23297,9 @@ class $UPCCodeTable extends UPCCode with TableInfo<$UPCCodeTable, UPCCodeData> {
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -23355,7 +23364,7 @@ class $UPCCodeTable extends UPCCode with TableInfo<$UPCCodeTable, UPCCodeData> {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return UPCCodeData(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       upcCode: attachedDatabase.typeMapping
@@ -23374,7 +23383,7 @@ class $UPCCodeTable extends UPCCode with TableInfo<$UPCCodeTable, UPCCodeData> {
 }
 
 class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
-  final int? tenantId;
+  final String? tenantId;
   final int id;
   final String? upcCode;
   final String? codeType;
@@ -23389,7 +23398,7 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['id'] = Variable<int>(id);
     if (!nullToAbsent || upcCode != null) {
@@ -23425,7 +23434,7 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return UPCCodeData(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
       upcCode: serializer.fromJson<String?>(json['upcCode']),
       codeType: serializer.fromJson<String?>(json['codeType']),
@@ -23436,7 +23445,7 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'id': serializer.toJson<int>(id),
       'upcCode': serializer.toJson<String?>(upcCode),
       'codeType': serializer.toJson<String?>(codeType),
@@ -23445,7 +23454,7 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
   }
 
   UPCCodeData copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           int? id,
           Value<String?> upcCode = const Value.absent(),
           Value<String?> codeType = const Value.absent(),
@@ -23483,7 +23492,7 @@ class UPCCodeData extends DataClass implements Insertable<UPCCodeData> {
 }
 
 class UPCCodeCompanion extends UpdateCompanion<UPCCodeData> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> id;
   final Value<String?> upcCode;
   final Value<String?> codeType;
@@ -23503,7 +23512,7 @@ class UPCCodeCompanion extends UpdateCompanion<UPCCodeData> {
     this.itemId = const Value.absent(),
   });
   static Insertable<UPCCodeData> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? id,
     Expression<String>? upcCode,
     Expression<String>? codeType,
@@ -23519,7 +23528,7 @@ class UPCCodeCompanion extends UpdateCompanion<UPCCodeData> {
   }
 
   UPCCodeCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<int>? id,
       Value<String?>? upcCode,
       Value<String?>? codeType,
@@ -23537,7 +23546,7 @@ class UPCCodeCompanion extends UpdateCompanion<UPCCodeData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -23576,9 +23585,9 @@ class $InventoryItemsTable extends InventoryItems
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -23766,7 +23775,7 @@ class $InventoryItemsTable extends InventoryItems
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return InventoryItem(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       itemCode: attachedDatabase.typeMapping
@@ -23804,7 +23813,7 @@ class $InventoryItemsTable extends InventoryItems
 }
 
 class InventoryItem extends DataClass implements Insertable<InventoryItem> {
-  final int? tenantId;
+  final String? tenantId;
   final int id;
   final String? itemCode;
   final String? itemName;
@@ -23835,7 +23844,7 @@ class InventoryItem extends DataClass implements Insertable<InventoryItem> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['id'] = Variable<int>(id);
     if (!nullToAbsent || itemCode != null) {
@@ -23890,7 +23899,7 @@ class InventoryItem extends DataClass implements Insertable<InventoryItem> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return InventoryItem(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
       itemCode: serializer.fromJson<String?>(json['itemCode']),
       itemName: serializer.fromJson<String?>(json['itemName']),
@@ -23912,7 +23921,7 @@ class InventoryItem extends DataClass implements Insertable<InventoryItem> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'id': serializer.toJson<int>(id),
       'itemCode': serializer.toJson<String?>(itemCode),
       'itemName': serializer.toJson<String?>(itemName),
@@ -23929,7 +23938,7 @@ class InventoryItem extends DataClass implements Insertable<InventoryItem> {
   }
 
   InventoryItem copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           int? id,
           Value<String?> itemCode = const Value.absent(),
           Value<String?> itemName = const Value.absent(),
@@ -24015,7 +24024,7 @@ class InventoryItem extends DataClass implements Insertable<InventoryItem> {
 }
 
 class InventoryItemsCompanion extends UpdateCompanion<InventoryItem> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> id;
   final Value<String?> itemCode;
   final Value<String?> itemName;
@@ -24065,7 +24074,7 @@ class InventoryItemsCompanion extends UpdateCompanion<InventoryItem> {
         quantityCount = Value(quantityCount),
         inventoryCycleNumber = Value(inventoryCycleNumber);
   static Insertable<InventoryItem> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? id,
     Expression<String>? itemCode,
     Expression<String>? itemName,
@@ -24100,7 +24109,7 @@ class InventoryItemsCompanion extends UpdateCompanion<InventoryItem> {
   }
 
   InventoryItemsCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<int>? id,
       Value<String?>? itemCode,
       Value<String?>? itemName,
@@ -24135,7 +24144,7 @@ class InventoryItemsCompanion extends UpdateCompanion<InventoryItem> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -24209,9 +24218,9 @@ class $InventoryTransactionTable extends InventoryTransaction
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -24478,7 +24487,7 @@ class $InventoryTransactionTable extends InventoryTransaction
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return InventoryTransactionData(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       itemCode: attachedDatabase.typeMapping
@@ -24529,7 +24538,7 @@ class $InventoryTransactionTable extends InventoryTransaction
 
 class InventoryTransactionData extends DataClass
     implements Insertable<InventoryTransactionData> {
-  final int? tenantId;
+  final String? tenantId;
   final int id;
   final String? itemCode;
   final String? itemName;
@@ -24574,7 +24583,7 @@ class InventoryTransactionData extends DataClass
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['id'] = Variable<int>(id);
     if (!nullToAbsent || itemCode != null) {
@@ -24680,7 +24689,7 @@ class InventoryTransactionData extends DataClass
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return InventoryTransactionData(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
       itemCode: serializer.fromJson<String?>(json['itemCode']),
       itemName: serializer.fromJson<String?>(json['itemName']),
@@ -24708,7 +24717,7 @@ class InventoryTransactionData extends DataClass
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'id': serializer.toJson<int>(id),
       'itemCode': serializer.toJson<String?>(itemCode),
       'itemName': serializer.toJson<String?>(itemName),
@@ -24732,7 +24741,7 @@ class InventoryTransactionData extends DataClass
   }
 
   InventoryTransactionData copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           int? id,
           Value<String?> itemCode = const Value.absent(),
           Value<String?> itemName = const Value.absent(),
@@ -24857,7 +24866,7 @@ class InventoryTransactionData extends DataClass
 
 class InventoryTransactionCompanion
     extends UpdateCompanion<InventoryTransactionData> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> id;
   final Value<String?> itemCode;
   final Value<String?> itemName;
@@ -24926,7 +24935,7 @@ class InventoryTransactionCompanion
         costPrice = Value(costPrice),
         itemPrice = Value(itemPrice);
   static Insertable<InventoryTransactionData> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? id,
     Expression<String>? itemCode,
     Expression<String>? itemName,
@@ -24973,7 +24982,7 @@ class InventoryTransactionCompanion
   }
 
   InventoryTransactionCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<int>? id,
       Value<String?>? itemCode,
       Value<String?>? itemName,
@@ -25021,7 +25030,7 @@ class InventoryTransactionCompanion
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -25121,9 +25130,9 @@ class $MoneyDepositTable extends MoneyDeposit
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -25353,7 +25362,7 @@ class $MoneyDepositTable extends MoneyDeposit
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return MoneyDepositData(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       clockInDaySessionId: attachedDatabase.typeMapping.read(
@@ -25401,7 +25410,7 @@ class $MoneyDepositTable extends MoneyDeposit
 
 class MoneyDepositData extends DataClass
     implements Insertable<MoneyDepositData> {
-  final int? tenantId;
+  final String? tenantId;
   final int id;
   final String? clockInDaySessionId;
   final String? clockOutDaySessionId;
@@ -25442,7 +25451,7 @@ class MoneyDepositData extends DataClass
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['id'] = Variable<int>(id);
     if (!nullToAbsent || clockInDaySessionId != null) {
@@ -25554,7 +25563,7 @@ class MoneyDepositData extends DataClass
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return MoneyDepositData(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
       clockInDaySessionId:
           serializer.fromJson<String?>(json['clockInDaySessionId']),
@@ -25581,7 +25590,7 @@ class MoneyDepositData extends DataClass
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'id': serializer.toJson<int>(id),
       'clockInDaySessionId': serializer.toJson<String?>(clockInDaySessionId),
       'clockOutDaySessionId': serializer.toJson<String?>(clockOutDaySessionId),
@@ -25603,7 +25612,7 @@ class MoneyDepositData extends DataClass
   }
 
   MoneyDepositData copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           int? id,
           Value<String?> clockInDaySessionId = const Value.absent(),
           Value<String?> clockOutDaySessionId = const Value.absent(),
@@ -25721,7 +25730,7 @@ class MoneyDepositData extends DataClass
 }
 
 class MoneyDepositCompanion extends UpdateCompanion<MoneyDepositData> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> id;
   final Value<String?> clockInDaySessionId;
   final Value<String?> clockOutDaySessionId;
@@ -25783,7 +25792,7 @@ class MoneyDepositCompanion extends UpdateCompanion<MoneyDepositData> {
     this.rowid = const Value.absent(),
   }) : id = Value(id);
   static Insertable<MoneyDepositData> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? id,
     Expression<String>? clockInDaySessionId,
     Expression<String>? clockOutDaySessionId,
@@ -25829,7 +25838,7 @@ class MoneyDepositCompanion extends UpdateCompanion<MoneyDepositData> {
   }
 
   MoneyDepositCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<int>? id,
       Value<String?>? clockInDaySessionId,
       Value<String?>? clockOutDaySessionId,
@@ -25875,7 +25884,7 @@ class MoneyDepositCompanion extends UpdateCompanion<MoneyDepositData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -25971,9 +25980,9 @@ class $ClockInTable extends ClockIn with TableInfo<$ClockInTable, ClockInData> {
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -26296,7 +26305,7 @@ class $ClockInTable extends ClockIn with TableInfo<$ClockInTable, ClockInData> {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return ClockInData(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       clockInDaySessionId: attachedDatabase.typeMapping.read(
@@ -26358,7 +26367,7 @@ class $ClockInTable extends ClockIn with TableInfo<$ClockInTable, ClockInData> {
 }
 
 class ClockInData extends DataClass implements Insertable<ClockInData> {
-  final int? tenantId;
+  final String? tenantId;
   final int id;
   final String? clockInDaySessionId;
   final String? clockOutDaySessionId;
@@ -26413,7 +26422,7 @@ class ClockInData extends DataClass implements Insertable<ClockInData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['id'] = Variable<int>(id);
     if (!nullToAbsent || clockInDaySessionId != null) {
@@ -26570,7 +26579,7 @@ class ClockInData extends DataClass implements Insertable<ClockInData> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return ClockInData(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
       clockInDaySessionId:
           serializer.fromJson<String?>(json['clockInDaySessionId']),
@@ -26604,7 +26613,7 @@ class ClockInData extends DataClass implements Insertable<ClockInData> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'id': serializer.toJson<int>(id),
       'clockInDaySessionId': serializer.toJson<String?>(clockInDaySessionId),
       'clockOutDaySessionId': serializer.toJson<String?>(clockOutDaySessionId),
@@ -26634,7 +26643,7 @@ class ClockInData extends DataClass implements Insertable<ClockInData> {
   }
 
   ClockInData copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           int? id,
           Value<String?> clockInDaySessionId = const Value.absent(),
           Value<String?> clockOutDaySessionId = const Value.absent(),
@@ -26793,7 +26802,7 @@ class ClockInData extends DataClass implements Insertable<ClockInData> {
 }
 
 class ClockInCompanion extends UpdateCompanion<ClockInData> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> id;
   final Value<String?> clockInDaySessionId;
   final Value<String?> clockOutDaySessionId;
@@ -26873,7 +26882,7 @@ class ClockInCompanion extends UpdateCompanion<ClockInData> {
     this.creditSales = const Value.absent(),
   });
   static Insertable<ClockInData> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? id,
     Expression<String>? clockInDaySessionId,
     Expression<String>? clockOutDaySessionId,
@@ -26932,7 +26941,7 @@ class ClockInCompanion extends UpdateCompanion<ClockInData> {
   }
 
   ClockInCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<int>? id,
       Value<String?>? clockInDaySessionId,
       Value<String?>? clockOutDaySessionId,
@@ -26991,7 +27000,7 @@ class ClockInCompanion extends UpdateCompanion<ClockInData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -27113,9 +27122,9 @@ class $SystemCurrencyTable extends SystemCurrency
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -27264,7 +27273,7 @@ class $SystemCurrencyTable extends SystemCurrency
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return SystemCurrencyData(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       currencyName: attachedDatabase.typeMapping
@@ -27295,7 +27304,7 @@ class $SystemCurrencyTable extends SystemCurrency
 
 class SystemCurrencyData extends DataClass
     implements Insertable<SystemCurrencyData> {
-  final int? tenantId;
+  final String? tenantId;
   final int id;
   final String? currencyName;
   final String? fraction;
@@ -27320,7 +27329,7 @@ class SystemCurrencyData extends DataClass
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['id'] = Variable<int>(id);
     if (!nullToAbsent || currencyName != null) {
@@ -27376,7 +27385,7 @@ class SystemCurrencyData extends DataClass
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return SystemCurrencyData(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
       currencyName: serializer.fromJson<String?>(json['currencyName']),
       fraction: serializer.fromJson<String?>(json['fraction']),
@@ -27393,7 +27402,7 @@ class SystemCurrencyData extends DataClass
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'id': serializer.toJson<int>(id),
       'currencyName': serializer.toJson<String?>(currencyName),
       'fraction': serializer.toJson<String?>(fraction),
@@ -27408,7 +27417,7 @@ class SystemCurrencyData extends DataClass
   }
 
   SystemCurrencyData copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           int? id,
           Value<String?> currencyName = const Value.absent(),
           Value<String?> fraction = const Value.absent(),
@@ -27482,7 +27491,7 @@ class SystemCurrencyData extends DataClass
 }
 
 class SystemCurrencyCompanion extends UpdateCompanion<SystemCurrencyData> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> id;
   final Value<String?> currencyName;
   final Value<String?> fraction;
@@ -27517,7 +27526,7 @@ class SystemCurrencyCompanion extends UpdateCompanion<SystemCurrencyData> {
     this.isDeleted = const Value.absent(),
   }) : effectiveDate = Value(effectiveDate);
   static Insertable<SystemCurrencyData> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? id,
     Expression<String>? currencyName,
     Expression<String>? fraction,
@@ -27544,7 +27553,7 @@ class SystemCurrencyCompanion extends UpdateCompanion<SystemCurrencyData> {
   }
 
   SystemCurrencyCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<int>? id,
       Value<String?>? currencyName,
       Value<String?>? fraction,
@@ -27573,7 +27582,7 @@ class SystemCurrencyCompanion extends UpdateCompanion<SystemCurrencyData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
@@ -27634,9 +27643,9 @@ class $ExchangeRateTable extends ExchangeRate
   static const VerificationMeta _tenantIdMeta =
       const VerificationMeta('tenantId');
   @override
-  late final GeneratedColumn<int> tenantId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
       'tenant_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -27762,7 +27771,7 @@ class $ExchangeRateTable extends ExchangeRate
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return ExchangeRateData(
       tenantId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tenant_id']),
+          .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       toCurrency: attachedDatabase.typeMapping
@@ -27788,7 +27797,7 @@ class $ExchangeRateTable extends ExchangeRate
 
 class ExchangeRateData extends DataClass
     implements Insertable<ExchangeRateData> {
-  final int? tenantId;
+  final String? tenantId;
   final int id;
   final String? toCurrency;
   final String? fromCurrency;
@@ -27809,7 +27818,7 @@ class ExchangeRateData extends DataClass
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || tenantId != null) {
-      map['tenant_id'] = Variable<int>(tenantId);
+      map['tenant_id'] = Variable<String>(tenantId);
     }
     map['id'] = Variable<int>(id);
     if (!nullToAbsent || toCurrency != null) {
@@ -27852,7 +27861,7 @@ class ExchangeRateData extends DataClass
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return ExchangeRateData(
-      tenantId: serializer.fromJson<int?>(json['tenantId']),
+      tenantId: serializer.fromJson<String?>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
       toCurrency: serializer.fromJson<String?>(json['toCurrency']),
       fromCurrency: serializer.fromJson<String?>(json['fromCurrency']),
@@ -27866,7 +27875,7 @@ class ExchangeRateData extends DataClass
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'tenantId': serializer.toJson<int?>(tenantId),
+      'tenantId': serializer.toJson<String?>(tenantId),
       'id': serializer.toJson<int>(id),
       'toCurrency': serializer.toJson<String?>(toCurrency),
       'fromCurrency': serializer.toJson<String?>(fromCurrency),
@@ -27878,7 +27887,7 @@ class ExchangeRateData extends DataClass
   }
 
   ExchangeRateData copyWith(
-          {Value<int?> tenantId = const Value.absent(),
+          {Value<String?> tenantId = const Value.absent(),
           int? id,
           Value<String?> toCurrency = const Value.absent(),
           Value<String?> fromCurrency = const Value.absent(),
@@ -27931,7 +27940,7 @@ class ExchangeRateData extends DataClass
 }
 
 class ExchangeRateCompanion extends UpdateCompanion<ExchangeRateData> {
-  final Value<int?> tenantId;
+  final Value<String?> tenantId;
   final Value<int> id;
   final Value<String?> toCurrency;
   final Value<String?> fromCurrency;
@@ -27960,7 +27969,7 @@ class ExchangeRateCompanion extends UpdateCompanion<ExchangeRateData> {
     this.isDeleted = const Value.absent(),
   }) : effectiveDate = Value(effectiveDate);
   static Insertable<ExchangeRateData> custom({
-    Expression<int>? tenantId,
+    Expression<String>? tenantId,
     Expression<int>? id,
     Expression<String>? toCurrency,
     Expression<String>? fromCurrency,
@@ -27982,7 +27991,7 @@ class ExchangeRateCompanion extends UpdateCompanion<ExchangeRateData> {
   }
 
   ExchangeRateCompanion copyWith(
-      {Value<int?>? tenantId,
+      {Value<String?>? tenantId,
       Value<int>? id,
       Value<String?>? toCurrency,
       Value<String?>? fromCurrency,
@@ -28006,7 +28015,7 @@ class ExchangeRateCompanion extends UpdateCompanion<ExchangeRateData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (tenantId.present) {
-      map['tenant_id'] = Variable<int>(tenantId.value);
+      map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (id.present) {
       map['id'] = Variable<int>(id.value);

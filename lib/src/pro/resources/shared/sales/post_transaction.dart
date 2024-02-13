@@ -60,7 +60,7 @@ class PostTransaction {
       String? orderType,
       String? userName,
       int? userId,
-      int? tenantId,
+      String? tenantId,
       String? soldTo,
       String? billingAddressName,
       String? shippingAddressName,
@@ -180,7 +180,7 @@ class PostTransaction {
             await numberGenerator.getSerialNumber(transactionType, lastInvoice.length, sn.single.endingLength!);
 
             var tempNumber = new TempNumberLogsCompanion(
-                tenantId: moor.Value(0),
+                tenantId: moor.Value('0'),
                 nextSeriesNumber: moor.Value(numberGenerator.toString()),
                 lastSeriesNumber: moor.Value(transactionNumber),
                 lastUsageDate: moor.Value(DateTime.now()),
@@ -195,7 +195,7 @@ class PostTransaction {
             await numberGenerator.getSerialNumber(transactionType, 0, sn.single.endingLength!);
 
             var tempNumber = new TempNumberLogsCompanion(
-                tenantId: moor.Value(0),
+                tenantId: moor.Value('0'),
                 nextSeriesNumber: moor.Value(numberGenerator.toString()),
                 lastSeriesNumber: moor.Value(transactionNumber),
                 lastUsageDate: moor.Value(DateTime.now()),

@@ -32,7 +32,7 @@ class AppStarted extends AuthenticationEvent {}
 class LoggedIn extends AuthenticationEvent {
   final String token;
   final int userId;
-  final int tenantId;
+  final String tenantId;
 
   const LoggedIn({required this.token, required this.userId, required this.tenantId});
 
@@ -45,7 +45,7 @@ class LoggedIn extends AuthenticationEvent {
 
 class OfflineLoginButtonPressed extends AuthenticationEvent {
   final String password;
-  final int tenantId;
+  final String tenantId;
   final int userId;
   late UserRepository userRepository;
 

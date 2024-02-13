@@ -20,5 +20,5 @@
 import 'package:drift/drift.dart';
 
 mixin MustHaveTenant implements Table {
-  IntColumn get tenantId => integer()();
+  TextColumn get tenantId => text().nullable()();
 }

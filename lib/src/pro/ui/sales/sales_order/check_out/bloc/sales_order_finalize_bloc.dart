@@ -61,7 +61,7 @@ class SalesOrderFinalizeBloc extends Bloc<SalesOrderFinalizeEvent, SalesOrderFin
         daySessionNumber: await tempSerialNumberReader.getTempNumber(typeOfNumber: 'Clock In'),
         billingAddressName: event.billingAddressName,
         purchaseOrderNo: event.purchaseOrderNo,
-        tenantId: int.parse(shredPrefData['tenantId']),
+        tenantId:  shredPrefData['tenantId'],
         customerId: addItemBloc.customerId,
         shippingAddressName: event.shippingAddressName,
         currencyCode: event.currencyCode,

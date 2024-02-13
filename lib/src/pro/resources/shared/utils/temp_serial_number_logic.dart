@@ -24,7 +24,7 @@ class TempSerialNumberReader {
   }
 
   Future setTempNumber(
-      String typeOfNumber, String transactionNumber, DateTime lastUsed, String userName, int tenantId, String numberGenerator) async {
+      String typeOfNumber, String transactionNumber, DateTime lastUsed, String userName, String tenantId, String numberGenerator) async {
     var tempNumber = new TempNumberLogsCompanion(
         tenantId: moor.Value(tenantId),
         nextSeriesNumber: moor.Value(numberGenerator.toString()),

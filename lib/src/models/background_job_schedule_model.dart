@@ -27,7 +27,7 @@ class BackgroundJobSchedule extends Table {
   BoolColumn get enableJob => boolean().withDefault(Constant(false))();
   DateTimeColumn get lastRun => dateTime()();
   TextColumn get jobStatus => text()();
-  IntColumn get tenantId => integer().nullable()();
+  TextColumn get tenantId => text().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};

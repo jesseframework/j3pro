@@ -50,7 +50,7 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
     _onLoginButtonPressed() async {
       formKey.currentState!.validate();
       int? _userId = int.tryParse(mappref['userId'].toString());
-      int? _tenantId = int.tryParse(mappref['tenantid'].toString());
+      String? _tenantId = mappref['tenantid'] ;
 
       mappref = await userRepository.getPreferenceData() as Map<String, String>;
       BlocProvider.of<AuthenticationBloc>(context)
