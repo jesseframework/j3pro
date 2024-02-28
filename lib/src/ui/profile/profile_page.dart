@@ -64,7 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final data = await UserSharedData().getUserSharedPref();
     tenantName = data['tenantName'];
     if (data['userId'] != null) {
-      final profileData = await widget.userDao.getSingleUser(int.tryParse(data['userId'])!);
+      final profileData = await widget.userDao.getSingleUser( data['userId']!);
       return profileData;
     }
     return null;

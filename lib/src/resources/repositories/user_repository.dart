@@ -43,12 +43,12 @@ class UserRepository {
   //   });
   // }
 
-  Future<Response> getUser({required int userID}) async {
+  Future<Response> getUser({required String userID}) async {
     return await api.getUser(userID);
   }
 
   Future<Response> putUserHash({
-    required int userId,
+    required String userId,
     required String mobileHashCode,
     required String tenantId,
   }) async {
@@ -67,7 +67,7 @@ class UserRepository {
     return;
   }
 
-  Future<void> persistToken(String token, int userId, String tenantId) async {
+  Future<void> persistToken(String token, String userId, String tenantId) async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     await _prefs.setString("access_token", token);
     await _prefs.setString("userId", userId.toString());

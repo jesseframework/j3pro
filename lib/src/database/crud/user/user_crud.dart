@@ -32,11 +32,11 @@ class UserDao extends DatabaseAccessor<MyDatabase> with _$UserDaoMixin {
     return (select(db.users)..where((u) => u.id.equals(id))).getSingleOrNull();
   }
 
-  Stream<User?> watchSingleUser(int? id) {
+  Stream<User?> watchSingleUser(String? id) {
     return (select(db.users)..where((u) => u.id.equals(id!))).watchSingleOrNull();
   }
 
-  Future<User> getSingleByName(int id) {
+  Future<User> getSingleByName(String id) {
     return (select(db.users)..where((u) => u.id.equals(id))).getSingle();
   }
 
@@ -52,7 +52,7 @@ class UserDao extends DatabaseAccessor<MyDatabase> with _$UserDaoMixin {
     return (update(db.users).replace(user));
   }
 
-  Future updateUser(UsersCompanion u, int id) {
+  Future updateUser(UsersCompanion u, String id) {
     return (update(db.users)..where((t) => t.id.equals(id))).write(
       UsersCompanion(
         fullName: u.fullName,
@@ -68,7 +68,7 @@ class UserDao extends DatabaseAccessor<MyDatabase> with _$UserDaoMixin {
     );
   }
 
-  Future saveMobileHash(UsersCompanion u, int id) {
+  Future saveMobileHash(UsersCompanion u, String id) {
     return (update(db.users)..where((t) => t.id.equals(id))).write(
       UsersCompanion(
         mobileHash: u.mobileHash,

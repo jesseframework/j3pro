@@ -39,7 +39,7 @@ class UserHash {
     userDao = UserDao(db);
   }
 
-  Future<String> createHash(String password, String tenantId, int userId) async {
+  Future<String> createHash(String password, String tenantId, String userId) async {
     List<List<int>> bytesChunks = [utf8.encode(password), utf8.encode(userId.toString()), utf8.encode(tenantId.toString())];
 
     var output = new AccumulatorSink<Digest>();
@@ -71,7 +71,7 @@ class UserHashSave {
     userDao = UserDao(db);
     userHash = new UserHash(userRepository: userRepository);
   }
-  Future<void> saveHash(String password, String tenantId, int userId) async {
+  Future<void> saveHash(String password, String tenantId, String userId) async {
     String _result = await userHash.createHash(password, tenantId, userId);
     print('MyKey ' + _result.toString());
     var formData = UsersCompanion(mobileHash: moor.Value(_result.toString()));

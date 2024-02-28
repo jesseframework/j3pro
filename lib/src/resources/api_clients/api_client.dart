@@ -36,11 +36,9 @@ class ApiClient {
     final oauthChopper = OAuthChopper(authorizationEndpoint: authorizationEndpoint, identifier: identifier, secret: '');
 
     /// Add the oauth authenticator and interceptor to the chopper client.
-      chopper = ChopperClient(
+    chopper = ChopperClient(
         baseUrl: Uri.parse('https://uat-auth.quickstoreapp.com:10442/connect/token'),
         services: [RestApiService.create()],
-        client: await oauth2.resourceOwnerPasswordGrant(Uri.parse('https://uat-auth.quickstoreapp.com:10442/connect/token'), 'admin', 'P@88w0rd',
-            scopes: ['QuickStore'], identifier: 'QuickStore_App', secret: ''),
         interceptors: [
           HeadersInterceptor({'content-type': 'application/json', 'Accept': 'application/json'}),
           (Response response) async {
@@ -74,8 +72,7 @@ class ApiClient {
     ///
     ///
     ///
-     
-   
+
     return chopper;
   }
 }

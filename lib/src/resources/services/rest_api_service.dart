@@ -31,7 +31,7 @@ abstract class RestApiService extends ChopperService {
   Future<Response> isTenantAvailable(@Path() String tenantName);
 
   @Get(path: '/identity/users/by-email')
-  Future<Response> getUser(@Query() int id);
+  Future<Response> getUser(@Query() String id);
 
   @Put(path: '/services/app/User/UpdateMobileHash')
   Future<Response> updateUserHash(@Body() Map<String, dynamic> body);

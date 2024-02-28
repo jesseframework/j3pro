@@ -21,7 +21,7 @@ import 'package:j3enterprise/src/resources/shared/extension/must_have_tenant.dar
 import 'package:drift/drift.dart';
 
 class Users extends Table implements MustHaveTenant {
-  IntColumn get id => integer()();
+  TextColumn get id => text()();
   TextColumn get userName => text().withLength(min: 1, max: 100)();
   TextColumn get name => text().withLength(min: 1, max: 300)();
   TextColumn get surname => text().withLength(min: 1, max: 150)();

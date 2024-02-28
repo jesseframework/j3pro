@@ -52,12 +52,12 @@ class _HomePageState extends State<HomePage> {
   //final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   int code = 0xe8b8;
   String image = 'images/beach-background.jpg';
-  int userId=1;
+  String userId='1';
   @override
   void didChangeDependencies() async {
     await getIt<UserRepository>().getUserSharedPref().then((value) {
       setState(() {
-        userId = int.parse(value['userId']);
+        userId =  value['userId'];
       });
     });
     super.didChangeDependencies();

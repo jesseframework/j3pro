@@ -163,7 +163,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             await tenantDao.createOrUpdate(tenantData);
 
             _log.finest('Moveing to authenticationBloc');
-            authenticationBloc.add(LoggedIn(token: client.credentials.accessToken, userId: 0, tenantId:  tenantId));
+            authenticationBloc.add(LoggedIn(token: client.credentials.accessToken, userId: '1', tenantId:  tenantId));
 
             emit(LoginInitial(tenantName: ''));
           } else {

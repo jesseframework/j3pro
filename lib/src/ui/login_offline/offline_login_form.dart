@@ -49,7 +49,7 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
   Widget build(BuildContext context) {
     _onLoginButtonPressed() async {
       formKey.currentState!.validate();
-      int? _userId = int.tryParse(mappref['userId'].toString());
+      String? _userId =  mappref['userId'] !;
       String? _tenantId = mappref['tenantid'] ;
 
       mappref = await userRepository.getPreferenceData() as Map<String, String>;

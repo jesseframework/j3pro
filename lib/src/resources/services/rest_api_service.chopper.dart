@@ -30,7 +30,7 @@ final class _$RestApiService extends RestApiService {
   }
 
   @override
-  Future<Response<dynamic>> getUser(int id) {
+  Future<Response<dynamic>> getUser(String id) {
     final Uri $url = Uri.parse('/api/identity/users/by-email');
     final Map<String, dynamic> $params = <String, dynamic>{'id': id};
     final Request $request = Request(

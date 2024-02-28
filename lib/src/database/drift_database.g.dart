@@ -16,9 +16,9 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
       type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
       'id', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _userNameMeta =
       const VerificationMeta('userName');
   @override
@@ -153,6 +153,8 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
     }
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
     }
     if (data.containsKey('user_name')) {
       context.handle(_userNameMeta,
@@ -240,7 +242,7 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
       tenantId: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}tenant_id']),
       id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
       userName: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}user_name'])!,
       name: attachedDatabase.typeMapping
@@ -278,7 +280,7 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
 
 class User extends DataClass implements Insertable<User> {
   final String? tenantId;
-  final int id;
+  final String id;
   final String userName;
   final String name;
   final String surname;
@@ -314,7 +316,7 @@ class User extends DataClass implements Insertable<User> {
     if (!nullToAbsent || tenantId != null) {
       map['tenant_id'] = Variable<String>(tenantId);
     }
-    map['id'] = Variable<int>(id);
+    map['id'] = Variable<String>(id);
     map['user_name'] = Variable<String>(userName);
     map['name'] = Variable<String>(name);
     map['surname'] = Variable<String>(surname);
@@ -382,7 +384,7 @@ class User extends DataClass implements Insertable<User> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return User(
       tenantId: serializer.fromJson<String?>(json['tenantId']),
-      id: serializer.fromJson<int>(json['id']),
+      id: serializer.fromJson<String>(json['id']),
       userName: serializer.fromJson<String>(json['userName']),
       name: serializer.fromJson<String>(json['name']),
       surname: serializer.fromJson<String>(json['surname']),
@@ -403,7 +405,7 @@ class User extends DataClass implements Insertable<User> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'tenantId': serializer.toJson<String?>(tenantId),
-      'id': serializer.toJson<int>(id),
+      'id': serializer.toJson<String>(id),
       'userName': serializer.toJson<String>(userName),
       'name': serializer.toJson<String>(name),
       'surname': serializer.toJson<String>(surname),
@@ -422,7 +424,7 @@ class User extends DataClass implements Insertable<User> {
 
   User copyWith(
           {Value<String?> tenantId = const Value.absent(),
-          int? id,
+          String? id,
           String? userName,
           String? name,
           String? surname,
@@ -518,7 +520,7 @@ class User extends DataClass implements Insertable<User> {
 
 class UsersCompanion extends UpdateCompanion<User> {
   final Value<String?> tenantId;
-  final Value<int> id;
+  final Value<String> id;
   final Value<String> userName;
   final Value<String> name;
   final Value<String> surname;
@@ -532,6 +534,7 @@ class UsersCompanion extends UpdateCompanion<User> {
   final Value<DateTime?> lastLoginTime;
   final Value<String?> currency;
   final Value<String?> themeData;
+  final Value<int> rowid;
   const UsersCompanion({
     this.tenantId = const Value.absent(),
     this.id = const Value.absent(),
@@ -548,10 +551,11 @@ class UsersCompanion extends UpdateCompanion<User> {
     this.lastLoginTime = const Value.absent(),
     this.currency = const Value.absent(),
     this.themeData = const Value.absent(),
+    this.rowid = const Value.absent(),
   });
   UsersCompanion.insert({
     this.tenantId = const Value.absent(),
-    this.id = const Value.absent(),
+    required String id,
     required String userName,
     required String name,
     required String surname,
@@ -565,14 +569,16 @@ class UsersCompanion extends UpdateCompanion<User> {
     this.lastLoginTime = const Value.absent(),
     this.currency = const Value.absent(),
     this.themeData = const Value.absent(),
-  })  : userName = Value(userName),
+    this.rowid = const Value.absent(),
+  })  : id = Value(id),
+        userName = Value(userName),
         name = Value(name),
         surname = Value(surname),
         emailAddress = Value(emailAddress),
         fullName = Value(fullName);
   static Insertable<User> custom({
     Expression<String>? tenantId,
-    Expression<int>? id,
+    Expression<String>? id,
     Expression<String>? userName,
     Expression<String>? name,
     Expression<String>? surname,
@@ -586,6 +592,7 @@ class UsersCompanion extends UpdateCompanion<User> {
     Expression<DateTime>? lastLoginTime,
     Expression<String>? currency,
     Expression<String>? themeData,
+    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
@@ -604,12 +611,13 @@ class UsersCompanion extends UpdateCompanion<User> {
       if (lastLoginTime != null) 'last_login_time': lastLoginTime,
       if (currency != null) 'currency': currency,
       if (themeData != null) 'theme_data': themeData,
+      if (rowid != null) 'rowid': rowid,
     });
   }
 
   UsersCompanion copyWith(
       {Value<String?>? tenantId,
-      Value<int>? id,
+      Value<String>? id,
       Value<String>? userName,
       Value<String>? name,
       Value<String>? surname,
@@ -622,7 +630,8 @@ class UsersCompanion extends UpdateCompanion<User> {
       Value<DateTime?>? creationTime,
       Value<DateTime?>? lastLoginTime,
       Value<String?>? currency,
-      Value<String?>? themeData}) {
+      Value<String?>? themeData,
+      Value<int>? rowid}) {
     return UsersCompanion(
       tenantId: tenantId ?? this.tenantId,
       id: id ?? this.id,
@@ -639,6 +648,7 @@ class UsersCompanion extends UpdateCompanion<User> {
       lastLoginTime: lastLoginTime ?? this.lastLoginTime,
       currency: currency ?? this.currency,
       themeData: themeData ?? this.themeData,
+      rowid: rowid ?? this.rowid,
     );
   }
 
@@ -649,7 +659,7 @@ class UsersCompanion extends UpdateCompanion<User> {
       map['tenant_id'] = Variable<String>(tenantId.value);
     }
     if (id.present) {
-      map['id'] = Variable<int>(id.value);
+      map['id'] = Variable<String>(id.value);
     }
     if (userName.present) {
       map['user_name'] = Variable<String>(userName.value);
@@ -690,6 +700,9 @@ class UsersCompanion extends UpdateCompanion<User> {
     if (themeData.present) {
       map['theme_data'] = Variable<String>(themeData.value);
     }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
     return map;
   }
 
@@ -710,7 +723,8 @@ class UsersCompanion extends UpdateCompanion<User> {
           ..write('creationTime: $creationTime, ')
           ..write('lastLoginTime: $lastLoginTime, ')
           ..write('currency: $currency, ')
-          ..write('themeData: $themeData')
+          ..write('themeData: $themeData, ')
+          ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }

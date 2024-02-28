@@ -35,7 +35,7 @@ class UserFromServer {
     db = MyDatabase();
     userDao = UserDao(db);
   }
-  Future<bool> validateUser(int id, String tenantId) async {
+  Future<bool> validateUser(String id, String tenantId) async {
     final Response response = await userRepository.getUser(userID: id);
     Map<String, dynamic> map = json.decode(response.bodyString);
     if (response.isSuccessful && map['success']) {
