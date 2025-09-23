@@ -67,7 +67,7 @@ class RotationRoute extends PageRouteBuilder {
             Animation<double> secondaryAnimation,
           ) =>
               page,
-          transitionDuration: Duration(seconds: 1),
+          transitionDuration: const Duration(seconds: 1),
           transitionsBuilder: (
             BuildContext context,
             Animation<double> animation,
@@ -157,14 +157,14 @@ class EnterExitRoute extends PageRouteBuilder {
               Stack(
             children: <Widget>[
               SlideTransition(
-                position: new Tween<Offset>(
+                position: Tween<Offset>(
                   begin: const Offset(0.0, 0.0),
                   end: const Offset(-1.0, 0.0),
                 ).animate(animation),
                 child: exitPage,
               ),
               SlideTransition(
-                position: new Tween<Offset>(
+                position: Tween<Offset>(
                   begin: const Offset(1.0, 0.0),
                   end: Offset.zero,
                 ).animate(animation),
@@ -185,7 +185,7 @@ class ScaleRotateRoute extends PageRouteBuilder {
             Animation<double> secondaryAnimation,
           ) =>
               page,
-          transitionDuration: Duration(seconds: 1),
+          transitionDuration: const Duration(seconds: 1),
           transitionsBuilder: (
             BuildContext context,
             Animation<double> animation,

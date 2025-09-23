@@ -5,13 +5,18 @@ import 'package:drift/drift.dart';
 part 'sales_order_detail_temp_crud.g.dart';
 
 @DriftAccessor(tables: [SalesOrderDetailTemp])
-class SalesOrderDetailTempDao extends DatabaseAccessor<MyDatabase> with _$SalesOrderDetailTempDaoMixin {
+class SalesOrderDetailTempDao extends DatabaseAccessor<MyDatabase>
+    with _$SalesOrderDetailTempDaoMixin {
   final MyDatabase db;
   SalesOrderDetailTempDao(this.db) : super(db);
 
-  Future updateCreateFullAudit(SalesOrderDetailTempCompanion sodtc, int id, String transactionNumber) {
-    return (update(db.salesOrderDetailTemp)..where((t) => t.transactionNumber.equals(transactionNumber) & t.id.equals(id))).write(
-      SalesOrderDetailTempCompanion(),
+  Future updateCreateFullAudit(
+      SalesOrderDetailTempCompanion sodtc, int id, String transactionNumber) {
+    return (update(db.salesOrderDetailTemp)
+          ..where((t) =>
+              t.transactionNumber.equals(transactionNumber) & t.id.equals(id)))
+        .write(
+      const SalesOrderDetailTempCompanion(),
     );
   }
 
@@ -20,7 +25,10 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<MyDatabase> with _$SalesO
   }
 
   Future<List<SalesOrderDetailTempData>> getAllSalesOrderForUpdate(
-      String transactionNumber, String transactionStatus, String itemId, String salesUom) {
+      String transactionNumber,
+      String transactionStatus,
+      String itemId,
+      String salesUom) {
     return (select(db.salesOrderDetailTemp)
           ..where((t) =>
               t.transactionNumber.equals(transactionNumber) &
@@ -31,7 +39,11 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<MyDatabase> with _$SalesO
   }
 
   Future updateInvoiceTotal(
-      SalesOrderDetailTempCompanion tempOrder, String transactionNumber, String transactionStatus, String itemId, String salesUom) {
+      SalesOrderDetailTempCompanion tempOrder,
+      String transactionNumber,
+      String transactionStatus,
+      String itemId,
+      String salesUom) {
     return (update(db.salesOrderDetailTemp)
           ..where((t) =>
               t.transactionNumber.equals(transactionNumber) &
@@ -48,7 +60,12 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<MyDatabase> with _$SalesO
     );
   }
 
-  Future updateLineItem(SalesOrderDetailTempCompanion tempOrder, String transactionNumber, String transactionStatus, String itemId, String salesUom) {
+  Future updateLineItem(
+      SalesOrderDetailTempCompanion tempOrder,
+      String transactionNumber,
+      String transactionStatus,
+      String itemId,
+      String salesUom) {
     return (update(db.salesOrderDetailTemp)
           ..where((t) =>
               t.transactionNumber.equals(transactionNumber) &
@@ -57,11 +74,19 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<MyDatabase> with _$SalesO
               t.salesUOM.equals(salesUom)))
         .write(
       SalesOrderDetailTempCompanion(
-          listPrice: tempOrder.listPrice, subTotal: tempOrder.subTotal, shippingTotal: tempOrder.shippingTotal, quantity: tempOrder.quantity),
+          listPrice: tempOrder.listPrice,
+          subTotal: tempOrder.subTotal,
+          shippingTotal: tempOrder.shippingTotal,
+          quantity: tempOrder.quantity),
     );
   }
 
-  Future updateLineTax(SalesOrderDetailTempCompanion tax, String transactionNumber, String transactionStatus, String itemId, String salesUom) {
+  Future updateLineTax(
+      SalesOrderDetailTempCompanion tax,
+      String transactionNumber,
+      String transactionStatus,
+      String itemId,
+      String salesUom) {
     return (update(db.salesOrderDetailTemp)
           ..where((t) =>
               t.transactionNumber.equals(transactionNumber) &
@@ -70,14 +95,23 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<MyDatabase> with _$SalesO
               t.salesUOM.equals(salesUom)))
         .write(
       SalesOrderDetailTempCompanion(
-          taxTotal: tax.taxTotal, listPrice: tax.listPrice, taxGroup: tax.taxGroup, subTotal: tax.subTotal, taxIndicator: tax.taxIndicator),
+          taxTotal: tax.taxTotal,
+          listPrice: tax.listPrice,
+          taxGroup: tax.taxGroup,
+          subTotal: tax.subTotal,
+          taxIndicator: tax.taxIndicator),
     );
   }
 
-  Future increaseLineItemQuantity(SalesOrderDetailTempData record) => update(salesOrderDetailTemp).replace(record);
+  Future increaseLineItemQuantity(SalesOrderDetailTempData record) =>
+      update(salesOrderDetailTemp).replace(record);
 
   Future decreaseLineItemQuantity(
-      SalesOrderDetailTempCompanion qty, String transactionNumber, String transactionStatus, String itemId, String salesUom) {
+      SalesOrderDetailTempCompanion qty,
+      String transactionNumber,
+      String transactionStatus,
+      String itemId,
+      String salesUom) {
     return (update(db.salesOrderDetailTemp)
           ..where((t) =>
               t.transactionNumber.equals(transactionNumber) &
@@ -91,22 +125,34 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<MyDatabase> with _$SalesO
     );
   }
 
-  Stream<List<SalesOrderDetailTempData>> watchAllSalesOrderDetail(String transactionNumber, String transactionStatus) {
+  Stream<List<SalesOrderDetailTempData>> watchAllSalesOrderDetail(
+      String transactionNumber, String transactionStatus) {
     return (select(db.salesOrderDetailTemp)
-          ..orderBy([(t) => OrderingTerm(expression: t.id, mode: OrderingMode.desc)])
-          ..where((t) => t.transactionNumber.equals(transactionNumber) & t.transactionStatus.equals(transactionStatus)))
+          ..orderBy(
+              [(t) => OrderingTerm(expression: t.id, mode: OrderingMode.desc)])
+          ..where((t) =>
+              t.transactionNumber.equals(transactionNumber) &
+              t.transactionStatus.equals(transactionStatus)))
         .watch();
   }
 
-  Future<List<SalesOrderDetailTempData>> getAllSalesOrderDetailTemp(String transactionNumber, String transactionStatus) {
+  Future<List<SalesOrderDetailTempData>> getAllSalesOrderDetailTemp(
+      String transactionNumber, String transactionStatus) {
     return (select(db.salesOrderDetailTemp)
-          ..orderBy([(t) => OrderingTerm(expression: t.id, mode: OrderingMode.desc)])
-          ..where((t) => t.transactionNumber.equals(transactionNumber) & t.transactionStatus.equals(transactionStatus)))
+          ..orderBy(
+              [(t) => OrderingTerm(expression: t.id, mode: OrderingMode.desc)])
+          ..where((t) =>
+              t.transactionNumber.equals(transactionNumber) &
+              t.transactionStatus.equals(transactionStatus)))
         .get();
   }
 
   Future updateInvoiceGrandTotal(
-      SalesOrderDetailTempCompanion tempOrder, String transactionNumber, String transactionStatus, String itemId, String salesUom) {
+      SalesOrderDetailTempCompanion tempOrder,
+      String transactionNumber,
+      String transactionStatus,
+      String itemId,
+      String salesUom) {
     return (update(db.salesOrderDetailTemp)
           ..where((t) =>
               t.transactionNumber.equals(transactionNumber) &
@@ -118,23 +164,36 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<MyDatabase> with _$SalesO
     );
   }
 
-  Future insertSalesOrderDetail(SalesOrderDetailTempCompanion salesOrderDetailTempData) =>
+  Future insertSalesOrderDetail(
+          SalesOrderDetailTempCompanion salesOrderDetailTempData) =>
       into(db.salesOrderDetailTemp).insert(salesOrderDetailTempData);
 
-  Future deleteAllSalesOrderTempDetail() => delete(db.salesOrderDetailTemp).go();
+  Future deleteAllSalesOrderTempDetail() =>
+      delete(db.salesOrderDetailTemp).go();
 
-  Future deleteLineItem(String itemId, String uom, String transactionNo, int lineId) {
+  Future deleteLineItem(
+      String itemId, String uom, String transactionNo, int lineId) {
     return (delete(db.salesOrderDetailTemp)
-          ..where((t) => t.id.equals(lineId) & t.itemId.equals(itemId) & t.salesUOM.equals(uom) & t.transactionNumber.equals(transactionNo)))
+          ..where((t) =>
+              t.id.equals(lineId) &
+              t.itemId.equals(itemId) &
+              t.salesUOM.equals(uom) &
+              t.transactionNumber.equals(transactionNo)))
         .go();
   }
 
   Future deleteLineItemAfterPost(String transactionNo) {
-    return (delete(db.salesOrderDetailTemp)..where((t) => t.transactionNumber.equals(transactionNo))).go();
+    return (delete(db.salesOrderDetailTemp)
+          ..where((t) => t.transactionNumber.equals(transactionNo)))
+        .go();
   }
 
   //This section calculate discount
-  Stream<List<SalesOrderDetailTempData>> qtyOfItemOnRegister(String transactionNumber, String itemId, String uom, String transactionStatus) {
+  Stream<List<SalesOrderDetailTempData>> qtyOfItemOnRegister(
+      String transactionNumber,
+      String itemId,
+      String uom,
+      String transactionStatus) {
     return customSelect(
         'SELECT '
         ' Sum(quantity) as quantity, '
@@ -159,11 +218,17 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<MyDatabase> with _$SalesO
         ]
         // used for the stream: the stream will update when either table changes
         ).watch().map((rows) {
-      return rows.map((row) => SalesOrderDetailTempData.fromJson(row.data)).toList();
+      return rows
+          .map((row) => SalesOrderDetailTempData.fromJson(row.data))
+          .toList();
     });
   }
 
-  Stream<List<SalesOrderDetailTempData>> qtyOfItemGroupOnRegister(String transactionNumber, String itemGroup, String uom, String transactionStatus) {
+  Stream<List<SalesOrderDetailTempData>> qtyOfItemGroupOnRegister(
+      String transactionNumber,
+      String itemGroup,
+      String uom,
+      String transactionStatus) {
     return customSelect(
         'SELECT '
         ' Sum(quantity) as quantity, '
@@ -188,11 +253,17 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<MyDatabase> with _$SalesO
         ]
         // used for the stream: the stream will update when either table changes
         ).watch().map((rows) {
-      return rows.map((row) => SalesOrderDetailTempData.fromJson(row.data)).toList();
+      return rows
+          .map((row) => SalesOrderDetailTempData.fromJson(row.data))
+          .toList();
     });
   }
 
-  Stream<List<SalesOrderDetailTempData>> qtyOfBrandOnRegister(String transactionNumber, String category, String uom, String transactionStatus) {
+  Stream<List<SalesOrderDetailTempData>> qtyOfBrandOnRegister(
+      String transactionNumber,
+      String category,
+      String uom,
+      String transactionStatus) {
     return customSelect(
         'SELECT '
         ' Sum(quantity) as quantity, '
@@ -217,11 +288,14 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<MyDatabase> with _$SalesO
         ]
         // used for the stream: the stream will update when either table changes
         ).watch().map((rows) {
-      return rows.map((row) => SalesOrderDetailTempData.fromJson(row.data)).toList();
+      return rows
+          .map((row) => SalesOrderDetailTempData.fromJson(row.data))
+          .toList();
     });
   }
 
-  Stream<List<SalesOrderDetailTempData>> transactionTotal(String transactionNumber, String transactionStatus) {
+  Stream<List<SalesOrderDetailTempData>> transactionTotal(
+      String transactionNumber, String transactionStatus) {
     return customSelect(
         ' SELECT '
         ' sum(sub_total) as sub_total, '
@@ -238,11 +312,18 @@ class SalesOrderDetailTempDao extends DatabaseAccessor<MyDatabase> with _$SalesO
         ' AND transaction_status = ? '
         ' GROUP BY '
         ' transaction_number ',
-        readsFrom: {db.salesOrderDetailTemp},
-        variables: [Variable.withString(transactionNumber), Variable.withString(transactionStatus)]
+        readsFrom: {
+          db.salesOrderDetailTemp
+        },
+        variables: [
+          Variable.withString(transactionNumber),
+          Variable.withString(transactionStatus)
+        ]
         // used for the stream: the stream will update when either table changes
         ).watch().map((rows) {
-      return rows.map((row) => SalesOrderDetailTempData.fromJson(row.data)).toList();
+      return rows
+          .map((row) => SalesOrderDetailTempData.fromJson(row.data))
+          .toList();
     });
   }
 }

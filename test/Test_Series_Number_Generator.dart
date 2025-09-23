@@ -12,7 +12,7 @@ import 'package:j3enterprise/src/pro/resources/shared/utils/series_number_genera
 
 void main() {
   test('Test randon number in number series', () async {
-    NumberGenerator numberGenerator = new NumberGenerator();
+    NumberGenerator numberGenerator = NumberGenerator();
     String ng = await numberGenerator.getSerialNumber("Sales Order", 001, 4);
     print(ng);
 

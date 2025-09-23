@@ -4,7 +4,6 @@ import 'package:chopper/chopper.dart';
 import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
 import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/items/item_pricing_rule_crud.dart';
-import 'package:j3enterprise/src/pro/database/crud/items/price_list_crud.dart';
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
 import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
 import 'package:j3enterprise/src/resources/shared/function/update_backgroung_job_schedule_status.dart';
@@ -28,10 +27,10 @@ class PricingRuleRepository {
   PricingRuleRepository() {
     _log.finest("Preference repository constructer call");
     db = MyDatabase();
-    updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
-    backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
-    itemPricingRuleDao = new ItemPricingRuleDao(db);
-    userSharedData = new UserSharedData();
+    updateBackgroundJobStatus = UpdateBackgroundJobStatus();
+    backgroundJobScheduleDao = BackgroundJobScheduleDao(db);
+    itemPricingRuleDao = ItemPricingRuleDao(db);
+    userSharedData = UserSharedData();
   }
 
   Future<void> getPricingRuleFromServer(String jobName) async {
@@ -52,7 +51,8 @@ class PricingRuleRepository {
             _log.finest("Server resopnses successful for $className ");
             Map<String, dynamic> result = map['result'];
             var items = (result['items'] as List).map((e) {
-              return ItemPricingRuleData.fromJson(e, serializer: CustomSerializer());
+              return ItemPricingRuleData.fromJson(e,
+                  serializer: CustomSerializer());
             });
 
             for (var item in items) {
@@ -63,7 +63,8 @@ class PricingRuleRepository {
           } else {
             String error = map["error"]["details"].toString();
             updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-            _log.shout("Customer API call failed. Server respond with error : $error  ");
+            _log.shout(
+                "Customer API call failed. Server respond with error : $error  ");
           }
         }
       }

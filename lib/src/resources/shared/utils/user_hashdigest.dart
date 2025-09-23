@@ -25,7 +25,6 @@ import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 
 import 'dart:convert';
 
-import 'package:drift/drift.dart';
 import 'package:drift/drift.dart' as moor;
 
 class UserHash {
@@ -40,22 +39,26 @@ class UserHash {
   }
 
   Future<String> createHash(String password, int tenantId, int userId) async {
-    List<List<int>> bytesChunks = [utf8.encode(password), utf8.encode(userId.toString()), utf8.encode(tenantId.toString())];
+    List<List<int>> bytesChunks = [
+      utf8.encode(password),
+      utf8.encode(userId.toString()),
+      utf8.encode(tenantId.toString())
+    ];
 
-    var output = new AccumulatorSink<Digest>();
+    var output = AccumulatorSink<Digest>();
 
     ByteConversionSink input = sha512.startChunkedConversion(output);
-    bytesChunks.forEach((List<int> bytes) {
+    for (var bytes in bytesChunks) {
       input.add(bytes);
-    });
+    }
     input.close();
 
     Digest result = output.events.single;
 
-    String _result = result.toString();
+    String result0 = result.toString();
     //return _result;
-    print('Created Hash ' + _result);
-    return _result;
+    print('Created Hash $result0');
+    return result0;
   }
 }
 
@@ -69,16 +72,17 @@ class UserHashSave {
     //assert(userRepository != null);
     db = MyDatabase();
     userDao = UserDao(db);
-    userHash = new UserHash(userRepository: userRepository);
+    userHash = UserHash(userRepository: userRepository);
   }
   Future<void> saveHash(String password, int tenantId, int userId) async {
-    String _result = await userHash.createHash(password, tenantId, userId);
-    print('MyKey ' + _result.toString());
-    var formData = UsersCompanion(mobileHash: moor.Value(_result.toString()));
+    String result = await userHash.createHash(password, tenantId, userId);
+    print('MyKey $result');
+    var formData = UsersCompanion(mobileHash: moor.Value(result.toString()));
 
     await userDao.saveMobileHash(formData, userId);
-    await userRepository.putUserHash(userId: userId, mobileHashCode: _result.toString(), tenantId: tenantId);
+    await userRepository.putUserHash(
+        userId: userId, mobileHashCode: result.toString(), tenantId: tenantId);
 
-    print('Result: $_result');
+    print('Result: $result');
   }
 }

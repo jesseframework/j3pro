@@ -3,6 +3,7 @@ import 'package:drift/drift.dart';
 
 class ClockIn extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
+  @override
   IntColumn get tenantId => integer().nullable()();
   TextColumn get clockInDaySessionId => text().nullable()();
   TextColumn get clockOutDaySessionId => text().nullable()();

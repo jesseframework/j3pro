@@ -4,7 +4,6 @@ import 'package:chopper/chopper.dart';
 import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
 import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/items/item_master_crud.dart';
-import 'package:j3enterprise/src/pro/database/crud/items/item_price_crud.dart';
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
 import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
 import 'package:j3enterprise/src/resources/shared/function/update_backgroung_job_schedule_status.dart';
@@ -28,10 +27,10 @@ class ItemMasterRepository {
   ItemMasterRepository() {
     _log.finest("Preference repository constructer call");
     db = MyDatabase();
-    updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
-    backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
-    itemsDao = new ItemsDao(db);
-    userSharedData = new UserSharedData();
+    updateBackgroundJobStatus = UpdateBackgroundJobStatus();
+    backgroundJobScheduleDao = BackgroundJobScheduleDao(db);
+    itemsDao = ItemsDao(db);
+    userSharedData = UserSharedData();
   }
 
   Future<void> getItemMasterFromServer(String jobName) async {
@@ -63,7 +62,8 @@ class ItemMasterRepository {
           } else {
             String error = map["error"]["details"].toString();
             updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-            _log.shout("Customer API call failed. Server respond with error : $error  ");
+            _log.shout(
+                "Customer API call failed. Server respond with error : $error  ");
           }
         }
       }

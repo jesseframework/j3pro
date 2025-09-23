@@ -14,7 +14,8 @@ class UPCCodeDao extends DatabaseAccessor<MyDatabase> with _$UPCCodeDaoMixin {
   }
 
   Stream<List<UPCCodeData>> watchAllUPCCodeByUPC(String upcCode) {
-    return (select(db.uPCCode)..where((t) => t.upcCode.equals(upcCode))).watch();
+    return (select(db.uPCCode)..where((t) => t.upcCode.equals(upcCode)))
+        .watch();
   }
 
   Future<List<UPCCodeData>> getAllUPCCodeByUPC(String upcCode) {

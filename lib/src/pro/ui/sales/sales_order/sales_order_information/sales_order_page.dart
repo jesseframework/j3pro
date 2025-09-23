@@ -10,11 +10,11 @@ import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dar
 class SalesOrderPage extends StatelessWidget {
   var db;
   late AddressDao addressDao;
-  SalesOrderPage() {
+  SalesOrderPage({super.key}) {
     db = MyDatabase();
     addressDao = AddressDao(db);
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SalesOderBloc>(create: (context) {
@@ -23,23 +23,26 @@ class SalesOrderPage extends StatelessWidget {
       builder: (context, state) {
         if (state is SalesOderDefaultData) {
           return StreamBuilder(
-              stream: addressDao.watchAllAddressByTitle(customerId: addItemBloc.customerId, isShippingAddress: true, isDisable: false),
+              stream: addressDao.watchAllAddressByTitle(
+                  customerId: addItemBloc.customerId,
+                  isShippingAddress: true,
+                  isDisable: false),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.active) {
-                  List<Addres>? addres = snapshot.data as List<Addres>?;
+                  List<Addres>? addres = snapshot.data;
                   return SalesOrderForm(
                       address: addres!,
                       exchangeRate: state.exchangeRate,
                       currenciesData: state.currenciesData,
                       defaultCurrency: state.defaultCurrency);
                 }
-                return Scaffold(
+                return const Scaffold(
                   body: BuildProgressIndicator(),
                 );
               });
         }
 
-        return Scaffold(
+        return const Scaffold(
           body: BuildProgressIndicator(),
         );
       },

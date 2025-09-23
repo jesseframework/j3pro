@@ -50,12 +50,12 @@ class AppLoggerRepository {
 
   AppLoggerRepository() {
     db = MyDatabase();
-    applicationLoggerDao = new ApplicationLoggerView(db);
-    updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
-    backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
+    applicationLoggerDao = ApplicationLoggerView(db);
+    updateBackgroundJobStatus = UpdateBackgroundJobStatus();
+    backgroundJobScheduleDao = BackgroundJobScheduleDao(db);
     preferenceDao = PreferenceDao(db);
     nonGlobalPreferenceDao = NonGlobalPreferenceDao(db);
-    userSharedData = new UserSharedData();
+    userSharedData = UserSharedData();
   }
 
   Future putAppLogOnServer(String jobName) async {
@@ -66,16 +66,18 @@ class AppLoggerRepository {
         if (isSchedulerEnable.enableJob == true) {
           var appLogData = await applicationLoggerDao.getAppLog("Pending");
 
-          Map<String, String>? mapUserSharedData = Map();
-          UserSharedData userSharedData = new UserSharedData();
-          mapUserSharedData = (await userSharedData.getUserSharedPref()).cast<String, String>();
-          String? _tenantId = mapUserSharedData['tenantId'];
+          Map<String, String>? mapUserSharedData = {};
+          UserSharedData userSharedData = UserSharedData();
+          mapUserSharedData =
+              (await userSharedData.getUserSharedPref()).cast<String, String>();
+          String? tenantId = mapUserSharedData['tenantId'];
           String? userName = mapUserSharedData['userName'];
           String? deviceId = mapUserSharedData['deviceId'];
 
           for (var fromDb in appLogData) {
             if (isStopped) break;
-            await updateBackgroundJobStatus.updateJobStatus(jobName, "In Progress");
+            await updateBackgroundJobStatus.updateJobStatus(
+                jobName, "In Progress");
             String formatted = await formatDate(fromDb.logDateTime.toString());
 
             final Response response = await api.mobileAppLogger({
@@ -87,13 +89,13 @@ class AppLoggerRepository {
               "logCode": fromDb.logCode,
               "logSeverity": fromDb.logSeverity,
               "deviceID": fromDb.deviceId,
-              "tenantId": _tenantId
+              "tenantId": tenantId
             });
             Map<String, dynamic> map = json.decode(response.bodyString);
             if (response.isSuccessful && map['success']) {
               //decode the response body
 
-              var fromDate = new ApplicationLoggerData(
+              var fromDate = ApplicationLoggerData(
                   id: fromDb.id,
                   functionName: fromDb.functionName,
                   logDateTime: fromDb.logDateTime,
@@ -108,11 +110,18 @@ class AppLoggerRepository {
 
               await applicationLoggerDao.updateAppLoggerReplace(fromDate);
 
-              var logPurging = await preferenceDao.getSinglePreferences('LOGGERPURGE');
+              var logPurging =
+                  await preferenceDao.getSinglePreferences('LOGGERPURGE');
               if (logPurging != null) {
                 if (logPurging.value == "After Upload") {
                   if (logPurging.isGlobal == false) {
-                    var globalData = await nonGlobalPreferenceDao.getSingleNonGlobalPref(logPurging.code, logPurging.code, userName!, deviceId!, "");
+                    var globalData =
+                        await nonGlobalPreferenceDao.getSingleNonGlobalPref(
+                            logPurging.code,
+                            logPurging.code,
+                            userName!,
+                            deviceId!,
+                            "");
                     if (globalData.expiredDateTime!.isBefore(DateTime.now())) {
                       await applicationLoggerDao.deleteById(fromDate.id);
                     }
@@ -123,7 +132,8 @@ class AppLoggerRepository {
               } else {
                 //applicationLoggerDao.purgeData(1000);
               }
-              await updateBackgroundJobStatus.updateJobStatus(jobName, "Success");
+              await updateBackgroundJobStatus.updateJobStatus(
+                  jobName, "Success");
             } else {
               await updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
               break;

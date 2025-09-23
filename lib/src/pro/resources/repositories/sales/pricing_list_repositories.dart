@@ -27,10 +27,10 @@ class PriceListRepository {
   PriceListRepository() {
     _log.finest("Preference repository constructer call");
     db = MyDatabase();
-    updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
-    backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
-    priceListDao = new PriceListDao(db);
-    userSharedData = new UserSharedData();
+    updateBackgroundJobStatus = UpdateBackgroundJobStatus();
+    backgroundJobScheduleDao = BackgroundJobScheduleDao(db);
+    priceListDao = PriceListDao(db);
+    userSharedData = UserSharedData();
   }
 
   Future<void> getPriceListFromServer(String jobName) async {
@@ -62,7 +62,8 @@ class PriceListRepository {
           } else {
             String error = map["error"]["details"].toString();
             updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-            _log.shout("Customer API call failed. Server respond with error : $error  ");
+            _log.shout(
+                "Customer API call failed. Server respond with error : $error  ");
           }
         }
       }

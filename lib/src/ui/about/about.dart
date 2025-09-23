@@ -1,4 +1,4 @@
-                                      /*
+/*
  * Jesseframework - Computer Expertz Ltd - https://cpxz.us
  * Copyright (C) 2019-2021 Jesseframework
  *
@@ -24,10 +24,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/no_data_found.dart';
-import 'package:j3enterprise/src/resources/shared/widgets/snak_bar.dart';
 
 class About extends StatefulWidget {
-  
+  const About({super.key});
+
   @override
   _AboutState createState() => _AboutState();
 }
@@ -37,7 +37,9 @@ class _AboutState extends State<About> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          actions: [IconButton(icon: Icon(Icons.more_vert), onPressed: () {})],
+          actions: [
+            IconButton(icon: const Icon(Icons.more_vert), onPressed: () {})
+          ],
           title: Text(
               AppLocalization.of(context)!.translate('about_title_about')!),
         ),
@@ -46,11 +48,11 @@ class _AboutState extends State<About> {
             builder: (context, platfromData) {
               if (platfromData.hasData) {
                 print(platfromData.data);
-                return SingleChildScrollView(
+                return const SingleChildScrollView(
                   child: Column(
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 6.0),
+                        padding: EdgeInsets.symmetric(vertical: 6.0),
                         child: Row(
                           children: <Widget>[
                             //Icon(Icons.chevron_left,size: 36,),
@@ -86,7 +88,7 @@ class _AboutState extends State<About> {
                 );
               }
 
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }));
   }
 }
@@ -158,7 +160,7 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
 
 class NormWid extends StatelessWidget {
   final String name, text;
-  NormWid({required this.name, required this.text});
+  const NormWid({super.key, required this.name, required this.text});
   @override
   Widget build(BuildContext context) {
     return Padding(

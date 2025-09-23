@@ -3,7 +3,8 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
 
 class ItemsPage extends StatelessWidget {
- 
+  const ItemsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +17,7 @@ class ItemsPage extends StatelessWidget {
             onTap: () {
               //Navigator.push(context, EnterExitRoute(enterPage: AddItemPage(), exitPage: ));
             },
-            child: Row(
+            child: const Row(
               children: [
                 Text(
                   "New",
@@ -27,7 +28,7 @@ class ItemsPage extends StatelessWidget {
               ],
             ),
           ),
-          IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
+          IconButton(icon: const Icon(Icons.more_vert), onPressed: () {}),
         ],
       ),
       body: Column(
@@ -53,7 +54,7 @@ class ItemsPage extends StatelessWidget {
                 itemCount: 100,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    leading: Icon(Icons.image),
+                    leading: const Icon(Icons.image),
                     title: Text(
                       'COVID-19 N95 MASKS',
                       style: Theme.of(context)
@@ -61,12 +62,12 @@ class ItemsPage extends StatelessWidget {
                           .bodyLarge!
                           .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                    subtitle: Text('SKU: 0001-202'),
-                    trailing: Icon(Icons.arrow_forward_ios_outlined),
+                    subtitle: const Text('SKU: 0001-202'),
+                    trailing: const Icon(Icons.arrow_forward_ios_outlined),
                   );
                 },
                 separatorBuilder: (context, index) {
-                  return Divider(
+                  return const Divider(
                     color: Colors.grey,
                   );
                 },

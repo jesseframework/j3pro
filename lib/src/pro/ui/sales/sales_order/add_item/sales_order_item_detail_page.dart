@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 
 class SalesOrderItemDetailPage extends StatelessWidget {
-   
   int index;
 
-  SalesOrderItemDetailPage({required this.index});
+  SalesOrderItemDetailPage({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +32,14 @@ class SalesOrderItemDetailPage extends StatelessWidget {
                         Hero(
                             tag: 'mask$index',
                             child: Image.asset('images/mask.png')),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 20.0),
                           child: Text(
                             "Covid-19 N95 Face Masks",
                             style: TextStyle(fontSize: 20),
                           ),
                         ),
-                        Text(
+                        const Text(
                           "SKU: 0001-202",
                           style: TextStyle(
                             fontSize: 12,
@@ -121,14 +120,14 @@ class SalesOrderItemDetailPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                margin: EdgeInsets.symmetric(
+                                margin: const EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 10),
                                 decoration: BoxDecoration(
                                     color: Colors.green,
                                     borderRadius: BorderRadius.circular(5)),
                                 width: 85,
                                 height: 85,
-                                child: Column(
+                                child: const Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
@@ -141,13 +140,14 @@ class SalesOrderItemDetailPage extends StatelessWidget {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.symmetric(horizontal: 20),
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 20),
                                 decoration: BoxDecoration(
                                     color: Colors.red,
                                     borderRadius: BorderRadius.circular(5)),
                                 width: 85,
                                 height: 85,
-                                child: Column(
+                                child: const Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
@@ -160,13 +160,14 @@ class SalesOrderItemDetailPage extends StatelessWidget {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.symmetric(horizontal: 20),
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 20),
                                 decoration: BoxDecoration(
                                     color: Colors.orange,
                                     borderRadius: BorderRadius.circular(5)),
                                 width: 85,
                                 height: 85,
-                                child: Column(
+                                child: const Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
@@ -196,7 +197,7 @@ class SalesOrderItemDetailPage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 3),
       child: Text(
         text,
-        style: TextStyle(fontSize: 14),
+        style: const TextStyle(fontSize: 14),
       ),
     );
   }
@@ -209,11 +210,11 @@ class SalesOrderItemDetailPage extends StatelessWidget {
         children: [
           Text(
             text1,
-            style: TextStyle(fontSize: 14),
+            style: const TextStyle(fontSize: 14),
           ),
           Text(
             text2,
-            style: TextStyle(fontSize: 14),
+            style: const TextStyle(fontSize: 14),
           ),
         ],
       ),

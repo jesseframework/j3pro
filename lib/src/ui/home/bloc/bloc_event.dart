@@ -25,7 +25,7 @@ abstract class BlocEvent extends Equatable {
 
 class TypeSearchCommand extends BlocEvent {
   final String searchString;
-  TypeSearchCommand({required this.searchString});
+  const TypeSearchCommand({required this.searchString});
   @override
   List<Object> get props => [searchString];
 }

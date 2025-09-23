@@ -34,11 +34,12 @@ class CommunicationTabOneWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CommunicationTabOneWidgetState createState() => _CommunicationTabOneWidgetState();
+  _CommunicationTabOneWidgetState createState() =>
+      _CommunicationTabOneWidgetState();
 }
 
 class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
-  final formKey = new GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
   var erpSelecteditem;
   var syncfrequencySelectedItem;
@@ -89,7 +90,7 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
     }
   }
 
-    List<CommunicationData>? _communicationData;
+  List<CommunicationData>? _communicationData;
   final erpList = ['SAP', 'ERP Next', 'Quick Books'];
 
   @override
@@ -111,9 +112,10 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
             // if data was loaded set it
             _communicationData = state.data;
             _setupControllers();
-          } else if (_communicationData==null) {
+          } else if (_communicationData == null) {
             // else if data is not present retrieve it
-            var event = OnFormLoadGetSaveCommunication(communicationType: erpConnection);
+            var event = OnFormLoadGetSaveCommunication(
+                communicationType: erpConnection);
             bloc.add(event);
           }
 
@@ -125,10 +127,13 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
   }
 
   void _setupControllers() {
-    if (_communicationData!.length > 0) {
-      _serverurlController = TextEditingController(text: _communicationData![0].serverUrl);
-      _usernameController = TextEditingController(text: _communicationData![0].userName);
-      _confirmpasswordController = TextEditingController(text: _communicationData![0].confirmPasskey);
+    if (_communicationData!.isNotEmpty) {
+      _serverurlController =
+          TextEditingController(text: _communicationData![0].serverUrl);
+      _usernameController =
+          TextEditingController(text: _communicationData![0].userName);
+      _confirmpasswordController =
+          TextEditingController(text: _communicationData![0].confirmPasskey);
 
       erpSelecteditem = _communicationData![0].typeofErp;
       syncfrequencySelectedItem = _communicationData![0].syncFrequency;
@@ -145,7 +150,9 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
                 padding: const EdgeInsets.all(0.00),
                 child: DropdownFormFieldNormalReuse(
                   _onUpdateERBSelection,
-                  hintText: AppLocalization.of(context)!.translate('type_of_erp_label_communication') ?? 'Type of ERP',
+                  hintText: AppLocalization.of(context)!
+                          .translate('type_of_erp_label_communication') ??
+                      'Type of ERP',
                   selectedValue: erpSelecteditem,
                   listData: erpList,
                 )),
@@ -153,7 +160,9 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
               padding: const EdgeInsets.all(0.00),
               child: TextFromFieldNullableReusable(
                 fieldDecoration: InputDecoration(
-                  labelText: AppLocalization.of(context)!.translate('server_url_label_communication') ?? 'Server Url',
+                  labelText: AppLocalization.of(context)!
+                          .translate('server_url_label_communication') ??
+                      'Server Url',
                 ),
                 controllerName: _serverurlController,
                 validationText: 'Test',
@@ -163,7 +172,9 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
               padding: const EdgeInsets.all(0.00),
               child: TextFromFieldNullableReusable(
                 fieldDecoration: InputDecoration(
-                  labelText: AppLocalization.of(context)!.translate('username_label_communication') ?? 'Username',
+                  labelText: AppLocalization.of(context)!
+                          .translate('username_label_communication') ??
+                      'Username',
                 ),
                 controllerName: _usernameController,
                 validationText: 'Test',
@@ -172,9 +183,11 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
             Padding(
               padding: const EdgeInsets.all(0.00),
               child: TextFromFieldPasswordReusable(
-                controllerName:TextEditingController(),
+                controllerName: TextEditingController(),
                 fieldDecoration: InputDecoration(
-                  labelText: AppLocalization.of(context)!.translate('new_password_label_communication') ?? 'New Password',
+                  labelText: AppLocalization.of(context)!
+                          .translate('new_password_label_communication') ??
+                      'New Password',
                 ),
                 validationText: 'Test',
               ),
@@ -183,7 +196,9 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
               padding: const EdgeInsets.all(0.00),
               child: TextFromFieldPasswordReusable(
                 fieldDecoration: InputDecoration(
-                  labelText: AppLocalization.of(context)!.translate('confirm_password_label_communication') ?? 'Confirm Password',
+                  labelText: AppLocalization.of(context)!
+                          .translate('confirm_password_label_communication') ??
+                      'Confirm Password',
                 ),
                 controllerName: _confirmpasswordController,
                 validationText: 'Test',
@@ -193,9 +208,18 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
               padding: const EdgeInsets.all(0.00),
               child: DropdownFormFieldNormalReuse(
                 _onUpdateeFrequencySelection,
-                hintText: AppLocalization.of(context)!.translate('sync_frequency_label_communication') ?? 'Sync Frequency',
+                hintText: AppLocalization.of(context)!
+                        .translate('sync_frequency_label_communication') ??
+                    'Sync Frequency',
                 selectedValue: syncfrequencySelectedItem,
-                listData: ['Every Minute', 'Every 5 Minutes', 'Every 20 Minutes', 'Every Day', 'Every Month', 'Every Year'],
+                listData: const [
+                  'Every Minute',
+                  'Every 5 Minutes',
+                  'Every 20 Minutes',
+                  'Every Day',
+                  'Every Month',
+                  'Every Year'
+                ],
               ),
             ),
             Padding(
@@ -211,8 +235,11 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
                   },
                   child: Center(
                       child: Text(
-                    AppLocalization.of(context)!.translate('save_changes_button_serversetup') ?? 'Save Changes',
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                    AppLocalization.of(context)!
+                            .translate('save_changes_button_serversetup') ??
+                        'Save Changes',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.white),
                   )),
                 ),
               ),

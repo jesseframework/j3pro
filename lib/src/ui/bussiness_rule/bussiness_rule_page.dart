@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/database/crud/business_rule/business_rule_crud.dart';
 import 'package:j3enterprise/src/database/drift_database.dart';
-import 'package:j3enterprise/src/resources/shared/colors/my_color.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/no_data_found.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
-import 'package:j3enterprise/src/ui/authentication/authentication.dart';
 import 'package:j3enterprise/src/ui/bussiness_rule/bussiness_rule_detail_page.dart';
-import 'package:j3enterprise/src/ui/preferences/preference_detail.dart';
 
 class BussinessRulePage extends StatefulWidget {
- 
   var db;
   late BusinessRuleDao businessRuleDao;
-  BussinessRulePage() {
+  BussinessRulePage({super.key}) {
     db = MyDatabase();
     businessRuleDao = BusinessRuleDao(db);
   }
@@ -37,10 +32,12 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
     return Scaffold(
       appBar: AppBar(
         //ToDo add translation for preferences title
-        title: Text(AppLocalization.of(context)!.translate('bussiness_rule_title') ?? "Bussiness Rule"),
-        actions: <Widget>[
+        title: Text(
+            AppLocalization.of(context)!.translate('bussiness_rule_title') ??
+                "Bussiness Rule"),
+        actions: const <Widget>[
           Padding(
-            padding: const EdgeInsets.only(right: 18),
+            padding: EdgeInsets.only(right: 18),
             child: Icon(
               Icons.wifi,
               color: Colors.greenAccent,
@@ -48,28 +45,32 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
           ),
         ],
       ),
-      body: Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 3),
-            child: Container(
-                height: 55,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                  child: Center(
-                    child: ListFilter(
-                      placeholder: 'Search',
-                      filter: searchText,
-                      onFilterChanged: (search) {
-                        setState(() {
-                          searchText = search;
-                        });
-                      },
-                      function: () {},
-                    ),
-                  ),
-                ))),
-        _buildStreamBuilder(),
-      ]),
+      body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 3),
+                child: SizedBox(
+                    height: 55,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 5),
+                      child: Center(
+                        child: ListFilter(
+                          placeholder: 'Search',
+                          filter: searchText,
+                          onFilterChanged: (search) {
+                            setState(() {
+                              searchText = search;
+                            });
+                          },
+                          function: () {},
+                        ),
+                      ),
+                    ))),
+            _buildStreamBuilder(),
+          ]),
     );
   }
 
@@ -78,13 +79,13 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
         stream: widget.businessRuleDao.watchAllBusinessRule(searchText),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            List<BusinessRuleData>? bussinessRuleData = snapshot.data as List<BusinessRuleData>?;
+            List<BusinessRuleData>? bussinessRuleData = snapshot.data;
             List<String> groupsCollection = <String>[];
-            bussinessRuleData!.forEach((element) {
+            for (var element in bussinessRuleData!) {
               if (!groupsCollection.contains(element.groups)) {
                 groupsCollection.add(element.groups.toString());
               }
-            });
+            }
             if (bussinessRuleData.isEmpty) {
               return BuildOnNoData(
                 message: "No Bussiness Rule Found",
@@ -98,14 +99,14 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: Text(
                             groupsCollection[index],
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                             ),
@@ -115,62 +116,90 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
                             child: Padding(
                                 padding: const EdgeInsets.all(5.0),
                                 child: Card(
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5)),
                                     elevation: 5,
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),
                                       child: Column(children: [
                                         ...bussinessRuleData.map((e) {
-                                          if (e.groups == groupsCollection[index]) {
+                                          if (e.groups ==
+                                              groupsCollection[index]) {
                                             return InkWell(
                                               onTap: () {
-                                                Navigator.push(context, MaterialPageRoute(builder: (context) => BussinessRuleDetailPage(e.ruleName)));
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            BussinessRuleDetailPage(
+                                                                e.ruleName)));
                                               },
                                               child: Padding(
-                                                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                                                child: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 10,
+                                                        horizontal: 5),
+                                                child: SizedBox(
                                                     height: 50,
                                                     child: Column(children: [
                                                       Row(children: [
                                                         Expanded(
-                                                          child: Column(children: [
-                                                            Row(
-                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          child: Column(
                                                               children: [
-                                                                Text(
-                                                                  e.ruleName!,
-                                                                  style: TextStyle(
-                                                                    fontWeight: FontWeight.bold,
-                                                                    fontSize: 16,
-                                                                  ),
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Text(
+                                                                      e.ruleName!,
+                                                                      style:
+                                                                          const TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                        fontSize:
+                                                                            16,
+                                                                      ),
+                                                                    ),
+                                                                    Expanded(
+                                                                        child:
+                                                                            Container()),
+                                                                    Text(
+                                                                      e.value,
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          fontSize:
+                                                                              14,
+                                                                          color: e.value == 'OFF'
+                                                                              ? Colors.red
+                                                                              : Colors.green),
+                                                                    ),
+                                                                  ],
                                                                 ),
-                                                                Expanded(child: Container()),
-                                                                Text(
-                                                                  e.value,
-                                                                  style: TextStyle(
-                                                                      fontWeight: FontWeight.bold,
-                                                                      fontSize: 14,
-                                                                      color: e.value == 'OFF' ? Colors.red : Colors.green),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            Row(
-                                                              children: [
-                                                                Text(
-                                                                  e.description!,
-                                                                  style: TextStyle(
-                                                                    fontWeight: FontWeight.w600,
-                                                                    fontSize: 14,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            )
-                                                          ]),
+                                                                Row(
+                                                                  children: [
+                                                                    Text(
+                                                                      e.description!,
+                                                                      style:
+                                                                          const TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                        fontSize:
+                                                                            14,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                )
+                                                              ]),
                                                         ),
-                                                        Padding(
-                                                          padding: const EdgeInsets.all(5.0),
+                                                        const Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  5.0),
                                                           child: Icon(
-                                                            Icons.arrow_forward_ios,
+                                                            Icons
+                                                                .arrow_forward_ios,
                                                             size: 20,
                                                           ),
                                                         )
@@ -189,11 +218,9 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
                   }),
             ); //                       return SingleChildScrollView(
           }
-          return BuildProgressIndicator();
+          return const BuildProgressIndicator();
         });
   }
 }
 
-void create({  String? name}) {
-  ;
-}
+void create({String? name}) {}

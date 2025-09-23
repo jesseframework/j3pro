@@ -1,7 +1,6 @@
 import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/warehouse/inventory_items_crud.dart';
 import 'package:logging/logging.dart';
-import 'package:drift/drift.dart' as moor;
 
 class CheckInventory {
   var db;
@@ -13,7 +12,7 @@ class CheckInventory {
   CheckInventory() {
     db = MyDatabase();
     _log.finest("$className constructer call");
-    inventoryItemsDao = new InventoryItemsDao(db);
+    inventoryItemsDao = InventoryItemsDao(db);
   }
 
   Future<double> checkInventoey(String itemCode) async {

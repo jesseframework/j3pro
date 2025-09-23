@@ -20,20 +20,21 @@
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatelessWidget {
- 
+  const SplashPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.black87,
         body: Container(
           width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               image: DecorationImage(
             image: AssetImage(
               'images/j3-for-gif.gif',
             ),
           )),
-          child: Column(
+          child: const Column(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[

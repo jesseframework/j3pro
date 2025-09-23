@@ -27,10 +27,10 @@ class StockUOMRepository {
   StockUOMRepository() {
     _log.finest("Preference repository constructer call");
     db = MyDatabase();
-    updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
-    backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
-    stockUnitOfMeasureDao = new StockUnitOfMeasureDao(db);
-    userSharedData = new UserSharedData();
+    updateBackgroundJobStatus = UpdateBackgroundJobStatus();
+    backgroundJobScheduleDao = BackgroundJobScheduleDao(db);
+    stockUnitOfMeasureDao = StockUnitOfMeasureDao(db);
+    userSharedData = UserSharedData();
   }
 
   Future<void> getStockUOMFromServer(String jobName) async {
@@ -51,7 +51,8 @@ class StockUOMRepository {
             _log.finest("Server resopnses successful for $className ");
             Map<String, dynamic> result = map['result'];
             var items = (result['items'] as List).map((e) {
-              return StockUnitOfMeasureData.fromJson(e, serializer: CustomSerializer());
+              return StockUnitOfMeasureData.fromJson(e,
+                  serializer: CustomSerializer());
             });
 
             for (var item in items) {
@@ -62,7 +63,8 @@ class StockUOMRepository {
           } else {
             String error = map["error"]["details"].toString();
             updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-            _log.shout("Customer API call failed. Server respond with error : $error  ");
+            _log.shout(
+                "Customer API call failed. Server respond with error : $error  ");
           }
         }
       }

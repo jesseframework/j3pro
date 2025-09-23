@@ -10,11 +10,14 @@ void main() {
     String transactionStatus = "Post";
     double numOfItemOnRegister = 0;
     double minPurchaseOfItemOnRegister = 0;
-    var db;
+    MyDatabase db;
     db = MyDatabase();
-    SalesOrderDetailTempDao salesOrderDetailTempDao = new SalesOrderDetailTempDao(db);
+    SalesOrderDetailTempDao salesOrderDetailTempDao =
+        SalesOrderDetailTempDao(db);
 
-    salesOrderDetailTempDao.qtyOfItemOnRegister(transactionNumber, itemId, uom, transactionStatus).listen((e) {
+    salesOrderDetailTempDao
+        .qtyOfItemOnRegister(transactionNumber, itemId, uom, transactionStatus)
+        .listen((e) {
       numOfItemOnRegister = e.single.quantity;
       minPurchaseOfItemOnRegister = e.single.subTotal;
       print(numOfItemOnRegister.toString());

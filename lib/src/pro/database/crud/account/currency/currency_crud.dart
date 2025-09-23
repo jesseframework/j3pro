@@ -6,7 +6,8 @@ import 'package:drift/drift.dart';
 part 'currency_crud.g.dart';
 
 @DriftAccessor(tables: [SystemCurrency])
-class SystemCurrencyDao extends DatabaseAccessor<MyDatabase> with _$SystemCurrencyDaoMixin {
+class SystemCurrencyDao extends DatabaseAccessor<MyDatabase>
+    with _$SystemCurrencyDaoMixin {
   final MyDatabase db;
   SystemCurrencyDao(this.db) : super(db);
 
@@ -14,8 +15,11 @@ class SystemCurrencyDao extends DatabaseAccessor<MyDatabase> with _$SystemCurren
     return (select(db.systemCurrency).get());
   }
 
-  Future<List<SystemCurrencyData>> getAllSystemCurrencyByName(String currencyname) {
-    return (select(db.systemCurrency)..where((t) => t.currencyName.equals(currencyname))).get();
+  Future<List<SystemCurrencyData>> getAllSystemCurrencyByName(
+      String currencyname) {
+    return (select(db.systemCurrency)
+          ..where((t) => t.currencyName.equals(currencyname)))
+        .get();
   }
 
   Future<void> createOrUpdateCurrency(SystemCurrencyData systemCurrencyData) {

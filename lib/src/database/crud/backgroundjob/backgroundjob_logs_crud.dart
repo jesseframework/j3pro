@@ -17,7 +17,6 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
- 
 import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/models/background_jobs_logs_model.dart';
 import 'package:drift/drift.dart';

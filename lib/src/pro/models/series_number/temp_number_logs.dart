@@ -3,6 +3,7 @@ import 'package:drift/drift.dart';
 
 class TempNumberLogs extends Table implements MustHaveTenant {
   IntColumn get id => integer().autoIncrement()();
+  @override
   IntColumn get tenantId => integer().nullable()();
   TextColumn get nextSeriesNumber => text().nullable()();
   TextColumn get lastSeriesNumber => text().nullable()();

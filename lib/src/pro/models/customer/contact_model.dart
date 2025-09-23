@@ -3,6 +3,7 @@ import 'package:drift/drift.dart';
 
 class Contact extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
+  @override
   IntColumn get tenantId => integer().nullable()();
   TextColumn get contactTitle => text().nullable()();
   TextColumn get customerId => text().nullable()();
@@ -11,11 +12,12 @@ class Contact extends Table implements MustHaveTenant {
   TextColumn get cellNumber => text().nullable()();
   TextColumn get whatappNumber => text().nullable()();
   BoolColumn get isYourCompanyContact =>
-      boolean().withDefault(Constant(false)).nullable()();
-  BoolColumn get isPrimaryContact => boolean().withDefault(Constant(false)).nullable()();
-  BoolColumn get isUserContact => boolean().withDefault(Constant(false)).nullable()();
+      boolean().withDefault(const Constant(false)).nullable()();
+  BoolColumn get isPrimaryContact =>
+      boolean().withDefault(const Constant(false)).nullable()();
+  BoolColumn get isUserContact =>
+      boolean().withDefault(const Constant(false)).nullable()();
   TextColumn get userName => text().nullable()();
   @override
   Set<Column> get primaryKey => {id};
- 
 }

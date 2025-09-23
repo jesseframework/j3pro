@@ -63,13 +63,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   var db;
   late UserDao userDao;
 
-  LoginBloc({required this.userRepository, required this.authenticationBloc}) : super(LoginInitial(tenantName: '')) {
-    userHash = new UserHash(userRepository: userRepository);
+  LoginBloc({required this.userRepository, required this.authenticationBloc})
+      : super(const LoginInitial(tenantName: '')) {
+    userHash = UserHash(userRepository: userRepository);
     db = MyDatabase();
-    userSharedData = new UserSharedData();
-    appLoggerRepository = new AppLoggerRepository();
-    tenantDao = new TenantDao(db);
-    salesOrderDetailTempDao = new SalesOrderDetailTempDao(db);
+    userSharedData = UserSharedData();
+    appLoggerRepository = AppLoggerRepository();
+    tenantDao = TenantDao(db);
+    salesOrderDetailTempDao = SalesOrderDetailTempDao(db);
 
     //appLogger = new AppLogger();
 
@@ -78,173 +79,75 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     userDao = UserDao(db);
     _log.finest('LoginBloc constructer call');
 
-
-    on<LoginButtonPressed>((event, emit) => _mapLoginButtonPressedToState(event, emit));
+    on<LoginButtonPressed>(
+        (event, emit) => _mapLoginButtonPressedToState(event, emit));
   }
 
   getData() async {
-    tenantName = (await userRepository.getTenantFromSharedPref())??'';
+    tenantName = (await userRepository.getTenantFromSharedPref()) ?? '';
   }
 
+  LoginState get initialState => const LoginInitial(tenantName: '');
 
-  LoginState get initialState => LoginInitial(tenantName: '');
-
-
-
-
-    _mapLoginButtonPressedToState(LoginButtonPressed event, Emitter<LoginState> emit) async{
-      _log.finest('Bloc mapEventToState call');
+  _mapLoginButtonPressedToState(
+      LoginButtonPressed event, Emitter<LoginState> emit) async {
+    _log.finest('Bloc mapEventToState call');
     try {
       String tenantId;
       String deviceState;
       String tenantState;
 
-      
-        if (Platform.isAndroid || Platform.isIOS) {
-          var isConnected = await ConnectionService().isConnected();
-          _log.finest('Connection check call');
-          print(isConnected);
-          if (isConnected) {
-            _log.info(isConnected);
+      if (Platform.isAndroid || Platform.isIOS) {
+        var isConnected = await ConnectionService().isConnected();
+        _log.finest('Connection check call');
+        print(isConnected);
+        if (isConnected) {
+          _log.info(isConnected);
 
-            emit( LoginLoading());
-            _log.finest('Bloc state change to LoginLoading');
-            final Response tenantResponse = await userRepository.checkTenant(tenancyName: event.tenantName);
-            Map<String, dynamic> tenantMap = json.decode(tenantResponse.bodyString);
-            if (tenantResponse.isSuccessful && tenantMap['success']) {
-              _log.finest('Tenant response check in LoginLoading state');
-              Map<String, dynamic> tenantResult = tenantMap['result'];
-              _log.finest('Tenant result in LoginLoading state : ' + tenantResult.toString());
-
-              tenantId = tenantResult['tenantId'].toString();
-              deviceState = '';
-              tenantState = '';
-
-              userSharedData.setUserSharedPref(
-                  event.deviceId, deviceState, tenantState, event.username, event.tenantName, tenantId.toString(), 0.toString());
-
-              _log.finest('Tenant tenant result assign to virable tenant LoginLoading state');
-              if (tenantResult['tenantId'] == null) {
-                tenantId = 0.toString();
-                String error = "There is no tenant defined with name";
-                _log.info(error);
-                emit( LoginFailure(error: error));
-                _log.info('Bloc state change to LoginFailure when trying to get tenant');
-                return;
-              }
-            } else {
-              String error = tenantMap["error"]["details"].toString();
-              _log.info(error, StackTrace.current);
-              emit( LoginFailure(error: error));
-              return;
-            }
-
-            //Check user and validate password
-            _log.finest('Start validate username and password');
-            final Response response = await userRepository.authenticate(
-              username: event.username,
-              password: event.password,
-            );
-            Map<String, dynamic> map = json.decode(response.bodyString);
-            if (response.isSuccessful && map['success']) {
-              //decode the response body
-              _log.finest('API response is successful');
-              Map<String, dynamic> result = map['result'];
-              _log.finest('Create share preference for user');
-              int? userId = int.tryParse(result['userId'].toString());
-              userSharedData.setUserSharedPref(
-                  event.deviceId, deviceState, tenantState, event.username, event.tenantName, tenantId.toString(), userId.toString());
-
-              _log.finest('Add user teanant in Tenant Db');
-              var tenantData = new TenantCompanion(
-                  tenantId: moor.Value(int.tryParse(tenantId)!),
-                  tenantName: moor.Value(event.tenantName),
-                  userId: moor.Value(userId),
-                  userName: moor.Value(event.username));
-              await tenantDao.createOrUpdate(tenantData);
-
-              _log.finest('Moveing to authenticationBloc');
-              authenticationBloc.add(LoggedIn(token: result['accessToken'], userId: result['userId'], tenantId: int.tryParse(tenantId)!));
-
-              emit( LoginInitial(tenantName: ''));
-            } else {
-              //display errors
-              String error = map["error"]["details"].toString();
-              _log.info(error, StackTrace.current);
-              emit( LoginFailure(error: error));
-            }
-          } else {
-            //Login offline with hash
-            _log.finest('Trying to loging offline');
-            emit( LoginLoading());
-            var getTenantData = await tenantDao.getSingleTenant(event.tenantName, event.username);
-            if (getTenantData != null) {
-              var userDate = await userDao.getSingleTenantUser(event.username, getTenantData.tenantId);
-              if (userDate != null) {
-                _log.finest('Get tenant from user table');
-                final int? _tenantId = userDate.tenantId;
-
-                String _userHash = await userHash.createHash(event.password, _tenantId!, userDate.id);
-                _log.finest('Create user mobile hash $_userHash');
-                _log.finest('Validation mobile hash');
-                if (userDate.mobileHash == _userHash.toString()) {
-                  _log.finest('Moving  to authenticationBloc');
-                  _log.finest('Create share preference for user');
-                  userSharedData.setUserSharedPref(event.deviceId, "", "", event.username, tenantName, _tenantId.toString(), userDate.id.toString());
-                  authenticationBloc.add(LoggedIn(token: "", userId: userDate.id, tenantId: int.tryParse(_tenantId.toString())!));
-                  emit( LoginInitial(tenantName: ''));
-                } else {
-                  String error = AppLocalization.of(event.context)!.translate('online_login_code_miss_match') ?? 'Invalid User Name or Password';
-                  _log.info(error, StackTrace.current);
-                  emit( LoginFailure(error: error));
-                }
-              } else {
-                String error = AppLocalization.of(event.context)!.translate('offline_login_failed') ??
-                    'Something went wrong! Unable to log you in offline. Please try againg';
-                _log.info(error, StackTrace.current);
-                emit( LoginFailure(error: error));
-              }
-            } else {
-              String error = AppLocalization.of(event.context)!.translate('offline_login_failed') ??
-                  'Something went wrong! Unable to log you in offline. Please try againg';
-              _log.info(error, StackTrace.current);
-              emit( LoginFailure(error: error));
-            }
-          }
-        } else {
-          //Not Android and iOS device
-          emit( LoginLoading());
-          _log.finest('Loging on with non Android or iOS devices');
-          final Response tenantResponse = await userRepository.checkTenant(tenancyName: event.tenantName);
-          Map<String, dynamic> tenantMap = json.decode(tenantResponse.bodyString);
-          _log.finest('Tenant response check in LoginLoading state');
+          emit(const LoginLoading());
+          _log.finest('Bloc state change to LoginLoading');
+          final Response tenantResponse =
+              await userRepository.checkTenant(tenancyName: event.tenantName);
+          Map<String, dynamic> tenantMap =
+              json.decode(tenantResponse.bodyString);
           if (tenantResponse.isSuccessful && tenantMap['success']) {
+            _log.finest('Tenant response check in LoginLoading state');
             Map<String, dynamic> tenantResult = tenantMap['result'];
-            _log.finest('Tenant result in LoginLoading state : ' + tenantResult.toString());
-            print(tenantResult);
-            await userRepository.setTenantIntoSharedPref(event.tenantName);
+            _log.finest('Tenant result in LoginLoading state : $tenantResult');
 
+            tenantId = tenantResult['tenantId'].toString();
             deviceState = '';
             tenantState = '';
 
-            tenantId = tenantResult['tenantId'].toString();
             userSharedData.setUserSharedPref(
-                event.deviceId, deviceState, tenantState, event.username, event.tenantName, tenantId.toString(), 0.toString());
-            _log.finest('Tenant tenant result assign to virable tenant LoginLoading state');
+                event.deviceId,
+                deviceState,
+                tenantState,
+                event.username,
+                event.tenantName,
+                tenantId.toString(),
+                0.toString());
 
+            _log.finest(
+                'Tenant tenant result assign to virable tenant LoginLoading state');
             if (tenantResult['tenantId'] == null) {
               tenantId = 0.toString();
               String error = "There is no tenant defined with name";
-              emit( LoginFailure(error: error));
-              _log.info('Bloc state change to LoginFailure');
+              _log.info(error);
+              emit(LoginFailure(error: error));
+              _log.info(
+                  'Bloc state change to LoginFailure when trying to get tenant');
               return;
             }
           } else {
             String error = tenantMap["error"]["details"].toString();
-            _log.info(error);
-            emit( LoginFailure(error: error));
+            _log.info(error, StackTrace.current);
+            emit(LoginFailure(error: error));
             return;
           }
+
+          //Check user and validate password
+          _log.finest('Start validate username and password');
           final Response response = await userRepository.authenticate(
             username: event.username,
             password: event.password,
@@ -252,28 +155,149 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           Map<String, dynamic> map = json.decode(response.bodyString);
           if (response.isSuccessful && map['success']) {
             //decode the response body
+            _log.finest('API response is successful');
             Map<String, dynamic> result = map['result'];
-            _log.finest('Moveing to authenticationBloc');
             _log.finest('Create share preference for user');
             int? userId = int.tryParse(result['userId'].toString());
-            userSharedData.setUserSharedPref(event.deviceId, "", "", event.username, tenantName, tenantId, userId.toString());
-            authenticationBloc.add(LoggedIn(token: result['accessToken'], userId: result['userId'], tenantId: int.tryParse(tenantId)!));
-            emit( LoginInitial(tenantName: ''));
+            userSharedData.setUserSharedPref(
+                event.deviceId,
+                deviceState,
+                tenantState,
+                event.username,
+                event.tenantName,
+                tenantId.toString(),
+                userId.toString());
+
+            _log.finest('Add user teanant in Tenant Db');
+            var tenantData = TenantCompanion(
+                tenantId: moor.Value(int.tryParse(tenantId)!),
+                tenantName: moor.Value(event.tenantName),
+                userId: moor.Value(userId),
+                userName: moor.Value(event.username));
+            await tenantDao.createOrUpdate(tenantData);
+
+            _log.finest('Moveing to authenticationBloc');
+            authenticationBloc.add(LoggedIn(
+                token: result['accessToken'],
+                userId: result['userId'],
+                tenantId: int.tryParse(tenantId)!));
+
+            emit(const LoginInitial(tenantName: ''));
           } else {
             //display errors
-            // can have an error class and use from map here as well
             String error = map["error"]["details"].toString();
-            emit( LoginFailure(error: error));
+            _log.info(error, StackTrace.current);
+            emit(LoginFailure(error: error));
+          }
+        } else {
+          //Login offline with hash
+          _log.finest('Trying to loging offline');
+          emit(const LoginLoading());
+          var getTenantData =
+              await tenantDao.getSingleTenant(event.tenantName, event.username);
+          var userDate = await userDao.getSingleTenantUser(
+              event.username, getTenantData.tenantId);
+          _log.finest('Get tenant from user table');
+          final int? tenantId0 = userDate.tenantId;
+
+          String userHash = await this.userHash.createHash(
+              event.password, tenantId0!, userDate.id);
+          _log.finest('Create user mobile hash $userHash');
+          _log.finest('Validation mobile hash');
+          if (userDate.mobileHash == userHash.toString()) {
+            _log.finest('Moving  to authenticationBloc');
+            _log.finest('Create share preference for user');
+            userSharedData.setUserSharedPref(
+                event.deviceId,
+                "",
+                "",
+                event.username,
+                tenantName,
+                tenantId0.toString(),
+                userDate.id.toString());
+            authenticationBloc.add(LoggedIn(
+                token: "",
+                userId: userDate.id,
+                tenantId: int.tryParse(tenantId0.toString())!));
+            emit(const LoginInitial(tenantName: ''));
+          } else {
+            String error = AppLocalization.of(event.context)!
+                    .translate('online_login_code_miss_match') ??
+                'Invalid User Name or Password';
+            _log.info(error, StackTrace.current);
+            emit(LoginFailure(error: error));
           }
         }
-    
+      } else {
+        //Not Android and iOS device
+        emit(const LoginLoading());
+        _log.finest('Loging on with non Android or iOS devices');
+        final Response tenantResponse =
+            await userRepository.checkTenant(tenancyName: event.tenantName);
+        Map<String, dynamic> tenantMap = json.decode(tenantResponse.bodyString);
+        _log.finest('Tenant response check in LoginLoading state');
+        if (tenantResponse.isSuccessful && tenantMap['success']) {
+          Map<String, dynamic> tenantResult = tenantMap['result'];
+          _log.finest('Tenant result in LoginLoading state : $tenantResult');
+          print(tenantResult);
+          await userRepository.setTenantIntoSharedPref(event.tenantName);
+
+          deviceState = '';
+          tenantState = '';
+
+          tenantId = tenantResult['tenantId'].toString();
+          userSharedData.setUserSharedPref(
+              event.deviceId,
+              deviceState,
+              tenantState,
+              event.username,
+              event.tenantName,
+              tenantId.toString(),
+              0.toString());
+          _log.finest(
+              'Tenant tenant result assign to virable tenant LoginLoading state');
+
+          if (tenantResult['tenantId'] == null) {
+            tenantId = 0.toString();
+            String error = "There is no tenant defined with name";
+            emit(LoginFailure(error: error));
+            _log.info('Bloc state change to LoginFailure');
+            return;
+          }
+        } else {
+          String error = tenantMap["error"]["details"].toString();
+          _log.info(error);
+          emit(LoginFailure(error: error));
+          return;
+        }
+        final Response response = await userRepository.authenticate(
+          username: event.username,
+          password: event.password,
+        );
+        Map<String, dynamic> map = json.decode(response.bodyString);
+        if (response.isSuccessful && map['success']) {
+          //decode the response body
+          Map<String, dynamic> result = map['result'];
+          _log.finest('Moveing to authenticationBloc');
+          _log.finest('Create share preference for user');
+          int? userId = int.tryParse(result['userId'].toString());
+          userSharedData.setUserSharedPref(event.deviceId, "", "",
+              event.username, tenantName, tenantId, userId.toString());
+          authenticationBloc.add(LoggedIn(
+              token: result['accessToken'],
+              userId: result['userId'],
+              tenantId: int.tryParse(tenantId)!));
+          emit(const LoginInitial(tenantName: ''));
+        } else {
+          //display errors
+          // can have an error class and use from map here as well
+          String error = map["error"]["details"].toString();
+          emit(LoginFailure(error: error));
+        }
+      }
     } catch (error) {
       _log.shout(error, StackTrace.current);
-      emit( LoginFailure(error: error.toString()));
+      emit(LoginFailure(error: error.toString()));
     }
   }
-
-  
-  
-
 }

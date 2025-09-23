@@ -33,11 +33,10 @@ import 'package:j3enterprise/src/resources/shared/widgets/no_data_found.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
 
 class HomePage extends StatefulWidget {
- 
   var db;
   late DesktopDao desktopDao;
   late UserDao userDao;
-  HomePage() {
+  HomePage({super.key}) {
     db = MyDatabase();
     desktopDao = DesktopDao(db);
     userDao = UserDao(db);
@@ -52,7 +51,7 @@ class _HomePageState extends State<HomePage> {
   //final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   int code = 0xe8b8;
   String image = 'images/beach-background.jpg';
-  int userId=1;
+  int userId = 1;
   @override
   void didChangeDependencies() async {
     await getIt<UserRepository>().getUserSharedPref().then((value) {
@@ -87,18 +86,18 @@ class _HomePageState extends State<HomePage> {
                         stream: Connectivity().onConnectivityChanged,
                         builder: (context, data) {
                           if (data.data == ConnectivityResult.none) {
-                            return Icon(
+                            return const Icon(
                               Icons.signal_wifi_off,
                               color: Colors.red,
                             );
                           } else {
-                            return Icon(
+                            return const Icon(
                               Icons.wifi,
                               color: Colors.greenAccent,
                             );
                           }
                         })
-                    : Icon(
+                    : const Icon(
                         Icons.wifi,
                         color: Colors.greenAccent,
                       ))
@@ -115,128 +114,173 @@ class _HomePageState extends State<HomePage> {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                   image: AssetImage(
-                    snapshot.hasData == true ? getImageName(user.themeData) : image,
+                    snapshot.hasData == true
+                        ? getImageName(user.themeData)
+                        : image,
                   ),
                   fit: BoxFit.cover,
                 )),
-                child: Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: Stack(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                          child: Center(
-                            child: ListFilter(
-                                function: (value) {},
-                                placeholder: 'Search',
-                                filter: searchText,
-                                onFilterChanged: (search) {
-                                  setState(() {
-                                    searchText = search;
-                                  });
-                                }),
-                          ),
-                        )
-                      ],
-                      //    color: Theme.of(context).backgroundColor,
-                    ),
-                  ),
-                  StreamBuilder(
-                      stream: widget.desktopDao.watchAllDesktop(searchText, false, searchText, "Administrator", "home_page"),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          List<DesktopData>? prefData = snapshot.data as List<DesktopData>?;
-                          List<String> groupsCollection = <String>[];
-                          prefData!.forEach((element) {
-                            if (!groupsCollection.contains(element.iconGroup)) {
-                              groupsCollection.add(element.iconGroup);
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: Stack(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 5),
+                              child: Center(
+                                child: ListFilter(
+                                    function: (value) {},
+                                    placeholder: 'Search',
+                                    filter: searchText,
+                                    onFilterChanged: (search) {
+                                      setState(() {
+                                        searchText = search;
+                                      });
+                                    }),
+                              ),
+                            )
+                          ],
+                          //    color: Theme.of(context).backgroundColor,
+                        ),
+                      ),
+                      StreamBuilder(
+                          stream: widget.desktopDao.watchAllDesktop(searchText,
+                              false, searchText, "Administrator", "home_page"),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              List<DesktopData>? prefData = snapshot.data;
+                              List<String> groupsCollection = <String>[];
+                              for (var element in prefData!) {
+                                if (!groupsCollection
+                                    .contains(element.iconGroup)) {
+                                  groupsCollection.add(element.iconGroup);
+                                }
+                              }
+                              if (prefData.isEmpty) {
+                                return BuildOnNoData(
+                                  message: "No Desktop Icons found",
+                                );
+                              }
+                              return Expanded(
+                                child: ListView.builder(
+                                    itemCount: groupsCollection.length,
+                                    itemBuilder: (context, index) {
+                                      return Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16),
+                                            child: Text(
+                                              groupsCollection[index],
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 15, vertical: 8),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Theme.of(context)
+                                                    .cardColor
+                                                    .withOpacity(0.8),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: Wrap(
+                                                  direction: Axis.horizontal,
+                                                  alignment:
+                                                      WrapAlignment.start,
+                                                  children: [
+                                                    ...prefData.map((e) {
+                                                      if (e.iconGroup ==
+                                                          groupsCollection[
+                                                              index]) {
+                                                        return InkWell(
+                                                            onTap: () {
+                                                              print(e
+                                                                  .navigationRoute);
+                                                              Navigator.pushNamed(
+                                                                  context,
+                                                                  e.navigationRoute);
+                                                            },
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          12,
+                                                                      vertical:
+                                                                          8),
+                                                              child: SizedBox(
+                                                                width: 70,
+                                                                child: Column(
+                                                                  children: [
+                                                                    Card(
+                                                                      shape: RoundedRectangleBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(5)),
+                                                                      clipBehavior:
+                                                                          Clip.antiAlias,
+                                                                      child:
+                                                                          Container(
+                                                                        width:
+                                                                            60,
+                                                                        height:
+                                                                            60,
+                                                                        color: Color(
+                                                                            int.parse(e.iconColour)),
+                                                                        child: Icon(
+                                                                            IconData(int.parse(e.iconCode),
+                                                                                fontFamily: e.iconFamily),
+                                                                            color: Colors.white),
+                                                                      ),
+                                                                    ),
+                                                                    Container(
+                                                                        child:
+                                                                            Text(
+                                                                      e.iconName,
+                                                                      style:
+                                                                          const TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                      ),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      softWrap:
+                                                                          true,
+                                                                    ))
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ));
+                                                      } else {
+                                                        return const SizedBox();
+                                                      }
+                                                    }),
+                                                  ]),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    }),
+                              ); //                       r
                             }
-                          });
-                          if (prefData.isEmpty) {
-                            return BuildOnNoData(
-                              message: "No Desktop Icons found",
-                            );
-                          }
-                          return Expanded(
-                            child: ListView.builder(
-                                itemCount: groupsCollection.length,
-                                itemBuilder: (context, index) {
-                                  return Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                                        child: Text(
-                                          groupsCollection[index],
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: Theme.of(context).cardColor.withOpacity(0.8),
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                          child: Wrap(direction: Axis.horizontal, alignment: WrapAlignment.start, children: [
-                                            ...prefData.map((e) {
-                                              if (e.iconGroup == groupsCollection[index]) {
-                                                return InkWell(
-                                                    onTap: () {
-                                                      print(e.navigationRoute);
-                                                      Navigator.pushNamed(context, e.navigationRoute);
-                                                    },
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                                      child: Container(
-                                                        width: 70,
-                                                        child: Column(
-                                                          children: [
-                                                            Card(
-                                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                                              clipBehavior: Clip.antiAlias,
-                                                              child: Container(
-                                                                width: 60,
-                                                                height: 60,
-                                                                color: Color(int.parse(e.iconColour)),
-                                                                child: Icon(IconData(int.parse(e.iconCode), fontFamily: e.iconFamily),
-                                                                    color: Colors.white),
-                                                              ),
-                                                            ),
-                                                            Container(
-                                                                child: Text(
-                                                              e.iconName,
-                                                              style: TextStyle(
-                                                                fontWeight: FontWeight.w500,
-                                                              ),
-                                                              textAlign: TextAlign.center,
-                                                              softWrap: true,
-                                                            ))
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ));
-                                              } else {
-                                                return SizedBox();
-                                              }
-                                            }),
-                                          ]),
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                }),
-                          ); //                       r
-                        }
 
-                        return BuildProgressIndicator();
-                      })
-                ]),
+                            return const BuildProgressIndicator();
+                          })
+                    ]),
                 // child: Column(
                 //   crossAxisAlignment: CrossAxisAlignment.start,
                 //   children: <Widget>[

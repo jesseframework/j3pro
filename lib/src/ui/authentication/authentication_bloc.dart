@@ -36,7 +36,8 @@ import 'package:drift/drift.dart' as moor;
 import 'authentication_event.dart';
 import 'authentication_state.dart';
 
-class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
+class AuthenticationBloc
+    extends Bloc<AuthenticationEvent, AuthenticationState> {
   var db;
   final UserRepository userRepository = getIt<UserRepository>();
   late UserFromServer userFromServer;
@@ -50,29 +51,31 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
 
   AuthenticationBloc() : super(AuthenticationUninitialized()) {
     db = MyDatabase();
-    userFromServer = new UserFromServer(userRepository: userRepository);
-    userHash = new UserHashSave(userRepository: userRepository);
-    appLoggerRepository = new AppLoggerRepository();
-    preferenceRepository = new PreferenceRepository();
-    backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
-    businessRuleDao = new BusinessRuleDao(db);
-    scheduleler = new Scheduler();
+    userFromServer = UserFromServer(userRepository: userRepository);
+    userHash = UserHashSave(userRepository: userRepository);
+    appLoggerRepository = AppLoggerRepository();
+    preferenceRepository = PreferenceRepository();
+    backgroundJobScheduleDao = BackgroundJobScheduleDao(db);
+    businessRuleDao = BusinessRuleDao(db);
+    scheduleler = Scheduler();
 
-
-    
-    on<PushNotification>((event, emit) => _mapPushNotificationToState(event, emit));
+    on<PushNotification>(
+        (event, emit) => _mapPushNotificationToState(event, emit));
     on<AppStarted>((event, emit) => _mapAppStartedEventToState(event, emit));
     on<LoggedIn>((event, emit) => _mapLoggedInEventToState(event, emit));
-    on<OfflineLoginButtonPressed>((event, emit) => _mapOfflineLoginButtonPressedEventToState(event, emit));
+    on<OfflineLoginButtonPressed>((event, emit) =>
+        _mapOfflineLoginButtonPressedEventToState(event, emit));
     on<LoggedOut>((event, emit) => _mapLoggedOutEventToState(event, emit));
   }
 
-  _mapPushNotificationToState(PushNotification event, Emitter<AuthenticationState> emit) {
+  _mapPushNotificationToState(
+      PushNotification event, Emitter<AuthenticationState> emit) {
     emit(PushNotificationState(route: event.route));
   }
 
-  _mapAppStartedEventToState(AppStarted event, Emitter<AuthenticationState> emit) async {
-    await Future.delayed(Duration(seconds: 9));
+  _mapAppStartedEventToState(
+      AppStarted event, Emitter<AuthenticationState> emit) async {
+    await Future.delayed(const Duration(seconds: 9));
     final bool hasToken = await userRepository.hasToken();
     if (hasToken) {
       emit(AuthenticationAuthenticated());
@@ -81,55 +84,77 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     }
   }
 
-  _mapLoggedInEventToState(LoggedIn event, Emitter<AuthenticationState> emit) async {
+  _mapLoggedInEventToState(
+      LoggedIn event, Emitter<AuthenticationState> emit) async {
     emit(AuthenticationLoading());
-    await userRepository.persistToken(event.token, event.userId, event.tenantId);
+    await userRepository.persistToken(
+        event.token, event.userId, event.tenantId);
     emit(AuthenticationAuthenticated());
     _log.finest('Starting background Jobs');
 
     if (Platform.isWindows && Platform.isMacOS) {
-      var autoStartJobs = await businessRuleDao.getSingleBusinessRule("AUTOSTARTJOBS");
-      if (autoStartJobs.value == "ON" && autoStartJobs.expiredDateTime!.isAfter(DateTime.now()) && autoStartJobs.isGlobalRule == false) {
+      var autoStartJobs =
+          await businessRuleDao.getSingleBusinessRule("AUTOSTARTJOBS");
+      if (autoStartJobs.value == "ON" &&
+          autoStartJobs.expiredDateTime!.isAfter(DateTime.now()) &&
+          autoStartJobs.isGlobalRule == false) {
         var jobData = await backgroundJobScheduleDao.getAllJobs();
         for (var eachJob in jobData) {
-          scheduleler.scheduleJobs(eachJob.syncFrequency, eachJob.jobName, (Timer timer) => appLoggerRepository.putAppLogOnServer(eachJob.jobName));
+          scheduleler.scheduleJobs(
+              eachJob.syncFrequency,
+              eachJob.jobName,
+              (Timer timer) =>
+                  appLoggerRepository.putAppLogOnServer(eachJob.jobName));
           _log.finest('background Jobs start');
         }
       }
     }
 
     if (Platform.isIOS && Platform.isAndroid) {
-      var autoStartJobs = await businessRuleDao.getSingleBusinessRule("AUTOSTARTJOBS");
-      if (autoStartJobs.value == "ON" && autoStartJobs.expiredDateTime!.isAfter(DateTime.now()) && autoStartJobs.isGlobalRule == false) {
+      var autoStartJobs =
+          await businessRuleDao.getSingleBusinessRule("AUTOSTARTJOBS");
+      if (autoStartJobs.value == "ON" &&
+          autoStartJobs.expiredDateTime!.isAfter(DateTime.now()) &&
+          autoStartJobs.isGlobalRule == false) {
         var jobData = await backgroundJobScheduleDao.getAllJobs();
         for (var eachJob in jobData) {
-          scheduleler.scheduleJobs(eachJob.syncFrequency, eachJob.jobName, (Timer timer) => appLoggerRepository.putAppLogOnServer(eachJob.jobName));
+          scheduleler.scheduleJobs(
+              eachJob.syncFrequency,
+              eachJob.jobName,
+              (Timer timer) =>
+                  appLoggerRepository.putAppLogOnServer(eachJob.jobName));
           _log.finest('background Jobs start');
         }
       }
     }
 
-    var offlineReady = await userFromServer.validateUser(event.userId, event.tenantId);
+    var offlineReady =
+        await userFromServer.validateUser(event.userId, event.tenantId);
     print(offlineReady);
     if (offlineReady == true) {
       emit(AuthenticationCreateMobileHash());
     }
   }
 
-  _mapOfflineLoginButtonPressedEventToState(OfflineLoginButtonPressed event, Emitter<AuthenticationState> emit) async {
+  _mapOfflineLoginButtonPressedEventToState(OfflineLoginButtonPressed event,
+      Emitter<AuthenticationState> emit) async {
     await userHash.saveHash(event.password, event.tenantId, event.userId);
     emit(AuthenticationAuthenticated());
   }
 
-  _mapLoggedOutEventToState(LoggedOut event, Emitter<AuthenticationState> emit) async {
+  _mapLoggedOutEventToState(
+      LoggedOut event, Emitter<AuthenticationState> emit) async {
     emit(AuthenticationLoading());
     await userRepository.deleteToken();
 
     _log.finest('Canceling background Jobs');
 
     if (Platform.isWindows && Platform.isMacOS) {
-      var autoAtartJobs = await businessRuleDao.getSingleBusinessRule("AUTOSTOPJOBS");
-      if (autoAtartJobs.value == "ON" && autoAtartJobs.expiredDateTime!.isAfter(DateTime.now()) && autoAtartJobs.isGlobalRule == false) {
+      var autoAtartJobs =
+          await businessRuleDao.getSingleBusinessRule("AUTOSTOPJOBS");
+      if (autoAtartJobs.value == "ON" &&
+          autoAtartJobs.expiredDateTime!.isAfter(DateTime.now()) &&
+          autoAtartJobs.isGlobalRule == false) {
         var jobData = await backgroundJobScheduleDao.getAllJobs();
         appLoggerRepository.isStopped = true;
         preferenceRepository.isStopped = true;
@@ -137,19 +162,22 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
           scheduleler.cancel(eachJob.jobName);
 
           String formatted = await formatDate(DateTime.now().toString());
-          var fromEvent = new BackgroundJobScheduleCompanion(
-              enableJob: moor.Value(false), jobStatus: moor.Value("Cancel"), lastRun: moor.Value(DateTime.tryParse(formatted)!));
+          var fromEvent = BackgroundJobScheduleCompanion(
+              enableJob: const moor.Value(false),
+              jobStatus: const moor.Value("Cancel"),
+              lastRun: moor.Value(DateTime.tryParse(formatted)!));
 
-          await backgroundJobScheduleDao.updateBackgroundJob(fromEvent, eachJob.jobName);
+          await backgroundJobScheduleDao.updateBackgroundJob(
+              fromEvent, eachJob.jobName);
         }
         _log.finest('background Jobs Canceled');
       }
     }
 
     if (Platform.isIOS && Platform.isAndroid) {
-      var autoAtartJobs = await businessRuleDao.getSingleBusinessRule("AUTOSTARTJOBS");
-      if (autoAtartJobs != null &&
-          autoAtartJobs.value == "ON" &&
+      var autoAtartJobs =
+          await businessRuleDao.getSingleBusinessRule("AUTOSTARTJOBS");
+      if (autoAtartJobs.value == "ON" &&
           autoAtartJobs.expiredDateTime!.isAfter(DateTime.now()) &&
           autoAtartJobs.isGlobalRule == false) {
         var jobData = await backgroundJobScheduleDao.getAllJobs();
@@ -157,10 +185,13 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
           scheduleler.cancel(eachJob.jobName);
 
           String formatted = await formatDate(DateTime.now().toString());
-          var fromEvent = new BackgroundJobScheduleCompanion(
-              enableJob: moor.Value(false), jobStatus: moor.Value("Cancel"), lastRun: moor.Value(DateTime.tryParse(formatted)!));
+          var fromEvent = BackgroundJobScheduleCompanion(
+              enableJob: const moor.Value(false),
+              jobStatus: const moor.Value("Cancel"),
+              lastRun: moor.Value(DateTime.tryParse(formatted)!));
 
-          await backgroundJobScheduleDao.updateBackgroundJob(fromEvent, eachJob.jobName);
+          await backgroundJobScheduleDao.updateBackgroundJob(
+              fromEvent, eachJob.jobName);
         }
         _log.finest('background Jobs Canceled');
       }

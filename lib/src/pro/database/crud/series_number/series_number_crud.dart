@@ -6,7 +6,8 @@ import 'package:drift/drift.dart';
 part 'series_number_crud.g.dart';
 
 @DriftAccessor(tables: [SeriesNumberGenerator])
-class SeriesNumberGeneratorDao extends DatabaseAccessor<MyDatabase> with _$SeriesNumberGeneratorDaoMixin {
+class SeriesNumberGeneratorDao extends DatabaseAccessor<MyDatabase>
+    with _$SeriesNumberGeneratorDaoMixin {
   final MyDatabase db;
   SeriesNumberGeneratorDao(this.db) : super(db);
 
@@ -14,17 +15,26 @@ class SeriesNumberGeneratorDao extends DatabaseAccessor<MyDatabase> with _$Serie
     return (select(db.seriesNumberGenerator).get());
   }
 
-  Stream<List<SeriesNumberGeneratorData>> watchAllSeriesNumberByType(String typeOfNumber) {
-    return (select(db.seriesNumberGenerator)..where((t) => t.typeOfNumber.equals(typeOfNumber))).watch();
+  Stream<List<SeriesNumberGeneratorData>> watchAllSeriesNumberByType(
+      String typeOfNumber) {
+    return (select(db.seriesNumberGenerator)
+          ..where((t) => t.typeOfNumber.equals(typeOfNumber)))
+        .watch();
   }
 
-  Future<List<SeriesNumberGeneratorData>> getAllSeriesNumberByType(String typeOfNumber) {
-    return (select(db.seriesNumberGenerator)..where((t) => t.typeOfNumber.equals(typeOfNumber))).get();
+  Future<List<SeriesNumberGeneratorData>> getAllSeriesNumberByType(
+      String typeOfNumber) {
+    return (select(db.seriesNumberGenerator)
+          ..where((t) => t.typeOfNumber.equals(typeOfNumber)))
+        .get();
   }
 
-  Future<void> createOrUpdateSeriesNumber(SeriesNumberGeneratorData seriesNumberGeneratorData) {
-    return into(db.seriesNumberGenerator).insertOnConflictUpdate(seriesNumberGeneratorData);
+  Future<void> createOrUpdateSeriesNumber(
+      SeriesNumberGeneratorData seriesNumberGeneratorData) {
+    return into(db.seriesNumberGenerator)
+        .insertOnConflictUpdate(seriesNumberGeneratorData);
   }
 
-  Future deleteAllSeriesNumberGenerator() => delete(db.seriesNumberGenerator).go();
+  Future deleteAllSeriesNumberGenerator() =>
+      delete(db.seriesNumberGenerator).go();
 }

@@ -61,7 +61,8 @@ class UserFromServer {
 
         //We will check server for mobilehash everytime user logon to mobile device.
         //if (routeinfo["no_route"]?.isEmpty ?? true)
-        if (isBlank(isUserInDb.mobileHash) && isUserInDb.enableOfflineLogin == true) {
+        if (isBlank(isUserInDb.mobileHash) &&
+            isUserInDb.enableOfflineLogin == true) {
           isofflineready = true;
         } else {
           isofflineready = false;

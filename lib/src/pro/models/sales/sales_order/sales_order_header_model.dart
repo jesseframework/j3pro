@@ -17,6 +17,7 @@ class SalesOrderHeader extends Table implements MustHaveTenant, MultiUser {
   TextColumn get purchaseOrderNo => text().nullable()();
   TextColumn get currency => text()();
   RealColumn get exchangeRate => real()();
+  @override
   IntColumn get tenantId => integer().nullable()();
   IntColumn get couponCode => integer().nullable()();
   TextColumn get billingAddressName => text().nullable()();
@@ -32,7 +33,9 @@ class SalesOrderHeader extends Table implements MustHaveTenant, MultiUser {
   TextColumn get discountType => text()();
   RealColumn get discountPercentage => real()();
   RealColumn get discountAmount => real()();
+  @override
   TextColumn get userName => text()();
+  @override
   IntColumn get userId => integer()();
   RealColumn get latitude => real().nullable()();
   RealColumn get longitude => real().nullable()();

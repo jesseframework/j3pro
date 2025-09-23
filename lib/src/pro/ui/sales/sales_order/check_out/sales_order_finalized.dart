@@ -14,22 +14,26 @@ import 'package:signature/signature.dart';
 class SalesOrderFinslizedPage extends StatefulWidget {
   var db;
   late AddressDao addressDao;
-  SalesOrderFinslizedPage() {
+  SalesOrderFinslizedPage({super.key}) {
     db = MyDatabase();
     addressDao = AddressDao(db);
   }
   @override
-  _SalesOrderFinslizedPageState createState() => _SalesOrderFinslizedPageState();
+  _SalesOrderFinslizedPageState createState() =>
+      _SalesOrderFinslizedPageState();
 }
 
 class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
-  final SignatureController _controller = SignatureController(exportBackgroundColor: Colors.white);
+  final SignatureController _controller =
+      SignatureController(exportBackgroundColor: Colors.white);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalization.of(context)!.translate('sales_order_finalized') ?? "Finalize  "),
+        title: Text(
+            AppLocalization.of(context)!.translate('sales_order_finalized') ??
+                "Finalize  "),
         //ToDO put translation
         actions: [
           InkWell(
@@ -38,50 +42,52 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                 InkWell(
                   onTap: () async {
                     //BlocProvider.of(context).add(CreatePostTransection());
-                    BlocProvider.of<SalesOrderFinalizeBloc>(context).add(CreatePostTransection(
-                        billingAddressName: '',
-                        currencyCode: '',
-                        customerId: '',
-                        daySessionNumber: '',
-                        deliveryDate: DateTime.now(),
-                        inventoryCycleNumber: '',
-                        exchangeRate: 1,
-                        orderType: '',
-                        purchaseOrderNo: '',
-                        shippingAddressName: '',
-                        soldTo: '',
-                        tenantId: 1,
-                        transactionNumber: '',
-                        transactionStatus: '',
-                        transactionType: '',
-                        userId: 1,
-                        userName: ''));
-                    Navigator.push(context, SizeRoute(page: SalesOrderCheckOutPage()));
+                    BlocProvider.of<SalesOrderFinalizeBloc>(context).add(
+                        CreatePostTransection(
+                            billingAddressName: '',
+                            currencyCode: '',
+                            customerId: '',
+                            daySessionNumber: '',
+                            deliveryDate: DateTime.now(),
+                            inventoryCycleNumber: '',
+                            exchangeRate: 1,
+                            orderType: '',
+                            purchaseOrderNo: '',
+                            shippingAddressName: '',
+                            soldTo: '',
+                            tenantId: 1,
+                            transactionNumber: '',
+                            transactionStatus: '',
+                            transactionType: '',
+                            userId: 1,
+                            userName: ''));
+                    Navigator.push(context,
+                        SizeRoute(page: const SalesOrderCheckOutPage()));
                   },
-                  child: Text(
+                  child: const Text(
                     " Complete",
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 ),
-                Icon(Icons.done_all)
+                const Icon(Icons.done_all)
               ],
             ),
           ),
           //IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
           PopupMenuButton<String>(
-            icon: Icon(Icons.more_vert),
+            icon: const Icon(Icons.more_vert),
             onSelected: (value) {},
             itemBuilder: (BuildContext context) {
               return <PopupMenuItem<String>>[
-                new PopupMenuItem<String>(
+                const PopupMenuItem<String>(
+                    value: 'Draft',
                     child: ListTile(
                       leading: Icon(Icons.drafts),
                       title: Text('Save as Draft'),
-                    ),
-                    value: 'Draft'),
+                    )),
               ];
             },
           ),
@@ -104,7 +110,9 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Container(
-                          decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(8)),
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).cardColor,
+                              borderRadius: BorderRadius.circular(8)),
                           child: Padding(
                             padding: const EdgeInsets.all(5.0),
                             child: Column(
@@ -112,27 +120,35 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
-                                  child: Text(
+                                  child: const Text(
                                     'Order No:',
-                                    style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.grey,
+                                        fontSize: 12),
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: Text(
                                     addItemBloc.tempSalesOrderNo,
-                                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 25),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 25),
                                   ),
                                 ),
                               ],
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Container(
-                          decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(8)),
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).cardColor,
+                              borderRadius: BorderRadius.circular(8)),
                           child: Padding(
                             padding: const EdgeInsets.all(12.0),
                             child: Column(
@@ -140,33 +156,43 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 buildSalesOrderCardRowTile(
-                                    heading: 'Billing To:', title: addres!.firstWhere((e) => e.isShippingAddress != true).addressLine1),
-                                SizedBox(
+                                    heading: 'Billing To:',
+                                    title: addres!
+                                        .firstWhere(
+                                            (e) => e.isShippingAddress != true)
+                                        .addressLine1),
+                                const SizedBox(
                                   height: 30,
                                 ),
                                 buildSalesOrderCardRowTile(
                                   heading: 'Shipping To:',
-                                  title: addItemBloc.getShippingAddress.addressLine1,
+                                  title: addItemBloc
+                                      .getShippingAddress.addressLine1,
                                 )
                               ],
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Container(
-                            decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(8)),
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).cardColor,
+                                borderRadius: BorderRadius.circular(8)),
                             // height: MediaQuery.of(context).size.height * 0.08,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 30, vertical: 10),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   buildSalesOrderDateCardRowTile(
                                       heading: 'Order Date',
-                                      title: '${DateTime.now().day.toString()}/${DateTime.now().month.toString()}/${DateTime.now().year.toString()}'),
+                                      title:
+                                          '${DateTime.now().day.toString()}/${DateTime.now().month.toString()}/${DateTime.now().year.toString()}'),
                                   buildSalesOrderDateCardRowTile(
                                     heading: 'Dilvery Date',
                                     title:
@@ -180,7 +206,9 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                           child: Container(
                               height: 200,
                               clipBehavior: Clip.antiAlias,
-                              decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).cardColor,
+                                  borderRadius: BorderRadius.circular(8)),
                               // height: MediaQuery.of(context).size.height * 0.08,
                               child: Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -188,35 +216,46 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                                     Signature(
                                       controller: _controller,
                                       height: 150,
-                                      width: MediaQuery.of(context).size.width * 0.6,
-                                      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.6,
+                                      backgroundColor: Theme.of(context)
+                                          .scaffoldBackgroundColor,
                                     ),
                                     Positioned(
-                                        left: MediaQuery.of(context).size.width * 0.20,
-                                        right: MediaQuery.of(context).size.width * 0.20,
+                                        left:
+                                            MediaQuery.of(context).size.width *
+                                                0.20,
+                                        right:
+                                            MediaQuery.of(context).size.width *
+                                                0.20,
                                         bottom: 25,
-                                        child: DottedLine()),
+                                        child: const DottedLine()),
                                     Container(
-                                      child: Text(
+                                      child: const Text(
                                         'Signature',
-                                        style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.grey,
+                                            fontSize: 12),
                                       ),
                                     ),
                                     Positioned(
-                                        right: MediaQuery.of(context).size.width * 0.20,
+                                        right:
+                                            MediaQuery.of(context).size.width *
+                                                0.20,
                                         bottom: 30,
                                         child: InkWell(
                                             onTap: () {
                                               _controller.clear();
                                             },
-                                            child: Icon(
+                                            child: const Icon(
                                               Icons.delete,
                                               color: Colors.red,
                                               size: 40,
                                             ))),
                                   ]))),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 150,
                         ),
                       ],
@@ -225,12 +264,12 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
                 ),
               );
             }
-            return BuildProgressIndicator();
+            return const BuildProgressIndicator();
           }),
       bottomSheet: ExpansionTile(
         title: Container(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -265,14 +304,14 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
         children: [
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 19,
               fontWeight: FontWeight.w500,
             ),
           ),
           Text(
             amount,
-            style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
+            style: const TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
           ),
         ],
       ),
@@ -280,25 +319,30 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
   }
 
   TextStyle textStyle() {
-    return TextStyle(fontWeight: FontWeight.bold, fontSize: 20);
+    return const TextStyle(fontWeight: FontWeight.bold, fontSize: 20);
   }
 
   TextStyle headerstyle() {
-    return TextStyle(
+    return const TextStyle(
       fontWeight: FontWeight.w500,
       fontSize: 10,
       color: Colors.grey,
     );
   }
 
-  Widget buildSalesOrderCardRowTile({String? heading, String? title, Widget? trailingWidget, Function? callback}) {
+  Widget buildSalesOrderCardRowTile(
+      {String? heading,
+      String? title,
+      Widget? trailingWidget,
+      Function? callback}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           heading!,
-          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
+          style: const TextStyle(
+              fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -307,10 +351,15 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
             Flexible(
               child: Text(
                 title!,
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                style:
+                    const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
               ),
             ),
-            InkWell(child: Container(margin: EdgeInsets.only(left: 8), child: trailingWidget), onTap: () {}),
+            InkWell(
+                child: Container(
+                    margin: const EdgeInsets.only(left: 8),
+                    child: trailingWidget),
+                onTap: () {}),
           ],
         ),
       ],
@@ -327,13 +376,14 @@ class _SalesOrderFinslizedPageState extends State<SalesOrderFinslizedPage> {
       children: [
         Text(
           heading!,
-          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
+          style: const TextStyle(
+              fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Text(
             title!,
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
           ),
         ),
       ],

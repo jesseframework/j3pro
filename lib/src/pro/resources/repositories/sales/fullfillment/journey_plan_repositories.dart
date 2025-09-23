@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:chopper/chopper.dart';
 import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
 import 'package:j3enterprise/src/database/drift_database.dart';
-import 'package:j3enterprise/src/pro/database/crud/items/uom_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/sales/fullfillment/journey_plan_crud.dart';
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
 import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
@@ -28,10 +27,10 @@ class JourneyPlanRepository {
   JourneyPlanRepository() {
     _log.finest("Preference repository constructer call");
     db = MyDatabase();
-    updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
-    backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
-    journeyPlanDao = new JourneyPlanDao(db);
-    userSharedData = new UserSharedData();
+    updateBackgroundJobStatus = UpdateBackgroundJobStatus();
+    backgroundJobScheduleDao = BackgroundJobScheduleDao(db);
+    journeyPlanDao = JourneyPlanDao(db);
+    userSharedData = UserSharedData();
   }
 
   Future<void> getJourneyPlanFromServer(String jobName) async {
@@ -52,7 +51,8 @@ class JourneyPlanRepository {
             _log.finest("Server resopnses successful for $className ");
             Map<String, dynamic> result = map['result'];
             var items = (result['items'] as List).map((e) {
-              return JourneyPlanData.fromJson(e, serializer: CustomSerializer());
+              return JourneyPlanData.fromJson(e,
+                  serializer: CustomSerializer());
             });
 
             for (var item in items) {
@@ -63,7 +63,8 @@ class JourneyPlanRepository {
           } else {
             String error = map["error"]["details"].toString();
             updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-            _log.shout("Customer API call failed. Server respond with error : $error  ");
+            _log.shout(
+                "Customer API call failed. Server respond with error : $error  ");
           }
         }
       }

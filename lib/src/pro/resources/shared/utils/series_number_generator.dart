@@ -15,7 +15,7 @@ class NumberGenerator {
   static final _log = Logger('SerialNumberGenerator');
   late SeriesNumberGeneratorDao seriesNumberGeneratorDao;
   late UserSharedData userSharedData;
-  Map<String, String> mapDevicePref = new Map();
+  Map<String, String> mapDevicePref = {};
 
   NumberGenerator() {
     _log.finest("number generator constructor call");
@@ -31,13 +31,14 @@ class NumberGenerator {
     return '${now.year.toString().substring(now.year.toString().length - 2)}${dayOfYear.toString().padLeft(3, '0')}';
   }
 
-
-  Future<String> getSerialNumber(String typeOfNumber, int nextIncrementNumber, int endingLength) async {
+  Future<String> getSerialNumber(
+      String typeOfNumber, int nextIncrementNumber, int endingLength) async {
     _log.finest("start create new serial number");
     String seriesNumber;
 
-    var getSeries = await seriesNumberGeneratorDao.getAllSeriesNumberByType(typeOfNumber);
-    if (getSeries != null && getSeries.length > 0) {
+    var getSeries =
+        await seriesNumberGeneratorDao.getAllSeriesNumberByType(typeOfNumber);
+    if (getSeries.isNotEmpty) {
       _log.finest("check for prefix in serial number");
       if (getSeries[0].includePrefix == true) {
         setNumberPrefix = getSeries[0].numberPrefix ?? "";
@@ -50,13 +51,15 @@ class NumberGenerator {
 
       if (getSeries[0].includeUserID == true) {
         _log.finest("get userid from shared prefrence");
-        mapDevicePref = await userSharedData.getUserSharedPref() as Map<String, String>;
+        mapDevicePref =
+            await userSharedData.getUserSharedPref() as Map<String, String>;
         setUserId = mapDevicePref['userId'] ?? "";
       }
 
       if (getSeries[0].includeTenantId == true) {
         _log.finest("get tenantid from sahre prefrence");
-        mapDevicePref = await userSharedData.getUserSharedPref() as Map<String, String>;
+        mapDevicePref =
+            await userSharedData.getUserSharedPref() as Map<String, String>;
         setTenantId = mapDevicePref['tenantId'] ?? "";
       }
 
@@ -70,7 +73,8 @@ class NumberGenerator {
       }
       _log.finest("create number");
 
-      seriesNumber = '$setNumberPrefix$setUserId$setTenantId$setJulianDate$setNextIncrement';
+      seriesNumber =
+          '$setNumberPrefix$setUserId$setTenantId$setJulianDate$setNextIncrement';
     } else {
       if (endingLength <= 0) {
         endingLength = 4;
@@ -78,7 +82,8 @@ class NumberGenerator {
       _log.finest("used randon number only");
       setNextIncrement = randomNumeric(endingLength);
 
-      seriesNumber = '$setNumberPrefix$setUserId$setTenantId$setJulianDate$setNextIncrement';
+      seriesNumber =
+          '$setNumberPrefix$setUserId$setTenantId$setJulianDate$setNextIncrement';
     }
 
     return seriesNumber.replaceAll(' ', '');

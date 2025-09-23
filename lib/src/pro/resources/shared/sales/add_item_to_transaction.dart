@@ -94,24 +94,24 @@ class AddItemToTransaction {
     _log.finest("$className repository constructer call");
 
     //DAOs in Constructure
-    itemsDao = new ItemsDao(db);
-    itemPriceDao = new ItemPriceDao(db);
-    itemPricingRuleDao = new ItemPricingRuleDao(db);
-    businessRuleDao = new BusinessRuleDao(db);
-    preferenceDao = new PreferenceDao(db);
-    inventoryItemsDao = new InventoryItemsDao(db);
-    tempNumberLogsDao = new TempNumberLogsDao(db);
-    salesOrderDetailTempDao = new SalesOrderDetailTempDao(db);
-    customerDao = new CustomerDao(db);
-    systemCurrencyDao = new SystemCurrencyDao(db);
-    checkInventory = new CheckInventory();
-    calculateDiscount = new CalculateDiscount();
-    calculateTax = new CalculateTax();
-    calculateTotal = new CalculateTotal();
+    itemsDao = ItemsDao(db);
+    itemPriceDao = ItemPriceDao(db);
+    itemPricingRuleDao = ItemPricingRuleDao(db);
+    businessRuleDao = BusinessRuleDao(db);
+    preferenceDao = PreferenceDao(db);
+    inventoryItemsDao = InventoryItemsDao(db);
+    tempNumberLogsDao = TempNumberLogsDao(db);
+    salesOrderDetailTempDao = SalesOrderDetailTempDao(db);
+    customerDao = CustomerDao(db);
+    systemCurrencyDao = SystemCurrencyDao(db);
+    checkInventory = CheckInventory();
+    calculateDiscount = CalculateDiscount();
+    calculateTax = CalculateTax();
+    calculateTotal = CalculateTotal();
     //itemMasterRepository = new ItemMasterRepository();
 
     //Regular Class
-    addItemToWarehouse = new AddItemToWarehouse();
+    addItemToWarehouse = AddItemToWarehouse();
   }
 
   Future<String> getItem(
@@ -138,7 +138,7 @@ class AddItemToTransaction {
     }
 
     var item = await itemsDao.getItemForSales(searchText);
-    if (item.length > 0) {
+    if (item.isNotEmpty) {
       //Assign Item values
       itemId = item[0].itemId;
       itemName = item[0].itemName!;
@@ -158,24 +158,28 @@ class AddItemToTransaction {
       DateTime retiredDate = item[0].retiredDate!;
 
       var getCusTaxGroup = await customerDao.getAllCustomerById(customerId);
-      if (getCusTaxGroup.length > 0) {
+      if (getCusTaxGroup.isNotEmpty) {
         taxGroup = getCusTaxGroup[0].taxGroup!;
       } else {
         taxGroup = item[0].taxGroup!;
       }
 
       if (item[0].isRetired == true) {
-        result = "$itemName is Retired and can not be sold. RIP date $retiredDate";
+        result =
+            "$itemName is Retired and can not be sold. RIP date $retiredDate";
         //ToDo Validate return state code should exit when this code execute
         return result;
       }
 
       if (item[0].trackInventory == true) {
-        var trackInventory = await inventoryItemsDao.getAllInventoryByCode(itemCode);
-        if (trackInventory != null && trackInventory.length > 0) {
-          var addInvItem = await addItemToWarehouse.addItemToWarehouse(itemCode, itemName, stockUOM, defaultWarehouse, tempInventoryCycle);
+        var trackInventory =
+            await inventoryItemsDao.getAllInventoryByCode(itemCode);
+        if (trackInventory.isNotEmpty) {
+          var addInvItem = await addItemToWarehouse.addItemToWarehouse(itemCode,
+              itemName, stockUOM, defaultWarehouse, tempInventoryCycle);
           if (addInvItem == "Success") {
-            result = "Item is now added to your warehouse. Please try selling item againg";
+            result =
+                "Item is now added to your warehouse. Please try selling item againg";
           } else {
             result = "Item was not addess to your warehouse. Please try againg";
           }
@@ -190,9 +194,10 @@ class AddItemToTransaction {
       }
 
       //Get Price
-      var price = await itemPriceDao.getItemPricesByCode(itemId, uom, priceList, standardPriceList);
+      var price = await itemPriceDao.getItemPricesByCode(
+          itemId, uom, priceList, standardPriceList);
 
-      if (price != null && price.length > 0 && price.length == 1) {
+      if (price.isNotEmpty && price.length == 1) {
         priceList = price[0].priceList!;
         itemPrice = price[0].itemPrice;
         sellingDeposit = price[0].sellingDeposit;
@@ -201,48 +206,78 @@ class AddItemToTransaction {
         returnDeposit = price[0].returnDeposit;
         conversionFactor = price[0].conversionFactor;
       } else {
-        result = '$itemDescription not in pricing schedule assign to selected customer';
+        result =
+            '$itemDescription not in pricing schedule assign to selected customer';
         return result;
       }
 
       //Update Quantity on Line Item
-      var onRegister = await salesOrderDetailTempDao.getAllSalesOrderForUpdate(tempSalesOrderNo, tempTransactionStatus, itemId, uom);
-      if (onRegister.length > 0 && onRegister != null) {
+      var onRegister = await salesOrderDetailTempDao.getAllSalesOrderForUpdate(
+          tempSalesOrderNo, tempTransactionStatus, itemId, uom);
+      if (onRegister.isNotEmpty) {
         registerQuantityTotal = onRegister.single.quantity;
 
         double formatedSubTotal = 0;
-        double unformatedSubTotal = (quantity + onRegister.single.quantity) * itemPrice;
+        double unformatedSubTotal =
+            (quantity + onRegister.single.quantity) * itemPrice;
 
-        var currency = await systemCurrencyDao.getAllSystemCurrencyByName("JMD");
-        if (currency.length > 0) {
-          var f = new NumberFormat(currency[0].numberFormat, "en_US");
+        var currency =
+            await systemCurrencyDao.getAllSystemCurrencyByName("JMD");
+        if (currency.isNotEmpty) {
+          var f = NumberFormat(currency[0].numberFormat, "en_US");
           formatedSubTotal = double.tryParse(f.format(unformatedSubTotal))!;
         } else {
-          var f = new NumberFormat("###.0#", "en_US");
+          var f = NumberFormat("###.0#", "en_US");
           formatedSubTotal = double.tryParse(f.format(unformatedSubTotal))!;
         }
 
-        var lineUpdate = new SalesOrderDetailTempCompanion(
+        var lineUpdate = SalesOrderDetailTempCompanion(
           quantity: moor.Value(quantity + onRegister.single.quantity),
-          shippingTotal: moor.Value(0),
+          shippingTotal: const moor.Value(0),
           listPrice: moor.Value(itemPrice),
           subTotal: moor.Value(formatedSubTotal),
         );
-        await salesOrderDetailTempDao.updateLineItem(lineUpdate, tempSalesOrderNo, tempTransactionStatus, itemId, uom);
+        await salesOrderDetailTempDao.updateLineItem(
+            lineUpdate, tempSalesOrderNo, tempTransactionStatus, itemId, uom);
 
         //Check for discount
-        await calculateDiscount.getDiscount(itemId, uom, customerId, tempSalesOrderNo, tempTransactionStatus, itemGroup, itemCode, itemName, category,
-            territory, partner, priceList, itemPrice, quantity + registerQuantityTotal, uom);
+        await calculateDiscount.getDiscount(
+            itemId,
+            uom,
+            customerId,
+            tempSalesOrderNo,
+            tempTransactionStatus,
+            itemGroup,
+            itemCode,
+            itemName,
+            category,
+            territory,
+            partner,
+            priceList,
+            itemPrice,
+            quantity + registerQuantityTotal,
+            uom);
 
         //Calculate Tax
-        await calculateTax.getTotalTax(searchText, tempSalesOrderNo, tempTransactionStatus, uom, tenantId, userName, userId, itemId, customerId,
-            taxGroup, salesDate, (quantity + onRegister.single.quantity) * itemPrice);
+        await calculateTax.getTotalTax(
+            searchText,
+            tempSalesOrderNo,
+            tempTransactionStatus,
+            uom,
+            tenantId,
+            userName,
+            userId,
+            itemId,
+            customerId,
+            taxGroup,
+            salesDate,
+            (quantity + onRegister.single.quantity) * itemPrice);
       } else {
         //Add New Line
         //Line SubTotal Calculation
         //ToDo Calculate return price, return deposit, deposit and selling deposit
         lineSubTotal = itemPrice * quantity;
-        var newLine = new SalesOrderDetailTempCompanion(
+        var newLine = SalesOrderDetailTempCompanion(
             transactionNumber: moor.Value(tempSalesOrderNo),
             inventoryCycleNumber: moor.Value(tempInventoryCycle),
             daySessionNumber: moor.Value(tempDaySessionNumber),
@@ -257,19 +292,19 @@ class AddItemToTransaction {
             itemId: moor.Value(itemId),
             description: moor.Value(itemDescription),
             quantity: moor.Value(quantity),
-            shippingTotal: moor.Value(0),
+            shippingTotal: const moor.Value(0),
             unitPrice: moor.Value(itemPrice),
             listPrice: moor.Value(itemPrice),
-            costPrice: moor.Value(0),
+            costPrice: const moor.Value(0),
             conversionFactor: moor.Value(conversionFactor),
-            discountAmount: moor.Value(0),
-            lineDiscountTotal: moor.Value(0),
+            discountAmount: const moor.Value(0),
+            lineDiscountTotal: const moor.Value(0),
             subTotal: moor.Value(lineSubTotal),
-            grandTotal: moor.Value(0),
-            itemCount: moor.Value(0),
-            depositTotal: moor.Value(0),
-            lineId: moor.Value(0),
-            taxTotal: moor.Value(0),
+            grandTotal: const moor.Value(0),
+            itemCount: const moor.Value(0),
+            depositTotal: const moor.Value(0),
+            lineId: const moor.Value(0),
+            taxTotal: const moor.Value(0),
             upcCode: moor.Value(upcCode),
             salesUOM: moor.Value(uom),
             warehouse: moor.Value(defaultWarehouse),
@@ -279,15 +314,41 @@ class AddItemToTransaction {
         await salesOrderDetailTempDao.insertSalesOrderDetail(newLine);
 
         //Check for discount
-        await calculateDiscount.getDiscount(itemId, uom, customerId, tempSalesOrderNo, tempTransactionStatus, itemGroup, itemCode, itemName, category,
-            territory, partner, priceList, itemPrice, quantity, uom);
+        await calculateDiscount.getDiscount(
+            itemId,
+            uom,
+            customerId,
+            tempSalesOrderNo,
+            tempTransactionStatus,
+            itemGroup,
+            itemCode,
+            itemName,
+            category,
+            territory,
+            partner,
+            priceList,
+            itemPrice,
+            quantity,
+            uom);
 
         //Calculate Tax
-        await calculateTax.getTotalTax(searchText, tempSalesOrderNo, tempTransactionStatus, uom, tenantId, userName, userId, itemId, customerId,
-            taxGroup, salesDate, lineSubTotal);
-            }
+        await calculateTax.getTotalTax(
+            searchText,
+            tempSalesOrderNo,
+            tempTransactionStatus,
+            uom,
+            tenantId,
+            userName,
+            userId,
+            itemId,
+            customerId,
+            taxGroup,
+            salesDate,
+            lineSubTotal);
+      }
 
-      await calculateTotal.getTotal(tempSalesOrderNo, tempTransactionStatus, itemId, uom);
+      await calculateTotal.getTotal(
+          tempSalesOrderNo, tempTransactionStatus, itemId, uom);
 
       // transferInventory.transferStock(
       //     tenantId,
@@ -311,12 +372,13 @@ class AddItemToTransaction {
       //ToDo Check if code execute successfull
     } else {
       var searchServer = await businessRuleDao.getSingleBusinessRule("SRCR");
-      if (searchServer != null && searchServer.value.contains("Yes")) {
+      if (searchServer.value.contains("Yes")) {
         //await itemMasterRepository.getItemMasterFromServer("Items");
         searchText = "";
         qtySet = 0;
       } else {
-        result = "Invalid Item or Item was not added to your inventory. Please contact your manager";
+        result =
+            "Invalid Item or Item was not added to your inventory. Please contact your manager";
       }
     }
 

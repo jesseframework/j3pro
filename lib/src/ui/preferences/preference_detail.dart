@@ -31,7 +31,7 @@ class PreferenceDetailPage extends StatefulWidget {
   final code;
   late NonGlobalPreferenceDao nonGlobalPreferenceDao;
   late PreferenceDao preferenceDao;
-  PreferenceDetailPage(this.code) {
+  PreferenceDetailPage(this.code, {super.key}) {
     db = MyDatabase();
     nonGlobalPreferenceDao = NonGlobalPreferenceDao(db);
     preferenceDao = PreferenceDao(db);
@@ -50,10 +50,12 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
     return Scaffold(
       appBar: AppBar(
         //ToDo add translation for preferences title
-        title: Text(AppLocalization.of(context)!.translate('preferences_title') ?? "Preferences"),
-        actions: <Widget>[
+        title: Text(
+            AppLocalization.of(context)!.translate('preferences_title') ??
+                "Preferences"),
+        actions: const <Widget>[
           Padding(
-            padding: const EdgeInsets.only(right: 18),
+            padding: EdgeInsets.only(right: 18),
             child: Icon(
               Icons.wifi,
               color: Colors.greenAccent,
@@ -70,8 +72,8 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                child: Text(
+                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                child: const Text(
                   "Edit Preference",
                   style: TextStyle(
                     fontSize: 18,
@@ -80,17 +82,19 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                 ),
               ),
               StreamBuilder(
-                  stream: widget.preferenceDao.watchSinglePreferences(widget.code),
+                  stream:
+                      widget.preferenceDao.watchSinglePreferences(widget.code),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       PreferenceData? prefData;
-                      prefData = snapshot.data as PreferenceData?;
+                      prefData = snapshot.data;
 
                       //  print(prefData[1]);
-                      return Container(
+                      return SizedBox(
                         height: 200,
                         child: Card(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
                           elevation: 4.0,
                           //  height: 150,
                           child: Padding(
@@ -99,33 +103,45 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Name',
-                                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16),
                                     ),
                                     Container(
-                                      margin: EdgeInsets.only(right: 5),
+                                      margin: const EdgeInsets.only(right: 5),
                                       child: Text(
                                         prefData!.preferenceName!,
-                                        style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
                                       ),
                                     ),
                                   ],
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Is Global',
-                                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16),
                                     ),
                                     Container(
                                       child: FlutterSwitch(
-                                          value: prefData.isGlobal == false ? false : true,
+                                          value: prefData.isGlobal == false
+                                              ? false
+                                              : true,
                                           onToggle: (value) async {
-                                            await widget.preferenceDao.updatePreferenceValue(prefData!.copyWith(
+                                            await widget.preferenceDao
+                                                .updatePreferenceValue(
+                                                    prefData!.copyWith(
                                               isGlobal: value,
                                             ));
                                           }),
@@ -133,19 +149,28 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                   ],
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Option',
-                                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16),
                                     ),
                                     Container(
                                         child: prefData.dataType == 'Bool'
                                             ? FlutterSwitch(
-                                                value: prefData.value == 'OFF' ? false : true,
+                                                value: prefData.value == 'OFF'
+                                                    ? false
+                                                    : true,
                                                 onToggle: (value) async {
-                                                  await widget.preferenceDao.updatePreferenceValue(prefData!.copyWith(
-                                                    value: value == true ? 'ON' : 'OFF',
+                                                  await widget.preferenceDao
+                                                      .updatePreferenceValue(
+                                                          prefData!.copyWith(
+                                                    value: value == true
+                                                        ? 'ON'
+                                                        : 'OFF',
                                                   ));
                                                 })
 //
@@ -154,19 +179,37 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                                     children: [
                                                       Text(
                                                         prefData.value,
-                                                        style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black45, fontSize: 16),
+                                                        style: const TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color:
+                                                                Colors.black45,
+                                                            fontSize: 16),
                                                       ),
                                                       InkWell(
                                                         child: Container(
-                                                            color: Theme.of(context).cardColor,
-                                                            margin: EdgeInsets.only(left: 8),
-                                                            child: Icon(Icons.edit)),
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .cardColor,
+                                                            margin:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    left: 8),
+                                                            child: const Icon(
+                                                                Icons.edit)),
                                                         onTap: () {
-                                                          _textFieldController = TextEditingController(text: prefData!.value);
+                                                          _textFieldController =
+                                                              TextEditingController(
+                                                                  text: prefData!
+                                                                      .value);
                                                           _displayDialog(
                                                               context,
-                                                              () => widget.preferenceDao
-                                                                  .updatePreferenceValue(prefData!.copyWith(value: _textFieldController.text)));
+                                                              () => widget
+                                                                  .preferenceDao
+                                                                  .updatePreferenceValue(prefData!
+                                                                      .copyWith(
+                                                                          value:
+                                                                              _textFieldController.text)));
                                                         },
                                                       ),
                                                     ],
@@ -174,39 +217,65 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                                 : DropdownSearch(
                                                     popupProps: PopupProps.menu(
                                                       showSelectedItems: true,
-                                                      disabledItemFn: (String s) => s.startsWith('I'),
+                                                      disabledItemFn:
+                                                          (String s) =>
+                                                              s.startsWith('I'),
                                                     ),
                                                     //backgroundColor: Theme.of(context).cardColor,
                                                     // onFind: (value) async {
                                                     //   print(value);
                                                     //   return prefData!.dataValue!.split(',').map((e) => e).toList();
                                                     // },
-                                                    selectedItem: prefData.value,
-                                                    items: prefData.dataValue!.split(',').map((e) => e).toList(),
+                                                    selectedItem:
+                                                        prefData.value,
+                                                    items: prefData.dataValue!
+                                                        .split(',')
+                                                        .map((e) => e)
+                                                        .toList(),
                                                     onChanged: (value) async {
-                                                      await widget.preferenceDao.updatePreferenceValue(prefData!.copyWith(value: value.toString()));
+                                                      await widget.preferenceDao
+                                                          .updatePreferenceValue(
+                                                              prefData!.copyWith(
+                                                                  value: value
+                                                                      .toString()));
                                                     })),
                                   ],
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Expiry Date',
-                                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16),
                                     ),
                                     Expanded(child: Container()),
                                     Text(
                                       "${prefData.expiredDateTime!.day}-${prefData.expiredDateTime!.month}-${prefData.expiredDateTime!.year}",
-                                      style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16),
                                     ),
                                     InkWell(
                                         onTap: () async {
                                           var result = await showDatePicker(
-                                              context: context, initialDate: DateTime.now(), firstDate: DateTime(1970), lastDate: DateTime(2100));
-                                          await widget.preferenceDao.updatePreferenceValue(prefData!.copyWith(expiredDateTime: Value(result)));
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(1970),
+                                              lastDate: DateTime(2100));
+                                          await widget.preferenceDao
+                                              .updatePreferenceValue(prefData!
+                                                  .copyWith(
+                                                      expiredDateTime:
+                                                          Value(result)));
                                         },
-                                        child: Container(margin: EdgeInsets.only(left: 8), child: Icon(Icons.calendar_today))),
+                                        child: Container(
+                                            margin:
+                                                const EdgeInsets.only(left: 8),
+                                            child: const Icon(
+                                                Icons.calendar_today))),
                                   ],
                                 ),
                               ],
@@ -215,13 +284,14 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                         ),
                       );
                     }
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   }),
               Container(
-                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                child: Text(
+                margin:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                child: const Text(
                   "Non-Global",
                   style: TextStyle(
                     fontSize: 18,
@@ -229,19 +299,23 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                   ),
                 ),
               ),
-              Container(
+              SizedBox(
                 height: 300,
                 child: StreamBuilder(
-                    stream: widget.nonGlobalPreferenceDao.watchAllNonGlobalPreferences(widget.code),
+                    stream: widget.nonGlobalPreferenceDao
+                        .watchAllNonGlobalPreferences(widget.code),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         List<NonGlobalPreferenceData>? nonGloblePrefData;
-                        nonGloblePrefData = snapshot.data as List<NonGlobalPreferenceData>?;
+                        nonGloblePrefData = snapshot.data;
                         if (nonGloblePrefData!.isEmpty) {
-                          return Center(
+                          return const Center(
                             child: Text(
                               "No Preference Foud",
-                              style: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.w800, fontSize: 25),
+                              style: TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 25),
                             ),
                           );
                         }
@@ -252,53 +326,82 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                             return Card(
                               elevation: 4.0,
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 12),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 12),
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
                                           'DeviceId: ${nonGloblePrefData![index].deviceId}',
                                           style: TextStyle(
-                                              color: Theme.of(context).textSelectionTheme.selectionColor, fontWeight: FontWeight.bold, fontSize: 18),
+                                              color: Theme.of(context)
+                                                  .textSelectionTheme
+                                                  .selectionColor,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18),
                                         ),
                                         Container(
                                             //  height: 20,
                                             child: FlutterSwitch(
-                                                value: nonGloblePrefData[index].value == 'OFF' ? false : true,
+                                                value: nonGloblePrefData[index]
+                                                            .value ==
+                                                        'OFF'
+                                                    ? false
+                                                    : true,
                                                 onToggle: (value) async {
-                                                  await widget.nonGlobalPreferenceDao
-                                                      .updateNonGlobalPreferenceValue(nonGloblePrefData![index].copyWith(
-                                                    value: value == true ? 'ON' : 'OFF',
+                                                  await widget
+                                                      .nonGlobalPreferenceDao
+                                                      .updateNonGlobalPreferenceValue(
+                                                          nonGloblePrefData![
+                                                                  index]
+                                                              .copyWith(
+                                                    value: value == true
+                                                        ? 'ON'
+                                                        : 'OFF',
                                                   ));
                                                 })),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 8,
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
                                           'User: ${nonGloblePrefData[index].userName.toString()}',
                                           style: TextStyle(
-                                              fontWeight: FontWeight.w500, color: Theme.of(context).textSelectionTheme.selectionColor, fontSize: 16),
+                                              fontWeight: FontWeight.w500,
+                                              color: Theme.of(context)
+                                                  .textSelectionTheme
+                                                  .selectionColor,
+                                              fontSize: 16),
                                         ),
                                         Text(
                                           'Screen: ${nonGloblePrefData[index].screen}',
                                           style: TextStyle(
-                                              fontWeight: FontWeight.w500, color: Theme.of(context).textSelectionTheme.selectionColor, fontSize: 16),
+                                              fontWeight: FontWeight.w500,
+                                              color: Theme.of(context)
+                                                  .textSelectionTheme
+                                                  .selectionColor,
+                                              fontSize: 16),
                                         ),
                                         Container(
-                                          margin: EdgeInsets.only(right: 7),
+                                          margin:
+                                              const EdgeInsets.only(right: 7),
                                           child: Text(
                                             "${nonGloblePrefData[index].expiredDateTime!.day}-${nonGloblePrefData[index].expiredDateTime!.month}-${nonGloblePrefData[index].expiredDateTime!.year}",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w500,
-                                                color: Theme.of(context).textSelectionTheme.selectionColor,
+                                                color: Theme.of(context)
+                                                    .textSelectionTheme
+                                                    .selectionColor,
                                                 fontSize: 16),
                                           ),
                                         ),
@@ -311,7 +414,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                           },
                         );
                       }
-                      return Center(
+                      return const Center(
                         child: CircularProgressIndicator(),
                       );
                     }),
@@ -329,20 +432,21 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            title: Text('Option'),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            title: const Text('Option'),
             content: TextField(
               controller: _textFieldController,
             ),
             actions: <Widget>[
               TextButton(
-                child: Text('Discard'),
+                child: const Text('Discard'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
               TextButton(
-                child: Text('Save'),
+                child: const Text('Save'),
                 onPressed: () async {
                   await callBack();
                   Navigator.of(context).pop();

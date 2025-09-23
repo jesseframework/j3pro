@@ -25,13 +25,15 @@ import 'package:j3enterprise/src/ui/app_logger/applogger_form.dart';
 import 'package:j3enterprise/src/ui/app_logger/bloc/applogger_bloc.dart';
 
 class AppLoggerPage extends StatelessWidget {
+  const AppLoggerPage({super.key});
+
   //ToDo add button transulation
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.chevron_left),
+          icon: const Icon(Icons.chevron_left),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -40,27 +42,27 @@ class AppLoggerPage extends StatelessWidget {
             'App Logger'),
         actions: [
           IconButton(
-            icon: Icon(Icons.sync),
+            icon: const Icon(Icons.sync),
             tooltip: 'Start Sync Jobs',
             onPressed: () async {
               await syncClickScheduler();
             },
           ),
-          SizedBox(
+          const SizedBox(
             width: 3,
           ),
           IconButton(
-            icon: Icon(Icons.cancel),
+            icon: const Icon(Icons.cancel),
             tooltip: 'Cancel Sync Jobs',
             onPressed: () async {
               await syncClickCancel();
             },
           ),
-          SizedBox(
+          const SizedBox(
             width: 3,
           ),
           IconButton(
-            icon: Icon(Icons.more_vert),
+            icon: const Icon(Icons.more_vert),
             tooltip: 'More options',
             onPressed: () {},
           ),
@@ -70,7 +72,7 @@ class AppLoggerPage extends StatelessWidget {
         create: (context) {
           return ApploggerBloc();
         },
-        child: AppLoggerForm(),
+        child: const AppLoggerForm(),
       ),
     );
   }

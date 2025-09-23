@@ -20,14 +20,11 @@
 import 'dart:async';
 import 'dart:io' show Platform;
 
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/database/crud/communication/communication_setup_crud.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/non_preference_crud.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/preference_crud.dart';
 import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
-import 'package:j3enterprise/src/resources/services/bloc_deligate.dart';
-import 'package:j3enterprise/src/resources/services/firebase_notification_service.dart';
 import 'package:j3enterprise/src/resources/shared/function/application_logger.dart';
 import 'package:j3enterprise/src/resources/shared/preferences/user_share_data.dart';
 import 'package:logging/logging.dart';
@@ -38,16 +35,17 @@ class InitServiceSetup {
   late NonGlobalPreferenceDao nonGlobalPreferenceDao;
   late UserSharedData userSharedData;
   late AppLogger appLogger;
-  Map<String, String> mapDevicePref = Map();
+  Map<String, String> mapDevicePref = {};
   InitServiceSetup() {
     db = MyDatabase();
-    appLogger = new AppLogger();
-    preferenceDao = new PreferenceDao(db);
-    nonGlobalPreferenceDao = new NonGlobalPreferenceDao(db);
-    userSharedData = new UserSharedData();
+    appLogger = AppLogger();
+    preferenceDao = PreferenceDao(db);
+    nonGlobalPreferenceDao = NonGlobalPreferenceDao(db);
+    userSharedData = UserSharedData();
   }
   Future<void> setupLogging() async {
-    mapDevicePref = await userSharedData.getUserSharedPref() as Map<String, String>;
+    mapDevicePref =
+        await userSharedData.getUserSharedPref() as Map<String, String>;
     String? userName = mapDevicePref['userName']!;
     String? deviceID = '3344444'; //mapDevicePref['deviceID']!;
     String? screen = 'loading'; //mapDevicePref['screen']!;
@@ -57,17 +55,23 @@ class InitServiceSetup {
     if (saveLogToDd != null) {
       if (saveLogToDd.value == "ON" &&
           saveLogToDd.isGlobal == false &&
-          (saveLogToDd.expiredDateTime!.isAfter(DateTime.now()) || saveLogToDd.expiredDateTime == null)) {
-        var nonGlobalDb = await nonGlobalPreferenceDao.getSingleNonGlobalPref('LOGGERON', 'LOGGERON', userName, deviceID, screen);
+          (saveLogToDd.expiredDateTime!.isAfter(DateTime.now()) ||
+              saveLogToDd.expiredDateTime == null)) {
+        var nonGlobalDb = await nonGlobalPreferenceDao.getSingleNonGlobalPref(
+            'LOGGERON', 'LOGGERON', userName, deviceID, screen);
         if (nonGlobalDb.value == "ON" && nonGlobalDb.isApply == true) {
           //Set not global
-          if (nonGlobalDb.expiredDateTime!.isAfter(DateTime.now()) || nonGlobalDb.expiredDateTime == null) {
-            var setLogLevel = await nonGlobalPreferenceDao.getSingleNonGlobalPref('LOGGERLEVEL', 'LOGGERLEVEL', userName, deviceID, screen);
+          if (nonGlobalDb.expiredDateTime!.isAfter(DateTime.now()) ||
+              nonGlobalDb.expiredDateTime == null) {
+            var setLogLevel =
+                await nonGlobalPreferenceDao.getSingleNonGlobalPref(
+                    'LOGGERLEVEL', 'LOGGERLEVEL', userName, deviceID, screen);
             await logLevelCheck(setLogLevel.value);
           }
         }
       } else {
-        var setLogLevel = await preferenceDao.getSinglePreferences('LOGGERLEVEL');
+        var setLogLevel =
+            await preferenceDao.getSinglePreferences('LOGGERLEVEL');
         if (setLogLevel != null) {
           await logLevelCheck(setLogLevel.value);
         }
@@ -78,37 +82,53 @@ class InitServiceSetup {
     }
 
     Logger.root.onRecord.listen((rec) async {
-      print('${rec.loggerName} : ${rec.level.name}: ${rec.time.toIso8601String()} : ${rec.message} ');
+      print(
+          '${rec.loggerName} : ${rec.level.name}: ${rec.time.toIso8601String()} : ${rec.message} ');
 
-      String _functionName = rec.loggerName.toString();
-      var logHttp = await preferenceDao.getSinglePreferences('HTTPLOGINGTOSERVER');
+      String functionName = rec.loggerName.toString();
+      var logHttp =
+          await preferenceDao.getSinglePreferences('HTTPLOGINGTOSERVER');
       if (logHttp != null) {
-        if (logHttp.value == "ON" && logHttp.isGlobal == false && logHttp.expiredDateTime!.isBefore(DateTime.now())) {
-          var nonGlobalDb =
-              await nonGlobalPreferenceDao.getSingleNonGlobalPref('HTTPLOGINGTOSERVER', 'HTTPLOGINGTOSERVER', userName, deviceID, screen);
+        if (logHttp.value == "ON" &&
+            logHttp.isGlobal == false &&
+            logHttp.expiredDateTime!.isBefore(DateTime.now())) {
+          var nonGlobalDb = await nonGlobalPreferenceDao.getSingleNonGlobalPref(
+              'HTTPLOGINGTOSERVER',
+              'HTTPLOGINGTOSERVER',
+              userName,
+              deviceID,
+              screen);
           if (nonGlobalDb.value == "ON" && nonGlobalDb.isApply == true) {
-            if (_functionName == "Chopper") {
-              await appLogger.saveAppLog(rec.loggerName, rec.time, "NA", rec.message, "NA", "NA", "NA", rec.level.name, 0, "NA", 0);
+            if (functionName == "Chopper") {
+              await appLogger.saveAppLog(rec.loggerName, rec.time, "NA",
+                  rec.message, "NA", "NA", "NA", rec.level.name, 0, "NA", 0);
             } else {
-              await appLogger.saveAppLog(rec.loggerName, rec.time, "NA", rec.message, "NA", "NA", "NA", rec.level.name, 0, "NA", 0);
+              await appLogger.saveAppLog(rec.loggerName, rec.time, "NA",
+                  rec.message, "NA", "NA", "NA", rec.level.name, 0, "NA", 0);
             }
           } else {
-            if (_functionName != "Chopper") {
-              await appLogger.saveAppLog(rec.loggerName, rec.time, "NA", rec.message, "NA", "NA", "NA", rec.level.name, 0, "NA", 0);
+            if (functionName != "Chopper") {
+              await appLogger.saveAppLog(rec.loggerName, rec.time, "NA",
+                  rec.message, "NA", "NA", "NA", rec.level.name, 0, "NA", 0);
             }
           }
-        } else if (logHttp.value == "ON" && logHttp.isGlobal == true && logHttp.expiredDateTime!.isBefore(DateTime.now())) {
-          if (_functionName == "Chopper") {
-            await appLogger.saveAppLog(rec.loggerName, rec.time, "NA", rec.message, "NA", "NA", "NA", rec.level.name, 0, "NA", 0);
+        } else if (logHttp.value == "ON" &&
+            logHttp.isGlobal == true &&
+            logHttp.expiredDateTime!.isBefore(DateTime.now())) {
+          if (functionName == "Chopper") {
+            await appLogger.saveAppLog(rec.loggerName, rec.time, "NA",
+                rec.message, "NA", "NA", "NA", rec.level.name, 0, "NA", 0);
           }
         } else {
-          if (_functionName != "Chopper") {
-            await appLogger.saveAppLog(rec.loggerName, rec.time, "NA", rec.message, "NA", "NA", "NA", rec.level.name, 0, "NA", 0);
+          if (functionName != "Chopper") {
+            await appLogger.saveAppLog(rec.loggerName, rec.time, "NA",
+                rec.message, "NA", "NA", "NA", rec.level.name, 0, "NA", 0);
           }
         }
       } else {
-        if (_functionName != "Chopper") {
-          await appLogger.saveAppLog(rec.loggerName, rec.time, "NA", rec.message, "NA", "NA", "NA", rec.level.name, 0, "NA", 0);
+        if (functionName != "Chopper") {
+          await appLogger.saveAppLog(rec.loggerName, rec.time, "NA",
+              rec.message, "NA", "NA", "NA", rec.level.name, 0, "NA", 0);
         }
       }
     });
@@ -149,7 +169,9 @@ Future<void> systemInitelSetup() async {
   //BlocOverrides.current = Zone() SimpleBlocDelegate();
   var dao = CommunicationDao(MyDatabase());
   var communicationData = await dao.getCommunicationDataByType("API");
-  var serverUrl = communicationData.isEmpty ? ApiClient.URL : communicationData[0].serverUrl;
+  var serverUrl = communicationData.isEmpty
+      ? ApiClient.URL
+      : communicationData[0].serverUrl;
   ApiClient.updateClient(serverUrl);
   if (!Platform.isWindows && !Platform.isMacOS) {
     //FirebaseNotificationService.instance;

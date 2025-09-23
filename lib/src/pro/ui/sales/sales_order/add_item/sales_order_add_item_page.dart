@@ -1,12 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/bloc/add_item_bloc.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/sales_order_add_item_form.dart';
 
 class SalesOrderAddItemPage extends StatefulWidget {
-  SalesOrderAddItemPage();
-   
+  const SalesOrderAddItemPage({super.key});
 
   @override
   _SalesOrderAddItemPageState createState() => _SalesOrderAddItemPageState();

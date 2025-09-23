@@ -16,8 +16,7 @@ class SalesOderDefaultData extends SalesOderState {
       required this.currenciesData,
       required this.exchangeRate});
   @override
-  List<Object> get props =>
-      [this.currenciesData, this.defaultCurrency, this.exchangeRate];
+  List<Object> get props => [currenciesData, defaultCurrency, exchangeRate];
 }
 
 class SalesOderLoding extends SalesOderState {}

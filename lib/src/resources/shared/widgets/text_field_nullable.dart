@@ -20,13 +20,14 @@
 import 'package:flutter/material.dart';
 
 class TextFromFieldNullableReusable extends StatelessWidget {
-    final TextEditingController controllerName;
-    final String? validationText;
+  final TextEditingController controllerName;
+  final String? validationText;
   final InputDecoration fieldDecoration;
 
-  TextFromFieldNullableReusable(
-      {required this.controllerName,
-         this.validationText ,
+  const TextFromFieldNullableReusable(
+      {super.key,
+      required this.controllerName,
+      this.validationText,
       required this.fieldDecoration});
 
   @override
@@ -35,8 +36,8 @@ class TextFromFieldNullableReusable extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
           controller: controllerName,
-          validator: (_value) {
-            return _value!.length < 3 ? validationText : null;
+          validator: (value) {
+            return value!.length < 3 ? validationText : null;
           },
           decoration: fieldDecoration.copyWith(filled: true)),
     );
@@ -44,19 +45,19 @@ class TextFromFieldNullableReusable extends StatelessWidget {
 }
 
 class TextFromFieldReusable extends StatelessWidget {
-  late final String validationText;
-  late final InputDecoration fieldDecoration;
+  final String validationText;
+  final InputDecoration fieldDecoration;
 
-  TextFromFieldReusable(
-      {String? validationText, required this.fieldDecoration});
+  const TextFromFieldReusable(
+      {super.key, required this.validationText, required this.fieldDecoration});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
-          validator: (_value) {
-            return _value!.length < 3 ? validationText : null;
+          validator: (value) {
+            return value!.length < 3 ? validationText : null;
           },
           decoration: fieldDecoration.copyWith(filled: true)),
     );

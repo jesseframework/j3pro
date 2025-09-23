@@ -5,7 +5,8 @@ import 'package:drift/drift.dart';
 part 'item_price_crud.g.dart';
 
 @DriftAccessor(tables: [ItemsPrices])
-class ItemPriceDao extends DatabaseAccessor<MyDatabase> with _$ItemPriceDaoMixin {
+class ItemPriceDao extends DatabaseAccessor<MyDatabase>
+    with _$ItemPriceDaoMixin {
   final MyDatabase db;
   ItemPriceDao(this.db) : super(db);
 
@@ -14,12 +15,18 @@ class ItemPriceDao extends DatabaseAccessor<MyDatabase> with _$ItemPriceDaoMixin
   }
 
   Stream<List<ItemsPrice>> watchItemPriceByCode(String itemCode) {
-    return (select(db.itemsPrices)..where((t) => t.itemCode.equals(itemCode))).watch();
+    return (select(db.itemsPrices)..where((t) => t.itemCode.equals(itemCode)))
+        .watch();
   }
 
-  Future<List<ItemsPrice>> getItemPricesByCode(String itemId, String uom, String priceList, String standardPriceList) {
+  Future<List<ItemsPrice>> getItemPricesByCode(
+      String itemId, String uom, String priceList, String standardPriceList) {
     return (select(db.itemsPrices)
-          ..where((t) => t.itemId.equals(itemId) & t.uom.contains(uom) & (t.priceList.contains(priceList) | t.priceList.equals(standardPriceList))))
+          ..where((t) =>
+              t.itemId.equals(itemId) &
+              t.uom.contains(uom) &
+              (t.priceList.contains(priceList) |
+                  t.priceList.equals(standardPriceList))))
         .get();
   }
 

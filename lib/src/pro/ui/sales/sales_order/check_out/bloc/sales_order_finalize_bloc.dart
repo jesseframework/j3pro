@@ -15,7 +15,8 @@ import 'package:j3enterprise/src/resources/shared/preferences/user_share_data.da
 part 'sales_order_finalize_event.dart';
 part 'sales_order_finalize_state.dart';
 
-class SalesOrderFinalizeBloc extends Bloc<SalesOrderFinalizeEvent, SalesOrderFinalizeState> {
+class SalesOrderFinalizeBloc
+    extends Bloc<SalesOrderFinalizeEvent, SalesOrderFinalizeState> {
   var db;
   late PostTransactionHeader postTransactionHeader;
   late UserSharedData userSharedData;
@@ -46,19 +47,33 @@ class SalesOrderFinalizeBloc extends Bloc<SalesOrderFinalizeEvent, SalesOrderFin
     SalesOrderFinalizeEvent event,
   ) async* {
     if (event is CreatePostTransection) {
-      List<CustomerData> customerData = await customerDao.getAllCustomerById(addItemBloc.customerId);
-      var defaultCurrency = customerData[0].defaultCurrency!.isNotEmpty ? customerData[0].defaultCurrency : 'JMD';
-      List<SystemCurrencyData> currencydata = await systemCurrencyDao.getAllSystemCurrency();
+      List<CustomerData> customerData =
+          await customerDao.getAllCustomerById(addItemBloc.customerId);
+      var defaultCurrency = customerData[0].defaultCurrency!.isNotEmpty
+          ? customerData[0].defaultCurrency
+          : 'JMD';
+      List<SystemCurrencyData> currencydata =
+          await systemCurrencyDao.getAllSystemCurrency();
       List<SystemCurrencyData> defaultCurrencyList = currencydata.isNotEmpty
           ? currencydata
-          : [SystemCurrencyData(currencyName: 'No Currency Found', effectiveDate: DateTime.now(), id: 0, isActive: false, isDeleted: false)];
-      List<ExchangeRateData> exchangeRateData = await exchangeRateDao.getAllExchnageRateByCurrency('JMD', defaultCurrency!);
+          : [
+              SystemCurrencyData(
+                  currencyName: 'No Currency Found',
+                  effectiveDate: DateTime.now(),
+                  id: 0,
+                  isActive: false,
+                  isDeleted: false)
+            ];
+      List<ExchangeRateData> exchangeRateData = await exchangeRateDao
+          .getAllExchnageRateByCurrency('JMD', defaultCurrency!);
       var shredPrefData = await userSharedData.getUserSharedPref();
       _postTransaction.postTransactionData(
         exchangeRate: exchangeRateData[0].exchangeRate,
-        transactionNumber: await tempSerialNumberReader.getTempNumber(typeOfNumber: 'Sales Order'),
+        transactionNumber: await tempSerialNumberReader.getTempNumber(
+            typeOfNumber: 'Sales Order'),
         transactionStatus: event.transactionStatus,
-        daySessionNumber: await tempSerialNumberReader.getTempNumber(typeOfNumber: 'Clock In'),
+        daySessionNumber: await tempSerialNumberReader.getTempNumber(
+            typeOfNumber: 'Clock In'),
         billingAddressName: event.billingAddressName,
         purchaseOrderNo: event.purchaseOrderNo,
         tenantId: int.parse(shredPrefData['tenantId']),
@@ -68,7 +83,8 @@ class SalesOrderFinalizeBloc extends Bloc<SalesOrderFinalizeEvent, SalesOrderFin
         soldTo: event.soldTo,
         deliveryDate: event.deliveryDate,
         transactionType: event.transactionType,
-        inventoryCycleNumber: await tempSerialNumberReader.getTempNumber(typeOfNumber: 'Inventory Cycle'),
+        inventoryCycleNumber: await tempSerialNumberReader.getTempNumber(
+            typeOfNumber: 'Inventory Cycle'),
         userId: int.parse(shredPrefData['userId']),
         userName: shredPrefData['userName'],
         orderType: event.orderType,

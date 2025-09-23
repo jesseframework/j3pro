@@ -26,8 +26,9 @@ class DropdownFormFieldNormalReuse extends StatefulWidget {
 
   final onUpdateSelectionValue;
 
-  DropdownFormFieldNormalReuse(this.onUpdateSelectionValue,
-      {required this.hintText,
+  const DropdownFormFieldNormalReuse(this.onUpdateSelectionValue,
+      {super.key,
+      required this.hintText,
       required this.selectedValue,
       required this.listData});
 
@@ -53,12 +54,12 @@ class _DropdownFormFieldNormalReuseState
         Padding(
             padding: const EdgeInsets.all(10.00),
             child: DropdownButtonFormField<String>(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 filled: true,
                 //fillColor: Theme.of(context).backgroundColor
               ),
               hint: Text(widget.hintText),
-              value: setselectedValue,
+              initialValue: setselectedValue,
               onChanged: (String? newValue) {
                 setState(() {
                   setselectedValue = newValue;
@@ -66,9 +67,9 @@ class _DropdownFormFieldNormalReuseState
                 });
               },
               items: widget.listData.map((String dropDownStringItem) {
-                return new DropdownMenuItem<String>(
+                return DropdownMenuItem<String>(
                   value: dropDownStringItem,
-                  child: new Text(
+                  child: Text(
                     dropDownStringItem,
                   ),
                 );

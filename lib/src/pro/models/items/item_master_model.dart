@@ -1,4 +1,3 @@
-import 'package:j3enterprise/src/resources/shared/extension/full_audited.dart';
 import 'package:j3enterprise/src/resources/shared/extension/must_have_tenant.dart';
 import 'package:drift/drift.dart';
 
@@ -11,16 +10,18 @@ class Items extends Table implements MustHaveTenant {
   TextColumn get itemGroup => text().nullable()();
   TextColumn get taxGroup => text().nullable()();
   TextColumn get uom => text().nullable()();
-  BoolColumn get trackInventory => boolean().withDefault(Constant(false))();
+  BoolColumn get trackInventory =>
+      boolean().withDefault(const Constant(false))();
   TextColumn get category => text().nullable()();
   BoolColumn get isProductBundleParent =>
-      boolean().withDefault(Constant(false))();
-  BoolColumn get isQuickMenue => boolean().withDefault(Constant(false))();
-  BoolColumn get isRetired => boolean().withDefault(Constant(false))();
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get isQuickMenue => boolean().withDefault(const Constant(false))();
+  BoolColumn get isRetired => boolean().withDefault(const Constant(false))();
   DateTimeColumn get retiredDate => dateTime().nullable()();
-  BoolColumn get hasVariant => boolean().withDefault(Constant(false))();
+  BoolColumn get hasVariant => boolean().withDefault(const Constant(false))();
   TextColumn get defaultWarehouse => text().nullable()();
-  BoolColumn get isDeleted => boolean().withDefault(Constant(false))();
+  BoolColumn get isDeleted => boolean().withDefault(const Constant(false))();
+  @override
   IntColumn get tenantId => integer().nullable()();
 
   @override

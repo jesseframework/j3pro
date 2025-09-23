@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:chopper/chopper.dart';
 import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
 import 'package:j3enterprise/src/database/drift_database.dart';
-import 'package:j3enterprise/src/pro/database/crud/items/category_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/items/item_group_crud.dart';
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
 import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
@@ -28,10 +27,10 @@ class ItemGroupRepository {
   ItemGroupRepository() {
     _log.finest("Preference repository constructer call");
     db = MyDatabase();
-    updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
-    backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
-    itemGroupDao = new ItemGroupDao(db);
-    userSharedData = new UserSharedData();
+    updateBackgroundJobStatus = UpdateBackgroundJobStatus();
+    backgroundJobScheduleDao = BackgroundJobScheduleDao(db);
+    itemGroupDao = ItemGroupDao(db);
+    userSharedData = UserSharedData();
   }
 
   Future<void> getItemGroupFromServer(String jobName) async {
@@ -62,7 +61,8 @@ class ItemGroupRepository {
           } else {
             String error = map["error"]["details"].toString();
             updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-            _log.shout("Customer API call failed. Server respond with error : $error  ");
+            _log.shout(
+                "Customer API call failed. Server respond with error : $error  ");
           }
         }
       }

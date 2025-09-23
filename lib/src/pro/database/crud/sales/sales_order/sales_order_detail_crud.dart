@@ -5,7 +5,8 @@ import 'package:drift/drift.dart';
 part 'sales_order_detail_crud.g.dart';
 
 @DriftAccessor(tables: [SalesOrderDetail])
-class SalesOrderDetailDao extends DatabaseAccessor<MyDatabase> with _$SalesOrderDetailDaoMixin {
+class SalesOrderDetailDao extends DatabaseAccessor<MyDatabase>
+    with _$SalesOrderDetailDaoMixin {
   final MyDatabase db;
   SalesOrderDetailDao(this.db) : super(db);
 
@@ -14,14 +15,18 @@ class SalesOrderDetailDao extends DatabaseAccessor<MyDatabase> with _$SalesOrder
   }
 
   Stream<List<SalesOrderDetailData>> watchAllSalesOrderDetail(String orderNo) {
-    return (select(db.salesOrderDetail)..where((t) => t.transactionNumber.contains(orderNo))).watch();
+    return (select(db.salesOrderDetail)
+          ..where((t) => t.transactionNumber.contains(orderNo)))
+        .watch();
   }
 
-  Future insertSalesOrderDetail(SalesOrderDetailData salesOrderDetailData) => into(db.salesOrderDetail).insert(salesOrderDetailData);
+  Future insertSalesOrderDetail(SalesOrderDetailData salesOrderDetailData) =>
+      into(db.salesOrderDetail).insert(salesOrderDetailData);
 
   Future deleteAllSalesOrderDetail() => delete(db.salesOrderDetail).go();
 
-  Future postSalesOrderData(SalesOrderDetailCompanion salesOrderDetailCompanion, SalesOrderHeaderCompanion soh) {
+  Future postSalesOrderData(SalesOrderDetailCompanion salesOrderDetailCompanion,
+      SalesOrderHeaderCompanion soh) {
     return transaction(() async {
       await into(db.salesOrderDetail).insert(salesOrderDetailCompanion);
       await into(db.salesOrderHeader).insertOnConflictUpdate(soh);

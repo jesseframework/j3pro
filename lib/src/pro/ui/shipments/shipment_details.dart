@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:j3enterprise/src/pro/ui/shipments/pick_iems.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
 
 class ShipmentDetailsScreen extends StatefulWidget {
-  const ShipmentDetailsScreen();
+  const ShipmentDetailsScreen({super.key});
 
   @override
   State<ShipmentDetailsScreen> createState() => _ShipmentDetailsScreenState();
@@ -16,11 +15,11 @@ class _ShipmentDetailsScreenState extends State<ShipmentDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Shipment Details'),
+        title: const Text('Shipment Details'),
         actions: [
           IconButton(
             onPressed: () {},
-            icon: Icon(Icons.more_vert),
+            icon: const Icon(Icons.more_vert),
           )
         ],
       ),
@@ -30,7 +29,7 @@ class _ShipmentDetailsScreenState extends State<ShipmentDetailsScreen> {
           child: Row(
             children: [
               Expanded(
-                child: Container(
+                child: SizedBox(
                   height: 35,
                   child: ListFilter(
                     placeholder: 'Search',
@@ -55,17 +54,26 @@ class _ShipmentDetailsScreenState extends State<ShipmentDetailsScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ShipmentDetailsScreen(),
+                        builder: (context) => const ShipmentDetailsScreen(),
                       ),
                     );
                   },
                   child: Container(
                     child: ListTile(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 0),
-                      leading: Icon(Icons.image, size: 30),
-                      title: Text("124132", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
-                      subtitle: Text("124132", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
-                      trailing: Text("124132", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.grey.shade600)),
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 0),
+                      leading: const Icon(Icons.image, size: 30),
+                      title: const Text("124132",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w700)),
+                      subtitle: const Text("124132",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w700)),
+                      trailing: Text("124132",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey.shade600)),
                     ),
                   ),
                 );
@@ -95,8 +103,16 @@ class _ShipmentDetailsScreenState extends State<ShipmentDetailsScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Total Shipment", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.grey.shade600)),
-                    Text("124132", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey.shade600)),
+                    Text("Total Shipment",
+                        style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey.shade600)),
+                    Text("124132",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey.shade600)),
                   ],
                 ),
               ),
@@ -108,26 +124,39 @@ class _ShipmentDetailsScreenState extends State<ShipmentDetailsScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Shipment No: 32146534", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey.shade600)),
-                        Text("Shipment Date: Oct 1, 2023", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey.shade600)),
+                        Text("Shipment No: 32146534",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey.shade600)),
+                        Text("Shipment Date: Oct 1, 2023",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey.shade600)),
                       ],
                     ),
                     TextButton(
                         style: TextButton.styleFrom(
                           backgroundColor: Colors.blue.shade700,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4)),
                         ),
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PickItemScreen(),
+                              builder: (context) => const PickItemScreen(),
                             ),
                           );
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Text('Pick Items', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
+                        child: const Padding(
+                          padding: EdgeInsets.all(4.0),
+                          child: Text('Pick Items',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white)),
                         )),
                   ],
                 ),

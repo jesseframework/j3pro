@@ -13,5 +13,6 @@ part 'sales_order_detail_crud_custquery.g.dart';
 )
 class SalesOrderWithItem extends _$SalesOrderWithItem {
   SalesOrderWithItem(QueryExecutor e) : super(e);
+  @override
   int get schemaVersion => 1;
 }

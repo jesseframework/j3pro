@@ -28,6 +28,8 @@ import 'package:j3enterprise/src/resources/shared/widgets/text_field_nullable.da
 import 'bloc/login_bloc.dart';
 
 class LoginForm extends StatefulWidget {
+  const LoginForm({super.key});
+
   @override
   State<LoginForm> createState() => _LoginFormState();
 }
@@ -36,7 +38,7 @@ class _LoginFormState extends State<LoginForm> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _tenantController = TextEditingController();
-  final formKey = new GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
   bool pass = true;
   late String selected;
   bool isSwitched = false;
@@ -45,7 +47,7 @@ class _LoginFormState extends State<LoginForm> {
   void didChangeDependencies() {
     getIt<UserRepository>().getTenantFromSharedPref().then((value) {
       setState(() {
-        _tenantController.text = value??'';
+        _tenantController.text = value ?? '';
       });
     });
     super.didChangeDependencies();
@@ -53,9 +55,10 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    _onLoginButtonPressed() async {
+    onLoginButtonPressed() async {
       formKey.currentState!.validate();
-      await getIt<UserRepository>().setTenantIntoSharedPref(_tenantController.text);
+      await getIt<UserRepository>()
+          .setTenantIntoSharedPref(_tenantController.text);
       BlocProvider.of<LoginBloc>(context).add(
         LoginButtonPressed(
             username: _usernameController.text.trim(),
@@ -69,7 +72,8 @@ class _LoginFormState extends State<LoginForm> {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state is LoginFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: new Text(state.error)));
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(state.error)));
         }
       },
       child: BlocBuilder<LoginBloc, LoginState>(
@@ -77,7 +81,8 @@ class _LoginFormState extends State<LoginForm> {
           return Form(
             key: formKey,
             child: Container(
-              constraints: BoxConstraints(minWidth: 100, maxWidth: 400, minHeight: 200, maxHeight: 360),
+              constraints: const BoxConstraints(
+                  minWidth: 100, maxWidth: 400, minHeight: 200, maxHeight: 360),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: ClipRRect(
@@ -93,12 +98,17 @@ class _LoginFormState extends State<LoginForm> {
                           Expanded(
                             child: TextFromFieldNullableReusable(
                               controllerName: _usernameController,
-                              validationText: _usernameController.text.length < 3
-                                  ? AppLocalization.of(context)!.translate('username_validation_text') ?? 'Enter valid username'
-                                  : null,
+                              validationText:
+                                  _usernameController.text.length < 3
+                                      ? AppLocalization.of(context)!.translate(
+                                              'username_validation_text') ??
+                                          'Enter valid username'
+                                      : null,
                               fieldDecoration: InputDecoration(
-                                icon: Icon(Icons.person),
-                                labelText: AppLocalization.of(context)!.translate('username_label') ?? 'Username',
+                                icon: const Icon(Icons.person),
+                                labelText: AppLocalization.of(context)!
+                                        .translate('username_label') ??
+                                    'Username',
                               ),
                             ),
                           ),
@@ -106,12 +116,17 @@ class _LoginFormState extends State<LoginForm> {
                             //Fit and size widgets widgets according to container size
                             child: TextFromFieldPasswordReusable(
                               controllerName: _passwordController,
-                              validationText: _usernameController.text.length < 3
-                                  ? AppLocalization.of(context)!.translate('username_validation_password') ?? 'Enter valid password'
-                                  : '',
+                              validationText:
+                                  _usernameController.text.length < 3
+                                      ? AppLocalization.of(context)!.translate(
+                                              'username_validation_password') ??
+                                          'Enter valid password'
+                                      : '',
                               fieldDecoration: InputDecoration(
-                                icon: Icon(Icons.lock),
-                                labelText: AppLocalization.of(context)!.translate('password_label') ?? 'Password',
+                                icon: const Icon(Icons.lock),
+                                labelText: AppLocalization.of(context)!
+                                        .translate('password_label') ??
+                                    'Password',
                               ),
                             ),
                           ),
@@ -119,13 +134,18 @@ class _LoginFormState extends State<LoginForm> {
                             child: TextFromFieldNullableReusable(
                               // hint: Text(AppLocalization.of(context).translate('tenant_default_text')),
                               controllerName: _tenantController,
-                              validationText: _usernameController.text.length < 2
-                                  ? AppLocalization.of(context)!.translate('tenant_value_missing') ?? 'Enter valid tenant'
+                              validationText: _usernameController.text.length <
+                                      2
+                                  ? AppLocalization.of(context)!
+                                          .translate('tenant_value_missing') ??
+                                      'Enter valid tenant'
                                   : null,
                               fieldDecoration: InputDecoration(
-                                icon: Icon(Icons.home),
+                                icon: const Icon(Icons.home),
                                 alignLabelWithHint: false,
-                                labelText: AppLocalization.of(context)!.translate('tenant_label') ?? 'Tenant',
+                                labelText: AppLocalization.of(context)!
+                                        .translate('tenant_label') ??
+                                    'Tenant',
                               ),
                             ),
                           ),
@@ -135,18 +155,22 @@ class _LoginFormState extends State<LoginForm> {
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Theme.of(context).primaryColor,
-                                 
-                              )
-                             ,
-                              child: Text(
-                                AppLocalization.of(context)!.translate('login_button') ?? 'Login',
-                                style: TextStyle(color: Colors.white),
                               ),
-                              onPressed: state is! LoginLoading ? _onLoginButtonPressed : null,
+                              onPressed: state is! LoginLoading
+                                  ? onLoginButtonPressed
+                                  : null,
+                              child: Text(
+                                AppLocalization.of(context)!
+                                        .translate('login_button') ??
+                                    'Login',
+                                style: const TextStyle(color: Colors.white),
+                              ),
                             ),
                           ),
                           Container(
-                            child: state is LoginLoading ? LinearProgressIndicator() : null,
+                            child: state is LoginLoading
+                                ? const LinearProgressIndicator()
+                                : null,
                           ),
                           // Row(
                           //   mainAxisAlignment: MainAxisAlignment.center,

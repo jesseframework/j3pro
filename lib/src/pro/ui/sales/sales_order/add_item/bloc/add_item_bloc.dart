@@ -10,7 +10,6 @@ import 'package:j3enterprise/src/pro/database/crud/account/currency/currency_cru
 import 'package:j3enterprise/src/pro/database/crud/account/exchange_rate/exchange_rate.dart';
 import 'package:j3enterprise/src/pro/database/crud/customer/customer_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/series_number/temp_number_log_crud.dart';
-import 'package:j3enterprise/src/pro/models/customer/address_model.dart';
 import 'package:j3enterprise/src/pro/resources/shared/sales/add_item_to_transaction.dart';
 import 'package:j3enterprise/src/pro/resources/shared/sales/calculate_tax.dart';
 import 'package:j3enterprise/src/pro/resources/shared/sales/calculate_total.dart';
@@ -19,7 +18,6 @@ import 'package:j3enterprise/src/pro/resources/shared/utils/temp_serial_number_l
 import 'package:j3enterprise/src/resources/shared/preferences/user_share_data.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/dialog.dart';
 import 'package:logging/logging.dart';
-import 'package:meta/meta.dart';
 
 part 'add_item_event.dart';
 part 'add_item_state.dart';
@@ -68,32 +66,35 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
   late ExchangeRateDao exchangeRateDao;
   late NonGlobalBusinessRuleDao nonGlobalBusinessRuleDao;
   late UserSharedData userSharedData;
-  Map<String, String> mapDevicePref = Map();
-  AddItemBloc() : super(AddItemInitial(transactionNo: '')) {
+  Map<String, String> mapDevicePref = {};
+  AddItemBloc() : super(const AddItemInitial(transactionNo: '')) {
     db = MyDatabase();
 
-    tempSerialNumberReader = new TempSerialNumberReader();
-    _addItemToTransaction = new AddItemToTransaction();
-    _deleteSalesOrderLineItem = new DeleteSalesOrderLineItem();
-    _calculateTax = new CalculateTax();
-    _calculateTotal = new CalculateTotal();
-    tempNumberLogsDao = new TempNumberLogsDao(db);
-    customerDao = new CustomerDao(db);
-    businessRuleDao = new BusinessRuleDao(db);
-    systemCurrencyDao = new SystemCurrencyDao(db);
-    exchangeRateDao = new ExchangeRateDao(db);
-    nonGlobalBusinessRuleDao = new NonGlobalBusinessRuleDao(db);
-    userSharedData = new UserSharedData();
+    tempSerialNumberReader = TempSerialNumberReader();
+    _addItemToTransaction = AddItemToTransaction();
+    _deleteSalesOrderLineItem = DeleteSalesOrderLineItem();
+    _calculateTax = CalculateTax();
+    _calculateTotal = CalculateTotal();
+    tempNumberLogsDao = TempNumberLogsDao(db);
+    customerDao = CustomerDao(db);
+    businessRuleDao = BusinessRuleDao(db);
+    systemCurrencyDao = SystemCurrencyDao(db);
+    exchangeRateDao = ExchangeRateDao(db);
+    nonGlobalBusinessRuleDao = NonGlobalBusinessRuleDao(db);
+    userSharedData = UserSharedData();
   }
 
   void setOrderNumber() async {
-    tempSalesOrderNo = await tempSerialNumberReader.getTempNumber(typeOfNumber: "Sales Order");
-    tempInventoryCycle = await tempSerialNumberReader.getTempNumber(typeOfNumber: "Inventory Cycle");
-    tempDaySessionNumber = await tempSerialNumberReader.getTempNumber(typeOfNumber: "Clock In");
+    tempSalesOrderNo =
+        await tempSerialNumberReader.getTempNumber(typeOfNumber: "Sales Order");
+    tempInventoryCycle = await tempSerialNumberReader.getTempNumber(
+        typeOfNumber: "Inventory Cycle");
+    tempDaySessionNumber =
+        await tempSerialNumberReader.getTempNumber(typeOfNumber: "Clock In");
   }
 
   @override
-  AddItemState get initialState => AddItemInitial(transactionNo: '');
+  AddItemState get initialState => const AddItemInitial(transactionNo: '');
 
   @override
   Stream<AddItemState> mapEventToState(
@@ -101,25 +102,30 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
   ) async* {
     yield AddItemLoading();
     _log.finest("get temp number from database");
-    tempSalesOrderNo = await tempSerialNumberReader.getTempNumber(typeOfNumber: "Sales Order");
-    tempInventoryCycle = await tempSerialNumberReader.getTempNumber(typeOfNumber: "Inventory Cycle");
-    tempDaySessionNumber = await tempSerialNumberReader.getTempNumber(typeOfNumber: "Clock In");
+    tempSalesOrderNo =
+        await tempSerialNumberReader.getTempNumber(typeOfNumber: "Sales Order");
+    tempInventoryCycle = await tempSerialNumberReader.getTempNumber(
+        typeOfNumber: "Inventory Cycle");
+    tempDaySessionNumber =
+        await tempSerialNumberReader.getTempNumber(typeOfNumber: "Clock In");
 
     _log.finest("get customer by customer number");
     var cust = await customerDao.getAllCustomerById(customerId);
-    if (cust.length > 0) {
+    if (cust.isNotEmpty) {
       currency = cust[0].defaultCurrency!;
     }
 
     //ToDo add effictive date to exchange rate
     //ToDo get company exchange rate
 
-    var getexchangeRate = await exchangeRateDao.getAllExchnageRateByCurrency("JMD", currency);
-    if (getexchangeRate.length > 0) {
+    var getexchangeRate =
+        await exchangeRateDao.getAllExchnageRateByCurrency("JMD", currency);
+    if (getexchangeRate.isNotEmpty) {
       exchangeRate = getexchangeRate[0].exchangeRate!;
     }
 
-    mapDevicePref = await userSharedData.getUserSharedPref() as Map<String, String>;
+    mapDevicePref =
+        await userSharedData.getUserSharedPref() as Map<String, String>;
     String? userName = mapDevicePref['userName'];
     String? userId = mapDevicePref['userId'];
     String? deviceID = mapDevicePref['deviceID'];
@@ -130,39 +136,54 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
     }
 
     //Business Rule for delivery date
-    var setDeliveryDate = await businessRuleDao.getSingleBusinessRule('SETDDDATE');
-    if (setDeliveryDate != null) {
-      if (setDeliveryDate.value == "ON" &&
-          setDeliveryDate.isGlobalRule == false &&
-          (setDeliveryDate.expiredDateTime!.isAfter(DateTime.now()) || setDeliveryDate.expiredDateTime == null)) {
-        var nonGlobalDb = await nonGlobalBusinessRuleDao.getSingleNonGlobalBusinessRule('SETDDDATE', 'SETDDDATE', userName!, deviceID!, screen!);
-        if (nonGlobalDb.value == "ON" && nonGlobalDb.isApply == true) {
-          //Set not global
-          if (nonGlobalDb.expiredDateTime!.isAfter(DateTime.now()) || nonGlobalDb.expiredDateTime == null) {
-            deliveryDate = DateTime.now();
-          }
+    var setDeliveryDate =
+        await businessRuleDao.getSingleBusinessRule('SETDDDATE');
+    if (setDeliveryDate.value == "ON" &&
+        setDeliveryDate.isGlobalRule == false &&
+        (setDeliveryDate.expiredDateTime!.isAfter(DateTime.now()) ||
+            setDeliveryDate.expiredDateTime == null)) {
+      var nonGlobalDb =
+          await nonGlobalBusinessRuleDao.getSingleNonGlobalBusinessRule(
+              'SETDDDATE', 'SETDDDATE', userName!, deviceID!, screen!);
+      if (nonGlobalDb.value == "ON" && nonGlobalDb.isApply == true) {
+        //Set not global
+        if (nonGlobalDb.expiredDateTime!.isAfter(DateTime.now()) ||
+            nonGlobalDb.expiredDateTime == null) {
+          deliveryDate = DateTime.now();
         }
-      } else {
-        deliveryDate = DateTime.now();
       }
     } else {
-      //Set Default
       deliveryDate = DateTime.now();
     }
 
     if (event is AddItemButtonPress) {
       getItemNumber = event.itemNumber;
       setQty = event.setQty;
-          var result = await _addItemToTransaction.getItem(setQty, getItemNumber, tempSalesOrderNo, tempTransactionStatus, tempInventoryCycle,
-          tempDaySessionNumber, deliveryDate, currency, exchangeRate, int.tryParse(tenantId!)!, userName!, int.tryParse(userId!)!, customerId);
+      var result = await _addItemToTransaction.getItem(
+          setQty,
+          getItemNumber,
+          tempSalesOrderNo,
+          tempTransactionStatus,
+          tempInventoryCycle,
+          tempDaySessionNumber,
+          deliveryDate,
+          currency,
+          exchangeRate,
+          int.tryParse(tenantId!)!,
+          userName!,
+          int.tryParse(userId!)!,
+          customerId);
 
-      displayDialog(onlyMessage: true, title: result.toString(), context: event.context);
+      displayDialog(
+          onlyMessage: true, title: result.toString(), context: event.context);
     }
 
     if (event is DeleteLineItemPress) {
-      var result = await _deleteSalesOrderLineItem.deleteLineItemById(event.itemNumber, event.uom, tempSalesOrderNo, event.id);
+      var result = await _deleteSalesOrderLineItem.deleteLineItemById(
+          event.itemNumber, event.uom, tempSalesOrderNo, event.id);
 
-      await _calculateTotal.getTotal(tempSalesOrderNo, tempTransactionStatus, event.itemNumber, event.uom);
+      await _calculateTotal.getTotal(
+          tempSalesOrderNo, tempTransactionStatus, event.itemNumber, event.uom);
 
       if (result != null) {
         print(result);

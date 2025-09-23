@@ -15,11 +15,13 @@ class CategoryDao extends DatabaseAccessor<MyDatabase> with _$CategoryDaoMixin {
   }
 
   Stream<List<Categore>> watchAllCategoryByName(String categoryName) {
-    return (select(db.categores)..where((t) => t.category.equals(categoryName))).watch();
+    return (select(db.categores)..where((t) => t.category.equals(categoryName)))
+        .watch();
   }
 
   Future<List<Categore>> getAllCategoryByName(String categoryName) {
-    return (select(db.categores)..where((t) => t.category.equals(categoryName))).get();
+    return (select(db.categores)..where((t) => t.category.equals(categoryName)))
+        .get();
   }
 
   Future<void> createOrUpdateCateory(Categore categoryData) {

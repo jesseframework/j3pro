@@ -3,6 +3,8 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/text_field_nullable.dart';
 
 class AddCustomerPage extends StatefulWidget {
+  const AddCustomerPage({super.key});
+
   @override
   _AddCustomerPageState createState() => _AddCustomerPageState();
 }
@@ -20,7 +22,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
             onTap: () {
               Navigator.pop(context);
             },
-            child: Row(
+            child: const Row(
               children: [
                 Text(
                   "Save",
@@ -33,7 +35,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
               ],
             ),
           ),
-          IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
+          IconButton(icon: const Icon(Icons.more_vert), onPressed: () {}),
         ],
       ),
       body: Padding(
@@ -70,7 +72,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                               'Customer Type *',
                           suffixIcon: InkWell(
                               onTap: () {},
-                              child: Icon(Icons.arrow_drop_down))),
+                              child: const Icon(Icons.arrow_drop_down))),
                       validationText: 'Test',
                     ),
                     TextFromFieldReusable(
@@ -80,7 +82,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                               'Customer Group *',
                           suffixIcon: InkWell(
                               onTap: () {},
-                              child: Icon(Icons.arrow_drop_down))),
+                              child: const Icon(Icons.arrow_drop_down))),
                       validationText: 'Test',
                     ),
                   ],
@@ -107,7 +109,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                               'Territory',
                           suffixIcon: InkWell(
                               onTap: () {},
-                              child: Icon(Icons.arrow_drop_down))),
+                              child: const Icon(Icons.arrow_drop_down))),
                       validationText: 'Test',
                     ),
                   ],
@@ -126,7 +128,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                               'Currency',
                           suffixIcon: InkWell(
                               onTap: () {},
-                              child: Icon(Icons.arrow_drop_down))),
+                              child: const Icon(Icons.arrow_drop_down))),
                       validationText: 'Test',
                     ),
                     TextFromFieldReusable(
@@ -136,7 +138,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                               'Price List',
                           suffixIcon: InkWell(
                               onTap: () {},
-                              child: Icon(Icons.arrow_drop_down))),
+                              child: const Icon(Icons.arrow_drop_down))),
                       validationText: 'Test',
                     ),
                     TextFromFieldReusable(
@@ -146,7 +148,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                               'Tax Group',
                           suffixIcon: InkWell(
                               onTap: () {},
-                              child: Icon(Icons.arrow_drop_down))),
+                              child: const Icon(Icons.arrow_drop_down))),
                       validationText: 'Test',
                     ),
                   ],
@@ -163,7 +165,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                           'Add Contact',
                       suffixIcon: InkWell(
                           onTap: () {},
-                          child: Icon(Icons.add_circle_outline_rounded))),
+                          child: const Icon(Icons.add_circle_outline_rounded))),
                   validationText: 'Test',
                 )),
             getSectionTitle('Address'),
@@ -180,7 +182,8 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                               'Billing Address',
                           suffixIcon: InkWell(
                               onTap: () {},
-                              child: Icon(Icons.add_circle_outline_rounded))),
+                              child: const Icon(
+                                  Icons.add_circle_outline_rounded))),
                       validationText: 'Test',
                     ),
                     TextFromFieldReusable(
@@ -190,7 +193,8 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                               'Shipping Address',
                           suffixIcon: InkWell(
                               onTap: () {},
-                              child: Icon(Icons.add_circle_outline_rounded))),
+                              child: const Icon(
+                                  Icons.add_circle_outline_rounded))),
                       validationText: 'Test',
                     ),
                   ],
@@ -206,7 +210,8 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                               .translate('payment_terms_add_customer') ??
                           'Payment Terms',
                       suffixIcon: InkWell(
-                          onTap: () {}, child: Icon(Icons.arrow_drop_down))),
+                          onTap: () {},
+                          child: const Icon(Icons.arrow_drop_down))),
                   validationText: 'Test',
                 )),
             getSectionTitle('Model of Payment'),
@@ -256,10 +261,10 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Credit Card'),
-                              Text('JMD'),
+                              const Text('Credit Card'),
+                              const Text('JMD'),
                               Checkbox(value: true, onChanged: (value) {}),
-                              Text('\$9,000.00        '),
+                              const Text('\$9,000.00        '),
                             ],
                           ),
                         ),
@@ -271,7 +276,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
             ),
             getSectionTitle('Additional Info'),
             Container(
-                margin: EdgeInsets.only(bottom: 20),
+                margin: const EdgeInsets.only(bottom: 20),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8)),
@@ -281,7 +286,8 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                               .translate('additional_info_add_customer') ??
                           'Additional Info',
                       suffixIcon: InkWell(
-                          onTap: () {}, child: Icon(Icons.arrow_drop_down))),
+                          onTap: () {},
+                          child: const Icon(Icons.arrow_drop_down))),
                   validationText: 'Test',
                 )),
           ],
@@ -299,7 +305,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
 
   Widget getSectionTitle(String title) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
       child: Text(title,
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 fontSize: 18,
@@ -311,7 +317,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
 
 Widget getRichText(String text) {
   return RichText(
-    text: TextSpan(text: text, children: [
+    text: TextSpan(text: text, children: const [
       TextSpan(
         text: ' *',
         style: TextStyle(

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/main.dart';
 import 'package:j3enterprise/src/database/crud/user/user_crud.dart';
 import 'package:j3enterprise/src/database/drift_database.dart';
-import 'package:j3enterprise/src/models/user_model.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
@@ -20,7 +19,7 @@ class CustomDrawer extends StatefulWidget {
   var db;
   final log = Logger('CustomDrawer');
   late UserDao userDao;
-  CustomDrawer() {
+  CustomDrawer({super.key}) {
     db = MyDatabase();
     userDao = UserDao(db);
   }
@@ -33,7 +32,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
   Future<User?> getProfileData() async {
     final data = await UserSharedData().getUserSharedPref();
     if (data['userId'] != 'null') {
-      final profileData = await widget.userDao.getSingleUser(int.tryParse(data['userId'])!);
+      final profileData =
+          await widget.userDao.getSingleUser(int.tryParse(data['userId'])!);
       return profileData;
     }
     return null;
@@ -63,22 +63,29 @@ class _CustomDrawerState extends State<CustomDrawer> {
             FutureBuilder(
                 future: getProfileData(),
                 builder: (context, snapshot) {
-                  var user = snapshot.data as User?;
+                  var user = snapshot.data;
                   return snapshot.hasData
                       ? UserAccountsDrawerHeader(
                           accountName: Text(user?.fullName ?? ""),
                           accountEmail: Text(user?.emailAddress ?? ""),
-                          currentAccountPicture: CircleAvatar(backgroundColor: Theme.of(context).scaffoldBackgroundColor, child: Icon(Icons.person)),
-                          otherAccountsPictures: <Widget>[],
+                          currentAccountPicture: CircleAvatar(
+                              backgroundColor:
+                                  Theme.of(context).scaffoldBackgroundColor,
+                              child: const Icon(Icons.person)),
+                          otherAccountsPictures: const <Widget>[],
                         )
-                      : UserAccountsDrawerHeader(accountName: Text(''), accountEmail: Text(''));
+                      : const UserAccountsDrawerHeader(
+                          accountName: Text(''), accountEmail: Text(''));
                 }),
             Align(
               alignment: Alignment.bottomLeft,
               child: GestureDetector(
                 onTap: () {
                   Navigator.of(context).pop();
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => CommunicationPage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CommunicationPage()));
                 },
                 child: ListTile(
                   leading: Icon(
@@ -86,8 +93,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     color: Theme.of(context).primaryColor,
                   ),
                   title: Text(
-                    AppLocalization.of(context)!.translate('set_communication_appdraw') ?? 'Set Communication',
-                    style: TextStyle(fontSize: 16),
+                    AppLocalization.of(context)!
+                            .translate('set_communication_appdraw') ??
+                        'Set Communication',
+                    style: const TextStyle(fontSize: 16),
                   ),
                 ),
               ),
@@ -97,7 +106,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
               child: GestureDetector(
                 onTap: () {
                   Navigator.of(context).pop();
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => SetupBackgroundPage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SetupBackgroundPage()));
                 },
                 child: ListTile(
                   leading: Icon(
@@ -105,8 +117,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     color: Theme.of(context).primaryColor,
                   ),
                   title: Text(
-                    AppLocalization.of(context)!.translate('background_job_appdraw') ?? 'Background Jobs',
-                    style: TextStyle(fontSize: 16),
+                    AppLocalization.of(context)!
+                            .translate('background_job_appdraw') ??
+                        'Background Jobs',
+                    style: const TextStyle(fontSize: 16),
                   ),
                 ),
               ),
@@ -116,7 +130,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
               child: GestureDetector(
                 onTap: () {
                   Navigator.of(context).pop();
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AppLoggerPage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AppLoggerPage()));
                 },
                 child: ListTile(
                   leading: Icon(
@@ -124,8 +141,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     color: Theme.of(context).primaryColor,
                   ),
                   title: Text(
-                    AppLocalization.of(context)!.translate('applogger_appdraw') ?? 'App Logger',
-                    style: TextStyle(fontSize: 16),
+                    AppLocalization.of(context)!
+                            .translate('applogger_appdraw') ??
+                        'App Logger',
+                    style: const TextStyle(fontSize: 16),
                   ),
                 ),
               ),
@@ -135,7 +154,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
               child: GestureDetector(
                 onTap: () {
                   Navigator.of(context).pop();
-                  Navigator.push(context, MaterialPageRoute(builder: (contex) => ProfilePage()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (contex) => ProfilePage()));
                 },
                 child: ListTile(
                   leading: Icon(
@@ -143,10 +163,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     color: Theme.of(context).primaryColor,
                   ),
                   title: Text(
-                    AppLocalization.of(context)!.translate('profile_appdraw') ?? 'Profile',
+                    AppLocalization.of(context)!.translate('profile_appdraw') ??
+                        'Profile',
                     // AppLocalization.of(context).translate('language_appdraw') ??
                     //     'Language',
-                    style: TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 16),
                   ),
                 ),
               ),
@@ -156,7 +177,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
               child: GestureDetector(
                 onTap: () {
                   Navigator.of(context).pop();
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => About()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const About()));
                 },
                 child: ListTile(
                   leading: Icon(
@@ -164,8 +186,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     color: Theme.of(context).primaryColor,
                   ),
                   title: Text(
-                    AppLocalization.of(context)!.translate('about_appdraw') ?? 'About',
-                    style: TextStyle(fontSize: 16),
+                    AppLocalization.of(context)!.translate('about_appdraw') ??
+                        'About',
+                    style: const TextStyle(fontSize: 16),
                   ),
                 ),
               ),
@@ -182,8 +205,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     color: Theme.of(context).primaryColor,
                   ),
                   title: Text(
-                    AppLocalization.of(context)!.translate('logout_appdraw') ?? 'Logout',
-                    style: TextStyle(fontSize: 16),
+                    AppLocalization.of(context)!.translate('logout_appdraw') ??
+                        'Logout',
+                    style: const TextStyle(fontSize: 16),
                   ),
                 ),
               ),
@@ -193,24 +217,25 @@ class _CustomDrawerState extends State<CustomDrawer> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(
+                  const SizedBox(
                     height: 32,
                   ),
                   Text(
-                    AppLocalization.of(context)!.translate('version_appdraw') ?? 'Version',
-                    style: TextStyle(fontSize: 12),
+                    AppLocalization.of(context)!.translate('version_appdraw') ??
+                        'Version',
+                    style: const TextStyle(fontSize: 12),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
-                  Text(
+                  const Text(
                     'Jesseframework 2.1',
                     style: TextStyle(fontSize: 12),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
-                  Text(
+                  const Text(
                     'J3 Enterprise Pro 3.1',
                     style: TextStyle(fontSize: 12),
                   ),

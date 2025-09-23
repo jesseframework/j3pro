@@ -18,8 +18,6 @@
  */
 
 import 'dart:io';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:j3enterprise/src/resources/services/message_stream.dart';
 
 class FirebaseNotificationService {
   //FirebaseNotificationService._internal() {

@@ -27,10 +27,10 @@ class ContactRepository {
   ContactRepository() {
     _log.finest("Contact repository constructer call");
     db = MyDatabase();
-    updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
-    backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
-    contactDao = new ContactDao(db);
-    userSharedData = new UserSharedData();
+    updateBackgroundJobStatus = UpdateBackgroundJobStatus();
+    backgroundJobScheduleDao = BackgroundJobScheduleDao(db);
+    contactDao = ContactDao(db);
+    userSharedData = UserSharedData();
   }
 
   Future<void> getContactFromServer(String jobName) async {
@@ -61,7 +61,8 @@ class ContactRepository {
           } else {
             String error = map["error"]["details"].toString();
             updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-            _log.shout("Conatct API call failed. Server respond with error : $error  ");
+            _log.shout(
+                "Conatct API call failed. Server respond with error : $error  ");
           }
         }
       }

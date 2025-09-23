@@ -17,27 +17,25 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 
 class TextFromFieldPasswordReusable extends StatefulWidget {
   final InputDecoration fieldDecoration;
-  late final TextEditingController controllerName;
-    final String? validationText;
+  final TextEditingController controllerName;
+  final String? validationText;
 
-  TextFromFieldPasswordReusable(
-      {required this.fieldDecoration,
+  const TextFromFieldPasswordReusable(
+      {super.key,
+      required this.fieldDecoration,
       required this.controllerName,
-      this. validationText});
+      this.validationText});
 
   @override
   _TextFromFieldPasswordReusableState createState() =>
       _TextFromFieldPasswordReusableState();
 }
- 
- 
-  
+
 class _TextFromFieldPasswordReusableState
     extends State<TextFromFieldPasswordReusable> {
   bool showPassword = true;
@@ -58,8 +56,8 @@ class _TextFromFieldPasswordReusableState
             filled: true,
             suffixIcon: IconButton(
               icon: !showPassword
-                  ? Icon(CustomIcons.eye_off)
-                  : Icon(CustomIcons.eye),
+                  ? const Icon(CustomIcons.eye_off)
+                  : const Icon(CustomIcons.eye),
               onPressed: () {
                 setState(() {
                   showPassword = !showPassword;

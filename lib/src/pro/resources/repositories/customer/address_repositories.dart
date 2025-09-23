@@ -27,10 +27,10 @@ class AddressRepository {
   AddressRepository() {
     _log.finest("Address repository constructer call");
     db = MyDatabase();
-    updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
-    backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
-    addressDao = new AddressDao(db);
-    userSharedData = new UserSharedData();
+    updateBackgroundJobStatus = UpdateBackgroundJobStatus();
+    backgroundJobScheduleDao = BackgroundJobScheduleDao(db);
+    addressDao = AddressDao(db);
+    userSharedData = UserSharedData();
   }
 
   Future<void> getAddressFromServer(String jobName) async {
@@ -61,7 +61,8 @@ class AddressRepository {
           } else {
             String error = map["error"]["details"].toString();
             updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-            _log.shout("Address API call failed. Server respond with error : $error  ");
+            _log.shout(
+                "Address API call failed. Server respond with error : $error  ");
           }
         }
       }

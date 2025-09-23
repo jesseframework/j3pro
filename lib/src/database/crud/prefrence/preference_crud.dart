@@ -26,7 +26,8 @@ import 'package:drift/drift.dart';
 part 'preference_crud.g.dart';
 
 @DriftAccessor(tables: [Preference, NonGlobalPreference])
-class PreferenceDao extends DatabaseAccessor<MyDatabase> with _$PreferenceDaoMixin {
+class PreferenceDao extends DatabaseAccessor<MyDatabase>
+    with _$PreferenceDaoMixin {
   final MyDatabase db;
   PreferenceDao(this.db) : super(db);
 
@@ -35,7 +36,8 @@ class PreferenceDao extends DatabaseAccessor<MyDatabase> with _$PreferenceDaoMix
   }
 
   Future<PreferenceData?> getSinglePreferences(String prefCode) {
-    return (select(db.preference)..where((u) => u.code.equals(prefCode))).getSingleOrNull();
+    return (select(db.preference)..where((u) => u.code.equals(prefCode)))
+        .getSingleOrNull();
   }
 
   Future<List<PreferenceData>> getAllPreferences() {
@@ -43,14 +45,18 @@ class PreferenceDao extends DatabaseAccessor<MyDatabase> with _$PreferenceDaoMix
   }
 
   Stream<List<PreferenceData>> watchAllPreferences(String searchText) {
-    return (select(db.preference)..where((t) => t.preferenceName.equals(searchText))).watch();
+    return (select(db.preference)
+          ..where((t) => t.preferenceName.equals(searchText)))
+        .watch();
   }
 
   Stream<PreferenceData> watchSinglePreferences(String prefCode) {
-    return (select(db.preference)..where((u) => u.code.equals(prefCode))).watchSingle();
+    return (select(db.preference)..where((u) => u.code.equals(prefCode)))
+        .watchSingle();
   }
 
-  Future updatePreferenceValue(PreferenceData preferenceData) => update(db.preference).replace(preferenceData);
+  Future updatePreferenceValue(PreferenceData preferenceData) =>
+      update(db.preference).replace(preferenceData);
 
 //  Stream<List<PreferenceWithNonGlobalPreference>> watchAllTasks() {
 //    return (select(db.preference)
@@ -82,7 +88,8 @@ class PreferenceDao extends DatabaseAccessor<MyDatabase> with _$PreferenceDaoMix
 //        );
 //  }
 
-  Future insertPreferences(PreferenceData preferenceData) => into(db.preference).insert(preferenceData);
+  Future insertPreferences(PreferenceData preferenceData) =>
+      into(db.preference).insert(preferenceData);
 
   Future<void> createOrUpdatePref(PreferenceData pref) {
     return into(db.preference).insertOnConflictUpdate(pref);
@@ -97,7 +104,8 @@ class PreferenceDao extends DatabaseAccessor<MyDatabase> with _$PreferenceDaoMix
           description: preferenceData.description,
           domain: preferenceData.domain,
           isGlobal: preferenceData.isGlobal,
-          expiredDateTime: DateTime.parse(DateFormat('yyyy-MM-dd hh:mm:ss').format(preferenceData.expiredDateTime!)),
+          expiredDateTime: DateTime.parse(DateFormat('yyyy-MM-dd hh:mm:ss')
+              .format(preferenceData.expiredDateTime!)),
           tenantId: preferenceData.tenantId,
           id: preferenceData.id),
     ));

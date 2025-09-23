@@ -48,22 +48,22 @@ class CreateSalesOrderHeader extends SalesOderEvent {
       required this.deliveryDate});
   @override
   List<Object> get props => [
-        this.customerId,
-        this.currencyCode,
-        this.exchangeRate,
-        this.purchaseOrderNo,
-        this.transactionNumber,
-        this.transactionNumber,
-        this.transactionStatus,
-        this.inventoryCycleNumber,
-        this.daySessionNumber,
-        this.orderType,
-        this.userId,
-        this.userName,
-        this.tenantId,
-        this.soldTo,
-        this.billingAddressName,
-        this.shippingAddressName,
-        this.deliveryDate
+        customerId,
+        currencyCode,
+        exchangeRate,
+        purchaseOrderNo,
+        transactionNumber,
+        transactionNumber,
+        transactionStatus,
+        inventoryCycleNumber,
+        daySessionNumber,
+        orderType,
+        userId,
+        userName,
+        tenantId,
+        soldTo,
+        billingAddressName,
+        shippingAddressName,
+        deliveryDate
       ];
 }

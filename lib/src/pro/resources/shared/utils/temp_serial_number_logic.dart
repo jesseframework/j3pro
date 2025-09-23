@@ -11,21 +11,27 @@ class TempSerialNumberReader {
   TempSerialNumberReader() {
     _log.finest("serail number reader constructor call");
     db = MyDatabase();
-    tempNumberLogsDao = new TempNumberLogsDao(db);
+    tempNumberLogsDao = TempNumberLogsDao(db);
   }
 
   Future<String> getTempNumber({String? typeOfNumber}) async {
     String numberSet = "";
-    var temNumbers = await tempNumberLogsDao.getAllTempNumberLogsByType(typeOfNumber!);
-    if (temNumbers.length > 0) {
+    var temNumbers =
+        await tempNumberLogsDao.getAllTempNumberLogsByType(typeOfNumber!);
+    if (temNumbers.isNotEmpty) {
       numberSet = temNumbers[0].nextSeriesNumber!;
     }
     return numberSet;
   }
 
   Future setTempNumber(
-      String typeOfNumber, String transactionNumber, DateTime lastUsed, String userName, int tenantId, String numberGenerator) async {
-    var tempNumber = new TempNumberLogsCompanion(
+      String typeOfNumber,
+      String transactionNumber,
+      DateTime lastUsed,
+      String userName,
+      int tenantId,
+      String numberGenerator) async {
+    var tempNumber = TempNumberLogsCompanion(
         tenantId: moor.Value(tenantId),
         nextSeriesNumber: moor.Value(numberGenerator.toString()),
         lastSeriesNumber: moor.Value(transactionNumber),

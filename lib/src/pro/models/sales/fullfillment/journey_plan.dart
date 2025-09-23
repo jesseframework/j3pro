@@ -1,9 +1,9 @@
-import 'package:j3enterprise/src/resources/shared/extension/full_audited.dart';
 import 'package:j3enterprise/src/resources/shared/extension/must_have_tenant.dart';
 import 'package:drift/drift.dart';
 
 class JourneyPlan extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
+  @override
   IntColumn get tenantId => integer().nullable()();
   TextColumn get customerId => text()();
   TextColumn get customerName => text()();
@@ -23,7 +23,7 @@ class JourneyPlan extends Table implements MustHaveTenant {
   TextColumn get distanceLabel => text().nullable()();
   RealColumn get distanceUsed => real().nullable()();
   TextColumn get transactionStatus => text().nullable()();
-  BoolColumn get isDeleted => boolean().withDefault(Constant(false))();
+  BoolColumn get isDeleted => boolean().withDefault(const Constant(false))();
 
   @override
   Set<Column> get primaryKey => {id};

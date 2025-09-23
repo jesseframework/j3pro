@@ -28,16 +28,28 @@ class CalculateTax {
     _log.finest("$className repository constructer call");
 
     //DAOs in Constructure
-    itemsDao = new ItemsDao(db);
-    salesOrderDetailTempDao = new SalesOrderDetailTempDao(db);
-    customerDao = new CustomerDao(db);
-    salesTaxDao = new SalesTaxDao(db);
-    systemCurrencyDao = new SystemCurrencyDao(db);
+    itemsDao = ItemsDao(db);
+    salesOrderDetailTempDao = SalesOrderDetailTempDao(db);
+    customerDao = CustomerDao(db);
+    salesTaxDao = SalesTaxDao(db);
+    systemCurrencyDao = SystemCurrencyDao(db);
   }
-  Future<void> getTotalTax(String searchText, String transactionNumber, String transactionStatus, String salesUom, int tenantId, String userName,
-      int userId, String itemId, String customerId, String taxGroup, DateTime salesDate, double lineSubTotal) async {
-    var setTaxGroup = await salesTaxDao.getAllSalesTaxByGroup(taxGroup, salesDate);
-    if (setTaxGroup.length > 0 && setTaxGroup != null) {
+  Future<void> getTotalTax(
+      String searchText,
+      String transactionNumber,
+      String transactionStatus,
+      String salesUom,
+      int tenantId,
+      String userName,
+      int userId,
+      String itemId,
+      String customerId,
+      String taxGroup,
+      DateTime salesDate,
+      double lineSubTotal) async {
+    var setTaxGroup =
+        await salesTaxDao.getAllSalesTaxByGroup(taxGroup, salesDate);
+    if (setTaxGroup.isNotEmpty) {
       _log.finest("Start Tax calculation");
       taxRate = setTaxGroup[0].accountRate!;
       taxGroup = setTaxGroup[0].taxAccount!;
@@ -48,19 +60,23 @@ class CalculateTax {
 
         double formatedGrandTotal = 0;
 
-        var currency = await systemCurrencyDao.getAllSystemCurrencyByName("JMD");
-        if (currency.length > 0) {
-          var f = new NumberFormat(currency[0].numberFormat, "en_US");
+        var currency =
+            await systemCurrencyDao.getAllSystemCurrencyByName("JMD");
+        if (currency.isNotEmpty) {
+          var f = NumberFormat(currency[0].numberFormat, "en_US");
           formatedGrandTotal = double.tryParse(f.format(lineTaxTotal))!;
         } else {
-          var f = new NumberFormat("###.0#", "en_US");
+          var f = NumberFormat("###.0#", "en_US");
           formatedGrandTotal = double.tryParse(f.format(lineTaxTotal))!;
         }
 
-        var tax = new SalesOrderDetailTempCompanion(
-            taxTotal: moor.Value(formatedGrandTotal), taxGroup: moor.Value(taxGroup), taxIndicator: moor.Value(taxIndicator));
+        var tax = SalesOrderDetailTempCompanion(
+            taxTotal: moor.Value(formatedGrandTotal),
+            taxGroup: moor.Value(taxGroup),
+            taxIndicator: moor.Value(taxIndicator));
 
-        await salesOrderDetailTempDao.updateLineTax(tax, transactionNumber, transactionStatus, itemId, salesUom);
+        await salesOrderDetailTempDao.updateLineTax(
+            tax, transactionNumber, transactionStatus, itemId, salesUom);
       }
     }
   }

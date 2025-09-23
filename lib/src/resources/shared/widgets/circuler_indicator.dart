@@ -20,9 +20,11 @@
 import 'package:flutter/material.dart';
 
 class BuildProgressIndicator extends StatelessWidget {
+  const BuildProgressIndicator({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: CircularProgressIndicator(),
     );
   }

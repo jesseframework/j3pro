@@ -27,10 +27,10 @@ class CurrencyRepository {
   CurrencyRepository() {
     _log.finest("Currency repository constructer call");
     db = MyDatabase();
-    updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
-    backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
-    systemCurrencyDao = new SystemCurrencyDao(db);
-    userSharedData = new UserSharedData();
+    updateBackgroundJobStatus = UpdateBackgroundJobStatus();
+    backgroundJobScheduleDao = BackgroundJobScheduleDao(db);
+    systemCurrencyDao = SystemCurrencyDao(db);
+    userSharedData = UserSharedData();
   }
 
   Future<void> getCurrencyFromServer(String jobName) async {
@@ -50,7 +50,8 @@ class CurrencyRepository {
             _log.finest("Server resopnses successful for currency ");
             Map<String, dynamic> result = map['result'];
             var items = (result['items'] as List).map((e) {
-              return SystemCurrencyData.fromJson(e, serializer: CustomSerializer());
+              return SystemCurrencyData.fromJson(e,
+                  serializer: CustomSerializer());
             });
 
             for (var item in items) {
@@ -61,7 +62,8 @@ class CurrencyRepository {
           } else {
             String error = map["error"]["details"].toString();
             updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-            _log.shout("Currency API call failed. Server respond with error : $error  ");
+            _log.shout(
+                "Currency API call failed. Server respond with error : $error  ");
           }
         }
       }

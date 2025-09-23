@@ -17,21 +17,19 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
-
 import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:drift/drift.dart';
 import 'package:j3enterprise/src/models/application_logger_model.dart';
 part 'app_logger_crud.g.dart';
- 
+
 @DriftAccessor(tables: [ApplicationLogger])
-class ApplicationLoggerView extends DatabaseAccessor<MyDatabase> with _$ApplicationLoggerViewMixin   {
- 
-    final MyDatabase db;
+class ApplicationLoggerView extends DatabaseAccessor<MyDatabase>
+    with _$ApplicationLoggerViewMixin {
+  final MyDatabase db;
   ApplicationLoggerView(this.db) : super(db);
- 
+
   Future<List<ApplicationLoggerData>> getAllAppLog() {
     return (select(db.applicationLogger).get());
- 
   }
 
   Future<List<ApplicationLoggerData>> getAppLog(String exportStatus) {

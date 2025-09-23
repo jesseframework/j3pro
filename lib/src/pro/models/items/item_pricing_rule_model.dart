@@ -1,4 +1,3 @@
-import 'package:j3enterprise/src/resources/shared/extension/full_audited.dart';
 import 'package:j3enterprise/src/resources/shared/extension/must_have_tenant.dart';
 import 'package:drift/drift.dart';
 
@@ -6,6 +5,7 @@ class ItemPricingRule extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
   IntColumn get priority => integer()();
   TextColumn get itemId => text().nullable()();
+  @override
   IntColumn get tenantId => integer().nullable()();
   TextColumn get itemCode => text().nullable()();
   TextColumn get priceList => text().nullable()();
@@ -23,9 +23,10 @@ class ItemPricingRule extends Table implements MustHaveTenant {
   TextColumn get applyOn => text().nullable()();
   TextColumn get title => text().nullable()();
   TextColumn get ruleName => text().nullable()();
-  BoolColumn get isActive => boolean().withDefault(Constant(false))();
-  BoolColumn get isDeleted => boolean().withDefault(Constant(false))();
-  BoolColumn get isDiscountEnable => boolean().withDefault(Constant(false))();
+  BoolColumn get isActive => boolean().withDefault(const Constant(false))();
+  BoolColumn get isDeleted => boolean().withDefault(const Constant(false))();
+  BoolColumn get isDiscountEnable =>
+      boolean().withDefault(const Constant(false))();
   DateTimeColumn get validFrom => dateTime().nullable()();
   DateTimeColumn get validTo => dateTime().nullable()();
 

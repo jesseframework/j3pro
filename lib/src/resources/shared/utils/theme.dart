@@ -7,40 +7,35 @@ final darkTheme = ThemeData(
 
 final lightTheme = ThemeData(
   textTheme: TextTheme(
-    bodyLarge: TextStyle().copyWith(
+    bodyLarge: const TextStyle().copyWith(
       color: Colors.black,
     ),
-    bodyMedium: TextStyle().copyWith(
+    bodyMedium: const TextStyle().copyWith(
       color: Colors.black,
     ),
   ),
   primaryColor: Colors.blue,
   cardColor: Colors.white,
   brightness: Brightness.light,
-   
+
   // backgroundColor: Color(0xffe7ebee),
 
-  scaffoldBackgroundColor: Color(0xffe7ebee),
+  scaffoldBackgroundColor: const Color(0xffe7ebee),
   // accentColor: Colors.black54,
-  colorScheme: ColorScheme.light(
-    primary: Colors.blue,
-    secondary: Colors.black54,
-    background:  Color(0xffe7ebee)
-    
-  ),
- 
+  colorScheme: const ColorScheme.light(
+      primary: Colors.blue,
+      secondary: Colors.black54,
+      surface: Color(0xffe7ebee)),
+
   // accentIconTheme: IconThemeData(color: Colors.white),
   dividerColor: Colors.white54,
-  textSelectionTheme: TextSelectionThemeData(
-    
-    selectionColor:  Colors.grey,
+  textSelectionTheme: const TextSelectionThemeData(
+    selectionColor: Colors.grey,
     selectionHandleColor: Colors.black45,
-    
   ),
-  
-  appBarTheme: AppBarTheme(
-    color: Colors.blue,
+
+  appBarTheme: const AppBarTheme(
+    backgroundColor: Colors.blue,
   ),
   fontFamily: 'MyFont',
-  
 );

@@ -28,7 +28,12 @@ class SalesOrderForm extends StatefulWidget {
   late SystemCurrencyDao systemCurrencyDao;
   late ExchangeRateDao exchangeRateDao;
   late SalesOrderHeaderDao salesOrderHeaderDao;
-  SalesOrderForm({required this.defaultCurrency, required this.currenciesData, required this.exchangeRate, required this.address}) {
+  SalesOrderForm(
+      {super.key,
+      required this.defaultCurrency,
+      required this.currenciesData,
+      required this.exchangeRate,
+      required this.address}) {
     db = MyDatabase();
     addressDao = AddressDao(db);
     customerDao = CustomerDao(db);
@@ -59,11 +64,11 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
     defaultCurrency = widget.defaultCurrency;
     defaultCurrencyList = widget.currenciesData;
     if (widget.address.isNotEmpty) {
-      widget.address.forEach((element) {
+      for (var element in widget.address) {
         if (element.isPrimaryAddress == true) {
           primaryAddress = element;
         }
-      });
+      }
     }
     super.initState();
     addItemBloc.setShippingAddress(address: primaryAddress);
@@ -74,11 +79,14 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
     // journeyWithAddress = ModalRoute.of(context).settings.arguments;
     return Scaffold(
         appBar: AppBar(
-          title: Text(AppLocalization.of(context)!.translate('sales_order_information_appbar_title') ?? 'Sales Order Information'),
+          title: Text(AppLocalization.of(context)!
+                  .translate('sales_order_information_appbar_title') ??
+              'Sales Order Information'),
           actions: [
             InkWell(
               onTap: () {
-                BlocProvider.of<SalesOderBloc>(context).add(CreateSalesOrderHeader(
+                BlocProvider.of<SalesOderBloc>(context)
+                    .add(CreateSalesOrderHeader(
                   currencyCode: defaultCurrency,
                   exchangeRate: exchangeRate,
                   orderType: swipeDiscountTpye,
@@ -98,9 +106,13 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                   userName: '',
                 ));
                 addItemBloc.setDilveryDate(dilverydate: dateTime);
-                Navigator.push(context, EnterExitRoute(enterPage: SalesOrderAddItemPage(), exitPage: widget));
+                Navigator.push(
+                    context,
+                    EnterExitRoute(
+                        enterPage: const SalesOrderAddItemPage(),
+                        exitPage: widget));
               },
-              child: Row(
+              child: const Row(
                 children: [
                   Text(
                     "Next",
@@ -110,7 +122,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                 ],
               ),
             ),
-            IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
+            IconButton(icon: const Icon(Icons.more_vert), onPressed: () {}),
           ],
         ),
 
@@ -119,7 +131,8 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
           child: Column(
             children: [
               Card(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
                 elevation: 4.0,
                 //  height: 150,
                 child: Padding(
@@ -133,54 +146,59 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           DropdownSearch(
-                            popupProps: PopupProps.menu(),
-                            selectedItem: widget.address.isEmpty ? 'No address found ' : primaryAddress.addressLine1,
+                            popupProps: const PopupProps.menu(),
+                            selectedItem: widget.address.isEmpty
+                                ? 'No address found '
+                                : primaryAddress.addressLine1,
                             onChanged: (dynamic value) async {
-                              addItemBloc.setShippingAddress(address: widget.address.firstWhere((e) => e.addressLine1 == value));
+                              addItemBloc.setShippingAddress(
+                                  address: widget.address.firstWhere(
+                                      (e) => e.addressLine1 == value));
                             },
                             dropdownDecoratorProps: DropDownDecoratorProps(
                               dropdownSearchDecoration: InputDecoration(
-                                  suffix: Container(
+                                  suffix: SizedBox(
                                 height: 30,
                                 child: FloatingActionButton(
                                   onPressed: () {},
-                                  backgroundColor: Theme.of(context).secondaryHeaderColor,
-                                  child: Icon(Icons.add),
+                                  backgroundColor:
+                                      Theme.of(context).secondaryHeaderColor,
+                                  child: const Icon(Icons.add),
                                 ),
                               )),
                             ),
-                          
                           )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       DropdownSearch(
-                        popupProps: PopupProps.menu(),
-                        selectedItem: widget.address.isEmpty ? 'No Contact Found' : widget.address[0].phoneNumber,
-
-                        onChanged: (dynamic value) async {
-                        },
+                        popupProps: const PopupProps.menu(),
+                        selectedItem: widget.address.isEmpty
+                            ? 'No Contact Found'
+                            : widget.address[0].phoneNumber,
+                        onChanged: (dynamic value) async {},
                         dropdownDecoratorProps: DropDownDecoratorProps(
                           dropdownSearchDecoration: InputDecoration(
-                              suffix: Container(
+                              suffix: SizedBox(
                             height: 30,
                             child: FloatingActionButton(
                               onPressed: () {},
-                             backgroundColor: Theme.of(context).secondaryHeaderColor,
-                              child: Icon(Icons.add),
+                              backgroundColor:
+                                  Theme.of(context).secondaryHeaderColor,
+                              child: const Icon(Icons.add),
                             ),
                           )),
                         ),
-
                       ),
                     ],
                   ),
                 ),
               ),
               Card(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
                 elevation: 4.0,
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
@@ -189,56 +207,58 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       DropdownSearch<String>(
-                        popupProps: PopupProps.menu(),
+                        popupProps: const PopupProps.menu(),
                         selectedItem: 'Standard Order',
-
-                        onChanged: (dynamic value) async {
-
-                        },
+                        onChanged: (dynamic value) async {},
                         dropdownDecoratorProps: DropDownDecoratorProps(
                           dropdownSearchDecoration: InputDecoration(
-                              suffix: Container(
+                              suffix: SizedBox(
                             height: 30,
                             child: FloatingActionButton(
                               onPressed: () {},
-                             backgroundColor: Theme.of(context).secondaryHeaderColor,
+                              backgroundColor:
+                                  Theme.of(context).secondaryHeaderColor,
                               //ToDo    backgroundColor: Theme.of(context).accentColor, is not working changing it to secondaryColor
-                              child: Icon(Icons.add),
+                              child: const Icon(Icons.add),
                             ),
                           )),
                         ),
                       ),
-
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       buildSalesOrderCardTile(
                           heading: 'PO Number',
                           title: poNumber,
-                          trailingWidget: Icon(Icons.edit),
+                          trailingWidget: const Icon(Icons.edit),
                           callback: (value) {
                             setState(() {
                               poNumber = value;
                             });
                           }),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       buildSalesOrderCardTile(
                           heading: 'Delivery Date',
-                          title: '${dateTime.year}-${dateTime.month}-${dateTime.day}',
+                          title:
+                              '${dateTime.year}-${dateTime.month}-${dateTime.day}',
                           trailingWidget: InkWell(
-                            child: Icon(Icons.date_range),
+                            child: const Icon(Icons.date_range),
                             onTap: () async {
                               DateTime? result = await showDatePicker(
-                                  context: context, initialDate: DateTime.now(), firstDate: DateTime(1970), lastDate: DateTime(2100));
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(1970),
+                                  lastDate: DateTime(2100));
                               setState(() {
                                 if (result != null) {
                                   dateTime = result;
-                                  addItemBloc.setDilveryDate(dilverydate: result);
+                                  addItemBloc.setDilveryDate(
+                                      dilverydate: result);
                                 }
                               });
-                                                        },
+                            },
                           ),
                           callback: (value) {
                             print(value);
@@ -248,7 +268,8 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                 ),
               ),
               Card(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5)),
                   elevation: 4.0,
                   child: Padding(
                       padding: const EdgeInsets.all(12.0),
@@ -259,38 +280,39 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                           children: [
                             Expanded(
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   DropdownSearch(
-                                      popupProps: PopupProps.menu(),
-                                      selectedItem: defaultCurrency,
-                                     
-                                      onChanged: (value) async {
-                                        List<ExchangeRateData> exchangeRateData =
-                                            await widget.exchangeRateDao
-                                                .getAllExchnageRateByCurrency(
-                                                    'JMD', value.toString());
-                                        setState(() {
-                                          defaultCurrency = value.toString();
-                                          exchangeRate =
-                                              exchangeRateData[0].exchangeRate!;
-                                        });
-                                      },
-                                      dropdownDecoratorProps: DropDownDecoratorProps(
-                                        dropdownSearchDecoration: InputDecoration(
-                                          suffix: Container(
+                                    popupProps: const PopupProps.menu(),
+                                    selectedItem: defaultCurrency,
+                                    onChanged: (value) async {
+                                      List<ExchangeRateData> exchangeRateData =
+                                          await widget.exchangeRateDao
+                                              .getAllExchnageRateByCurrency(
+                                                  'JMD', value.toString());
+                                      setState(() {
+                                        defaultCurrency = value.toString();
+                                        exchangeRate =
+                                            exchangeRateData[0].exchangeRate!;
+                                      });
+                                    },
+                                    dropdownDecoratorProps:
+                                        DropDownDecoratorProps(
+                                      dropdownSearchDecoration: InputDecoration(
+                                          suffix: SizedBox(
                                         height: 30,
                                         child: FloatingActionButton(
                                           onPressed: () {},
-                                          backgroundColor:
-                                              Theme.of(context).secondaryHeaderColor,
-                                          child: Icon(Icons.add),
+                                          backgroundColor: Theme.of(context)
+                                              .secondaryHeaderColor,
+                                          child: const Icon(Icons.add),
                                         ),
                                       )),
-                                      ),
-                                      ),
-                                  SizedBox(
+                                    ),
+                                  ),
+                                  const SizedBox(
                                     height: 15,
                                   ),
                                   Padding(
@@ -299,7 +321,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                                         heading: 'Exchange Rate',
                                         formatter: true,
                                         title: exchangeRate.toString(),
-                                        trailingWidget: Icon(Icons.edit),
+                                        trailingWidget: const Icon(Icons.edit),
                                         callback: (value) {
                                           setState(() {
                                             exchangeRate = double.parse(value);
@@ -309,38 +331,38 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 15,
                             ),
                             Expanded(
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   DropdownSearch<String>(
-                                    popupProps: PopupProps.menu(),
-
+                                    popupProps: const PopupProps.menu(),
                                     selectedItem: swipeDiscountTpye,
-
                                     onChanged: (dynamic value) async {
                                       setState(() {
                                         swipeDiscountTpye = value.toString();
                                       });
                                     },
-                                    dropdownDecoratorProps: DropDownDecoratorProps(
+                                    dropdownDecoratorProps:
+                                        DropDownDecoratorProps(
                                       dropdownSearchDecoration: InputDecoration(
-                                          suffix: Container(
+                                          suffix: SizedBox(
                                         height: 30,
                                         child: FloatingActionButton(
                                           onPressed: () {},
-                                        backgroundColor: Theme.of(context).secondaryHeaderColor,
-                                          child: Icon(Icons.add),
+                                          backgroundColor: Theme.of(context)
+                                              .secondaryHeaderColor,
+                                          child: const Icon(Icons.add),
                                         ),
                                       )),
                                     ),
-
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 15,
                                   ),
                                   Padding(
@@ -349,7 +371,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                                         heading: swipeDiscountTpye,
                                         formatter: true,
                                         title: percentageAmount,
-                                        trailingWidget: Icon(Icons.edit),
+                                        trailingWidget: const Icon(Icons.edit),
                                         callback: (value) {
                                           setState(() {
                                             percentageAmount = value;
@@ -365,7 +387,8 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
 //
                       )),
               Card(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5)),
                   elevation: 4.0,
                   //  height: 150,
                   child: Padding(
@@ -374,7 +397,7 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                         child: buildSalesOrderCardTile(
                             heading: 'Delivery Instructions',
                             title: deliveryInstructions,
-                            trailingWidget: Icon(Icons.edit),
+                            trailingWidget: const Icon(Icons.edit),
                             callback: (value) {
                               setState(() {
                                 deliveryInstructions = value;
@@ -388,14 +411,20 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
         ));
   }
 
-  Widget buildSalesOrderCardTile({String? heading, String? title, bool? formatter = false, Widget? trailingWidget, Function? callback}) {
+  Widget buildSalesOrderCardTile(
+      {String? heading,
+      String? title,
+      bool? formatter = false,
+      Widget? trailingWidget,
+      Function? callback}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           heading!,
-          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
+          style: const TextStyle(
+              fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -404,11 +433,14 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
             Flexible(
               child: Text(
                 title!,
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                style:
+                    const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
               ),
             ),
             InkWell(
-              child: Container(margin: EdgeInsets.only(left: 8), child: trailingWidget),
+              child: Container(
+                  margin: const EdgeInsets.only(left: 8),
+                  child: trailingWidget),
               onTap: () {
                 displayDialog(
                   context: context,
@@ -427,14 +459,19 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
     );
   }
 
-  Widget buildSalesOrderCardRowTile({String? heading, String? title, Widget? trailingWidget, Function? callback}) {
+  Widget buildSalesOrderCardRowTile(
+      {String? heading,
+      String? title,
+      Widget? trailingWidget,
+      Function? callback}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           heading!,
-          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
+          style: const TextStyle(
+              fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -442,9 +479,13 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
           children: [
             Text(
               title!,
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
             ),
-            InkWell(child: Container(margin: EdgeInsets.only(left: 8), child: trailingWidget), onTap: () {}),
+            InkWell(
+                child: Container(
+                    margin: const EdgeInsets.only(left: 8),
+                    child: trailingWidget),
+                onTap: () {}),
           ],
         ),
       ],

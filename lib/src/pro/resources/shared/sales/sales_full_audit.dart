@@ -13,9 +13,9 @@ class SalesFullAudit {
 
   SalesFullAudit() {
     db = MyDatabase();
-    salesOrderDetailTempDao = new SalesOrderDetailTempDao(db);
-    salesOrderDetailDao = new SalesOrderDetailDao(db);
-    salesOrderHeaderDao = new SalesOrderHeaderDao(db);
+    salesOrderDetailTempDao = SalesOrderDetailTempDao(db);
+    salesOrderDetailDao = SalesOrderDetailDao(db);
+    salesOrderHeaderDao = SalesOrderHeaderDao(db);
   }
 
   Future<void> setFullAudit() async {}

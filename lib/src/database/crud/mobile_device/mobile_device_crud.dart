@@ -24,7 +24,8 @@ import 'package:drift/drift.dart';
 part 'mobile_device_crud.g.dart';
 
 @DriftAccessor(tables: [MobileDevice])
-class MobileDeviceDao extends DatabaseAccessor<MyDatabase> with _$MobileDeviceDaoMixin {
+class MobileDeviceDao extends DatabaseAccessor<MyDatabase>
+    with _$MobileDeviceDaoMixin {
   final MyDatabase db;
   MobileDeviceDao(this.db) : super(db);
 
@@ -36,7 +37,8 @@ class MobileDeviceDao extends DatabaseAccessor<MyDatabase> with _$MobileDeviceDa
     return (select(db.mobileDevice).watch());
   }
 
-  Future insertMobileDevice(MobileDeviceData mobileDeviceData) => into(db.mobileDevice).insert(mobileDeviceData);
+  Future insertMobileDevice(MobileDeviceData mobileDeviceData) =>
+      into(db.mobileDevice).insert(mobileDeviceData);
 
   Future deleteAllBusinessRule() => delete(db.businessRule).go();
 }

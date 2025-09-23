@@ -34,17 +34,17 @@ class PostTransaction {
 
   PostTransaction() {
     db = MyDatabase();
-    numberGenerator = new NumberGenerator();
-    transferInventory = new TransferInventory();
-    salesOrderDetailTempDao = new SalesOrderDetailTempDao(db);
-    salesOrderDetailDao = new SalesOrderDetailDao(db);
-    salesOrderHeaderDao = new SalesOrderHeaderDao(db);
-    inventoryItemsDao = new InventoryItemsDao(db);
-    customerDao = new CustomerDao(db);
-    contactDao = new ContactDao(db);
-    addressDao = new AddressDao(db);
-    seriesNumberGeneratorDao = new SeriesNumberGeneratorDao(db);
-    tempNumberLogsDao = new TempNumberLogsDao(db);
+    numberGenerator = NumberGenerator();
+    transferInventory = TransferInventory();
+    salesOrderDetailTempDao = SalesOrderDetailTempDao(db);
+    salesOrderDetailDao = SalesOrderDetailDao(db);
+    salesOrderHeaderDao = SalesOrderHeaderDao(db);
+    inventoryItemsDao = InventoryItemsDao(db);
+    customerDao = CustomerDao(db);
+    contactDao = ContactDao(db);
+    addressDao = AddressDao(db);
+    seriesNumberGeneratorDao = SeriesNumberGeneratorDao(db);
+    tempNumberLogsDao = TempNumberLogsDao(db);
   }
 
   Future<void> postTransactionData(
@@ -81,15 +81,16 @@ class PostTransaction {
       double discountAmount = 0;
 
       var getCustomer = await customerDao.getAllCustomerById(customerId!);
-      if (getCustomer.length > 0 && getCustomer != null) {}
+      if (getCustomer.isNotEmpty) {}
 
-      var salesDetail = await salesOrderDetailTempDao.getAllSalesOrderDetailTemp(transactionNumber!, transactionStatus!);
+      var salesDetail = await salesOrderDetailTempDao
+          .getAllSalesOrderDetailTemp(transactionNumber!, transactionStatus!);
       for (var detail in salesDetail) {
-        salesDetailData = new SalesOrderDetailCompanion(
+        salesDetailData = SalesOrderDetailCompanion(
             userName: moor.Value(detail.userName),
             userId: moor.Value(detail.userId),
             transactionNumber: moor.Value(detail.transactionNumber),
-            transactionStatus: moor.Value("Post"),
+            transactionStatus: const moor.Value("Post"),
             inventoryCycleNumber: moor.Value(detail.inventoryCycleNumber!),
             daySessionNumber: moor.Value(detail.daySessionNumber!),
             deliveryDate: moor.Value(detail.deliveryDate!),
@@ -120,7 +121,9 @@ class PostTransaction {
             conversionFactor: moor.Value(detail.conversionFactor!));
       }
 
-      salesOrderDetailTempDao.transactionTotal(transactionNumber, transactionStatus).listen((e) {
+      salesOrderDetailTempDao
+          .transactionTotal(transactionNumber, transactionStatus)
+          .listen((e) {
         if (e.isNotEmpty) {
           subTotal = e.single.subTotal;
           taxTotal = e.single.taxTotal!;
@@ -135,9 +138,9 @@ class PostTransaction {
         }
       });
 
-      var salesHeader = new SalesOrderHeaderCompanion(
+      var salesHeader = SalesOrderHeaderCompanion(
           transactionNumber: moor.Value(transactionNumber),
-          transactionStatus: moor.Value("Post"),
+          transactionStatus: const moor.Value("Post"),
           inventoryCycleNumber: moor.Value(inventoryCycleNumber!),
           daySessionNumber: moor.Value(daySessionNumber!),
           customerId: moor.Value(customerId),
@@ -145,15 +148,15 @@ class PostTransaction {
           orderDate: moor.Value(DateTime.now()),
           deliveryDate: moor.Value(deliveryDate!),
           orderType: moor.Value(orderType!),
-          orderStatus: moor.Value("Waiting"),
+          orderStatus: const moor.Value("Waiting"),
           purchaseOrderNo: moor.Value(purchaseOrderNo),
           currency: moor.Value(currencyCode!),
           exchangeRate: moor.Value(exchangeRate!),
           tenantId: moor.Value(tenantId),
-          couponCode: moor.Value(0),
+          couponCode: const moor.Value(0),
           billingAddressName: moor.Value(billingAddressName),
           shippingAddressName: moor.Value(shippingAddressName),
-          yourInitial: moor.Value(""),
+          yourInitial: const moor.Value(""),
           subTotal: moor.Value(subTotal),
           taxTotal: moor.Value(taxTotal),
           depositTotal: moor.Value(depositTotal),
@@ -170,36 +173,41 @@ class PostTransaction {
           longitude: moor.Value(longitude),
           transactionEnd: moor.Value(DateTime.now()));
 
-      var isPost = await salesOrderDetailDao.postSalesOrderData(salesDetailData, salesHeader);
+      var isPost = await salesOrderDetailDao.postSalesOrderData(
+          salesDetailData, salesHeader);
 
       if (isPost == true) {
         var lastInvoice = await salesOrderHeaderDao.getAllSalesOrderHeader();
-        if (lastInvoice.length > 0) {
-          var sn = await seriesNumberGeneratorDao.getAllSeriesNumberByType(transactionType!);
-          if (sn.length > 0 && sn != null) {
-            await numberGenerator.getSerialNumber(transactionType, lastInvoice.length, sn.single.endingLength!);
+        if (lastInvoice.isNotEmpty) {
+          var sn = await seriesNumberGeneratorDao
+              .getAllSeriesNumberByType(transactionType!);
+          if (sn.isNotEmpty) {
+            await numberGenerator.getSerialNumber(
+                transactionType, lastInvoice.length, sn.single.endingLength!);
 
-            var tempNumber = new TempNumberLogsCompanion(
-                tenantId: moor.Value(0),
+            var tempNumber = TempNumberLogsCompanion(
+                tenantId: const moor.Value(0),
                 nextSeriesNumber: moor.Value(numberGenerator.toString()),
                 lastSeriesNumber: moor.Value(transactionNumber),
                 lastUsageDate: moor.Value(DateTime.now()),
-                userName: moor.Value(""),
+                userName: const moor.Value(""),
                 typeOfNumber: moor.Value(transactionType));
 
             await tempNumberLogsDao.createOrUpdateTempNumber(tempNumber);
           }
         } else {
-          var sn = await seriesNumberGeneratorDao.getAllSeriesNumberByType(transactionType!);
-          if (sn.length > 0 && sn != null) {
-            await numberGenerator.getSerialNumber(transactionType, 0, sn.single.endingLength!);
+          var sn = await seriesNumberGeneratorDao
+              .getAllSeriesNumberByType(transactionType!);
+          if (sn.isNotEmpty) {
+            await numberGenerator.getSerialNumber(
+                transactionType, 0, sn.single.endingLength!);
 
-            var tempNumber = new TempNumberLogsCompanion(
-                tenantId: moor.Value(0),
+            var tempNumber = TempNumberLogsCompanion(
+                tenantId: const moor.Value(0),
                 nextSeriesNumber: moor.Value(numberGenerator.toString()),
                 lastSeriesNumber: moor.Value(transactionNumber),
                 lastUsageDate: moor.Value(DateTime.now()),
-                userName: moor.Value(""),
+                userName: const moor.Value(""),
                 typeOfNumber: moor.Value(transactionType));
 
             await tempNumberLogsDao.createOrUpdateTempNumber(tempNumber);

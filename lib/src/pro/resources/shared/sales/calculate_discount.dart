@@ -47,12 +47,12 @@ class CalculateDiscount {
   CalculateDiscount() {
     db = MyDatabase();
     //DAOs
-    itemsDao = new ItemsDao(db);
-    itemPriceDao = new ItemPriceDao(db);
-    customerDao = new CustomerDao(db);
-    salesOrderDetailTempDao = new SalesOrderDetailTempDao(db);
-    itemPricingRuleDao = new ItemPricingRuleDao(db);
-    systemCurrencyDao = new SystemCurrencyDao(db);
+    itemsDao = ItemsDao(db);
+    itemPriceDao = ItemPriceDao(db);
+    customerDao = CustomerDao(db);
+    salesOrderDetailTempDao = SalesOrderDetailTempDao(db);
+    itemPricingRuleDao = ItemPricingRuleDao(db);
+    systemCurrencyDao = SystemCurrencyDao(db);
   }
 
   Future<void> getDiscount(
@@ -72,7 +72,7 @@ class CalculateDiscount {
       double quantity,
       String salesUom) async {
     var customer = await customerDao.getAllCustomerById(customerId);
-    if (customer != null && customer.length > 0) {
+    if (customer.isNotEmpty) {
       customerGroup = customer[0].customerGroup!;
       salesTerritory = customer[0].customerTerritory!;
       //enableHeaderDiscount = customer[0].enableHeaderDiscount;
@@ -86,7 +86,9 @@ class CalculateDiscount {
       //priceOrDiscount = customer[0].;
     }
 
-    salesOrderDetailTempDao.qtyOfItemOnRegister(transactionNumber, itemId, uom, transactionStatus).listen((e) {
+    salesOrderDetailTempDao
+        .qtyOfItemOnRegister(transactionNumber, itemId, uom, transactionStatus)
+        .listen((e) {
       if (e.isNotEmpty) {
         numOfItemOnRegister = e.single.quantity;
         minPurchaseOfItemOnRegister = e.single.subTotal;
@@ -95,14 +97,20 @@ class CalculateDiscount {
 
     //qty.map((e) => e.single.quantity).listen(print, onError: (e, s) => print('Got error $e at $s'));
 
-    salesOrderDetailTempDao.qtyOfItemGroupOnRegister(transactionNumber, itemGroup, uom, transactionStatus).listen((e) {
+    salesOrderDetailTempDao
+        .qtyOfItemGroupOnRegister(
+            transactionNumber, itemGroup, uom, transactionStatus)
+        .listen((e) {
       if (e.isNotEmpty) {
         numOfItemGroupOnRegister = e.single.quantity;
         minPurchaseOfItemGroupOnRegister = e.single.subTotal;
       }
     });
 
-    salesOrderDetailTempDao.qtyOfBrandOnRegister(transactionNumber, category, uom, transactionStatus).listen((e) {
+    salesOrderDetailTempDao
+        .qtyOfBrandOnRegister(
+            transactionNumber, category, uom, transactionStatus)
+        .listen((e) {
       if (e.isNotEmpty) {
         numOfcategoryOnRegister = e.single.quantity;
         minPurchaseOfBrandOnRegister = e.single.subTotal;
@@ -111,10 +119,25 @@ class CalculateDiscount {
 
     bool isActive = true;
 
-    var isDiscount = await itemPricingRuleDao.getAllDiscount(itemCode, itemGroup, itemName, category, customerGroup, customerId, territory, partner,
-        priceList, validFrom, validTo, isActive, numOfItemOnRegister, numOfItemGroupOnRegister, numOfAllItemsOnRegister, numOfcategoryOnRegister);
+    var isDiscount = await itemPricingRuleDao.getAllDiscount(
+        itemCode,
+        itemGroup,
+        itemName,
+        category,
+        customerGroup,
+        customerId,
+        territory,
+        partner,
+        priceList,
+        validFrom,
+        validTo,
+        isActive,
+        numOfItemOnRegister,
+        numOfItemGroupOnRegister,
+        numOfAllItemsOnRegister,
+        numOfcategoryOnRegister);
 
-    if (isDiscount.length > 0) {
+    if (isDiscount.isNotEmpty) {
       double formateddiscountAmount = 0;
       double formatedListPrice = 0;
       double formatedlineSubTotal = 0;
@@ -133,26 +156,28 @@ class CalculateDiscount {
       }
 
       var currency = await systemCurrencyDao.getAllSystemCurrencyByName("JMD");
-      if (currency.length > 0) {
-        var f = new NumberFormat(currency[0].numberFormat, "en_US");
+      if (currency.isNotEmpty) {
+        var f = NumberFormat(currency[0].numberFormat, "en_US");
         formateddiscountAmount = double.tryParse(f.format(discountAmount))!;
-        var flistprice = new NumberFormat(currency[0].numberFormat, "en_US");
+        var flistprice = NumberFormat(currency[0].numberFormat, "en_US");
         formatedListPrice = double.tryParse(flistprice.format(listPrice))!;
-        var flinetotal = new NumberFormat(currency[0].numberFormat, "en_US");
-        formatedlineSubTotal = double.tryParse(flinetotal.format(lineSubTotal))!;
+        var flinetotal = NumberFormat(currency[0].numberFormat, "en_US");
+        formatedlineSubTotal =
+            double.tryParse(flinetotal.format(lineSubTotal))!;
       } else {
-        var f = new NumberFormat("###.0#", "en_US");
+        var f = NumberFormat("###.0#", "en_US");
         formateddiscountAmount = double.tryParse(f.format(discountAmount))!;
 
-        var flistprice = new NumberFormat("###.0#", "en_US");
+        var flistprice = NumberFormat("###.0#", "en_US");
         formatedListPrice = double.tryParse(flistprice.format(listPrice))!;
-        var flinetotal = new NumberFormat("###.0#", "en_US");
-        formatedlineSubTotal = double.tryParse(flinetotal.format(lineSubTotal))!;
+        var flinetotal = NumberFormat("###.0#", "en_US");
+        formatedlineSubTotal =
+            double.tryParse(flinetotal.format(lineSubTotal))!;
       }
 
       //Now Update the list price and call recalcualte
       //ToDo line discount amount is added however must be able ot recalcuale with other discount apply to the line
-      var tempOrder = new SalesOrderDetailTempCompanion(
+      var tempOrder = SalesOrderDetailTempCompanion(
           listPrice: moor.Value(formatedListPrice),
           subTotal: moor.Value(formatedlineSubTotal),
           discountPercentage: moor.Value(amountOff),
@@ -160,7 +185,8 @@ class CalculateDiscount {
           lineDiscountTotal: moor.Value(formateddiscountAmount),
           discountType: moor.Value(priceOrDiscount));
 
-      await salesOrderDetailTempDao.updateInvoiceTotal(tempOrder, transactionNumber, transactionStatus, itemId, salesUom);
+      await salesOrderDetailTempDao.updateInvoiceTotal(
+          tempOrder, transactionNumber, transactionStatus, itemId, salesUom);
     }
   }
 }

@@ -4,7 +4,7 @@ import 'package:j3enterprise/src/database/drift_database.dart';
 
 class LoggerDetailPage extends StatelessWidget {
   ApplicationLoggerData data;
-  LoggerDetailPage(this.data);
+  LoggerDetailPage(this.data, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,10 @@ class LoggerDetailPage extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(color: Colors.black45, fontWeight: FontWeight.bold, fontSize: 18),
+            style: const TextStyle(
+                color: Colors.black45,
+                fontWeight: FontWeight.bold,
+                fontSize: 18),
           ),
           Flexible(
             fit: FlexFit.loose,
@@ -56,7 +59,10 @@ class LoggerDetailPage extends StatelessWidget {
               info,
               softWrap: false,
               overflow: TextOverflow.fade,
-              style: TextStyle(color: Colors.black45, fontWeight: FontWeight.w500, fontSize: 18),
+              style: const TextStyle(
+                  color: Colors.black45,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18),
             ),
           ),
         ],

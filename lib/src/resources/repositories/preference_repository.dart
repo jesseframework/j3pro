@@ -48,11 +48,11 @@ class PreferenceRepository {
   PreferenceRepository() {
     _log.finest("Preference repository constructer call");
     db = MyDatabase();
-    updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
-    backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
+    updateBackgroundJobStatus = UpdateBackgroundJobStatus();
+    backgroundJobScheduleDao = BackgroundJobScheduleDao(db);
     preferenceDao = PreferenceDao(db);
     nonGlobalPreferenceDao = NonGlobalPreferenceDao(db);
-    userSharedData = new UserSharedData();
+    userSharedData = UserSharedData();
   }
 
   Future<void> getPreferenceFromServer(String jobName) async {
@@ -83,7 +83,8 @@ class PreferenceRepository {
           } else {
             String error = map["error"]["details"].toString();
             updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-            _log.shout("Preference API call failed. Server respond with error : $error  ");
+            _log.shout(
+                "Preference API call failed. Server respond with error : $error  ");
           }
         }
       }
@@ -99,7 +100,8 @@ class PreferenceRepository {
       _log.finest("Executing Non Global preference date from server");
       var isSchedulerEnable = await backgroundJobScheduleDao.getJob(jobName);
       if (isSchedulerEnable != null) {
-        _log.finest("Non Global Preference job found in background Jobs scheduler");
+        _log.finest(
+            "Non Global Preference job found in background Jobs scheduler");
         if (isSchedulerEnable.startDateTime.isBefore(DateTime.now())) {
           if (isSchedulerEnable.enableJob == true) {
             DateTime startDate = isSchedulerEnable.startDateTime;
@@ -108,10 +110,12 @@ class PreferenceRepository {
             _log.finest("Checking server resopnses for Non global preference ");
             Map<String, dynamic> map = json.decode(response.bodyString);
             if (response.isSuccessful && map['success']) {
-              _log.finest("Server resopnses successful for non global preference ");
+              _log.finest(
+                  "Server resopnses successful for non global preference ");
               Map<String, dynamic> result = map['result'];
               var items = (result['items'] as List).map((e) {
-                return NonGlobalPreferenceData.fromJson(e, serializer: CustomSerializer());
+                return NonGlobalPreferenceData.fromJson(e,
+                    serializer: CustomSerializer());
               });
 
               for (var item in items) {
@@ -122,7 +126,8 @@ class PreferenceRepository {
             } else {
               String error = map["error"]["details"].toString();
               updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-              _log.shout("Non Global Preference API call failed. Server respond with error: $error ");
+              _log.shout(
+                  "Non Global Preference API call failed. Server respond with error: $error ");
             }
           }
         }

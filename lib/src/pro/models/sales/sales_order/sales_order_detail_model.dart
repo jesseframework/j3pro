@@ -10,8 +10,11 @@ class SalesOrderDetail extends Table implements MustHaveTenant, MultiUser {
   DateTimeColumn get deliveryDate => dateTime()();
   TextColumn get currency => text()();
   RealColumn get exchangeRate => real()();
+  @override
   IntColumn get tenantId => integer().nullable()();
+  @override
   TextColumn get userName => text()();
+  @override
   IntColumn get userId => integer()();
   TextColumn get transactionStatus => text().nullable()();
   TextColumn get itemId => text().nullable()();

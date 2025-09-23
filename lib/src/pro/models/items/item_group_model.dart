@@ -1,4 +1,3 @@
-import 'package:j3enterprise/src/resources/shared/extension/full_audited.dart';
 import 'package:j3enterprise/src/resources/shared/extension/must_have_tenant.dart';
 import 'package:drift/drift.dart';
 
@@ -7,6 +6,7 @@ class ItemGroups extends Table implements MustHaveTenant {
   TextColumn get itemId => text().nullable()();
   TextColumn get parentGroup => text().nullable()();
   TextColumn get group => text().nullable()();
+  @override
   IntColumn get tenantId => integer().nullable()();
 
   @override

@@ -3,6 +3,8 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/text_field_nullable.dart';
 
 class AddItemPage extends StatefulWidget {
+  const AddItemPage({super.key});
+
   @override
   _AddItemPageState createState() => _AddItemPageState();
 }
@@ -20,7 +22,7 @@ class _AddItemPageState extends State<AddItemPage> {
             onTap: () {
               Navigator.pop(context);
             },
-            child: Row(
+            child: const Row(
               children: [
                 Text(
                   "Save",
@@ -33,7 +35,7 @@ class _AddItemPageState extends State<AddItemPage> {
               ],
             ),
           ),
-          IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
+          IconButton(icon: const Icon(Icons.more_vert), onPressed: () {}),
         ],
       ),
       body: Padding(
@@ -55,7 +57,7 @@ class _AddItemPageState extends State<AddItemPage> {
                 children: [
                   Column(
                     children: [
-                      Icon(Icons.image, size: 200),
+                      const Icon(Icons.image, size: 200),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 12),
                         child: Row(
@@ -64,10 +66,14 @@ class _AddItemPageState extends State<AddItemPage> {
                             Text(
                               'Attach Photo',
                               style: TextStyle(
-                                  color: Theme.of(context).textSelectionTheme.selectionColor),
+                                  color: Theme.of(context)
+                                      .textSelectionTheme
+                                      .selectionColor),
                             ),
                             Icon(Icons.attach_file,
-                                color: Theme.of(context).textSelectionTheme.selectionColor)
+                                color: Theme.of(context)
+                                    .textSelectionTheme
+                                    .selectionColor)
                           ],
                         ),
                       ),
@@ -117,12 +123,12 @@ class _AddItemPageState extends State<AddItemPage> {
                                   'UPC Code *',
                               suffixIcon: InkWell(
                                   onTap: () {},
-                                  child: Icon(Icons.arrow_drop_down))),
+                                  child: const Icon(Icons.arrow_drop_down))),
                           validationText: 'Test',
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
                         child: Icon(
                           Icons.add,
                           size: 30,
@@ -143,7 +149,7 @@ class _AddItemPageState extends State<AddItemPage> {
                       ],
                     ),
                     children: [
-                      Container(
+                      SizedBox(
                         height: 120,
                         child: ListView.builder(itemBuilder: (context, index) {
                           return InkWell(
@@ -157,8 +163,8 @@ class _AddItemPageState extends State<AddItemPage> {
                                       .cardColor
                                       .withOpacity(0.1),
                               height: 60,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
+                              child: const Padding(
+                                padding: EdgeInsets.symmetric(
                                     horizontal: 10, vertical: 5),
                                 child: Row(
                                   mainAxisAlignment:
@@ -185,7 +191,8 @@ class _AddItemPageState extends State<AddItemPage> {
                                 .translate('product_group_label_add_item') ??
                             'Product Group *',
                         suffixIcon: InkWell(
-                            onTap: () {}, child: Icon(Icons.arrow_drop_down))),
+                            onTap: () {},
+                            child: const Icon(Icons.arrow_drop_down))),
                     validationText: 'Test',
                   ),
                   TextFromFieldReusable(
@@ -194,7 +201,8 @@ class _AddItemPageState extends State<AddItemPage> {
                                 .translate('unit_of_measure_label_add_item') ??
                             'Unit of Measure *',
                         suffixIcon: InkWell(
-                            onTap: () {}, child: Icon(Icons.arrow_drop_down))),
+                            onTap: () {},
+                            child: const Icon(Icons.arrow_drop_down))),
                     validationText: 'Test',
                   ),
                   TextFromFieldReusable(
@@ -203,7 +211,8 @@ class _AddItemPageState extends State<AddItemPage> {
                                 .translate('category_label_add_item') ??
                             'Category *',
                         suffixIcon: InkWell(
-                            onTap: () {}, child: Icon(Icons.arrow_drop_down))),
+                            onTap: () {},
+                            child: const Icon(Icons.arrow_drop_down))),
                     validationText: 'Test',
                   ),
                 ],
@@ -236,7 +245,7 @@ class _AddItemPageState extends State<AddItemPage> {
                         'Payment Amount',
                         style: headerstyle(),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 15,
                       )
                     ],
@@ -252,7 +261,7 @@ class _AddItemPageState extends State<AddItemPage> {
 
   Widget getSectionTitle(String title) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
       child: Text(title,
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 fontSize: 18,

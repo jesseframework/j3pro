@@ -26,13 +26,15 @@ class Users extends Table implements MustHaveTenant {
   TextColumn get name => text().withLength(min: 1, max: 300)();
   TextColumn get surname => text().withLength(min: 1, max: 150)();
   TextColumn get emailAddress => text().withLength(min: 5, max: 400)();
-  BoolColumn get isActive => boolean().withDefault(Constant(false))();
+  BoolColumn get isActive => boolean().withDefault(const Constant(false))();
   TextColumn get fullName => text().withLength(min: 1, max: 300)();
   TextColumn get mobileHash => text().nullable()();
-  BoolColumn get enableOfflineLogin => boolean().withDefault(Constant(false))();
+  BoolColumn get enableOfflineLogin =>
+      boolean().withDefault(const Constant(false))();
   TextColumn get firebaseToken => text().nullable()();
   DateTimeColumn get creationTime => dateTime().nullable()();
   DateTimeColumn get lastLoginTime => dateTime().nullable()();
+  @override
   IntColumn get tenantId => integer().nullable()();
   TextColumn get currency => text().nullable()();
   TextColumn get themeData => text().nullable()();

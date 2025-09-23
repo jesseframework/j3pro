@@ -36,7 +36,8 @@ class DesktopDao extends DatabaseAccessor<MyDatabase> with _$DesktopDaoMixin {
     return into(db.desktop).insertOnConflictUpdate(desktopData);
   }
 
-  Stream<List<DesktopData>> watchAllDesktop(String functionName, bool isDelete, String featureCode, String userPermission, String showInLoaction) {
+  Stream<List<DesktopData>> watchAllDesktop(String functionName, bool isDelete,
+      String featureCode, String userPermission, String showInLoaction) {
     return (select(db.desktop)
           ..where((t) =>
               t.iconName.contains(functionName) &
@@ -47,11 +48,13 @@ class DesktopDao extends DatabaseAccessor<MyDatabase> with _$DesktopDaoMixin {
         .watch();
   }
 
-  Stream<List<DesktopData>> watchAllActivitiesMenu(String functionName, bool isDelete, String featureCode, String userPermission) {
+  Stream<List<DesktopData>> watchAllActivitiesMenu(String functionName,
+      bool isDelete, String featureCode, String userPermission) {
     return (select(db.desktop).watch());
   }
 
-  Future insertBusinessRule(DesktopData desktopData) => into(db.desktop).insert(desktopData);
+  Future insertBusinessRule(DesktopData desktopData) =>
+      into(db.desktop).insert(desktopData);
 
   Future deleteAllBusinessRule() => delete(db.desktop).go();
 }

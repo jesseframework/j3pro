@@ -6,14 +6,16 @@ import 'package:j3enterprise/src/resources/shared/widgets/dropdown_box.dart';
 import 'package:j3enterprise/src/ui/background_jobs/bloc/backgroundjobs_bloc.dart';
 
 class BackgroundJobs extends StatefulWidget {
+  const BackgroundJobs({super.key});
+
   @override
   State<BackgroundJobs> createState() => _BackgroundJobs();
 }
 
 class _BackgroundJobs extends State<BackgroundJobs> {
-  final formKey = new GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
   int select = 0;
-  TimeOfDay time = new TimeOfDay.now();
+  TimeOfDay time = TimeOfDay.now();
   DateTime date = DateTime.now();
 
   var syncfrequencySelectedItem;
@@ -34,29 +36,39 @@ class _BackgroundJobs extends State<BackgroundJobs> {
   Future<void> _onBackGroundJobStartButtonPress() async {
     formKey.currentState!.validate();
     BlocProvider.of<BackgroundJobsBloc>(context).add(BackgroundJobsStart(
-        context: context, jobname: setjobname, startDateTime: DateTime.now().toString(), syncFrequency: syncfrequencySelectedItem));
+        context: context,
+        jobname: setjobname,
+        startDateTime: DateTime.now().toString(),
+        syncFrequency: syncfrequencySelectedItem));
   }
 
   Future<void> _onBackGroundJobCancelButtonPress() async {
     formKey.currentState!.validate();
-    BlocProvider.of<BackgroundJobsBloc>(context)
-        .add(BackgroundJobsCancel(jobName: setjobname, syncFrequency: syncfrequencySelectedItem, context: context));
+    BlocProvider.of<BackgroundJobsBloc>(context).add(BackgroundJobsCancel(
+        jobName: setjobname,
+        syncFrequency: syncfrequencySelectedItem,
+        context: context));
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<BackgroundJobsBloc, BackgroundJobsState>(listener: (context, state) {
+    return BlocListener<BackgroundJobsBloc, BackgroundJobsState>(
+        listener: (context, state) {
       if (state is BackgroundJobsFailure) {
-        ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: new Text(state.error)));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(state.error)));
       }
       if (state is BackgroundJobsSuccess) {
-        ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: new Text(state.userMessage)));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(state.userMessage)));
       }
 
       if (state is BackgroundJobsStoped) {
-        ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: new Text(state.userMessage)));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(state.userMessage)));
       }
-    }, child: BlocBuilder<BackgroundJobsBloc, BackgroundJobsState>(builder: (context, state) {
+    }, child: BlocBuilder<BackgroundJobsBloc, BackgroundJobsState>(
+            builder: (context, state) {
       var bloc = BlocProvider.of<BackgroundJobsBloc>(context);
       return _buildForm(bloc);
     }));
@@ -69,7 +81,8 @@ class _BackgroundJobs extends State<BackgroundJobs> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(color: Colors.white, boxShadow: kElevationToShadow[4]),
+            decoration: BoxDecoration(
+                color: Colors.white, boxShadow: kElevationToShadow[4]),
           ),
           // Container(
           //   decoration: BoxDecoration(
@@ -86,7 +99,7 @@ class _BackgroundJobs extends State<BackgroundJobs> {
           //     ),
           //   ),
           // ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Padding(
@@ -96,24 +109,27 @@ class _BackgroundJobs extends State<BackgroundJobs> {
               children: <Widget>[
                 Column(
                   children: <Widget>[
-                    time != null
-                        ? Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            child: Text(
-                              time.hour >= 12 ? "${time.hour - 12} : ${time.minute} PM" : "${time.hour} : ${time.minute} AM",
-                              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
-                            ),
-                          )
-                        : Container(),
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        time.hour >= 12
+                            ? "${time.hour - 12} : ${time.minute} PM"
+                            : "${time.hour} : ${time.minute} AM",
+                        style: const TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.w700),
+                      ),
+                    ),
                     Container(
                       decoration: BoxDecoration(
                         color: Theme.of(context).cardColor,
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
                       ),
                       child: IconButton(
-                        icon: Icon(Icons.alarm),
+                        icon: const Icon(Icons.alarm),
                         onPressed: () async {
-                          var newTime = await showTimePicker(context: context, initialTime: TimeOfDay.now());
+                          var newTime = await showTimePicker(
+                              context: context, initialTime: TimeOfDay.now());
                           setState(() {
                             time = newTime!;
                           });
@@ -125,22 +141,27 @@ class _BackgroundJobs extends State<BackgroundJobs> {
                 Column(
                   children: <Widget>[
                     Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            child: Text(
-                              "${date.day}/${date.month}/${date.year}",
-                              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
-                            ),
-                          ),
+                      margin: const EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        "${date.day}/${date.month}/${date.year}",
+                        style: const TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.w700),
+                      ),
+                    ),
                     Container(
                       decoration: BoxDecoration(
                         color: Theme.of(context).cardColor,
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
                       ),
                       child: IconButton(
-                        icon: Icon(Icons.date_range),
+                        icon: const Icon(Icons.date_range),
                         onPressed: () async {
                           var result = await showDatePicker(
-                              context: context, initialDate: DateTime.now(), firstDate: DateTime(1970), lastDate: DateTime(2100));
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(1970),
+                              lastDate: DateTime(2100));
 
                           setState(() {
                             date = result!;
@@ -157,9 +178,11 @@ class _BackgroundJobs extends State<BackgroundJobs> {
             padding: const EdgeInsets.all(0.00),
             child: DropdownFormFieldNormalReuse(
               _onSetJobNameSelection,
-              hintText: AppLocalization.of(context)!.translate('set_job_name') ?? 'Selected Job',
+              hintText:
+                  AppLocalization.of(context)!.translate('set_job_name') ??
+                      'Selected Job',
               selectedValue: setjobname,
-              listData: [
+              listData: const [
                 'Device Setting',
                 'Log Shipping',
                 'Validate Enrollment',
@@ -189,12 +212,21 @@ class _BackgroundJobs extends State<BackgroundJobs> {
             padding: const EdgeInsets.all(0.00),
             child: DropdownFormFieldNormalReuse(
               _onUpdateeFrequencySelection,
-              hintText: AppLocalization.of(context)!.translate('sync_frequency_label_communication') ?? 'Sync Frequency',
+              hintText: AppLocalization.of(context)!
+                      .translate('sync_frequency_label_communication') ??
+                  'Sync Frequency',
               selectedValue: syncfrequencySelectedItem,
-              listData: ['Every Minute', 'Every 5 Minutes', 'Every 20 Minutes', 'Every Day', 'Every Month', 'Every Year'],
+              listData: const [
+                'Every Minute',
+                'Every 5 Minutes',
+                'Every 20 Minutes',
+                'Every Day',
+                'Every Month',
+                'Every Year'
+              ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Row(
@@ -207,26 +239,35 @@ class _BackgroundJobs extends State<BackgroundJobs> {
                     _onBackGroundJobStartButtonPress();
                   },
                   child: Text(
-                    AppLocalization.of(context)!.translate('start_button_backgroundjob')!,
-                    style: TextStyle(color: Colors.blue, fontSize: 18, fontWeight: FontWeight.w600),
+                    AppLocalization.of(context)!
+                        .translate('start_button_backgroundjob')!,
+                    style: const TextStyle(
+                        color: Colors.blue,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600),
                   ),
                 )),
               ),
               Container(
-                decoration: BoxDecoration(),
+                decoration: const BoxDecoration(),
                 child: TextButton(
                   onPressed: () async {
                     await _onBackGroundJobCancelButtonPress();
                   },
-                  child: Text(AppLocalization.of(context)!.translate('cancel_button_backgroundjob')!,
-                      style: TextStyle(color: Colors.blue, fontSize: 18, fontWeight: FontWeight.w600)),
+                  child: Text(
+                      AppLocalization.of(context)!
+                          .translate('cancel_button_backgroundjob')!,
+                      style: const TextStyle(
+                          color: Colors.blue,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600)),
                 ),
               ),
             ],
           ),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 12),
             child: Text(
               "System Jobs",
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
@@ -236,7 +277,8 @@ class _BackgroundJobs extends State<BackgroundJobs> {
             child: Container(
               child: StreamBuilder(
                 stream: bloc.backgroundJobScheduleDao.watchAllJobs(),
-                builder: (context, AsyncSnapshot<List<BackgroundJobScheduleData>> snapshot) {
+                builder: (context,
+                    AsyncSnapshot<List<BackgroundJobScheduleData>> snapshot) {
                   final jobs = snapshot.data ?? [];
 
                   return ListView.builder(
@@ -252,17 +294,20 @@ class _BackgroundJobs extends State<BackgroundJobs> {
                           children: [
                             Expanded(
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Divider(height: 0.5),
+                                  const Divider(height: 0.5),
                                   ListTile(
                                     title: Text(
-                                      '${jobs[index].jobName}',
-                                      style: TextStyle(fontSize: 14.0, color: Colors.blueAccent),
+                                      jobs[index].jobName,
+                                      style: const TextStyle(
+                                          fontSize: 14.0,
+                                          color: Colors.blueAccent),
                                     ),
                                     subtitle: Text(
-                                      '${jobs[index].syncFrequency}',
-                                      style: new TextStyle(
+                                      jobs[index].syncFrequency,
+                                      style: const TextStyle(
                                         fontSize: 18.0,
                                         fontStyle: FontStyle.italic,
                                       ),
@@ -274,15 +319,17 @@ class _BackgroundJobs extends State<BackgroundJobs> {
                             Expanded(
                               child: Column(
                                 children: [
-                                  Divider(height: 0.5),
+                                  const Divider(height: 0.5),
                                   ListTile(
                                     title: Text(
-                                      '${jobs[index].jobStatus}',
-                                      style: TextStyle(fontSize: 14.0, color: Colors.blueAccent),
+                                      jobs[index].jobStatus,
+                                      style: const TextStyle(
+                                          fontSize: 14.0,
+                                          color: Colors.blueAccent),
                                     ),
                                     subtitle: Text(
                                       '${jobs[index].lastRun}',
-                                      style: new TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 18.0,
                                         fontStyle: FontStyle.italic,
                                       ),

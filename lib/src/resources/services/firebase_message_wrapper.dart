@@ -24,13 +24,13 @@ import 'package:j3enterprise/main.dart';
 class FirebaseMessageWrapper extends StatefulWidget {
   final Widget child;
 
-  FirebaseMessageWrapper({required this.child});
+  const FirebaseMessageWrapper({super.key, required this.child});
   @override
   _FirebaseMessageWrapperState createState() => _FirebaseMessageWrapperState();
 }
 
 class _FirebaseMessageWrapperState extends State<FirebaseMessageWrapper> {
-  MessageStream _messageStream = MessageStream.instance;
+  final MessageStream _messageStream = MessageStream.instance;
   bool enableSlideOff = true;
   bool hideCloseButton = false;
   bool onlyOne = true;
@@ -125,16 +125,12 @@ class _FirebaseMessageWrapperState extends State<FirebaseMessageWrapper> {
     switch (priority) {
       case 'high':
         return Priority.HIGH;
-        break;
       case 'medium':
         return Priority.MEDIUM;
-        break;
       case 'low':
         return Priority.LOW;
-        break;
       default:
         return Priority.LOW;
-        break;
     }
   }
 

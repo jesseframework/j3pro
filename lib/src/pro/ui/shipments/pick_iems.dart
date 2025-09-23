@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:j3enterprise/src/pro/ui/shipments/pick_validation.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
 
 class PickItemScreen extends StatefulWidget {
-  const PickItemScreen();
+  const PickItemScreen({super.key});
 
   @override
   State<PickItemScreen> createState() => _PickItemScreenState();
@@ -16,11 +15,11 @@ class _PickItemScreenState extends State<PickItemScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pick Items'),
+        title: const Text('Pick Items'),
         actions: [
           IconButton(
             onPressed: () {},
-            icon: Icon(Icons.more_vert),
+            icon: const Icon(Icons.more_vert),
           )
         ],
       ),
@@ -30,7 +29,7 @@ class _PickItemScreenState extends State<PickItemScreen> {
           child: Row(
             children: [
               Expanded(
-                child: Container(
+                child: SizedBox(
                   height: 35,
                   child: ListFilter(
                     placeholder: 'Search',
@@ -60,26 +59,37 @@ class _PickItemScreenState extends State<PickItemScreen> {
                               ? Colors.red.shade100
                               : Colors.white,
                       minLeadingWidth: 20,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 0),
-                      leading: Icon(Icons.image, size: 30),
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 0),
+                      leading: const Icon(Icons.image, size: 30),
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("124132", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey.shade700)),
-                          Text("500", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey.shade700)),
+                          Text("124132",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey.shade700)),
+                          Text("500",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey.shade700)),
                         ],
                       ),
                       subtitle: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Expanded(
-                            child:
-                                Text("Os Cranberry Juice C/Tail 15Oz 24", overflow: TextOverflow.fade, style: TextStyle(fontWeight: FontWeight.w700)),
+                          const Expanded(
+                            child: Text("Os Cranberry Juice C/Tail 15Oz 24",
+                                overflow: TextOverflow.fade,
+                                style: TextStyle(fontWeight: FontWeight.w700)),
                           ),
-                          Text("Picked", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey.shade700)),
+                          Text("Picked",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey.shade700)),
                         ],
                       ),
-                      trailing: Icon(
+                      trailing: const Icon(
                         Icons.arrow_forward_ios,
                         size: 20,
                       ),
@@ -112,8 +122,16 @@ class _PickItemScreenState extends State<PickItemScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Total Picked/Unpicked", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.grey.shade600)),
-                    Text("200/665", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey.shade600)),
+                    Text("Total Picked/Unpicked",
+                        style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey.shade600)),
+                    Text("200/665",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey.shade600)),
                   ],
                 ),
               ),
@@ -125,26 +143,40 @@ class _PickItemScreenState extends State<PickItemScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Shipment No: 32146534", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey.shade600)),
-                        Text("Shipment Date: Oct 1, 2023", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey.shade600)),
+                        Text("Shipment No: 32146534",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey.shade600)),
+                        Text("Shipment Date: Oct 1, 2023",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey.shade600)),
                       ],
                     ),
                     TextButton(
                         style: TextButton.styleFrom(
                           backgroundColor: Colors.blue.shade700,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4)),
                         ),
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PickValidationScreen(),
+                              builder: (context) =>
+                                  const PickValidationScreen(),
                             ),
                           );
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Text('Complete Pick', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
+                        child: const Padding(
+                          padding: EdgeInsets.all(4.0),
+                          child: Text('Complete Pick',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white)),
                         )),
                   ],
                 ),

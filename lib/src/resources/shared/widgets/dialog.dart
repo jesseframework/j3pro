@@ -15,7 +15,7 @@ displayDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           title: Text(title!),
           content: onlyMessage
-              ? SizedBox()
+              ? const SizedBox()
               : TextField(
                   controller: textcontroller,
                   inputFormatters: doubleOnly!
@@ -33,9 +33,9 @@ displayDialog(
               },
             ),
             onlyMessage
-                ? SizedBox()
+                ? const SizedBox()
                 : TextButton(
-                    child: Text('Save'),
+                    child: const Text('Save'),
                     onPressed: () async {
                       await callBack!(textcontroller!.text.toString());
                       Navigator.of(context).pop();

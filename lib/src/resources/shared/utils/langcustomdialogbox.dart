@@ -31,6 +31,8 @@ const String DEVICE_LANGUAGE_CODE_KEY = 'deviceLocale';
 String selecteditem = ENGLISH;
 
 class LangCustomDialog extends StatelessWidget {
+  const LangCustomDialog({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -40,15 +42,15 @@ class LangCustomDialog extends StatelessWidget {
       elevation: 0.0,
       backgroundColor: Colors.transparent,
       child: Container(
-        margin: EdgeInsets.only(top: 40),
-        decoration: new BoxDecoration(
+        margin: const EdgeInsets.only(top: 40),
+        decoration: const BoxDecoration(
           color: Colors.white,
           shape: BoxShape.rectangle,
           boxShadow: [
             BoxShadow(
               color: Colors.black26,
               blurRadius: 10.0,
-              offset: const Offset(0.0, 10.0),
+              offset: Offset(0.0, 10.0),
             ),
           ],
         ),
@@ -60,8 +62,8 @@ class LangCustomDialog extends StatelessWidget {
               alignment: Alignment.bottomLeft,
               height: 70,
               color: Colors.blue,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 18.0, left: 15),
+              child: const Padding(
+                padding: EdgeInsets.only(bottom: 18.0, left: 15),
                 child: Text(
                   "Language",
                   textAlign: TextAlign.center,
@@ -73,13 +75,13 @@ class LangCustomDialog extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             DropWid(selecteditem),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                SizedBox(width: 10.0),
+                const SizedBox(width: 10.0),
                 InkWell(
                   onTap: () {
                     Navigator.pop(context);
@@ -88,8 +90,8 @@ class LangCustomDialog extends StatelessWidget {
                     alignment: Alignment.center,
                     width: 85,
                     color: Colors.blue,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(15.0, 10, 15, 10),
+                    child: const Padding(
+                      padding: EdgeInsets.fromLTRB(15.0, 10, 15, 10),
                       child: Text(
                         "OK",
                         textAlign: TextAlign.left,
@@ -109,8 +111,8 @@ class LangCustomDialog extends StatelessWidget {
                     width: 85,
                     alignment: Alignment.center,
                     color: Colors.grey.shade700,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(15.0, 10, 15, 10),
+                    child: const Padding(
+                      padding: EdgeInsets.fromLTRB(15.0, 10, 15, 10),
                       child: Text(
                         "Cancel",
                         textAlign: TextAlign.center,
@@ -122,10 +124,10 @@ class LangCustomDialog extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 10.0),
+                const SizedBox(width: 10.0),
               ],
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
           ],
         ),
       ),
@@ -136,7 +138,7 @@ class LangCustomDialog extends StatelessWidget {
 class DropWid extends StatefulWidget {
   final String list;
 
-  DropWid(this.list);
+  const DropWid(this.list, {super.key});
 
   @override
   _DropWidState createState() => _DropWidState();
@@ -162,18 +164,18 @@ class _DropWidState extends State<DropWid> {
         child: DropdownButton(
           isExpanded: true,
           value: selecteditem,
-          items: [
+          items: const [
             DropdownMenuItem(
-              child: Text("English"),
               value: ENGLISH,
+              child: Text("English"),
             ),
             DropdownMenuItem(
-              child: Text('Spanish'),
               value: SPANISH,
+              child: Text('Spanish'),
             ),
             DropdownMenuItem(
-              child: Text("Hindi"),
               value: HINDI,
+              child: Text("Hindi"),
             ),
           ],
           onChanged: _changeLanguage,

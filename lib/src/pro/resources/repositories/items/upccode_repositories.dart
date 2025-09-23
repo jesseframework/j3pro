@@ -27,10 +27,10 @@ class UOMRepository {
   UOMRepository() {
     _log.finest("Preference repository constructer call");
     db = MyDatabase();
-    updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
-    backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
-    unitOfMeasureDao = new UnitOfMeasureDao(db);
-    userSharedData = new UserSharedData();
+    updateBackgroundJobStatus = UpdateBackgroundJobStatus();
+    backgroundJobScheduleDao = BackgroundJobScheduleDao(db);
+    unitOfMeasureDao = UnitOfMeasureDao(db);
+    userSharedData = UserSharedData();
   }
 
   Future<void> getUPCCodeFromServer(String jobName) async {
@@ -51,7 +51,8 @@ class UOMRepository {
             _log.finest("Server resopnses successful for $className ");
             Map<String, dynamic> result = map['result'];
             var items = (result['items'] as List).map((e) {
-              return UnitOfMeasureData.fromJson(e, serializer: CustomSerializer());
+              return UnitOfMeasureData.fromJson(e,
+                  serializer: CustomSerializer());
             });
 
             for (var item in items) {
@@ -62,7 +63,8 @@ class UOMRepository {
           } else {
             String error = map["error"]["details"].toString();
             updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-            _log.shout("Customer API call failed. Server respond with error : $error  ");
+            _log.shout(
+                "Customer API call failed. Server respond with error : $error  ");
           }
         }
       }

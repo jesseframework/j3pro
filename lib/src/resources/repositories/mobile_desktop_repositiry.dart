@@ -46,11 +46,11 @@ class MobileDesktopRepository {
   MobileDesktopRepository() {
     _log.finest("Mobile Desktop repository constructer call");
     db = MyDatabase();
-    updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
-    backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
+    updateBackgroundJobStatus = UpdateBackgroundJobStatus();
+    backgroundJobScheduleDao = BackgroundJobScheduleDao(db);
     desktopDao = DesktopDao(db);
 
-    userSharedData = new UserSharedData();
+    userSharedData = UserSharedData();
   }
 
   Future<void> getMobileDesktopFromServer(String jobName) async {
@@ -83,7 +83,8 @@ class MobileDesktopRepository {
           } else {
             String error = map["error"]["details"].toString();
             updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-            _log.shout("Mobile Desktop API call failed. Server respond with error : $error  ");
+            _log.shout(
+                "Mobile Desktop API call failed. Server respond with error : $error  ");
           }
         }
       }

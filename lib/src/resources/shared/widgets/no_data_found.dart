@@ -21,13 +21,13 @@ import 'package:flutter/material.dart';
 
 class BuildOnNoData extends StatelessWidget {
   String message;
-  BuildOnNoData({required this.message});
+  BuildOnNoData({super.key, required this.message});
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Text(
         message,
-        style: TextStyle(
+        style: const TextStyle(
             fontStyle: FontStyle.italic,
             color: Colors.black45,
             fontWeight: FontWeight.w800,

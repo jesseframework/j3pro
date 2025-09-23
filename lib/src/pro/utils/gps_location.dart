@@ -33,12 +33,12 @@ class GeoLocation {
   GeoLocation() {
     _log.finest("Journey Plan Location Service constructer call");
     db = MyDatabase();
-    updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
-    backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
-    journeyPlanDao = new JourneyPlanDao(db);
-    addressDao = new AddressDao(db);
-    userSharedData = new UserSharedData();
-    _currentPosition = new Position(
+    updateBackgroundJobStatus = UpdateBackgroundJobStatus();
+    backgroundJobScheduleDao = BackgroundJobScheduleDao(db);
+    journeyPlanDao = JourneyPlanDao(db);
+    addressDao = AddressDao(db);
+    userSharedData = UserSharedData();
+    _currentPosition = Position(
       accuracy: 0,
       altitude: 0,
       heading: 0,
@@ -51,7 +51,7 @@ class GeoLocation {
       headingAccuracy: 0,
       isMocked: false,
     );
-    systemCurrencyDao = new SystemCurrencyDao(db);
+    systemCurrencyDao = SystemCurrencyDao(db);
   }
 
   //Earth Radious in meters
@@ -91,9 +91,11 @@ class GeoLocation {
             for (var item in items) {
               if (isStopped) break;
               if (item.transactionStatus != "Complete") {
-                var getaddr = await addressDao.getAllAddressByTitle(item.customerId);
-                if (getaddr.length > 0) {
-                  _currentPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+                var getaddr =
+                    await addressDao.getAllAddressByTitle(item.customerId);
+                if (getaddr.isNotEmpty) {
+                  _currentPosition = await Geolocator.getCurrentPosition(
+                      desiredAccuracy: LocationAccuracy.high);
                   double inMiles = 0;
                   double inKilometer = 0;
                   double inMeter = 0;
@@ -105,8 +107,11 @@ class GeoLocation {
                   double pLng = getaddr[0].longitude!;
                   var dLat = radians(pLat - _currentPosition.latitude);
                   var dLng = radians(pLng - _currentPosition.longitude);
-                  var a =
-                      sin(dLat / 2) * sin(dLat / 2) + cos(radians(_currentPosition.latitude)) * cos(radians(pLat)) * sin(dLng / 2) * sin(dLng / 2);
+                  var a = sin(dLat / 2) * sin(dLat / 2) +
+                      cos(radians(_currentPosition.latitude)) *
+                          cos(radians(pLat)) *
+                          sin(dLng / 2) *
+                          sin(dLng / 2);
                   var c = 2 * atan2(sqrt(a), sqrt(1 - a));
                   inMeter = earthRadius * c;
                   inMiles = inMeter * 0.000621;
@@ -124,24 +129,28 @@ class GeoLocation {
 
                   //ToDo Add location to currency
 
-                  var currency = await systemCurrencyDao.getAllSystemCurrencyByName("JMD");
-                  if (currency.length > 0) {
-                    var f = new NumberFormat(currency[0].numberFormat, "en_US");
-                    formatedDistantUsed = double.tryParse(f.format(distantUsed))!;
+                  var currency =
+                      await systemCurrencyDao.getAllSystemCurrencyByName("JMD");
+                  if (currency.isNotEmpty) {
+                    var f = NumberFormat(currency[0].numberFormat, "en_US");
+                    formatedDistantUsed =
+                        double.tryParse(f.format(distantUsed))!;
                   } else {
-                    var f = new NumberFormat("###.0#", "en_US");
-                    formatedDistantUsed = double.tryParse(f.format(distantUsed))!;
+                    var f = NumberFormat("###.0#", "en_US");
+                    formatedDistantUsed =
+                        double.tryParse(f.format(distantUsed))!;
                   }
 
                   //print(f.format(distantUsed).toString());
 
-                  var updateDistant = new JourneyPlanCompanion(
+                  var updateDistant = JourneyPlanCompanion(
                       distanceLabel: moor.Value(distanceLabel),
                       inKilometer: moor.Value(inKilometer),
                       inMeter: moor.Value(inMeter),
                       inMiles: moor.Value(inMiles),
                       distanceUsed: moor.Value(formatedDistantUsed));
-                  await journeyPlanDao.updateGPSDistance(updateDistant, item.customerId, item.assignTo!, item.transactionStatus!);
+                  await journeyPlanDao.updateGPSDistance(updateDistant,
+                      item.customerId, item.assignTo!, item.transactionStatus!);
                 }
               }
             }

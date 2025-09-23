@@ -41,50 +41,50 @@ import 'package:j3enterprise/src/pro/models/series_number/series_number_model.da
 import 'package:j3enterprise/src/pro/models/series_number/temp_number_logs.dart';
 import 'package:j3enterprise/src/pro/models/warehouse/inventory_items_model.dart';
 import 'package:j3enterprise/src/pro/models/warehouse/inventory_transaction_model.dart';
- 
 
 part 'drift_database.g.dart';
 
-@DriftDatabase(tables: [
-  Users,
-  Communication,
-  BackgroundJobSchedule,
-  BackgroundJobLogs,
-  Preference,
-  MobileDevice,
-  BusinessRule,
-  NonGlobalBusinessRule,
-  ApplicationLogger,
-  Tenant,
-  NonGlobalPreference,
-  Desktop,
-  SalesOrderHeader,
-  SalesOrderDetail,
-  SalesOrderDetailTemp,
-  SeriesNumberGenerator,
-  SalesTax,
-  TempNumberLogs,
-  Customer,
-  Address,
-  Contact,
-  Items,
-  ItemsPrices,
-  ItemPricingRule,
-  Categores,
-  ItemGroups,
-  PriceList,
-  UnitOfMeasure,
-  StockUnitOfMeasure,
-  JourneyPlan,
-  UPCCode,
-  InventoryItems,
-  InventoryTransaction,
-  MoneyDeposit,
-  ClockIn,
-  SystemCurrency,
-  ExchangeRate
-],)  
- 
+@DriftDatabase(
+  tables: [
+    Users,
+    Communication,
+    BackgroundJobSchedule,
+    BackgroundJobLogs,
+    Preference,
+    MobileDevice,
+    BusinessRule,
+    NonGlobalBusinessRule,
+    ApplicationLogger,
+    Tenant,
+    NonGlobalPreference,
+    Desktop,
+    SalesOrderHeader,
+    SalesOrderDetail,
+    SalesOrderDetailTemp,
+    SeriesNumberGenerator,
+    SalesTax,
+    TempNumberLogs,
+    Customer,
+    Address,
+    Contact,
+    Items,
+    ItemsPrices,
+    ItemPricingRule,
+    Categores,
+    ItemGroups,
+    PriceList,
+    UnitOfMeasure,
+    StockUnitOfMeasure,
+    JourneyPlan,
+    UPCCode,
+    InventoryItems,
+    InventoryTransaction,
+    MoneyDeposit,
+    ClockIn,
+    SystemCurrency,
+    ExchangeRate
+  ],
+)
 class MyDatabase extends _$MyDatabase {
   // we tell the database where to store the data with this constructor
   // MyDatabase() : super(_openConnection());
@@ -103,7 +103,7 @@ class MyDatabase extends _$MyDatabase {
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (Migrator m) async {
           await m.createAll();
-             String systemDate = await formatDate(DateTime.now().toString());
+          String systemDate = await formatDate(DateTime.now().toString());
           await into(backgroundJobSchedule).insert(BackgroundJobScheduleData(
               id: 1,
               jobName: "Mobile Desktop",
@@ -129,26 +129,28 @@ class MyDatabase extends _$MyDatabase {
               lastRun: DateTime.tryParse(systemDate)!,
               jobStatus: "Never Run"));
 
-          await into(seriesNumberGenerator).insert(SeriesNumberGeneratorData(
-              id: 1,
-              includeJulianDate: false,
-              includePrefix: false,
-              includeUserID: false,
-              includeTenantId: false,
-              usedAutoNumber: false,
-              numberPrefix: "SO",
-              endingLength: 8,
-              typeOfNumber: "Sales Order"));
-          await into(seriesNumberGenerator).insert(SeriesNumberGeneratorData(
-              id: 2,
-              includeJulianDate: false,
-              includePrefix: false,
-              includeUserID: false,
-              includeTenantId: false,
-              usedAutoNumber: false,
-              numberPrefix: "INV",
-              endingLength: 8,
-              typeOfNumber: "Invoice"));
+          await into(seriesNumberGenerator).insert(
+              const SeriesNumberGeneratorData(
+                  id: 1,
+                  includeJulianDate: false,
+                  includePrefix: false,
+                  includeUserID: false,
+                  includeTenantId: false,
+                  usedAutoNumber: false,
+                  numberPrefix: "SO",
+                  endingLength: 8,
+                  typeOfNumber: "Sales Order"));
+          await into(seriesNumberGenerator).insert(
+              const SeriesNumberGeneratorData(
+                  id: 2,
+                  includeJulianDate: false,
+                  includePrefix: false,
+                  includeUserID: false,
+                  includeTenantId: false,
+                  usedAutoNumber: false,
+                  numberPrefix: "INV",
+                  endingLength: 8,
+                  typeOfNumber: "Invoice"));
 
           await into(tempNumberLogs).insert(TempNumberLog(
               id: 1,
@@ -188,13 +190,11 @@ class MyDatabase extends _$MyDatabase {
               typeOfNumber: "Inventory Cycle"));
         },
       );
- 
 }
 
 LazyDatabase _openConnection() {
   // the LazyDatabase util lets us find the right location for the file async.
   return LazyDatabase(() async {
-   
     final dbFolder = await getApplicationDocumentsDirectory();
     final file = File(p.join(dbFolder.path, 'meter.sqlite'));
     return NativeDatabase.createInBackground(file);

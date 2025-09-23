@@ -32,9 +32,13 @@ class ApplicationLogger extends Table implements MustHaveTenant, MultiUser {
   TextColumn get logCode => text()();
   TextColumn get logSeverity => text()();
   DateTimeColumn get exportDateTime => dateTime().nullable()();
-  TextColumn get exportStatus => text().withDefault(Constant('Pending'))();
+  TextColumn get exportStatus =>
+      text().withDefault(const Constant('Pending'))();
   TextColumn get syncError => text().nullable()();
+  @override
   IntColumn get tenantId => integer().nullable()();
+  @override
   TextColumn get userName => text().nullable()();
+  @override
   IntColumn get userId => integer().nullable()();
 }

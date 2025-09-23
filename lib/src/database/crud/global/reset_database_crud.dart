@@ -8,7 +8,6 @@ import 'package:j3enterprise/src/database/crud/prefrence/preference_crud.dart';
 import 'package:j3enterprise/src/database/crud/tenant/tenant_crud.dart';
 import 'package:j3enterprise/src/database/crud/user/user_crud.dart';
 import 'package:j3enterprise/src/database/drift_database.dart';
- 
 
 class ResetDatabase {
   late UserDao userDao;

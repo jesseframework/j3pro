@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class ListFilter extends StatefulWidget {
   const ListFilter(
-      {required this.placeholder,
+      {super.key,
+      required this.placeholder,
       required this.filter,
       required this.onFilterChanged,
       required this.function});
@@ -12,7 +13,7 @@ class ListFilter extends StatefulWidget {
   final Function(String) onFilterChanged;
 
   @override
-  _ListFilterState createState() => new _ListFilterState();
+  _ListFilterState createState() => _ListFilterState();
 }
 
 class _ListFilterState extends State<ListFilter> {
@@ -70,7 +71,7 @@ class _ListFilterState extends State<ListFilter> {
             : TextAlign.center,
         textAlignVertical: TextAlignVertical.center,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.only(left: 8, right: 8, bottom: 5),
+          contentPadding: const EdgeInsets.only(left: 8, right: 8, bottom: 5),
           suffixIcon: _focusNode.hasFocus
               ? IconButton(
                   icon: Center(
@@ -92,7 +93,7 @@ class _ListFilterState extends State<ListFilter> {
                 )
               : Container(
                   width: 60,
-                  margin: EdgeInsets.only(right: 10),
+                  margin: const EdgeInsets.only(right: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -100,7 +101,7 @@ class _ListFilterState extends State<ListFilter> {
                       Icon(Icons.search, color: textColor),
                       InkWell(
                         child: Container(
-                            margin: EdgeInsets.only(left: 10),
+                            margin: const EdgeInsets.only(left: 10),
                             height: 25,
                             child: Image.asset('images/filter.png')),
                       )

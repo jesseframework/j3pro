@@ -1,6 +1,5 @@
 import 'package:chopper/chopper.dart';
 import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
-import 'package:j3enterprise/src/resources/shared/preferences/user_share_data.dart';
 import 'package:oauth2/oauth2.dart' as oauth2;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -9,9 +8,10 @@ class ApiClient {
   static late ChopperClient chopper;
 
   static Future<void> updateClient(String baseUrl) async {
-    final tokenEndpoint = Uri.parse('https://uat-auth.quickstoreapp.com:10442/connect/token');
-    final identifier = 'QuickStore_Web';
-    final secret = '1q2w3e*';
+    final tokenEndpoint =
+        Uri.parse('https://uat-auth.quickstoreapp.com:10442/connect/token');
+    const identifier = 'QuickStore_Web';
+    const secret = '1q2w3e*';
 
     final client = await oauth2.clientCredentialsGrant(
       tokenEndpoint,
@@ -66,7 +66,7 @@ class OAuth2Authenticator extends Authenticator {
     Request? originalRequest,
   ]) async {
     final prefs = await SharedPreferences.getInstance();
-    final accessToken = await prefs.getString('access_token');
+    final accessToken = prefs.getString('access_token');
 
     if (accessToken == null) {
       return null;

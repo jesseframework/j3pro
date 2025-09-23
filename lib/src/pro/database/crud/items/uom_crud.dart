@@ -5,7 +5,8 @@ import 'package:drift/drift.dart';
 part 'uom_crud.g.dart';
 
 @DriftAccessor(tables: [UnitOfMeasure])
-class UnitOfMeasureDao extends DatabaseAccessor<MyDatabase> with _$UnitOfMeasureDaoMixin {
+class UnitOfMeasureDao extends DatabaseAccessor<MyDatabase>
+    with _$UnitOfMeasureDaoMixin {
   final MyDatabase db;
   UnitOfMeasureDao(this.db) : super(db);
 

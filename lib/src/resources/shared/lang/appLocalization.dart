@@ -69,7 +69,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalization> {
   @override
   Future<AppLocalization> load(Locale locale) async {
     // AppLocalizations class is where the JSON loading actually runs
-    AppLocalization localizations = new AppLocalization(locale);
+    AppLocalization localizations = AppLocalization(locale);
     await localizations.load();
     return localizations;
   }

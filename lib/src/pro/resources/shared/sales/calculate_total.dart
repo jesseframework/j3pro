@@ -16,27 +16,33 @@ class CalculateTotal {
     db = MyDatabase();
     _log.finest("$className repository constructer call");
 
-    salesOrderDetailTempDao = new SalesOrderDetailTempDao(db);
-    systemCurrencyDao = new SystemCurrencyDao(db);
+    salesOrderDetailTempDao = SalesOrderDetailTempDao(db);
+    systemCurrencyDao = SystemCurrencyDao(db);
   }
-  Future<void> getTotal(String tempSalesOrderNo, String tempTransactionStatus, String itemId, String uom) async {
-    var onRegister = await salesOrderDetailTempDao.getAllSalesOrderForUpdate(tempSalesOrderNo, tempTransactionStatus, itemId, uom);
-    if (onRegister.length > 0 && onRegister != null) {
+  Future<void> getTotal(String tempSalesOrderNo, String tempTransactionStatus,
+      String itemId, String uom) async {
+    var onRegister = await salesOrderDetailTempDao.getAllSalesOrderForUpdate(
+        tempSalesOrderNo, tempTransactionStatus, itemId, uom);
+    if (onRegister.isNotEmpty) {
       //ToDo Add location to currency
       double formatedGrandTotal = 0;
-      double unformatedGrandTotal =
-          (onRegister.single.subTotal + onRegister.single.taxTotal! + onRegister.single.shippingTotal) - onRegister.single.lineDiscountTotal!;
+      double unformatedGrandTotal = (onRegister.single.subTotal +
+              onRegister.single.taxTotal! +
+              onRegister.single.shippingTotal) -
+          onRegister.single.lineDiscountTotal!;
 
       var currency = await systemCurrencyDao.getAllSystemCurrencyByName("JMD");
-      if (currency.length > 0) {
-        var f = new NumberFormat(currency[0].numberFormat, "en_US");
+      if (currency.isNotEmpty) {
+        var f = NumberFormat(currency[0].numberFormat, "en_US");
         formatedGrandTotal = double.tryParse(f.format(unformatedGrandTotal))!;
       } else {
-        var f = new NumberFormat("###.0#", "en_US");
+        var f = NumberFormat("###.0#", "en_US");
         formatedGrandTotal = double.tryParse(f.format(unformatedGrandTotal))!;
       }
-      var lineUpdate = new SalesOrderDetailTempCompanion(grandTotal: moor.Value(formatedGrandTotal));
-      await salesOrderDetailTempDao.updateInvoiceGrandTotal(lineUpdate, tempSalesOrderNo, tempTransactionStatus, itemId, uom);
+      var lineUpdate = SalesOrderDetailTempCompanion(
+          grandTotal: moor.Value(formatedGrandTotal));
+      await salesOrderDetailTempDao.updateInvoiceGrandTotal(
+          lineUpdate, tempSalesOrderNo, tempTransactionStatus, itemId, uom);
     }
     // salesOrderDetailTempDao.transactionTotal(
     //     tempSalesOrderNo, tempTransactionStatus);

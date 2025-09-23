@@ -1,5 +1,4 @@
 import 'package:j3enterprise/src/database/drift_database.dart';
-import 'package:j3enterprise/src/pro/database/crud/warehouse/inventory_items_crud.dart';
 import 'package:j3enterprise/src/pro/database/crud/warehouse/inventory_transaction_crud.dart';
 import 'package:drift/drift.dart' as moor;
 
@@ -8,7 +7,7 @@ class TransferInventory {
   late InventoryTransactionDao inventoryTransactionDao;
   TransferInventory() {
     db = MyDatabase();
-    inventoryTransactionDao = new InventoryTransactionDao(db);
+    inventoryTransactionDao = InventoryTransactionDao(db);
   }
 
   Future<void> transferStock(
@@ -26,7 +25,7 @@ class TransferInventory {
     String transactionType,
     String reasonCode,
   ) async {
-    var moveInventory = new InventoryTransactionCompanion(
+    var moveInventory = InventoryTransactionCompanion(
         tenantId: moor.Value(tenantId),
         itemCode: moor.Value(itemCode),
         itemName: moor.Value(itemName),

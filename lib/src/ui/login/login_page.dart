@@ -30,7 +30,7 @@ import 'bloc/login_bloc.dart';
 import 'login_form.dart';
 
 class LoginPage extends StatefulWidget {
- 
+  const LoginPage({super.key});
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -65,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
             userRepository: userRepository,
           );
         },
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Stack(
@@ -86,13 +86,13 @@ class _LoginPageState extends State<LoginPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Container(
-                        margin: EdgeInsets.only(bottom: 30, top: 30),
+                        margin: const EdgeInsets.only(bottom: 30, top: 30),
                         height: MediaQuery.of(context).size.height * 0.2,
                         child: Image.asset(
                           'images/logo.png',
                         ),
                       ),
-                      LoginForm(),
+                      const LoginForm(),
                     ],
                   ),
                 ),

@@ -27,7 +27,7 @@ class Preference extends Table {
   TextColumn get value => text()();
   TextColumn get description => text().nullable()();
   TextColumn get domain => text().nullable()();
-  BoolColumn get isGlobal => boolean().withDefault(Constant(true))();
+  BoolColumn get isGlobal => boolean().withDefault(const Constant(true))();
   TextColumn get syncError => text().nullable()();
   DateTimeColumn get expiredDateTime => dateTime().nullable()();
   TextColumn get dataType => text().nullable()();

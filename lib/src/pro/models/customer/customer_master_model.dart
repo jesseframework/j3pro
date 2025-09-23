@@ -1,9 +1,9 @@
-import 'package:j3enterprise/src/resources/shared/extension/full_audited.dart';
 import 'package:j3enterprise/src/resources/shared/extension/must_have_tenant.dart';
 import 'package:drift/drift.dart';
 
 class Customer extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
+  @override
   IntColumn get tenantId => integer().nullable()();
   TextColumn get customerId => text().nullable()();
   TextColumn get customerName => text().nullable()();
@@ -25,7 +25,7 @@ class Customer extends Table implements MustHaveTenant {
   RealColumn get discountPercentage => real().nullable()();
   RealColumn get discountAmount => real().nullable()();
   BoolColumn get enableHeaderDiscount =>
-      boolean().withDefault(Constant(false)).nullable()();
+      boolean().withDefault(const Constant(false)).nullable()();
   RealColumn get accumulatedPurchase => real().nullable()();
   DateTimeColumn get validFrom => dateTime().nullable()();
   DateTimeColumn get validTo => dateTime().nullable()();
@@ -33,6 +33,4 @@ class Customer extends Table implements MustHaveTenant {
   TextColumn get taxGroup => text().nullable()();
   @override
   Set<Column> get primaryKey => {id};
-
- 
 }

@@ -26,10 +26,10 @@ class ExchangeRateRepository {
   ExchangeRateRepository() {
     _log.finest("Exchnage rate repository constructer call");
     db = MyDatabase();
-    updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
-    backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
-    exchangeRateDao = new ExchangeRateDao(db);
-    userSharedData = new UserSharedData();
+    updateBackgroundJobStatus = UpdateBackgroundJobStatus();
+    backgroundJobScheduleDao = BackgroundJobScheduleDao(db);
+    exchangeRateDao = ExchangeRateDao(db);
+    userSharedData = UserSharedData();
   }
 
   Future<void> getExchnageRateFromServer(String jobName) async {
@@ -49,7 +49,8 @@ class ExchangeRateRepository {
             _log.finest("Server resopnses successful for Exchnage rate ");
             Map<String, dynamic> result = map['result'];
             var items = (result['items'] as List).map((e) {
-              return ExchangeRateData.fromJson(e, serializer: CustomSerializer());
+              return ExchangeRateData.fromJson(e,
+                  serializer: CustomSerializer());
             });
 
             for (var item in items) {
@@ -60,7 +61,8 @@ class ExchangeRateRepository {
           } else {
             String error = map["error"]["details"].toString();
             updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-            _log.shout("Exchnage rate API call failed. Server respond with error : $error  ");
+            _log.shout(
+                "Exchnage rate API call failed. Server respond with error : $error  ");
           }
         }
       }

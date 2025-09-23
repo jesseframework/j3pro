@@ -20,7 +20,6 @@
 import 'dart:async';
 
 import 'package:connectivity/connectivity.dart';
-import 'dart:io' show Platform;
 
 enum ConnectivityStatus { WiFi, Cellular, Offline }
 
@@ -53,8 +52,6 @@ class ConnectionStream {
       case ConnectivityResult.wifi:
         return ConnectivityStatus.WiFi;
       case ConnectivityResult.none:
-        return ConnectivityStatus.Offline;
-      default:
         return ConnectivityStatus.Offline;
     }
   }

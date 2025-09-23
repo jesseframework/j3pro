@@ -13,11 +13,15 @@ class ContactDao extends DatabaseAccessor<MyDatabase> with _$ContactDaoMixin {
   }
 
   Stream<List<ContactData>> watchAllContactByTitle(String contactTitle) {
-    return (select(db.contact)..where((t) => t.contactTitle.equals(contactTitle))).watch();
+    return (select(db.contact)
+          ..where((t) => t.contactTitle.equals(contactTitle)))
+        .watch();
   }
 
   Future<List<ContactData>> getAllContactByTitle(String contactTitle) {
-    return (select(db.contact)..where((t) => t.contactTitle.equals(contactTitle))).get();
+    return (select(db.contact)
+          ..where((t) => t.contactTitle.equals(contactTitle)))
+        .get();
   }
 
   Future<void> createOrUpdateAddress(ContactData contactData) {

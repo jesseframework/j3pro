@@ -23,7 +23,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:j3enterprise/src/database/crud/application_logger/app_logger_crud.dart';
 import 'package:j3enterprise/src/database/drift_database.dart';
-import 'package:meta/meta.dart';
 
 part 'applogger_event.dart';
 part 'applogger_state.dart';
@@ -33,7 +32,7 @@ class ApploggerBloc extends Bloc<ApploggerEvent, ApploggerState> {
   var db;
   ApploggerBloc() : super(ApploggerInitial()) {
     db = MyDatabase();
-    applicationLoggerDao = new ApplicationLoggerView(db);
+    applicationLoggerDao = ApplicationLoggerView(db);
   }
   @override
   ApploggerState get initialState => ApploggerInitial();

@@ -30,19 +30,35 @@ class Communication extends Table implements FullAudited, SyncTrigger {
   TextColumn get syncFrequency => text()();
   TextColumn get communicationType => text()();
   TextColumn get typeofErp => text().nullable()();
+  @override
   IntColumn get createUserId => integer().nullable()();
+  @override
   DateTimeColumn get creationTime => dateTime().nullable()();
+  @override
   DateTimeColumn get deleteTime => dateTime().nullable()();
+  @override
   IntColumn get deleteUserId => integer().nullable()();
+  @override
   TextColumn get creatorUser => text().nullable()();
+  @override
   TextColumn get deleterUserId => text().nullable()();
-  BoolColumn get isDeleted => boolean().withDefault(Constant(false))();
+  @override
+  BoolColumn get isDeleted => boolean().withDefault(const Constant(false))();
+  @override
   TextColumn get lastModifierUser => text().nullable()();
+  @override
   IntColumn get lastModifierUserId => integer().nullable()();
+  @override
   DateTimeColumn get exportDateTime => dateTime().nullable()();
-  TextColumn get exportStatus => text().withDefault(Constant('Pending'))();
+  @override
+  TextColumn get exportStatus =>
+      text().withDefault(const Constant('Pending'))();
+  @override
   DateTimeColumn get importDateTime => dateTime().nullable()();
-  TextColumn get importStatus => text().withDefault(Constant('Pending'))();
+  @override
+  TextColumn get importStatus =>
+      text().withDefault(const Constant('Pending'))();
+  @override
   TextColumn get syncError => text().nullable()();
   IntColumn get tenantId => integer().nullable()();
 

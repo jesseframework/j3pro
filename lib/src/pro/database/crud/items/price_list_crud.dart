@@ -5,7 +5,8 @@ import 'package:drift/drift.dart';
 part 'price_list_crud.g.dart';
 
 @DriftAccessor(tables: [PriceList])
-class PriceListDao extends DatabaseAccessor<MyDatabase> with _$PriceListDaoMixin {
+class PriceListDao extends DatabaseAccessor<MyDatabase>
+    with _$PriceListDaoMixin {
   final MyDatabase db;
 
   PriceListDao(this.db) : super(db);
@@ -15,11 +16,15 @@ class PriceListDao extends DatabaseAccessor<MyDatabase> with _$PriceListDaoMixin
   }
 
   Stream<List<PriceListData>> watchAllPriceList(String priceListName) {
-    return (select(db.priceList)..where((t) => t.priceListName.equals(priceListName))).watch();
+    return (select(db.priceList)
+          ..where((t) => t.priceListName.equals(priceListName)))
+        .watch();
   }
 
   Future<List<PriceListData>> getAllPriceList(String priceListName) {
-    return (select(db.priceList)..where((t) => t.priceListName.equals(priceListName))).get();
+    return (select(db.priceList)
+          ..where((t) => t.priceListName.equals(priceListName)))
+        .get();
   }
 
   Future<void> createOrUpdatePriceList(PriceListData priceListData) {

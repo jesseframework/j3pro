@@ -11,10 +11,12 @@ class DeleteSalesOrderLineItem {
   DeleteSalesOrderLineItem() {
     db = MyDatabase();
     _log.finest("$className repository constructer call");
-    salesOrderDetailTempDao = new SalesOrderDetailTempDao(db);
+    salesOrderDetailTempDao = SalesOrderDetailTempDao(db);
   }
 
-  Future deleteLineItemById(String itemId, String uom, String transactionNo, int lineId) async {
-    await salesOrderDetailTempDao.deleteLineItem(itemId, uom, transactionNo, lineId);
+  Future deleteLineItemById(
+      String itemId, String uom, String transactionNo, int lineId) async {
+    await salesOrderDetailTempDao.deleteLineItem(
+        itemId, uom, transactionNo, lineId);
   }
 }

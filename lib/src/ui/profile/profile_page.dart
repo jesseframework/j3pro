@@ -19,8 +19,6 @@
 
 import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:get_it/get_it.dart';
 import 'package:j3enterprise/src/database/crud/user/user_crud.dart';
 import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
@@ -28,17 +26,13 @@ import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/preferences/user_share_data.dart';
 import 'package:j3enterprise/src/resources/shared/utils/langcustomdialogbox.dart';
-import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dart';
 
 import '../../../main.dart';
-import '../../../main.dart';
-import '../../resources/repositories/user_repository.dart';
-import '../../resources/shared/icons/custom_icons.dart';
 
 class ProfilePage extends StatefulWidget {
   var db;
   late UserDao userDao;
-  ProfilePage() {
+  ProfilePage({super.key}) {
     db = MyDatabase();
     userDao = UserDao(db);
   }
@@ -57,11 +51,12 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future getProfileData() async {
-    theme = await getIt<UserRepository>().getTheme().toString();
+    theme = getIt<UserRepository>().getTheme().toString();
     final data = await UserSharedData().getUserSharedPref();
     tenantName = data['tenantName'];
     if (data['userId'] != null) {
-      final profileData = await widget.userDao.getSingleUser(int.tryParse(data['userId'])!);
+      final profileData =
+          await widget.userDao.getSingleUser(int.tryParse(data['userId'])!);
       return profileData;
     }
     return null;
@@ -74,10 +69,11 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         centerTitle: false,
         //ToDo add translation for preferences title
-        title: Text(AppLocalization.of(context)!.translate('profile_title') ?? "Profile"),
-        actions: <Widget>[
+        title: Text(AppLocalization.of(context)!.translate('profile_title') ??
+            "Profile"),
+        actions: const <Widget>[
           Padding(
-            padding: const EdgeInsets.only(right: 18),
+            padding: EdgeInsets.only(right: 18),
             child: Icon(
               Icons.wifi,
               color: Colors.greenAccent,
@@ -103,25 +99,31 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.fromLTRB(16.0, 200.0, 16.0, 16.0),
+                    margin: const EdgeInsets.fromLTRB(16.0, 200.0, 16.0, 16.0),
                     child: Column(
                       children: <Widget>[
                         Stack(
                           children: <Widget>[
                             Container(
-                              padding: EdgeInsets.all(16.0),
-                              margin: EdgeInsets.only(top: 16.0),
-                              decoration: BoxDecoration(color: Theme.of(context).cardColor.withOpacity(.8), borderRadius: BorderRadius.circular(5.0)),
+                              padding: const EdgeInsets.all(16.0),
+                              margin: const EdgeInsets.only(top: 16.0),
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context)
+                                      .cardColor
+                                      .withOpacity(.8),
+                                  borderRadius: BorderRadius.circular(5.0)),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Container(
-                                    margin: EdgeInsets.only(left: 96.0),
+                                    margin: const EdgeInsets.only(left: 96.0),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: <Widget>[
                                         ListTile(
-                                          contentPadding: EdgeInsets.all(0),
+                                          contentPadding:
+                                              const EdgeInsets.all(0),
                                           title: Text(user!.userName),
                                           subtitle: Text(tenantName),
                                         ),
@@ -136,16 +138,16 @@ class _ProfilePageState extends State<ProfilePage> {
                               width: 80,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10.0),
-                                  image: DecorationImage(
+                                  image: const DecorationImage(
                                       image: AssetImage(
                                         'images/beach-background.jpg',
                                       ),
                                       fit: BoxFit.cover)),
-                              margin: EdgeInsets.only(left: 16.0),
+                              margin: const EdgeInsets.only(left: 16.0),
                             ),
                           ],
                         ),
-                        SizedBox(height: 20.0),
+                        const SizedBox(height: 20.0),
                         Container(
                           decoration: BoxDecoration(
                             color: Theme.of(context).cardColor.withOpacity(.8),
@@ -153,52 +155,62 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           child: Column(
                             children: <Widget>[
-                              ListTile(
+                              const ListTile(
                                 title: Text("User information"),
                               ),
-                              Divider(),
+                              const Divider(),
                               ListTile(
-                                title: Text("Email"),
+                                title: const Text("Email"),
                                 subtitle: Text(user.emailAddress),
-                                leading: Icon(Icons.email),
+                                leading: const Icon(Icons.email),
                               ),
                               ListTile(
                                 onTap: () {
                                   showDialog(
                                       context: context,
                                       builder: (context) {
-                                        return LangCustomDialog();
+                                        return const LangCustomDialog();
                                       });
                                 },
                                 title: Text(
-                                  AppLocalization.of(context)!.translate('language_appdraw') ?? 'Language',
+                                  AppLocalization.of(context)!
+                                          .translate('language_appdraw') ??
+                                      'Language',
                                 ),
                                 subtitle: Text(selecteditem == 'es'
                                     ? 'Spanish'
                                     : selecteditem == 'en'
                                         ? 'English'
                                         : 'English'),
-                                leading: Icon(CustomIcons.language),
+                                leading: const Icon(CustomIcons.language),
                               ),
                               ListTile(
-                                  title: Text("Dark Theme"),
+                                  title: const Text("Dark Theme"),
                                   subtitle: Text(theme),
-                                  leading: Icon(Icons.brightness_4),
+                                  leading: const Icon(Icons.brightness_4),
                                   trailing: Switch(
                                       value: theme == 'dark' ? true : false,
                                       onChanged: (theme) async {
                                         if (theme == true) {
-                                          await getIt<UserRepository>().setTheme('dark');
-                                          widget.userDao.updateSingleUser(user.copyWith(themeData: Value('dark')));
+                                          await getIt<UserRepository>()
+                                              .setTheme('dark');
+                                          widget.userDao.updateSingleUser(
+                                              user.copyWith(
+                                                  themeData:
+                                                      const Value('dark')));
                                         } else {
-                                          await getIt<UserRepository>().setTheme('light');
-                                          widget.userDao.updateSingleUser(user.copyWith(themeData: Value('Light')));
+                                          await getIt<UserRepository>()
+                                              .setTheme('light');
+                                          widget.userDao.updateSingleUser(
+                                              user.copyWith(
+                                                  themeData:
+                                                      const Value('Light')));
                                         }
                                         App.setTheme(
                                           context,
                                         );
                                       })),
-                              ListTile(
+                              const ListTile(
                                 title: Text("Currency"),
                                 leading: Icon(Icons.brightness_4),
                               ),

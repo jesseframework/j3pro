@@ -7,7 +7,8 @@ import 'add_customer_page.dart';
 import 'edit_customer_page.dart';
 
 class CustomerListPage extends StatefulWidget {
-  
+  const CustomerListPage({super.key});
+
   @override
   _CustomerListPageState createState() => _CustomerListPageState();
 }
@@ -26,9 +27,9 @@ class _CustomerListPageState extends State<CustomerListPage> {
               Navigator.push(
                   context,
                   EnterExitRoute(
-                      enterPage: AddCustomerPage(), exitPage: widget));
+                      enterPage: const AddCustomerPage(), exitPage: widget));
             },
-            child: Row(
+            child: const Row(
               children: [
                 Text(
                   "New",
@@ -39,7 +40,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
               ],
             ),
           ),
-          IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
+          IconButton(icon: const Icon(Icons.more_vert), onPressed: () {}),
         ],
       ),
       body: Column(
@@ -66,9 +67,10 @@ class _CustomerListPageState extends State<CustomerListPage> {
                   Navigator.push(
                       context,
                       EnterExitRoute(
-                          enterPage: EditCustomerPade(), exitPage: widget));
+                          enterPage: const EditCustomerPade(),
+                          exitPage: widget));
                 },
-                child: ListTile(
+                child: const ListTile(
                   leading: Icon(
                     Icons.image,
                     size: 30,
@@ -84,7 +86,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
               );
             },
             separatorBuilder: (context, index) {
-              return Divider(
+              return const Divider(
                 color: Colors.grey,
               );
             },

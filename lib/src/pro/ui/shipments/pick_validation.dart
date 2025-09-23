@@ -3,7 +3,7 @@ import 'package:j3enterprise/src/pro/ui/shipments/dispatch_shipment.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
 
 class PickValidationScreen extends StatefulWidget {
-  const PickValidationScreen();
+  const PickValidationScreen({super.key});
 
   @override
   State<PickValidationScreen> createState() => _PickValidationScreenState();
@@ -16,11 +16,11 @@ class _PickValidationScreenState extends State<PickValidationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pick Validation'),
+        title: const Text('Pick Validation'),
         actions: [
           IconButton(
             onPressed: () {},
-            icon: Icon(Icons.more_vert),
+            icon: const Icon(Icons.more_vert),
           )
         ],
       ),
@@ -30,7 +30,7 @@ class _PickValidationScreenState extends State<PickValidationScreen> {
           child: Row(
             children: [
               Expanded(
-                child: Container(
+                child: SizedBox(
                   height: 35,
                   child: ListFilter(
                     placeholder: 'Search',
@@ -56,51 +56,70 @@ class _PickValidationScreenState extends State<PickValidationScreen> {
                       child: CheckboxListTile(
                         controlAffinity: ListTileControlAffinity.leading,
                         value: tiles[index],
-                        tileColor: tiles[index] ? Colors.green.shade100 : Colors.white,
+                        tileColor:
+                            tiles[index] ? Colors.green.shade100 : Colors.white,
                         onChanged: (value) => {
                           setState(() {
                             tiles[index] = value!;
                           })
                         },
-                        contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 0),
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Expanded(child: Text("124132", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey.shade700))),
+                            Expanded(
+                                child: Text("124132",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey.shade700))),
                             SizedBox(
                               width: 80,
                               height: 25,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Text("500", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey.shade700)),
+                                  Text("500",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.grey.shade700)),
                                   Container(
                                     height: 20,
                                     width: 2,
                                     color: Colors.grey,
-                                    margin: EdgeInsets.symmetric(horizontal: 4),
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 4),
                                   ),
                                   Expanded(
                                     child: TextField(
                                       decoration: InputDecoration(
                                         fillColor: Colors.white,
-                                        contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 0, vertical: 0),
                                         border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(4),
+                                          borderRadius:
+                                              BorderRadius.circular(4),
                                           borderSide: BorderSide(
                                             color: Colors.grey.shade400,
                                           ),
                                         ),
                                         hintText: '200',
-                                        hintStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.grey.shade700),
+                                        hintStyle: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.grey.shade700),
                                       ),
-                                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.grey.shade700),
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.grey.shade700),
                                       keyboardType: TextInputType.number,
                                       textAlign: TextAlign.center,
                                       cursorColor: Colors.grey.shade700,
                                       cursorHeight: 20,
                                       cursorWidth: 1,
-                                      cursorRadius: Radius.circular(1),
+                                      cursorRadius: const Radius.circular(1),
                                     ),
                                   )
                                 ],
@@ -108,7 +127,9 @@ class _PickValidationScreenState extends State<PickValidationScreen> {
                             )
                           ],
                         ),
-                        subtitle: Text("Os Cranberry Juice C/Tail 15Oz 24", style: TextStyle(fontWeight: FontWeight.w700)),
+                        subtitle: const Text(
+                            "Os Cranberry Juice C/Tail 15Oz 24",
+                            style: TextStyle(fontWeight: FontWeight.w700)),
                       ),
                     ));
               },
@@ -137,8 +158,16 @@ class _PickValidationScreenState extends State<PickValidationScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Total Ordered/Validated", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.grey.shade600)),
-                    Text("855/500", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey.shade600)),
+                    Text("Total Ordered/Validated",
+                        style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey.shade600)),
+                    Text("855/500",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey.shade600)),
                   ],
                 ),
               ),
@@ -150,26 +179,40 @@ class _PickValidationScreenState extends State<PickValidationScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Shipment No: 32146534", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey.shade600)),
-                        Text("Shipment Date: Oct 1, 2023", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey.shade600)),
+                        Text("Shipment No: 32146534",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey.shade600)),
+                        Text("Shipment Date: Oct 1, 2023",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey.shade600)),
                       ],
                     ),
                     TextButton(
                         style: TextButton.styleFrom(
                           backgroundColor: Colors.blue.shade700,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4)),
                         ),
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => DispatchShipmentScreen(),
+                              builder: (context) =>
+                                  const DispatchShipmentScreen(),
                             ),
                           );
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Text('Validate Pick', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
+                        child: const Padding(
+                          padding: EdgeInsets.all(4.0),
+                          child: Text('Validate Pick',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white)),
                         )),
                   ],
                 ),

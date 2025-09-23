@@ -15,7 +15,7 @@ void main() {
     int tenantId = 1;
     String userName = "admin";
     int userId = 1;
-    AddItemToTransaction addItemToTransaction = new AddItemToTransaction();
+    AddItemToTransaction addItemToTransaction = AddItemToTransaction();
     await addItemToTransaction.getItem(
         qtySet,
         searchText,

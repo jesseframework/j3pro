@@ -27,14 +27,17 @@ class UpdateBackgroundJobStatus {
   var db;
   UpdateBackgroundJobStatus() {
     db = MyDatabase();
-    backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
+    backgroundJobScheduleDao = BackgroundJobScheduleDao(db);
   }
 
   Future<void> updateJobStatus(String jobName, String jobStatus) async {
     String formatted = await formatDate(DateTime.now().toString());
 
-    var fromData = new BackgroundJobScheduleCompanion(jobStatus: moor.Value(jobStatus), lastRun: moor.Value(DateTime.tryParse(formatted)!));
+    var fromData = BackgroundJobScheduleCompanion(
+        jobStatus: moor.Value(jobStatus),
+        lastRun: moor.Value(DateTime.tryParse(formatted)!));
 
-    await backgroundJobScheduleDao.updateBackgroundJobStstus(fromData, jobName, DateTime.now());
+    await backgroundJobScheduleDao.updateBackgroundJobStstus(
+        fromData, jobName, DateTime.now());
   }
 }

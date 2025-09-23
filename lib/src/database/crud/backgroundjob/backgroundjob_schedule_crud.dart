@@ -25,7 +25,8 @@ import 'package:drift/drift.dart' as moor;
 part 'backgroundjob_schedule_crud.g.dart';
 
 @DriftAccessor(tables: [BackgroundJobSchedule])
-class BackgroundJobScheduleDao extends DatabaseAccessor<MyDatabase> with _$BackgroundJobScheduleDaoMixin {
+class BackgroundJobScheduleDao extends DatabaseAccessor<MyDatabase>
+    with _$BackgroundJobScheduleDaoMixin {
   final MyDatabase db;
   BackgroundJobScheduleDao(this.db) : super(db);
 
@@ -35,33 +36,47 @@ class BackgroundJobScheduleDao extends DatabaseAccessor<MyDatabase> with _$Backg
 
   //Background Jobs will not be null on call
   Future<BackgroundJobScheduleData?> getJob(String jobName) {
-    return (select(db.backgroundJobSchedule)..where((u) => u.jobName.equals(jobName))).getSingleOrNull();
+    return (select(db.backgroundJobSchedule)
+          ..where((u) => u.jobName.equals(jobName)))
+        .getSingleOrNull();
   }
 
   Stream<List<BackgroundJobScheduleData>> watchAllJobs() {
     return (select(db.backgroundJobSchedule).watch());
   }
 
-  Future insertJobSchedule(BackgroundJobScheduleCompanion backgroundJobSchedule) => into(db.backgroundJobSchedule).insert(backgroundJobSchedule);
+  Future insertJobSchedule(
+          BackgroundJobScheduleCompanion backgroundJobSchedule) =>
+      into(db.backgroundJobSchedule).insert(backgroundJobSchedule);
 
   // Future updateBackgroundJob(
   //         BackgroundJobScheduleCompanion backgroundJobScheduleData) =>
   //     update(db.backgroundJobSchedule).replace(backgroundJobScheduleData);
 
   //Update communication
-  Future updateBackgroundJob(BackgroundJobScheduleCompanion backgroundJobScheduleCompanion, String jobName) {
-    return (update(db.backgroundJobSchedule)..where((t) => t.jobName.equals(jobName))).write(BackgroundJobScheduleCompanion(
-        jobName: backgroundJobScheduleCompanion.jobName,
-        startDateTime: backgroundJobScheduleCompanion.startDateTime,
-        enableJob: backgroundJobScheduleCompanion.enableJob,
-        syncFrequency: backgroundJobScheduleCompanion.syncFrequency,
-        lastRun: backgroundJobScheduleCompanion.lastRun,
-        jobStatus: backgroundJobScheduleCompanion.jobStatus));
+  Future updateBackgroundJob(
+      BackgroundJobScheduleCompanion backgroundJobScheduleCompanion,
+      String jobName) {
+    return (update(db.backgroundJobSchedule)
+          ..where((t) => t.jobName.equals(jobName)))
+        .write(BackgroundJobScheduleCompanion(
+            jobName: backgroundJobScheduleCompanion.jobName,
+            startDateTime: backgroundJobScheduleCompanion.startDateTime,
+            enableJob: backgroundJobScheduleCompanion.enableJob,
+            syncFrequency: backgroundJobScheduleCompanion.syncFrequency,
+            lastRun: backgroundJobScheduleCompanion.lastRun,
+            jobStatus: backgroundJobScheduleCompanion.jobStatus));
   }
 
-  Future updateBackgroundJobStstus(BackgroundJobScheduleCompanion backgroundJobScheduleCompanion, String jobName, DateTime lastRunDate) {
-    return (update(db.backgroundJobSchedule)..where((t) => t.jobName.equals(jobName)))
-        .write(BackgroundJobScheduleCompanion(jobStatus: backgroundJobScheduleCompanion.jobStatus, lastRun: backgroundJobScheduleCompanion.lastRun));
+  Future updateBackgroundJobStstus(
+      BackgroundJobScheduleCompanion backgroundJobScheduleCompanion,
+      String jobName,
+      DateTime lastRunDate) {
+    return (update(db.backgroundJobSchedule)
+          ..where((t) => t.jobName.equals(jobName)))
+        .write(BackgroundJobScheduleCompanion(
+            jobStatus: backgroundJobScheduleCompanion.jobStatus,
+            lastRun: backgroundJobScheduleCompanion.lastRun));
   }
 
   Future<void> insertJobs() async {
@@ -71,24 +86,24 @@ class BackgroundJobScheduleDao extends DatabaseAccessor<MyDatabase> with _$Backg
       String systemDate = await formatDate(DateTime.now().toString());
       batch.insertAll(backgroundJobSchedule, [
         BackgroundJobScheduleCompanion(
-            jobName: moor.Value("Mobile Desktop"),
-            syncFrequency: moor.Value("Every 20 Minutes"),
+            jobName: const moor.Value("Mobile Desktop"),
+            syncFrequency: const moor.Value("Every 20 Minutes"),
             startDateTime: moor.Value(DateTime.tryParse(systemDate)!),
-            enableJob: moor.Value(true),
-            jobStatus: moor.Value("Never Run"),
+            enableJob: const moor.Value(true),
+            jobStatus: const moor.Value("Never Run"),
             lastRun: moor.Value(DateTime.tryParse(systemDate)!)),
         BackgroundJobScheduleCompanion.insert(
             jobName: "Configuration",
             syncFrequency: "Every 20 Minutes",
             startDateTime: DateTime.tryParse(systemDate)!,
-            enableJob: moor.Value(true),
+            enableJob: const moor.Value(true),
             jobStatus: "Never Run",
             lastRun: DateTime.tryParse(systemDate)!),
         BackgroundJobScheduleCompanion.insert(
             jobName: "Log Shipping",
             syncFrequency: "Every Day",
             startDateTime: DateTime.tryParse(systemDate)!,
-            enableJob: moor.Value(true),
+            enableJob: const moor.Value(true),
             jobStatus: "Never Run",
             lastRun: DateTime.tryParse(systemDate)!),
         // ...

@@ -14,12 +14,12 @@ class PostTransactionHeader {
 
   PostTransactionHeader() {
     db = MyDatabase();
-    salesOrderHeaderDao = new SalesOrderHeaderDao(db);
-    journeyPlanDao = new JourneyPlanDao(db);
+    salesOrderHeaderDao = SalesOrderHeaderDao(db);
+    journeyPlanDao = JourneyPlanDao(db);
   }
 
-  Future<void> postTransactionData({
-      required String? customerId,
+  Future<void> postTransactionData(
+      {required String? customerId,
       required String? currencyCode,
       required double? exchangeRate,
       required String? purchaseOrderNo,
@@ -39,9 +39,9 @@ class PostTransactionHeader {
     if (transactionType == "Sales Order") {
       //Sales Order Header
 
-      var salesHeader = new SalesOrderHeaderCompanion(
+      var salesHeader = SalesOrderHeaderCompanion(
           transactionNumber: moor.Value(transactionNumber!),
-          transactionStatus: moor.Value("InProgress"),
+          transactionStatus: const moor.Value("InProgress"),
           inventoryCycleNumber: moor.Value(inventoryCycleNumber!),
           daySessionNumber: moor.Value(daySessionNumber!),
           customerId: moor.Value(customerId!),
@@ -49,40 +49,44 @@ class PostTransactionHeader {
           orderDate: moor.Value(DateTime.now()),
           deliveryDate: moor.Value(deliveryDate!),
           orderType: moor.Value(orderType!),
-          orderStatus: moor.Value("Waiting"),
+          orderStatus: const moor.Value("Waiting"),
           purchaseOrderNo: moor.Value(purchaseOrderNo),
           currency: moor.Value(currencyCode!),
           exchangeRate: moor.Value(exchangeRate!),
           tenantId: moor.Value(tenantId),
-          couponCode: moor.Value(0),
+          couponCode: const moor.Value(0),
           billingAddressName: moor.Value(billingAddressName),
           shippingAddressName: moor.Value(shippingAddressName),
-          yourInitial: moor.Value(""),
-          subTotal: moor.Value(0),
-          taxTotal: moor.Value(0),
-          depositTotal: moor.Value(0),
-          discountTotal: moor.Value(0),
-          shippingTotal: moor.Value(0),
-          itemCount: moor.Value(0),
-          grandTotal: moor.Value(0),
-          discountType: moor.Value(""),
-          discountPercentage: moor.Value(0),
-          discountAmount: moor.Value(0),
+          yourInitial: const moor.Value(""),
+          subTotal: const moor.Value(0),
+          taxTotal: const moor.Value(0),
+          depositTotal: const moor.Value(0),
+          discountTotal: const moor.Value(0),
+          shippingTotal: const moor.Value(0),
+          itemCount: const moor.Value(0),
+          grandTotal: const moor.Value(0),
+          discountType: const moor.Value(""),
+          discountPercentage: const moor.Value(0),
+          discountAmount: const moor.Value(0),
           userName: moor.Value(userName!),
           userId: moor.Value(userId!),
-          latitude: moor.Value(0),
-          longitude: moor.Value(0),
+          latitude: const moor.Value(0),
+          longitude: const moor.Value(0),
           transactionStart: moor.Value(DateTime.now()),
           transactionEnd: moor.Value(DateTime.now()));
 
-      var isTrasactionCurrent = await salesOrderHeaderDao.getSalesOrderHeaderBySaleOrderNo(transactionNumber);
-      if (isTrasactionCurrent.length > 0 && isTrasactionCurrent[0].transactionStatus == "InProgress") {
+      var isTrasactionCurrent = await salesOrderHeaderDao
+          .getSalesOrderHeaderBySaleOrderNo(transactionNumber);
+      if (isTrasactionCurrent.isNotEmpty &&
+          isTrasactionCurrent[0].transactionStatus == "InProgress") {
       } else {
         await salesOrderHeaderDao.tempInsertSalesOrderHeader(salesHeader);
 
-        var updateJplan = new JourneyPlanCompanion(transactionStatus: moor.Value("InProgress"));
+        var updateJplan = const JourneyPlanCompanion(
+            transactionStatus: moor.Value("InProgress"));
 
-        await journeyPlanDao.updateTransactionStatus(updateJplan, customerId, userName, transactionStatus!);
+        await journeyPlanDao.updateTransactionStatus(
+            updateJplan, customerId, userName, transactionStatus!);
       }
     }
     if (transactionType == "Sales Invoice") {}

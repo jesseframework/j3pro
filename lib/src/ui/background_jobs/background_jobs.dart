@@ -9,6 +9,8 @@ import 'background_fetch_page.dart';
 import 'backgroundjobs_pages.dart';
 
 class SetupBackgroundPage extends StatefulWidget {
+  const SetupBackgroundPage({super.key});
+
   @override
   _SetupBackgroundPageState createState() => _SetupBackgroundPageState();
 }
@@ -39,7 +41,7 @@ class _SetupBackgroundPageState extends State<SetupBackgroundPage> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.chevron_left),
+            icon: const Icon(Icons.chevron_left),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -48,13 +50,13 @@ class _SetupBackgroundPageState extends State<SetupBackgroundPage> {
               ? TabBar(
                   tabs: [
                     Tab(
-                      icon: Icon(CustomIcons.wrench_solid),
+                      icon: const Icon(CustomIcons.wrench_solid),
                       text: AppLocalization.of(context)!
                               .translate('tab_app_servies') ??
                           'App Servies',
                     ),
                     Tab(
-                      icon: Icon(CustomIcons.cog_regular),
+                      icon: const Icon(CustomIcons.cog_regular),
                       text: AppLocalization.of(context)!
                               .translate('tab_device_servies') ??
                           'Device Serives',
@@ -67,11 +69,11 @@ class _SetupBackgroundPageState extends State<SetupBackgroundPage> {
                   'Background Jobs'),
           actions: <Widget>[
             Switch(
-                activeColor: Theme.of(context).scaffoldBackgroundColor,
+                activeThumbColor: Theme.of(context).scaffoldBackgroundColor,
                 value: _enabled,
                 onChanged: _onClickEnable),
-            Padding(
-              padding: const EdgeInsets.all(8),
+            const Padding(
+              padding: EdgeInsets.all(8),
               child: Row(
                 children: <Widget>[
                   Icon(Icons.cloud_download, size: 40, color: Colors.white),
@@ -81,7 +83,7 @@ class _SetupBackgroundPageState extends State<SetupBackgroundPage> {
           ],
         ),
         body: Platform.isAndroid || Platform.isIOS
-            ? TabBarView(
+            ? const TabBarView(
                 children: [
                   //Tab 1
                   BackgroundFetchPage(),
@@ -89,7 +91,7 @@ class _SetupBackgroundPageState extends State<SetupBackgroundPage> {
                   BackgroundJobsPage()
                 ],
               )
-            : BackgroundJobsPage(),
+            : const BackgroundJobsPage(),
       ),
     );
   }

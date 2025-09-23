@@ -24,7 +24,7 @@ class BackgroundJobSchedule extends Table {
   TextColumn get jobName => text()();
   DateTimeColumn get startDateTime => dateTime()();
   TextColumn get syncFrequency => text()();
-  BoolColumn get enableJob => boolean().withDefault(Constant(false))();
+  BoolColumn get enableJob => boolean().withDefault(const Constant(false))();
   DateTimeColumn get lastRun => dateTime()();
   TextColumn get jobStatus => text()();
   IntColumn get tenantId => integer().nullable()();

@@ -18,7 +18,6 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/models/sales/fullfillment/jounery_with_address.dart';
 import 'package:j3enterprise/src/pro/ui/activities_menu/activities_menu_page.dart';
 
@@ -27,7 +26,6 @@ import 'package:j3enterprise/src/pro/ui/items/items_page.dart';
 import 'package:j3enterprise/src/pro/ui/journey_plan/journey_plan_page.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/sales_order_add_item_page.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/add_item/sales_order_item_detail_page.dart';
-import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_information/sales_order_form.dart';
 import 'package:j3enterprise/src/pro/ui/sales/sales_order/sales_order_information/sales_order_page.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 
@@ -63,25 +61,23 @@ class Routes {
   Route<dynamic> generateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case splasScreen:
-        return MaterialPageRoute(builder: (_) => SplashPage());
+        return MaterialPageRoute(builder: (_) => const SplashPage());
       case itemScreen:
-        return MaterialPageRoute(builder: (_) => ItemsPage());
+        return MaterialPageRoute(builder: (_) => const ItemsPage());
       case customerScreen:
-        return MaterialPageRoute(builder: (_) => CustomerListPage());
+        return MaterialPageRoute(builder: (_) => const CustomerListPage());
       case journeyPlanScreen:
-        return MaterialPageRoute(
-            builder: (_) => JourneyPlanPage(
-                  
-                ));
+        return MaterialPageRoute(builder: (_) => const JourneyPlanPage());
       case activitiesMenuScreen:
         return MaterialPageRoute(
             builder: (_) => ActivitiesMenuPage(
-                  journeyWithAddress: routeSettings.arguments as JourneyWithAddress,
+                  journeyWithAddress:
+                      routeSettings.arguments as JourneyWithAddress,
                 ));
       case salesOrderScreen:
         return MaterialPageRoute(builder: (_) => SalesOrderPage());
       case salesOrderAddItemScreen:
-        return MaterialPageRoute(builder: (_) => SalesOrderAddItemPage());
+        return MaterialPageRoute(builder: (_) => const SalesOrderAddItemPage());
       case salesOrderItemDetailScreen:
         return MaterialPageRoute(
             builder: (_) => SalesOrderItemDetailPage(
@@ -90,21 +86,22 @@ class Routes {
       case homeScreen:
         return MaterialPageRoute(builder: (_) => HomePage());
       case loginScreen:
-        return MaterialPageRoute(builder: (_) => LoginPage());
+        return MaterialPageRoute(builder: (_) => const LoginPage());
       case aboutScreen:
-        return MaterialPageRoute(builder: (_) => About());
+        return MaterialPageRoute(builder: (_) => const About());
       case preferencesScreen:
         return MaterialPageRoute(builder: (_) => PreferencesPage());
       case bussinessRuleScreen:
         return MaterialPageRoute(builder: (_) => BussinessRulePage());
       case communicationScreen:
-        return MaterialPageRoute(builder: (_) => CommunicationPage());
+        return MaterialPageRoute(builder: (_) => const CommunicationPage());
       case backgroundJobsScreen:
-        return MaterialPageRoute(builder: (_) => BackgroundJobsPage());
+        return MaterialPageRoute(builder: (_) => const BackgroundJobsPage());
       case acitvitesMenu:
         return MaterialPageRoute(
             builder: (_) => ActivitiesMenuPage(
-                  journeyWithAddress: routeSettings.arguments as JourneyWithAddress,
+                  journeyWithAddress:
+                      routeSettings.arguments as JourneyWithAddress,
                 ));
       case offlineLogin:
         return MaterialPageRoute(
@@ -113,7 +110,7 @@ class Routes {
                 ));
 
       default:
-        return MaterialPageRoute(builder: (_) => SplashPage());
+        return MaterialPageRoute(builder: (_) => const SplashPage());
     }
   }
 }

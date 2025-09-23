@@ -3,6 +3,8 @@ import 'package:j3enterprise/src/pro/ui/shipments/shipment_details.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
 
 class ShipmentScreen extends StatefulWidget {
+  const ShipmentScreen({super.key});
+
   @override
   _ShipmentScreenState createState() => _ShipmentScreenState();
 }
@@ -13,7 +15,7 @@ class _ShipmentScreenState extends State<ShipmentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Shipments'),
+        title: const Text('Shipments'),
       ),
       body: Column(
         children: [
@@ -22,7 +24,7 @@ class _ShipmentScreenState extends State<ShipmentScreen> {
             child: Row(
               children: [
                 Expanded(
-                  child: Container(
+                  child: SizedBox(
                     height: 35,
                     child: ListFilter(
                       placeholder: 'Search',
@@ -40,8 +42,9 @@ class _ShipmentScreenState extends State<ShipmentScreen> {
             ),
           ),
           ExpansionTile(
-            tilePadding: EdgeInsets.symmetric(horizontal: 12, vertical: 0),
-            title: Text(
+            tilePadding:
+                const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+            title: const Text(
               "Dashboard",
               style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
             ),
@@ -52,70 +55,74 @@ class _ShipmentScreenState extends State<ShipmentScreen> {
                   Icons.mail,
                   color: Colors.blue.shade400,
                 ),
-                title: Text('New'),
-                trailing: Container(
+                title: const Text('New'),
+                trailing: SizedBox(
                   height: 30,
                   width: 90,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue.shade400,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
                       ),
-                      child: Text('1'),
+                      child: const Text('1'),
                       onPressed: () {}),
                 ),
               ),
               ListTile(
-                leading: Icon(
+                leading: const Icon(
                   Icons.pending_actions_outlined,
                   color: Colors.amber,
                 ),
-                title: Text('Picked'),
-                trailing: Container(
+                title: const Text('Picked'),
+                trailing: SizedBox(
                   height: 30,
                   width: 90,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.amber,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
                       ),
-                      child: Text('3'),
+                      child: const Text('3'),
                       onPressed: () {}),
                 ),
               ),
               ListTile(
-                leading: Icon(
+                leading: const Icon(
                   Icons.done_all,
                   color: Colors.greenAccent,
                 ),
-                title: Text('Staged'),
-                trailing: Container(
+                title: const Text('Staged'),
+                trailing: SizedBox(
                   height: 30,
                   width: 90,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
                       ),
-                      child: Text('1'),
+                      child: const Text('1'),
                       onPressed: () {}),
                 ),
               ),
               ListTile(
-                leading: Icon(
+                leading: const Icon(
                   Icons.cancel,
                   color: Colors.red,
                 ),
-                title: Text('Cancelled'),
-                trailing: Container(
+                title: const Text('Cancelled'),
+                trailing: SizedBox(
                   height: 30,
                   width: 90,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
                       ),
-                      child: Text('1'),
+                      child: const Text('1'),
                       onPressed: () {}),
                 ),
               ),
@@ -133,16 +140,18 @@ class _ShipmentScreenState extends State<ShipmentScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ShipmentDetailsScreen(),
+                          builder: (context) => const ShipmentDetailsScreen(),
                         ),
                       );
                     },
                     child: Container(
                       child: ListTile(
-                        title: Row(
+                        title: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("124132", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+                            Text("124132",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w700)),
                             Text(
                               "20000",
                             ),
@@ -154,21 +163,30 @@ class _ShipmentScreenState extends State<ShipmentScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("124132", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+                                const Text("124132",
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700)),
                                 Text(
                                   "Picked",
-                                  style: TextStyle(color: Colors.amber.shade800, fontWeight: FontWeight.w700, fontSize: 16),
+                                  style: TextStyle(
+                                      color: Colors.amber.shade800,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 16),
                                 ),
                               ],
                             ),
                             Text(
                               "Validating 1 of 3",
                               textAlign: TextAlign.left,
-                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.red.shade800),
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red.shade800),
                             ),
                           ],
                         ),
-                        trailing: Icon(Icons.arrow_forward_ios),
+                        trailing: const Icon(Icons.arrow_forward_ios),
                       ),
                     ),
                   );

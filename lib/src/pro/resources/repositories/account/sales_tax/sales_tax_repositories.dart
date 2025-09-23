@@ -4,7 +4,6 @@ import 'package:chopper/chopper.dart';
 import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
 import 'package:j3enterprise/src/database/drift_database.dart';
 import 'package:j3enterprise/src/pro/database/crud/account/sales_tax/sales_tax_crud.dart';
-import 'package:j3enterprise/src/pro/database/crud/customer/address_crud.dart';
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
 import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
 import 'package:j3enterprise/src/resources/shared/function/update_backgroung_job_schedule_status.dart';
@@ -28,10 +27,10 @@ class SalesTaxRepository {
   SalesTaxRepository() {
     _log.finest("Sales repository constructer call");
     db = MyDatabase();
-    updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
-    backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
-    salesTaxDao = new SalesTaxDao(db);
-    userSharedData = new UserSharedData();
+    updateBackgroundJobStatus = UpdateBackgroundJobStatus();
+    backgroundJobScheduleDao = BackgroundJobScheduleDao(db);
+    salesTaxDao = SalesTaxDao(db);
+    userSharedData = UserSharedData();
   }
 
   Future<void> getSalesTaxFromServer(String jobName) async {
@@ -62,7 +61,8 @@ class SalesTaxRepository {
           } else {
             String error = map["error"]["details"].toString();
             updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-            _log.shout("Sales tax API call failed. Server respond with error : $error  ");
+            _log.shout(
+                "Sales tax API call failed. Server respond with error : $error  ");
           }
         }
       }

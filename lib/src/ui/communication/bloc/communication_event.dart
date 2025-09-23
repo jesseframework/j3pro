@@ -62,7 +62,7 @@ class UpdateERPCommunicationButtonPressed extends CommunicationEvent {
 class OnFormLoadGetSaveCommunication extends CommunicationEvent {
   final String communicationType;
 
-  OnFormLoadGetSaveCommunication({required this.communicationType});
+  const OnFormLoadGetSaveCommunication({required this.communicationType});
 
   @override
   List<Object> get props => [communicationType];

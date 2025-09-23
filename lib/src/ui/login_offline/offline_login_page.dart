@@ -23,18 +23,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication.dart';
-import 'package:j3enterprise/src/ui/authentication/authentication_bloc.dart';
 import 'package:j3enterprise/src/ui/login/bloc/login_bloc.dart';
 
 import 'offline_login_form.dart';
 
 class OfflineLoginPage extends StatelessWidget {
- 
   final UserRepository userRepository;
 
-  OfflineLoginPage({Key? key, required this.userRepository})
-      : assert(userRepository != null),
-        super(key: key);
+  const OfflineLoginPage({Key? key, required this.userRepository})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +42,7 @@ class OfflineLoginPage extends StatelessWidget {
                 "Offline Enable"),
         backgroundColor: const Color(0xff5362b7),
         leading: IconButton(
-            icon: Icon(Icons.chevron_left),
+            icon: const Icon(Icons.chevron_left),
             onPressed: () {
               BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
             }),
@@ -59,7 +56,7 @@ class OfflineLoginPage extends StatelessWidget {
               userRepository: userRepository,
             );
           },
-          child: Stack(
+          child: const Stack(
             children: <Widget>[
               Center(
                 child: Row(

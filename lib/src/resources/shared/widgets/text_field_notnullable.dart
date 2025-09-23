@@ -24,8 +24,9 @@ class TextFromFieldNotNullableReusable extends StatelessWidget {
   final TextEditingController controllerName;
   final String validationText;
 
-  TextFromFieldNotNullableReusable(
-      {required this.labelName,
+  const TextFromFieldNotNullableReusable(
+      {super.key,
+      required this.labelName,
       required this.controllerName,
       required this.validationText});
 
@@ -38,8 +39,8 @@ class TextFromFieldNotNullableReusable extends StatelessWidget {
             padding: const EdgeInsets.all(10.00),
             child: TextFormField(
               controller: controllerName,
-              validator: (_value) {
-                return _value!.length < 3 ? validationText : null;
+              validator: (value) {
+                return value!.length < 3 ? validationText : null;
               },
               decoration: InputDecoration(
                 filled: true,

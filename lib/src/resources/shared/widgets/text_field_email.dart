@@ -24,8 +24,9 @@ class TextFromFieldEmailReusable extends StatelessWidget {
   final TextEditingController controllerName;
   final String validationText;
 
-  TextFromFieldEmailReusable(
-      {required this.labelName,
+  const TextFromFieldEmailReusable(
+      {super.key,
+      required this.labelName,
       required this.controllerName,
       required this.validationText});
 
@@ -41,7 +42,7 @@ class TextFromFieldEmailReusable extends StatelessWidget {
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 filled: true,
-                icon: Icon(Icons.email),
+                icon: const Icon(Icons.email),
                 labelText: labelName,
               ),
             ),

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/main.dart';
@@ -16,9 +15,9 @@ import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
 
 class JourneyPlanForm extends StatefulWidget {
   var db;
-    JourneyPlanDao? journeyPlanDao;
-    
-  JourneyPlanForm( ) {
+  JourneyPlanDao? journeyPlanDao;
+
+  JourneyPlanForm({super.key}) {
     db = MyDatabase();
     journeyPlanDao = JourneyPlanDao(db);
   }
@@ -28,16 +27,14 @@ class JourneyPlanForm extends StatefulWidget {
 }
 
 class _JourneyPlanFormState extends State<JourneyPlanForm> {
-  final formKey = new GlobalKey<FormState>();
-  String userName='';
+  final formKey = GlobalKey<FormState>();
+  String userName = '';
   String searchText = '';
   @override
   void didChangeDependencies() async {
-    await getIt<UserRepository>().getUserSharedPref().then((value)async {
-        
+    await getIt<UserRepository>().getUserSharedPref().then((value) async {
       setState(() {
         userName = value['userName'];
-    
       });
     });
     super.didChangeDependencies();
@@ -83,16 +80,19 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
         key: formKey,
         child: Scaffold(
             appBar: AppBar(
-              title: Text(AppLocalization.of(context)!.translate('journey_plan_appbar_title') ?? "Journey Plan"),
+              title: Text(AppLocalization.of(context)!
+                      .translate('journey_plan_appbar_title') ??
+                  "Journey Plan"),
             ),
             body: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                   child: Row(
                     children: [
                       Expanded(
-                        child: Container(
+                        child: SizedBox(
                           height: 35,
                           child: ListFilter(
                             placeholder: 'Search',
@@ -110,80 +110,85 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
                   ),
                 ),
                 ExpansionTile(
-                  title: Text(
+                  title: const Text(
                     "Dashboard",
                     style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
                   ),
                   children: [
                     ListTile(
-                      leading: Icon(
+                      leading: const Icon(
                         Icons.file_upload,
                         color: Colors.deepPurple,
                       ),
-                      title: Text('In Progress'),
-                      trailing: Container(
+                      title: const Text('In Progress'),
+                      trailing: SizedBox(
                         height: 30,
                         width: 90,
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.deepPurple,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
                             ),
-                            child: Text('1'),
+                            child: const Text('1'),
                             onPressed: () {}),
                       ),
                     ),
                     ListTile(
-                      leading: Icon(
+                      leading: const Icon(
                         Icons.done_all,
                         color: Colors.greenAccent,
                       ),
-                      title: Text('Complete'),
-                      trailing: Container(
+                      title: const Text('Complete'),
+                      trailing: SizedBox(
                         height: 30,
                         width: 90,
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.green,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
                             ),
-                            child: Text('1'),
+                            child: const Text('1'),
                             onPressed: () {}),
                       ),
                     ),
                     ListTile(
-                      leading: Icon(
+                      leading: const Icon(
                         Icons.warning_rounded,
                         color: Colors.amber,
                       ),
-                      title: Text('Cancel'),
-                      trailing: Container(
+                      title: const Text('Cancel'),
+                      trailing: SizedBox(
                         height: 30,
                         width: 90,
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.amber,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
                             ),
-                            child: Text('1'),
+                            child: const Text('1'),
                             onPressed: () {}),
                       ),
                     )
                   ],
                 ),
                 StreamBuilder(
-                  stream: widget.journeyPlanDao!.watchJourneyWithAddressJoin(userName, 'Billing', false, searchText),
+                  stream: widget.journeyPlanDao!.watchJourneyWithAddressJoin(
+                      userName, 'Billing', false, searchText),
                   //  future: widget.journeyPlanDao.getAllJourneyPlanData(),
                   builder: (context, snapshot) {
                     //print(snapshot.data.toString());
                     if (snapshot.hasData) {
                       //print(snapshot.data.toString());
                       if (snapshot.hasData) {
-                        List<JourneyWithAddress>? journeyWithAddressData = <JourneyWithAddress>[];
-                        journeyWithAddressData = snapshot.data as List<JourneyWithAddress>?;
+                        List<JourneyWithAddress>? journeyWithAddressData =
+                            <JourneyWithAddress>[];
+                        journeyWithAddressData = snapshot.data;
 
                         if (journeyWithAddressData!.isEmpty) {
-                          return Text("Empty List");
+                          return const Text("Empty List");
                         }
                         return Expanded(
                           child: ListView.builder(
@@ -191,42 +196,55 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
                             itemBuilder: (context, index) {
                               return InkWell(
                                 onTap: () async {
-                                  addItemBloc.setId(cusID: journeyWithAddressData![index].jplan.customerId);
+                                  addItemBloc.setId(
+                                      cusID: journeyWithAddressData![index]
+                                          .jplan
+                                          .customerId);
                                   Navigator.push(
                                       context,
                                       EnterExitRoute(
                                           enterPage: ActivitiesMenuPage(
-                                            journeyWithAddress: journeyWithAddressData[index],
+                                            journeyWithAddress:
+                                                journeyWithAddressData[index],
                                           ),
                                           exitPage: widget));
                                 },
                                 child: Container(
                                   color: (index % 2 == 0)
-                                      ? Theme.of(context).primaryColor.withOpacity(0.1)
-                                      : Theme.of(context).cardColor.withOpacity(0.1),
+                                      ? Theme.of(context)
+                                          .primaryColor
+                                          .withOpacity(0.1)
+                                      : Theme.of(context)
+                                          .cardColor
+                                          .withOpacity(0.1),
                                   child: ListTile(
-                                    leading: Icon(
+                                    leading: const Icon(
                                       Icons.image,
                                       size: 30,
                                     ),
                                     subtitle: Text(
-                                      journeyWithAddressData![index].addr.addressLine1! +
-                                          " " +
-                                          journeyWithAddressData[index].jplan.distanceUsed.toString() +
-                                          " " +
-                                          journeyWithAddressData[index].jplan.distanceLabel.toString(),
+                                      "${journeyWithAddressData![index].addr.addressLine1!} ${journeyWithAddressData[index].jplan.distanceUsed} ${journeyWithAddressData[index].jplan.distanceLabel}",
                                     ),
                                     title: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(journeyWithAddressData[index].jplan.companyName,
-                                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
                                         Text(
-                                          journeyWithAddressData[index].jplan.customerId,
+                                            journeyWithAddressData[index]
+                                                .jplan
+                                                .companyName,
+                                            style: const TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w700)),
+                                        Text(
+                                          journeyWithAddressData[index]
+                                              .jplan
+                                              .customerId,
                                         ),
                                       ],
                                     ),
-                                    trailing: Icon(Icons.arrow_forward_ios),
+                                    trailing:
+                                        const Icon(Icons.arrow_forward_ios),
                                   ),
                                 ),
                               );
@@ -235,7 +253,7 @@ class _JourneyPlanFormState extends State<JourneyPlanForm> {
                         );
                       }
                     }
-                    return BuildProgressIndicator();
+                    return const BuildProgressIndicator();
                   },
                 )
               ],

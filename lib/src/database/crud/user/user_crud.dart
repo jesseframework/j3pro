@@ -33,7 +33,8 @@ class UserDao extends DatabaseAccessor<MyDatabase> with _$UserDaoMixin {
   }
 
   Stream<User?> watchSingleUser(int? id) {
-    return (select(db.users)..where((u) => u.id.equals(id!))).watchSingleOrNull();
+    return (select(db.users)..where((u) => u.id.equals(id!)))
+        .watchSingleOrNull();
   }
 
   Future<User> getSingleByName(int id) {
@@ -41,11 +42,15 @@ class UserDao extends DatabaseAccessor<MyDatabase> with _$UserDaoMixin {
   }
 
   Future<User> getSingleUserByUserName(String userName) {
-    return (select(db.users)..where((u) => u.userName.equals(userName))).getSingle();
+    return (select(db.users)..where((u) => u.userName.equals(userName)))
+        .getSingle();
   }
 
   Future<User> getSingleTenantUser(String userName, int tenantId) {
-    return (select(db.users)..where((u) => u.userName.equals(userName) & u.tenantId.equals(tenantId))).getSingle();
+    return (select(db.users)
+          ..where(
+              (u) => u.userName.equals(userName) & u.tenantId.equals(tenantId)))
+        .getSingle();
   }
 
   Future updateSingleUser(User user) {

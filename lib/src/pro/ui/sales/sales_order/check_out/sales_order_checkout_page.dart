@@ -3,6 +3,8 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
 
 class SalesOrderCheckOutPage extends StatefulWidget {
+  const SalesOrderCheckOutPage({super.key});
+
   @override
   _SalesOrderCheckOutPageState createState() => _SalesOrderCheckOutPageState();
 }
@@ -22,22 +24,22 @@ class _SalesOrderCheckOutPageState extends State<SalesOrderCheckOutPage> {
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.push(
-                        context, SizeRoute(page: SalesOrderCheckOutPage()));
+                    Navigator.push(context,
+                        SizeRoute(page: const SalesOrderCheckOutPage()));
                   },
-                  child: Text(
+                  child: const Text(
                     "Complete",
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 ),
-                Icon(Icons.done_all)
+                const Icon(Icons.done_all)
               ],
             ),
           ),
-          IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
+          IconButton(icon: const Icon(Icons.more_vert), onPressed: () {}),
         ],
       ),
       body: SingleChildScrollView(
@@ -63,7 +65,7 @@ class _SalesOrderCheckOutPageState extends State<SalesOrderCheckOutPage> {
                           buildSalesOrderCardRowTile(
                               heading: 'Shipping Address',
                               title: 'Portmore',
-                              trailingWidget: Icon(Icons.arrow_drop_down),
+                              trailingWidget: const Icon(Icons.arrow_drop_down),
                               callback: () {}),
                         ],
                       ),
@@ -81,7 +83,7 @@ class _SalesOrderCheckOutPageState extends State<SalesOrderCheckOutPage> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Container(
@@ -101,23 +103,23 @@ class _SalesOrderCheckOutPageState extends State<SalesOrderCheckOutPage> {
                           buildSalesOrderCardRowTile(
                               heading: 'Type of Discount',
                               title: 'Points',
-                              trailingWidget: Icon(Icons.arrow_drop_down),
+                              trailingWidget: const Icon(Icons.arrow_drop_down),
                               callback: () {}),
-                          SizedBox(
+                          const SizedBox(
                             height: 15,
                           ),
                           buildSalesOrderCardRowTile(
                               heading: 'Currency',
                               title: 'JMD',
-                              trailingWidget: Icon(Icons.arrow_drop_down),
+                              trailingWidget: const Icon(Icons.arrow_drop_down),
                               callback: () {}),
-                          SizedBox(
+                          const SizedBox(
                             height: 15,
                           ),
                           buildSalesOrderCardRowTile(
                               heading: 'Payment Type',
                               title: 'Credit Card',
-                              trailingWidget: Icon(Icons.arrow_drop_down),
+                              trailingWidget: const Icon(Icons.arrow_drop_down),
                               callback: () {}),
                         ],
                       ),
@@ -129,14 +131,14 @@ class _SalesOrderCheckOutPageState extends State<SalesOrderCheckOutPage> {
                             heading: 'Ad hoc Discount',
                             title: '\$0.00',
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           buildSalesOrderCardRowTile(
                             heading: 'Exchange Rate',
                             title: '\$0.00',
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           buildSalesOrderCardRowTile(
@@ -149,19 +151,19 @@ class _SalesOrderCheckOutPageState extends State<SalesOrderCheckOutPage> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 3),
+                margin: const EdgeInsets.symmetric(horizontal: 3),
                 child: MaterialButton(
                     color: Colors.deepOrangeAccent,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5)),
-                    child: Text('Add Payment'),
+                    child: const Text('Add Payment'),
                     onPressed: () {}),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Container(
@@ -194,7 +196,7 @@ class _SalesOrderCheckOutPageState extends State<SalesOrderCheckOutPage> {
                             'Payment Amount',
                             style: headerstyle(),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 15,
                           )
                         ],
@@ -211,8 +213,8 @@ class _SalesOrderCheckOutPageState extends State<SalesOrderCheckOutPage> {
                                     .withOpacity(0.2)
                                 : Theme.of(context).cardColor.withOpacity(0.1),
                             height: 60,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 5),
                               child: Row(
                                 mainAxisAlignment:
@@ -220,11 +222,11 @@ class _SalesOrderCheckOutPageState extends State<SalesOrderCheckOutPage> {
                                 children: [
                                   Text('Credit Card'),
                                   Padding(
-                                    padding: const EdgeInsets.only(right: 5),
+                                    padding: EdgeInsets.only(right: 5),
                                     child: Text('JMD'),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(right: 25),
+                                    padding: EdgeInsets.only(right: 25),
                                     child: Text('\$1.00'),
                                   ),
                                   Text('\$9,000.00'),
@@ -242,7 +244,7 @@ class _SalesOrderCheckOutPageState extends State<SalesOrderCheckOutPage> {
                   ],
                 )),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Container(
@@ -289,7 +291,7 @@ class _SalesOrderCheckOutPageState extends State<SalesOrderCheckOutPage> {
   }
 
   TextStyle textStyle() {
-    return TextStyle(fontWeight: FontWeight.bold, fontSize: 20);
+    return const TextStyle(fontWeight: FontWeight.bold, fontSize: 20);
   }
 
   TextStyle headerstyle() {
@@ -322,11 +324,12 @@ class _SalesOrderCheckOutPageState extends State<SalesOrderCheckOutPage> {
           children: [
             Text(
               title!,
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
             ),
             InkWell(
                 child: Container(
-                    margin: EdgeInsets.only(left: 8), child: trailingWidget),
+                    margin: const EdgeInsets.only(left: 8),
+                    child: trailingWidget),
                 onTap: () {}),
           ],
         ),

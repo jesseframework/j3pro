@@ -7,12 +7,14 @@ import 'package:j3enterprise/src/resources/shared/function/schedule_background_j
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BackgroundFetchPage extends StatefulWidget {
+  const BackgroundFetchPage({super.key});
+
   @override
   _BackgroundFetchPageState createState() => _BackgroundFetchPageState();
 }
 
 class _BackgroundFetchPageState extends State<BackgroundFetchPage> {
-  bool _enabled = true;
+  final bool _enabled = true;
   int _status = 0;
   List<String> _events = [];
 
@@ -85,7 +87,7 @@ class _BackgroundFetchPageState extends State<BackgroundFetchPage> {
 
   void _onBackgroundFetch(String taskId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    DateTime timestamp = new DateTime.now();
+    DateTime timestamp = DateTime.now();
     // This is the fetch-event callback.
     await syncClickScheduler();
     print("[BackgroundFetch] Event received: $taskId");
@@ -129,33 +131,41 @@ class _BackgroundFetchPageState extends State<BackgroundFetchPage> {
 
   @override
   Widget build(BuildContext context) {
-    const EMPTY_TEXT = Center(
+    const emptyText = Center(
         child: Text(
             'Waiting for fetch events.  Simulate one.\n [Android] \$ ./scripts/simulate-fetch\n [iOS] XCode->Debug->Simulate Background Fetch'));
 
     return Scaffold(
       body: (_events.isEmpty)
-          ? EMPTY_TEXT
+          ? emptyText
           : Container(
-              child: new ListView.builder(
+              child: ListView.builder(
                   itemCount: _events.length,
                   itemBuilder: (BuildContext context, int index) {
                     List<String> event = _events[index].split("@");
                     return InputDecorator(
                         decoration: InputDecoration(
-                            contentPadding: EdgeInsets.only(left: 5.0, top: 5.0, bottom: 5.0),
-                            labelStyle: TextStyle(color: Colors.blue, fontSize: 20.0),
+                            contentPadding: const EdgeInsets.only(
+                                left: 5.0, top: 5.0, bottom: 5.0),
+                            labelStyle: const TextStyle(
+                                color: Colors.blue, fontSize: 20.0),
                             labelText: "[${event[0].toString()}]"),
-                        child: new Text(event[1], style: TextStyle(fontSize: 16.0)));
+                        child: Text(event[1],
+                            style: const TextStyle(fontSize: 16.0)));
                   }),
             ),
       bottomNavigationBar: BottomAppBar(
           child: Container(
-              padding: EdgeInsets.only(left: 5.0, right: 5.0),
-              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                ElevatedButton(onPressed: _onClickStatus, child: Text('Status: $_status')),
-                ElevatedButton(onPressed: _onClickClear, child: Text('Clear'))
-              ]))),
+              padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    ElevatedButton(
+                        onPressed: _onClickStatus,
+                        child: Text('Status: $_status')),
+                    ElevatedButton(
+                        onPressed: _onClickClear, child: const Text('Clear'))
+                  ]))),
     );
   }
 }

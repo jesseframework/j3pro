@@ -49,7 +49,7 @@ class GetTransactioNumberEvent extends AddItemEvent {}
 class OnFormLoadGetTransactionNumber extends AddItemEvent {
   final String transactionNo;
 
-  OnFormLoadGetTransactionNumber({required this.transactionNo});
+  const OnFormLoadGetTransactionNumber({required this.transactionNo});
 
   @override
   List<Object> get props => [transactionNo];

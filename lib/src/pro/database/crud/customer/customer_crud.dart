@@ -14,11 +14,13 @@ class CustomerDao extends DatabaseAccessor<MyDatabase> with _$CustomerDaoMixin {
   }
 
   Stream<List<CustomerData>> watchAllCustomerById(String customerId) {
-    return (select(db.customer)..where((t) => t.customerId.equals(customerId))).watch();
+    return (select(db.customer)..where((t) => t.customerId.equals(customerId)))
+        .watch();
   }
 
   Future<List<CustomerData>> getAllCustomerById(String customerId) {
-    return (select(db.customer)..where((t) => t.customerId.equals(customerId))).get();
+    return (select(db.customer)..where((t) => t.customerId.equals(customerId)))
+        .get();
   }
 
   Future<void> createOrUpdateByCustomer(CustomerData customerData) {

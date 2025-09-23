@@ -14,19 +14,20 @@ class AddItemToWarehouse {
   AddItemToWarehouse() {
     db = MyDatabase();
     _log.finest("$className constructer call");
-    inventoryItemsDao = new InventoryItemsDao(db);
+    inventoryItemsDao = InventoryItemsDao(db);
   }
 
-  Future<String> addItemToWarehouse(String itemCode, String itemName, String uom, String defaultWarehouse, String inventoryCycleNumber) async {
-    var data = new InventoryItemsCompanion(
+  Future<String> addItemToWarehouse(String itemCode, String itemName,
+      String uom, String defaultWarehouse, String inventoryCycleNumber) async {
+    var data = InventoryItemsCompanion(
         itemCode: moor.Value(itemCode),
         itemName: moor.Value(itemName),
         uom: moor.Value(uom),
         defaultWarehouse: moor.Value(defaultWarehouse),
-        quantityOnHand: moor.Value(0),
-        quantityAdjust: moor.Value(0),
-        quantityCount: moor.Value(0),
-        quantitySoldOnInvoice: moor.Value(0),
+        quantityOnHand: const moor.Value(0),
+        quantityAdjust: const moor.Value(0),
+        quantityCount: const moor.Value(0),
+        quantitySoldOnInvoice: const moor.Value(0),
         inventoryCycleNumber: moor.Value(inventoryCycleNumber));
 
     await inventoryItemsDao.createOrUpdateInventoryItems(data);

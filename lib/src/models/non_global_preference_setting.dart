@@ -28,7 +28,7 @@ class NonGlobalPreference extends Table {
   TextColumn get deviceId => text().nullable()();
   TextColumn get userName => text().nullable()();
   TextColumn get screen => text().nullable()();
-  BoolColumn get isApply => boolean().withDefault(Constant(false))();
+  BoolColumn get isApply => boolean().withDefault(const Constant(false))();
   DateTimeColumn get expiredDateTime => dateTime().nullable()();
   TextColumn get syncError => text().nullable()();
   TextColumn get dataType => text().nullable()();
