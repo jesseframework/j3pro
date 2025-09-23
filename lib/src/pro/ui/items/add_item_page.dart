@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/text_field_nullable.dart';
@@ -255,7 +254,7 @@ class _AddItemPageState extends State<AddItemPage> {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
       child: Text(title,
-          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
               )),

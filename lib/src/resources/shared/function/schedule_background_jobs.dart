@@ -43,11 +43,9 @@ class Scheduler {
   void cancel(String jobName) async {
     try {
       var x = timers.firstWhere((element) => element.name == jobName);
-      if (x != null) {
-        x.timer.cancel();
-        timers.remove(x);
-      }
-    } catch (error) {}
+      x.timer.cancel();
+      timers.remove(x);
+        } catch (error) {}
   }
 
   Duration? _getFromString(String setFrequency) {

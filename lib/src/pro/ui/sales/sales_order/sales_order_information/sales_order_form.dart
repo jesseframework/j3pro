@@ -134,28 +134,17 @@ class _SalesOrderFormState extends State<SalesOrderForm> {
                         children: [
                           DropdownSearch(
                             popupProps: PopupProps.menu(),
-                            // backgroundColor: Theme.of(context).cardColor,
-                            // labelStyle: TextStyle(
-                            //     fontWeight: FontWeight.w600,
-                            //     color:
-                            //         Theme.of(context)                                          .textSelectionTheme.selectionColor,
-                            //     fontSize: 12),
-                            // label: "Shipping Address",
                             selectedItem: widget.address.isEmpty ? 'No address found ' : primaryAddress.addressLine1,
-                            // showSearchBox: true,
-                            // items: widget.address.isEmpty ? null : widget.address.map((e) => e.addressLine1).toList(),
                             onChanged: (dynamic value) async {
                               addItemBloc.setShippingAddress(address: widget.address.firstWhere((e) => e.addressLine1 == value));
                             },
-                            // autofocus: true,
                             dropdownDecoratorProps: DropDownDecoratorProps(
-dropdownSearchDecoration: InputDecoration(
+                              dropdownSearchDecoration: InputDecoration(
                                   suffix: Container(
                                 height: 30,
                                 child: FloatingActionButton(
                                   onPressed: () {},
                                   backgroundColor: Theme.of(context).secondaryHeaderColor,
-                                  //ToDo    backgroundColor: Theme.of(context).accentColor, is not working changing it to secondaryColor
                                   child: Icon(Icons.add),
                                 ),
                               )),
@@ -169,18 +158,9 @@ dropdownSearchDecoration: InputDecoration(
                       ),
                       DropdownSearch(
                         popupProps: PopupProps.menu(),
-                        //  label: 'Contact',
                         selectedItem: widget.address.isEmpty ? 'No Contact Found' : widget.address[0].phoneNumber,
 
-                        // items: widget.address.isEmpty ? null : widget.address.map((e) => e.contactPerson + ' ' + e.phoneNumber).toList() ,
                         onChanged: (dynamic value) async {
-                          // await widget
-                          //     .businessRuleDao
-                          //     .updateBussinessRule(
-                          //     businessRuleData
-                          //         .copyWith(
-                          //         value:
-                          //         value));
                         },
                         dropdownDecoratorProps: DropDownDecoratorProps(
                           dropdownSearchDecoration: InputDecoration(
@@ -189,13 +169,11 @@ dropdownSearchDecoration: InputDecoration(
                             child: FloatingActionButton(
                               onPressed: () {},
                              backgroundColor: Theme.of(context).secondaryHeaderColor,
-                              //ToDo    backgroundColor: Theme.of(context).accentColor, is not working changing it to secondaryColor
                               child: Icon(Icons.add),
                             ),
                           )),
                         ),
 
-                        // autofocus: true,
                       ),
                     ],
                   ),
@@ -204,43 +182,18 @@ dropdownSearchDecoration: InputDecoration(
               Card(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                 elevation: 4.0,
-                //  height: 150,
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      DropdownSearch(
+                      DropdownSearch<String>(
                         popupProps: PopupProps.menu(),
-                        // labelStyle: TextStyle(
-                        //     color: Theme.of(context)                                          .textSelectionTheme.selectionColor,
-                        //     fontWeight: FontWeight.w600,
-                        //     fontSize: 12),
-                        // label: "Order Type",
                         selectedItem: 'Standard Order',
 
-                        items: [
-                          'Standard Order',
-                          'Contract',
-                          'Cash Sales',
-                          'Rush Order',
-                          'Free of Charge Delivery',
-                          'Returns',
-                          'Consignment Order',
-                          'Credit Memo Request',
-                          'Debit Memo Request',
-                          'Pick Up Order',
-                          'Ullage Order ',
-                        ],
                         onChanged: (dynamic value) async {
-                          // await widget
-                          //     .businessRuleDao
-                          //     .updateBussinessRule(
-                          //     businessRuleData
-                          //         .copyWith(
-                          //         value:
-                          //         value));
+
                         },
                         dropdownDecoratorProps: DropDownDecoratorProps(
                           dropdownSearchDecoration: InputDecoration(
@@ -255,9 +208,6 @@ dropdownSearchDecoration: InputDecoration(
                           )),
                         ),
                       ),
-
-                      // autofocus: true,
-                      // backgroundColor: Theme.of(context).cardColor,
 
                       SizedBox(
                         height: 15,
@@ -282,13 +232,13 @@ dropdownSearchDecoration: InputDecoration(
                             onTap: () async {
                               DateTime? result = await showDatePicker(
                                   context: context, initialDate: DateTime.now(), firstDate: DateTime(1970), lastDate: DateTime(2100));
-                              if (result != null) {
-                                setState(() {
+                              setState(() {
+                                if (result != null) {
                                   dateTime = result;
                                   addItemBloc.setDilveryDate(dilverydate: result);
-                                });
-                              }
-                            },
+                                }
+                              });
+                                                        },
                           ),
                           callback: (value) {
                             print(value);
@@ -300,7 +250,6 @@ dropdownSearchDecoration: InputDecoration(
               Card(
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                   elevation: 4.0,
-                  //  height: 150,
                   child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Container(
@@ -314,35 +263,32 @@ dropdownSearchDecoration: InputDecoration(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   DropdownSearch(
-                                      // popupProps:  PopupProps.menu(),
-                                      // label: "Currency",
-                                      // selectedItem: defaultCurrency,
-                                      // items: defaultCurrencyList
-                                      //     .map((e) => e.currencyName)
-                                      //     .toList(),
-                                      // onChanged: (value) async {
-                                      //   List<ExchangeRateData> exchangeRateData =
-                                      //       await widget.exchangeRateDao
-                                      //           .getAllExchnageRateByCurrency(
-                                      //               'JMD', value.toString());
-                                      //   setState(() {
-                                      //     defaultCurrency = value.toString();
-                                      //     exchangeRate =
-                                      //         exchangeRateData[0].exchangeRate!;
-                                      //   });
-                                      // },
-                                      // dropdownSearchDecoration: InputDecoration(
-                                      //     suffix: Container(
-                                      //   height: 30,
-                                      //   child: FloatingActionButton(
-                                      //     onPressed: () {},
-                                      //     backgroundColor:
-                                      //         Theme.of(context).accentColor,
-                                      //     child: Icon(Icons.add),
-                                      //   ),
-                                      // )),
-                                      // autofocus: true,
-                                      // backgroundColor: Theme.of(context).cardColor,
+                                      popupProps: PopupProps.menu(),
+                                      selectedItem: defaultCurrency,
+                                     
+                                      onChanged: (value) async {
+                                        List<ExchangeRateData> exchangeRateData =
+                                            await widget.exchangeRateDao
+                                                .getAllExchnageRateByCurrency(
+                                                    'JMD', value.toString());
+                                        setState(() {
+                                          defaultCurrency = value.toString();
+                                          exchangeRate =
+                                              exchangeRateData[0].exchangeRate!;
+                                        });
+                                      },
+                                      dropdownDecoratorProps: DropDownDecoratorProps(
+                                        dropdownSearchDecoration: InputDecoration(
+                                          suffix: Container(
+                                        height: 30,
+                                        child: FloatingActionButton(
+                                          onPressed: () {},
+                                          backgroundColor:
+                                              Theme.of(context).secondaryHeaderColor,
+                                          child: Icon(Icons.add),
+                                        ),
+                                      )),
+                                      ),
                                       ),
                                   SizedBox(
                                     height: 15,
@@ -371,18 +317,12 @@ dropdownSearchDecoration: InputDecoration(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  DropdownSearch(
+                                  DropdownSearch<String>(
                                     popupProps: PopupProps.menu(),
 
-                                    // label: "Discount Type",
                                     selectedItem: swipeDiscountTpye,
 
-                                    items: [
-                                      'Percentage',
-                                      'Amount',
-                                    ],
-                                    onChanged: (
-                                     dynamic value) async {
+                                    onChanged: (dynamic value) async {
                                       setState(() {
                                         swipeDiscountTpye = value.toString();
                                       });
@@ -394,14 +334,11 @@ dropdownSearchDecoration: InputDecoration(
                                         child: FloatingActionButton(
                                           onPressed: () {},
                                         backgroundColor: Theme.of(context).secondaryHeaderColor,
-                                          //ToDo    backgroundColor: Theme.of(context).accentColor, is not working changing it to secondaryColor
                                           child: Icon(Icons.add),
                                         ),
                                       )),
                                     ),
 
-                                    // autofocus: true,
-                                    // backgroundColor: Theme.of(context).cardColor,
                                   ),
                                   SizedBox(
                                     height: 15,

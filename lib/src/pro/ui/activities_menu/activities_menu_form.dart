@@ -222,11 +222,11 @@ class _ActivitiesMenuFormState extends State<ActivitiesMenuForm> {
                               itemBuilder: (context, index) {
                                 return InkWell(
                                   onTap: () {
-                                    Navigator.pushNamed(context, prefData![index].navigationRoute, arguments: widget.journeyWithAddress);
+                                    Navigator.pushNamed(context, prefData[index].navigationRoute, arguments: widget.journeyWithAddress);
                                   },
                                   child: ListTile(
                                     leading: Icon(
-                                      IconData(int.parse(prefData![index].iconCode), fontFamily: prefData[index].iconFamily),
+                                      IconData(int.parse(prefData[index].iconCode), fontFamily: prefData[index].iconFamily),
                                       color: Color(int.parse(prefData[index].iconColour)),
                                     ),
                                     title: Text(prefData[index].iconName),

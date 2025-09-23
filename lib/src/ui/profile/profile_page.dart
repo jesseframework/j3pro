@@ -58,9 +58,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future getProfileData() async {
     theme = await getIt<UserRepository>().getTheme().toString();
-    if (theme == null) {
-      theme = 'light';
-    }
     final data = await UserSharedData().getUserSharedPref();
     tenantName = data['tenantName'];
     if (data['userId'] != null) {

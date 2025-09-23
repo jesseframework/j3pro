@@ -1,22 +1,3 @@
-/*
- * Jesseframework - Computer Expertz Ltd - https://cpxz.us
- * Copyright (C) 2019-2021 Jesseframework
- *
- * This file is part of Jesseframework - https://github.com/jesseframework/j3.
- *
- * Jesseframework is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version. 
- *
- * Jesseframework is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- */
-
 import 'dart:async';
 
 import 'package:chopper/chopper.dart';
@@ -27,8 +8,6 @@ import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
 import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
 import 'package:j3enterprise/src/resources/shared/utils/langcustomdialogbox.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:meta/meta.dart';
-import 'dart:io' show Platform;
 
 class UserRepository {
   var api = ApiClient.chopper.getService<RestApiService>();
@@ -60,7 +39,7 @@ class UserRepository {
   }
 
   Future<Response> checkTenant({required String tenancyName}) async {
-    return await api.isTenantAvailable({"tenancyName": tenancyName});
+    return await api.isTenantAvailable(body: {"tenancyName": tenancyName});
   }
 
   Future<void> deleteToken() async {
@@ -100,13 +79,13 @@ class UserRepository {
 
   Future<Map> getUserSharedPref() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    String? deviceId = (await _prefs.get('deviceId')) as String?;
-    String? deviceState = (await _prefs.get('deviceState')) as String?;
-    String? tenantState = (await _prefs.get('tenantState')) as String?;
-    String? userName = (await _prefs.get('userName')) as String?;
-    String? tenantName = (await _prefs.get('tenantName')) as String?;
-    String? tenantId = (await _prefs.get('tenantId')) as String?;
-    String? userId = (await _prefs.get('userId')) as String?;
+    String? deviceId = _prefs.getString('deviceId');
+    String? deviceState = _prefs.getString('deviceState');
+    String? tenantState = _prefs.getString('tenantState');
+    String? userName = _prefs.getString('userName');
+    String? tenantName = _prefs.getString('tenantName');
+    String? tenantId = _prefs.getString('tenantId');
+    String? userId = _prefs.getString('userId');
 
     Map<String, String> map = {
       "deviceId": "$deviceId",
@@ -137,16 +116,16 @@ class UserRepository {
     return _prefs.containsKey('access_token');
   }
 
-  Future<Map> getPreferenceData() async {
+  Future<Map<String, String>> getPreferenceData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = (await prefs.get("access_token")) as String?;
-    int? userId = int.tryParse(await prefs.get("userId") as String);
-    int? tenantId = int.tryParse(await prefs.get("tenantid") as String);
+    String token = prefs.getString("access_token") ?? "";
+    String userId = prefs.getString("userId") ?? "";
+    String tenantId = prefs.getString("tenantid") ?? "";
 
     Map<String, String> map = {
-      "token": "$token",
-      "userId": "$userId",
-      "tenantid": "$tenantId",
+      "token": token,
+      "userId": userId,
+      "tenantid": tenantId,
     };
 
     return map;
@@ -186,41 +165,26 @@ class UserRepository {
     String? userLocale = prefs.getString(USER_LANGUAGE_CODE_KEY);
     String? deviceLocale = prefs.getString(DEVICE_LANGUAGE_CODE_KEY);
     String? defalutDeviceLocale = await getDeviceLocale();
-    if (deviceLocale == null) {
-      prefs.setString(DEVICE_LANGUAGE_CODE_KEY, defalutDeviceLocale!);
-      finalLocale = defalutDeviceLocale;
-    } else if (userLocale != null) {
+    if (userLocale != null) {
       finalLocale = userLocale;
     } else {
-      finalLocale = defalutDeviceLocale!;
+      finalLocale = defalutDeviceLocale ?? 'en';
     }
     if (defalutDeviceLocale != deviceLocale) {
-      prefs.setString(DEVICE_LANGUAGE_CODE_KEY, defalutDeviceLocale!);
+      await prefs.setString(DEVICE_LANGUAGE_CODE_KEY, defalutDeviceLocale!);
     }
     return _locale(finalLocale);
   }
 
-  Future getDeviceLocale() async {
-    List languages;
-    String currentLocale;
-    if (Platform.isAndroid || Platform.isIOS) {
-      try {
-        languages = (await Devicelocale.preferredLanguages)!;
-        print(languages);
-      } on PlatformException {
-        print("Error obtaining preferred languages");
-        return null;
-      }
-      try {
-        currentLocale = (await Devicelocale.currentLocale)!;
-      } on PlatformException {
-        print("Error obtaining current locale");
-        return null;
-      }
-      return currentLocale.substring(0, 2);
+  Future<String?> getDeviceLocale() async {
+    String? currentLocale;
+    try {
+      currentLocale = await Devicelocale.currentLocale;
+      return currentLocale?.substring(0, 2);
+    } on PlatformException {
+      print("Error obtaining current locale");
+      return null;
     }
-
-    return null;
   }
 
   Future setTheme(String theme) async {
@@ -230,7 +194,7 @@ class UserRepository {
 
   Future<String?> getTheme() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    String? theme = await _prefs.getString('theme');
+    String? theme = _prefs.getString('theme');
     return theme;
   }
 }

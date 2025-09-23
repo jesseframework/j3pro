@@ -283,11 +283,9 @@ class AddItemToTransaction {
             territory, partner, priceList, itemPrice, quantity, uom);
 
         //Calculate Tax
-        if (taxGroup != null) {
-          await calculateTax.getTotalTax(searchText, tempSalesOrderNo, tempTransactionStatus, uom, tenantId, userName, userId, itemId, customerId,
-              taxGroup, salesDate, lineSubTotal);
-        }
-      }
+        await calculateTax.getTotalTax(searchText, tempSalesOrderNo, tempTransactionStatus, uom, tenantId, userName, userId, itemId, customerId,
+            taxGroup, salesDate, lineSubTotal);
+            }
 
       await calculateTotal.getTotal(tempSalesOrderNo, tempTransactionStatus, itemId, uom);
 

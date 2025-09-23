@@ -9,7 +9,6 @@ import 'package:j3enterprise/src/pro/ui/sales/sales_order/check_out/sales_order_
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dart';
-import 'package:shamsi_date/shamsi_date.dart';
 import 'package:signature/signature.dart';
 
 class SalesOrderFinslizedPage extends StatefulWidget {

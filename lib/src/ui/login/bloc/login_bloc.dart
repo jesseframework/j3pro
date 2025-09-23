@@ -128,11 +128,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                 tenantId = 0.toString();
                 String error = "There is no tenant defined with name";
                 _log.info(error);
-
-                if (error == null) {
-                  _log.info('Transulate tenant error message and show message to user. LoginLoading state');
-                  error = AppLocalization.of(event.context)!.translate('tenant_validation_message') ?? "There is no tenant defined with name";
-                }
                 emit( LoginFailure(error: error));
                 _log.info('Bloc state change to LoginFailure when trying to get tenant');
                 return;
@@ -140,9 +135,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             } else {
               String error = tenantMap["error"]["details"].toString();
               _log.info(error, StackTrace.current);
-              if (error == null) {
-                error = AppLocalization.of(event.context)!.translate('online_login_failed') ?? "Something went wrong! Please try again";
-              }
               emit( LoginFailure(error: error));
               return;
             }
@@ -179,9 +171,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               //display errors
               String error = map["error"]["details"].toString();
               _log.info(error, StackTrace.current);
-              if (error == null) {
-                error = AppLocalization.of(event.context)!.translate('online_login_failed') ?? "Something went wrong! Please try again";
-              }
               emit( LoginFailure(error: error));
             }
           } else {
@@ -246,9 +235,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             if (tenantResult['tenantId'] == null) {
               tenantId = 0.toString();
               String error = "There is no tenant defined with name";
-              if (error == null) {
-                error = AppLocalization.of(event.context)!.translate('tenant_validation_message') ?? "There is no tenant defined with name";
-              }
               emit( LoginFailure(error: error));
               _log.info('Bloc state change to LoginFailure');
               return;
@@ -256,9 +242,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           } else {
             String error = tenantMap["error"]["details"].toString();
             _log.info(error);
-            if (error == null) {
-              error = AppLocalization.of(event.context)!.translate('online_login_failed') ?? "Something went wrong! Please try again";
-            }
             emit( LoginFailure(error: error));
             return;
           }
@@ -280,9 +263,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             //display errors
             // can have an error class and use from map here as well
             String error = map["error"]["details"].toString();
-            if (error == null) {
-              error = AppLocalization.of(event.context)!.translate('online_login_failed') ?? "Something went wrong! Please try again";
-            }
             emit( LoginFailure(error: error));
           }
         }

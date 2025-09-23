@@ -1,10 +1,5 @@
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:j3enterprise/src/pro/ui/items/add_item_page.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
-import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
 
 class ItemsPage extends StatelessWidget {
@@ -63,7 +58,7 @@ class ItemsPage extends StatelessWidget {
                       'COVID-19 N95 MASKS',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText1!
+                          .bodyLarge!
                           .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('SKU: 0001-202'),

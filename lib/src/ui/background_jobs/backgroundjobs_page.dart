@@ -1,22 +1,3 @@
-/*
- * Jesseframework - Computer Expertz Ltd - https://cpxz.us
- * Copyright (C) 2019-2   021 Jesseframework..
- *
- * This file is part of Jesseframework - https://github.com/jesseframework/j3.
- *
- * Jesseframework is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version. 
- *
- * Jesseframework is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- */
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/database/drift_database.dart';
@@ -143,17 +124,12 @@ class _BackgroundJobs extends State<BackgroundJobs> {
                 ),
                 Column(
                   children: <Widget>[
-                    date != null
-                        ? Container(
+                    Container(
                             margin: EdgeInsets.only(bottom: 10),
                             child: Text(
                               "${date.day}/${date.month}/${date.year}",
                               style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
                             ),
-                          )
-                        : Container(
-                            height: 0,
-                            width: 0,
                           ),
                     Container(
                       decoration: BoxDecoration(
@@ -269,7 +245,9 @@ class _BackgroundJobs extends State<BackgroundJobs> {
                     itemBuilder: (_, index) {
                       //final itemTask = jobs[index];
                       return Container(
-                        color: (index % 2 == 0) ? Theme.of(context).cardColor.withOpacity(0.8) : Theme.of(context).backgroundColor,
+                        color: (index % 2 == 0)
+                            ? Theme.of(context).cardColor.withOpacity(0.8)
+                            : Theme.of(context).scaffoldBackgroundColor,
                         child: Row(
                           children: [
                             Expanded(

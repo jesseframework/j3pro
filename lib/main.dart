@@ -35,8 +35,6 @@ import 'package:j3enterprise/src/resources/shared/utils/theme.dart';
 import 'package:j3enterprise/src/ui/home/home.dart';
 import 'package:j3enterprise/src/ui/login/login_page.dart';
 import 'package:j3enterprise/src/ui/login_offline/offline_login_page.dart';
-import 'package:j3enterprise/src/pro/ui/shipments/shipments.dart';
-import 'package:j3enterprise/src/ui/splash/splash_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'src/resources/repositories/user_repository.dart';
 import 'src/resources/shared/common/loading_indicator.dart';
@@ -64,9 +62,6 @@ Future<void> main() async {
 
   //InitServiceSetup initServiceSetup = new InitServiceSetup();
 
-  if (Platform.isWindows || Platform.isMacOS) {
-    SharedPreferences.setMockInitialValues({});
-  }
   await systemInitelSetup();
   final userRepository = UserRepository();
 
@@ -87,12 +82,12 @@ class App extends StatefulWidget {
   App({Key? key, required this.userRepository, ThemeData? themeData}) : super(key: key);
   static void setLocale(BuildContext context, Locale locale) {
     _AppState? state = context.findAncestorStateOfType<_AppState>();
-    state!.setLocale(locale);
+    state?.setLocale(locale);
   }
 
   static void setTheme(BuildContext context) {
     _AppState? state = context.findAncestorStateOfType<_AppState>();
-    state!.didChangeDependencies();
+    state?.didChangeDependencies();
   }
 
   @override
@@ -175,13 +170,13 @@ class _AppState extends State<App> {
           // Check if the current device locale is supported
           if (Platform.isAndroid) {
             for (var supportedLocale in supportedLocales) {
-              if (supportedLocale.languageCode == locale!.languageCode && supportedLocale.countryCode == locale.countryCode) {
+              if (supportedLocale.languageCode == locale?.languageCode && supportedLocale.countryCode == locale?.countryCode) {
                 return supportedLocale;
               }
             }
           } else if (Platform.isIOS) {
             for (var supportedLocale in supportedLocales) {
-              if (supportedLocale.languageCode == locale!.languageCode && supportedLocale.countryCode == locale.countryCode) {
+              if (supportedLocale.languageCode == locale?.languageCode && supportedLocale.countryCode == locale?.countryCode) {
                 return supportedLocale;
               }
             }

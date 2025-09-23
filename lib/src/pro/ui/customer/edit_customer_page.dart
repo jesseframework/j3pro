@@ -255,7 +255,7 @@ class _EditCustomerPadeState extends State<EditCustomerPade> {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
       child: Text(title,
-          style: Theme.of(context).textTheme.bodyText2!.copyWith(
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
               )),

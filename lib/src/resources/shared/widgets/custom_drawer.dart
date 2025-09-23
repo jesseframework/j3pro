@@ -68,10 +68,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       ? UserAccountsDrawerHeader(
                           accountName: Text(user?.fullName ?? ""),
                           accountEmail: Text(user?.emailAddress ?? ""),
-                          currentAccountPicture: CircleAvatar(backgroundColor: Theme.of(context).backgroundColor, child: Icon(Icons.person)),
+                          currentAccountPicture: CircleAvatar(backgroundColor: Theme.of(context).scaffoldBackgroundColor, child: Icon(Icons.person)),
                           otherAccountsPictures: <Widget>[],
                         )
-                      : UserAccountsDrawerHeader(accountName: null, accountEmail: null);
+                      : UserAccountsDrawerHeader(accountName: Text(''), accountEmail: Text(''));
                 }),
             Align(
               alignment: Alignment.bottomLeft,

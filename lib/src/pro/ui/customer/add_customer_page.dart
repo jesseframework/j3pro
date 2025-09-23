@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:j3enterprise/src/pro/ui/sales/sales_order/check_out/sales_order_checkout_page.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
-import 'package:j3enterprise/src/resources/shared/utils/navigation_style.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/text_field_nullable.dart';
 
 class AddCustomerPage extends StatefulWidget {
@@ -303,7 +301,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
       child: Text(title,
-          style: Theme.of(context).textTheme.bodyText2!.copyWith(
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
               )),

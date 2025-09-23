@@ -30,7 +30,7 @@ class _$RestApiService extends RestApiService {
   }
 
   @override
-  Future<Response<dynamic>> isTenantAvailable(Map<String, dynamic> body) {
+  Future<Response<dynamic>> isTenantAvailable({required Map<String, dynamic> body}) {
     final Uri $url = Uri.parse('/api/services/app/Account/IsTenantAvailable');
     final $body = body;
     final Request $request = Request(

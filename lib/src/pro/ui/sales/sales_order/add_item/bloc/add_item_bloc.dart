@@ -153,11 +153,7 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
     if (event is AddItemButtonPress) {
       getItemNumber = event.itemNumber;
       setQty = event.setQty;
-      if (setQty != null) {
-      } else {
-        setQty = 1;
-      }
-      var result = await _addItemToTransaction.getItem(setQty, getItemNumber, tempSalesOrderNo, tempTransactionStatus, tempInventoryCycle,
+          var result = await _addItemToTransaction.getItem(setQty, getItemNumber, tempSalesOrderNo, tempTransactionStatus, tempInventoryCycle,
           tempDaySessionNumber, deliveryDate, currency, exchangeRate, int.tryParse(tenantId!)!, userName!, int.tryParse(userId!)!, customerId);
 
       displayDialog(onlyMessage: true, title: result.toString(), context: event.context);
